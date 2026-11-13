@@ -1,0 +1,1711 @@
+{
+  "batchDate": "2026-10-08",
+  "completedAt": "2026-10-08T16:49:30.035Z",
+  "baseCommit": "30c0f98a9c70e450afc249aeb12fc3524ba50909",
+  "scope": "All published artwork-ready24 of37 ordinary intervals wired. Three newly real player-confirmed cavalry-defender intervals validated with final same runner; prior3 infantry-defender intervals retain their historical evidence. Full HD goal remains active.",
+  "generated": {
+    "targetGroups": 51,
+    "finalGroups": 39,
+    "builtinCalls": 49,
+    "rejectedFinalCandidates": 9,
+    "failedCalls": 1,
+    "remainingGroups": 12,
+    "newGroups": [
+      16,
+      17,
+      31,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43
+    ],
+    "ledger": {
+      "path": "assets/hd-spe/GENERATED-ATTACKS.json",
+      "bytes": 533011,
+      "sha256": "480fbe05e61d33c1efc8c6538aa4d8754d021cc1e707e2995b035d6ebd5715bd"
+    },
+    "originalPngConstraint": "All39 accepted files exactly equal builtin original PNG bytes; no image editing. Prior29 complete group objects and raw PNG unchanged.",
+    "publicationProof": {
+      "original": "build/r11-art-publish-proof.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/f71ade5336727343ed8066b6563ae4c889c6d3e7f6950bc499d3e563bfeb6db2.json.gz",
+      "bytes": 624,
+      "sha256": "f71ade5336727343ed8066b6563ae4c889c6d3e7f6950bc499d3e563bfeb6db2",
+      "gzipBytes": 366,
+      "gzipSha256": "fabad4d5903d778097a361dea24c1d2ef6ece27cb2bd23de7264ea0e9078e23f",
+      "decompressedByteEqual": true
+    }
+  },
+  "wiring": {
+    "nativeIntervals": 37,
+    "wiredIntervals": 24,
+    "newlyWired": 21,
+    "notWired": 13,
+    "entries": [
+      {
+        "speId": 21,
+        "resourceIndex": 0,
+        "startFrm": 9,
+        "endFrm": 17,
+        "count": 54,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+        "resourceLength": 4630,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          6,
+          7,
+          16,
+          17
+        ]
+      },
+      {
+        "speId": 19,
+        "resourceIndex": 0,
+        "startFrm": 11,
+        "endFrm": 21,
+        "count": 66,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:f0c01d45:6115",
+        "resourceLength": 6115,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          9,
+          10
+        ]
+      },
+      {
+        "speId": 20,
+        "resourceIndex": 0,
+        "startFrm": 10,
+        "endFrm": 19,
+        "count": 60,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:28294325:5014",
+        "resourceLength": 5014,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          6,
+          7
+        ]
+      },
+      {
+        "speId": 19,
+        "resourceIndex": 0,
+        "startFrm": 0,
+        "endFrm": 10,
+        "count": 66,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:f0c01d45:6115",
+        "resourceLength": 6115,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "speId": 19,
+        "resourceIndex": 0,
+        "startFrm": 22,
+        "endFrm": 32,
+        "count": 66,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:f0c01d45:6115",
+        "resourceLength": 6115,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          11,
+          12
+        ]
+      },
+      {
+        "speId": 19,
+        "resourceIndex": 0,
+        "startFrm": 33,
+        "endFrm": 43,
+        "count": 66,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:f0c01d45:6115",
+        "resourceLength": 6115,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          17,
+          18
+        ]
+      },
+      {
+        "speId": 19,
+        "resourceIndex": 0,
+        "startFrm": 44,
+        "endFrm": 54,
+        "count": 66,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:f0c01d45:6115",
+        "resourceLength": 6115,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          13,
+          14
+        ]
+      },
+      {
+        "speId": 19,
+        "resourceIndex": 0,
+        "startFrm": 55,
+        "endFrm": 65,
+        "count": 66,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:f0c01d45:6115",
+        "resourceLength": 6115,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          15,
+          16
+        ]
+      },
+      {
+        "speId": 20,
+        "resourceIndex": 0,
+        "startFrm": 0,
+        "endFrm": 9,
+        "count": 60,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:28294325:5014",
+        "resourceLength": 5014,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "speId": 20,
+        "resourceIndex": 0,
+        "startFrm": 20,
+        "endFrm": 29,
+        "count": 60,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:28294325:5014",
+        "resourceLength": 5014,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          8,
+          9
+        ]
+      },
+      {
+        "speId": 20,
+        "resourceIndex": 0,
+        "startFrm": 30,
+        "endFrm": 39,
+        "count": 60,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:28294325:5014",
+        "resourceLength": 5014,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          14,
+          17
+        ]
+      },
+      {
+        "speId": 20,
+        "resourceIndex": 0,
+        "startFrm": 40,
+        "endFrm": 49,
+        "count": 60,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:28294325:5014",
+        "resourceLength": 5014,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          10,
+          11
+        ]
+      },
+      {
+        "speId": 20,
+        "resourceIndex": 0,
+        "startFrm": 50,
+        "endFrm": 59,
+        "count": 60,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:28294325:5014",
+        "resourceLength": 5014,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          12,
+          13
+        ]
+      },
+      {
+        "speId": 21,
+        "resourceIndex": 0,
+        "startFrm": 0,
+        "endFrm": 8,
+        "count": 54,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+        "resourceLength": 4630,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          16,
+          17
+        ]
+      },
+      {
+        "speId": 21,
+        "resourceIndex": 0,
+        "startFrm": 18,
+        "endFrm": 26,
+        "count": 54,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+        "resourceLength": 4630,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          8,
+          9,
+          16,
+          17
+        ]
+      },
+      {
+        "speId": 21,
+        "resourceIndex": 0,
+        "startFrm": 27,
+        "endFrm": 35,
+        "count": 54,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+        "resourceLength": 4630,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          14,
+          15,
+          16,
+          17
+        ]
+      },
+      {
+        "speId": 21,
+        "resourceIndex": 0,
+        "startFrm": 36,
+        "endFrm": 44,
+        "count": 54,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+        "resourceLength": 4630,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          10,
+          11,
+          16,
+          17
+        ]
+      },
+      {
+        "speId": 21,
+        "resourceIndex": 0,
+        "startFrm": 45,
+        "endFrm": 53,
+        "count": 54,
+        "picmax": 18,
+        "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+        "resourceLength": 4630,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          12,
+          13,
+          16,
+          17
+        ]
+      },
+      {
+        "speId": 23,
+        "resourceIndex": 0,
+        "startFrm": 0,
+        "endFrm": 8,
+        "count": 54,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:6d7fc13f:7007",
+        "resourceLength": 7007,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "speId": 23,
+        "resourceIndex": 0,
+        "startFrm": 9,
+        "endFrm": 17,
+        "count": 54,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:6d7fc13f:7007",
+        "resourceLength": 7007,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          9,
+          10
+        ]
+      },
+      {
+        "speId": 23,
+        "resourceIndex": 0,
+        "startFrm": 18,
+        "endFrm": 26,
+        "count": 54,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:6d7fc13f:7007",
+        "resourceLength": 7007,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          11,
+          12
+        ]
+      },
+      {
+        "speId": 23,
+        "resourceIndex": 0,
+        "startFrm": 27,
+        "endFrm": 35,
+        "count": 54,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:6d7fc13f:7007",
+        "resourceLength": 7007,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          17,
+          18
+        ]
+      },
+      {
+        "speId": 23,
+        "resourceIndex": 0,
+        "startFrm": 36,
+        "endFrm": 44,
+        "count": 54,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:6d7fc13f:7007",
+        "resourceLength": 7007,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          13,
+          14
+        ]
+      },
+      {
+        "speId": 23,
+        "resourceIndex": 0,
+        "startFrm": 45,
+        "endFrm": 53,
+        "count": 54,
+        "picmax": 19,
+        "resourceFingerprint": "fnv1a32:6d7fc13f:7007",
+        "resourceLength": 7007,
+        "requiredSlots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          15,
+          16
+        ]
+      }
+    ],
+    "exactNativeMatrix": {
+      "original": "build/r11-ready-intervals.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/baa10537f687511d50c6e02718daf625ddf64f56a45479a23e853c9998b0487a.json.gz",
+      "bytes": 259571,
+      "sha256": "baa10537f687511d50c6e02718daf625ddf64f56a45479a23e853c9998b0487a",
+      "gzipBytes": 20389,
+      "gzipSha256": "c8ba4fb56df5783643b819fe70a46d84269289fee68accbc33566fb371beec7e",
+      "decompressedByteEqual": true
+    },
+    "installProof": {
+      "original": "build/r11-manifest-install.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/18e4f6d8c2141d3d1a3b7509d6cb2963b424e7a1779b80c50c5fd06f0ab7b202.json.gz",
+      "bytes": 8177,
+      "sha256": "18e4f6d8c2141d3d1a3b7509d6cb2963b424e7a1779b80c50c5fd06f0ab7b202",
+      "gzipBytes": 1026,
+      "gzipSha256": "426027771a5ad7140136a0a4d5815bb355fed848d182a12797a7f4b87354405d",
+      "decompressedByteEqual": true
+    },
+    "remaining": "Resource22 water-arm six intervals need groups32–35; resource24玄兵 six intervals need44–48; resource25 river-defender one interval needs49–51. These12 groups are not published and retain LCD."
+  },
+  "sources": {
+    "manifest": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 368627,
+      "sha256": "c1cfe0b48139f706aa1208c0a06e4d9e1ca545fea35e327f3629a38a944f6482"
+    },
+    "runner": {
+      "path": "scripts/test-hd-attack-runtime.mjs",
+      "bytes": 117301,
+      "sha256": "42b1841e0a141ce746a3f92f80c9a6dbf901312d8bdd6020a20de683562062f0"
+    },
+    "presenter": {
+      "path": "js/hd-spe.js",
+      "bytes": 46491,
+      "sha256": "ef59480402ebbc00e3f97b28f85cf545cf844807d24044f1d64456c8e9a01601"
+    },
+    "bridge": {
+      "path": "js/bridge.js",
+      "bytes": 99813,
+      "sha256": "07615be055e7fd8b8382dd50aebc1729f41262112ac33854b627f2e6762b2bb0"
+    },
+    "cacheVersion": "20261008q",
+    "nativeOrEngineChanges": false,
+    "actualBuildOrigin": "9ca9c40855ddc545667179abfc094a5203cb6036",
+    "engineSourceModified": true,
+    "quartet": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60",
+        "baselineUnchanged": true
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4439355,
+        "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e",
+        "baselineUnchanged": true
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29805,
+        "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4",
+        "baselineUnchanged": true
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 6763,
+        "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8",
+        "baselineUnchanged": true
+      }
+    ],
+    "baselineProof": {
+      "original": "build/r11-baseline-proof.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/6885a032e5de4c89a449819993593f60854ffe082d5493b350a4f9d1bc85db88.json.gz",
+      "bytes": 12813,
+      "sha256": "6885a032e5de4c89a449819993593f60854ffe082d5493b350a4f9d1bc85db88",
+      "gzipBytes": 3828,
+      "gzipSha256": "1061cde41355738e3ae41b019f69e7e9b68fa8ade5c19f9489dc4a4b7452aded",
+      "decompressedByteEqual": true
+    },
+    "currentSourceTuple": {
+      "original": "build/r11-attack-current-source-tuple.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/26d84c2536e8369547d6d09a3416377f731a2d670059f6ab7f490e04399934d7.json.gz",
+      "bytes": 20757,
+      "sha256": "26d84c2536e8369547d6d09a3416377f731a2d670059f6ab7f490e04399934d7",
+      "gzipBytes": 6919,
+      "gzipSha256": "1f4cf236c02f2b3a61aef2585b569bd768516e052c3ad1622cc4138e06bc4749",
+      "decompressedByteEqual": true
+    },
+    "oldTracked2338PngLibRawUnchanged": true
+  },
+  "tests": {
+    "windowsFull": {
+      "tests": 683,
+      "passed": 683,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "original": "build/r11-all-tests.log",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/e56df974089ac8b01deaeec31d1a491dac247230fe807b0b584fcb6471bfa449.log.gz",
+        "bytes": 88271,
+        "sha256": "e56df974089ac8b01deaeec31d1a491dac247230fe807b0b584fcb6471bfa449",
+        "gzipBytes": 28088,
+        "gzipSha256": "5d815253b1026a3d9791b9954fdb14550a776e348d711cafabe318ab24c48387",
+        "decompressedByteEqual": true
+      },
+      "scope": "Actual full suite against this24-entry wiring and identical native/frontend bytes; runtime driver changes separately recorded."
+    },
+    "aimHintChecks": {
+      "checks": 11,
+      "passed": 11,
+      "failed": 0,
+      "log": {
+        "original": "build/r11-attack-aim-hint-check.log",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/aec5fef04eb6e95f57779f54791b89d6825f54da9d81bb3f273bf5d3e74094dd.log.gz",
+        "bytes": 205,
+        "sha256": "aec5fef04eb6e95f57779f54791b89d6825f54da9d81bb3f273bf5d3e74094dd",
+        "gzipBytes": 179,
+        "gzipSha256": "2147b2fb3c4519a8db980964bcfb1b2b8d9cd4213aef74cd90f791a06f2377b0",
+        "decompressedByteEqual": true
+      },
+      "scope": "Pure helper checks with actual standard LIB resource2 arm masks; not real browser battles."
+    }
+  },
+  "strictFinalRuns": [
+    "build/r11-bow-target0-installed-final/result.json",
+    "build/r11-cavalry-target0-installed-v7/result.json",
+    "build/r11-infantry-target0-installed-final/result.json"
+  ],
+  "runs": [
+    {
+      "original": "build/r11-bow-target0-installed/result.json",
+      "report": {
+        "original": "build/r11-bow-target0-installed/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/c0964718bf1005d2edae86e6a65d400ec1c233c7fc57220ea764167735df92dd.json.gz",
+        "bytes": 20831747,
+        "sha256": "c0964718bf1005d2edae86e6a65d400ec1c233c7fc57220ea764167735df92dd",
+        "gzipBytes": 759507,
+        "gzipSha256": "ad9e2dc3433d0734e29b8110d0c4b0991edb64f0329178a452175b115143af68",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 18,
+      "range": [
+        21,
+        0,
+        8
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:3114/devtools/browser/9fba146c-7697-4c85-bc4b-8d10aac75331"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "b3e1c455e19471382ff77dfd792c5997ab6d09879f491d3fd9b177c2282c6bfb"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-XVOJ5j",
+        "origin": "http://127.0.0.1:3113",
+        "debugPort": 3114,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 4,
+      "error": "AssertionError [ERR_ASSERTION]: An explicit defender interval requires the real player-confirmed attack against that current effective arm; a naturally acting enemy cannot satisfy it\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1064:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:871:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:637:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1181:9)",
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-bow-target0-installed-final/result.json",
+      "report": {
+        "original": "build/r11-bow-target0-installed-final/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/57ae0cc43f8fa566145fd6df50e28a6ac87bc661cdf165ce0b37266416af5a73.json.gz",
+        "bytes": 26237154,
+        "sha256": "57ae0cc43f8fa566145fd6df50e28a6ac87bc661cdf165ce0b37266416af5a73",
+        "gzipBytes": 1009496,
+        "gzipSha256": "67eb2abdffd4e806c8034278f7a6fcf2dd60ca393d8eef1fb734d2b6329c3e99",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 20,
+      "range": [
+        21,
+        0,
+        8
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:12022/devtools/browser/d9ea9a55-3e41-4c42-930e-11cdf48d9a2a"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "42b1841e0a141ce746a3f92f80c9a6dbf901312d8bdd6020a20de683562062f0"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 10,
+        "hurt": 100,
+        "session": 4
+      },
+      "actualPlayerAttack": {
+        "actor": "李堪",
+        "actorIndex": 3,
+        "actorNativeGenId": 62,
+        "target": "方悦",
+        "targetIndex": 10,
+        "targetNativeGenId": 86,
+        "targetPersonIndex": 85,
+        "targetArmType": 0,
+        "requestedTargetArm": 0
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 83,
+        "pixelReadbacks": 87,
+        "events": 4,
+        "numericReadbacks": 58,
+        "completedHoldReadbacks": 4,
+        "hdReadbacks": 25,
+        "lcdReadbacks": 0,
+        "countScope": "actualLcdCallbacks/pixelReadbacks/events/numericReadbacks/hold span all observed events; hdReadbacks/lcdReadbacks count only the selected current player scene, not all natural enemy events."
+      },
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-N2JnH7",
+        "origin": "http://127.0.0.1:12021",
+        "debugPort": 12022,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 4,
+      "error": null,
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-bow-target0-installed-v2/result.json",
+      "report": {
+        "original": "build/r11-bow-target0-installed-v2/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/08048f28fd8cb28d9653fd3fdb9b274f42e01bcd0ae4348a8ccfb21f60055ed7.json.gz",
+        "bytes": 9317055,
+        "sha256": "08048f28fd8cb28d9653fd3fdb9b274f42e01bcd0ae4348a8ccfb21f60055ed7",
+        "gzipBytes": 405407,
+        "gzipSha256": "fda30a42a806af9f1b3c086e4d58a8270239eb2624dddedd93da8ba3bf882cef",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 18,
+      "range": [
+        21,
+        0,
+        8
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:9914/devtools/browser/bee4a341-1f8e-4341-859f-8d1568e7883c"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "44c8b16c2a5d0542575d576d79aa9cdb14d41840c525ce7e7ec5d44268d329dc"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 11,
+        "hurt": 214,
+        "session": 1
+      },
+      "actualPlayerAttack": {
+        "actor": "李堪",
+        "actorIndex": 3,
+        "actorNativeGenId": 62,
+        "target": "方悦",
+        "targetIndex": 11,
+        "targetNativeGenId": 86,
+        "targetPersonIndex": 85,
+        "targetArmType": 0,
+        "requestedTargetArm": 0
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 24,
+        "pixelReadbacks": 25,
+        "events": 1,
+        "numericReadbacks": 20,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 25,
+        "lcdReadbacks": 0,
+        "countScope": "actualLcdCallbacks/pixelReadbacks/events/numericReadbacks/hold span all observed events; hdReadbacks/lcdReadbacks count only the selected current player scene, not all natural enemy events."
+      },
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-4aFLvX",
+        "origin": "http://127.0.0.1:9913",
+        "debugPort": 9914,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 2,
+      "error": null,
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed/result.json",
+      "report": {
+        "original": "build/r11-cavalry-target0-installed/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/4789011d795bc6f81686fc4f439e66eea2dc655109a6697c7561237ec09cc54a.json.gz",
+        "bytes": 29230440,
+        "sha256": "4789011d795bc6f81686fc4f439e66eea2dc655109a6697c7561237ec09cc54a",
+        "gzipBytes": 1078547,
+        "gzipSha256": "4224e799fa6bac24a3cc31a5d91abb60d1be4768e2ba2af34feb01496d147072",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 19,
+      "range": [
+        19,
+        0,
+        10
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:1163/devtools/browser/7e68a753-8d40-4b38-96d0-c19e713da1f9"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "b3e1c455e19471382ff77dfd792c5997ab6d09879f491d3fd9b177c2282c6bfb"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-Yh9n3i",
+        "origin": "http://127.0.0.1:1160",
+        "debugPort": 1163,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 4,
+      "error": "AssertionError [ERR_ASSERTION]: An explicit defender interval requires the real player-confirmed attack against that current effective arm; a naturally acting enemy cannot satisfy it\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1064:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:871:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:637:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1181:9)",
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v2/result.json",
+      "report": {
+        "original": "build/r11-cavalry-target0-installed-v2/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/eedbdec1d259403200c85f635d76f23bf7e8ec87ad12734b4cbc5396607ceacb.json.gz",
+        "bytes": 24599597,
+        "sha256": "eedbdec1d259403200c85f635d76f23bf7e8ec87ad12734b4cbc5396607ceacb",
+        "gzipBytes": 921287,
+        "gzipSha256": "c91dbc3e7276b5eb728a9fe6356e0c5f40db5cd5fa1f0c02af89810b444f00cf",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 19,
+      "range": [
+        19,
+        0,
+        10
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:8477/devtools/browser/8ef8aa59-060a-4f5b-9c15-7300b9ea8a84"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "44c8b16c2a5d0542575d576d79aa9cdb14d41840c525ce7e7ec5d44268d329dc"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-scW0q9",
+        "origin": "http://127.0.0.1:8476",
+        "debugPort": 8477,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 4,
+      "error": "AssertionError [ERR_ASSERTION]: An explicit defender interval requires the real player-confirmed attack against that current effective arm; a naturally acting enemy cannot satisfy it\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1096:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:889:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:655:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1213:9)",
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v3/result.json",
+      "report": {
+        "original": "build/r11-cavalry-target0-installed-v3/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/d5f0b0a37d53d7f61961f2a9802c5d9e386bd9b7590cefa328ee8ac6a2e8c3bd.json.gz",
+        "bytes": 25346257,
+        "sha256": "d5f0b0a37d53d7f61961f2a9802c5d9e386bd9b7590cefa328ee8ac6a2e8c3bd",
+        "gzipBytes": 942099,
+        "gzipSha256": "0dd9bb54a581e5ff1c7ef6950a218bc3899b6a5e046a69f24f640f3807981f03",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 20,
+      "range": [
+        19,
+        0,
+        10
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:3813/devtools/browser/abd9e4f4-02ba-4fef-bdaf-eebecb113c21"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "b067f810b18ae772ebae208eb11704332cf80952b3c8406c318e0e122eea0816"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-mcm57k",
+        "origin": "http://127.0.0.1:3812",
+        "debugPort": 3813,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 4,
+      "error": "AssertionError [ERR_ASSERTION]: An explicit defender interval requires the real player-confirmed attack against that current effective arm; a naturally acting enemy cannot satisfy it\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1129:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:889:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:655:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1246:9)",
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v4/result.json",
+      "report": {
+        "original": "build/r11-cavalry-target0-installed-v4/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/9c6fc58e597ae45cd9f2a401cb7940dcc79675f77d741cbb6ca32f0b0244b535.json.gz",
+        "bytes": 32894969,
+        "sha256": "9c6fc58e597ae45cd9f2a401cb7940dcc79675f77d741cbb6ca32f0b0244b535",
+        "gzipBytes": 1220252,
+        "gzipSha256": "d8eabaa1c15bc4fdacba354a55a8f95edeed55ad0e1c62da781f300e139a840f",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 21,
+      "range": [
+        19,
+        0,
+        10
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:2762/devtools/browser/8759fabb-5244-475c-9b8d-5be46ab4fd54"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "e639bf55ddacb2a6779cb071f253f92f2a946c0685c4f399806ccf91ef9ff523"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-GoX3PF",
+        "origin": "http://127.0.0.1:2761",
+        "debugPort": 2762,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 6,
+      "actualEndTurns": 5,
+      "error": "AssertionError [ERR_ASSERTION]: The equipped actual attacker survived; a death is not replaced or repaired\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1101:27)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:895:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:661:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1252:9)",
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v5/result.json",
+      "report": {
+        "original": "build/r11-cavalry-target0-installed-v5/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/409eec5b5b002ae94caa0aee3d40b7dd24978f3ef3593afb9865fa2d31d44f35.json.gz",
+        "bytes": 1005952,
+        "sha256": "409eec5b5b002ae94caa0aee3d40b7dd24978f3ef3593afb9865fa2d31d44f35",
+        "gzipBytes": 95645,
+        "gzipSha256": "f2a5dfc6ccb3404ea6585a1d6328c20dd348b2d986ab02bfea871752872a4b58",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 4,
+      "range": [
+        19,
+        0,
+        10
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:12380/devtools/browser/8a7f40d1-6beb-4059-b4c8-b9ba0d9e4f41"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "fccd2e4df5d68197409b09e10804eb9f0c66d07ea05aeff2ac925cefdb6887d5"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1114,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-limwIp",
+        "origin": "http://127.0.0.1:12379",
+        "debugPort": 12380,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 6,
+      "actualEndTurns": null,
+      "error": "AssertionError [ERR_ASSERTION]: Visible click target: #hd-city-menu [data-hd-qty-ok]\n    at click (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:481:12)\n    at async commitRecruitQuantity (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:749:5)\n    at async recruitSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:794:79)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:850:16)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:661:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1258:9)",
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v6/result.json",
+      "report": {
+        "original": "build/r11-cavalry-target0-installed-v6/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/d5ac11c0f3590de4f564b17ac8587b0e4f02c870ea91388573677542f6d955ba.json.gz",
+        "bytes": 28068378,
+        "sha256": "d5ac11c0f3590de4f564b17ac8587b0e4f02c870ea91388573677542f6d955ba",
+        "gzipBytes": 1056371,
+        "gzipSha256": "9e3fa10539e011503b8b371c44eb73ff508aef59c9b41bbae65c48f3b2c7e716",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 22,
+      "range": [
+        19,
+        0,
+        10
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:11418/devtools/browser/f8e7f67f-4a58-416b-ad09-96af22b9cae3"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "6b5e8a85372fd9cfe5b4288093bc99f0f3646c36d08e097d9370a50cabc2cf1d"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-IzLVSc",
+        "origin": "http://127.0.0.1:11417",
+        "debugPort": 11418,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 6,
+      "actualEndTurns": 6,
+      "error": "AssertionError [ERR_ASSERTION]: The equipped actual attacker survived; a death is not replaced or repaired\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1111:27)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:905:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:661:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1268:9)",
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v7/result.json",
+      "report": {
+        "original": "build/r11-cavalry-target0-installed-v7/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/b10e745a83bdc8813a9ba87bde373242c987c6b61461abe8cdfe34bcdd4aa023.json.gz",
+        "bytes": 10632433,
+        "sha256": "b10e745a83bdc8813a9ba87bde373242c987c6b61461abe8cdfe34bcdd4aa023",
+        "gzipBytes": 450424,
+        "gzipSha256": "36e5c875d51db9fa715bfe440d09162f8a5c837de84cbe4c146bfb259ead9376",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 21,
+      "range": [
+        19,
+        0,
+        10
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:10420/devtools/browser/5dbdc2b2-8b8e-4d8d-91bd-862262551b73"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "42b1841e0a141ce746a3f92f80c9a6dbf901312d8bdd6020a20de683562062f0"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 1,
+        "target": 11,
+        "hurt": 587,
+        "session": 1
+      },
+      "actualPlayerAttack": {
+        "actor": "庞德",
+        "actorIndex": 1,
+        "actorNativeGenId": 59,
+        "target": "方悦",
+        "targetIndex": 11,
+        "targetNativeGenId": 86,
+        "targetPersonIndex": 85,
+        "targetArmType": 0,
+        "requestedTargetArm": 0
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 27,
+        "pixelReadbacks": 28,
+        "events": 1,
+        "numericReadbacks": 19,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 28,
+        "lcdReadbacks": 0,
+        "countScope": "actualLcdCallbacks/pixelReadbacks/events/numericReadbacks/hold span all observed events; hdReadbacks/lcdReadbacks count only the selected current player scene, not all natural enemy events."
+      },
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-WKaG3O",
+        "origin": "http://127.0.0.1:10419",
+        "debugPort": 10420,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 6,
+      "actualEndTurns": 3,
+      "error": null,
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-infantry-target0-installed/result.json",
+      "report": {
+        "original": "build/r11-infantry-target0-installed/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/95a29dd1bb41c2d21f9cf20c38eef63abdb10c15ab9ec7758e3b96863899928a.json.gz",
+        "bytes": 10803366,
+        "sha256": "95a29dd1bb41c2d21f9cf20c38eef63abdb10c15ab9ec7758e3b96863899928a",
+        "gzipBytes": 452474,
+        "gzipSha256": "92f7665f4ae2bf4556b1b5ba2c31e71bb92de56fe57fbbb920e5f6cb9697f377",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 18,
+      "range": [
+        20,
+        0,
+        9
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:1168/devtools/browser/0bae1087-5138-4aee-b5af-f6b31ff6904d"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "b3e1c455e19471382ff77dfd792c5997ab6d09879f491d3fd9b177c2282c6bfb"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 2,
+        "target": 11,
+        "hurt": 219,
+        "session": 1
+      },
+      "actualPlayerAttack": {
+        "actor": "程银",
+        "actorIndex": 2,
+        "actorNativeGenId": 61,
+        "target": "方悦",
+        "targetIndex": 11,
+        "targetNativeGenId": 86,
+        "targetPersonIndex": 85,
+        "targetArmType": 0,
+        "requestedTargetArm": 0
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 31,
+        "pixelReadbacks": 32,
+        "events": 1,
+        "numericReadbacks": 24,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 32,
+        "lcdReadbacks": 0,
+        "countScope": "actualLcdCallbacks/pixelReadbacks/events/numericReadbacks/hold span all observed events; hdReadbacks/lcdReadbacks count only the selected current player scene, not all natural enemy events."
+      },
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-lormqn",
+        "origin": "http://127.0.0.1:1167",
+        "debugPort": 1168,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 2,
+      "error": null,
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-infantry-target0-installed-final/result.json",
+      "report": {
+        "original": "build/r11-infantry-target0-installed-final/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/d4dd212d4c671789c1a683b599bbe937bf2353e2c7736ebad209bbe9f5747a8b.json.gz",
+        "bytes": 19958920,
+        "sha256": "d4dd212d4c671789c1a683b599bbe937bf2353e2c7736ebad209bbe9f5747a8b",
+        "gzipBytes": 795674,
+        "gzipSha256": "aa78f31ee0f15851f9706cb2fbb4ce585215d82dd8f1d30bd02c568e6b33b51c",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 19,
+      "range": [
+        20,
+        0,
+        9
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:13988/devtools/browser/0188368d-97d0-42fe-a614-c7bbb31e4dc3"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "42b1841e0a141ce746a3f92f80c9a6dbf901312d8bdd6020a20de683562062f0"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 2,
+        "target": 10,
+        "hurt": 122,
+        "session": 3
+      },
+      "actualPlayerAttack": {
+        "actor": "程银",
+        "actorIndex": 2,
+        "actorNativeGenId": 61,
+        "target": "方悦",
+        "targetIndex": 10,
+        "targetNativeGenId": 86,
+        "targetPersonIndex": 85,
+        "targetArmType": 0,
+        "requestedTargetArm": 0
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 63,
+        "pixelReadbacks": 66,
+        "events": 3,
+        "numericReadbacks": 42,
+        "completedHoldReadbacks": 3,
+        "hdReadbacks": 25,
+        "lcdReadbacks": 0,
+        "countScope": "actualLcdCallbacks/pixelReadbacks/events/numericReadbacks/hold span all observed events; hdReadbacks/lcdReadbacks count only the selected current player scene, not all natural enemy events."
+      },
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-6SacLE",
+        "origin": "http://127.0.0.1:13987",
+        "debugPort": 13988,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 3,
+      "error": null,
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    },
+    {
+      "original": "build/r11-infantry-target0-installed-v2/result.json",
+      "report": {
+        "original": "build/r11-infantry-target0-installed-v2/result.json",
+        "archived": "docs/validation/m4-attack-ranges-20261008/raw/5be41f2e7f9ee64021884d3d79f0557fdef7e3ad509318b18e526bdfe1618afd.json.gz",
+        "bytes": 9727472,
+        "sha256": "5be41f2e7f9ee64021884d3d79f0557fdef7e3ad509318b18e526bdfe1618afd",
+        "gzipBytes": 420807,
+        "gzipSha256": "d780dc04713b7db693e3373e2f5e6f227c4821a0e44e933ece8d10aef8c3bc92",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 18,
+      "range": [
+        20,
+        0,
+        9
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:8494/devtools/browser/d42b509f-3429-4bca-9552-770cd5f9a05a"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "44c8b16c2a5d0542575d576d79aa9cdb14d41840c525ce7e7ec5d44268d329dc"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 2,
+        "target": 11,
+        "hurt": 219,
+        "session": 1
+      },
+      "actualPlayerAttack": {
+        "actor": "程银",
+        "actorIndex": 2,
+        "actorNativeGenId": 61,
+        "target": "方悦",
+        "targetIndex": 11,
+        "targetNativeGenId": 86,
+        "targetPersonIndex": 85,
+        "targetArmType": 0,
+        "requestedTargetArm": 0
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 27,
+        "pixelReadbacks": 28,
+        "events": 1,
+        "numericReadbacks": 20,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 28,
+        "lcdReadbacks": 0,
+        "countScope": "actualLcdCallbacks/pixelReadbacks/events/numericReadbacks/hold span all observed events; hdReadbacks/lcdReadbacks count only the selected current player scene, not all natural enemy events."
+      },
+      "sourceVerification": {
+        "count": 1141,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-60JB6R",
+        "origin": "http://127.0.0.1:8493",
+        "debugPort": 8494,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "maximumTurns": 4,
+      "actualEndTurns": 2,
+      "error": null,
+      "intentionallyBlockedRequests": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ]
+    }
+  ],
+  "actualNewBrowserAcceptedIntervals": [
+    "21:0:8",
+    "19:0:10",
+    "20:0:9"
+  ],
+  "historicalBrowserAcceptedIntervals": [
+    "19:11:21",
+    "20:10:19",
+    "21:9:17"
+  ],
+  "historicalBrowserEvidence": "docs/validation/m4-attacks-skills-20261008.json",
+  "runtimeDriver": "Actual current GenArray/ID/effective arms/living state/terrain and fresh native AIM authorize a player attack. Previous observed AIM may rank native legal MOVE candidates; same actor/type/generation/age required, and it never grants attack permission. Native controls/quantity/funds/actual damage/opaque numeric history and death gates remain. Failed planner, real deaths and quantity-owner handoff attempts are preserved, not accepted.",
+  "gameplay": "No native/frontend game code, damage, random state, troop count, coordinates, ownership, wait duration or attack permission changed. Driver uses actual physical/player menu inputs in isolated new games. Existing user8080 service/tab untouched.",
+  "audits": {
+    "finalRuntime": {
+      "original": "build/r11-attack-validation-audit-final.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/dae7710ad5b33cdf3768db3f6174f191dc38fd310b60d02bfbabe078fd8fffea.json.gz",
+      "bytes": 262689,
+      "sha256": "dae7710ad5b33cdf3768db3f6174f191dc38fd310b60d02bfbabe078fd8fffea",
+      "gzipBytes": 38575,
+      "gzipSha256": "41113f0a8396badb8ac99d7c5855f2729a5f4390130f7ecb1c4ab5031df33262",
+      "decompressedByteEqual": true
+    },
+    "finalRuntimeOriginalDriver": {
+      "original": "build/r11-attack-runtime-final.mjs",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/42b1841e0a141ce746a3f92f80c9a6dbf901312d8bdd6020a20de683562062f0.mjs.gz",
+      "bytes": 117301,
+      "sha256": "42b1841e0a141ce746a3f92f80c9a6dbf901312d8bdd6020a20de683562062f0",
+      "gzipBytes": 33806,
+      "gzipSha256": "29e4110d43cc2c822c1c6b75172dfc3143b154b2e5f442054a72337883d2f737",
+      "decompressedByteEqual": true
+    },
+    "archiveBeforeFinalPhaseFix": {
+      "original": "build/r11-archive-audit-pre-retention.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/e4165ebd88b0eae93265caa637a9d37e0f8849a076da04b9fd628c4daff1ef05.json.gz",
+      "bytes": 30404,
+      "sha256": "e4165ebd88b0eae93265caa637a9d37e0f8849a076da04b9fd628c4daff1ef05",
+      "gzipBytes": 4210,
+      "gzipSha256": "c1121a162b131e871b2731cf71d5c92d8a13fa28130bb541286a946ec2b6e34d",
+      "decompressedByteEqual": true,
+      "snapshotNote": "Immutable original blocked audit before the four actual final HD frame retention fixes; final audit is a separate snapshot."
+    },
+    "actualFinalPhaseRetentionFix": {
+      "original": "build/r11-retention-final-frames-fix.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/3a7907762ca7ab66828ef5cac0a2532d3afc9cf9e73ebdbceff1c6f4f9de7623.json.gz",
+      "bytes": 502,
+      "sha256": "3a7907762ca7ab66828ef5cac0a2532d3afc9cf9e73ebdbceff1c6f4f9de7623",
+      "gzipBytes": 257,
+      "gzipSha256": "8afd92c95444e84b7f876df18a035a8ed2618704983cabca6421e628363719d7",
+      "decompressedByteEqual": true
+    },
+    "archiveFinal": {
+      "original": "build/r11-archive-audit-final-v2.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/a470a4877e1b1825f96070e7f6ba1d2bc8410df98a8ef3bc7eb91febd3fee767.json.gz",
+      "bytes": 29921,
+      "sha256": "a470a4877e1b1825f96070e7f6ba1d2bc8410df98a8ef3bc7eb91febd3fee767",
+      "gzipBytes": 4155,
+      "gzipSha256": "f55073218c5f470a38301b212d28c1e27344a416adafbc35fd1f739c7cfb3ba1",
+      "decompressedByteEqual": true
+    }
+  },
+  "archive": {
+    "index": "docs/validation/m4-attack-ranges-20261008/runtime-index.json",
+    "retention": {
+      "retained": 1029,
+      "omitted": 1131,
+      "policy": "All actual native LCD original PNGs retained. Every displayed movie HD frame for the three final selected player scenes and first/last numeric/hold HD retained. Intermediate or natural enemy HD and full pages selectively saved as keyframes; omitted records include SHA/size/reason and original build images unchanged. Complete raw callback/draw/input reports retained. Art original bytes reused by exact SHA."
+    },
+    "art": "This batch new10groups have12 original outputs/reference records preserved by exact SHA, accepted originals reuse production files, two rejected originals retained. Later ignored remaining12 groups are not part of this39 publication/acceptance.",
+    "raw": "Original complete reports/logs/source snapshots compressed with exact decompression SHA/bytes.",
+    "png": "All actual native LCD original PNGs preserved. Every final selected-player movie HD frame, first/last numeric and held HD preserved. Natural enemy/intermediate HD and full-page screenshots selectively retained, with SHA/size/reason for every omission. Full raw callback/draw/input records retained.",
+    "visualReview": "docs/validation/m4-attack-ranges-20261008/visual-review.json",
+    "finalAuditSnapshot": {
+      "scope": "Final archive audit covered raw142, retained1029, omitted1131 and root20 original views. Its own raw record was appended afterward (raw143); every prior raw/image/art record unchanged. Only audit links and this snapshot note added to top.",
+      "auditedSnapshots": [
+        {
+          "path": "docs/validation/m4-attack-ranges-20261008.json",
+          "bytes": 59565,
+          "sha256": "988bf0516925cf9306c26268b2f8d2e22f1ed7407f87828e8658449d6a234443"
+        },
+        {
+          "path": "docs/validation/m4-attack-ranges-20261008/runtime-index.json",
+          "bytes": 1201373,
+          "sha256": "455beaafd5091772e6a21101559518e73cdd86c70986096e3f37a748c5dd8fd7"
+        },
+        {
+          "path": "docs/validation/m4-attack-ranges-20261008/visual-review.json",
+          "bytes": 10539,
+          "sha256": "d3d321bcd87ee1b3ae66acad67ab6fbfb8f30780c248d7e0c9fe41709d7294f5"
+        }
+      ],
+      "auditPass": true,
+      "rawRecordsAfterAuditAppend": 143
+    }
+  },
+  "plannedNext": {
+    "otherSpe": {
+      "original": "build/r11-other-spe-plan.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/2939a5025131bcd3c939bf8931309bedbe5b202bda90408e3c8e07f6f9a4e4c8.json.gz",
+      "bytes": 101054,
+      "sha256": "2939a5025131bcd3c939bf8931309bedbe5b202bda90408e3c8e07f6f9a4e4c8",
+      "gzipBytes": 10954,
+      "gzipSha256": "92c784ea5f7dd03d39b0230e09fcbab1a7176e8a1e0abe762a8318edcc7afc9e",
+      "decompressedByteEqual": true
+    },
+    "cavalryPathAudit": {
+      "original": "build/r11-cavalry-route-audit.json",
+      "archived": "docs/validation/m4-attack-ranges-20261008/raw/7a5d11bd054fd5c76b580a31a3ed7e124d34b9016336a07951c1b7111c648743.json.gz",
+      "bytes": 91812,
+      "sha256": "7a5d11bd054fd5c76b580a31a3ed7e124d34b9016336a07951c1b7111c648743",
+      "gzipBytes": 6925,
+      "gzipSha256": "c2aba2dd2de61c9b4796593e32f7ba423f6ba429f5aba61b2f6357ceebc60a3c",
+      "decompressedByteEqual": true
+    },
+    "scope": "Read-only planning evidence; no other SPE/status browser HD acceptance or new assets inferred."
+  },
+  "coverageLimits": [
+    "Wired24 is not24 actual browser-accepted intervals. This batch has3 new final player cavalry-defender attacks; earlier3 infantry-defender attacks remain historical source evidence, not rerun under current manifest.",
+    "The other18 wired combinations have exact LIB/PNG/presenter/static/native matrix coverage and remain queued for actual browser acceptance. Other13 intervals remain LCD.",
+    "FIRE and MAIN/MAKER prior acceptance retained; no other skill/status full-HD or mobile acceptance added. Native opaque clearing may erase parts of nearby figures/background and retain numeric trails.",
+    "Other HUD/search/help, crossing art, complete succession, four-period/real-Mod campaign/save matrix, fixed-device performance, mobile horizontal HD/real devices and real cloud account remain open."
+  ]
+}

@@ -1,0 +1,579 @@
+{
+  "schemaVersion": 1,
+  "schemaFinal": true,
+  "prefix": "docs/validation/m5-quantity-focus-map111-20261024-v48",
+  "kind": "Actual PC idle quantity visibility/arrow observation and source-only original map111 route",
+  "run": {
+    "dir": "build/impact-skill-20261014/r12-quantity-focus-v1",
+    "terminal": {
+      "session": 44018,
+      "finalChunk": "7b0ec7",
+      "originalExitCode": 1,
+      "closed": true
+    },
+    "immediateFiles": 49,
+    "pngs": 4,
+    "namedRawBytes": 13688756,
+    "result": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/result.json",
+      "bytes": 196144,
+      "sha256": "b2c6ca77bc829f728c621b7a42c1d15b7b3eba9cee09d2540c9d6cf94c103ca6"
+    },
+    "cleanup": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/cleanup.json",
+      "bytes": 16454,
+      "sha256": "d1500c41ff55d0833c6f30f84508b27ba9853c76df05a6966e8f1ff8e88ed0f1"
+    },
+    "sourceBefore": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/source-before.json",
+      "bytes": 205135,
+      "sha256": "f5bfe2692d8dfbf76fab049cdb5479ce0ad3433f83774717fc8c4079e720873f"
+    },
+    "sourceAfter": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/source-after.json",
+      "bytes": 360282,
+      "sha256": "d5776ac579c136edde6169cbc40363595e6e44b20b1a07f70fa12e923b394b22"
+    },
+    "servedBefore": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/served-source-before.json",
+      "bytes": 11632,
+      "sha256": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b"
+    },
+    "servedAfter": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/served-source-after.json",
+      "bytes": 21649,
+      "sha256": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb"
+    }
+  },
+  "currentMainUnchanged": true,
+  "newMainInputProduced": false,
+  "currentMainPins": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+    }
+  ],
+  "newBuy": 0,
+  "newMake": 0,
+  "newEnd": 0,
+  "newNativeSave": 0,
+  "newBattle": 0,
+  "physicalPresentationAccepted": false,
+  "stablePerformanceAccepted": false,
+  "fullFocusBoundaryAccepted": false,
+  "lostGameKeyupBoundaryAccepted": false,
+  "heldRepeatBoundaryAccepted": false,
+  "longBackgroundOrPendingAccepted": false,
+  "activeWoodAidAccepted": false,
+  "cssVisualLayoutAccepted": false,
+  "globalHdComplete": false,
+  "actualMap111BattleAccepted": false,
+  "observations": {
+    "archiveSemanticReadbackAccepted": true,
+    "originalFlags": {
+      "ok": false,
+      "acceptedForObservationClosure": false,
+      "treeExited": false,
+      "focusBoundaryAccepted": false,
+      "lostGameKeyupBoundaryAccepted": false,
+      "heldRepeatBoundaryAccepted": false,
+      "actualAccepted": false,
+      "hdAccepted": false,
+      "activeWoodAidAccepted": false,
+      "performanceBaselineAccepted": false,
+      "cssVisualLayoutAccepted": false,
+      "globalHdComplete": false
+    },
+    "originalCleanupError": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at runOctoberQuantityFocusBootstrap (file:///F:/project/baye-sanguo/build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-october-quantity-focus-v1.mjs:225:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+    "postExitFactsNotSubstitutedForRawFlags": true,
+    "sourceCount": 1126,
+    "servedCount": 72,
+    "executedCopies": 23,
+    "completeStageWorlds": 5,
+    "extraWrapperFinalWorlds": 1,
+    "pngFiles": 4,
+    "blankStagePngPresent": false,
+    "worldsAndInputPairExact": true,
+    "worldSha256": "5a051f11f9780b8f2fe91fbc94ccee9c8c5aa961f6725bdafafbc3a8e30f3ce7",
+    "pairPins": {
+      "sav0": {
+        "bytes": 8221,
+        "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+      },
+      "sav1": {
+        "bytes": 4840,
+        "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+      }
+    },
+    "seedFingerprint": "4244c12634a8212141b39e03d3a4292d89fa0b3afb57ffbe5f44cf226f9f01a2",
+    "seedComparedWithinRunOnly": true,
+    "rawSeedDisclosed": false,
+    "firstCharacter": {
+      "value": 176,
+      "inputSeq": 1,
+      "session": 3,
+      "at": 4755.4000000059605
+    },
+    "secondCharacter": {
+      "value": 175,
+      "inputSeq": 2,
+      "session": 3,
+      "at": 11550
+    },
+    "focusEvidence": {
+      "actualBlurObserved": false,
+      "actualHiddenObserved": true,
+      "actualVisibleObserved": true,
+      "actualFocusObserved": false,
+      "orderedFocusTransition": {
+        "blurAt": null,
+        "hiddenAt": 4844.79999999702,
+        "visibleAt": 11282,
+        "focusAt": null,
+        "phaseAndTimeOrderSatisfied": false
+      },
+      "blankTrustedArrowDownKeyups": 1,
+      "blankReleaseDoesNotProveGameKeyup": true,
+      "gameKeyupsBeforeFresh": 0,
+      "lostGameKeyupStatus": "observed-no-game-keyup-before-fresh-press",
+      "lostGameKeyupBoundaryAccepted": false,
+      "heldTrustedRepeatObserved": false,
+      "heldRepeatStatus": "inconclusive-no-trusted-repeat-observed",
+      "focusStatus": "inconclusive-real-focus-visibility-not-fully-observed",
+      "restoredSilenceAccepted": true,
+      "freshSecondCharacterExactlyOne": true,
+      "physicalPresentationAccepted": false,
+      "longBackgroundOrPendingAccepted": false
+    },
+    "nativeHiddenVisibleIntervalMs": 6437.20000000298,
+    "nativeHiddenVisibleIsNotWindowBlurFocus": true,
+    "blankRelease": {
+      "trustedKeyups": 1,
+      "channel": "separate-blank-page-cdp",
+      "targetId": "BFB9811723620522247977288D933CC8",
+      "gameTargetId": "DF7F7D501E7F1E577995DFD187C836BD",
+      "gameKeyupInjected": false,
+      "doesNotProveGameReceivedKeyup": true,
+      "separatePagePerformanceClockNotComparedToGameClock": true
+    },
+    "silence": {
+      "requestedMs": 150,
+      "observedMs": 156,
+      "newNativeDispatches": 0
+    },
+    "inputs": {
+      "scenarioKeys": 26,
+      "openingKeys": 1,
+      "totalKeysIncludingOpening": 27,
+      "postQuantitySequence": [
+        35,
+        35,
+        40,
+        40
+      ],
+      "qtyEnter39": 0,
+      "normalCancellationMethod": "two trusted public Back clicks; no physical Escape claims",
+      "normalNative40": 2
+    },
+    "cleanup": {
+      "originalTreeExited": false,
+      "recordedOwned": 12,
+      "survivingRecorded": 0,
+      "updaterDescendantsAtOriginalCheck": 4,
+      "privateListeners": 0,
+      "user8080Unchanged": true,
+      "profileRetainedFromClosedProof": true,
+      "newOSCheckPerformed": false
+    },
+    "newBuy": 0,
+    "newMake": 0,
+    "newEnd": 0,
+    "newNativeSave": 0,
+    "newBattle": 0,
+    "uniqueMainUpdated": false,
+    "longBackgroundOrPendingAccepted": false,
+    "physicalPaintOrP95Accepted": false,
+    "globalHdComplete": false
+  },
+  "supplementalClosure": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-post-exit-v1.json",
+      "bytes": 24788,
+      "sha256": "9e2852f2b7b41a22ef2cb51fdc1c90538e67a70c735555939f43b75707abb737"
+    },
+    "facts": {
+      "acceptedForSupplementalReadOnlyClosure": true,
+      "samples": 2,
+      "originalControllerOk": false,
+      "originalAcceptedForObservationClosure": false,
+      "originalTreeExited": false,
+      "recordedChromeAbsent": 12,
+      "naturalUpdaterAbsent": 4,
+      "newStopProcessCalls": 0,
+      "rawFlagsRewritten": false
+    }
+  },
+  "map111": {
+    "sourceOnly": true,
+    "origin": 4,
+    "destination": 10,
+    "mapId": 111,
+    "nativeWay": 0,
+    "timeCount": 1,
+    "spawn": {
+      "x": 16,
+      "y": 2,
+      "terrain": 1
+    },
+    "nearestCasterHint": {
+      "x": 15,
+      "y": 2,
+      "terrain": 2
+    },
+    "oldRouteCasesPreserved": 30,
+    "newDifferentTests": 6,
+    "routeTargetCases": 36,
+    "unchangedActionCases": 34,
+    "combinedTargetExecutions": 70,
+    "actualMap111BattleAccepted": false,
+    "actualSupplyIncomeAccepted": false,
+    "actualRepairAccepted": false,
+    "actualEndAccepted": false
+  },
+  "regression": {
+    "previousClosedTests": 7721,
+    "tests": 7727,
+    "registeredFiles": 141,
+    "newDifferentTests": 6,
+    "sourceOnlyControllerControls": 21,
+    "repeatedTargetsNotAddedAgain": true
+  },
+  "full": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.json",
+      "bytes": 43184,
+      "sha256": "730599be032e59995d725a70bf31c1f529264b3ea871561ada35d881f3f9d199"
+    },
+    "before": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1-before.json",
+      "bytes": 42203,
+      "sha256": "a77b72f6c0b910b058b162941368f06a5456888aed9af30027b7a3030409d9f9"
+    },
+    "stdout": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.stdout.log",
+      "bytes": 650330,
+      "sha256": "1a65d0b86337539bb2c9da979d27df5cd103604bc574d77bd455263b493c3a7e"
+    },
+    "stderr": {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdoutGzip": {
+      "path": "docs/validation/m5-quantity-focus-map111-20261024-v48-full-test.log.gz",
+      "bytes": 169280,
+      "sha256": "4b33fb68bab537a7fdb95682f722453f224c4adf855fb17b11aa054a684a8a17"
+    },
+    "terminal": {
+      "session": 23825,
+      "finalChunk": "5cce63",
+      "exitCode": 0,
+      "closed": true
+    },
+    "CC": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "duration_ms": 436543.5169
+  },
+  "archive": {
+    "path": "docs/validation/m5-quantity-focus-map111-20261024-v48-archive.json",
+    "bytes": 61417,
+    "sha256": "ce7b6c920cc215d96e2dc8a600710168ed4f105a16a3bf1216eb4a53f6813920"
+  },
+  "reader": {
+    "path": "docs/validation/m5-quantity-focus-map111-20261024-v48-verify.mjs",
+    "bytes": 38562,
+    "sha256": "71a546b4b64f235ed87cfe7367af1075734956f30f5d12a8a2b4ac84de4ef5ec"
+  },
+  "readerDependency": {
+    "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+    "bytes": 32262,
+    "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca"
+  },
+  "supportPins": [
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-outer-v1.mjs",
+      "bytes": 14082,
+      "sha256": "af1fc8f366c74ba3cba0a15d13d302681b9d9fbc72733ebe53c90e8b39b83539"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v48-focus-map111-reader-v1.mjs",
+      "bytes": 3656,
+      "sha256": "b8248d3b8bbc26f0c10f9210478cd16de65304375f3d3550527aa42d3786bc86"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-final-v1.mjs",
+      "bytes": 38442,
+      "sha256": "1ec318e769ab52cef426287c8caaa0814316d28b947d09c3d8a773fdc459bafe"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-execution-v1.mjs",
+      "bytes": 38462,
+      "sha256": "3c34ac13ab18aee01956c23e802a1fe4c331779c6080f395ffd9af0c13a1b09d"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-final-v2.mjs",
+      "bytes": 38562,
+      "sha256": "71a546b4b64f235ed87cfe7367af1075734956f30f5d12a8a2b4ac84de4ef5ec"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-execution-v2.mjs",
+      "bytes": 38582,
+      "sha256": "7766aebae35186bec6613d671e2263cd7beaa701aa92c9d14dbf6603f863c508"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v48-focus-map111-v1.mjs",
+      "bytes": 14758,
+      "sha256": "f94d1163615503a66004c0b8ae16144772caf77cdadd7b88390a59d8e7ecb00e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-publication-closed-bindings-v1.json",
+      "bytes": 490,
+      "sha256": "07475ba17d907d08acf126cb38a266bf0e9e59381095fe291c0e7f739da67b6a"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-actual-archive-semantic-v1.mjs",
+      "bytes": 21651,
+      "sha256": "fb6cd82a7443aefd5fcde3cba8d586e8358d8d381003e2e6c7d9b95446a544f1"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.json",
+      "bytes": 10646,
+      "sha256": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-source-independent-review-v1.mjs",
+      "bytes": 10053,
+      "sha256": "365bdfdaaf7806992265e652d2f8974d6f85e232989984b10f84e54182baae9b"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-source-independent-review-v1.json",
+      "bytes": 12267,
+      "sha256": "bcb7276594f6471892581351b1df6ab48b6c77e90699343316a2cbe359a3a1e1"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-frozen-independent-review-v1.json",
+      "bytes": 3803,
+      "sha256": "7e2fab9549c88249664f8100c1604e5cd34a6514b03fe82f2fcd2482324ec753"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-quantity-focus-frozen-v1.mjs",
+      "bytes": 4755,
+      "sha256": "e4ffe90cea0d60a332e9b072c3d0531de4287cdf6f5ca08f698f2e7f7544695e"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.json",
+      "bytes": 43184,
+      "sha256": "730599be032e59995d725a70bf31c1f529264b3ea871561ada35d881f3f9d199"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1-before.json",
+      "bytes": 42203,
+      "sha256": "a77b72f6c0b910b058b162941368f06a5456888aed9af30027b7a3030409d9f9"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.stdout.log",
+      "bytes": 650330,
+      "sha256": "1a65d0b86337539bb2c9da979d27df5cd103604bc574d77bd455263b493c3a7e"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-post-exit-v1.json",
+      "bytes": 24788,
+      "sha256": "9e2852f2b7b41a22ef2cb51fdc1c90538e67a70c735555939f43b75707abb737"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-post-exit-v1.mjs",
+      "bytes": 8149,
+      "sha256": "b84b01ebc0787d59919de80e25724f77fbbe4922b0d9fe43cfc1b5952c3f7580"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-full-and-plans-independent-review-v2.json",
+      "bytes": 7406,
+      "sha256": "d3b3397418f4aa44841c15b88559a9168790768c2eede7092450d4222bc51f39"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v48-full-and-plans-v2.mjs",
+      "bytes": 9903,
+      "sha256": "cb6f0f3e00ae02755bcc0345680cbf7a62320b9770ce61b287fe212b63600003"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v48-full-and-plans-v1.mjs",
+      "bytes": 9639,
+      "sha256": "9b9e1ed1dfce309e24f69ec5d2b59e7a6226e2775ebea11f608753baf20612bc"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-full-plans-review-first-schema-assumption-v1.json",
+      "bytes": 1101,
+      "sha256": "04a9032464a35471fc742ef55bb360580edebdae92a7b1126686a8ba4d478399"
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v1.mjs",
+      "bytes": 7252,
+      "sha256": "6ad75e5462150ceee68756b969f7ac2e84ab088acbc672abca6a76edde0a213a"
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v1.json",
+      "bytes": 20402,
+      "sha256": "3dae8eec86cb3a1a3c8f553f6f7c923ee88a97a1865710d5fcdb741fd83eadc8"
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v2.mjs",
+      "bytes": 13690,
+      "sha256": "93b8568f0e517147e861093ffdfa157eacac553696c62ca9ae2b86bd666265d4"
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v2.json",
+      "bytes": 23583,
+      "sha256": "21b0c51344441caac62f2f308f631870c35d84ae5cb81d071fd16256275f19ad"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-publication-support-v1.json",
+      "bytes": 2536,
+      "sha256": "ac3b101ea0a750a2ea4d339ccc575150cfeddf7e9999f6e0842612285666b68c"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-independent-support-v1.json",
+      "bytes": 1779,
+      "sha256": "df3c19283558071251d87884b9926811d33bb2aeb944403fdc8721081372c5bc"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-v1.mjs",
+      "bytes": 5318,
+      "sha256": "82678c4311bdc44ab2844d651453e33b745f64a781fade1e03e82089b58504a9"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-first-reader-rejection-v1.json",
+      "bytes": 522,
+      "sha256": "cfdc3f7b7317132182c4dfa4ced424ec2b3d96c926caf8adfb7e988d3e7d4040"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-v2.mjs",
+      "bytes": 5323,
+      "sha256": "01d5a0492476c026bab9a59cfc7092fa66b77273d0bb4ef844f54af351fb6b2c"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-v2.json",
+      "bytes": 12856,
+      "sha256": "339b92e815f6e1fb16b607d637f6189cb5aa0de069ce5d329054f8d3588fa019"
+    },
+    {
+      "path": "build/impact-skill-20261014/check-v48-actual-archive-semantic-v1.mjs",
+      "bytes": 1991,
+      "sha256": "d0fc2aeff1841a7fbb7ebcd7df38d9bb3eb5ef414e84a3400a5233b08296c863"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-closed-independent-v1.json",
+      "bytes": 17404,
+      "sha256": "e9114ddc2aff72c708debab82bf7d2f4d01d2f89b843ae56a626d0d40a5d97ba"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v48-publication-support-v1.mjs",
+      "bytes": 1250,
+      "sha256": "2419199d283501aa5db26b93658790086ef74bd5d336efdfcd92a7972771e082"
+    },
+    {
+      "path": "build/impact-skill-20261014/update-v48-plans-v1.mjs",
+      "bytes": 6060,
+      "sha256": "e6854485895be8f1f6b2e69b2e680257f805e8abf892736049d6e2d20e236b08"
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-plan-update-v1.json",
+      "bytes": 1062,
+      "sha256": "f398861cea41e7feb0365b2d553c2bb86db708981add1d96331898dc70dcb206"
+    }
+  ],
+  "planPins": [
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 210432,
+      "sha256": "336764dfe09f1a7ea947091212f290689ee8af8fa8263769e2e61b90a588bb3a"
+    },
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 189845,
+      "sha256": "e82190e77d77bffcb092d9142c512c84eb22bb2adc9902d598d2e9c1410d9644"
+    }
+  ],
+  "exactIgnoredSources": [
+    "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+    "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/focus-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/october-quantity-focus-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-october-quantity-focus-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-quantity-focus-map111-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/test-october-quantity-focus-source-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+    "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+    "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.json",
+    "build/impact-skill-20261014/r12-quantity-latency-source-controls-v4.json",
+    "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/test-october-quantity-latency-source-v4.mjs",
+    "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt"
+  ],
+  "sourceBoundary": {
+    "startup": 1126,
+    "served": 72,
+    "executedCopies": 23,
+    "fullSelectedSources": 227,
+    "currentUnion": 1331,
+    "exactIgnoredMissingFallbacksAllowed": 30,
+    "matchingGitCheckoutRequired": true,
+    "portableClosedSourceArchive": false,
+    "profileArchived": false,
+    "oldArchivesTraversed": false
+  },
+  "limits": [
+    "One real idle quantity focus/visibility transition. Trusted automatic game keyup, missing game keyup, and held-repeat dimensions retain their actual observed or inconclusive labels.",
+    "A separate owned about:blank page receives the ArrowDown keyup. It is not a controller-injected game keyup. A blank-stage full world checkpoint has no PNG and does not itself prove document.hidden.",
+    "Restored150ms is a requested silence observation; no physical paint, stable latency, long background, pending ACK/queue or held-repeat acceptance is granted.",
+    "Five complete stage worlds plus one wrapper-final world are bound to the unchanged October packed pair and each run seed fingerprint; four ordinary PNGs are decoded, not native movie proof.",
+    "Map1114to10/Way0/Time1/ROM spawn is source-only. Initial plain1 cannot cast; nearest mountain is only a hint. It does not establish live enemy position, menu/MP/range, army repair, supply income, March, END, battle, movie or active WOOD/AID lifecycle.",
+    "A future recipe with two native quantity confirmations131:2242to2142 then33:100to200 can make resident guards600 without creating troops; guard600 is a conservative departure policy, not a native BattleMake gate. It was not executed.",
+    "Current city20Food1/Money886/strict267gap266 remains unsafe. Plunder44 source645/258 is unreceived. Next ordinaryEND is not authorized; any future conditional sameEND supply+March requires a new complete contract and actual adjacent native return/income proof."
+  ]
+}

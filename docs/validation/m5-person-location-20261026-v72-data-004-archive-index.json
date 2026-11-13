@@ -1,0 +1,616 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-004-archive-part001.json",
+      "bytes": 7802729,
+      "sha256": "4c6ea8cbdb72a8e781e913f181685231b2e3c1f271794442c737d2519ab2a812",
+      "blobs": 7
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-004-archive-part002.json",
+      "bytes": 7402417,
+      "sha256": "6b7b398a710b4f488abc85e67c1bf6c3f5b5bddd208352e4a9eac2b3b8f64039",
+      "blobs": 7
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-004-archive-part003.json",
+      "bytes": 6433165,
+      "sha256": "8afbc9473226bb985004ba93cab5a9b7b8af78530c86f9a069f1ba12b6ac5663",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-004-archive-part004.json",
+      "bytes": 7636705,
+      "sha256": "70c22adff760fc2e4899f678f50643cc500074fccb125ce54029a2b76080457f",
+      "blobs": 8
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-004-archive-part005.json",
+      "bytes": 2519481,
+      "sha256": "1db8979845071d5b6df4c1f70d460562b6254527bd331d9a41ab62bffca4b88a",
+      "blobs": 34
+    }
+  ],
+  "files": [
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-04-identity-person-29-priorOwnership.png",
+      "bytes": 846128,
+      "sha256": "cfaef5d98a14099f547bc1009ab1d8fc1111fba5bea4fccafa7f0919cec1d5e7",
+      "blob": "cfaef5d98a14099f547bc1009ab1d8fc1111fba5bea4fccafa7f0919cec1d5e7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-05-identity-person-29-nativeOwnership.png",
+      "bytes": 861781,
+      "sha256": "04e56b5720f7a87745733a0dc181a621be8460adb24a66ecd666eebba3529404",
+      "blob": "04e56b5720f7a87745733a0dc181a621be8460adb24a66ecd666eebba3529404",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-06-person-location-29-hdLocation.png",
+      "bytes": 843678,
+      "sha256": "3254f67e5d2cc88d47a3263167137a8e585918248e10371e454f73c672be10eb",
+      "blob": "3254f67e5d2cc88d47a3263167137a8e585918248e10371e454f73c672be10eb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-07-person-location-29-nativeLocation.png",
+      "bytes": 858709,
+      "sha256": "99b4ac67d6d18a3836f50fbd1ff67f004e80546448c3665d99daf3d5d23c9308",
+      "blob": "99b4ac67d6d18a3836f50fbd1ff67f004e80546448c3665d99daf3d5d23c9308",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-08-canvass-actor.png",
+      "bytes": 854906,
+      "sha256": "18ea7b6a935011b9ff76ae5e9db0b47396a57fc31aa4202483af636f27e1b24d",
+      "blob": "18ea7b6a935011b9ff76ae5e9db0b47396a57fc31aa4202483af636f27e1b24d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-09-identity-person-139-listName.png",
+      "bytes": 795352,
+      "sha256": "efe5d7599d34dd19488fb8dd9327bd789d09034de029e791209a05d239be1fb6",
+      "blob": "efe5d7599d34dd19488fb8dd9327bd789d09034de029e791209a05d239be1fb6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-10-identity-person-139-heading.png",
+      "bytes": 788565,
+      "sha256": "5da08053a90bfb9d48dc4b34928362193181b04d94da9dd7cada95d8249bbbbb",
+      "blob": "5da08053a90bfb9d48dc4b34928362193181b04d94da9dd7cada95d8249bbbbb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-11-identity-person-139-ownership.png",
+      "bytes": 788546,
+      "sha256": "23e5944c4139d4c8e23e91862aa4e2413f54b5e5a027dae504d877774d67934a",
+      "blob": "23e5944c4139d4c8e23e91862aa4e2413f54b5e5a027dae504d877774d67934a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-12-identity-person-139-priorOwnership.png",
+      "bytes": 788559,
+      "sha256": "c70678c68eb5696e9563fd826ff7849181557ab5869ea60031a3c04792a7e188",
+      "blob": "c70678c68eb5696e9563fd826ff7849181557ab5869ea60031a3c04792a7e188",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-13-identity-person-139-nativeOwnership.png",
+      "bytes": 803447,
+      "sha256": "d7a0cb344d55fce7d52dbb31d2f366bf51eb129d97875b0d813a4b7b41a8d425",
+      "blob": "d7a0cb344d55fce7d52dbb31d2f366bf51eb129d97875b0d813a4b7b41a8d425",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-14-person-location-139-hdLocation.png",
+      "bytes": 785273,
+      "sha256": "cf4e83d20d6e41b6a43e0c3f121262215f43a5db2f0580f5ca54915d8f5d20a2",
+      "blob": "cf4e83d20d6e41b6a43e0c3f121262215f43a5db2f0580f5ca54915d8f5d20a2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-15-person-location-139-nativeLocation.png",
+      "bytes": 799459,
+      "sha256": "5bb1bf6a5a468341d58b6671e5168b5a390c014de3fa7d4b3af21366139fe146",
+      "blob": "5bb1bf6a5a468341d58b6671e5168b5a390c014de3fa7d4b3af21366139fe146",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-16-identity-person-143-listName.png",
+      "bytes": 795071,
+      "sha256": "c2c0e02966b902058b8fc6a214611de5d3cecfdf5a284583f3eec72e62abae81",
+      "blob": "c2c0e02966b902058b8fc6a214611de5d3cecfdf5a284583f3eec72e62abae81",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-17-identity-person-143-heading.png",
+      "bytes": 788577,
+      "sha256": "01ffb7f533ef8c6f7e2710220e34c1e8074ae6e5ff0a270ca7b94989d7c53ca8",
+      "blob": "01ffb7f533ef8c6f7e2710220e34c1e8074ae6e5ff0a270ca7b94989d7c53ca8",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-18-identity-person-143-ownership.png",
+      "bytes": 788564,
+      "sha256": "6bfa880acebb3512ca34388929423ddc794b3db43417213e98ecec55e551cc8f",
+      "blob": "6bfa880acebb3512ca34388929423ddc794b3db43417213e98ecec55e551cc8f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-19-identity-person-143-priorOwnership.png",
+      "bytes": 788568,
+      "sha256": "920383402efd7b22fcc0f15a4dca54b655bb6062cc09e58b342e6dc031857355",
+      "blob": "920383402efd7b22fcc0f15a4dca54b655bb6062cc09e58b342e6dc031857355",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-20-identity-person-143-nativeOwnership.png",
+      "bytes": 803255,
+      "sha256": "06e72b959f15dc87a5dca7eede6d3f9b61233c03561e973f1c54665464512d8e",
+      "blob": "06e72b959f15dc87a5dca7eede6d3f9b61233c03561e973f1c54665464512d8e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-21-person-location-143-hdLocation.png",
+      "bytes": 785228,
+      "sha256": "fa04dcd5d116c255745049eb2a96c7c23954573a94276538c3ced5b8ee1277c0",
+      "blob": "fa04dcd5d116c255745049eb2a96c7c23954573a94276538c3ced5b8ee1277c0",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-22-person-location-143-nativeLocation.png",
+      "bytes": 801821,
+      "sha256": "54a652559b930d47314519da136f9b3ad2f934a339a98b224e9d200366b5968f",
+      "blob": "54a652559b930d47314519da136f9b3ad2f934a339a98b224e9d200366b5968f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-23-canvass-target-cancel-actor.png",
+      "bytes": 854938,
+      "sha256": "5a6a1346b6798650f51a980aac817288014a48797f87f4173c8430a8ec8988fa",
+      "blob": "5a6a1346b6798650f51a980aac817288014a48797f87f4173c8430a8ec8988fa",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/pc720-identity-24-canvass-cancel-map.png",
+      "bytes": 1492687,
+      "sha256": "3f2d6ee985e97820870bfd39aadf5e3c0d68ef571016c94779bb520d546f86db",
+      "blob": "3f2d6ee985e97820870bfd39aadf5e3c0d68ef571016c94779bb520d546f86db",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/browser-console.json",
+      "bytes": 15419,
+      "sha256": "0e0b7cc4713c855abda23c090f365341de0286e3c5261925f1d7189e9f26afd2",
+      "blob": "0e0b7cc4713c855abda23c090f365341de0286e3c5261925f1d7189e9f26afd2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/failure-identity.png",
+      "bytes": 861775,
+      "sha256": "fd55911906922c23b2f037b635a4ffed4b6024cf33f180dda1d5e1e0d23fe02d",
+      "blob": "fd55911906922c23b2f037b635a4ffed4b6024cf33f180dda1d5e1e0d23fe02d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/owned-process-samples.jsonl",
+      "bytes": 98009,
+      "sha256": "469c2896605c59341d2e2854388cc771f30fb0e97191211a94123f4844ba73b6",
+      "blob": "469c2896605c59341d2e2854388cc771f30fb0e97191211a94123f4844ba73b6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/pc720-identity-00-jinyang-root.png",
+      "bytes": 831370,
+      "sha256": "3c15ab6828b78f37910fd5c25c4f61f49bd2a2a46faebac7bda2a76d75a90c94",
+      "blob": "3c15ab6828b78f37910fd5c25c4f61f49bd2a2a46faebac7bda2a76d75a90c94",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/pc720-identity-01-identity-person-29-listName.png",
+      "bytes": 845095,
+      "sha256": "c70df7e0b51c108a9c31730486ad439c52e1ad343864e552cb4a4f7a7f84f468",
+      "blob": "c70df7e0b51c108a9c31730486ad439c52e1ad343864e552cb4a4f7a7f84f468",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/pc720-identity-02-identity-person-29-heading.png",
+      "bytes": 845044,
+      "sha256": "156fbf88fda25af8fc620ec41fcd53b0dd3eb1ef8dd80a4359057da2cf602597",
+      "blob": "156fbf88fda25af8fc620ec41fcd53b0dd3eb1ef8dd80a4359057da2cf602597",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/pc720-identity-03-identity-person-29-ownership.png",
+      "bytes": 845070,
+      "sha256": "b6fd0b2dfb6c30449f26c73f3fae59bfe215c333a46cd39a633a2d26942d44c9",
+      "blob": "b6fd0b2dfb6c30449f26c73f3fae59bfe215c333a46cd39a633a2d26942d44c9",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/pc720-identity-04-identity-person-29-priorOwnership.png",
+      "bytes": 845047,
+      "sha256": "fa234773e3113de43722a1cc17dcecdc65907d458e0e445376717e61e5bfe2f8",
+      "blob": "fa234773e3113de43722a1cc17dcecdc65907d458e0e445376717e61e5bfe2f8",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/pc720-identity-05-identity-person-29-nativeOwnership.png",
+      "bytes": 861772,
+      "sha256": "2f6814764ec5ea67af252459ad757726c5a240760160333b48523e715540226a",
+      "blob": "2f6814764ec5ea67af252459ad757726c5a240760160333b48523e715540226a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/source-verification.json",
+      "bytes": 437096,
+      "sha256": "eec9bfee1644b1bbd17382b889e96a15d3708e31d328e936349679eb76c20134",
+      "blob": "eec9bfee1644b1bbd17382b889e96a15d3708e31d328e936349679eb76c20134",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/preserved-state-before-v1.json",
+      "bytes": 616,
+      "sha256": "c81acc6bb6aaed2fd8714f643213759092e3e47f4b6ba0739128e6fc0dc4d3e0",
+      "blob": "c81acc6bb6aaed2fd8714f643213759092e3e47f4b6ba0739128e6fc0dc4d3e0",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-full-default-initial-v1.json",
+      "bytes": 346,
+      "sha256": "3c18c9e54bd8336ff3a8393ede67e6133f3c23c690a94ed42c1cb8eb030e07ab",
+      "blob": "3c18c9e54bd8336ff3a8393ede67e6133f3c23c690a94ed42c1cb8eb030e07ab",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-full-default-terminal-v1.json",
+      "bytes": 407,
+      "sha256": "ca8442c7b792d73ea15a2ce54a00ea791a1708e88ba5032bcb4cd43a9b68b516",
+      "blob": "ca8442c7b792d73ea15a2ce54a00ea791a1708e88ba5032bcb4cd43a9b68b516",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-hud-abi-negative-terminal-v1.json",
+      "bytes": 1303,
+      "sha256": "5f56963413f867a75b933db60689f5360b762ca282f943986052d9e23782a270",
+      "blob": "5f56963413f867a75b933db60689f5360b762ca282f943986052d9e23782a270",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-hud-current-terminal-v1.json",
+      "bytes": 1093,
+      "sha256": "59b96eb3b97eae1a9e4fb0299b5fde8790f594596a252b8d8b96d5c8006076f9",
+      "blob": "59b96eb3b97eae1a9e4fb0299b5fde8790f594596a252b8d8b96d5c8006076f9",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-hud-no-reentry-negative-terminal-v1.json",
+      "bytes": 1342,
+      "sha256": "f57f8a159caa9c749861e087b91a2a735487be3dd761f43d5bb49b3225bde4da",
+      "blob": "f57f8a159caa9c749861e087b91a2a735487be3dd761f43d5bb49b3225bde4da",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-hud-parent-negative-terminal-v1.json",
+      "bytes": 1303,
+      "sha256": "aeb591eee8235752bc7ad9486cb6fb7fceff1f0c2011cd2dbef4fdaa6512aab0",
+      "blob": "aeb591eee8235752bc7ad9486cb6fb7fceff1f0c2011cd2dbef4fdaa6512aab0",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-mobile667-after-initial-v1.json",
+      "bytes": 507,
+      "sha256": "17773eb4187505c6ba98ae9eb84e3398b78c7213ef17fbc6ea9df11279512d42",
+      "blob": "17773eb4187505c6ba98ae9eb84e3398b78c7213ef17fbc6ea9df11279512d42",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-mobile667-after-terminal-v1.json",
+      "bytes": 426,
+      "sha256": "1c5b29198cadb0decfa7ddca15c41a82bcd0518874b0c081d41899463ea22ecd",
+      "blob": "1c5b29198cadb0decfa7ddca15c41a82bcd0518874b0c081d41899463ea22ecd",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-mobile844-after-initial-v1.json",
+      "bytes": 506,
+      "sha256": "4c9949936b474033c36be306d7b4e5c9fe9e15e15ce5c28dee1e5e1a2415dbe9",
+      "blob": "4c9949936b474033c36be306d7b4e5c9fe9e15e15ce5c28dee1e5e1a2415dbe9",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-mobile844-after-terminal-v1.json",
+      "bytes": 427,
+      "sha256": "3c1ff3568f74516ce0e2f9a6d5bd9d3b0ee09dafd4987b92fd0f0d224f632cfe",
+      "blob": "3c1ff3568f74516ce0e2f9a6d5bd9d3b0ee09dafd4987b92fd0f0d224f632cfe",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-pc1080-after-initial-v1.json",
+      "bytes": 504,
+      "sha256": "eb8847791b34c73f1e475cf659b1d193d088b3f8c31bd20aae168ae659db0876",
+      "blob": "eb8847791b34c73f1e475cf659b1d193d088b3f8c31bd20aae168ae659db0876",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-pc1080-after-terminal-v1.json",
+      "bytes": 424,
+      "sha256": "7b82bb18b4bc4a08695d101c8f1bdeedb3bfeb73234133ff9c742e83c1c12a80",
+      "blob": "7b82bb18b4bc4a08695d101c8f1bdeedb3bfeb73234133ff9c742e83c1c12a80",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-pc720-after-initial-v1.json",
+      "bytes": 503,
+      "sha256": "782a3c40a1101f3d6ba408a3f825ed8ddc45803f228b773e526f1a6f25137f65",
+      "blob": "782a3c40a1101f3d6ba408a3f825ed8ddc45803f228b773e526f1a6f25137f65",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-pc720-after-terminal-v1.json",
+      "bytes": 422,
+      "sha256": "c02998fc604c0d44f368c41f6308fecaea4792497c09fb026bcceaff7f0654c5",
+      "blob": "c02998fc604c0d44f368c41f6308fecaea4792497c09fb026bcceaff7f0654c5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-pc720-before-initial-v1.json",
+      "bytes": 504,
+      "sha256": "e81dbba868b9e26b196ab27d5fdd9e42346e7c4fd203dc118a54533ad36eb3ac",
+      "blob": "e81dbba868b9e26b196ab27d5fdd9e42346e7c4fd203dc118a54533ad36eb3ac",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-pc720-before-terminal-v1.json",
+      "bytes": 1565,
+      "sha256": "5c846373897d24912493e6d17f98bb89baf842644d896d4fe09b74c7a9fa996c",
+      "blob": "5c846373897d24912493e6d17f98bb89baf842644d896d4fe09b74c7a9fa996c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-preserved-state-terminal-v1.json",
+      "bytes": 658,
+      "sha256": "33fe0868c47b78c010f24d2f44cdd183d4149657def7ea4f32a011e055c922a3",
+      "blob": "33fe0868c47b78c010f24d2f44cdd183d4149657def7ea4f32a011e055c922a3",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-source-epoch-initial-v1.json",
+      "bytes": 1096,
+      "sha256": "b6770320127ba586fdc6a4a38a62e17e945d09e4b2402ea17994da0f5a69c532",
+      "blob": "b6770320127ba586fdc6a4a38a62e17e945d09e4b2402ea17994da0f5a69c532",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/raw-source-epoch-terminal-v2.json",
+      "bytes": 788,
+      "sha256": "41063606196e8eba8a661b4c10392eaaf8595eb9bcab2e3a2724a8970b6c60a1",
+      "blob": "41063606196e8eba8a661b4c10392eaaf8595eb9bcab2e3a2724a8970b6c60a1",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/run-full-default-v1.mjs",
+      "bytes": 4137,
+      "sha256": "52f3c7256587e245d076061c834d5a52b1039aaa329e4a10f82664b4c763924d",
+      "blob": "52f3c7256587e245d076061c834d5a52b1039aaa329e4a10f82664b4c763924d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/run-location-targets-v1.mjs",
+      "bytes": 2614,
+      "sha256": "76153ecef46330d46a3fd2d18f63501a4aa4cd9b3fb2b0505cae18727967b0cb",
+      "blob": "76153ecef46330d46a3fd2d18f63501a4aa4cd9b3fb2b0505cae18727967b0cb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/save-parent-v1.mjs",
+      "bytes": 1339,
+      "sha256": "a7adfd39684e5541a19744df6e9f99fed5526fff19258941d6d9a0db43759dae",
+      "blob": "a7adfd39684e5541a19744df6e9f99fed5526fff19258941d6d9a0db43759dae",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/shared-runtime-extension-v1.json",
+      "bytes": 1845,
+      "sha256": "b0304ae1157a3c675b511da1801b1b92ca725232402a96097a190e773963a663",
+      "blob": "b0304ae1157a3c675b511da1801b1b92ca725232402a96097a190e773963a663",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/source-epoch-v1.json",
+      "bytes": 31459,
+      "sha256": "5e2b0e7f58b389ce04d0844603942b3238bf268afd768d63241f21b3cbed58fb",
+      "blob": "5e2b0e7f58b389ce04d0844603942b3238bf268afd768d63241f21b3cbed58fb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15502,
+      "sha256": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "blob": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "designer.html",
+      "bytes": 3146,
+      "sha256": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "blob": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71.json",
+      "bytes": 130027,
+      "sha256": "b3e9df5a5c3f5d837497240cf99a0e840b1b360bd838549b915aadddfe10867a",
+      "blob": "b3e9df5a5c3f5d837497240cf99a0e840b1b360bd838549b915aadddfe10867a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "hd-portrait-dump.html",
+      "bytes": 3409,
+      "sha256": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "blob": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "blob": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 193335,
+      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "blob": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 62,
+  "uniqueBlobs": 62,
+  "rawNamedBytes": 24621646,
+  "uniqueRawBytes": 24621646,
+  "uniqueGzipBytes": 23834850,
+  "serializedPartBytes": 31794497,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

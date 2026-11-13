@@ -1,0 +1,2093 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-archive-part001.json",
+      "bytes": 6681259,
+      "sha256": "8959b7dd16d4529786058556dcf8056c47f84c181206ba2a22065a9237a3a51d",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-archive-part002.json",
+      "bytes": 7798384,
+      "sha256": "70474724b310a532d383485b275765ec3069a37f8e1f2b7f96c93a781f2fa72e",
+      "blobs": 44
+    },
+    {
+      "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-archive-part003.json",
+      "bytes": 6661880,
+      "sha256": "d52e6a34134fe7eec2997bf5c00fe91329cc8515470c70b35b8f4bd81bd42bcd",
+      "blobs": 5
+    },
+    {
+      "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-archive-part004.json",
+      "bytes": 4530067,
+      "sha256": "f34fe07f937ffc91df595e7c25d4a3c7cd6d03f894e1be5dab3db8ce6bac1e4b",
+      "blobs": 9
+    },
+    {
+      "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-archive-part005.json",
+      "bytes": 5322955,
+      "sha256": "0c57014100fe88942c7b0bb7561c8e28fc11985af5d64eefd9a81552cfe11d5f",
+      "blobs": 104
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cancel-owner-cleanup-final-map.json",
+      "bytes": 203440,
+      "sha256": "ab694d8299254e8901a95befd7ecf71a8fb78fb7b70b5c28276399914d439c3b",
+      "blob": "ab694d8299254e8901a95befd7ecf71a8fb78fb7b70b5c28276399914d439c3b",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cancel-owner-cleanup-final-map.png",
+      "bytes": 3236764,
+      "sha256": "10da988741318d7a1e92be0115b3b4c3e4f0123f68b8d93a0ef2316d72268f57",
+      "blob": "10da988741318d7a1e92be0115b3b4c3e4f0123f68b8d93a0ef2316d72268f57",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cancel-owner-original-observation.json",
+      "bytes": 51817,
+      "sha256": "08d0ed49b79784c8803c55c96a88cd552d37a9d8b761db8ef3285d7d81bb5828",
+      "blob": "08d0ed49b79784c8803c55c96a88cd552d37a9d8b761db8ef3285d7d81bb5828",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cancel-owner-quantity-before.json",
+      "bytes": 201969,
+      "sha256": "2b89965790c94ad4031782b72f1345fd13c6df3b1d3958693f4c0e9eee355f88",
+      "blob": "2b89965790c94ad4031782b72f1345fd13c6df3b1d3958693f4c0e9eee355f88",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cancel-owner-quantity-before.png",
+      "bytes": 1731243,
+      "sha256": "cad6b20f50bfbadf83c7b7f04d21d79f5879c3fcb86e7973cc8309d5eda84798",
+      "blob": "cad6b20f50bfbadf83c7b7f04d21d79f5879c3fcb86e7973cc8309d5eda84798",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cancel-owner-second-escape-outcome.json",
+      "bytes": 214355,
+      "sha256": "0a6fca6d23c211460040b373fceef8144f77377fc42ca46c59f13b4c2718cedb",
+      "blob": "0a6fca6d23c211460040b373fceef8144f77377fc42ca46c59f13b4c2718cedb",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cancel-owner-second-escape-outcome.png",
+      "bytes": 2225049,
+      "sha256": "59dee27cd055593d7151d5bc6b939a97f5f2a7b6ca34df4528c898a8f3b88197",
+      "blob": "59dee27cd055593d7151d5bc6b939a97f5f2a7b6ca34df4528c898a8f3b88197",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cleanup.json",
+      "bytes": 14400,
+      "sha256": "a15876275c5798aec27a28c1ab59bfafefa6232390595778eef1e7a1ce868e70",
+      "blob": "a15876275c5798aec27a28c1ab59bfafefa6232390595778eef1e7a1ce868e70",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-bridge.js",
+      "bytes": 160484,
+      "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "blob": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-campaign-reader.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-cancel-owner-predicates.mjs",
+      "bytes": 2662,
+      "sha256": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "blob": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-engine-manifest.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "blob": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-hd-dialog.js",
+      "bytes": 135589,
+      "sha256": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1",
+      "blob": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "blob": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "blob": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "blob": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-packed-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-pc.html",
+      "bytes": 27750,
+      "sha256": "56eac4795219ad6e9ce7b0140dc02d6f2d8029a4ae2899e458ea3bdc2d672969",
+      "blob": "56eac4795219ad6e9ce7b0140dc02d6f2d8029a4ae2899e458ea3bdc2d672969",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-public-load-helpers.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-reused-lifecycle-source.mjs",
+      "bytes": 27783,
+      "sha256": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "blob": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-reused-serial-controls.json",
+      "bytes": 3838,
+      "sha256": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "blob": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-reused-serial-controls.mjs",
+      "bytes": 10138,
+      "sha256": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "blob": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-reused-serial-helpers.mjs",
+      "bytes": 35256,
+      "sha256": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "blob": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "blob": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-scenario.mjs",
+      "bytes": 32261,
+      "sha256": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "blob": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-source-controls.json",
+      "bytes": 11547,
+      "sha256": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "blob": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-source-controls.mjs",
+      "bytes": 15224,
+      "sha256": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "blob": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-system-ui.js",
+      "bytes": 55988,
+      "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "blob": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/executed-tool.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "blob": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/final-protected-owner.json",
+      "bytes": 229340,
+      "sha256": "1296822886ad79d13a5ee1c7ee2647c1795d856962c52366e8f8a73410540528",
+      "blob": "1296822886ad79d13a5ee1c7ee2647c1795d856962c52366e8f8a73410540528",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/input-canonical.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "blob": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/input-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "blob": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/input-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "blob": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/input-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "blob": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/native-inputs.json",
+      "bytes": 2295,
+      "sha256": "96ee20047cea24b4a89790a8f403be21a3a20429646b1714c0e99a767aba162c",
+      "blob": "96ee20047cea24b4a89790a8f403be21a3a20429646b1714c0e99a767aba162c",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/opening-before.json",
+      "bytes": 5170,
+      "sha256": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "blob": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/owned-process-samples.jsonl",
+      "bytes": 79443,
+      "sha256": "d862bb507661c470a7f3fb3236713a807961ab5cea1e2445f5463281d705123e",
+      "blob": "d862bb507661c470a7f3fb3236713a807961ab5cea1e2445f5463281d705123e",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/owned-union.json",
+      "bytes": 11379,
+      "sha256": "541ffdc65485ef527851e810e0a17c2acb451d673bf52014abde75ed10d119aa",
+      "blob": "541ffdc65485ef527851e810e0a17c2acb451d673bf52014abde75ed10d119aa",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/quantity-loaded-map-baseline.json",
+      "bytes": 202770,
+      "sha256": "f8d3f428b2732015f0bd2cbf288a3ef0106c9044da5363c77a5648483582e423",
+      "blob": "f8d3f428b2732015f0bd2cbf288a3ef0106c9044da5363c77a5648483582e423",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/quantity-loaded-map-baseline.png",
+      "bytes": 3080045,
+      "sha256": "1d760387814968b65d777b981d225e881e02cfce9bedaa02b5da5c2da6849a9e",
+      "blob": "1d760387814968b65d777b981d225e881e02cfce9bedaa02b5da5c2da6849a9e",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/quantity-observer.json",
+      "bytes": 113406,
+      "sha256": "fc15ca6a10dc3fa6d85adc8fd8c1acae669905b52c1d2fd860aa39e3654731c3",
+      "blob": "fc15ca6a10dc3fa6d85adc8fd8c1acae669905b52c1d2fd860aa39e3654731c3",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/result.json",
+      "bytes": 302666,
+      "sha256": "a0e346fc3c054182c9f990c7cad91249cfdb5d3bccfd8c45984694d063dac2a9",
+      "blob": "a0e346fc3c054182c9f990c7cad91249cfdb5d3bccfd8c45984694d063dac2a9",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/served-source-after.json",
+      "bytes": 21967,
+      "sha256": "277971e2b1494286a60fd18d1d6cccdce9c0be00c529c5c5b240e078a56242f8",
+      "blob": "277971e2b1494286a60fd18d1d6cccdce9c0be00c529c5c5b240e078a56242f8",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/served-source-before.json",
+      "bytes": 11813,
+      "sha256": "4cf0e5c94253e4f8d61048e7c821b7b59b26cd0a521b43ed21f61f8608de1371",
+      "blob": "4cf0e5c94253e4f8d61048e7c821b7b59b26cd0a521b43ed21f61f8608de1371",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/source-after.json",
+      "bytes": 360345,
+      "sha256": "3352550f3e93049164f80e7ccc5ee9a0cff962b976c5f2be201cce8d41cca065",
+      "blob": "3352550f3e93049164f80e7ccc5ee9a0cff962b976c5f2be201cce8d41cca065",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/source-before.json",
+      "bytes": 205198,
+      "sha256": "90c5cb9ed8a87c4c563b15ff095c771dc92a52e407e27bd7de2e95d1b30ae2ff",
+      "blob": "90c5cb9ed8a87c4c563b15ff095c771dc92a52e407e27bd7de2e95d1b30ae2ff",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "blob": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "complete-before-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cancel-owner-final-map.json",
+      "bytes": 202037,
+      "sha256": "d6e3d923f37a0d449ea82e709d5cc5de3e96b10ee73e9699e9c16cfc256d0090",
+      "blob": "d6e3d923f37a0d449ea82e709d5cc5de3e96b10ee73e9699e9c16cfc256d0090",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cancel-owner-final-map.png",
+      "bytes": 3236514,
+      "sha256": "b6e5a2bfe835b15c077335e7c3f54437ecdffe8d0409514135eeae60b57ff3b8",
+      "blob": "b6e5a2bfe835b15c077335e7c3f54437ecdffe8d0409514135eeae60b57ff3b8",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cancel-owner-original-observation.json",
+      "bytes": 21115,
+      "sha256": "61ccad67c450cd819aaa4bf2aa87edb88be7ba547b019628562d9bb7e4017eaa",
+      "blob": "61ccad67c450cd819aaa4bf2aa87edb88be7ba547b019628562d9bb7e4017eaa",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cancel-owner-quantity-before.json",
+      "bytes": 201970,
+      "sha256": "5ee7274e8f7346f99de814e78f4acc175327f8d95dcb4f6e5f3ae519951de575",
+      "blob": "5ee7274e8f7346f99de814e78f4acc175327f8d95dcb4f6e5f3ae519951de575",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cancel-owner-quantity-before.png",
+      "bytes": 1731243,
+      "sha256": "83ff24e003506d162589f8e7f7e3ee41fbf7b0a85c955bdd5830fc725bd9ff86",
+      "blob": "83ff24e003506d162589f8e7f7e3ee41fbf7b0a85c955bdd5830fc725bd9ff86",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cancel-owner-second-escape-outcome.json",
+      "bytes": 202326,
+      "sha256": "61c7197b783371cc4015a2b37c13bdb2ac9dc4b3307423469200c8320e7075b2",
+      "blob": "61c7197b783371cc4015a2b37c13bdb2ac9dc4b3307423469200c8320e7075b2",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cancel-owner-second-escape-outcome.png",
+      "bytes": 3324150,
+      "sha256": "19b8e3b817117ea982f6c0b0b4e5f2315a30f8c79099861ed1a9d96b1b66cad0",
+      "blob": "19b8e3b817117ea982f6c0b0b4e5f2315a30f8c79099861ed1a9d96b1b66cad0",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cleanup.json",
+      "bytes": 15515,
+      "sha256": "3a489d3106c946930db0585c425fbbbe81d87127e37901e8a4f268da361ac329",
+      "blob": "3a489d3106c946930db0585c425fbbbe81d87127e37901e8a4f268da361ac329",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-bridge.js",
+      "bytes": 160484,
+      "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "blob": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-campaign-reader.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-cancel-owner-predicates.mjs",
+      "bytes": 2662,
+      "sha256": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "blob": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-engine-manifest.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "blob": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-hd-dialog.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "blob": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "blob": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "blob": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "blob": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-packed-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-pc.html",
+      "bytes": 27750,
+      "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "blob": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-public-load-helpers.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-reused-lifecycle-source.mjs",
+      "bytes": 27783,
+      "sha256": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "blob": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-reused-serial-controls.json",
+      "bytes": 3838,
+      "sha256": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "blob": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-reused-serial-controls.mjs",
+      "bytes": 10138,
+      "sha256": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "blob": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-reused-serial-helpers.mjs",
+      "bytes": 35256,
+      "sha256": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "blob": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "blob": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-scenario.mjs",
+      "bytes": 32261,
+      "sha256": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "blob": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-source-controls.json",
+      "bytes": 11547,
+      "sha256": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "blob": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-source-controls.mjs",
+      "bytes": 15224,
+      "sha256": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "blob": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-system-ui.js",
+      "bytes": 55988,
+      "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "blob": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/executed-tool.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "blob": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/final-protected-owner.json",
+      "bytes": 227937,
+      "sha256": "6f38530d0ce510b810d84e6830f198eba08331784481538211b05a423d88c7e8",
+      "blob": "6f38530d0ce510b810d84e6830f198eba08331784481538211b05a423d88c7e8",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/input-canonical.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "blob": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/input-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "blob": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/input-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "blob": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/input-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "blob": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/native-inputs.json",
+      "bytes": 2355,
+      "sha256": "00edc22232e5daa37c1f3fcbb0fc073180c1abaf95cce9dd60377831092e9aae",
+      "blob": "00edc22232e5daa37c1f3fcbb0fc073180c1abaf95cce9dd60377831092e9aae",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/opening-before.json",
+      "bytes": 5170,
+      "sha256": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "blob": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/owned-process-samples.jsonl",
+      "bytes": 81280,
+      "sha256": "e2a0dce88e62335c54559b352b6b9021120f32dddca127cc6b802f0ef9a43585",
+      "blob": "e2a0dce88e62335c54559b352b6b9021120f32dddca127cc6b802f0ef9a43585",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/owned-union.json",
+      "bytes": 12272,
+      "sha256": "66c89d8a9c83b4afd42d207bed82e4e976283e056ce73b38b56725c909a595b9",
+      "blob": "66c89d8a9c83b4afd42d207bed82e4e976283e056ce73b38b56725c909a595b9",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/quantity-loaded-map-baseline.json",
+      "bytes": 202770,
+      "sha256": "ea9f7c7446fa3f00cb751480b82d58bbea5174a0e593ed8327ed1e3a100f31b4",
+      "blob": "ea9f7c7446fa3f00cb751480b82d58bbea5174a0e593ed8327ed1e3a100f31b4",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/quantity-loaded-map-baseline.png",
+      "bytes": 3079788,
+      "sha256": "d14eeb13a1ea94df5343c9a70ac13a2bdeab8d62d29b36e0b9034e2960745941",
+      "blob": "d14eeb13a1ea94df5343c9a70ac13a2bdeab8d62d29b36e0b9034e2960745941",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/quantity-observer.json",
+      "bytes": 77484,
+      "sha256": "61e96a5b460e267a30874a7b12e14b243210c76882ed2973b1fe9d0daa55b46d",
+      "blob": "61e96a5b460e267a30874a7b12e14b243210c76882ed2973b1fe9d0daa55b46d",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/result.json",
+      "bytes": 227702,
+      "sha256": "130b325f54f038dce987167460c11ed9fab407e5f95df18a4aabf20bb62cfdcf",
+      "blob": "130b325f54f038dce987167460c11ed9fab407e5f95df18a4aabf20bb62cfdcf",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/served-source-after.json",
+      "bytes": 21649,
+      "sha256": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb",
+      "blob": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/served-source-before.json",
+      "bytes": 11632,
+      "sha256": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b",
+      "blob": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/source-after.json",
+      "bytes": 360345,
+      "sha256": "87af6009d6511de7c42f276d8c468d98bb21729c32a65ce553f43d243f0eb605",
+      "blob": "87af6009d6511de7c42f276d8c468d98bb21729c32a65ce553f43d243f0eb605",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/source-before.json",
+      "bytes": 205198,
+      "sha256": "faa5ec39f0d210bc0bfa19ab9f5d0cbcaeba928cb1f346ab331e187bc8a5af8e",
+      "blob": "faa5ec39f0d210bc0bfa19ab9f5d0cbcaeba928cb1f346ab331e187bc8a5af8e",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "blob": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "complete-after-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-outer-v2.mjs",
+      "bytes": 12286,
+      "sha256": "0c130fa9c5315c70d620242bd36b3f43caa80d64d4b2fb875f33d997c6664e81",
+      "blob": "0c130fa9c5315c70d620242bd36b3f43caa80d64d4b2fb875f33d997c6664e81",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v47-cancel-owner-reader-v2.mjs",
+      "bytes": 2104,
+      "sha256": "ddee48b487f7ddd2e61e29d22313fe12d8aab408978eefbedc045682578a9441",
+      "blob": "ddee48b487f7ddd2e61e29d22313fe12d8aab408978eefbedc045682578a9441",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-final-v2.mjs",
+      "bytes": 35312,
+      "sha256": "d7a04d44982d7711bb4bae376e10028b3e77d37479627d59b40cb7bd399c3f46",
+      "blob": "d7a04d44982d7711bb4bae376e10028b3e77d37479627d59b40cb7bd399c3f46",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-execution-v2.mjs",
+      "bytes": 35332,
+      "sha256": "82a0702594330bb09cfe74c87e6349f731f299198340f94bd41f362f1e323a28",
+      "blob": "82a0702594330bb09cfe74c87e6349f731f299198340f94bd41f362f1e323a28",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v47-cancel-owner-v2.mjs",
+      "bytes": 14836,
+      "sha256": "77a2a85c4e05e8fd297b3dd1bfa58636daa6fbb7cd72396f9cc0288481a04e0e",
+      "blob": "77a2a85c4e05e8fd297b3dd1bfa58636daa6fbb7cd72396f9cc0288481a04e0e",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-first-publication-serialization-refusal-v1.json",
+      "bytes": 905,
+      "sha256": "7532c5f15840dbc3258cdac7e28ca2ec0ba31880e5d9f589aa0698893c2bfdff",
+      "blob": "7532c5f15840dbc3258cdac7e28ca2ec0ba31880e5d9f589aa0698893c2bfdff",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-independent-support-v1.json",
+      "bytes": 4805,
+      "sha256": "6973be0bb1bb84e3165ea0b48e3e8304562388df5c7debeae2374f284692442f",
+      "blob": "6973be0bb1bb84e3165ea0b48e3e8304562388df5c7debeae2374f284692442f",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-full-independent-v1.mjs",
+      "bytes": 7193,
+      "sha256": "4e8d7f2d073eb71c9241d2925707dfd949756765ce97e44dc4e7af50b650c9cc",
+      "blob": "4e8d7f2d073eb71c9241d2925707dfd949756765ce97e44dc4e7af50b650c9cc",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-full-independent-v1.json",
+      "bytes": 8073,
+      "sha256": "7f7b72f4a72de9247cd2d5f9b175b39a66cbe8b0a9685e1dc44ca580cc84ea43",
+      "blob": "7f7b72f4a72de9247cd2d5f9b175b39a66cbe8b0a9685e1dc44ca580cc84ea43",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+      "bytes": 11547,
+      "sha256": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "blob": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "roles": [
+        "exact-ignored-source-fallback",
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.json",
+      "bytes": 41787,
+      "sha256": "6acecaf3df070c59f11eaecf9d5658629126dbc2edc4084f20e63f05e27ee087",
+      "blob": "6acecaf3df070c59f11eaecf9d5658629126dbc2edc4084f20e63f05e27ee087",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1-before.json",
+      "bytes": 40840,
+      "sha256": "26cb9fc02dd1c3f9e7b8b69fc03ea939e84ccfe424ca4938007ded6fe54e9c9a",
+      "blob": "26cb9fc02dd1c3f9e7b8b69fc03ea939e84ccfe424ca4938007ded6fe54e9c9a",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.stdout.log",
+      "bytes": 649799,
+      "sha256": "db5c5417fa4810576d8333c24a6982c2f2555f12f056935e5ea118a322dbbfea",
+      "blob": "db5c5417fa4810576d8333c24a6982c2f2555f12f056935e5ea118a322dbbfea",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-apply-v1.json",
+      "bytes": 1423,
+      "sha256": "944ea8836c1683126523799e9757ac59364f4e4124c33ac5fdd609dcc5a58029",
+      "blob": "944ea8836c1683126523799e9757ac59364f4e4124c33ac5fdd609dcc5a58029",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-final-source-test-review-v2.json",
+      "bytes": 4065,
+      "sha256": "f8eae2256f160aa577358a9aa11604d5dc48ab0eabc35ddf0958583c7043c4fa",
+      "blob": "f8eae2256f160aa577358a9aa11604d5dc48ab0eabc35ddf0958583c7043c4fa",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-quantity-cancel-retirement-final-v2.mjs",
+      "bytes": 6796,
+      "sha256": "80d0057560fbdf7d153bc567790a43616aac0bda8065b0d6d24c98380a24ed93",
+      "blob": "80d0057560fbdf7d153bc567790a43616aac0bda8065b0d6d24c98380a24ed93",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-final-review-first-matcher-failure-v1.json",
+      "bytes": 526,
+      "sha256": "fbfdc66231bdf2ef50ce41406370fe1727bc203bb890f84e7dd44ff8cbb76e1d",
+      "blob": "fbfdc66231bdf2ef50ce41406370fe1727bc203bb890f84e7dd44ff8cbb76e1d",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-quantity-cancel-retirement-final-v1.mjs",
+      "bytes": 6793,
+      "sha256": "ff92bc7b5e7f0b8d4674216cc6cc1d89a616285c13546a2ee25358914a84c811",
+      "blob": "ff92bc7b5e7f0b8d4674216cc6cc1d89a616285c13546a2ee25358914a84c811",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-candidate-v1.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "blob": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-quantity-cancel-retirement-candidate-v1.mjs",
+      "bytes": 2413,
+      "sha256": "ca378cdc674b0f320a348334efbe0c8ff0cccab2ec27156ab36cb3b45aacbeb0",
+      "blob": "ca378cdc674b0f320a348334efbe0c8ff0cccab2ec27156ab36cb3b45aacbeb0",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-test-candidate-v1.mjs",
+      "bytes": 108640,
+      "sha256": "0e9ea124a9d4f772c67a0e7a9fad30fb8dc6d6c749d5f41c1824530ddde76ff0",
+      "blob": "0e9ea124a9d4f772c67a0e7a9fad30fb8dc6d6c749d5f41c1824530ddde76ff0",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-test-formal-v1.mjs",
+      "bytes": 108634,
+      "sha256": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4",
+      "blob": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-test-additions-v1.js.txt",
+      "bytes": 7338,
+      "sha256": "6589034953fd4d92a3f80e3b325a1fa27cce0050cd62acadb0c240b8ecb85291",
+      "blob": "6589034953fd4d92a3f80e3b325a1fa27cce0050cd62acadb0c240b8ecb85291",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-quantity-cancel-retirement-test-candidate-v1.mjs",
+      "bytes": 1053,
+      "sha256": "a829509f98b61b8e0d72bb56c27ad0d3391758152f917f45c3e8e5de5aef92a9",
+      "blob": "a829509f98b61b8e0d72bb56c27ad0d3391758152f917f45c3e8e5de5aef92a9",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/record-quantity-cancel-retirement-controlled-v1.mjs",
+      "bytes": 3630,
+      "sha256": "e6279639b6fbd28b495c0510bec6f3709546add0bfaa672efe30488ea45caa75",
+      "blob": "e6279639b6fbd28b495c0510bec6f3709546add0bfaa672efe30488ea45caa75",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-review-v1.mjs",
+      "bytes": 6523,
+      "sha256": "edcb4b79d951b073117fb28fa5262fecbc0f44256c85caef476893ed716fc338",
+      "blob": "edcb4b79d951b073117fb28fa5262fecbc0f44256c85caef476893ed716fc338",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-review-v1.json",
+      "bytes": 6297,
+      "sha256": "719a640c36dc83e0f84343f07aade1da308e9c5ed7f10ec6f14b8e98878da2bb",
+      "blob": "719a640c36dc83e0f84343f07aade1da308e9c5ed7f10ec6f14b8e98878da2bb",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-first-vm-alias-v1.mjs",
+      "bytes": 6475,
+      "sha256": "0aa18b7d4b474e6125567999476b1bf67242596150c4ad1a4d490ae540cddc9f",
+      "blob": "0aa18b7d4b474e6125567999476b1bf67242596150c4ad1a4d490ae540cddc9f",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-first-vm-alias-v1.json",
+      "bytes": 271,
+      "sha256": "6195933e6701f742ae83e47930bf2cd1680a88e713b27e007a85eefaa1de6e9d",
+      "blob": "6195933e6701f742ae83e47930bf2cd1680a88e713b27e007a85eefaa1de6e9d",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controller-independent-first-review-v1.json",
+      "bytes": 3317,
+      "sha256": "97a1b399d5980e5cda4e70d74559c6d9d7c4af95df98f9feccc54a5bf0bde489",
+      "blob": "97a1b399d5980e5cda4e70d74559c6d9d7c4af95df98f9feccc54a5bf0bde489",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v1.failure.json",
+      "bytes": 562,
+      "sha256": "92cf6dd7a00dbc251b66eb5df8d0a7de4b9f3b57fab3fec92cd0e48d448b2a1e",
+      "blob": "92cf6dd7a00dbc251b66eb5df8d0a7de4b9f3b57fab3fec92cd0e48d448b2a1e",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v1.mjs",
+      "bytes": 9002,
+      "sha256": "b91ca55c06547dac65693c745d530aaf8208e2bf03769d1d4bf10aeb483009d3",
+      "blob": "b91ca55c06547dac65693c745d530aaf8208e2bf03769d1d4bf10aeb483009d3",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2.mjs",
+      "bytes": 9328,
+      "sha256": "b7860af9f807fe298f1eeaf23c2b07624faeeda4f3caab2a7ca349a4db20b317",
+      "blob": "b7860af9f807fe298f1eeaf23c2b07624faeeda4f3caab2a7ca349a4db20b317",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/update-v47-plans-v1.mjs",
+      "bytes": 4406,
+      "sha256": "8e1bfca5d38c71a1da1398bb1efde85e09ea70e7b13f4d8435eedd972c462346",
+      "blob": "8e1bfca5d38c71a1da1398bb1efde85e09ea70e7b13f4d8435eedd972c462346",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-plan-update-v2.json",
+      "bytes": 438,
+      "sha256": "2c37ac65350d31e53d7fe6e10e60c0c72c215f8dddcb103252b4802341c8efa3",
+      "blob": "2c37ac65350d31e53d7fe6e10e60c0c72c215f8dddcb103252b4802341c8efa3",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-plans-independent-review-v2.json",
+      "bytes": 4387,
+      "sha256": "f5e9ac329bd45f8b95dcc5662738683cd4f661783502621f8a9df778a321e4bd",
+      "blob": "f5e9ac329bd45f8b95dcc5662738683cd4f661783502621f8a9df778a321e4bd",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-actual-archive-semantic-v1.mjs",
+      "bytes": 21151,
+      "sha256": "b5b3690c1811c4f9446a8e041e5cf4968c29fd33a8366ce836290ba0644ba745",
+      "blob": "b5b3690c1811c4f9446a8e041e5cf4968c29fd33a8366ce836290ba0644ba745",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/check-v47-actual-archive-semantic-v1.mjs",
+      "bytes": 1479,
+      "sha256": "3bc56c4664cd1d93802309ad382b921bf58c5910920253f1a14eb137572ed723",
+      "blob": "3bc56c4664cd1d93802309ad382b921bf58c5910920253f1a14eb137572ed723",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-actual-archive-semantic-readback-v1.json",
+      "bytes": 10739,
+      "sha256": "a4d61682fe8929c7d7e3574f5e3f2e9f01cdaa1b1f316424e3db682325551b43",
+      "blob": "a4d61682fe8929c7d7e3574f5e3f2e9f01cdaa1b1f316424e3db682325551b43",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-outer-v1.mjs",
+      "bytes": 12280,
+      "sha256": "a37457859d232c09f7572ada9fe4fb0c8fa5db7e041207952af0f29ec29e5d27",
+      "blob": "a37457859d232c09f7572ada9fe4fb0c8fa5db7e041207952af0f29ec29e5d27",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v47-cancel-owner-reader-v1.mjs",
+      "bytes": 2104,
+      "sha256": "eeb697f90750e0a5a11f095b20b4942c2a4043cc90a035efaf81d4a8d387049b",
+      "blob": "eeb697f90750e0a5a11f095b20b4942c2a4043cc90a035efaf81d4a8d387049b",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-final-v1.mjs",
+      "bytes": 35306,
+      "sha256": "1482874f72a566726dba9a60d17933a1d03b2de946b250f5a6235e4087a4d7f4",
+      "blob": "1482874f72a566726dba9a60d17933a1d03b2de946b250f5a6235e4087a4d7f4",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-execution-v1.mjs",
+      "bytes": 35326,
+      "sha256": "fdd190259c51c475ac8db2357ba837bdab176117d88fd461f6e6e1c3a32bbcce",
+      "blob": "fdd190259c51c475ac8db2357ba837bdab176117d88fd461f6e6e1c3a32bbcce",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v47-cancel-owner-v1.mjs",
+      "bytes": 14586,
+      "sha256": "7b88bb91b732adb4ecf673bf31276ce25bb4a160a58bb76bf2582ffcb40dd3be",
+      "blob": "7b88bb91b732adb4ecf673bf31276ce25bb4a160a58bb76bf2582ffcb40dd3be",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/first-draft-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 28851,
+      "sha256": "235cf8aefc7f43256aca2636306a866457ad39e119b11b5d050a34cb69ea9e36",
+      "blob": "235cf8aefc7f43256aca2636306a866457ad39e119b11b5d050a34cb69ea9e36",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/first-draft-run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29208,
+      "sha256": "ecd653b3883595fb7bbc793dbde95be06d4d37399c41f4aed629228b198d2241",
+      "blob": "ecd653b3883595fb7bbc793dbde95be06d4d37399c41f4aed629228b198d2241",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-window-capture-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 30487,
+      "sha256": "f6c2a4ac3134009bf808f36c7ed30d5bc0460b0bbd32733ced400e022719599d",
+      "blob": "f6c2a4ac3134009bf808f36c7ed30d5bc0460b0bbd32733ced400e022719599d",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-window-capture-run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "blob": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-typed-guard-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 31942,
+      "sha256": "ae9cd6f29414dea06f5bac8867ab3b7dc4bfa0a3c10cd699ecb11918cfd9826a",
+      "blob": "ae9cd6f29414dea06f5bac8867ab3b7dc4bfa0a3c10cd699ecb11918cfd9826a",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-typed-guard-run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "blob": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/prepare-cancel-owner-sources-v1.mjs",
+      "bytes": 19535,
+      "sha256": "d6d63db4ee440dd57dbc2d949cec19897650d7558dc15dd12e61f8e6e709a3aa",
+      "blob": "d6d63db4ee440dd57dbc2d949cec19897650d7558dc15dd12e61f8e6e709a3aa",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-closed-lock-v1.mjs",
+      "bytes": 1078,
+      "sha256": "11be971cccdd9a23237a582c6a6781a061a44e771930d1260dc04858aa2b3071",
+      "blob": "11be971cccdd9a23237a582c6a6781a061a44e771930d1260dc04858aa2b3071",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-source-lock-v1.mjs",
+      "bytes": 5193,
+      "sha256": "2281261cb40e121feb7fa1170426cb858aa8622b6b4be8a0d3283aa6a7d3d46c",
+      "blob": "2281261cb40e121feb7fa1170426cb858aa8622b6b4be8a0d3283aa6a7d3d46c",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-source-lock-v1.json",
+      "bytes": 13177,
+      "sha256": "4ebeb52d64b83ebfcfbf94cf338e0b79cd4206a480108ffcaef0c1fd289a59b2",
+      "blob": "4ebeb52d64b83ebfcfbf94cf338e0b79cd4206a480108ffcaef0c1fd289a59b2",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-independent-v1.mjs",
+      "bytes": 13010,
+      "sha256": "98df1d3c2222f376c9c7e85cb3d7c79dbef36e685a4e00c19c0687e40b5dc4c0",
+      "blob": "98df1d3c2222f376c9c7e85cb3d7c79dbef36e685a4e00c19c0687e40b5dc4c0",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-independent-v1/receipt.json",
+      "bytes": 25118,
+      "sha256": "3a13f9d6834756af33e8b77a782cea2b79bc0d209b4cd4b6472a0c3f4d0d179c",
+      "blob": "3a13f9d6834756af33e8b77a782cea2b79bc0d209b4cd4b6472a0c3f4d0d179c",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-after-lock-v1.mjs",
+      "bytes": 639,
+      "sha256": "d45fb77f957f283947b774530f4ff050766e488911ecfa4e07175a1da7401b96",
+      "blob": "d45fb77f957f283947b774530f4ff050766e488911ecfa4e07175a1da7401b96",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-source-lock-v1.mjs",
+      "bytes": 5190,
+      "sha256": "d2951d70e143ec2d70d10c2005c9e2b759ec77feb7929bb0d79d45eadbbb9731",
+      "blob": "d2951d70e143ec2d70d10c2005c9e2b759ec77feb7929bb0d79d45eadbbb9731",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-source-lock-v1.json",
+      "bytes": 13146,
+      "sha256": "33f42eb47f3ee4c68cf0e261544e309d8d747c554ca4b4f1443c64ac1ceed276",
+      "blob": "33f42eb47f3ee4c68cf0e261544e309d8d747c554ca4b4f1443c64ac1ceed276",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-after-audit-v1.mjs",
+      "bytes": 5541,
+      "sha256": "c7764fa48493931aa51743b211cfb114bd205468dd5d2ae4cb3a56222a195ebd",
+      "blob": "c7764fa48493931aa51743b211cfb114bd205468dd5d2ae4cb3a56222a195ebd",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v1.mjs",
+      "bytes": 13127,
+      "sha256": "e3fd41253bc21fa7ef0a6f4878477203c2ab67921f1a66860095aa868b8037c0",
+      "blob": "e3fd41253bc21fa7ef0a6f4878477203c2ab67921f1a66860095aa868b8037c0",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v1-rejection.json",
+      "bytes": 570,
+      "sha256": "ec5fb827fc17a7088423ec10d7582b8c524957bca0ee82293b227677fcab2384",
+      "blob": "ec5fb827fc17a7088423ec10d7582b8c524957bca0ee82293b227677fcab2384",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-after-audit-v2.mjs",
+      "bytes": 1580,
+      "sha256": "5e1a693e551cbaec3983d36ed18294a0d0c10658b56b4154c3a2e12340774f80",
+      "blob": "5e1a693e551cbaec3983d36ed18294a0d0c10658b56b4154c3a2e12340774f80",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v2.mjs",
+      "bytes": 13227,
+      "sha256": "04cd7cf89dbec2614538e57a3f4cb1a7fae488a95f2b9b7005d29cc1454a3a18",
+      "blob": "04cd7cf89dbec2614538e57a3f4cb1a7fae488a95f2b9b7005d29cc1454a3a18",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v2/receipt.json",
+      "bytes": 25516,
+      "sha256": "2e27fdad008c3f7f9e2ac27592040cfeebffa59f28efac375b750d57ca950f6b",
+      "blob": "2e27fdad008c3f7f9e2ac27592040cfeebffa59f28efac375b750d57ca950f6b",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v1.mjs",
+      "bytes": 11508,
+      "sha256": "8c3bf90b57b2ba8cb855a932e57ff435edcba570b8f9cf6346ece71162ef8068",
+      "blob": "8c3bf90b57b2ba8cb855a932e57ff435edcba570b8f9cf6346ece71162ef8068",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v1-rejection.json",
+      "bytes": 692,
+      "sha256": "7c2c9a9b1f2764a5abfca3099f43144d450a76cffc4ae352682e525674381f51",
+      "blob": "7c2c9a9b1f2764a5abfca3099f43144d450a76cffc4ae352682e525674381f51",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-paired-audit-v2.mjs",
+      "bytes": 2023,
+      "sha256": "7a012aef268655ebd2495c6287e55b9aae0964f3350f3c458bfa04e3d4b11622",
+      "blob": "7a012aef268655ebd2495c6287e55b9aae0964f3350f3c458bfa04e3d4b11622",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v2.mjs",
+      "bytes": 11647,
+      "sha256": "c23f0b83a80217599f602b68809f643b16b8a7bb69c82bcbc486c982324de5bb",
+      "blob": "c23f0b83a80217599f602b68809f643b16b8a7bb69c82bcbc486c982324de5bb",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v2.json",
+      "bytes": 15145,
+      "sha256": "224e8c7e409ddc7c52eee4c051068c503b1a0d68e82cc4c17d0ad51e715ab572",
+      "blob": "224e8c7e409ddc7c52eee4c051068c503b1a0d68e82cc4c17d0ad51e715ab572",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-independent-terminal-provenance-v1.json",
+      "bytes": 1588,
+      "sha256": "d3bb4471aaf486ad42fa9e28f2cfac0c3e087b316d6e44dc70f9ec23af31887b",
+      "blob": "d3bb4471aaf486ad42fa9e28f2cfac0c3e087b316d6e44dc70f9ec23af31887b",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-independent-support-v1.mjs",
+      "bytes": 3308,
+      "sha256": "89d0c9609d18ceea2762e6f9d2381aa371ba3645abca052a44404ec28c5ecc4a",
+      "blob": "89d0c9609d18ceea2762e6f9d2381aa371ba3645abca052a44404ec28c5ecc4a",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-controlled-v1/candidate-six-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-controlled-v1/candidate-six-stdout.txt",
+      "bytes": 1697,
+      "sha256": "a5b2379bf9370aeb5c0b1d8bf01ed50fda706d0737c720406a77b2e6bbf42f33",
+      "blob": "a5b2379bf9370aeb5c0b1d8bf01ed50fda706d0737c720406a77b2e6bbf42f33",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-controlled-v1/old-two-behavior-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-controlled-v1/old-two-behavior-stdout.txt",
+      "bytes": 2389,
+      "sha256": "d91c3f4e3a2e2db1fba5c1a3233b7d66672e38cdedbe2beb369996a8a81dd13c",
+      "blob": "d91c3f4e3a2e2db1fba5c1a3233b7d66672e38cdedbe2beb369996a8a81dd13c",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-controlled-v1/receipt.json",
+      "bytes": 7161,
+      "sha256": "8acbe0b61af945525a0b305547d3720fd82b2bc467f89d0d34eff50da24324da",
+      "blob": "8acbe0b61af945525a0b305547d3720fd82b2bc467f89d0d34eff50da24324da",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2/adapted-harness-prefix.txt",
+      "bytes": 11911,
+      "sha256": "ff13877f730013e7fb4405a45b01fdd73df78bcf95f04ea2544ce0a3b4c15a6f",
+      "blob": "ff13877f730013e7fb4405a45b01fdd73df78bcf95f04ea2544ce0a3b4c15a6f",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2",
+      "blob": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2/hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2/hd-dialog.js",
+      "bytes": 135589,
+      "sha256": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1",
+      "blob": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2/lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "blob": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2/receipt.json",
+      "bytes": 65600,
+      "sha256": "2c8135cce4f47fed2f561616b3f9eb86e281e5a3fe6d2b170de155af2f21fe6f",
+      "blob": "2c8135cce4f47fed2f561616b3f9eb86e281e5a3fe6d2b170de155af2f21fe6f",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2/test-hd-dialog-routing.mjs",
+      "bytes": 101296,
+      "sha256": "52f5be18e08688dc3b70cde0c4de1706eefd824d3d215c798c649e31892a36dc",
+      "blob": "52f5be18e08688dc3b70cde0c4de1706eefd824d3d215c798c649e31892a36dc",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-formal-target-v1/receipt.json",
+      "bytes": 1468,
+      "sha256": "d6f5744afb52e68c8a02d83e3bec1901056e2ae9e8fdb6037b1b1781133a84e5",
+      "blob": "d6f5744afb52e68c8a02d83e3bec1901056e2ae9e8fdb6037b1b1781133a84e5",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-formal-target-v1/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-formal-target-v1/stdout.txt",
+      "bytes": 19760,
+      "sha256": "6788af9d085f65745abb0c947d9b8162124e42bb4c0148c34df5e2bc36456827",
+      "blob": "6788af9d085f65745abb0c947d9b8162124e42bb4c0148c34df5e2bc36456827",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 207178,
+      "sha256": "84196fc6cd723fcda95fa8ea00bf2c41edb87f650342faef2212f2cf068b4490",
+      "blob": "84196fc6cd723fcda95fa8ea00bf2c41edb87f650342faef2212f2cf068b4490",
+      "roles": [
+        "current-plans-metadata-only"
+      ]
+    },
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 187904,
+      "sha256": "3b0e58d6c27f65eefd75f5c660e9ab66d5b948777214fbbc9c24e9b4dd91b46f",
+      "blob": "3b0e58d6c27f65eefd75f5c660e9ab66d5b948777214fbbc9c24e9b4dd91b46f",
+      "roles": [
+        "current-plans-metadata-only"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "blob": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "roles": [
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "blob": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "roles": [
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "blob": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "roles": [
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "blob": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "roles": [
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "blob": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "blob": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27750,
+      "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "blob": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-dialog-routing.mjs",
+      "bytes": 108634,
+      "sha256": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4",
+      "blob": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-input.mjs",
+      "bytes": 31206,
+      "sha256": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0",
+      "blob": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 20744,
+      "sha256": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e",
+      "blob": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 28782,
+      "sha256": "c0c9a9052ff4ea08c0e2677c366ba0e861e66c3e71f822def74a9d8056c82f54",
+      "blob": "c0c9a9052ff4ea08c0e2677c366ba0e861e66c3e71f822def74a9d8056c82f54",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+      "bytes": 32262,
+      "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "blob": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+      "bytes": 2662,
+      "sha256": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "blob": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+      "bytes": 32261,
+      "sha256": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "blob": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "blob": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+      "bytes": 15224,
+      "sha256": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "blob": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-latency-source-controls-v4.json",
+      "bytes": 3838,
+      "sha256": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "blob": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+      "bytes": 35256,
+      "sha256": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "blob": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+      "bytes": 27783,
+      "sha256": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "blob": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/test-october-quantity-latency-source-v4.mjs",
+      "bytes": 10138,
+      "sha256": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "blob": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+      "bytes": 6835,
+      "sha256": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5",
+      "blob": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+      "bytes": 7080,
+      "sha256": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0",
+      "blob": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+      "bytes": 3721,
+      "sha256": "33f7a0932e166466bf2b0e41726cbf8e56e136d46a926896ea2067e3b7676aba",
+      "blob": "33f7a0932e166466bf2b0e41726cbf8e56e136d46a926896ea2067e3b7676aba",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+      "bytes": 39336,
+      "sha256": "e90a867297c7fa714d900124e31d3e9a5e37a06840743cc62292fa4078ffdbd8",
+      "blob": "e90a867297c7fa714d900124e31d3e9a5e37a06840743cc62292fa4078ffdbd8",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+      "bytes": 4823,
+      "sha256": "2b862f490d60f3451b1982355334c55531552a71c182478c21287542db877e57",
+      "blob": "2b862f490d60f3451b1982355334c55531552a71c182478c21287542db877e57",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+      "bytes": 3668,
+      "sha256": "71429c14a55bce6fe768a89e588fef80d49380ff943d7071cac4cd8a65bf656e",
+      "blob": "71429c14a55bce6fe768a89e588fef80d49380ff943d7071cac4cd8a65bf656e",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+      "bytes": 28767,
+      "sha256": "67d246cf05c889b497d6dfe7b88f25d7648a1143bfb9bebeecea8431773d8459",
+      "blob": "67d246cf05c889b497d6dfe7b88f25d7648a1143bfb9bebeecea8431773d8459",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+      "bytes": 18209,
+      "sha256": "c05a113719a999e1fb4d5cfe399c3685645d1c16d9bc9f3a01aa27c5feed3c8a",
+      "blob": "c05a113719a999e1fb4d5cfe399c3685645d1c16d9bc9f3a01aa27c5feed3c8a",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+      "bytes": 9878,
+      "sha256": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383",
+      "blob": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+      "bytes": 3425,
+      "sha256": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "blob": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "blob": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+      "bytes": 3730,
+      "sha256": "e06b47054d580509660bc27b08e51929d6b16030ecc97f71b553ccf80f729613",
+      "blob": "e06b47054d580509660bc27b08e51929d6b16030ecc97f71b553ccf80f729613",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt",
+      "bytes": 13517,
+      "sha256": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a",
+      "blob": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    }
+  ],
+  "logicalFiles": 226,
+  "uniqueBlobs": 168,
+  "rawNamedBytes": 33642584,
+  "uniqueRawBytes": 30270259,
+  "uniqueGzipBytes": 23216614,
+  "serializedPartBytes": 30994545,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

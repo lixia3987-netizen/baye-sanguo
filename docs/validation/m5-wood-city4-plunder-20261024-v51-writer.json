@@ -1,0 +1,690 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood-city4-plunder-20261024-v51.json",
+    "bytes": 302409,
+    "sha256": "c16f3969ee7fc4f9d9af5ecfa6942c075442e0d9a98aaa5e390cf84ccb210d79"
+  },
+  "published": [
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive-part001.json",
+      "bytes": 7349764,
+      "sha256": "b252579fa579d7e283dcd5e638788df7f80ff935e776286767514923980a879e"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive-part002.json",
+      "bytes": 5182236,
+      "sha256": "320f78f868810c34ca61b898d5772e68aaf52f382b506d8de42fea7f06bd881a"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive-part003.json",
+      "bytes": 6967967,
+      "sha256": "830d07fb5d02b7a63f4257f7123c3e6afff8a1f4bf8949f6fee6f7825ee30d46"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive.json",
+      "bytes": 123719,
+      "sha256": "aaa81df2c53bbf28e3901db8a56b062ce855b4e6604c56c5c54d00d53b117332"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-verify.mjs",
+      "bytes": 63148,
+      "sha256": "41e8a077717dc51293255161167e87989598bb8a39277205030a20f973685a9e"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+      "bytes": 148009,
+      "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+      "bytes": 8221,
+      "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+      "bytes": 4840,
+      "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51.json",
+      "bytes": 302409,
+      "sha256": "c16f3969ee7fc4f9d9af5ecfa6942c075442e0d9a98aaa5e390cf84ccb210d79"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51.md",
+      "bytes": 2129,
+      "sha256": "dc3b8a0d070cfc9f941373d4715f035ba82dc6ea6953c3fbaa96dfb624ff45f2"
+    }
+  ],
+  "stats": {
+    "logicalFiles": 326,
+    "uniqueBlobs": 299,
+    "parts": 3,
+    "serializedPartBytes": 19499967,
+    "rawNamedBytes": 74391712,
+    "uniqueRawBytes": 73879203,
+    "currentSources": 1417,
+    "exactIgnored": 95,
+    "ordinaryPngsDecoded": 3
+  },
+  "privateVerified": {
+    "accepted": true,
+    "logicalFiles": 326,
+    "uniqueBlobs": 299,
+    "ordinaryPngsDecoded": 3,
+    "sourceBinding": {
+      "presentStrict": 1417,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "full": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-plunder-root-full-v1.json",
+          "bytes": 62630,
+          "sha256": "50da1abc7c54b863303993f582329a99a5da2be677f218b65e5de12a9da1a708"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/city4-plunder-root-full-v1.stdout.log",
+          "bytes": 658981,
+          "sha256": "20d8da946ac8206a3437ea95219e7afa972c960f0ddfecd915275b0592d0c372"
+        },
+        "tests": 7824,
+        "pass": 7824,
+        "previousTests": 7821,
+        "newDefaultCases": 3,
+        "registeredFiles": 143,
+        "sourceCount": 310,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "Fresh V51 complete default regression; reader does not rerun tests",
+        "newTestExecutionsByReader": 0
+      },
+      "target": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-continuation-target-v7/receipt.json",
+          "bytes": 10713,
+          "sha256": "a4bc7400d2c29d1aec942f9bcf02c4df413459d0e4423ca11cae3c1d9314f659"
+        },
+        "tests": 65,
+        "pass": 65,
+        "oldCasesByteExact": 62,
+        "newCases": 3,
+        "countedAgainInDefault": false
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-plunder-source-controls-v2.json",
+          "bytes": 16972,
+          "sha256": "ed295fc17b508c0ee8206631b990d4d361fa247697bd1fc96480e7b5f9552729"
+        },
+        "tests": 23,
+        "pass": 23,
+        "sourceCount": 36,
+        "defaultCasesAdded": 0,
+        "originalFailure": {
+          "receipt": {
+            "path": "build/impact-skill-20261014/city4-plunder-source-controls-v1.json",
+            "bytes": 16974,
+            "sha256": "bd8475541a5bb926ffcb8a89bcc509e486f4ed774ff83f83892a40951774d46b"
+          },
+          "tests": 23,
+          "pass": 21,
+          "fail": 2,
+          "accepted": false,
+          "status": 1,
+          "rawStdout": {
+            "path": "build/impact-skill-20261014/city4-plunder-source-controls-v1/stdout.tap",
+            "bytes": 10648,
+            "sha256": "0a70b8b0f767605481d86caf7b58bd2f93d5f9a0884862593527b6d7a8a5d024"
+          },
+          "currentSourceClaim": false
+        }
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 1151,
+        "initialChunk": "284a3b",
+        "terminalChunk": "b0cbb1",
+        "exitCode": 0
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "One exact P50 repair2 resume, only once PID44 Plunder MAKE and genuine SAVE, then STOP; no income or month",
+        "sourceCount": 1148,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 36,
+        "historicalCompletedRepairs": 2,
+        "newDistributions": 0,
+        "completedRepairs": 2,
+        "newPlunders": 1,
+        "qualifiedSavedPlunder": true,
+        "thewSpent": 12,
+        "moneySpent": 0,
+        "actualIncomeObserved": false,
+        "actualIncomeAccepted": false,
+        "resumeEpochEstablished": true,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "mayRepeatCompletedAction": false,
+        "completePreparationProof": true,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "nextMarchIsOnlySourceDeclaration": true,
+        "marchAuthorizedByThisController": false,
+        "originalFlags": {
+          "resultOk": true,
+          "scenarioOk": true,
+          "acceptedForPreparationClosure": true,
+          "actualPreparationAccepted": true,
+          "scenarioActualPreparationAccepted": true,
+          "scenarioActualPlunderAccepted": true,
+          "cleanupTreeExited": true,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": true,
+        "savedWorldProofIndependentOfOriginalLifecycle": true,
+        "supplementalReadOnlyClosureAccepted": null,
+        "rawFlagsRewritten": false,
+        "independentPairCount": 47,
+        "actualTicketReads": 94,
+        "contentAddressedFullTickets": 25,
+        "duringMakeReadCallsites": 1,
+        "nativeKeys": 25,
+        "bootNativeKeys": 26,
+        "quantityConfirmations": 0,
+        "plunderConfirmations": 1,
+        "publicSaves": [
+          {
+            "tag": "wood67-131-v51-city4-plunder-resume",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v51-city4-plunder-resume-sango0.sav",
+                "bytes": 8221,
+                "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+              },
+              {
+                "path": "native-wood67-131-v51-city4-plunder-resume-sango1.sav",
+                "bytes": 4840,
+                "sha256": "794fe298aab74b16b865a0b9eb41dd9311e10ece40e9d3b609336175fed5d0a9"
+              }
+            ],
+            "worldSha256": "ef28ddc919cf05b914be896dcc51b62db8b4e14873f2072bc5779f01736b7102",
+            "keysBefore": 3,
+            "keysAfter": 7
+          },
+          {
+            "tag": "wood67-131-v49-unused-plunder",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v49-unused-plunder-sango0.sav",
+                "bytes": 8221,
+                "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+              },
+              {
+                "path": "native-wood67-131-v49-unused-plunder-sango1.sav",
+                "bytes": 4840,
+                "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+              }
+            ],
+            "worldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+            "keysBefore": 21,
+            "keysAfter": 25
+          }
+        ],
+        "completeWorldCheckpoints": 3,
+        "extraFinalWorld": true,
+        "finalPairMatchesActualWorld": true,
+        "seedFingerprint": "8bb6df619764f5e45265f34a1dc0582267201acbaed654c7b9b4b7cf6d82ab25",
+        "historicalSeedCompared": false,
+        "lastVerifiedWorldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+        "latestSavedPrefixTag": "wood67-131-v49-unused-plunder",
+        "latestPairPins": [
+          {
+            "path": "native-wood67-131-v49-unused-plunder-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "native-wood67-131-v49-unused-plunder-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "pendingPlunderOrder": {
+          "slot": 0,
+          "order": {
+            "OrderId": 26,
+            "Person": 44,
+            "City": 20,
+            "Object": 0,
+            "Arms": 29496,
+            "Food": 51,
+            "Money": 29496,
+            "Consume": 51,
+            "TimeCount": 0
+          }
+        },
+        "city20": {
+          "food": 1,
+          "money": 886,
+          "forecastFoodCredited": false
+        },
+        "newBuy": 0,
+        "newPayments": 0,
+        "newPlunder": 1,
+        "newMarch": 0,
+        "newEnd": 0,
+        "newBattle": 0,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1417,
+        "ignoredAllowed": 95,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 30301,
+            "sha256": "2be23a566a4c6b37835d31bccaa5c1745ac1087ee5cbc1f47166c7e6e4ef4623"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 30805,
+            "sha256": "649857800fd66b55047b52d58383fbcacd4445e261145f0be48937958520a335"
+          },
+          "change": "Only exact P51 archive byte attributes appended after actual closure"
+        }
+      },
+      "main": {
+        "lastSaveTag": "wood67-131-v49-unused-plunder",
+        "world": {
+          "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+          "bytes": 148009,
+          "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+        },
+        "pair": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "historicalCompletedRepairs": 2,
+        "newDistributions": 0,
+        "newPlunders": 1,
+        "thewSpent": 12,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "city20Food": 1,
+        "city20Money": 886,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "actualSupplyIncomeAccepted": false,
+        "ordinaryEndAccepted": false
+      },
+      "supplementalClosure": null,
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": true,
+        "sourceBudgetIsActualIncome": false,
+        "newPlunder": 1,
+        "newMarch": 0,
+        "newEND": 0,
+        "newBattle": 0,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousEightTrackedInputsRequired": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "diskVerified": {
+    "accepted": true,
+    "logicalFiles": 326,
+    "uniqueBlobs": 299,
+    "ordinaryPngsDecoded": 3,
+    "sourceBinding": {
+      "presentStrict": 1417,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "full": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-plunder-root-full-v1.json",
+          "bytes": 62630,
+          "sha256": "50da1abc7c54b863303993f582329a99a5da2be677f218b65e5de12a9da1a708"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/city4-plunder-root-full-v1.stdout.log",
+          "bytes": 658981,
+          "sha256": "20d8da946ac8206a3437ea95219e7afa972c960f0ddfecd915275b0592d0c372"
+        },
+        "tests": 7824,
+        "pass": 7824,
+        "previousTests": 7821,
+        "newDefaultCases": 3,
+        "registeredFiles": 143,
+        "sourceCount": 310,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "Fresh V51 complete default regression; reader does not rerun tests",
+        "newTestExecutionsByReader": 0
+      },
+      "target": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-continuation-target-v7/receipt.json",
+          "bytes": 10713,
+          "sha256": "a4bc7400d2c29d1aec942f9bcf02c4df413459d0e4423ca11cae3c1d9314f659"
+        },
+        "tests": 65,
+        "pass": 65,
+        "oldCasesByteExact": 62,
+        "newCases": 3,
+        "countedAgainInDefault": false
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-plunder-source-controls-v2.json",
+          "bytes": 16972,
+          "sha256": "ed295fc17b508c0ee8206631b990d4d361fa247697bd1fc96480e7b5f9552729"
+        },
+        "tests": 23,
+        "pass": 23,
+        "sourceCount": 36,
+        "defaultCasesAdded": 0,
+        "originalFailure": {
+          "receipt": {
+            "path": "build/impact-skill-20261014/city4-plunder-source-controls-v1.json",
+            "bytes": 16974,
+            "sha256": "bd8475541a5bb926ffcb8a89bcc509e486f4ed774ff83f83892a40951774d46b"
+          },
+          "tests": 23,
+          "pass": 21,
+          "fail": 2,
+          "accepted": false,
+          "status": 1,
+          "rawStdout": {
+            "path": "build/impact-skill-20261014/city4-plunder-source-controls-v1/stdout.tap",
+            "bytes": 10648,
+            "sha256": "0a70b8b0f767605481d86caf7b58bd2f93d5f9a0884862593527b6d7a8a5d024"
+          },
+          "currentSourceClaim": false
+        }
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 1151,
+        "initialChunk": "284a3b",
+        "terminalChunk": "b0cbb1",
+        "exitCode": 0
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "One exact P50 repair2 resume, only once PID44 Plunder MAKE and genuine SAVE, then STOP; no income or month",
+        "sourceCount": 1148,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 36,
+        "historicalCompletedRepairs": 2,
+        "newDistributions": 0,
+        "completedRepairs": 2,
+        "newPlunders": 1,
+        "qualifiedSavedPlunder": true,
+        "thewSpent": 12,
+        "moneySpent": 0,
+        "actualIncomeObserved": false,
+        "actualIncomeAccepted": false,
+        "resumeEpochEstablished": true,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "mayRepeatCompletedAction": false,
+        "completePreparationProof": true,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "nextMarchIsOnlySourceDeclaration": true,
+        "marchAuthorizedByThisController": false,
+        "originalFlags": {
+          "resultOk": true,
+          "scenarioOk": true,
+          "acceptedForPreparationClosure": true,
+          "actualPreparationAccepted": true,
+          "scenarioActualPreparationAccepted": true,
+          "scenarioActualPlunderAccepted": true,
+          "cleanupTreeExited": true,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": true,
+        "savedWorldProofIndependentOfOriginalLifecycle": true,
+        "supplementalReadOnlyClosureAccepted": null,
+        "rawFlagsRewritten": false,
+        "independentPairCount": 47,
+        "actualTicketReads": 94,
+        "contentAddressedFullTickets": 25,
+        "duringMakeReadCallsites": 1,
+        "nativeKeys": 25,
+        "bootNativeKeys": 26,
+        "quantityConfirmations": 0,
+        "plunderConfirmations": 1,
+        "publicSaves": [
+          {
+            "tag": "wood67-131-v51-city4-plunder-resume",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v51-city4-plunder-resume-sango0.sav",
+                "bytes": 8221,
+                "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+              },
+              {
+                "path": "native-wood67-131-v51-city4-plunder-resume-sango1.sav",
+                "bytes": 4840,
+                "sha256": "794fe298aab74b16b865a0b9eb41dd9311e10ece40e9d3b609336175fed5d0a9"
+              }
+            ],
+            "worldSha256": "ef28ddc919cf05b914be896dcc51b62db8b4e14873f2072bc5779f01736b7102",
+            "keysBefore": 3,
+            "keysAfter": 7
+          },
+          {
+            "tag": "wood67-131-v49-unused-plunder",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v49-unused-plunder-sango0.sav",
+                "bytes": 8221,
+                "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+              },
+              {
+                "path": "native-wood67-131-v49-unused-plunder-sango1.sav",
+                "bytes": 4840,
+                "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+              }
+            ],
+            "worldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+            "keysBefore": 21,
+            "keysAfter": 25
+          }
+        ],
+        "completeWorldCheckpoints": 3,
+        "extraFinalWorld": true,
+        "finalPairMatchesActualWorld": true,
+        "seedFingerprint": "8bb6df619764f5e45265f34a1dc0582267201acbaed654c7b9b4b7cf6d82ab25",
+        "historicalSeedCompared": false,
+        "lastVerifiedWorldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+        "latestSavedPrefixTag": "wood67-131-v49-unused-plunder",
+        "latestPairPins": [
+          {
+            "path": "native-wood67-131-v49-unused-plunder-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "native-wood67-131-v49-unused-plunder-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "pendingPlunderOrder": {
+          "slot": 0,
+          "order": {
+            "OrderId": 26,
+            "Person": 44,
+            "City": 20,
+            "Object": 0,
+            "Arms": 29496,
+            "Food": 51,
+            "Money": 29496,
+            "Consume": 51,
+            "TimeCount": 0
+          }
+        },
+        "city20": {
+          "food": 1,
+          "money": 886,
+          "forecastFoodCredited": false
+        },
+        "newBuy": 0,
+        "newPayments": 0,
+        "newPlunder": 1,
+        "newMarch": 0,
+        "newEnd": 0,
+        "newBattle": 0,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1417,
+        "ignoredAllowed": 95,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 30301,
+            "sha256": "2be23a566a4c6b37835d31bccaa5c1745ac1087ee5cbc1f47166c7e6e4ef4623"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 30805,
+            "sha256": "649857800fd66b55047b52d58383fbcacd4445e261145f0be48937958520a335"
+          },
+          "change": "Only exact P51 archive byte attributes appended after actual closure"
+        }
+      },
+      "main": {
+        "lastSaveTag": "wood67-131-v49-unused-plunder",
+        "world": {
+          "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+          "bytes": 148009,
+          "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+        },
+        "pair": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "historicalCompletedRepairs": 2,
+        "newDistributions": 0,
+        "newPlunders": 1,
+        "thewSpent": 12,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "city20Food": 1,
+        "city20Money": 886,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "actualSupplyIncomeAccepted": false,
+        "ordinaryEndAccepted": false
+      },
+      "supplementalClosure": null,
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": true,
+        "sourceBudgetIsActualIncome": false,
+        "newPlunder": 1,
+        "newMarch": 0,
+        "newEND": 0,
+        "newBattle": 0,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousEightTrackedInputsRequired": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "sourceFilesModified": false,
+  "newBrowserRuns": 0,
+  "newNativeInputs": 0,
+  "newTargetExecutions": 0,
+  "newFullExecutions": 0,
+  "originalFlagsRewritten": false
+}

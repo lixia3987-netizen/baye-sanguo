@@ -1,0 +1,650 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V87",
+  "parentCommit": "67541b63d97536777a407a9edf885ca04c20607d",
+  "feature": "Explicit next waiting own general selection on PC and mobile",
+  "accepted": true,
+  "started": "2026-10-26T11:52:14.734Z",
+  "finished": "2026-10-26T11:52:16.870Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 303,
+  "pass": 303,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44442,
+      "sha256": "52deea62e229c7e255c44dfd3958e0b4c1b1cff00f3a238e4b46a711939963d3"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 93860,
+      "sha256": "d0886c293267f5c5b4e684709e0a372ae11b4a975f7104ac446568420151e59c"
+    },
+    {
+      "path": "js/hd-battle-status.js",
+      "bytes": 6394,
+      "sha256": "0c51f784cf4f8931e6f9deaa2b7c3a136ac8f8724a9d1428ed227cb50bcef036"
+    },
+    {
+      "path": "js/hd-skill-hints.js",
+      "bytes": 9456,
+      "sha256": "e93726a452d2edbf4268d2ba7494a68983097e3563935a4d66cac2dd2a828ebe"
+    },
+    {
+      "path": "js/hd-battle-feedback.js",
+      "bytes": 12380,
+      "sha256": "c57a04c36bfef7ff0060156b9895a1ae1357f302207efdd297b1516295c2ce6f"
+    },
+    {
+      "path": "js/hd-battle-terrain.js",
+      "bytes": 12866,
+      "sha256": "92e43378ae56aa71a71423f2a91a64c14318334f784d1ce845538adb845ea9e1"
+    },
+    {
+      "path": "js/hd-mobile-battle.js",
+      "bytes": 32390,
+      "sha256": "022c9dc4b8c8c6e9b2dc09ec5bab3d6aa9b8f3bf4e9608b897ee5d3898032401"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5943,
+      "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "css/hd-battle.css",
+      "bytes": 9203,
+      "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32773,
+      "sha256": "17f9ed7318684b0cbd8c16e9926312f22ca59d31a6a92db6afe6e72e20c1f85c"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30689,
+      "sha256": "01e60bc89bdbf5fc5cbb3bcd3153be08997b09a194059e665aae443d120dd491"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20423,
+      "sha256": "30d85dd452d0bf34b41320aa144e3066bb12858af8cfea259050fcb8e80d830f"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "scripts/test-hd-battle-commands.mjs",
+      "bytes": 79481,
+      "sha256": "8c3c2863695ffc7bf8f70cbb34d894bacf54dc2edb12ac4e0c9bda095da92431"
+    },
+    {
+      "path": "scripts/test-hd-battle-mobile-host.mjs",
+      "bytes": 18771,
+      "sha256": "2296166ffe576cba6053d1dd0b8b4fa352570900654869e11bfd5745ca8a19a4"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 55154,
+      "sha256": "1f194d387f5fa45a08b5d15eb97e06bf0c0da3ccd04e6b12be96d354a1500df5"
+    },
+    {
+      "path": "scripts/test-hd-render-visibility.mjs",
+      "bytes": 50865,
+      "sha256": "b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 9,
+  "fullSuiteRun": false,
+  "cCompiled": false,
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "scope": "Commands, mobile battle host, mobile renderer and render visibility modules; no game, native rebuild or full suite",
+  "contract": {
+    "phase": "Only current ready PICK wait1/phase1; no menu/report/HELP/VIEW, preview, LCD, hidden, pending or same-sequence committed input",
+    "order": "Original own slots0..9, cycle after the current own focus; empty/enemy focus starts from the first eligible slot",
+    "selection": "active0; states8/1/6 excluded exactly as C FgtCheckIdx; HP/MP/arms0 do not disqualify",
+    "sameTile": "Candidate must be the first live unitAt(x,y), matching native first-own-slot priority",
+    "bounds": "Existing terrain snapshot original map width/height, not expanded presentation dimensions",
+    "delivery": "Existing tile request ACK path; one direction per real cursor ACK then one ENTER; destination refresh binds original slot and person ID",
+    "pc": "Trusted pointerdown/click uses same owner, focus, candidate, geometry, source refs and mode epoch; boundary retires press; trusted native keyboard detail0 click uses current availability",
+    "mobile": "Existing trusted pointer capture and native render ticket; expected opaque ticket passed into shared clickNextUnit and rechecked across refresh",
+    "oldClickOwnUnitMeaningChanged": false,
+    "newNativeFields": false,
+    "newNativeWorldWrites": false,
+    "refreshAutomaticallySelects": false,
+    "mobileFooter": "44px buttons retained; horizontal scroll available if needed"
+  },
+  "finalTargetedTool": "3c987f",
+  "finalTargetedExitCode": 0,
+  "newTests": {
+    "commands": 5,
+    "mobilePointerHost": 3,
+    "sharedMobileTicket": 1
+  },
+  "earlierModuleRunsIncludedInFinalTotal": [
+    {
+      "tool": "25a115",
+      "tests": 60
+    },
+    {
+      "tool": "9ebe96",
+      "tests": 156
+    },
+    {
+      "tool": "ba20cd",
+      "tests": 48
+    }
+  ],
+  "layout": {
+    "accepted": true,
+    "kind": "Actual entry markup/CSS and complete shared battle module; controlled PC data and mobile render host; no game runtime",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 1264,
+            "height": 625,
+            "right": 1264,
+            "bottom": 625
+          },
+          "footer": {
+            "x": 180.4375,
+            "y": 585,
+            "width": 477.90625,
+            "height": 36,
+            "right": 658.34375,
+            "bottom": 621
+          },
+          "next": {
+            "x": 180.4375,
+            "y": 585,
+            "width": 122,
+            "height": 36,
+            "right": 302.4375,
+            "bottom": 621
+          },
+          "nextDisabled": false,
+          "buttonCount": 5,
+          "minButtonWidth": 80,
+          "minButtonHeight": 36,
+          "footerScrollWidth": 478,
+          "footerClientWidth": 478,
+          "footerOverflowX": "visible",
+          "firstAtStart": {
+            "x": 180.4375,
+            "y": 585,
+            "width": 122,
+            "height": 36,
+            "right": 302.4375,
+            "bottom": 621
+          },
+          "lastAtEnd": {
+            "x": 578.34375,
+            "y": 585,
+            "width": 80,
+            "height": 36,
+            "right": 658.34375,
+            "bottom": 621
+          },
+          "horizontalOverflow": false,
+          "keys": [],
+          "canSelectNext": true,
+          "mobile": false
+        },
+        "screenshot": "build/next-unit-20261026-v87/pc-layout-v3.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile-small",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 651,
+            "height": 280,
+            "right": 651,
+            "bottom": 280
+          },
+          "footer": {
+            "x": 4,
+            "y": 232,
+            "width": 643,
+            "height": 48,
+            "right": 647,
+            "bottom": 280
+          },
+          "next": {
+            "x": 4,
+            "y": 234,
+            "width": 78,
+            "height": 44,
+            "right": 82,
+            "bottom": 278
+          },
+          "nextDisabled": false,
+          "buttonCount": 7,
+          "minButtonWidth": 50,
+          "minButtonHeight": 44,
+          "footerScrollWidth": 643,
+          "footerClientWidth": 643,
+          "footerOverflowX": "auto",
+          "firstAtStart": {
+            "x": 4,
+            "y": 234,
+            "width": 78,
+            "height": 44,
+            "right": 82,
+            "bottom": 278
+          },
+          "lastAtEnd": {
+            "x": 424,
+            "y": 234,
+            "width": 50,
+            "height": 44,
+            "right": 474,
+            "bottom": 278
+          },
+          "horizontalOverflow": false,
+          "keys": [],
+          "canSelectNext": true,
+          "mobile": true
+        },
+        "screenshot": "build/next-unit-20261026-v87/mobile-small-layout-v3.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      },
+      {
+        "name": "mobile-wide",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 828,
+            "height": 295,
+            "right": 828,
+            "bottom": 295
+          },
+          "footer": {
+            "x": 4,
+            "y": 247,
+            "width": 820,
+            "height": 48,
+            "right": 824,
+            "bottom": 295
+          },
+          "next": {
+            "x": 4,
+            "y": 249,
+            "width": 78,
+            "height": 44,
+            "right": 82,
+            "bottom": 293
+          },
+          "nextDisabled": false,
+          "buttonCount": 7,
+          "minButtonWidth": 50,
+          "minButtonHeight": 44,
+          "footerScrollWidth": 820,
+          "footerClientWidth": 820,
+          "footerOverflowX": "auto",
+          "firstAtStart": {
+            "x": 4,
+            "y": 249,
+            "width": 78,
+            "height": 44,
+            "right": 82,
+            "bottom": 293
+          },
+          "lastAtEnd": {
+            "x": 424,
+            "y": 249,
+            "width": 50,
+            "height": 44,
+            "right": 474,
+            "bottom": 293
+          },
+          "horizontalOverflow": false,
+          "keys": [],
+          "canSelectNext": true,
+          "mobile": true
+        },
+        "screenshot": "build/next-unit-20261026-v87/mobile-wide-layout-v3.png",
+        "screenshotPixels": {
+          "width": 844,
+          "height": 390
+        }
+      }
+    ],
+    "browserRuns": 3,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false,
+    "tool": "ea0e7d",
+    "exitCode": 0,
+    "finalBrowserRuns": 3,
+    "totalBrowserRuns": 8,
+    "allOwnedProfilesRemaining": 0,
+    "visualGeometryInspectionAccepted": true,
+    "scope": "Geometry from actual entry markup/CSS and complete shared module, with controlled mobile render host; no production native runtime or complete mobile lifecycle",
+    "screenshotStateIsActivationEvidence": false,
+    "domAndScreenshotDimensionsRecordedSeparately": true,
+    "mobileCaptureNote": "Mobile screenshots show a dim control at capture; enabled DOM measurements and VM ticket tests are separate evidence, not a claim of a real enabled tap at that screenshot instant"
+  },
+  "retainedAttempts": {
+    "kind": "Retained annotations; original tool failures are not reclassified as passes",
+    "hostTestFirst": {
+      "tool": "8d3bac",
+      "exitCode": 1,
+      "tests": 48,
+      "pass": 47,
+      "fail": 1,
+      "cause": "New test asserted internal unitSlot/personId fields not exported by debugSnapshot; changed test to public target coordinates and actual key sequence",
+      "finalTool": "ba20cd",
+      "finalTests": 48,
+      "productionChangedForThisFailure": false
+    },
+    "layoutFirst": {
+      "tool": "2cf235",
+      "exitCode": 1,
+      "browserRuns": 2,
+      "error": "Rendered metrics missing for mobile-small after the initial two-RAF bootstrap; PC rendered, mobile Chrome also exited0; no final JSON was written",
+      "laterHarness": "Explicitly observe the current controlled mobile fight, measure after350 virtual milliseconds, and reobserve controlled native state after capture resize",
+      "productionChangedForThisFailure": false
+    },
+    "layoutSecond": {
+      "tool": "4a6add",
+      "exitCode": 0,
+      "browserRuns": 3,
+      "automatedGeometryAccepted": true,
+      "scope": "DOM geometry/availability; screenshot lifecycle state is not an input-acceptance proof"
+    },
+    "initialTestSummaries": [
+      "build/next-unit-20261026-v87/commands-attempt-v1-failed-summary.json",
+      "build/next-unit-20261026-v87/mobile-attempt-v1-failed-summary.json"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "build/next-unit-20261026-v87/run-targeted-v1.mjs",
+      "bytes": 2296,
+      "sha256": "c5804f35b6380b813d2015952601b25f082166b4318bb8f3e586422b192d9dc1"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/targeted-v1.json",
+      "bytes": 4193,
+      "sha256": "6144953e059f9da4e8ce1aa431873d796f32b5632a5d701070ba41a58e91bbef"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/targeted-v1.stdout.tap",
+      "bytes": 67374,
+      "sha256": "563399e02b1bec37fcfdac98e533d8d9f65f32bc55de79076d3ec16ae434789a"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/preview-layout-v1.mjs",
+      "bytes": 7119,
+      "sha256": "8d5a4e1dd3e2732c59c26544d3028fd941bc5ca074046c5b26ee82c8dbdb9c01"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/preview-layout-v2.mjs",
+      "bytes": 7262,
+      "sha256": "e6552e05028a31e9ab31bd551b759ab23da32743addbcf7471dac7d8bd8ffe07"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/preview-layout-v2.json",
+      "bytes": 4911,
+      "sha256": "d2f607e071e40c8d7d56ab9c1124dca2cfa8107b5ab8800e45d1c7f2b4b2b803"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/preview-layout-v3.mjs",
+      "bytes": 7349,
+      "sha256": "4778a491746997308b3ef86f2ab7a464f81ee025b456ba90829ddb6485475806"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/preview-layout-v3.json",
+      "bytes": 4911,
+      "sha256": "92ff86b52cee43d7c68d8ad30c5e857b4034f62354ba58b0fd0ba96b260e31bb"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/commands-attempt-v1-failed-summary.json",
+      "bytes": 1371,
+      "sha256": "f720fa2db49cb5284e1b78909b17668c95f7535d4394bb214d4fbbeaf648dba0"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-attempt-v1-failed-summary.json",
+      "bytes": 1067,
+      "sha256": "482d8e91c068b5210e675ff02aa963e6feae4ae8103ee7301d8dfe2188aeb8d8"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/retained-attempts-v1.json",
+      "bytes": 1348,
+      "sha256": "bc74cdfa0b31d7fa6a5aaa085e7d53fe1f0422e32b642e5b494b18cbac52f7f2"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/owned-profile-cleanup-v1.json",
+      "bytes": 728,
+      "sha256": "c7b601476d0347b6ffaa78ab87c4b88cfdd43e3902f0560e0ba915bb5d74a7ef"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-cache-replacement-v1.json",
+      "bytes": 197,
+      "sha256": "8bc57e95e53aa73bc3b81e1ca8343df688e70b0b536d8015b9580bcb3f351dd4"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/pc-layout-v3.html",
+      "bytes": 5761,
+      "sha256": "eb2d6e51a1fb2100790ec49f2867b63dd05e3426218f4725b5675f430d8e55b8"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/pc-layout-v3.dom.html",
+      "bytes": 7301,
+      "sha256": "37d0e05726e2e761b0d38babe703ed735a7b3ca8b2f41433933d3ac5ed51848e"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/pc-layout-v3.png",
+      "bytes": 50156,
+      "sha256": "fdd655ac6f5c36e35f586b7f4124d91b1b0f97c1b02b3bf153ff14a82eb998dc"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/pc-layout-v3.stderr.log",
+      "bytes": 530,
+      "sha256": "02a580538e0ad324f5b34d254d66cfbbf841ca88ff4cac814b2584c12d1f9e20"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-small-layout-v3.html",
+      "bytes": 6463,
+      "sha256": "23f4ce175a6e27c4eb76d2eee682b8d5997559d624e6bfc6b925451d7a452531"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-small-layout-v3.dom.html",
+      "bytes": 7403,
+      "sha256": "fba308c15e86a06e224d62b90f9fc3c36a0b019cbee5c69ee7d567dd935f9a5f"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-small-layout-v3.png",
+      "bytes": 13594,
+      "sha256": "bddeeee05beb9981990d4931fab30150d7daa96c6718e5a2228dd60d07d6307b"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-small-layout-v3.stderr.log",
+      "bytes": 540,
+      "sha256": "3f85ea71aba5147ced8c62e1c92fb11574abe76efc2ee2ded3b6dc356fc28a8e"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-wide-layout-v3.html",
+      "bytes": 6463,
+      "sha256": "23f4ce175a6e27c4eb76d2eee682b8d5997559d624e6bfc6b925451d7a452531"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-wide-layout-v3.dom.html",
+      "bytes": 7403,
+      "sha256": "e40aca6cc521f04095f86f6013a2dac9e767a64c844ee1191f92a28fe9963656"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-wide-layout-v3.png",
+      "bytes": 12911,
+      "sha256": "b4d3ba41abffc7c646d1403088dc153a12b49f0a6f4841b5af29b38602ac219f"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/mobile-wide-layout-v3.stderr.log",
+      "bytes": 539,
+      "sha256": "a822ac74195f56a3e4d93a74e19ea5e28b2cb0dfd0247f21af5133f886a6ce00"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/run-targeted-v2.mjs",
+      "bytes": 2296,
+      "sha256": "c6dec68f5887ec497b1c75d8a3f5d63ae86f67f6156976dcd00235ddc16972e8"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/targeted-v2.json",
+      "bytes": 4193,
+      "sha256": "6506388183412f19d0476fad4c293cebef3e66e1b1bf04774313502166e25e50"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/targeted-v2.stdout.tap",
+      "bytes": 67368,
+      "sha256": "fd9cb6ebaa2a13ebb26e9da3e6f11194ca09e97161fcf32706b523aa85172229"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/normalization-v1.json",
+      "bytes": 660,
+      "sha256": "a056b73065d232db8a39c7a5c47c08df63b0fe3f7f1d0f9c9fbac7d377471af2"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/public-record-before-lf.json",
+      "bytes": 19333,
+      "sha256": "41182b69cca2ac3791d88f448e2005d4342a37ada42ed4678828ff11a7fde5be"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/before-lf-js--hd-mobile-battle.js",
+      "bytes": 32770,
+      "sha256": "41c2a99d751f9d184fdb322f12bc8a094714f457e38adad55f4f5d41b6a8d609"
+    },
+    {
+      "path": "build/next-unit-20261026-v87/before-lf-scripts--test-hd-mobile-battle.mjs",
+      "bytes": 55842,
+      "sha256": "e4ed8e6764332759f1f1cfc082d5c48da09b1a8f4032dd3c2e104a02ea16b4e0"
+    }
+  ],
+  "publicScreenshots": [
+    {
+      "path": "docs/validation/m5-next-unit-20261026-v87-pc.png",
+      "bytes": 50156,
+      "sha256": "fdd655ac6f5c36e35f586b7f4124d91b1b0f97c1b02b3bf153ff14a82eb998dc"
+    },
+    {
+      "path": "docs/validation/m5-next-unit-20261026-v87-mobile-small.png",
+      "bytes": 13594,
+      "sha256": "bddeeee05beb9981990d4931fab30150d7daa96c6718e5a2228dd60d07d6307b"
+    },
+    {
+      "path": "docs/validation/m5-next-unit-20261026-v87-mobile-wide.png",
+      "bytes": 12911,
+      "sha256": "b4d3ba41abffc7c646d1403088dc153a12b49f0a6f4841b5af29b38602ac219f"
+    }
+  ],
+  "cOrWasmChanged": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "wholeCampaignAccepted": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "preNormalizationPassingRun": {
+    "tool": "6b88ca",
+    "tests": 303,
+    "notAddedToFinalTotal": true
+  },
+  "stageNormalization": {
+    "accepted": true,
+    "failedStageTool": "981fcf",
+    "files": [
+      {
+        "path": "js/hd-mobile-battle.js",
+        "originalSha256": "41c2a99d751f9d184fdb322f12bc8a094714f457e38adad55f4f5d41b6a8d609",
+        "normalizedSha256": "022c9dc4b8c8c6e9b2dc09ec5bab3d6aa9b8f3bf4e9608b897ee5d3898032401",
+        "textIdenticalAfterCrLfNormalization": true
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle.mjs",
+        "originalSha256": "e4ed8e6764332759f1f1cfc082d5c48da09b1a8f4032dd3c2e104a02ea16b4e0",
+        "normalizedSha256": "1f194d387f5fa45a08b5d15eb97e06bf0c0da3ccd04e6b12be96d354a1500df5",
+        "textIdenticalAfterCrLfNormalization": true
+      }
+    ]
+  }
+}

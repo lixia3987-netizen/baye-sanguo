@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "kind": "Real V17 June saved world input for controlled raw army oracle regression",
+  "fixture": {
+    "path": "scripts/fixtures/hd-impact-v17-june-army-world.json",
+    "bytes": 77936,
+    "sha256": "f85eb617e3700e80a4df4650ca4465de5340f749710650b710bdc69ba6297e51"
+  },
+  "source": {
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-battle-v17-latest-genuine-saved-world-v1.json",
+      "bytes": 77936,
+      "sha256": "f85eb617e3700e80a4df4650ca4465de5340f749710650b710bdc69ba6297e51"
+    },
+    "rootProof": {
+      "path": "build/impact-skill-20261014/impact13-battle-v17-terminal-receipt-v1.json",
+      "bytes": 14563,
+      "sha256": "013d66c1260261872157ede6c2bc471e268614924086cccf37aab90ea0d956d3"
+    },
+    "terminal": {
+      "sessionId": 52436,
+      "chunkId": "2f2d2a",
+      "exitCode": 0
+    },
+    "latestPublicSave": "impact13-129-v17-route-settled",
+    "date": [
+      237,
+      6
+    ],
+    "caster": {
+      "personId": 129,
+      "nativeId": 130,
+      "residentCity": 13,
+      "arms": 756
+    },
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v17/native-impact13-129-v17-route-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "04519d97717971d425c8adf0126e42649487320450d921b68f59303d799fdda4"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v17/native-impact13-129-v17-route-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "c80f6f4e4053bc2968e7ead51645e4234867fcf1986e02ef53fea4e47d519388"
+      }
+    ]
+  },
+  "oldModulesRemainUnchanged": [
+    {
+      "path": "scripts/hd-mobile-recruitment-runtime-oracle.mjs",
+      "bytes": 10793,
+      "sha256": "0e40071f7525ca8165b9d3886ca30fde841effe201e55ca75b3e79d7932d2715"
+    },
+    {
+      "path": "scripts/hd-mobile-distribution-runtime-oracle.mjs",
+      "bytes": 8661,
+      "sha256": "3ce270c05e03ecdda9fa96eda955317aae75428b5b6a28e021e6227c03ec7a34"
+    }
+  ],
+  "rawDuplicateResidents": [
+    {
+      "personId": 65,
+      "occurrences": [
+        {
+          "cityIndex": 1,
+          "queueIndex": 8
+        },
+        {
+          "cityIndex": 7,
+          "queueIndex": 27
+        }
+      ]
+    },
+    {
+      "personId": 136,
+      "occurrences": [
+        {
+          "cityIndex": 12,
+          "queueIndex": 48
+        },
+        {
+          "cityIndex": 21,
+          "queueIndex": 98
+        }
+      ]
+    },
+    {
+      "personId": 138,
+      "occurrences": [
+        {
+          "cityIndex": 22,
+          "queueIndex": 99
+        },
+        {
+          "cityIndex": 26,
+          "queueIndex": 121
+        }
+      ]
+    }
+  ],
+  "controlledExamples": {
+    "recruitment": {
+      "cityIndex": 13,
+      "personId": 43,
+      "quantity": 1054,
+      "moneyBefore": 30000,
+      "moneyAfter": 29895,
+      "thewBefore": 100,
+      "thewAfter": 88,
+      "reserveBefore": 0,
+      "reserveAfter": 1054,
+      "orderId": 24,
+      "orderIndex": 0,
+      "queueIndex": 58
+    },
+    "distribution": {
+      "cityIndex": 13,
+      "personId": 129,
+      "targetArms": 1810,
+      "armsBefore": 756,
+      "armsAfter": 1810,
+      "reserveBefore": 1054,
+      "reserveAfter": 0
+    },
+    "afterWorldsAreControlled": true,
+    "afterWorldsAreActualGameEvidence": false
+  },
+  "scope": "The input fixture bytes are an actual complete ordinary-MAP June SAVE world. Tests construct controlled after-worlds to validate the original C formulas and rejection gates; they do not execute recruitment, distribution, a month, gameplay input or new cast/HD acceptance.",
+  "actualInputPerformed": false,
+  "newRecruitmentAccepted": false,
+  "newDistributionAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false
+}

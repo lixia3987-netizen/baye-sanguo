@@ -1,0 +1,518 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V89",
+  "parentCommit": "85d9fbdc4ff147f3baae5200b46593dc10eb0740",
+  "feature": "Complete native goods menu identity publication up to existing capacity",
+  "accepted": true,
+  "started": "2026-10-26T12:25:07.444Z",
+  "finished": "2026-10-26T12:25:12.826Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 300,
+  "pass": 300,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44618,
+      "sha256": "7eb160c2f8bdb16eed1cec0174739716ac09f10f8958a2e70e7b2b6eeb2f3e1e"
+    },
+    {
+      "path": "vendor/iBaye/src/showface.c",
+      "bytes": 42867,
+      "sha256": "580c015c574a4cbd860a78be1b2da7e4babe53bbb9f88fd2e229e81dbbe0c38c"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/inc/dictsys.h",
+      "bytes": 21754,
+      "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 480808,
+      "sha256": "aa6e2097570c60a0591454d6d51c215ee6dc2686f176fcca40cac8a4f64cd3b2"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5943,
+      "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30765,
+      "sha256": "8824a90f6187d8eee4862cda4d13707f1b7ffa030a70e5551030ac569289cc38"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20499,
+      "sha256": "16baee92c9031d208fa2dc03c3bfe6ba28e24a8ab673d1dc930221418ca74ed7"
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 193335,
+      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0"
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4561650,
+      "sha256": "f3f05338148740f9c855be88515ac411849c786c6dc25253ffb13985672d00ef"
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29995,
+      "sha256": "15214ab2f469f9ddd8fbf4fd3e8d4ecc1766ee8f10c990c5ecc18e9d752f13ea"
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "251fc7f668b1d5a7dc9ef9324571a55e1459f2dc2f9d5e47dfb6a8e519934c94"
+    },
+    {
+      "path": "scripts/build-wasm.ps1",
+      "bytes": 3278,
+      "sha256": "04af7c0791628c6649f1dc14a955873403381c44934e0cd39903fee6d2a50a52"
+    },
+    {
+      "path": "scripts/write-wasm-manifest.mjs",
+      "bytes": 19550,
+      "sha256": "f70052a43457dc9bdbb1a37b616547fb9a733b33ad215747c8c5125ee7a98030"
+    },
+    {
+      "path": "scripts/test-hd-details-engine.mjs",
+      "bytes": 39810,
+      "sha256": "19390b67deacea7ef8b249c4a88e23ad243d238435299115521acb0080967bdb"
+    },
+    {
+      "path": "scripts/test-hd-details-bridge.mjs",
+      "bytes": 31940,
+      "sha256": "75231e084acb21bef96b715238ae4b69025ac50c5450e1c726a911b9fc449bf9"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 247579,
+      "sha256": "4d3e451e17668c94cd951f1d19f427ee5d85b09d723fc9c623be0b3c01a94240"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 3,
+  "fullSuiteRun": false,
+  "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+  "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+  "cCompiled": true,
+  "browserRuns": 0,
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "scope": "Actual details C functions, bridge and HUD modules; no browser, campaign or full suite",
+  "contract": {
+    "before": "Native goods menu publication clipped at80 even when caller list was longer; full IDs withheld for clipped lists",
+    "after": "n=min(gcount,(BAYE_HD_MENU_MAX-1)/BAYE_HD_NAME_SLOT,BAYE_HD_DETAIL_IDS_MAX)",
+    "menuBytes": 16384,
+    "nameSlot": 8,
+    "identityCapacity": 2000,
+    "completeCountsTested": [
+      80,
+      81,
+      2000
+    ],
+    "overCapacityCountsTested": [
+      2001,
+      2047,
+      2048
+    ],
+    "preservesOrderAndDuplicates": true,
+    "lastNativeCursorAndEnterSelectionPreserved": true,
+    "overCapacity": "Publish at most2000 names, do not certify incomplete IDs; original LCD list/index/input remains native",
+    "abiFieldsOrBuffersChanged": false,
+    "bridgeOrUiCapacityExpanded": false,
+    "worldRulesChanged": false,
+    "naturalOriginalCampaignOver80Observed": false
+  },
+  "finalTargetedTool": "b8d2dd",
+  "finalTargetedExitCode": 0,
+  "negativeControl": {
+    "kind": "Original production goods cap negative control; expected product failures remain failures",
+    "started": "2026-10-26T12:17:39.594Z",
+    "finished": "2026-10-26T12:17:40.670Z",
+    "processExitCode": 1,
+    "signal": null,
+    "tests": 2,
+    "pass": 0,
+    "fail": 2,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+    "selectedSources": [
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 42650,
+        "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 199154,
+        "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 19624,
+        "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+      },
+      {
+        "path": "scripts/test-hd-details-engine.mjs",
+        "bytes": 40271,
+        "sha256": "02205c3b85d240ba60f00cbb90b9687a51aab955eb8ed55c0a30e57643d7e08e"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "actualGameplayAccepted": false,
+    "fullSuiteRun": false,
+    "wrapperTool": "21a0cd",
+    "wrapperExitCode": 0,
+    "notAddedToFinalTestTotal": true
+  },
+  "nativeBuild": {
+    "tool": "32ef6c",
+    "exitCode": 0,
+    "engineSourceCount": 128,
+    "engineSourcesStable": true,
+    "sourceRevision": "85d9fbdc4ff147f3baae5200b46593dc10eb0740",
+    "engineSourceModified": true,
+    "sourceDateEpoch": 1793016508,
+    "engineSourceSha256": "2a59a39c368656962ddae2c1a9409317b1213046dfba244823bda92909a67aee",
+    "baselineEngineSourceSha256": "617c3aea391fa57bec1576e70cb6b4b1ed76f747c948015069a71f71b168ffb0",
+    "onlyAuditedGoodsCodeDiffFromInstalledBaseline": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "installedArtifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193335,
+        "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4561650,
+        "sha256": "f3f05338148740f9c855be88515ac411849c786c6dc25253ffb13985672d00ef"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "15214ab2f469f9ddd8fbf4fd3e8d4ecc1766ee8f10c990c5ecc18e9d752f13ea"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 21284,
+        "sha256": "251fc7f668b1d5a7dc9ef9324571a55e1459f2dc2f9d5e47dfb6a8e519934c94"
+      }
+    ],
+    "stageInstalledBytesExact": true,
+    "protocolMetadataUnchanged": true,
+    "warningBoundary": "Existing CMake old-compatibility deprecation warnings retained in stderr; build exit0",
+    "unchangedRebuiltArtifacts": [
+      "js/baye.js"
+    ]
+  },
+  "linkedSmoke": {
+    "tool": "389351",
+    "exitCode": 0,
+    "accepted": true,
+    "kind": "Actual generated loader and linked WASM initialized in isolated Node VM with noInitialRun=true",
+    "noInitialRun": true,
+    "shouldRunNow": false,
+    "moduleExportFunctions": [
+      "_Field_get_name",
+      "_Field_get_type",
+      "_Field_get_value",
+      "_Object_get_field_by_index",
+      "_Object_get_field_count",
+      "_ValueDef_get_array_length",
+      "_ValueDef_get_array_subdef",
+      "_ValueDef_get_field_by_index",
+      "_ValueDef_get_field_count",
+      "_ValueDef_get_size",
+      "_ValueDef_get_type",
+      "_Value_get_addr",
+      "_Value_get_def",
+      "_Value_get_type",
+      "_Value_get_u16_value",
+      "_Value_get_u32_value",
+      "_Value_get_u8_value",
+      "_Value_set_u16_value",
+      "_Value_set_u32_value",
+      "_Value_set_u8_value",
+      "_bayeAlloc",
+      "_bayeCityAddGoods",
+      "_bayeCityDelGoods",
+      "_bayeClearFontCache",
+      "_bayeDeletePersonInCity",
+      "_bayeDeleteToolInCity",
+      "_bayeFgtGetGenTer",
+      "_bayeGCCheckAll",
+      "_bayeGameEnvInit",
+      "_bayeGetArmType",
+      "_bayeGetCityCount",
+      "_bayeGetCityName",
+      "_bayeGetCurrentPeriod",
+      "_bayeGetCustomData",
+      "_bayeGetGBKBuffer",
+      "_bayeGetGlobal",
+      "_bayeGetPersonCount",
+      "_bayeGetPersonName",
+      "_bayeGetSeed",
+      "_bayeGetSkillName",
+      "_bayeGetToolName",
+      "_bayeHdGetArmType",
+      "_bayeHdGetKingCount",
+      "_bayeHdGetReport",
+      "_bayeHdGetReportSeq",
+      "_bayeHdGetToolCount",
+      "_bayeHdGetToolField",
+      "_bayeHdLoadCityLinks",
+      "_bayeHdReady",
+      "_bayeLcdClearRect",
+      "_bayeLcdDot",
+      "_bayeLcdDrawImage",
+      "_bayeLcdDrawLine",
+      "_bayeLcdDrawRect",
+      "_bayeLcdDrawText",
+      "_bayeLcdRevertRect",
+      "_bayeLevelUp",
+      "_bayeLoadPeriod",
+      "_bayeOrderComsumeMoney",
+      "_bayeOrderNeedMoney",
+      "_bayePrintGC",
+      "_bayePutPersonInCity",
+      "_bayePutToolInCity",
+      "_bayeRand",
+      "_bayeRestoreScreen",
+      "_bayeSRand",
+      "_bayeSaveScreen",
+      "_bayeScriptInit",
+      "_bayeSendKey",
+      "_bayeSendTouchEvent",
+      "_bayeSetCustomData",
+      "_bayeSetDebug",
+      "_bayeSetFont",
+      "_bayeSetFontEn",
+      "_bayeSetLcdSize",
+      "_bayeStrLen",
+      "_baye_get_u16_value",
+      "_baye_get_u32_value",
+      "_baye_get_u8_value",
+      "_baye_set_u16_value",
+      "_baye_set_u32_value",
+      "_baye_set_u8_value",
+      "_main"
+    ],
+    "wasmValid": true,
+    "artifactHashesMatched": true,
+    "gameMainRun": false,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false,
+    "logs": [],
+    "scope": "Isolated actual generated loader/WASM initialization with noInitialRun; no game main, browser, real long-menu navigation or full ABI acceptance"
+  },
+  "earlierModuleRunsIncludedInFinalTotal": [
+    {
+      "tool": "297ca8",
+      "tests": 24
+    },
+    {
+      "tool": "63765e",
+      "tests": 36
+    }
+  ],
+  "normalization": [
+    {
+      "path": "vendor/iBaye/src/showface.c",
+      "beforeSha256": "580c015c574a4cbd860a78be1b2da7e4babe53bbb9f88fd2e229e81dbbe0c38c",
+      "afterSha256": "580c015c574a4cbd860a78be1b2da7e4babe53bbb9f88fd2e229e81dbbe0c38c",
+      "onlyCrLfNormalization": true
+    },
+    {
+      "path": "scripts/test-hd-details-engine.mjs",
+      "beforeSha256": "02205c3b85d240ba60f00cbb90b9687a51aab955eb8ed55c0a30e57643d7e08e",
+      "afterSha256": "19390b67deacea7ef8b249c4a88e23ad243d238435299115521acb0080967bdb",
+      "onlyCrLfNormalization": true
+    },
+    {
+      "path": "scripts/test-hd-details-bridge.mjs",
+      "beforeSha256": "75231e084acb21bef96b715238ae4b69025ac50c5450e1c726a911b9fc449bf9",
+      "afterSha256": "75231e084acb21bef96b715238ae4b69025ac50c5450e1c726a911b9fc449bf9",
+      "onlyCrLfNormalization": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/goods-capacity-20261026-v89/run-targeted-v1.mjs",
+      "bytes": 2555,
+      "sha256": "f74b98ad9db2eeddc5bcf81ed2f880b441047dd8214ea785bf4a1c541ba4b450"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/targeted-v1.json",
+      "bytes": 4237,
+      "sha256": "cc4af70e123908a83edee903add0da89dd4855e5892cd589425d69c6a03e4209"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/targeted-v1.stdout.tap",
+      "bytes": 75850,
+      "sha256": "229ac8d3a1e73e003523c02507576184176567e40d29855d13e4a7b79174d64d"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/capacity-negative-v1.json",
+      "bytes": 1321,
+      "sha256": "68bf4b2e35ad9a3cd045c75810e18d4b66c23915dd01beb18d417a5ea6b896e5"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/capacity-negative-v1.stdout.tap",
+      "bytes": 2369,
+      "sha256": "8655240f174ff11cfac2f4746a46cc5e82253ce6c77759e06f993399044f64c0"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/capacity-negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/negative-v1-vendor--iBaye--src--showface.c",
+      "bytes": 42650,
+      "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/negative-v1-vendor--iBaye--src--hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/negative-v1-vendor--iBaye--src--hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/negative-v1-scripts--test-hd-details-engine.mjs",
+      "bytes": 40271,
+      "sha256": "02205c3b85d240ba60f00cbb90b9687a51aab955eb8ed55c0a30e57643d7e08e"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/source-baseline-v1.json",
+      "bytes": 22337,
+      "sha256": "296c3ce7ade7638872fe28b772dc01bbf56dfcfc0c2a601dab3b6a5bd88b3517"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/build-v1.json",
+      "bytes": 22816,
+      "sha256": "9b79d0144b40a21d416930693220f19e86c74e792f115cd2848fab17c03705a4"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/build-v1.stdout.log",
+      "bytes": 597,
+      "sha256": "0fda10f06b220ee3f5265d33023fefd84bb3159c23f070c6eabb2b89aac240d2"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/build-v1.stderr.log",
+      "bytes": 1393,
+      "sha256": "e85937636e98298c355b7ba88092a0a8bb3ae1bbe08eeab4b4b2565226ee9822"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/linked-smoke-v1.json",
+      "bytes": 2446,
+      "sha256": "db640fa2efa2abb25d99fd789a12bd47dec04e04114dbeebff02f9f9e49da626"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/install-v1.json",
+      "bytes": 976,
+      "sha256": "7a362580700cfa7e24e83eaa772380af353db3684d27cedadb805e3156713722"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/prebuild-baye.build.json",
+      "bytes": 21284,
+      "sha256": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/audit-next.md",
+      "bytes": 1893,
+      "sha256": "e8409700681f1b3bc3a21da5130fecc0bb8ac32e1183f629717196d7e98d371f"
+    },
+    {
+      "path": "build/goods-capacity-20261026-v89/stage-attempt-v1-summary.json",
+      "bytes": 397,
+      "sha256": "55406b82cea78057841c5e7ec4ee47655aa35e374679c83692cc9c4be0d6c9ab"
+    }
+  ],
+  "scopeLimits": {
+    "browserRuns": 0,
+    "layoutAccepted": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "performanceAccepted": false,
+    "fullSuiteRun": false,
+    "packedSaveOrHistoricalRngAccepted": false
+  },
+  "nextCandidates": [
+    {
+      "feature": "Native city detail page",
+      "source": "ShowCityProInner showface.c; tactic.c:106 and citycmdc.c:1044",
+      "status": "LCD-only publication gap; not implemented here"
+    },
+    {
+      "feature": "Saved period ruler and month summary",
+      "source": "save-storage.js month byte11 and GamRcdIFace name resources62/70/71/72",
+      "status": "Not implemented here"
+    }
+  ],
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "stagingAdjustment": {
+    "kind": "Staging expectation adjustment, not a product/test failure",
+    "tool": "b218af",
+    "exitCode": 1,
+    "cause": "Expected15 changed files but rebuilt baye.js is byte-identical to parent; actual14 changes",
+    "unchangedRuntime": {
+      "path": "js/baye.js",
+      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0"
+    },
+    "productChangedForThisAdjustment": false
+  }
+}

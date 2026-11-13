@@ -1,0 +1,37 @@
+Primary HD terrain (playable base)
+
+China LCC topographic map - Without border
+File: China_LCC_topographic_map_-_Without_border.svg
+Authors: Flappiefh (Natural Earth data); derivative Augusta 89 (internal and
+external borders removed)
+Parent: File:China_LCC_topographic_map.svg
+Source: https://commons.wikimedia.org/wiki/File:China_LCC_topographic_map_-_Without_border.svg
+License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+https://creativecommons.org/licenses/by-sa/4.0/
+
+The full uncropped rasters `base_china_lcc_full.jpg` (playable size
+3840×4000: 3840×3309 SVG raster plus a southern ocean pad),
+`base_china_lcc_full_1920.png` (1920×1655 source frame), and the playable
+`assets/hd-overworld/terrain/base_plains.jpg` plus the extracted water
+overlay remain under CC BY-SA 4.0.
+Projection: +proj=eqdc +lat_1=22 +lat_2=50 +lon_0=105 +ellps=WGS84
+The 16:9 viewport is a camera window; the world map is the full SVG
+(including Hainan) with a short ocean continuation so the Nansha area
+is reachable. Locator islets south of the SVG frame are not from the
+Commons file; they are sub-pixel-scale marks for the Spratly / Paracel
+positions.
+
+---
+
+Optional historical reference (not the playable base)
+
+Jian'an Commanderies (219 CE)
+File: Jian'an Commanderies.png
+Author: Esiymbro
+Source: https://commons.wikimedia.org/wiki/File:Jian%27an_Commanderies.png
+License: CC BY-SA 4.0
+
+Labeled stitches remaining in this directory are that work's derivatives
+and stay under the same license.
+
+City markers, roads, HUD, and UI chrome are not part of either Commons work.

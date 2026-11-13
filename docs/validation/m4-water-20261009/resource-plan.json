@@ -1,0 +1,512 @@
+{
+  "schemaVersion": 1,
+  "status": "actual-ROM-and-native-source-readonly-inputs-not-browser-acceptance",
+  "createdAt": "2026-10-08T19:52:28.413Z",
+  "head": "0ff17b2df158d9febe08869ed8b65aea51680f19",
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "decoderContract": {
+    "RCHEAD": 14,
+    "RIDX": 8,
+    "SPERES": 6,
+    "SPEUNIT": 5,
+    "PictureHead": 7,
+    "resourceIndexZeroBased": 0,
+    "nativeResLoadItemOneBased": 1,
+    "checkedBounds": true
+  },
+  "movie": {
+    "id": 36,
+    "resourceIndex": 0,
+    "resourceHeader": {
+      "resourceStart": 72176,
+      "resLen": 1098,
+      "resId": 36,
+      "itemCount": 1,
+      "itemLength": 1084,
+      "resKey": 0,
+      "reserved": 0
+    },
+    "payloadOffset": 72190,
+    "length": 1084,
+    "sha256": "d606f81b597b3596a197273e87064edac201634a0cf3f838a78c00beb4b9f75a",
+    "fingerprint": "fnv1a32:6d62e7a8:1084",
+    "payloadHex": "000e080200070000141400000014140100001414000000141401000014140000001414010000141400000014140140004000010000ffffffffffffffffe8001ffd56aaafc1b007ffaaa15557e1e1fff55540aaabf187feaaaa800555c1875555540002afc183aaaaa00001f80180d55540000ae001803aaa80001f800f800d554001e000258007aa800e000181a401d500f0000f09c2006aaf00003c61810035f00000f88180c00f00001fd10180b0000000ff900181ec00007ffd26018113001fffab40018014c7f9fad4000180087ff0956a0001800025204998000180000e8000000001800004000000000180000000000000018020000000000001e8f1000000000001fdff000000000001ffff028000000001ffff7f8000000005ff9bff400000000fff07ffb00000003ffa03fffe0400007fdc0bfffffa4041fff01fffff00e1fffffffffefed8ffffbf800ffffd99f7ff3f8007ffeb835f1e3f8001f7c20f56dc7f800060007f568cf187f01805fce518d1980c060f7be531f1f80301a407e833e1e800c07dffc863c3d000301bbfd1e7cfa8000c073f03cf9fd007f301cf079f3fa03ffec0301c7f7dc0380fb00c38fefb8fc03ffc030379e3f01fc0fe00c263c78fe000ff80300f05f0000febe0080c018003ffd67006000183fffd6a18018001fffeaa800c006001f3540000ff001001e20003ff07c00c01830ffc0002f00301bff00000febc0081ff00001f595f0061f0000fff00abc019e00fffd50057f007cffff540002abc01ffffffffffffffff40004000010000ffffffffffffffffe8001ffd56aaafc1b007ffaaa15557e1e1fff55540aaabf1bffeaaaa800555e38f5555540002afe383aaaaa00001f80380d55540000ae007803aaa80001f801d800d554001e0007d8007aa800e0001f5e001d500f0000fad98006aaf00003f49860035f003c0fcc981c00f000c2fd03980300000101f900ff00c0000600520018803001fe00360018000c7f00000000187c07fc00000000180203e000000000180101c00000000018009d00000000001c00200000000000180040000000f800193f80000003fd081be20000001ffff81e000000001ffff99800000003ffdfffdc00000001ffb6dffc00000001ff349fb800000003de653f380000008fbcc07818000007ff3984f03ffe000ffe73b9f23801803ffce667c0780060779dacebc8f8001cc7b308cf30d80007efc791c721987f01df1c633c0f3980c07cf082f8147f80301be02db009fe800c06021b9bfbfd000301823333e3fa8000c060e7860bfd007f301c3229071a03ffec03044c1c1c0380fb00c198f818fc03ffc03043781f01fc0fe00c81c018fe000ff80303801f0000febe00800018003ffd67006000983fffd6a18018071fffeaa800c0060c1f3540000ff001001e20003ff07c00c01830ffc0002f00301bff00000febc0081ff00001f595f0061f0000fff00abc019e00fffd50057f007cffff540002abc01ffffffffffffffff",
+    "header": {
+      "type": 0,
+      "idx": 14,
+      "count": 8,
+      "picmax": 2,
+      "startFrm": 0,
+      "endFrm": 7
+    },
+    "units": [
+      {
+        "frame": 0,
+        "offset": 6,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "offset": 11,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "offset": 16,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "offset": 21,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "offset": 26,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "offset": 31,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "offset": 36,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "offset": 41,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "payloadRelativeOffset": 46,
+        "absoluteOffset": 72236,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rowBytes": 8,
+        "planeBytes": 512,
+        "length": 519,
+        "slotSha256": "51d8c35a52638157a87d5d01af7e5f930c74cbb57e2b9d0498fc4ef2873c9347",
+        "slotFingerprint": "fnv1a32:e0bd72eb:519",
+        "bitmapSha256": "2772253ec4905620c4bc6be4f4b97b562cf8b78de6a5c0c2c602a373566e1d9d",
+        "bitmapHex": "ffffffffffffffffe8001ffd56aaafc1b007ffaaa15557e1e1fff55540aaabf187feaaaa800555c1875555540002afc183aaaaa00001f80180d55540000ae001803aaa80001f800f800d554001e000258007aa800e000181a401d500f0000f09c2006aaf00003c61810035f00000f88180c00f00001fd10180b0000000ff900181ec00007ffd26018113001fffab40018014c7f9fad4000180087ff0956a0001800025204998000180000e8000000001800004000000000180000000000000018020000000000001e8f1000000000001fdff000000000001ffff028000000001ffff7f8000000005ff9bff400000000fff07ffb00000003ffa03fffe0400007fdc0bfffffa4041fff01fffff00e1fffffffffefed8ffffbf800ffffd99f7ff3f8007ffeb835f1e3f8001f7c20f56dc7f800060007f568cf187f01805fce518d1980c060f7be531f1f80301a407e833e1e800c07dffc863c3d000301bbfd1e7cfa8000c073f03cf9fd007f301cf079f3fa03ffec0301c7f7dc0380fb00c38fefb8fc03ffc030379e3f01fc0fe00c263c78fe000ff80300f05f0000febe0080c018003ffd67006000183fffd6a18018001fffeaa800c006001f3540000ff001001e20003ff07c00c01830ffc0002f00301bff00000febc0081ff00001f595f0061f0000fff00abc019e00fffd50057f007cffff540002abc01ffffffffffffffff",
+        "resourceReferenceRgbaSha256": "ab70de2ec87e8570ab8e7bfa4bfce17733fa550044f2d5980f56729b84942633",
+        "opaquePixels": 4096,
+        "blackPixels": 1680,
+        "whitePixels": 2416
+      },
+      {
+        "picIndex": 1,
+        "payloadRelativeOffset": 565,
+        "absoluteOffset": 72755,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rowBytes": 8,
+        "planeBytes": 512,
+        "length": 519,
+        "slotSha256": "b2d902cbf833295ee506fc63d92178473f13c285a3cb2c3b92d44a33a52a19b1",
+        "slotFingerprint": "fnv1a32:5b25c7a3:519",
+        "bitmapSha256": "5343dda310f8108aa82f455297228b4a8058e0975b8b5745a14a1a09999b2661",
+        "bitmapHex": "ffffffffffffffffe8001ffd56aaafc1b007ffaaa15557e1e1fff55540aaabf1bffeaaaa800555e38f5555540002afe383aaaaa00001f80380d55540000ae007803aaa80001f801d800d554001e0007d8007aa800e0001f5e001d500f0000fad98006aaf00003f49860035f003c0fcc981c00f000c2fd03980300000101f900ff00c0000600520018803001fe00360018000c7f00000000187c07fc00000000180203e000000000180101c00000000018009d00000000001c00200000000000180040000000f800193f80000003fd081be20000001ffff81e000000001ffff99800000003ffdfffdc00000001ffb6dffc00000001ff349fb800000003de653f380000008fbcc07818000007ff3984f03ffe000ffe73b9f23801803ffce667c0780060779dacebc8f8001cc7b308cf30d80007efc791c721987f01df1c633c0f3980c07cf082f8147f80301be02db009fe800c06021b9bfbfd000301823333e3fa8000c060e7860bfd007f301c3229071a03ffec03044c1c1c0380fb00c198f818fc03ffc03043781f01fc0fe00c81c018fe000ff80303801f0000febe00800018003ffd67006000983fffd6a18018071fffeaa800c0060c1f3540000ff001001e20003ff07c00c01830ffc0002f00301bff00000febc0081ff00001f595f0061f0000fff00abc019e00fffd50057f007cffff540002abc01ffffffffffffffff",
+        "resourceReferenceRgbaSha256": "dbcd82320c226692f4dbb290e2dfa17f783881cde6886b9b8a9a2e02ea7a99cb",
+        "opaquePixels": 4096,
+        "blackPixels": 1569,
+        "whitePixels": 2527
+      }
+    ],
+    "allRequiredSlotIndices": [
+      0,
+      1
+    ],
+    "uniqueRawSlots": 2,
+    "allUnitsSameOpaqueBounds": true,
+    "bounds": {
+      "x": 0,
+      "y": 0,
+      "width": 64,
+      "height": 64
+    }
+  },
+  "offlineCounter": {
+    "source": "Literal PublicFun.c PlcMovie U8 spec/spem update/clear/draw/advance order replay on freshly parsed resource36 bytes; not actual timer flush or browser display observations",
+    "logicalCopies": [
+      {
+        "logicalCommit": 1,
+        "iteration": 1,
+        "frameIndex": 0,
+        "visibleFrames": [
+          0
+        ],
+        "clearFrames": [],
+        "drawOrder": [
+          0
+        ]
+      },
+      {
+        "logicalCommit": 2,
+        "iteration": 20,
+        "frameIndex": 1,
+        "visibleFrames": [
+          1
+        ],
+        "clearFrames": [
+          0
+        ],
+        "drawOrder": [
+          1
+        ]
+      },
+      {
+        "logicalCommit": 3,
+        "iteration": 39,
+        "frameIndex": 2,
+        "visibleFrames": [
+          2
+        ],
+        "clearFrames": [
+          0,
+          1
+        ],
+        "drawOrder": [
+          2
+        ]
+      },
+      {
+        "logicalCommit": 4,
+        "iteration": 58,
+        "frameIndex": 3,
+        "visibleFrames": [
+          3
+        ],
+        "clearFrames": [
+          0,
+          1,
+          2
+        ],
+        "drawOrder": [
+          3
+        ]
+      },
+      {
+        "logicalCommit": 5,
+        "iteration": 77,
+        "frameIndex": 4,
+        "visibleFrames": [
+          4
+        ],
+        "clearFrames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "drawOrder": [
+          4
+        ]
+      },
+      {
+        "logicalCommit": 6,
+        "iteration": 96,
+        "frameIndex": 5,
+        "visibleFrames": [
+          5
+        ],
+        "clearFrames": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "drawOrder": [
+          5
+        ]
+      },
+      {
+        "logicalCommit": 7,
+        "iteration": 115,
+        "frameIndex": 6,
+        "visibleFrames": [
+          6
+        ],
+        "clearFrames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "drawOrder": [
+          6
+        ]
+      },
+      {
+        "logicalCommit": 8,
+        "iteration": 134,
+        "frameIndex": 7,
+        "visibleFrames": [
+          7
+        ],
+        "clearFrames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "drawOrder": [
+          7
+        ]
+      }
+    ],
+    "loopIterations": 152,
+    "idleGamDelayCalls": 144,
+    "observedBrowserFrames": null,
+    "coalescingBoundary": "Native LCD timer may merge copies; never require eight separate displayed callback frames solely from this static count."
+  },
+  "nativeCaller": {
+    "source": "FightSub.c default dJNSpe arrays and _CommonJNAction",
+    "skillId": 12,
+    "arrayIndex": 11,
+    "speId": 36,
+    "resourceIndex": 0,
+    "startFrm": 0,
+    "endFrm": 7,
+    "keyflag": 0,
+    "backgroundMode": 0,
+    "dx": 33,
+    "originAt160x96": {
+      "x": 48,
+      "y": 16
+    },
+    "opaqueWindowAt160x96": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "noBackpic16": true,
+    "tableOverrideGuard": {
+      "IFACEItemCount": 16,
+      "overrideItemsOneBased": [
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "standardOverridesPresent": false
+    }
+  },
+  "skill": {
+    "id": 12,
+    "name": "水淹",
+    "nameHex": "cbaed1cd",
+    "recordOffset": 374,
+    "recordHex": "00002003000014505050640000000000000000646464646464646464646464326464",
+    "aim": 0,
+    "state": 0,
+    "power": 800,
+    "destroy": 0,
+    "useMp": 20,
+    "weather": [
+      80,
+      80,
+      80,
+      100,
+      0
+    ],
+    "eland": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      100
+    ],
+    "oland": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100
+    ],
+    "earm": [
+      100,
+      100,
+      100,
+      50,
+      100,
+      100
+    ]
+  },
+  "requirements": {
+    "useMp": 20,
+    "successCost": "FgtJNAction subtracts useMp before natural success resolution (unless native engineDebug, which must remain off). A failure also spends20; never set MP or force RNG.",
+    "casterTerrain": "oland is100 for all eight valid terrain classes; actual FgtCanUse rejects insufficientMP, zero oland or zero weather. FgtCanUse returns0 on success.",
+    "targetTerrain": "eland[7] only: actual live enemy must currently stand on native TERRAIN_RIVER7; fresh AIM mask1 is necessary but not final legality. FgtJNChkAim additionally checks actual target arm and side.",
+    "weather": "Native g_FgtWeather1..4 permitted; weather5 table entry0 blocks. Rates80/80/80/100 do not guarantee natural success or exact damage.",
+    "arm": "Navy ARM_SHUIJUN3 begins default skill row12/13/11. Effective GetArmType and actual native skill IDs/menu owner, not visible clothing or raw ROM inference, authorize the action.",
+    "casterState": "Reject actual STATE_JZ2 (forbidden magic), dead8, confusion1 or stone6 actor when native input cannot select it; STATE_SZ6 is distinct from DS3. Only actual current ready actor can act.",
+    "dynamicIdentity": "All actual LIB/current generation/actor/target/menu/MP/weather/terrain checks must be fresh immediately before original UI input; custom hooks/unknown LIB remain LCD fallback."
+  },
+  "routeInput": {
+    "reusePlan": {
+      "path": "build/r13-next-skill-route-plan.json",
+      "bytes": 17737,
+      "sha256": "b11544222577b5187e53c87b57a84481fb4e08345a950f1c49b20a6b12726331"
+    },
+    "preferred": {
+      "period": 3,
+      "lordPersonIndex": 9,
+      "lordName": "刘璋",
+      "originCity": 19,
+      "destinationCity": 14,
+      "casterPersonIndex": 147,
+      "nativeGenId": 148,
+      "casterName": "李恢",
+      "rawRecordHex": "94000a0001294d480000000300000000000021",
+      "armType": 3,
+      "iq": 77,
+      "equip": [
+        0,
+        0
+      ],
+      "specialU16": 0,
+      "defaultNavyRow": [
+        12,
+        13,
+        11,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "currentBrowserObservedMP": null,
+    "staticDefaultMP65FromPreviousPlanIsNotObservation": true,
+    "preparationBoundary": "Reuse real conscription/distribution and new Back ACK retirement. ROM origin Money74/reserve0 can cap a request800 at740; only actual qmax/confirmation/postworld decides. No new city/route investigation or browser run was done."
+  },
+  "resultLifecycle": {
+    "defaultPositiveArms": "Actual movie36 -> native GBK label兵力减少 at55,18 -> real NUM15 value/history at55+6*digitIndex,56-j for8poses -> original GamDelay50(false) -> result owner end. Do not infer label/value from troop delta.",
+    "stateReport": "Water state0 has no mandatory Stone state6 report. Actual natural failure/death/level/result reports own their real input; they are not manufactured for coverage.",
+    "renderBounds": "Existing generic opaque skill scene proof can authenticate all-mask0 identical64x64 bounds. Strict new WATER art would need both actual slots plus exact native manifest/display source. Outside this bounded rectangle remains real LCD, not claimed HD.",
+    "pixelBoundary": "Opaque reference RGBA hashes above are resource black/white pixels with alpha255. Actual native LCD callback palette may use transparent white; these are not captured LCD PNG/hash claims."
+  },
+  "performed": {
+    "browserStarted": false,
+    "productionEdited": false,
+    "imageFilesWritten": false,
+    "imageGenerated": false,
+    "nativeWorldWritten": false,
+    "user8080Touched": false
+  },
+  "sources": [
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/datman.h",
+      "bytes": 1158,
+      "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/paccount.h",
+      "bytes": 2251,
+      "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/graph.h",
+      "bytes": 451,
+      "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "bytes": 44090,
+      "sha256": "fe04316ff69e71a4913b7781d00fab0ce9475b24bdd050ada475bf3c8432d477"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 32773,
+      "sha256": "d0ba467a2cdc0cdbfa69fdd77c25ea5d72fe255c9135420485ee2a53c14cc83b"
+    },
+    {
+      "path": "build/r13-next-skill-route-plan.json",
+      "bytes": 17737,
+      "sha256": "b11544222577b5187e53c87b57a84481fb4e08345a950f1c49b20a6b12726331"
+    }
+  ]
+}

@@ -1,0 +1,589 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V93",
+  "parentCommit": "c53a31c3127c0689fd555bdc97afc814abb53bf5",
+  "feature": "Native pre-battle attack and confrontation announcements",
+  "accepted": true,
+  "acceptanceScope": "Selected actual native functions, controlled bridge/readonly presentation contracts, linked no-main initialization and two controlled layouts",
+  "targeted": {
+    "accepted": true,
+    "started": "2026-10-26T14:03:09.829Z",
+    "finished": "2026-10-26T14:03:17.165Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 124,
+    "pass": 124,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-battle-announcements-engine.mjs",
+      "scripts/test-hd-battle-announcements-bridge.mjs",
+      "scripts/test-hd-battle-note.mjs",
+      "scripts/test-hd-campaign-engine.mjs",
+      "scripts/test-hd-engine-protocol.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 46935,
+        "sha256": "5d89690425c543e648512c04e446354cad78e4322f0bef5966018106e00a32a7"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 1453,
+        "sha256": "fb28c4062acd68e7ba705e5554851c39e2d61860dd3ed9b1d7331c61b33594bf"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 15762,
+        "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 32773,
+        "sha256": "17f9ed7318684b0cbd8c16e9926312f22ca59d31a6a92db6afe6e72e20c1f85c"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 23654,
+        "sha256": "8407fc0a10fa1564157db4dbc9757f53a9792b782b7889f2d609df2eb90d7dbf"
+      },
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4576607,
+        "sha256": "fd7aa18ab0b9ab366331bf1546231998df334c91309e10271258436508216ed6"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "8f53a3fd3df98bd08aa56b17fa40b9b9780937b3326df16524f2d661a35e05c3"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 164779,
+        "sha256": "b5cd70f60ef3d258eb382174737ebcf38a91483983c768ba0e039354a068011b"
+      },
+      {
+        "path": "js/hd-battle-note.js",
+        "bytes": 12378,
+        "sha256": "89fb9168214f6e0f7309e5aea392f5f1212aac8148a151c8826408177e73c6e0"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 21530,
+        "sha256": "859e245cf5666ed7be6700e087e72722833d9011d8e22edfa1c39cc62970cffb"
+      },
+      {
+        "path": "package.json",
+        "bytes": 22810,
+        "sha256": "40207c9c14bd1889763abfc6b727eba0be85052729ff2f274ec8749c808d3ed9"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 31749,
+        "sha256": "27b7bb094cacd27d8eaff01696ff5b27d7425768b5529f3805fdbadbdec3a522"
+      },
+      {
+        "path": "scripts/test-hd-battle-announcements-bridge.mjs",
+        "bytes": 7133,
+        "sha256": "0b40908772423c8bd69e336a03cd31bd263813fe900cc76a4f7af46ad29a8b7c"
+      },
+      {
+        "path": "scripts/test-hd-battle-announcements-engine.mjs",
+        "bytes": 17396,
+        "sha256": "ffc92a2d5616dee6ba078d11bfb9b963c4fe5023fe1fae9bc3e4db3fd5f6ac38"
+      },
+      {
+        "path": "scripts/test-hd-battle-note.mjs",
+        "bytes": 21836,
+        "sha256": "010e2b6d1b30278c91285f9127500c60e874706b3f9472a676f3d13c808f6be1"
+      },
+      {
+        "path": "scripts/test-hd-campaign-engine.mjs",
+        "bytes": 53057,
+        "sha256": "f61e28dfbe8d36830445166d3a934966c26f14b6b80da78249d93574fac0b6d5"
+      },
+      {
+        "path": "scripts/test-hd-engine-protocol.mjs",
+        "bytes": 57449,
+        "sha256": "b3af31fcb2fd0771f8a0f771a6afa468bcc80e86fc00bc0d919157bde49b9404"
+      },
+      {
+        "path": "scripts/write-wasm-manifest.mjs",
+        "bytes": 21303,
+        "sha256": "27130bcefdcb2eb3dbc2f0fa7a20079b8127a5387d562f7891446cded266a0f7"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmde.c",
+        "bytes": 15835,
+        "sha256": "0833452c305f584254d3a93c6b00923c2b274f50b9626e182e11129402840821"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 205860,
+        "sha256": "4db73c8761d23993fced74583888763d6368e3884f09b6a90eed38ed4d354097"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21136,
+        "sha256": "926a4e2d2f473fe7798b870fbfe300cba651ceffaac52e7f40fa138e8ebfb19b"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 23,
+    "newDefaultModules": 2,
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+    "actualCCompiled": true,
+    "nativeSourceCount": 128,
+    "nativeSourcesStable": true,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "newDefaultNodeTests": 23,
+  "newDefaultModules": 2,
+  "negativeControl": {
+    "accepted": true,
+    "expectedNegativeControl": true,
+    "started": "2026-10-26T13:58:11.668Z",
+    "finished": "2026-10-26T13:58:12.944Z",
+    "processExitCode": 1,
+    "signal": null,
+    "tests": 11,
+    "pass": 4,
+    "fail": 7,
+    "skipped": 0,
+    "compileFailure": false,
+    "actualCAssertionObserved": true,
+    "oldSource": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\battle-announcements-20261026-v93\\negative-v1-citycmde.c",
+    "productSourceMutated": false,
+    "actualGameplayAccepted": false
+  },
+  "protocol": {
+    "version": 1,
+    "legacyTypes": {
+      "victory": 1,
+      "defeat": 2
+    },
+    "newTypes": {
+      "attack": 3,
+      "confrontation": 4
+    },
+    "winner": "Only victory has a published actual winner; other types require 65535",
+    "extraNameCityOrPersonCountReadsForAnnouncements": 0,
+    "input": "No new input handlers, buttons, dispatch or acknowledgement; original native delay/flags stay authoritative"
+  },
+  "native": {
+    "sourceCount": 128,
+    "changedFiles": [
+      "vendor/iBaye/src/citycmde.c",
+      "vendor/iBaye/src/hd-bridge.c"
+    ],
+    "previousEngineSourceSha256": "2251979174a889346026a1da4756d7772fa1a94115b2848e7629d46819c1b4d8",
+    "engineSourceSha256": "d2eb9e64772ff874eb34a4408f77dbf884f704c32563f95791a61462bb9f90d1",
+    "otherSourcesUnchanged": true,
+    "sourcesStableDuringBuild": true,
+    "sourceRevision": "c53a31c3127c0689fd555bdc97afc814abb53bf5",
+    "sourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "finalBuild": "build/battle-announcements-20261026-v93/build-v2.json",
+    "priorCandidateInstalled": false
+  },
+  "runtime": {
+    "accepted": true,
+    "stageAndInstalledBytesExact": true,
+    "method": "Atomic replacement of the four explicitly checked runtime paths; previous runtime retained",
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4576607,
+        "sha256": "fd7aa18ab0b9ab366331bf1546231998df334c91309e10271258436508216ed6"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "8f53a3fd3df98bd08aa56b17fa40b9b9780937b3326df16524f2d661a35e05c3"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 23654,
+        "sha256": "8407fc0a10fa1564157db4dbc9757f53a9792b782b7889f2d609df2eb90d7dbf"
+      }
+    ],
+    "engineSourceSha256": "d2eb9e64772ff874eb34a4408f77dbf884f704c32563f95791a61462bb9f90d1",
+    "sourceRevision": "c53a31c3127c0689fd555bdc97afc814abb53bf5",
+    "engineSourceModified": true,
+    "linkedNoMainSmoke": {
+      "accepted": true,
+      "noInitialRun": true,
+      "shouldRunNow": false,
+      "moduleExportFunctions": 83,
+      "gameMainRun": false,
+      "nativeInputs": 0
+    }
+  },
+  "layout": {
+    "accepted": true,
+    "browserRuns": 2,
+    "productionDomCssBridgeAndNote": true,
+    "controlledNativeSnapshots": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "results": [
+      {
+        "name": "pc-attack",
+        "accepted": true,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "active": true,
+          "type": 3,
+          "text": "我军进攻了襄阳",
+          "label": "战事公告",
+          "hidden": false,
+          "visibility": "visible",
+          "pointerEvents": "none",
+          "root": {
+            "x": 0,
+            "y": 0,
+            "right": 1264,
+            "bottom": 625,
+            "width": 1264,
+            "height": 625
+          },
+          "panel": {
+            "x": 252,
+            "y": 250.15625,
+            "right": 1012,
+            "bottom": 374.828125,
+            "width": 760,
+            "height": 124.671875
+          },
+          "textRect": {
+            "x": 276,
+            "y": 282.15625,
+            "right": 988,
+            "bottom": 342.828125,
+            "width": 712,
+            "height": 60.671875
+          },
+          "buttons": 0,
+          "lcdOpacity": "0",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "extraReads": [],
+          "rawUnchanged": true
+        },
+        "chromeExitCode": 0,
+        "screenshot": "build/battle-announcements-20261026-v93/pc-attack-layout-v1.png"
+      },
+      {
+        "name": "mobile-confrontation",
+        "accepted": true,
+        "metrics": {
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "active": true,
+          "type": 4,
+          "text": "曹操军与孙权军交锋！",
+          "label": "战事公告",
+          "hidden": false,
+          "visibility": "visible",
+          "pointerEvents": "none",
+          "root": {
+            "x": 0,
+            "y": 52,
+            "right": 828,
+            "bottom": 295,
+            "width": 828,
+            "height": 243
+          },
+          "panel": {
+            "x": 114,
+            "y": 125,
+            "right": 714,
+            "bottom": 222,
+            "width": 600,
+            "height": 97
+          },
+          "textRect": {
+            "x": 130,
+            "y": 147,
+            "right": 698,
+            "bottom": 200,
+            "width": 568,
+            "height": 53
+          },
+          "buttons": 0,
+          "lcdOpacity": "0",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "extraReads": [],
+          "rawUnchanged": true
+        },
+        "chromeExitCode": 0,
+        "screenshot": "build/battle-announcements-20261026-v93/mobile-confrontation-layout-v1.png"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "path": "build/battle-announcements-20261026-v93/targeted-v1.json",
+      "bytes": 6798,
+      "sha256": "aee130255a86445b0d0ee6153ea527eb0ac07c7e1fd1b9f7a1ff698b5c447b9f"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/targeted-v1.stdout.tap",
+      "bytes": 28882,
+      "sha256": "53304c89089be5da0299375d5ba7bd044131b7aa76ed44b2a22e237bb0ef260d"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/negative-v1.json",
+      "bytes": 524,
+      "sha256": "b07b1b585c670b6a2d438c6f694998c4ab399a49690d8908d41a2ee0e332a4e6"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/negative-v1.stdout.tap",
+      "bytes": 8572,
+      "sha256": "64386f52218ae807541300d0db495c614383f00f1829cf63cce7df27e7239335"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/negative-v1-citycmde.c",
+      "bytes": 15389,
+      "sha256": "1f420ebf44e80fb642655c0fed4c9276626ca75e844d61736956b3005e50d90d"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/source-baseline-v1.json",
+      "bytes": 22198,
+      "sha256": "1a4e9a2a85fbe08c4527c29559349c8f65ea1ccf91ebe3759509536f62feaa9e"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/source-baseline-v2.json",
+      "bytes": 22417,
+      "sha256": "fc55f1b6d3e1b425e542429753cb8d8919e0933624747f77d0677cf2de356247"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/build-v1.json",
+      "bytes": 25298,
+      "sha256": "353eedf9202d1a78d2d84866490e83f562603a7ec0fe621e4a111decc8b5f5ff"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/build-v2.json",
+      "bytes": 25298,
+      "sha256": "80e8f6e0786b3a0d2deb6f8d4f5e6ca3436e1240287b60222d753cc005ea7fe7"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/build-v2.stdout.log",
+      "bytes": 598,
+      "sha256": "30b1ddc9e1a0d0492aeec43e3b9ddbf2ca87febd9d5666c1581404eb4356d4e8"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/build-v2.stderr.log",
+      "bytes": 1393,
+      "sha256": "e85937636e98298c355b7ba88092a0a8bb3ae1bbe08eeab4b4b2565226ee9822"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/linked-smoke-v1.json",
+      "bytes": 2446,
+      "sha256": "db640fa2efa2abb25d99fd789a12bd47dec04e04114dbeebff02f9f9e49da626"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/install-v1.json",
+      "bytes": 976,
+      "sha256": "55aabc57301cf98df0ec1bf77f1edc7f1aecd9d334d55993d944608a125e1e72"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/native-subagent-v1.json",
+      "bytes": 1416,
+      "sha256": "eccfaf217f5d1808df0e7d4608035e58cc109ab8b29fe3fa792e07d34460497a"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/native-subagent-reentry-v2.json",
+      "bytes": 910,
+      "sha256": "1476e2d36ba92a4894af1f5a1601de90ba30536557d4320761ef93932de0fb31"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/preview-layout-v1.json",
+      "bytes": 2631,
+      "sha256": "f235e8290ebde0248757db0a73e2276ce1e21620c772546195143fc8dafc5100"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/pc-attack-layout-v1.png",
+      "bytes": 292139,
+      "sha256": "1cd4b206092809ab2f5f2d019fa08a20c937643aeccaad7e9bfd97b0b11bb5a1"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/pc-attack-layout-v1.dom.html",
+      "bytes": 23673,
+      "sha256": "8bdb9e193a17ed0a6b3246b8425a5f8fecd72abc3edfcec5407ebd19b400e1fb"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/mobile-confrontation-layout-v1.png",
+      "bytes": 125406,
+      "sha256": "10fe4f47d937b3c16c6c118daa74743044abe82cbf2d2cc392dca211a0bc65bc"
+    },
+    {
+      "path": "build/battle-announcements-20261026-v93/mobile-confrontation-layout-v1.dom.html",
+      "bytes": 19839,
+      "sha256": "82cdac4cf6a50b742f57cf7f53a5f78e083dea18e5a87d7a225b292e681ad5fd"
+    },
+    {
+      "path": "build/prebattle-note-20261026-v93/review-note-notify-reentry-v1.json",
+      "bytes": 204,
+      "sha256": "6f2557ed6b5910a1beff0222b6727637f4b12751c75f0efa3ef3aa54ef3f42c3"
+    },
+    {
+      "path": "build/prebattle-note-20261026-v93/review-note-notify-reentry-v2.json",
+      "bytes": 204,
+      "sha256": "e3caecede14672cf1c410dcfa6ecaba838f134d3718f2aef828233ec63c9ca21"
+    },
+    {
+      "path": "build/prebattle-note-20261026-v93/review-ui-final-reference-v1.json",
+      "bytes": 239,
+      "sha256": "70de310b2a8f3a89de17edfed81dcfb34396fa7da7675315a33e16e47b2d1992"
+    },
+    {
+      "path": "build/prebattle-note-20261026-v93/review-ui-final-reference-v2.json",
+      "bytes": 230,
+      "sha256": "4cfba73d23b2d6b1b4d8b82a36b321fc26aeac11e4b3d4e98ecd282e61ed7e61"
+    },
+    {
+      "path": "build/prebattle-note-20261026-v93/review-ui-final-reference-v3.json",
+      "bytes": 253,
+      "sha256": "b079113b375629cd61928b48a2f8392b241e833c128a78b346e84f6e2cd8853d"
+    },
+    {
+      "path": "build/prebattle-note-20261026-v93/review-ui-final-reference-v4.json",
+      "bytes": 230,
+      "sha256": "4cfba73d23b2d6b1b4d8b82a36b321fc26aeac11e4b3d4e98ecd282e61ed7e61"
+    },
+    {
+      "path": "build/prebattle-note-20261026-v93/review-ui-final-reference-v5.json",
+      "bytes": 244,
+      "sha256": "ac0b0c3c2a194ee71eca71cb97b10097879d076ea49b30c5f0526165b72241f6"
+    }
+  ],
+  "fullSuiteRun": false,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "globalHdComplete": false,
+  "held": {
+    "privateInterfaceInspected": false,
+    "inputs": 0,
+    "closed": false,
+    "restarted": false
+  },
+  "remaining": [
+    "Natural original pre-battle notice display and configured early-exit acceptance",
+    "Real mobile and full layout matrix",
+    "Passive AI tactic prelude notices",
+    "Full regression and tuning later"
+  ]
+}

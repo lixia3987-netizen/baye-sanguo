@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-10T15:33:27.221Z",
+  "kind": "original-zhoufeng14-runtime-validation",
+  "status": "accepted-four-listed-scenarios",
+  "accepted": true,
+  "actualCastAccepted": true,
+  "wholeHdAccepted": false,
+  "portableClosedArchive": false,
+  "sourceRevision": "431d1c7d8294f1b28c0874a953a4b523893a24b5",
+  "newNativeBuild": false,
+  "scope": "Original skill14 curse / SPE39 only. Public original save LOAD, march31 to32, fresh native enemy AIM and natural successful casts. Installed1080/720 HD and missing1080/classic1080 full LCD fallback are accepted separately.",
+  "nativeContract": {
+    "skillId": 14,
+    "mp": 15,
+    "state": 2,
+    "speId": 39,
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "fingerprint": "fnv1a32:6b0ebc5a:1084",
+    "window": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "clearTicks": 25,
+    "nextTicks": 25,
+    "numericResult": false,
+    "numericHold": false
+  },
+  "actualModes": [
+    {
+      "id": "installed1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r30-zhoufeng-runtime-final-freeze-v2.json",
+        "bytes": 5970,
+        "sha256": "230a6b806cedf9e4acd835f7e0e541042f1f773a916156e4166434706f07c604"
+      },
+      "scope": "Original installed skill14/SPE39 only",
+      "result": {
+        "path": "build/r30-zhoufeng-actual-v1-installed1080/result.json",
+        "bytes": 18438473,
+        "sha256": "c77e352b6134b07e0590926efb5ee3b9e9437813ddfff8c9abfec36ac6a93a17"
+      },
+      "execution": {
+        "path": "build/r30-zhoufeng-actual-v1-installed1080-execution.json",
+        "bytes": 4013,
+        "sha256": "6948a418532c217ed7093392a83a9840e68631d8b29a0354d8ca97c177276711"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "sourceCount": 1223,
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r30-zhoufeng-actual-v1-installed1080-root-after-isolation-v2.json",
+          "bytes": 2988,
+          "sha256": "5ba8a05379db3b54c5b6d4516d747c19bcd7ed9fc0f1a051f00b3b66ae04a5b9"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r30-zhoufeng-installed1080-root-historical-exit-v1.json",
+            "bytes": 4444,
+            "sha256": "80f399c3ba0dd53397bfab66d3e4b70f6c0247e98895e5a5e89c581a42272eed"
+          },
+          "union": {
+            "path": "build/r30-zhoufeng-installed1080-verified-historical-owned-union-v1.json",
+            "bytes": 8124,
+            "sha256": "2b85d33ddc61393e8fdb26fbcef7529735518c0b5e20e82931bb617e55d94720"
+          },
+          "historicalIdentityCount": 15,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null,
+      "actualCastAccepted": true,
+      "nativeFrames": 8,
+      "hdReadbacks": 8,
+      "lcdFallbackReadbacks": 0,
+      "mpBefore": 146,
+      "mpAfter": 131,
+      "targetStateBefore": 0,
+      "targetStateAfter": 2,
+      "reportCount": 1,
+      "reportAcknowledgements": 1
+    },
+    {
+      "id": "installed720",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r30-zhoufeng-runtime-final-freeze-v2.json",
+        "bytes": 5970,
+        "sha256": "230a6b806cedf9e4acd835f7e0e541042f1f773a916156e4166434706f07c604"
+      },
+      "scope": "Original installed skill14/SPE39 only",
+      "result": {
+        "path": "build/r30-zhoufeng-actual-v1-installed720/result.json",
+        "bytes": 18437650,
+        "sha256": "f3ce0d552373998b83c31cdf6ddffd5dca423c7e1b4caf60c340aaadf109c9d9"
+      },
+      "execution": {
+        "path": "build/r30-zhoufeng-actual-v1-installed720-execution.json",
+        "bytes": 4022,
+        "sha256": "5838fe530092282aa0fea438f36b6001dab3395564bc31a229eebbab6f196a84"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "staged": false,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "sourceCount": 1223,
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r30-zhoufeng-actual-v1-installed720-root-after-isolation-v1.json",
+          "bytes": 2624,
+          "sha256": "bbf4fb90cc77ab7b72c5ed27522ce6b918da705ef878e61b3845e12bac8efa00"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r30-zhoufeng-installed720-root-historical-exit-v1.json",
+            "bytes": 3704,
+            "sha256": "22ebb99dee0b150a1bcadf031bfe9a3e01e04e87f9af650b5516093269230844"
+          },
+          "union": {
+            "path": "build/r30-zhoufeng-installed720-verified-historical-owned-union-v1.json",
+            "bytes": 6877,
+            "sha256": "ef756340aac8115c41a1f757b7cadd28b07fe8d478385b5867471135580a88a4"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null,
+      "actualCastAccepted": true,
+      "nativeFrames": 8,
+      "hdReadbacks": 8,
+      "lcdFallbackReadbacks": 0,
+      "mpBefore": 146,
+      "mpAfter": 131,
+      "targetStateBefore": 0,
+      "targetStateAfter": 2,
+      "reportCount": 1,
+      "reportAcknowledgements": 1
+    },
+    {
+      "id": "missing1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r30-zhoufeng-runtime-final-freeze-v2.json",
+        "bytes": 5970,
+        "sha256": "230a6b806cedf9e4acd835f7e0e541042f1f773a916156e4166434706f07c604"
+      },
+      "scope": "Original installed skill14/SPE39 only",
+      "result": {
+        "path": "build/r30-zhoufeng-actual-v1-missing1080/result.json",
+        "bytes": 17765991,
+        "sha256": "3592d9a0fbcfaed123c16aea42a6e0ecd981ede04b371555b1568a13bf921c3c"
+      },
+      "execution": {
+        "path": "build/r30-zhoufeng-actual-v1-missing1080-execution.json",
+        "bytes": 4037,
+        "sha256": "41f951499937ca110500421104a144c099dfddec6851aa855230b4818ef51a85"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "sourceCount": 1223,
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r30-zhoufeng-actual-v1-missing1080-root-after-isolation-v1.json",
+          "bytes": 2621,
+          "sha256": "c02ed39c5666602f1d9ec248ab8dc4138af4189fb042183012e3ea08395f191b"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r30-zhoufeng-missing1080-root-historical-exit-v1.json",
+            "bytes": 3700,
+            "sha256": "eb2944c7310c048c49eda8e5cd2d39cef7c9571076a854c6f70f059cae6da1e1"
+          },
+          "union": {
+            "path": "build/r30-zhoufeng-missing1080-verified-historical-owned-union-v1.json",
+            "bytes": 6836,
+            "sha256": "ef3bc355f94c20e8d386108ed31ea29a76fc5e2dfa0c08b24d1de5e5e37539ba"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null,
+      "actualCastAccepted": true,
+      "nativeFrames": 8,
+      "hdReadbacks": 0,
+      "lcdFallbackReadbacks": 8,
+      "mpBefore": 146,
+      "mpAfter": 131,
+      "targetStateBefore": 0,
+      "targetStateAfter": 2,
+      "reportCount": 1,
+      "reportAcknowledgements": 1
+    },
+    {
+      "id": "classic1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r30-zhoufeng-classic-runner-final-freeze-v3.json",
+        "bytes": 5389,
+        "sha256": "3c433b04c0f97b8ae0c9113dae39b40b3e2ffa9330540db898822c2377dbb988"
+      },
+      "scope": "Original installed skill14/SPE39 only",
+      "result": {
+        "path": "build/r30-zhoufeng-actual-v1-classic1080/result.json",
+        "bytes": 17571100,
+        "sha256": "ffbd14d1a1e9da961f7f63848efb11e75aa252125cfb596cb2803faa9216ec53"
+      },
+      "execution": {
+        "path": "build/r30-zhoufeng-actual-v1-classic1080-execution.json",
+        "bytes": 4027,
+        "sha256": "cb477922cf99bbb3d3b684072317b20fa83766582c1fa54493b00911e214e3de"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "sourceCount": 1223,
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r30-zhoufeng-actual-v1-classic1080-root-after-isolation-v1.json",
+          "bytes": 2624,
+          "sha256": "e6b69abff3cf406edf5687f03b7c22360c471a6075d264f9dde2a58f6b64b86f"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r30-zhoufeng-classic1080-root-historical-exit-v1.json",
+            "bytes": 3700,
+            "sha256": "5ae1ceaaafbf779bd23b79b4936292e5099d9762c78d4bc7fb371d77768f9414"
+          },
+          "union": {
+            "path": "build/r30-zhoufeng-classic1080-verified-historical-owned-union-v1.json",
+            "bytes": 6665,
+            "sha256": "c814941ee3c20c71bf38c6c5f2fb1f37d020e6e9acf5ffd5312a85a37a825a93"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null,
+      "actualCastAccepted": true,
+      "nativeFrames": 8,
+      "hdReadbacks": 0,
+      "lcdFallbackReadbacks": 8,
+      "mpBefore": 146,
+      "mpAfter": 131,
+      "targetStateBefore": 0,
+      "targetStateAfter": 2,
+      "reportCount": 1,
+      "reportAcknowledgements": 0
+    }
+  ],
+  "totals": {
+    "nativeDisplays": 32,
+    "hdReadbacks": 16,
+    "lcdFallbackReadbacks": 16,
+    "actualReports": 4,
+    "reportAcknowledgements": 3
+  },
+  "regression": {
+    "execution": {
+      "path": "build/r30-hidden-map-full-source-tests-v1-execution.json",
+      "bytes": 3694,
+      "sha256": "f7282cfdb8245d9fe12b77a8c353617c288ea5d5edb6fed0cdb9cbd99f466e1d"
+    },
+    "summary": {
+      "tests": 1233,
+      "pass": 1233,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sourceCount": 472
+  },
+  "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+  "engineSourceModified": true,
+  "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-zhoufeng-runtime-20261010/runtime-index.json",
+      "bytes": 166507,
+      "sha256": "44f38d90bb7637d76531965748a9a39e8e79418f24504105942f19bbbcaf9a3d"
+    },
+    "record": {
+      "path": "docs/validation/m4-zhoufeng-runtime-20261010/record.json",
+      "bytes": 10136,
+      "sha256": "901879a06dc2c8e3f76491e1b8fa92ba1f13bab010656505fb7450a9e0288da9"
+    },
+    "logicalFiles": 280,
+    "uniqueGzip": 192,
+    "selectedPng": 24,
+    "originalsDeleted": false,
+    "portableClosedArchive": false
+  },
+  "archiveBuilder": {
+    "freeze": {
+      "path": "build/r30-zhoufeng-runtime-archive-builder-freeze-v4.json",
+      "bytes": 3685,
+      "sha256": "2512ad9701c86d009ba776f84bca49b9e430edbebe38c3e07e7b1856f196004c"
+    },
+    "builder": {
+      "path": "build/r30-write-zhoufeng-runtime-archive-v4.mjs",
+      "bytes": 19119,
+      "sha256": "5309fb6b5e3943c5c0ea601a9b247941fc8dee5372d76589d680e856ff93238c"
+    },
+    "checkOnly": {
+      "path": "build/r30-archive-v4-check-only-root-v1.json",
+      "bytes": 5429,
+      "sha256": "4dd1bac896338136c92b03397b95deb96df5507d423a2fc9560c063e8e02518f"
+    },
+    "publication": {
+      "path": "build/r30-archive-v4-publish-root-v1.json",
+      "bytes": 5852,
+      "sha256": "07d52589d9f4d5bf1717d943db286a3950c7e8fdfeaf739ad44a6acdc280353c"
+    }
+  },
+  "boundaries": [
+    "These are four independent skill14 runtime acceptances; they do not accept skill15, skill16 or whole-game HD.",
+    "HD replaces only the authenticated64x64 movie window; full native160x96 and physical pixels outside the HD window were checked independently. Missing and classic modes accept LCD fallback and have hdAccepted:false.",
+    "Classic report naturally retired with zero ACK; its after-cast preview is not a visible-report screenshot. Only two native direction keys and one Enter confirmed the classic target; public HD restoration used zero keys.",
+    "Hidden-map counters cover18 specified Canvas methods during the actual HD battle marker. They do not measure FPS, actual resize, mobile, tab visibility, or prove the old LIUYAN timeout cause or repair.",
+    "All recorded historical owned process identities were absent at the stored root sample times and user8080 PID, birth and HTTP200 were preserved. Browser profiles remain retained and are excluded.",
+    "Failed offline reader checks and corrected versions are preserved as provenance; they are not actual game failures. This limited evidence archive is not a portable browser replay or full checkout.",
+    "Raw physical working-tree hashes preserve CRLF where present; they are not claims of equality with Git-normalized LF bytes."
+  ]
+}

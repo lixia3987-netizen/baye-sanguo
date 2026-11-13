@@ -1,0 +1,515 @@
+{
+  "reviewedAt": "2026-10-08T23:49:36.760Z",
+  "status": "PASS_INDEPENDENT_ACTUAL_SEARCH_GAMEPLAY_CONTRACT_ID_LABEL_CLARIFIED",
+  "result": {
+    "path": "build/r17-search-hd-installed-v5/result.json",
+    "bytes": 15779740,
+    "sha256": "1c91736e0c497b45638858d1ea3575f1f692dec4a9581a1181b03ecb6daa92cb",
+    "ok": true,
+    "hdAccepted": true,
+    "finishedAt": "2026-10-08T23:45:45.058Z",
+    "runner": {
+      "source": "scripts/test-hd-search-runtime.mjs",
+      "bytes": 48835,
+      "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f"
+    },
+    "executedBackup": {
+      "path": "build/r17-search-runtime-executed-v5-ce54abab.mjs",
+      "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f",
+      "exact": true
+    }
+  },
+  "scope": "Actual standard LIB P2/LiuBiao12/city26 SEARCH allied person HD list, current native owners, core fields/reference portraits, accepted order and Back. No month/outcome/acquisition, other period/Mod or full-world acceptance.",
+  "actual": {
+    "checkpoints": [
+      "01-real-P2-LiuBiao-map",
+      "02-native-HD-SEARCH",
+      "03-search-1080p",
+      "04-search-720p",
+      "05-original-search-report-before-order",
+      "06-filtered-1080p",
+      "07-filtered-720p",
+      "08-real-map-after-user-back"
+    ],
+    "UIInputs": 54,
+    "nativeKeys": 65,
+    "nativeKeyHistogram": {
+      "34": 19,
+      "35": 36,
+      "39": 9,
+      "40": 1
+    },
+    "worldObservations": 133,
+    "detailChecks": 24,
+    "detailRows": 360,
+    "initialIDs": [
+      12,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      119,
+      122,
+      123
+    ],
+    "filteredIDs": [
+      12,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      119,
+      122,
+      123
+    ],
+    "views": [
+      {
+        "name": "03-search-1080p",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "rows": 11
+      },
+      {
+        "name": "04-search-720p",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "rows": 11
+      },
+      {
+        "name": "06-filtered-1080p",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "rows": 10
+      },
+      {
+        "name": "07-filtered-720p",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "rows": 10
+      }
+    ],
+    "actor": {
+      "personIndex": 110,
+      "nativeID": 110,
+      "name": "蒯良",
+      "thew": [
+        100,
+        92,
+        92
+      ],
+      "legacyDisplayNumber": 111
+    },
+    "speech": {
+      "kind": 2,
+      "person": 110,
+      "seq": 1,
+      "inputSeq": 3,
+      "text": "属下会留心各种消息，以期有所得。",
+      "bodyMatchesNative": true,
+      "ordersBeforeAndDuring": [],
+      "queueNotRemovedBeforeACK": true,
+      "confirmationKeys": [
+        39
+      ]
+    },
+    "order": {
+      "after": [
+        {
+          "OrderId": 3,
+          "City": 26,
+          "Person": 110,
+          "TimeCount": 0
+        }
+      ],
+      "onlyActorRemovedAfterACK": true,
+      "onlyPersonChange": "actor110 Thew-8",
+      "money": [
+        307,
+        307
+      ],
+      "food": [
+        774,
+        774
+      ],
+      "reserve": [
+        0,
+        0
+      ],
+      "date": {
+        "year": 198,
+        "month": 1
+      }
+    },
+    "owners": {
+      "oldMenuSeq": 13,
+      "newMenuSeq": 15,
+      "reportOwnerSeparateFromMenu": true
+    },
+    "staleChecks": {
+      "count": 2,
+      "nativeKeys": 0,
+      "worldUnchanged": true,
+      "method": "Synthetic HTMLElement.click on retained actual old row; no claim of real hardware pointerdown crossing owner."
+    },
+    "resizes": {
+      "count": 4,
+      "nativeKeys": 0,
+      "worldUnchanged": true
+    },
+    "Back": {
+      "steps": 1,
+      "nativeKeys": [
+        40
+      ],
+      "menuAndShellRetiredToActualMap": true,
+      "observedWorldUnchanged": true,
+      "quietPeriodNoSecondEXIT": true
+    },
+    "details": [
+      {
+        "id": 12,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 110,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 111,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 112,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 113,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 114,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 115,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 116,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 119,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 122,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 123,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 12,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 110,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 111,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 112,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 113,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 114,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 115,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 116,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 119,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 122,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 123,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 13,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 12,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "menuSeq": 15,
+        "rows": 15,
+        "imageMode": "ref"
+      },
+      {
+        "id": 12,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "menuSeq": 15,
+        "rows": 15,
+        "imageMode": "ref"
+      }
+    ]
+  },
+  "font": {
+    "faces": [
+      {
+        "family": "BayeUI",
+        "status": "loaded"
+      }
+    ],
+    "status": "loaded",
+    "check": true,
+    "source": {
+      "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+      "bytes": 8261128,
+      "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+    },
+    "requests": [
+      {
+        "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "status": 200,
+        "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      }
+    ],
+    "keysBefore": 0,
+    "keysAfter": 0,
+    "independentlyCheckedCurrentSourceBytes": true
+  },
+  "actualLib": {
+    "stage": "finished-SEARCH",
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "bytes": 207195,
+    "nativeGeneration": 3,
+    "identityGeneration": 2
+  },
+  "nativeAggregate": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
+  "source": {
+    "count": 1147,
+    "ok": true,
+    "allRuntimeRecordedMatches": true,
+    "drift": [],
+    "added": []
+  },
+  "errors": {
+    "exceptions": 0,
+    "dialogs": 0,
+    "observerErrors": 0,
+    "gameHttpErrors": 0
+  },
+  "cleanup": {
+    "runtime": {
+      "httpPort": 2836,
+      "debugPort": 2837,
+      "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-search-runtime-ZNNXYb",
+      "chromePid": 177224,
+      "user8080Touched": false,
+      "cleaned": true,
+      "chromeExited": true,
+      "chromeExitCode": null,
+      "chromeSignalCode": "SIGTERM",
+      "httpClosed": true
+    },
+    "OS": "Execution agent independently verified ports2836/2837 no listener, PID177224/profile removed. Peer reviewer did not control browser/process handles."
+  },
+  "visualReview": {
+    "path": "build/r17-search-hd-installed-v5/04-search-720p.png",
+    "bytes": 719196,
+    "sha256": "c3ee244da1e3067905aaaef3dce3f03bbcef0385375cf3684056ef77f7acdb65",
+    "viewed": true,
+    "observation": "Actual720p SEARCH11-person list, selected王威 native reference image and scrollable native-field aside; footer buttons visible. FontBayeUI actual loaded proof, unlike v4 fallback."
+  },
+  "historicalFailures": [
+    "v1:globaltoolbar covered by actual HD titlemodal; 0SEARCH.",
+    "v2:dedicated HD opening skip invisible in systemclassic; 0keys/0SEARCH.",
+    "v3:wrong boolean expectation for actual public walkToCity object; map only/0SEARCH.",
+    "v4:all8 gameplay checkpoints observed but overallfalse due private fonts404; final font layout acceptance required freshv5."
+  ],
+  "reviewMethod": "Independent offline assertions over actual native world/menu/report/key snapshots and DOM core fields, plus font-byte verification and one actual720p screenshot view. No rerun or source/world edits.",
+  "previousPeerReview": {
+    "path": "build/r17-search-gameplay-review-v5.json",
+    "bytes": 11375,
+    "sha256": "051eadf4a8f93c265c55bc028277eecbd7675fb81f57f2e84085f29a7801bb87",
+    "issue": "Peer metadata actor.nativeID111 copied legacy runtime display label. Reviewer-only label error; actual input/menu/report/order assertions all use native PID110. Previous snapshot preserved."
+  },
+  "idConventions": {
+    "personIndex": "Actual native PersonID/PID(n)=n, zero-based.",
+    "menuIDs": "Actual native U16 PersonID zero-based.",
+    "orderPerson": "Actual native U16 PersonID zero-based.",
+    "reportPerson": "Actual native U16 PersonID zero-based.",
+    "rawSearchOrderNativeId": "Legacy raw field named nativeId contains personIndex+1 display number only;111 is not a native PID and is never sent to engine.",
+    "selectedActor": "蒯良 actual native PID110; resource name indexing may internally add1 but does not change PersonID."
+  }
+}

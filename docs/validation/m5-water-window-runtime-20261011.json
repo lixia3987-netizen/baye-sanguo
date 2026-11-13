@@ -1,0 +1,3108 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-11T14:53:02.168Z",
+  "status": "partial",
+  "globalHdComplete": false,
+  "originalOnly": true,
+  "versionSelectorRemoved": true,
+  "product": "Original WATER12 retains the full160x96 native LCD and replaces only the authenticated opaque64x64@48,16 movie/NUM/HOLD window with the existing two PNGs.",
+  "checkpointPreserved": [
+    {
+      "source": "docs/validation/m5-water-window-20261011.md",
+      "file": "m5-water-window-runtime-20261011/a720046e5bac6bd49e43ab6dcb3be8ad9cc33330d96ddd2f64cdebe00a6fb1db.md.gz",
+      "rawBytes": 2350,
+      "rawSha256": "a720046e5bac6bd49e43ab6dcb3be8ad9cc33330d96ddd2f64cdebe00a6fb1db",
+      "bytes": 1590,
+      "sha256": "d059607448f7927c874573c90ac64c73b91bfafaf63e7b89307feaf9adc7216c"
+    },
+    {
+      "source": "docs/validation/m5-water-window-20261011.json",
+      "file": "m5-water-window-runtime-20261011/038c8c478a35d4edfc2f9af5a5bf4b0e8fb94b190419a6596c6e078655cbd5dd.json.gz",
+      "rawBytes": 7957,
+      "rawSha256": "038c8c478a35d4edfc2f9af5a5bf4b0e8fb94b190419a6596c6e078655cbd5dd",
+      "bytes": 2691,
+      "sha256": "e51ea175441ceae437a4614c4fada919a5a7b787fc86a9ce924992be082f9599"
+    },
+    {
+      "source": "docs/validation/m5-water-window-20261011-archive.json",
+      "file": "m5-water-window-runtime-20261011/30a2f403f0b0e2575dd9f481dbc93678790f1ca03dff915ef89496ae32369188.json.gz",
+      "rawBytes": 229679,
+      "rawSha256": "30a2f403f0b0e2575dd9f481dbc93678790f1ca03dff915ef89496ae32369188",
+      "bytes": 45470,
+      "sha256": "17f445249de69bdc3f687650a65cb97f69e1ab927095b56db6fb69e831deee31"
+    }
+  ],
+  "manifest": {
+    "before": 53,
+    "after": 54,
+    "oldObjectsAndOrderExact": true,
+    "topLevelExact": true,
+    "onlyAddedSkill12": true,
+    "art": [
+      {
+        "path": "assets/hd-spe/water-36/picture-0.png",
+        "bytes": 3234799,
+        "sha256": "04841954d326f0fea99a634e5d01050936aff28c72c61316d27cc59b10f4e4bb"
+      },
+      {
+        "path": "assets/hd-spe/water-36/picture-1.png",
+        "bytes": 3423919,
+        "sha256": "554cd385f3b3e822d412796121b765c184904b0c855a151081d4ecc184983ff7"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "name": "pc-1080-v2",
+      "scenario": "pc1080-hd",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "classic": false,
+      "missingAssets": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "startedAt": "2026-10-11T14:33:51.319Z",
+      "finishedAt": "2026-10-11T14:35:29.948Z",
+      "phases": 20,
+      "publicInputs": 112,
+      "engineInputs": 190,
+      "sourceCount": 1214,
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 3,
+            "personIndex": 2,
+            "name": "赵范"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 400,
+          "damage": 400
+        }
+      ],
+      "result": {
+        "session": 1,
+        "kind": 1,
+        "value": 400,
+        "attempt": 1
+      },
+      "readonlyExtraKeys": 0,
+      "pixels": {
+        "actualLcdCallbacks": 23,
+        "events": 1,
+        "sourceCopies": 8,
+        "movieHd": 8,
+        "postHd": 16,
+        "labels": 16,
+        "numericReadbacks": 15,
+        "completedHoldReadbacks": 1,
+        "fallbackReadbacks": 0,
+        "outsidePixelsPerHdReadback": 11264,
+        "outsidePixelComparisons": 270336,
+        "verifiedReadbacks": 24
+      },
+      "scope": {
+        "accepted": "One actual standard-LIB P3 HanXuan/ChangSha33 to GuiYang36 navy WangLang14/native15 WATER12/SPE36 action with MP20 and current enemy river7 AIM, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. The complete160x96 LCD is retained with only the authenticated opaque64x64 window replaced; all11264 outside logical pixels match actualLCD.",
+        "notRun": "Other shared36 skill19, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.",
+        "publicInput": "Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome."
+      },
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/result.json",
+        "file": "m5-water-window-runtime-20261011/e5f855de8c2246cb6cb25ad7f1ee359a13aeb8bf87fd875d80eeb45d72b2c590.json.gz",
+        "rawBytes": 18016455,
+        "rawSha256": "e5f855de8c2246cb6cb25ad7f1ee359a13aeb8bf87fd875d80eeb45d72b2c590",
+        "bytes": 944973,
+        "sha256": "c2b926d19aecde27179e27373ce31c7c70a4886b12162002c9eac34ed2935732"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/3543a3e3de4d0ebd20a79d5bcfc92dd559e4059b5d4927a8a7df3d5cb999c21c.json.gz",
+        "rawBytes": 6735089,
+        "rawSha256": "3543a3e3de4d0ebd20a79d5bcfc92dd559e4059b5d4927a8a7df3d5cb999c21c",
+        "bytes": 520234,
+        "sha256": "bdaf7a786afe2456948716adc5c25ed3b56ce5cc73d510d3e60543be1bf25320"
+      },
+      "engineInputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/be9e0e3c34dbb4ebb37b1629f31779af836c6552115d9f8d66c4497159ad8fb7.json.gz",
+        "rawBytes": 42507,
+        "rawSha256": "be9e0e3c34dbb4ebb37b1629f31779af836c6552115d9f8d66c4497159ad8fb7",
+        "bytes": 1272,
+        "sha256": "acf7505097830ccdf9d4f4f4a07c2e3d7ff9cfb8f7492af00da439d87b9339ea"
+      },
+      "sourceVerification": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/source-verification.json",
+        "file": "m5-water-window-runtime-20261011/daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778.json.gz",
+        "rawBytes": 432664,
+        "rawSha256": "daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778",
+        "bytes": 69006,
+        "sha256": "8138bd82592115622c2b54e951445625e07e44371e107077feeb1e8b4e25c19b"
+      },
+      "selectedImages": [
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-000-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19.png.gz",
+          "rawBytes": 1405757,
+          "rawSha256": "48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19",
+          "bytes": 1387326,
+          "sha256": "0e4cc94867d6916a4622af42a98ef84e9a5289208c566934c7561ef0beafc819"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-000-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4.png.gz",
+          "rawBytes": 5886,
+          "rawSha256": "3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4",
+          "bytes": 5047,
+          "sha256": "87cf18f3626a58d46b7cb1a0b485e4d1fe779605f0f5350dc4307f849a6575e8"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-007-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4.png.gz",
+          "rawBytes": 1457776,
+          "rawSha256": "5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4",
+          "bytes": 1439506,
+          "sha256": "54296f7e3b6aaf5b6b74bdb34d5e6e8c13c945402b152444c0367dd1684a81a9"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-007-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71.png.gz",
+          "rawBytes": 5980,
+          "rawSha256": "fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71",
+          "bytes": 5151,
+          "sha256": "6e70384d44869446466fe0b7af932364987034368e6bc07077bd678aba186599"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-008-numbers-hd.png",
+          "file": "m5-water-window-runtime-20261011/99f7c0c1438a2a906fdeaa5ae6adeb51510420a22256301180109aab8daf2025.png.gz",
+          "rawBytes": 1285941,
+          "rawSha256": "99f7c0c1438a2a906fdeaa5ae6adeb51510420a22256301180109aab8daf2025",
+          "bytes": 1267174,
+          "sha256": "6af6a2c79f08b2dd2fc2c2476551248a2b69897031dcded1881caf6174ad80a3"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-008-numbers-lcd.png",
+          "file": "m5-water-window-runtime-20261011/0cd65839c333594c953d743f99f4a18e9b124c678e596e8935fe387cb7a66bef.png.gz",
+          "rawBytes": 5975,
+          "rawSha256": "0cd65839c333594c953d743f99f4a18e9b124c678e596e8935fe387cb7a66bef",
+          "bytes": 5204,
+          "sha256": "d23fef70a16bb86024db0a23f423b8a1dfee5e3752b104da738c46778e35c488"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-023-hold-hd.png",
+          "file": "m5-water-window-runtime-20261011/2ec68e81c24b92d4c247d349fc4a44a72d078c75853ef5f4bced7692d76e1bc9.png.gz",
+          "rawBytes": 1106917,
+          "rawSha256": "2ec68e81c24b92d4c247d349fc4a44a72d078c75853ef5f4bced7692d76e1bc9",
+          "bytes": 1087673,
+          "sha256": "c2040a383676a4804140e89d77f04cf2dea53c4502fee68b094679a580a4b095"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water-023-hold-lcd.png",
+          "file": "m5-water-window-runtime-20261011/e22addade2b5c4c2882f19372ac994bcac446ac08d1390728d471c165ebd24b4.png.gz",
+          "rawBytes": 5890,
+          "rawSha256": "e22addade2b5c4c2882f19372ac994bcac446ac08d1390728d471c165ebd24b4",
+          "bytes": 5049,
+          "sha256": "5c616bc952bc1d834823ecdf85a808271f47728aa0c77d5e14275ff8b02f79a1"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-1080-v2/water12-native-numeric-owner-retired.png",
+          "file": "m5-water-window-runtime-20261011/5d0eec4614bf888a32dc5319617f944ab30f8db1f80d1c838ccd0d64b2fdb60e.png.gz",
+          "rawBytes": 138744,
+          "rawSha256": "5d0eec4614bf888a32dc5319617f944ab30f8db1f80d1c838ccd0d64b2fdb60e",
+          "bytes": 128227,
+          "sha256": "c6c14a8a9c86a76d72eb7b8d63d9c7198608c30c821aca563e8ecc90f3e2f404"
+        }
+      ],
+      "readbackFiles": [
+        {
+          "native": {
+            "file": "water-000-movie-lcd.png",
+            "bytes": 5886,
+            "sha256": "3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-000-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4.png.gz",
+              "rawBytes": 5886,
+              "rawSha256": "3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4",
+              "bytes": 5047,
+              "sha256": "87cf18f3626a58d46b7cb1a0b485e4d1fe779605f0f5350dc4307f849a6575e8"
+            }
+          },
+          "shown": {
+            "file": "water-000-movie-hd.png",
+            "bytes": 1405757,
+            "sha256": "48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-000-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19.png.gz",
+              "rawBytes": 1405757,
+              "rawSha256": "48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19",
+              "bytes": 1387326,
+              "sha256": "0e4cc94867d6916a4622af42a98ef84e9a5289208c566934c7561ef0beafc819"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-001-movie-lcd.png",
+            "bytes": 5980,
+            "sha256": "fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-001-movie-hd.png",
+            "bytes": 1457776,
+            "sha256": "5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-002-movie-lcd.png",
+            "bytes": 5886,
+            "sha256": "3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-002-movie-hd.png",
+            "bytes": 1405757,
+            "sha256": "48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-003-movie-lcd.png",
+            "bytes": 5980,
+            "sha256": "fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-003-movie-hd.png",
+            "bytes": 1457776,
+            "sha256": "5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-004-movie-lcd.png",
+            "bytes": 5886,
+            "sha256": "3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-004-movie-hd.png",
+            "bytes": 1405757,
+            "sha256": "48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-005-movie-lcd.png",
+            "bytes": 5980,
+            "sha256": "fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-005-movie-hd.png",
+            "bytes": 1457776,
+            "sha256": "5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-006-movie-lcd.png",
+            "bytes": 5886,
+            "sha256": "3de49ceccd270a56ca2ad28865288b06b3d287d297d71abaddb235e3abeaf6a4",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-006-movie-hd.png",
+            "bytes": 1405757,
+            "sha256": "48af76844ef49d1474d64cd1f4c64fa2805183b36ae63ad10a8923c9c3577c19",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-007-movie-lcd.png",
+            "bytes": 5980,
+            "sha256": "fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-007-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71.png.gz",
+              "rawBytes": 5980,
+              "rawSha256": "fc68212dcad1ac96d943c31218d335a25fb0a8c317b660789bda701bf96d7c71",
+              "bytes": 5151,
+              "sha256": "6e70384d44869446466fe0b7af932364987034368e6bc07077bd678aba186599"
+            }
+          },
+          "shown": {
+            "file": "water-007-movie-hd.png",
+            "bytes": 1457776,
+            "sha256": "5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-007-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4.png.gz",
+              "rawBytes": 1457776,
+              "rawSha256": "5ac0c33d05ffa36e7afec8d0fd2384a5318b676d20a261177d0ca41a5929b0a4",
+              "bytes": 1439506,
+              "sha256": "54296f7e3b6aaf5b6b74bdb34d5e6e8c13c945402b152444c0367dd1684a81a9"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-008-numbers-lcd.png",
+            "bytes": 5975,
+            "sha256": "0cd65839c333594c953d743f99f4a18e9b124c678e596e8935fe387cb7a66bef",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-008-numbers-lcd.png",
+              "file": "m5-water-window-runtime-20261011/0cd65839c333594c953d743f99f4a18e9b124c678e596e8935fe387cb7a66bef.png.gz",
+              "rawBytes": 5975,
+              "rawSha256": "0cd65839c333594c953d743f99f4a18e9b124c678e596e8935fe387cb7a66bef",
+              "bytes": 5204,
+              "sha256": "d23fef70a16bb86024db0a23f423b8a1dfee5e3752b104da738c46778e35c488"
+            }
+          },
+          "shown": {
+            "file": "water-008-numbers-hd.png",
+            "bytes": 1285941,
+            "sha256": "99f7c0c1438a2a906fdeaa5ae6adeb51510420a22256301180109aab8daf2025",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-008-numbers-hd.png",
+              "file": "m5-water-window-runtime-20261011/99f7c0c1438a2a906fdeaa5ae6adeb51510420a22256301180109aab8daf2025.png.gz",
+              "rawBytes": 1285941,
+              "rawSha256": "99f7c0c1438a2a906fdeaa5ae6adeb51510420a22256301180109aab8daf2025",
+              "bytes": 1267174,
+              "sha256": "6af6a2c79f08b2dd2fc2c2476551248a2b69897031dcded1881caf6174ad80a3"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-009-numbers-lcd.png",
+            "bytes": 5965,
+            "sha256": "96d836ba2d7b7ab5377c6a15f93b65a54f2e27a754c897359e9a6bd669f69f45",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-009-numbers-hd.png",
+            "bytes": 1221776,
+            "sha256": "31a7cb00ff36b843f324d4ed3ac3e22257d7fa275cba5e208b35c6e3c6e1271a",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-010-numbers-lcd.png",
+            "bytes": 5982,
+            "sha256": "3507d92347961c1d3722e2377c4aba7f6d9b6c9b128c92964441c18477e48b90",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-010-numbers-hd.png",
+            "bytes": 1215561,
+            "sha256": "01d3d31939316e559bff1e39be148edb25e9da94bfba709f214ca3f7b2ce337b",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-011-numbers-lcd.png",
+            "bytes": 5978,
+            "sha256": "6efb9916317d65649ba4d752dad3b713b57b1cf8bd35b46b59a983ac4116e080",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-011-numbers-hd.png",
+            "bytes": 1208765,
+            "sha256": "89e03898a0823a20d18c5df6d0e1e40d91d96bac180dceb03ef3bb4cb91575f9",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-012-numbers-lcd.png",
+            "bytes": 5970,
+            "sha256": "6d949bf2228a4847a6afe70233d19dbaeb9a1d2f2d23e08669c4692acc3f78b5",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-012-numbers-hd.png",
+            "bytes": 1200228,
+            "sha256": "8a8c2461f7d5f25949fec1ec5431589b64cf17137fdea80db30905034089d902",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-013-numbers-lcd.png",
+            "bytes": 5967,
+            "sha256": "ca9a06899912ba00b98041321f2866579f2906cc8161b1e3159aa23a31a42485",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-013-numbers-hd.png",
+            "bytes": 1196166,
+            "sha256": "37d6896cc49c9c8bc587901c326bbce15fbc34b7b10525e572741f724abddf5a",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-014-numbers-lcd.png",
+            "bytes": 5967,
+            "sha256": "825ad5ef2c3bd2ad1a8a50575d4b98ea632e6965a95e6670344bd33d059a91a5",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-014-numbers-hd.png",
+            "bytes": 1167502,
+            "sha256": "d91fca820f4236f4f15fd0563db307116b85b0b0af2abacd94c9993c81255fad",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-015-numbers-lcd.png",
+            "bytes": 5963,
+            "sha256": "ea75a55c864a6d9a23a8beebe10845a0677232f2e63e041b60588cbcc607f96c",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-015-numbers-hd.png",
+            "bytes": 1163581,
+            "sha256": "cb2ffb949d537cc7ede7a5345f6a0e368eed8f0025a77d91c15f7e23d5e9aa6b",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-016-numbers-lcd.png",
+            "bytes": 5958,
+            "sha256": "10945e29e9e16680a9ccbaa566ce253636156ebba558c1b63dd9121afafd8bfa",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-016-numbers-hd.png",
+            "bytes": 1159207,
+            "sha256": "a18a1165c433fad67bb7dc52d3592efbc2fc500371ca7b673ff72b26fcad1c6e",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-017-numbers-lcd.png",
+            "bytes": 5961,
+            "sha256": "c65dae916438d8e624c97c68a5333a723ca0d267c8f17d4b3876d154baf2857c",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-017-numbers-hd.png",
+            "bytes": 1156859,
+            "sha256": "6bf2e48dabe2444b971345f7c096537e71c4a7e4c4198b0913e42f397dc905b0",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-018-numbers-lcd.png",
+            "bytes": 5940,
+            "sha256": "3c1ab59b7bd7d12ac69837fc3af95edde814d7a9eef8108781aca3ccd0c01a6f",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-018-numbers-hd.png",
+            "bytes": 1152740,
+            "sha256": "e154d4c3385ccb6f6281517fcfa554c997e4ef39cbd74bdf3cb0ca5189844b17",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-019-numbers-lcd.png",
+            "bytes": 5916,
+            "sha256": "6bfe726498ac3034511db72f5746ecce1547387df3ffc966ee5abb07de6c4aa9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-019-numbers-hd.png",
+            "bytes": 1122701,
+            "sha256": "68c105d2365af9e4883d79ebc552a7e94db8c9c1f59386103b85749f1b4833b2",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-020-numbers-lcd.png",
+            "bytes": 5909,
+            "sha256": "70ba74502c9671690bd536e56eb520532c3a15fe25208b74c22a2d781639f944",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-020-numbers-hd.png",
+            "bytes": 1116354,
+            "sha256": "79179e6310eca80482f74a87a7388cba6af90025aea3a81a34c9a76e4b9913e8",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-021-numbers-lcd.png",
+            "bytes": 5899,
+            "sha256": "9f92f05b37c602cb49fe7267a5fd8a2ff178d6c8af223b3f4832381c136a0929",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-021-numbers-hd.png",
+            "bytes": 1112154,
+            "sha256": "a5252712b4d80489ab6543b5ab1bbfaf99812fe7331e5ef1922e32161698be3b",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-022-numbers-lcd.png",
+            "bytes": 5890,
+            "sha256": "e22addade2b5c4c2882f19372ac994bcac446ac08d1390728d471c165ebd24b4",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-022-numbers-hd.png",
+            "bytes": 1106917,
+            "sha256": "2ec68e81c24b92d4c247d349fc4a44a72d078c75853ef5f4bced7692d76e1bc9",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-023-hold-lcd.png",
+            "bytes": 5890,
+            "sha256": "e22addade2b5c4c2882f19372ac994bcac446ac08d1390728d471c165ebd24b4",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-023-hold-lcd.png",
+              "file": "m5-water-window-runtime-20261011/e22addade2b5c4c2882f19372ac994bcac446ac08d1390728d471c165ebd24b4.png.gz",
+              "rawBytes": 5890,
+              "rawSha256": "e22addade2b5c4c2882f19372ac994bcac446ac08d1390728d471c165ebd24b4",
+              "bytes": 5049,
+              "sha256": "5c616bc952bc1d834823ecdf85a808271f47728aa0c77d5e14275ff8b02f79a1"
+            }
+          },
+          "shown": {
+            "file": "water-023-hold-hd.png",
+            "bytes": 1106917,
+            "sha256": "2ec68e81c24b92d4c247d349fc4a44a72d078c75853ef5f4bced7692d76e1bc9",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-1080-v2/water-023-hold-hd.png",
+              "file": "m5-water-window-runtime-20261011/2ec68e81c24b92d4c247d349fc4a44a72d078c75853ef5f4bced7692d76e1bc9.png.gz",
+              "rawBytes": 1106917,
+              "rawSha256": "2ec68e81c24b92d4c247d349fc4a44a72d078c75853ef5f4bced7692d76e1bc9",
+              "bytes": 1087673,
+              "sha256": "c2040a383676a4804140e89d77f04cf2dea53c4502fee68b094679a580a4b095"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "pc-720-v1",
+      "scenario": "pc720-hd",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "classic": false,
+      "missingAssets": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "startedAt": "2026-10-11T14:35:55.408Z",
+      "finishedAt": "2026-10-11T14:37:41.309Z",
+      "phases": 21,
+      "publicInputs": 125,
+      "engineInputs": 218,
+      "sourceCount": 1214,
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 400,
+          "damage": 400
+        }
+      ],
+      "result": {
+        "session": 1,
+        "kind": 1,
+        "value": 400,
+        "attempt": 1
+      },
+      "readonlyExtraKeys": 0,
+      "pixels": {
+        "actualLcdCallbacks": 24,
+        "events": 1,
+        "sourceCopies": 8,
+        "movieHd": 8,
+        "postHd": 17,
+        "labels": 17,
+        "numericReadbacks": 16,
+        "completedHoldReadbacks": 1,
+        "fallbackReadbacks": 0,
+        "outsidePixelsPerHdReadback": 11264,
+        "outsidePixelComparisons": 281600,
+        "verifiedReadbacks": 25
+      },
+      "scope": {
+        "accepted": "One actual standard-LIB P3 HanXuan/ChangSha33 to GuiYang36 navy WangLang14/native15 WATER12/SPE36 action with MP20 and current enemy river7 AIM, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. The complete160x96 LCD is retained with only the authenticated opaque64x64 window replaced; all11264 outside logical pixels match actualLCD.",
+        "notRun": "Other shared36 skill19, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.",
+        "publicInput": "Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome."
+      },
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/2372633965de86dc05221e6e6171bb81fdb2171c710fdbc1689856d6a280a025.json.gz",
+        "rawBytes": 23834592,
+        "rawSha256": "2372633965de86dc05221e6e6171bb81fdb2171c710fdbc1689856d6a280a025",
+        "bytes": 1073285,
+        "sha256": "8b27c1b1a76d1ec5996c1f38515f897932bd42e2b0eeecda3d8fea4ce42aa1ac"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/e2affecffb0f058fb6d8540ff67edcf3841f497577ad4ef6d7b8c97fdc66f4aa.json.gz",
+        "rawBytes": 7007942,
+        "rawSha256": "e2affecffb0f058fb6d8540ff67edcf3841f497577ad4ef6d7b8c97fdc66f4aa",
+        "bytes": 540795,
+        "sha256": "4e45b03082c2057b8b8f41da9e5898eb8e8c20839862fc3ba117f4f52982bb53"
+      },
+      "engineInputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/1c70239accd05aaf4f6d7376e7b889379e07fdc8852555ec01d57d1aaa8fda78.json.gz",
+        "rawBytes": 48651,
+        "rawSha256": "1c70239accd05aaf4f6d7376e7b889379e07fdc8852555ec01d57d1aaa8fda78",
+        "bytes": 1411,
+        "sha256": "5f87cbeb3abee71ec92cc1192ed70af9ca3d09b8a086c2d9a4664a27c14b7fad"
+      },
+      "sourceVerification": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/source-verification.json",
+        "file": "m5-water-window-runtime-20261011/daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778.json.gz",
+        "rawBytes": 432664,
+        "rawSha256": "daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778",
+        "bytes": 69006,
+        "sha256": "8138bd82592115622c2b54e951445625e07e44371e107077feeb1e8b4e25c19b"
+      },
+      "selectedImages": [
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-000-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7.png.gz",
+          "rawBytes": 1405565,
+          "rawSha256": "ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7",
+          "bytes": 1387178,
+          "sha256": "267b5e89b1a4c504bd1f096971ef270aad3ab1693374eeb01337c8ecb9de1d79"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-000-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9.png.gz",
+          "rawBytes": 5863,
+          "rawSha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+          "bytes": 5265,
+          "sha256": "1ecf427d767440e4947b6c167b96f65b31e709150fa426ae17f0d9e9edeb9b8d"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-007-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6.png.gz",
+          "rawBytes": 1457580,
+          "rawSha256": "a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6",
+          "bytes": 1439275,
+          "sha256": "d0b3491db017cae5b6a1c87e700ba7f79e3301367e5252ab801b619f84a02152"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-007-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1.png.gz",
+          "rawBytes": 5874,
+          "rawSha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+          "bytes": 5248,
+          "sha256": "f378db8a482a1fde78623b8e293b4eb1f834a6a0b29bb36075a737149c7aae53"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-008-numbers-hd.png",
+          "file": "m5-water-window-runtime-20261011/ed4b96d8cf6e81f993f40db8f689315fda8654b6799e8b1e73981b8ada920f35.png.gz",
+          "rawBytes": 1285687,
+          "rawSha256": "ed4b96d8cf6e81f993f40db8f689315fda8654b6799e8b1e73981b8ada920f35",
+          "bytes": 1267034,
+          "sha256": "6b122eaaf51a3bc38d1fae4fc2f623c4bb02c8869663b392f7efa2aaf07cab73"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-008-numbers-lcd.png",
+          "file": "m5-water-window-runtime-20261011/2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc.png.gz",
+          "rawBytes": 5882,
+          "rawSha256": "2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc",
+          "bytes": 5280,
+          "sha256": "86b57a677dbea5e0009c0baa128593d700761353b53e5b32b2f47d94af580334"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-024-hold-hd.png",
+          "file": "m5-water-window-runtime-20261011/aa57d7fe467a87d05ec7ade484b80f695ea886ca90f0540bb8637a92d1223992.png.gz",
+          "rawBytes": 1106440,
+          "rawSha256": "aa57d7fe467a87d05ec7ade484b80f695ea886ca90f0540bb8637a92d1223992",
+          "bytes": 1087261,
+          "sha256": "924dd2bcc6a83b585f521238b587faadb889810a003c53863ff84fbfcb3d0192"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water-024-hold-lcd.png",
+          "file": "m5-water-window-runtime-20261011/6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f.png.gz",
+          "rawBytes": 5786,
+          "rawSha256": "6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f",
+          "bytes": 5156,
+          "sha256": "191b7d12f816e565e9ee7f2e3c80eae773c2bf7a05b238d59a8192970fe43149"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-720-v1/water12-native-numeric-owner-retired.png",
+          "file": "m5-water-window-runtime-20261011/87a992fce6aabce0892f77a9ae42dd94cf2cb3ab09d265a6e95e6f29181d726d.png.gz",
+          "rawBytes": 179886,
+          "rawSha256": "87a992fce6aabce0892f77a9ae42dd94cf2cb3ab09d265a6e95e6f29181d726d",
+          "bytes": 177860,
+          "sha256": "1b617726705067d49a3fccf6f27df5c4d9d2fe6b83b8841e2762538adb7f181d"
+        }
+      ],
+      "readbackFiles": [
+        {
+          "native": {
+            "file": "water-000-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-000-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9.png.gz",
+              "rawBytes": 5863,
+              "rawSha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+              "bytes": 5265,
+              "sha256": "1ecf427d767440e4947b6c167b96f65b31e709150fa426ae17f0d9e9edeb9b8d"
+            }
+          },
+          "shown": {
+            "file": "water-000-movie-hd.png",
+            "bytes": 1405565,
+            "sha256": "ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-000-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7.png.gz",
+              "rawBytes": 1405565,
+              "rawSha256": "ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7",
+              "bytes": 1387178,
+              "sha256": "267b5e89b1a4c504bd1f096971ef270aad3ab1693374eeb01337c8ecb9de1d79"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-001-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-001-movie-hd.png",
+            "bytes": 1457580,
+            "sha256": "a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-002-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-002-movie-hd.png",
+            "bytes": 1405565,
+            "sha256": "ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-003-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-003-movie-hd.png",
+            "bytes": 1457580,
+            "sha256": "a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-004-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-004-movie-hd.png",
+            "bytes": 1405565,
+            "sha256": "ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-005-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-005-movie-hd.png",
+            "bytes": 1457580,
+            "sha256": "a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-006-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-006-movie-hd.png",
+            "bytes": 1405565,
+            "sha256": "ae3df07174662b34ae09a441dd392d0318901d973763a084af3c79efd3b4e4e7",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-007-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-007-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1.png.gz",
+              "rawBytes": 5874,
+              "rawSha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+              "bytes": 5248,
+              "sha256": "f378db8a482a1fde78623b8e293b4eb1f834a6a0b29bb36075a737149c7aae53"
+            }
+          },
+          "shown": {
+            "file": "water-007-movie-hd.png",
+            "bytes": 1457580,
+            "sha256": "a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-007-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6.png.gz",
+              "rawBytes": 1457580,
+              "rawSha256": "a88d6fd0734caf87a633d6a9fb5e3051b214f99ccd47cd95fd07b7ec8a600af6",
+              "bytes": 1439275,
+              "sha256": "d0b3491db017cae5b6a1c87e700ba7f79e3301367e5252ab801b619f84a02152"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-008-numbers-lcd.png",
+            "bytes": 5882,
+            "sha256": "2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-008-numbers-lcd.png",
+              "file": "m5-water-window-runtime-20261011/2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc.png.gz",
+              "rawBytes": 5882,
+              "rawSha256": "2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc",
+              "bytes": 5280,
+              "sha256": "86b57a677dbea5e0009c0baa128593d700761353b53e5b32b2f47d94af580334"
+            }
+          },
+          "shown": {
+            "file": "water-008-numbers-hd.png",
+            "bytes": 1285687,
+            "sha256": "ed4b96d8cf6e81f993f40db8f689315fda8654b6799e8b1e73981b8ada920f35",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-008-numbers-hd.png",
+              "file": "m5-water-window-runtime-20261011/ed4b96d8cf6e81f993f40db8f689315fda8654b6799e8b1e73981b8ada920f35.png.gz",
+              "rawBytes": 1285687,
+              "rawSha256": "ed4b96d8cf6e81f993f40db8f689315fda8654b6799e8b1e73981b8ada920f35",
+              "bytes": 1267034,
+              "sha256": "6b122eaaf51a3bc38d1fae4fc2f623c4bb02c8869663b392f7efa2aaf07cab73"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-009-numbers-lcd.png",
+            "bytes": 5878,
+            "sha256": "5c8d5ae05eaa065bb03ce44d5f9630adf022fe2b224f0b1cd1221a9e709b2c49",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-009-numbers-hd.png",
+            "bytes": 1221509,
+            "sha256": "fccccc2e46e406a5bf487b250054d678e3b42f2ab36c1d5f2234f37f98157b52",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-010-numbers-lcd.png",
+            "bytes": 5875,
+            "sha256": "c568f8b032821e94b52d825be55dfe2de8cb5d000301a93e39a2362bd1af4dc6",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-010-numbers-hd.png",
+            "bytes": 1215237,
+            "sha256": "4b082e3813b7a93d51fe134345f6a48c28a49f5c1423f35470b68f372ad3827e",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-011-numbers-lcd.png",
+            "bytes": 5878,
+            "sha256": "43d8bbbcc0cb7cd331e815e4095ebba988e5ba1804c4f94e990c8557ba890e80",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-011-numbers-hd.png",
+            "bytes": 1208402,
+            "sha256": "597d09f9cd0f2a5bae90c1ae5cd4eb29c4d25bee233f2cd5695666e849334053",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-012-numbers-lcd.png",
+            "bytes": 5869,
+            "sha256": "158fd9c8858a6cc6846af8fade96178b840fe4c231e1d0f27af3e18f3430c1a5",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-012-numbers-hd.png",
+            "bytes": 1199966,
+            "sha256": "2d2a643bb7a493874436dbee36b70904e291c26d1de21b7437c7d498bca9ff28",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-013-numbers-lcd.png",
+            "bytes": 5862,
+            "sha256": "aa056cb54eb715ddc0870a9e3d9ae6adfa993dfdb16810e4d22890637c1a9a97",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-013-numbers-hd.png",
+            "bytes": 1195757,
+            "sha256": "d38ff5aef9868d26b566ef1373e0ca8124dd8d79a23beca74d38669fc813ccc0",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-014-numbers-lcd.png",
+            "bytes": 5862,
+            "sha256": "18bf4d674cbd3ec54aa8ab7227534bcf01ad2020f1de8f4398ea3df1b07db63f",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-014-numbers-hd.png",
+            "bytes": 1167252,
+            "sha256": "67a64f24beffded52306aa9f0cb9c2a6f3bdc22fcc6c0b142a7db5a3fb8722d6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-015-numbers-lcd.png",
+            "bytes": 5856,
+            "sha256": "bc90c7c907e63e90a22dc4ce382285e731acf3f9392398714b26e67f9e75a70a",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-015-numbers-hd.png",
+            "bytes": 1163214,
+            "sha256": "1932b45c2de5c9f17df246484d65ac4ad0ddcbab7f7dcdcf420f2ac30eba3273",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-016-numbers-lcd.png",
+            "bytes": 5850,
+            "sha256": "aa8308c575d6a7f35443d722d18bb58b672ea805a6d96f16ba80794ddee3272b",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-016-numbers-hd.png",
+            "bytes": 1158836,
+            "sha256": "c2f1a671e5b0732cb7e5a5ba7a9e60edec440545f611de2bd9c62ffa799b6914",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-017-numbers-lcd.png",
+            "bytes": 5848,
+            "sha256": "798a1e500b2ad3ebbe7234ba03327eaeee61215c7630dd24fc4d87390fe77ac1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-017-numbers-hd.png",
+            "bytes": 1154342,
+            "sha256": "f78b9805c79a39d86d0a1df3f86421cffe144fbeac474e6d26fc56953ff6f162",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-018-numbers-lcd.png",
+            "bytes": 5838,
+            "sha256": "6b0d6e60628e748ac180755d2516bee43b2170aeb5926d97ddccc143c3ce1d8f",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-018-numbers-hd.png",
+            "bytes": 1152255,
+            "sha256": "f88fcaa186ecb88f3d12b5a4d0ea580957b4684c8ed023e740feaf94eb5c75ce",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-019-numbers-lcd.png",
+            "bytes": 5811,
+            "sha256": "b791b05f76fbcc687405cb4334efcebdf5d945a1c6a93ed31c709f7c3c0caabf",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-019-numbers-hd.png",
+            "bytes": 1123982,
+            "sha256": "c4b877e042e068a556d5ca8ef0eef793cef574955a0c759d3145913a38c16022",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-020-numbers-lcd.png",
+            "bytes": 5813,
+            "sha256": "8a35840989e4bc87dcefa12fa16ba00cd10335254537bcf55ced69148c824bfb",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-020-numbers-hd.png",
+            "bytes": 1120275,
+            "sha256": "dbe5e5132d594a78095cfcf4511311ab15c0f2b37a94fbb1d38fd05a9cacae2a",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-021-numbers-lcd.png",
+            "bytes": 5801,
+            "sha256": "445d69baa7ad69267ae99350c00ec8298da70f7d8266663b2c16a57bc2906b2f",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-021-numbers-hd.png",
+            "bytes": 1118005,
+            "sha256": "4f22cce453d0580a2ff6e0f93160e2af0001fe4b3a09b518abff209d44df4626",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-022-numbers-lcd.png",
+            "bytes": 5796,
+            "sha256": "191c43a24fa1a726e0ccf3ee3e13f0dffab100f7aaf1559b73a83eceb19c3a16",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-022-numbers-hd.png",
+            "bytes": 1113755,
+            "sha256": "fb52b311ed39b0a68aac9831f324b2a7be9ac85a05006faec372a4f10bb4b2e8",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-023-numbers-lcd.png",
+            "bytes": 5786,
+            "sha256": "6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-023-numbers-hd.png",
+            "bytes": 1106440,
+            "sha256": "aa57d7fe467a87d05ec7ade484b80f695ea886ca90f0540bb8637a92d1223992",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-024-hold-lcd.png",
+            "bytes": 5786,
+            "sha256": "6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-024-hold-lcd.png",
+              "file": "m5-water-window-runtime-20261011/6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f.png.gz",
+              "rawBytes": 5786,
+              "rawSha256": "6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f",
+              "bytes": 5156,
+              "sha256": "191b7d12f816e565e9ee7f2e3c80eae773c2bf7a05b238d59a8192970fe43149"
+            }
+          },
+          "shown": {
+            "file": "water-024-hold-hd.png",
+            "bytes": 1106440,
+            "sha256": "aa57d7fe467a87d05ec7ade484b80f695ea886ca90f0540bb8637a92d1223992",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-720-v1/water-024-hold-hd.png",
+              "file": "m5-water-window-runtime-20261011/aa57d7fe467a87d05ec7ade484b80f695ea886ca90f0540bb8637a92d1223992.png.gz",
+              "rawBytes": 1106440,
+              "rawSha256": "aa57d7fe467a87d05ec7ade484b80f695ea886ca90f0540bb8637a92d1223992",
+              "bytes": 1087261,
+              "sha256": "924dd2bcc6a83b585f521238b587faadb889810a003c53863ff84fbfcb3d0192"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "pc-missing-v1",
+      "scenario": "exact-image404-lcd",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "classic": false,
+      "missingAssets": true,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "startedAt": "2026-10-11T14:37:59.640Z",
+      "finishedAt": "2026-10-11T14:39:51.350Z",
+      "phases": 22,
+      "publicInputs": 124,
+      "engineInputs": 217,
+      "sourceCount": 1214,
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 2,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 46,
+          "mpAfter": 26,
+          "armsBefore": 800,
+          "armsAfter": 400,
+          "damage": 400
+        }
+      ],
+      "result": {
+        "session": 1,
+        "kind": 1,
+        "value": 400,
+        "attempt": 2
+      },
+      "readonlyExtraKeys": 0,
+      "pixels": {
+        "actualLcdCallbacks": 22,
+        "events": 1,
+        "sourceCopies": 8,
+        "movieHd": 0,
+        "postHd": 0,
+        "labels": 15,
+        "numericReadbacks": 14,
+        "completedHoldReadbacks": 1,
+        "fallbackReadbacks": 23,
+        "outsidePixelsPerHdReadback": 11264,
+        "outsidePixelComparisons": 0,
+        "verifiedReadbacks": 23
+      },
+      "scope": {
+        "accepted": "One actual standard-LIB P3 HanXuan/ChangSha33 to GuiYang36 navy WangLang14/native15 WATER12/SPE36 action with MP20 and current enemy river7 AIM, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. The complete actual160x96 LCD is physically presented.",
+        "notRun": "Other shared36 skill19, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.",
+        "publicInput": "Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome."
+      },
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/4b1bc07512eb51d589ade58274d7f2d13f1d70bdc9623816f653632c1b127cea.json.gz",
+        "rawBytes": 22877497,
+        "rawSha256": "4b1bc07512eb51d589ade58274d7f2d13f1d70bdc9623816f653632c1b127cea",
+        "bytes": 728669,
+        "sha256": "17e4a719e2f0c75f84bed0f68d542800b5ed6b9763311f8222460d69f01a6107"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/47a2e52fcc0a4269fb911856dbde1b86de732fcb275c94eaebc4a9b575342c6c.json.gz",
+        "rawBytes": 6277081,
+        "rawSha256": "47a2e52fcc0a4269fb911856dbde1b86de732fcb275c94eaebc4a9b575342c6c",
+        "bytes": 194118,
+        "sha256": "8572746eefac9dccc228add0389e67842b607348a6c18f74cb178040c38da869"
+      },
+      "engineInputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/80274583d037742393c507edd1f98833f0144ed0004afb8d82a0f39a73aaf08c.json.gz",
+        "rawBytes": 48426,
+        "rawSha256": "80274583d037742393c507edd1f98833f0144ed0004afb8d82a0f39a73aaf08c",
+        "bytes": 1403,
+        "sha256": "eca5b7490da1bd3ddcba34bc77335337db547fd9c884f6c48e6e6e2a2cdaf7c1"
+      },
+      "sourceVerification": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/source-verification.json",
+        "file": "m5-water-window-runtime-20261011/daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778.json.gz",
+        "rawBytes": 432664,
+        "rawSha256": "daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778",
+        "bytes": 69006,
+        "sha256": "8138bd82592115622c2b54e951445625e07e44371e107077feeb1e8b4e25c19b"
+      },
+      "selectedImages": [
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-000-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a.png.gz",
+          "rawBytes": 51759,
+          "rawSha256": "15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a",
+          "bytes": 28234,
+          "sha256": "3e1c58e0a90137eef27ed8b2d3e04f3c50203eea159b175237bbe1974b9cf2de"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-000-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9.png.gz",
+          "rawBytes": 5863,
+          "rawSha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+          "bytes": 5265,
+          "sha256": "1ecf427d767440e4947b6c167b96f65b31e709150fa426ae17f0d9e9edeb9b8d"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-007-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f.png.gz",
+          "rawBytes": 51805,
+          "rawSha256": "dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f",
+          "bytes": 27884,
+          "sha256": "1cbb56f48bc423178fdeb3850454a3e11502525a1d62d44a5d557e02e70db380"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-007-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1.png.gz",
+          "rawBytes": 5874,
+          "rawSha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+          "bytes": 5248,
+          "sha256": "f378db8a482a1fde78623b8e293b4eb1f834a6a0b29bb36075a737149c7aae53"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-008-numbers-hd.png",
+          "file": "m5-water-window-runtime-20261011/3713fa077e3f7b13740128d8d5010610e48a36bfcbb1f22f53acf9143ea6790e.png.gz",
+          "rawBytes": 51677,
+          "rawSha256": "3713fa077e3f7b13740128d8d5010610e48a36bfcbb1f22f53acf9143ea6790e",
+          "bytes": 28107,
+          "sha256": "de6d313f4d7e131937d20b9102fdf28cfb808b1a3bc8ac4df373c4e09d861709"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-008-numbers-lcd.png",
+          "file": "m5-water-window-runtime-20261011/2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc.png.gz",
+          "rawBytes": 5882,
+          "rawSha256": "2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc",
+          "bytes": 5280,
+          "sha256": "86b57a677dbea5e0009c0baa128593d700761353b53e5b32b2f47d94af580334"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-022-hold-hd.png",
+          "file": "m5-water-window-runtime-20261011/5641421aa14f15fbe586837705af1e2c83629badf77bf59e97dc797feff172ae.png.gz",
+          "rawBytes": 51574,
+          "rawSha256": "5641421aa14f15fbe586837705af1e2c83629badf77bf59e97dc797feff172ae",
+          "bytes": 27905,
+          "sha256": "a2e7120c88330fb0024fc1e1b7d43ea7519c5b762290ed732f92e493e8a74542"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water-022-hold-lcd.png",
+          "file": "m5-water-window-runtime-20261011/6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f.png.gz",
+          "rawBytes": 5786,
+          "rawSha256": "6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f",
+          "bytes": 5156,
+          "sha256": "191b7d12f816e565e9ee7f2e3c80eae773c2bf7a05b238d59a8192970fe43149"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water12-native-numeric-owner-retired.png",
+          "file": "m5-water-window-runtime-20261011/8077082426188800a4f5cfcb188281a160412d4e209235263d9c3b029c892c31.png.gz",
+          "rawBytes": 281636,
+          "rawSha256": "8077082426188800a4f5cfcb188281a160412d4e209235263d9c3b029c892c31",
+          "bytes": 273747,
+          "sha256": "c555379abe3d933352ec4539759c064e10609467615976b45bf6103b66675f31"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-missing-v1/water12-natural-random-failure-1.png",
+          "file": "m5-water-window-runtime-20261011/57bbde8717b68f9e50a76e1fc0cd84c78d5f075945f53df7e17f213a5374ae0e.png.gz",
+          "rawBytes": 138641,
+          "rawSha256": "57bbde8717b68f9e50a76e1fc0cd84c78d5f075945f53df7e17f213a5374ae0e",
+          "bytes": 128291,
+          "sha256": "70ecf3803f588ca411a627275e78f6dfded932c58e3fd1f68b271d2a5ff25c00"
+        }
+      ],
+      "readbackFiles": [
+        {
+          "native": {
+            "file": "water-000-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-000-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9.png.gz",
+              "rawBytes": 5863,
+              "rawSha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+              "bytes": 5265,
+              "sha256": "1ecf427d767440e4947b6c167b96f65b31e709150fa426ae17f0d9e9edeb9b8d"
+            }
+          },
+          "shown": {
+            "file": "water-000-movie-hd.png",
+            "bytes": 51759,
+            "sha256": "15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-000-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a.png.gz",
+              "rawBytes": 51759,
+              "rawSha256": "15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a",
+              "bytes": 28234,
+              "sha256": "3e1c58e0a90137eef27ed8b2d3e04f3c50203eea159b175237bbe1974b9cf2de"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-001-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-001-movie-hd.png",
+            "bytes": 51805,
+            "sha256": "dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-002-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-002-movie-hd.png",
+            "bytes": 51759,
+            "sha256": "15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-003-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-003-movie-hd.png",
+            "bytes": 51805,
+            "sha256": "dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-004-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-004-movie-hd.png",
+            "bytes": 51759,
+            "sha256": "15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-005-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-005-movie-hd.png",
+            "bytes": 51805,
+            "sha256": "dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-006-movie-lcd.png",
+            "bytes": 5863,
+            "sha256": "e5511c529054981c7036587f247e5ab0434ed9a6ce696bd11d19102d893b55e9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-006-movie-hd.png",
+            "bytes": 51759,
+            "sha256": "15b540227b00e492c00f3b52a3c8537a8ad87ef00e43d4716c42cc7bce3a904a",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-007-movie-lcd.png",
+            "bytes": 5874,
+            "sha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-007-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1.png.gz",
+              "rawBytes": 5874,
+              "rawSha256": "91f19e3a7aa0ab3d52617331d9139f2b6e55226844adc8f5e236b35ed11d9eb1",
+              "bytes": 5248,
+              "sha256": "f378db8a482a1fde78623b8e293b4eb1f834a6a0b29bb36075a737149c7aae53"
+            }
+          },
+          "shown": {
+            "file": "water-007-movie-hd.png",
+            "bytes": 51805,
+            "sha256": "dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-007-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f.png.gz",
+              "rawBytes": 51805,
+              "rawSha256": "dca515137bbaef5162f57dedb96954f6966a32f2712120fc3e1a755443f0589f",
+              "bytes": 27884,
+              "sha256": "1cbb56f48bc423178fdeb3850454a3e11502525a1d62d44a5d557e02e70db380"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-008-numbers-lcd.png",
+            "bytes": 5882,
+            "sha256": "2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-008-numbers-lcd.png",
+              "file": "m5-water-window-runtime-20261011/2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc.png.gz",
+              "rawBytes": 5882,
+              "rawSha256": "2c7206fc4c01e3fc1495bb748acee4ce25db6fd35486fa2fb5f62d002ef565fc",
+              "bytes": 5280,
+              "sha256": "86b57a677dbea5e0009c0baa128593d700761353b53e5b32b2f47d94af580334"
+            }
+          },
+          "shown": {
+            "file": "water-008-numbers-hd.png",
+            "bytes": 51677,
+            "sha256": "3713fa077e3f7b13740128d8d5010610e48a36bfcbb1f22f53acf9143ea6790e",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-008-numbers-hd.png",
+              "file": "m5-water-window-runtime-20261011/3713fa077e3f7b13740128d8d5010610e48a36bfcbb1f22f53acf9143ea6790e.png.gz",
+              "rawBytes": 51677,
+              "rawSha256": "3713fa077e3f7b13740128d8d5010610e48a36bfcbb1f22f53acf9143ea6790e",
+              "bytes": 28107,
+              "sha256": "de6d313f4d7e131937d20b9102fdf28cfb808b1a3bc8ac4df373c4e09d861709"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-009-numbers-lcd.png",
+            "bytes": 5876,
+            "sha256": "cb5ce88191130b77e732a41a9390f71088b7466974df1ba375a8ba52d6db3e2b",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-009-numbers-hd.png",
+            "bytes": 51700,
+            "sha256": "a7f3cc34fd6032819656ba19212b24dc4369879b04f8f54919492b297803608c",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-010-numbers-lcd.png",
+            "bytes": 5865,
+            "sha256": "1f1917948efc50a5d90ec707a8ee09e9bee611751ffed9bdd9ca95ec9024505d",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-010-numbers-hd.png",
+            "bytes": 51700,
+            "sha256": "6e774c31304e3922db93dc87c45af2d7fc515138368abc5c8086feefdf4cc766",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-011-numbers-lcd.png",
+            "bytes": 5876,
+            "sha256": "3fc7c7a1e77ceb1187d228729133c76b1aa937dfe7f4cf30b0f08e5b60ba7b30",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-011-numbers-hd.png",
+            "bytes": 51700,
+            "sha256": "5aa7941b2f4313b3ddc315971a757ebcd057c51c22259312759bf615f12425b9",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-012-numbers-lcd.png",
+            "bytes": 5862,
+            "sha256": "aa056cb54eb715ddc0870a9e3d9ae6adfa993dfdb16810e4d22890637c1a9a97",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-012-numbers-hd.png",
+            "bytes": 51668,
+            "sha256": "0a4af5982ec98e8a090bf15c2d91707cc3767606af79928cb88fa16af4914126",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-013-numbers-lcd.png",
+            "bytes": 5862,
+            "sha256": "18bf4d674cbd3ec54aa8ab7227534bcf01ad2020f1de8f4398ea3df1b07db63f",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-013-numbers-hd.png",
+            "bytes": 51672,
+            "sha256": "fa386e9514b44fe4b3ada57751fb69c062f13b5322cdd424fde579b49bfe0ab3",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-014-numbers-lcd.png",
+            "bytes": 5852,
+            "sha256": "2fa4a47635aa5b30bcd6eb242a2752d4cb4aa9480e96c019057ce1f7a0ce0dce",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-014-numbers-hd.png",
+            "bytes": 51650,
+            "sha256": "314d7c3a36bbd4b1d88e9dc052ad2f1ca57611fd57c9a376c3a30ed29de77ec6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-015-numbers-lcd.png",
+            "bytes": 5853,
+            "sha256": "1a7a1b8f5e4577ffabecd59a87bfc3dd7ccc6aaba2d9d24da50b301c11a7442e",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-015-numbers-hd.png",
+            "bytes": 51658,
+            "sha256": "6f7a5772652d89fa56b2b4c938a7b306f109971220965de1de7e5bfdb9cb94ce",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-016-numbers-lcd.png",
+            "bytes": 5838,
+            "sha256": "6b0d6e60628e748ac180755d2516bee43b2170aeb5926d97ddccc143c3ce1d8f",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-016-numbers-hd.png",
+            "bytes": 51622,
+            "sha256": "1af985d3a4dac15796d08b1b678955a99952c7f6dff76402e84b16fff72def90",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-017-numbers-lcd.png",
+            "bytes": 5811,
+            "sha256": "b791b05f76fbcc687405cb4334efcebdf5d945a1c6a93ed31c709f7c3c0caabf",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-017-numbers-hd.png",
+            "bytes": 51592,
+            "sha256": "7e647d6dc550b98ad5bbf8a1034cea0be7e55f8bb0ad2387f77f577ae55716c5",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-018-numbers-lcd.png",
+            "bytes": 5813,
+            "sha256": "8a35840989e4bc87dcefa12fa16ba00cd10335254537bcf55ced69148c824bfb",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-018-numbers-hd.png",
+            "bytes": 51599,
+            "sha256": "b10a606292b291beca0f2e1536ddd8bb71c180c2bc92da07dcc4c610a692f6b2",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-019-numbers-lcd.png",
+            "bytes": 5800,
+            "sha256": "48c12d74e360a507228d60065d4cf48576d01f1f836c7d7eaeac791a176df17b",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-019-numbers-hd.png",
+            "bytes": 51549,
+            "sha256": "e134581a746608bbef9c3d564adaad7c394ec2406510fe138dde12c8b58e83dc",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-020-numbers-lcd.png",
+            "bytes": 5800,
+            "sha256": "0754768852743f5cfed2df9f0d968354a3e1718226e17363b8b5dcae513ac089",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-020-numbers-hd.png",
+            "bytes": 51580,
+            "sha256": "c3c9415df91eaae4ed34c628b1aed7d941aba9ab8722a22b3b8d342698fdbff6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-021-hold-lcd.png",
+            "bytes": 5800,
+            "sha256": "0754768852743f5cfed2df9f0d968354a3e1718226e17363b8b5dcae513ac089",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-021-hold-hd.png",
+            "bytes": 51580,
+            "sha256": "c3c9415df91eaae4ed34c628b1aed7d941aba9ab8722a22b3b8d342698fdbff6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-022-hold-lcd.png",
+            "bytes": 5786,
+            "sha256": "6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-022-hold-lcd.png",
+              "file": "m5-water-window-runtime-20261011/6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f.png.gz",
+              "rawBytes": 5786,
+              "rawSha256": "6c4122745eb70b793f5de87a43baa4b1b1b3b802dcc834ecc790357667d3330f",
+              "bytes": 5156,
+              "sha256": "191b7d12f816e565e9ee7f2e3c80eae773c2bf7a05b238d59a8192970fe43149"
+            }
+          },
+          "shown": {
+            "file": "water-022-hold-hd.png",
+            "bytes": 51574,
+            "sha256": "5641421aa14f15fbe586837705af1e2c83629badf77bf59e97dc797feff172ae",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-missing-v1/water-022-hold-hd.png",
+              "file": "m5-water-window-runtime-20261011/5641421aa14f15fbe586837705af1e2c83629badf77bf59e97dc797feff172ae.png.gz",
+              "rawBytes": 51574,
+              "rawSha256": "5641421aa14f15fbe586837705af1e2c83629badf77bf59e97dc797feff172ae",
+              "bytes": 27905,
+              "sha256": "a2e7120c88330fb0024fc1e1b7d43ea7519c5b762290ed732f92e493e8a74542"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "pc-classic-v1",
+      "scenario": "classic-lcd",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "classic": true,
+      "missingAssets": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "startedAt": "2026-10-11T14:41:08.021Z",
+      "finishedAt": "2026-10-11T14:42:38.924Z",
+      "phases": 20,
+      "publicInputs": 114,
+      "engineInputs": 189,
+      "sourceCount": 1214,
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "weather": 2,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 480,
+          "damage": 320
+        }
+      ],
+      "result": {
+        "session": 1,
+        "kind": 1,
+        "value": 320,
+        "attempt": 1
+      },
+      "readonlyExtraKeys": 0,
+      "pixels": {
+        "actualLcdCallbacks": 23,
+        "events": 1,
+        "sourceCopies": 8,
+        "movieHd": 0,
+        "postHd": 0,
+        "labels": 16,
+        "numericReadbacks": 15,
+        "completedHoldReadbacks": 1,
+        "fallbackReadbacks": 24,
+        "outsidePixelsPerHdReadback": 11264,
+        "outsidePixelComparisons": 0,
+        "verifiedReadbacks": 24
+      },
+      "scope": {
+        "accepted": "One actual standard-LIB P3 HanXuan/ChangSha33 to GuiYang36 navy WangLang14/native15 WATER12/SPE36 action with MP20 and current enemy river7 AIM, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. The complete actual160x96 LCD is physically presented.",
+        "notRun": "Other shared36 skill19, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.",
+        "publicInput": "Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome."
+      },
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/644c5261977e7d3b34649837727dd21b668dcb59c59d991a1dd97a2f4e19d957.json.gz",
+        "rawBytes": 19236622,
+        "rawSha256": "644c5261977e7d3b34649837727dd21b668dcb59c59d991a1dd97a2f4e19d957",
+        "bytes": 645972,
+        "sha256": "db35bd0b14d9b92d0bdd53d97231912c24e3d9405731add3eecd552b1fb4e8b9"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/c4a5df25edb457e9079c76e4a975403599f8ac310e7182fe869830c8ab369176.json.gz",
+        "rawBytes": 6523508,
+        "rawSha256": "c4a5df25edb457e9079c76e4a975403599f8ac310e7182fe869830c8ab369176",
+        "bytes": 191961,
+        "sha256": "cd7dacc21e1f4d5fb879dd690d2ece09e2f34878171ea4c827acfda11e2aeae3"
+      },
+      "engineInputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/160de78f293607524e8308cb92e909553f97cca11b774dc5c556d4fecc7d67f0.json.gz",
+        "rawBytes": 42146,
+        "rawSha256": "160de78f293607524e8308cb92e909553f97cca11b774dc5c556d4fecc7d67f0",
+        "bytes": 1272,
+        "sha256": "1fa3054083496d3923e72c87155670c63916fe6d548a706bfc2a0207ce2142a2"
+      },
+      "sourceVerification": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/source-verification.json",
+        "file": "m5-water-window-runtime-20261011/daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778.json.gz",
+        "rawBytes": 432664,
+        "rawSha256": "daaad292318092613256a1f93f587cf84971f886f6d21cfb94c9461acd5aa778",
+        "bytes": 69006,
+        "sha256": "8138bd82592115622c2b54e951445625e07e44371e107077feeb1e8b4e25c19b"
+      },
+      "selectedImages": [
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-000-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b.png.gz",
+          "rawBytes": 5756,
+          "rawSha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+          "bytes": 4729,
+          "sha256": "6c7a24d4ab20d149e694b8a180df439de3c4da2135cefd2de9bfc18b381258f9"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-000-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b.png.gz",
+          "rawBytes": 5756,
+          "rawSha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+          "bytes": 4729,
+          "sha256": "6c7a24d4ab20d149e694b8a180df439de3c4da2135cefd2de9bfc18b381258f9"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-007-movie-hd.png",
+          "file": "m5-water-window-runtime-20261011/8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce.png.gz",
+          "rawBytes": 5843,
+          "rawSha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+          "bytes": 4947,
+          "sha256": "826310a5a3d8b8bdb909e62d9d9d4648e24b1440d9aaede27534b33b5d56d0da"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-007-movie-lcd.png",
+          "file": "m5-water-window-runtime-20261011/8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce.png.gz",
+          "rawBytes": 5843,
+          "rawSha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+          "bytes": 4947,
+          "sha256": "826310a5a3d8b8bdb909e62d9d9d4648e24b1440d9aaede27534b33b5d56d0da"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-008-numbers-hd.png",
+          "file": "m5-water-window-runtime-20261011/f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17.png.gz",
+          "rawBytes": 5838,
+          "rawSha256": "f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17",
+          "bytes": 4917,
+          "sha256": "da69b6b7e14eb42058890b86d7ff08e2b1b4242ebf41adf9402a4183e9b8d335"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-008-numbers-lcd.png",
+          "file": "m5-water-window-runtime-20261011/f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17.png.gz",
+          "rawBytes": 5838,
+          "rawSha256": "f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17",
+          "bytes": 4917,
+          "sha256": "da69b6b7e14eb42058890b86d7ff08e2b1b4242ebf41adf9402a4183e9b8d335"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-023-hold-hd.png",
+          "file": "m5-water-window-runtime-20261011/5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b.png.gz",
+          "rawBytes": 5786,
+          "rawSha256": "5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b",
+          "bytes": 4755,
+          "sha256": "898ec3956fd04ccf30f89fb9f3750f5786816bafc34c2bda3a11916ef7489291"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water-023-hold-lcd.png",
+          "file": "m5-water-window-runtime-20261011/5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b.png.gz",
+          "rawBytes": 5786,
+          "rawSha256": "5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b",
+          "bytes": 4755,
+          "sha256": "898ec3956fd04ccf30f89fb9f3750f5786816bafc34c2bda3a11916ef7489291"
+        },
+        {
+          "source": "build/water-window-runtime-20261011/pc-classic-v1/water12-native-numeric-owner-retired.png",
+          "file": "m5-water-window-runtime-20261011/a27aad6a2d360fa3a5ded70681b83daab41a7bb1b12b2efa6fe49b22a48d5cd0.png.gz",
+          "rawBytes": 138920,
+          "rawSha256": "a27aad6a2d360fa3a5ded70681b83daab41a7bb1b12b2efa6fe49b22a48d5cd0",
+          "bytes": 128093,
+          "sha256": "c2ce0eec0739edbd0b08f8c9c6390316386dbb9e3a5d5e7d010412a5a050b915"
+        }
+      ],
+      "readbackFiles": [
+        {
+          "native": {
+            "file": "water-000-movie-lcd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-000-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b.png.gz",
+              "rawBytes": 5756,
+              "rawSha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+              "bytes": 4729,
+              "sha256": "6c7a24d4ab20d149e694b8a180df439de3c4da2135cefd2de9bfc18b381258f9"
+            }
+          },
+          "shown": {
+            "file": "water-000-movie-hd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-000-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b.png.gz",
+              "rawBytes": 5756,
+              "rawSha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+              "bytes": 4729,
+              "sha256": "6c7a24d4ab20d149e694b8a180df439de3c4da2135cefd2de9bfc18b381258f9"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-001-movie-lcd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-001-movie-hd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-002-movie-lcd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-002-movie-hd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-003-movie-lcd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-003-movie-hd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-004-movie-lcd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-004-movie-hd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-005-movie-lcd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-005-movie-hd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-006-movie-lcd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-006-movie-hd.png",
+            "bytes": 5756,
+            "sha256": "70b919df78c8bc2da929de0b807a0436781e11fe28f2561f6663927b5577138b",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-007-movie-lcd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-007-movie-lcd.png",
+              "file": "m5-water-window-runtime-20261011/8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce.png.gz",
+              "rawBytes": 5843,
+              "rawSha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+              "bytes": 4947,
+              "sha256": "826310a5a3d8b8bdb909e62d9d9d4648e24b1440d9aaede27534b33b5d56d0da"
+            }
+          },
+          "shown": {
+            "file": "water-007-movie-hd.png",
+            "bytes": 5843,
+            "sha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-007-movie-hd.png",
+              "file": "m5-water-window-runtime-20261011/8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce.png.gz",
+              "rawBytes": 5843,
+              "rawSha256": "8ac2ff61a39b3f88f290a992cb35b2c8f7039c99c42c9f25303c0957a8bafcce",
+              "bytes": 4947,
+              "sha256": "826310a5a3d8b8bdb909e62d9d9d4648e24b1440d9aaede27534b33b5d56d0da"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-008-numbers-lcd.png",
+            "bytes": 5838,
+            "sha256": "f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-008-numbers-lcd.png",
+              "file": "m5-water-window-runtime-20261011/f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17.png.gz",
+              "rawBytes": 5838,
+              "rawSha256": "f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17",
+              "bytes": 4917,
+              "sha256": "da69b6b7e14eb42058890b86d7ff08e2b1b4242ebf41adf9402a4183e9b8d335"
+            }
+          },
+          "shown": {
+            "file": "water-008-numbers-hd.png",
+            "bytes": 5838,
+            "sha256": "f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-008-numbers-hd.png",
+              "file": "m5-water-window-runtime-20261011/f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17.png.gz",
+              "rawBytes": 5838,
+              "rawSha256": "f423d0063b692c7289d7b4f8ee1b36636182ca7f8e74c4722e16afddf2048f17",
+              "bytes": 4917,
+              "sha256": "da69b6b7e14eb42058890b86d7ff08e2b1b4242ebf41adf9402a4183e9b8d335"
+            }
+          }
+        },
+        {
+          "native": {
+            "file": "water-009-numbers-lcd.png",
+            "bytes": 5854,
+            "sha256": "21277492347faccefc64f4cb55bbc47304971259babcf2907101e1a0aa259d28",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-009-numbers-hd.png",
+            "bytes": 5854,
+            "sha256": "21277492347faccefc64f4cb55bbc47304971259babcf2907101e1a0aa259d28",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-010-numbers-lcd.png",
+            "bytes": 5840,
+            "sha256": "74ac8abe4803e178b7270c55f41c681c6592f61e85ddd05d574a262e81200095",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-010-numbers-hd.png",
+            "bytes": 5840,
+            "sha256": "74ac8abe4803e178b7270c55f41c681c6592f61e85ddd05d574a262e81200095",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-011-numbers-lcd.png",
+            "bytes": 5844,
+            "sha256": "fe73e5957c888b8b58fd4f7d5a04cfc9090ae53861cc04dc4aff671b94ff9383",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-011-numbers-hd.png",
+            "bytes": 5844,
+            "sha256": "fe73e5957c888b8b58fd4f7d5a04cfc9090ae53861cc04dc4aff671b94ff9383",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-012-numbers-lcd.png",
+            "bytes": 5838,
+            "sha256": "f645a7f816b30ee71bdaf56a793c3b1f0fec79f65c86ee1295a345c1acb39cd6",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-012-numbers-hd.png",
+            "bytes": 5838,
+            "sha256": "f645a7f816b30ee71bdaf56a793c3b1f0fec79f65c86ee1295a345c1acb39cd6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-013-numbers-lcd.png",
+            "bytes": 5837,
+            "sha256": "e18d392a6e7d6f0195b8e9be7343def188ede69a7d72e6452f81f578a8fd40a9",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-013-numbers-hd.png",
+            "bytes": 5837,
+            "sha256": "e18d392a6e7d6f0195b8e9be7343def188ede69a7d72e6452f81f578a8fd40a9",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-014-numbers-lcd.png",
+            "bytes": 5832,
+            "sha256": "20c052cd33968fdabc56cd7358d4998c253fb91f5297d0319a7497b8e1c8f5e5",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-014-numbers-hd.png",
+            "bytes": 5832,
+            "sha256": "20c052cd33968fdabc56cd7358d4998c253fb91f5297d0319a7497b8e1c8f5e5",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-015-numbers-lcd.png",
+            "bytes": 5825,
+            "sha256": "fd1eeb2560b1e67e50632502e499b5495858e8be807c9e84f56cb5921d154246",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-015-numbers-hd.png",
+            "bytes": 5825,
+            "sha256": "fd1eeb2560b1e67e50632502e499b5495858e8be807c9e84f56cb5921d154246",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-016-numbers-lcd.png",
+            "bytes": 5815,
+            "sha256": "acc6b68a4e9c3575f7f9dcfb7fc220b0b5e3d7d99db41ad665d09ecc346ebade",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-016-numbers-hd.png",
+            "bytes": 5815,
+            "sha256": "acc6b68a4e9c3575f7f9dcfb7fc220b0b5e3d7d99db41ad665d09ecc346ebade",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-017-numbers-lcd.png",
+            "bytes": 5803,
+            "sha256": "766b14c0d1a3042ee2d378ad77719cf957f8ee27ef61224bf8007fe53f3252a1",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-017-numbers-hd.png",
+            "bytes": 5803,
+            "sha256": "766b14c0d1a3042ee2d378ad77719cf957f8ee27ef61224bf8007fe53f3252a1",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-018-numbers-lcd.png",
+            "bytes": 5794,
+            "sha256": "37540c5c9e6b69d487350697c2eabdd22e852e03eabb45d274deee3f0c697a7c",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-018-numbers-hd.png",
+            "bytes": 5794,
+            "sha256": "37540c5c9e6b69d487350697c2eabdd22e852e03eabb45d274deee3f0c697a7c",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-019-numbers-lcd.png",
+            "bytes": 5800,
+            "sha256": "c29ec8e6c6559fc8a284a6d21e75afa629a38342eae8f4f44a653042729dd410",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-019-numbers-hd.png",
+            "bytes": 5800,
+            "sha256": "c29ec8e6c6559fc8a284a6d21e75afa629a38342eae8f4f44a653042729dd410",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-020-numbers-lcd.png",
+            "bytes": 5798,
+            "sha256": "fe2501073dc20735f1b62ed39923b72b96dfcc008d34d9905cc10fba4bebecd6",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-020-numbers-hd.png",
+            "bytes": 5798,
+            "sha256": "fe2501073dc20735f1b62ed39923b72b96dfcc008d34d9905cc10fba4bebecd6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-021-numbers-lcd.png",
+            "bytes": 5790,
+            "sha256": "1371ce3133a10c6628cf19040cc4dc64c40817c53e84d7ee88c4450672874df6",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-021-numbers-hd.png",
+            "bytes": 5790,
+            "sha256": "1371ce3133a10c6628cf19040cc4dc64c40817c53e84d7ee88c4450672874df6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-022-hold-lcd.png",
+            "bytes": 5790,
+            "sha256": "1371ce3133a10c6628cf19040cc4dc64c40817c53e84d7ee88c4450672874df6",
+            "archived": null
+          },
+          "shown": {
+            "file": "water-022-hold-hd.png",
+            "bytes": 5790,
+            "sha256": "1371ce3133a10c6628cf19040cc4dc64c40817c53e84d7ee88c4450672874df6",
+            "archived": null
+          }
+        },
+        {
+          "native": {
+            "file": "water-023-hold-lcd.png",
+            "bytes": 5786,
+            "sha256": "5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-023-hold-lcd.png",
+              "file": "m5-water-window-runtime-20261011/5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b.png.gz",
+              "rawBytes": 5786,
+              "rawSha256": "5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b",
+              "bytes": 4755,
+              "sha256": "898ec3956fd04ccf30f89fb9f3750f5786816bafc34c2bda3a11916ef7489291"
+            }
+          },
+          "shown": {
+            "file": "water-023-hold-hd.png",
+            "bytes": 5786,
+            "sha256": "5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b",
+            "archived": {
+              "source": "build/water-window-runtime-20261011/pc-classic-v1/water-023-hold-hd.png",
+              "file": "m5-water-window-runtime-20261011/5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b.png.gz",
+              "rawBytes": 5786,
+              "rawSha256": "5591554c4c6f7abb5a369495c99517af6b331b981d66e4aa7de9bfcf512a252b",
+              "bytes": 4755,
+              "sha256": "898ec3956fd04ccf30f89fb9f3750f5786816bafc34c2bda3a11916ef7489291"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "name": "pc-1080-v1",
+      "preflightOnly": false,
+      "accepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "classification": "runner-missing-native-resource-report-before-cast",
+      "error": "TypeError: Cannot read properties of undefined (reading 'actualSkillName')\n    at attemptWater (file:///F:/project/baye-sanguo/scripts/test-hd-water-runtime.mjs:822:128)\n    at async battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-water-runtime.mjs:876:11)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-water-runtime.mjs:709:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-water-runtime.mjs:402:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-water-runtime.mjs:1039:9)",
+      "startedAt": "2026-10-11T14:29:42.979Z",
+      "finishedAt": "2026-10-11T14:30:56.876Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "7bbd4694fb55c372744992435909796df83192f5954d943c97e8d6c22c46e986"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [],
+      "capturedWATER": 0,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/d30cb46b43ecb73265ddba415036bf5af033a02573cccb7359575ac7423a9b93.json.gz",
+        "rawBytes": 8608414,
+        "rawSha256": "d30cb46b43ecb73265ddba415036bf5af033a02573cccb7359575ac7423a9b93",
+        "bytes": 375390,
+        "sha256": "5d8eaeb846524030f91f4d80670d9133d42145e0647d1174826f7c7eed5b5bd8"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/7bbd4694fb55c372744992435909796df83192f5954d943c97e8d6c22c46e986.mjs.gz",
+        "rawBytes": 112308,
+        "rawSha256": "7bbd4694fb55c372744992435909796df83192f5954d943c97e8d6c22c46e986",
+        "bytes": 34049,
+        "sha256": "7ee314495c02045ee80d1f5dbfef59986d0f27887e59a54bbbb3278e73f347b2"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v1/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.json.gz",
+        "rawBytes": 3,
+        "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+      },
+      "inputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v1/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/ca312a7ab839ed7a12b1be48dc1ab0269b17c2aabc41067ccb894114f2a1b54c.json.gz",
+        "rawBytes": 35420,
+        "rawSha256": "ca312a7ab839ed7a12b1be48dc1ab0269b17c2aabc41067ccb894114f2a1b54c",
+        "bytes": 1110,
+        "sha256": "f1981a2dfbc064ae8009082a2dbb272951f5c9e07865ca4d5f291ab47a400cbf"
+      }
+    },
+    {
+      "name": "pc-1080-v2",
+      "preflightOnly": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "classification": "accepted-actual",
+      "error": null,
+      "startedAt": "2026-10-11T14:33:51.319Z",
+      "finishedAt": "2026-10-11T14:35:29.948Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [
+        {
+          "attempt": 1,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 3,
+            "personIndex": 2,
+            "name": "赵范"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 400,
+          "damage": 400
+        }
+      ],
+      "capturedWATER": 24,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/result.json",
+        "file": "m5-water-window-runtime-20261011/e5f855de8c2246cb6cb25ad7f1ee359a13aeb8bf87fd875d80eeb45d72b2c590.json.gz",
+        "rawBytes": 18016455,
+        "rawSha256": "e5f855de8c2246cb6cb25ad7f1ee359a13aeb8bf87fd875d80eeb45d72b2c590",
+        "bytes": 944973,
+        "sha256": "c2b926d19aecde27179e27373ce31c7c70a4886b12162002c9eac34ed2935732"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/3543a3e3de4d0ebd20a79d5bcfc92dd559e4059b5d4927a8a7df3d5cb999c21c.json.gz",
+        "rawBytes": 6735089,
+        "rawSha256": "3543a3e3de4d0ebd20a79d5bcfc92dd559e4059b5d4927a8a7df3d5cb999c21c",
+        "bytes": 520234,
+        "sha256": "bdaf7a786afe2456948716adc5c25ed3b56ce5cc73d510d3e60543be1bf25320"
+      },
+      "inputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-1080-v2/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/be9e0e3c34dbb4ebb37b1629f31779af836c6552115d9f8d66c4497159ad8fb7.json.gz",
+        "rawBytes": 42507,
+        "rawSha256": "be9e0e3c34dbb4ebb37b1629f31779af836c6552115d9f8d66c4497159ad8fb7",
+        "bytes": 1272,
+        "sha256": "acf7505097830ccdf9d4f4f4a07c2e3d7ff9cfb8f7492af00da439d87b9339ea"
+      }
+    },
+    {
+      "name": "pc-720-v1",
+      "preflightOnly": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "classification": "accepted-actual",
+      "error": null,
+      "startedAt": "2026-10-11T14:35:55.408Z",
+      "finishedAt": "2026-10-11T14:37:41.309Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [
+        {
+          "attempt": 1,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 400,
+          "damage": 400
+        }
+      ],
+      "capturedWATER": 25,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/2372633965de86dc05221e6e6171bb81fdb2171c710fdbc1689856d6a280a025.json.gz",
+        "rawBytes": 23834592,
+        "rawSha256": "2372633965de86dc05221e6e6171bb81fdb2171c710fdbc1689856d6a280a025",
+        "bytes": 1073285,
+        "sha256": "8b27c1b1a76d1ec5996c1f38515f897932bd42e2b0eeecda3d8fea4ce42aa1ac"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/e2affecffb0f058fb6d8540ff67edcf3841f497577ad4ef6d7b8c97fdc66f4aa.json.gz",
+        "rawBytes": 7007942,
+        "rawSha256": "e2affecffb0f058fb6d8540ff67edcf3841f497577ad4ef6d7b8c97fdc66f4aa",
+        "bytes": 540795,
+        "sha256": "4e45b03082c2057b8b8f41da9e5898eb8e8c20839862fc3ba117f4f52982bb53"
+      },
+      "inputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-720-v1/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/1c70239accd05aaf4f6d7376e7b889379e07fdc8852555ec01d57d1aaa8fda78.json.gz",
+        "rawBytes": 48651,
+        "rawSha256": "1c70239accd05aaf4f6d7376e7b889379e07fdc8852555ec01d57d1aaa8fda78",
+        "bytes": 1411,
+        "sha256": "5f87cbeb3abee71ec92cc1192ed70af9ca3d09b8a086c2d9a4664a27c14b7fad"
+      }
+    },
+    {
+      "name": "pc-classic-v1",
+      "preflightOnly": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "classification": "accepted-actual",
+      "error": null,
+      "startedAt": "2026-10-11T14:41:08.021Z",
+      "finishedAt": "2026-10-11T14:42:38.924Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [
+        {
+          "attempt": 1,
+          "weather": 2,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 480,
+          "damage": 320
+        }
+      ],
+      "capturedWATER": 24,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/644c5261977e7d3b34649837727dd21b668dcb59c59d991a1dd97a2f4e19d957.json.gz",
+        "rawBytes": 19236622,
+        "rawSha256": "644c5261977e7d3b34649837727dd21b668dcb59c59d991a1dd97a2f4e19d957",
+        "bytes": 645972,
+        "sha256": "db35bd0b14d9b92d0bdd53d97231912c24e3d9405731add3eecd552b1fb4e8b9"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/c4a5df25edb457e9079c76e4a975403599f8ac310e7182fe869830c8ab369176.json.gz",
+        "rawBytes": 6523508,
+        "rawSha256": "c4a5df25edb457e9079c76e4a975403599f8ac310e7182fe869830c8ab369176",
+        "bytes": 191961,
+        "sha256": "cd7dacc21e1f4d5fb879dd690d2ece09e2f34878171ea4c827acfda11e2aeae3"
+      },
+      "inputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-classic-v1/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/160de78f293607524e8308cb92e909553f97cca11b774dc5c556d4fecc7d67f0.json.gz",
+        "rawBytes": 42146,
+        "rawSha256": "160de78f293607524e8308cb92e909553f97cca11b774dc5c556d4fecc7d67f0",
+        "bytes": 1272,
+        "sha256": "1fa3054083496d3923e72c87155670c63916fe6d548a706bfc2a0207ce2142a2"
+      }
+    },
+    {
+      "name": "pc-missing-v1",
+      "preflightOnly": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "classification": "accepted-actual",
+      "error": null,
+      "startedAt": "2026-10-11T14:37:59.640Z",
+      "finishedAt": "2026-10-11T14:39:51.350Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [
+        {
+          "attempt": 1,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 66,
+          "mpAfter": 46,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 2,
+          "weather": 4,
+          "actor": {
+            "slot": 0,
+            "nativeToken": 15,
+            "personIndex": 14,
+            "name": "王朗"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 18,
+            "personIndex": 17,
+            "name": "陈应"
+          },
+          "mpBefore": 46,
+          "mpAfter": 26,
+          "armsBefore": 800,
+          "armsAfter": 400,
+          "damage": 400
+        }
+      ],
+      "capturedWATER": 23,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/4b1bc07512eb51d589ade58274d7f2d13f1d70bdc9623816f653632c1b127cea.json.gz",
+        "rawBytes": 22877497,
+        "rawSha256": "4b1bc07512eb51d589ade58274d7f2d13f1d70bdc9623816f653632c1b127cea",
+        "bytes": 728669,
+        "sha256": "17e4a719e2f0c75f84bed0f68d542800b5ed6b9763311f8222460d69f01a6107"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/native-skill-captures.json",
+        "file": "m5-water-window-runtime-20261011/47a2e52fcc0a4269fb911856dbde1b86de732fcb275c94eaebc4a9b575342c6c.json.gz",
+        "rawBytes": 6277081,
+        "rawSha256": "47a2e52fcc0a4269fb911856dbde1b86de732fcb275c94eaebc4a9b575342c6c",
+        "bytes": 194118,
+        "sha256": "8572746eefac9dccc228add0389e67842b607348a6c18f74cb178040c38da869"
+      },
+      "inputEvidence": {
+        "source": "build/water-window-runtime-20261011/pc-missing-v1/engine-inputs.json",
+        "file": "m5-water-window-runtime-20261011/80274583d037742393c507edd1f98833f0144ed0004afb8d82a0f39a73aaf08c.json.gz",
+        "rawBytes": 48426,
+        "rawSha256": "80274583d037742393c507edd1f98833f0144ed0004afb8d82a0f39a73aaf08c",
+        "bytes": 1403,
+        "sha256": "eca5b7490da1bd3ddcba34bc77335337db547fd9c884f6c48e6e6e2a2cdaf7c1"
+      }
+    },
+    {
+      "name": "preflight-v1",
+      "preflightOnly": true,
+      "accepted": true,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "classification": "superseded-preflight-missed-native-resource-report-gate",
+      "error": null,
+      "startedAt": "2026-10-11T14:29:28.425Z",
+      "finishedAt": "2026-10-11T14:29:29.115Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "7bbd4694fb55c372744992435909796df83192f5954d943c97e8d6c22c46e986"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [],
+      "capturedWATER": 0,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/preflight-v1/result.json",
+        "file": "m5-water-window-runtime-20261011/3f85fcf7b99927388724713477bbbdea226c416b9a88e969139f3c25a3c761f1.json.gz",
+        "rawBytes": 779568,
+        "rawSha256": "3f85fcf7b99927388724713477bbbdea226c416b9a88e969139f3c25a3c761f1",
+        "bytes": 140512,
+        "sha256": "357ae87ca5739bf655444246b163c7c238392ea03cf5e8d9586089f3e5491f8f"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/preflight-v1/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/7bbd4694fb55c372744992435909796df83192f5954d943c97e8d6c22c46e986.mjs.gz",
+        "rawBytes": 112308,
+        "rawSha256": "7bbd4694fb55c372744992435909796df83192f5954d943c97e8d6c22c46e986",
+        "bytes": 34049,
+        "sha256": "7ee314495c02045ee80d1f5dbfef59986d0f27887e59a54bbbb3278e73f347b2"
+      },
+      "captures": null,
+      "inputEvidence": null
+    },
+    {
+      "name": "preflight-v2",
+      "preflightOnly": true,
+      "accepted": true,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "classification": "preflight-only-not-actual",
+      "error": null,
+      "startedAt": "2026-10-11T14:33:41.710Z",
+      "finishedAt": "2026-10-11T14:33:42.309Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [],
+      "capturedWATER": 0,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/preflight-v2/result.json",
+        "file": "m5-water-window-runtime-20261011/9d540e333e57c9ed302817512e29716912879209222519654fabeb8918a36872.json.gz",
+        "rawBytes": 783265,
+        "rawSha256": "9d540e333e57c9ed302817512e29716912879209222519654fabeb8918a36872",
+        "bytes": 142897,
+        "sha256": "c5de6757e671a18cf136a0c9613373c5253d9943babc46d4dfd206ce5b933cbf"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/preflight-v2/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": null,
+      "inputEvidence": null
+    }
+  ],
+  "preflight": {
+    "final": {
+      "name": "preflight-v2",
+      "preflightOnly": true,
+      "accepted": true,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "classification": "preflight-only-not-actual",
+      "error": null,
+      "startedAt": "2026-10-11T14:33:41.710Z",
+      "finishedAt": "2026-10-11T14:33:42.309Z",
+      "tool": {
+        "source": "scripts/test-hd-water-runtime.mjs",
+        "sha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8"
+      },
+      "sourceCount": 1214,
+      "legalAttempts": [],
+      "capturedWATER": 0,
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/preflight-v2/result.json",
+        "file": "m5-water-window-runtime-20261011/9d540e333e57c9ed302817512e29716912879209222519654fabeb8918a36872.json.gz",
+        "rawBytes": 783265,
+        "rawSha256": "9d540e333e57c9ed302817512e29716912879209222519654fabeb8918a36872",
+        "bytes": 142897,
+        "sha256": "c5de6757e671a18cf136a0c9613373c5253d9943babc46d4dfd206ce5b933cbf"
+      },
+      "executedTool": {
+        "source": "build/water-window-runtime-20261011/preflight-v2/executed-tool.mjs",
+        "file": "m5-water-window-runtime-20261011/503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8.mjs.gz",
+        "rawBytes": 114194,
+        "rawSha256": "503bf3c1208af0cb09b9e1d49479bc6e9f6eb0fd92c04fc1e0e3002b036f90a8",
+        "bytes": 34783,
+        "sha256": "1e3583cf25e017aab6075ba7cea557256165192178fdfb514d2738ae228e217c"
+      },
+      "captures": null,
+      "inputEvidence": null
+    },
+    "actualAcceptance": false
+  },
+  "suite": {
+    "startedAt": "2026-10-11T14:34:08.474Z",
+    "finishedAt": "2026-10-11T14:35:27.342Z",
+    "executionConcurrency": 1,
+    "modules": 89,
+    "exitCode": 0,
+    "counts": {
+      "tests": 4404,
+      "suites": 0,
+      "pass": 4404,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sourceCount": 222,
+    "sourceDrift": [],
+    "evidence": {
+      "source": "build/water-window-runtime-20261011/final-suite/result.json",
+      "file": "m5-water-window-runtime-20261011/c5ac9528ea1ec63c2d5a553477efd7ee6f9f92a2ff6a1360dec06231615b8781.json.gz",
+      "rawBytes": 59938,
+      "rawSha256": "c5ac9528ea1ec63c2d5a553477efd7ee6f9f92a2ff6a1360dec06231615b8781",
+      "bytes": 12544,
+      "sha256": "12149a59d311b7cd149ccc1aabee8b3cb414212f294a787a6593e8cc002b2766"
+    },
+    "log": {
+      "source": "build/water-window-runtime-20261011/final-suite/test-output.log",
+      "file": "m5-water-window-runtime-20261011/1e52e734963a2c485f9163f9ab40aca02bb1ce49ed8ba61f65149b1002bc228b.log.gz",
+      "rawBytes": 391402,
+      "rawSha256": "1e52e734963a2c485f9163f9ab40aca02bb1ce49ed8ba61f65149b1002bc228b",
+      "bytes": 102592,
+      "sha256": "c072fae60d9f0c0023d29f7b2557795d9c559bcccc75cbf3f5044768fec93977"
+    },
+    "executedRunner": {
+      "source": "build/water-window-runtime-20261011/final-suite/runner-executed.mjs",
+      "file": "m5-water-window-runtime-20261011/35e1c64a0c4761df8c04542bb7d8088eaf4b0ceb7993fdc4b4347194fecae169.mjs.gz",
+      "rawBytes": 2276,
+      "rawSha256": "35e1c64a0c4761df8c04542bb7d8088eaf4b0ceb7993fdc4b4347194fecae169",
+      "bytes": 1128,
+      "sha256": "95faa53a83b08203554d7e9d1276a6bd370451e464af7299c4941e848cca4368"
+    }
+  },
+  "cleanup": {
+    "sampledAt": "2026-10-11T14:44:30.0430125Z",
+    "attemptCount": 7,
+    "recordedCount": 72,
+    "survivors": [],
+    "privateListeners": [],
+    "privatePorts": [
+      5597,
+      5598,
+      8497,
+      8498,
+      8691,
+      8692,
+      12271,
+      12272,
+      12327,
+      12328
+    ],
+    "userUnchanged": true,
+    "userPid": 57860,
+    "userBirth": "2026-10-10T11:26:04.2797180Z",
+    "userHttpStatus": 200,
+    "evidence": {
+      "source": "build/water-window-runtime-20261011/cleanup-verification.json",
+      "file": "m5-water-window-runtime-20261011/a7bcec7f2bf2352a465f85b9fadc69ce8c16fece835036248bf8041dbc20a2c7.json.gz",
+      "rawBytes": 518,
+      "rawSha256": "a7bcec7f2bf2352a465f85b9fadc69ce8c16fece835036248bf8041dbc20a2c7",
+      "bytes": 310,
+      "sha256": "3773ea1a8b6f30b421af51ddd6e99d905754330f466176c52f66639b5be84d11"
+    },
+    "invalidHistoricalProof": {
+      "classification": "invalid-not-acceptance",
+      "reason": "PowerShell5 UTF8 decoding / nonterminating ConvertFromJson failure yielded recordedCount0; superficially ok does not establish an identity union.",
+      "evidence": {
+        "source": "build/water-window-runtime-20261011/cleanup-verification-after-v1.json",
+        "file": "m5-water-window-runtime-20261011/d657236e04bbe1f8c5c1892002163bcf8ffb7ba8114559512df868ef1d0c0883.json.gz",
+        "rawBytes": 590,
+        "rawSha256": "d657236e04bbe1f8c5c1892002163bcf8ffb7ba8114559512df868ef1d0c0883",
+        "bytes": 297,
+        "sha256": "6c8bcca5a658abcfeea83b0f802dee8136311f347e8a9754f453b8ad67b535e2"
+      },
+      "executedScript": {
+        "source": "build/water-window-runtime-20261011/verify-cleanup-before-utf8-fix.ps1",
+        "file": "m5-water-window-runtime-20261011/b9583ea559d71da0aeda83489b9b5cd0034a578ea695316dbb9e2f14d685f8c3.ps1.gz",
+        "rawBytes": 2873,
+        "rawSha256": "b9583ea559d71da0aeda83489b9b5cd0034a578ea695316dbb9e2f14d685f8c3",
+        "bytes": 1132,
+        "sha256": "1a285cd0eb31d18be5b3318b7a35116e206d6c6985d4ecbd444a3adb8410d027"
+      }
+    },
+    "finalScript": {
+      "source": "build/water-window-runtime-20261011/verify-cleanup.ps1",
+      "file": "m5-water-window-runtime-20261011/d84370da009380c4ac751ae8a9b3438dbf15466ac8e05031ac9d5fea98aa029e.ps1.gz",
+      "rawBytes": 2921,
+      "rawSha256": "d84370da009380c4ac751ae8a9b3438dbf15466ac8e05031ac9d5fea98aa029e",
+      "bytes": 1155,
+      "sha256": "f4a20b723bf15c1539ec4f34114d8f6fc8aec714366ee33d76e8191e041a8613"
+    }
+  },
+  "native": {
+    "changed": false,
+    "rebuilt": false,
+    "count": 128,
+    "aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+  },
+  "sourceRefs": [
+    {
+      "source": "build/water-window-20261011/water12-product-final-freeze-v1.json",
+      "file": "m5-water-window-runtime-20261011/6fe0712d35242f543b9865ceb4441775618b75c02ba506fb58e2cadca7be5379.json.gz",
+      "rawBytes": 6600,
+      "rawSha256": "6fe0712d35242f543b9865ceb4441775618b75c02ba506fb58e2cadca7be5379",
+      "bytes": 1683,
+      "sha256": "2b5176baf9c9114719501278bd992adbc83c624dff358aa8aeafe046b2bdd8e7"
+    },
+    {
+      "source": "build/water-window-20261011/water12-product-forward-inverse-delta-v1.json",
+      "file": "m5-water-window-runtime-20261011/adeef66b3fec5b4122520cac8ba5505a54b780d36954bd84e439f9bf02b0b811.json.gz",
+      "rawBytes": 357993,
+      "rawSha256": "adeef66b3fec5b4122520cac8ba5505a54b780d36954bd84e439f9bf02b0b811",
+      "bytes": 72169,
+      "sha256": "c5b62d68ae5aa95be1b5d1e786c1d83fa9dba3085bdafd33f83487d70bc87029"
+    },
+    {
+      "source": "build/water-window-20261011/water12-product-pure-gates-v1.json",
+      "file": "m5-water-window-runtime-20261011/20e607488ba3e877903a9643ff3fb3f74e0b776ca3f2b45444e24a3b9e08eb36.json.gz",
+      "rawBytes": 1166,
+      "rawSha256": "20e607488ba3e877903a9643ff3fb3f74e0b776ca3f2b45444e24a3b9e08eb36",
+      "bytes": 376,
+      "sha256": "ee8352360515d3ef925b733018d0f4436ee47b9ac6be8842485419097b20335c"
+    },
+    {
+      "source": "build/water-window-20261011/frontend-tests-freeze-v1.json",
+      "file": "m5-water-window-runtime-20261011/3c227de6506d8b86ec2dd040b39c51fe1aa0a7cf7b1e9562b6c08985ea0bb718.json.gz",
+      "rawBytes": 4477,
+      "rawSha256": "3c227de6506d8b86ec2dd040b39c51fe1aa0a7cf7b1e9562b6c08985ea0bb718",
+      "bytes": 1861,
+      "sha256": "41067d0df85510f12000f9d4abc0695229fb18119642e4aa718fa57d1adeab74"
+    },
+    {
+      "source": "build/water-window-runtime-20261011/runner-resource-correction-v1.json",
+      "file": "m5-water-window-runtime-20261011/aa7512566c0492b326202389e1a0c13b2a77b04c450f7eaaaa557170f5ab028f.json.gz",
+      "rawBytes": 5977,
+      "rawSha256": "aa7512566c0492b326202389e1a0c13b2a77b04c450f7eaaaa557170f5ab028f",
+      "bytes": 2688,
+      "sha256": "267e83c0a2f8e1868a0615563e07b23f0a4e675b774d47cc3d819206b8425deb"
+    },
+    {
+      "source": "build/water-window-runtime-20261011/independent-review/pc-1080-v2-independent-audit-v1.json",
+      "file": "m5-water-window-runtime-20261011/b02e141c767c7c0701e5e36ff00dda18a9ad4fc734fba8e82ae569a1219127c4.json.gz",
+      "rawBytes": 8940,
+      "rawSha256": "b02e141c767c7c0701e5e36ff00dda18a9ad4fc734fba8e82ae569a1219127c4",
+      "bytes": 3361,
+      "sha256": "916989aced905f83660d6b11d0e62ec7d85944c3a0b09741c7f21f1ae0522e9e"
+    },
+    {
+      "source": "build/water-window-runtime-20261011/independent-review/pc-720-v1-independent-audit-v1.json",
+      "file": "m5-water-window-runtime-20261011/4e95d31d128f1f2bfe98124ed469db34699564794d4434f4c8e704675eda9e16.json.gz",
+      "rawBytes": 7218,
+      "rawSha256": "4e95d31d128f1f2bfe98124ed469db34699564794d4434f4c8e704675eda9e16",
+      "bytes": 2871,
+      "sha256": "45a72bfab755029e220ff3b01ca87cd0103e17df0f9ef48a5c54724b623fbc75"
+    },
+    {
+      "source": "build/water-window-runtime-20261011/independent-review/pc-missing-v1-independent-audit-v1.json",
+      "file": "m5-water-window-runtime-20261011/aea88ef4a76ae809c9bca29c14927626e1ebac2d0dd76d0ea0713c7069bcf566.json.gz",
+      "rawBytes": 8183,
+      "rawSha256": "aea88ef4a76ae809c9bca29c14927626e1ebac2d0dd76d0ea0713c7069bcf566",
+      "bytes": 3097,
+      "sha256": "b3b3539465f7616ed6b8ac35584ece36d180921912f56b97f122c199c475d083"
+    },
+    {
+      "source": "build/water-window-runtime-20261011/independent-review/pc-classic-v1-independent-audit-v1.json",
+      "file": "m5-water-window-runtime-20261011/5c72522c9e9f3e901b33aff53912a724a9fabc9ae66e0293cad5de69ba55d795.json.gz",
+      "rawBytes": 7500,
+      "rawSha256": "5c72522c9e9f3e901b33aff53912a724a9fabc9ae66e0293cad5de69ba55d795",
+      "bytes": 2941,
+      "sha256": "03840d19ff40bebe52a1db337b68378a9604c093914230a62421ab8caf5ba95a"
+    },
+    {
+      "source": "build/water-window-runtime-20261011/independent-review/fallback-transparent-display-review-v1.json",
+      "file": "m5-water-window-runtime-20261011/88d61391a9a21eb6542c7e3a7f9ce6ae7546e6b872d223e43033abc42dfcf84d.json.gz",
+      "rawBytes": 6382,
+      "rawSha256": "88d61391a9a21eb6542c7e3a7f9ce6ae7546e6b872d223e43033abc42dfcf84d",
+      "bytes": 2095,
+      "sha256": "57e8c376c220adca71a95be41eb62239ffb26723f0fb17328907ffa3e7cf7c5d"
+    }
+  ],
+  "controlledCheckpoint": {
+    "addedTests": {
+      "spe": 17,
+      "skillBridge": 36,
+      "mobileControlledVm": 10,
+      "compiledNativeFixture": 2,
+      "total": 65
+    },
+    "suite": {
+      "modules": 89,
+      "tests": 4404,
+      "suites": 0,
+      "pass": 4404,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "sourceCount": 228,
+      "sourceDrift": []
+    },
+    "boundary": "Preserved source checkpoint; its actual/preflight pending fields are historical and are not rewritten."
+  },
+  "limits": [
+    "Only original WATER12/SPE36 is newly accepted. Shared36 skill19 retains its legacy route; FIRE classic remains pending under its own record.",
+    "The complete160x96 base and every pixel outside64x64 remain actual LCD. This is not a complete HD battle scene or an independent colored-pixel oracle inside the HD window.",
+    "LCD equality is a raw RGBA readback result, including alpha; only invisible RGB under alpha0 is normalized. Transparent canvas PNGs require the page light CSS background for black text. HOLD computedStyle and a held full-page composited screenshot were not captured, so CSS-composited contrast is not independently accepted; see fallback-transparent-display-review-v1.json.",
+    "Eight distinct source copies and measured LCD callbacks are separate quantities; coalesced callbacks do not prove every physical display frame.",
+    "New mobile tests remain controlled VM tests, not mobile browser/real Android/iOS acceptance. Other periods/skills, custom gameplay, full campaign/save/RNG continuity, visibility/resize matrix and performance remain pending."
+  ],
+  "archive": "./m5-water-window-runtime-20261011-archive.json"
+}

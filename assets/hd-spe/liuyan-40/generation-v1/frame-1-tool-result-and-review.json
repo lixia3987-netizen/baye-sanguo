@@ -1,0 +1,32 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in edit",
+  "callOrdinal": 2,
+  "requestPath": "frame-1-request.json",
+  "promptPath": "frame-1-prompt.txt",
+  "returnedKeys": [
+    "image_url",
+    "output_hint"
+  ],
+  "image_url": {
+    "encoding": "data:image/png;base64",
+    "length": 3724162,
+    "payloadPreservedAsExactOriginalPng": true,
+    "source": "C:/Users/75112/.codex/generated_images/01a116ec-089f-7872-8df1-b03c949b16d2/exec-7d21f8c7-7a2e-4ce0-88a1-85c2c415c11e.png",
+    "destination": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-1.png",
+    "bytes": 2793104,
+    "sha256": "add4e62a629b6b89aeb2fd69f124414b0f85f94fe8582388687551c70f7f8674",
+    "width": 1254,
+    "height": 1254,
+    "colorType": 2
+  },
+  "output_hint": "Generated images are saved to C:\\Users\\75112\\.codex\\generated_images\\01a116ec-089f-7872-8df1-b03c949b16d2 as C:\\Users\\75112\\.codex\\generated_images\\01a116ec-089f-7872-8df1-b03c949b16d2\\exec-7d21f8c7-7a2e-4ce0-88a1-85c2c415c11e.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "postprocessing": "None. Raw original PNG copied byte-for-byte; original tool path retained.",
+  "qa": {
+    "actualViewed": true,
+    "composition": "Both opposing helmeted spearmen, stance, mountain backdrop and bubble are visually preserved relative to generated frame0. No extra people.",
+    "nativeGlyphs": "FAIL: two large exclamation marks were rendered instead of the native reference character shapes.",
+    "accepted": false,
+    "runtimeAccepted": false
+  }
+}

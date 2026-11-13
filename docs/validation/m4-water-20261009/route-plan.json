@@ -1,0 +1,556 @@
+{
+  "schemaVersion": 1,
+  "status": "readonly-new-ROM-route-plan-not-browser-acceptance",
+  "head": "ff56cf38b4b823c6848caa2172184fd11358f448",
+  "createdAt": "2026-10-08T20:18:45.605Z",
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "priorFailure": {
+    "path": "build/r15-water-lcd-cast-v1/result.json",
+    "bytes": 17378475,
+    "sha256": "5f87749dc33c91e8ed115e763ed02f62a82a94592c904c402efaee7622f53601",
+    "runnerSha256": "55e2397f22121e843abbe84404521c35236ebf428205ed2bec7f1894433a86c8",
+    "checkpoints": 22,
+    "actualCaster": {
+      "i": 0,
+      "id": 148,
+      "personIndex": 147,
+      "name": "李恢",
+      "side": "player",
+      "x": 4,
+      "y": 29,
+      "hp": 56,
+      "mp": 65,
+      "move": 5,
+      "active": 0,
+      "state": 0,
+      "belong": 10,
+      "arms": 800,
+      "iq": 77,
+      "armType": 3,
+      "terrain": 1
+    },
+    "riverEnemyCounts": [
+      4,
+      3,
+      3,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "end": {
+      "position": [
+        8,
+        23
+      ],
+      "state": 8,
+      "arms": 0,
+      "mp": 65
+    },
+    "playerWaterAttempts": 0,
+    "sourceVerification": true,
+    "observerErrors": 0,
+    "jsExceptions": 0,
+    "conclusion": "Original LiHui/HanZhong approach is not currently proven viable. No cast reached; native death/AI pursuit—not HD renderer failure. Old raw and run remain immutable."
+  },
+  "candidate": {
+    "period": 3,
+    "year": 208,
+    "lord": {
+      "personIndex": 0,
+      "nativeId": 1,
+      "name": "韩玄",
+      "belong": 1,
+      "level": 1,
+      "force": 39,
+      "iq": 44,
+      "rawThew": 0,
+      "rawArm": 0,
+      "rawArms": 0,
+      "equip": [
+        0,
+        0
+      ],
+      "special": 0,
+      "recordHex": "0100010001272c64010000000000000000002d"
+    },
+    "origin": {
+      "cityIndex": 33,
+      "name": "长沙",
+      "belong": 1,
+      "money": 90,
+      "food": 466,
+      "reserve": 0,
+      "queueOffset": 163,
+      "personCount": 5,
+      "queue": [
+        0,
+        11,
+        12,
+        14,
+        166
+      ],
+      "alliedQueue": [
+        0,
+        11,
+        12,
+        14
+      ],
+      "people": [
+        {
+          "personIndex": 0,
+          "nativeId": 1,
+          "name": "韩玄",
+          "belong": 1,
+          "level": 1,
+          "force": 39,
+          "iq": 44,
+          "rawThew": 0,
+          "rawArm": 0,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "0100010001272c64010000000000000000002d"
+        },
+        {
+          "personIndex": 11,
+          "nativeId": 12,
+          "name": "黄忠",
+          "belong": 1,
+          "level": 1,
+          "force": 93,
+          "iq": 57,
+          "rawThew": 0,
+          "rawArm": 2,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "0c000100015d3956000000020000000000003c"
+        },
+        {
+          "personIndex": 12,
+          "nativeId": 13,
+          "name": "魏延",
+          "belong": 1,
+          "level": 1,
+          "force": 91,
+          "iq": 59,
+          "rawThew": 0,
+          "rawArm": 1,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "0d000100015b3b4a0000000100000000000021"
+        },
+        {
+          "personIndex": 14,
+          "nativeId": 15,
+          "name": "王朗",
+          "belong": 1,
+          "level": 1,
+          "force": 41,
+          "iq": 78,
+          "rawThew": 0,
+          "rawArm": 3,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "0f00010001294e59040000030000000000002e"
+        },
+        {
+          "personIndex": 166,
+          "nativeId": 167,
+          "name": "赵累",
+          "belong": 0,
+          "level": 1,
+          "force": 52,
+          "iq": 71,
+          "rawThew": 0,
+          "rawArm": 1,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "a7000000013447000400000100000000000019"
+        }
+      ],
+      "recordHex": "220100000033104a07bf0b2b034236f51f0300fc1701005a00d2010000a300050015000000"
+    },
+    "destination": {
+      "cityIndex": 36,
+      "name": "桂阳",
+      "belong": 3,
+      "money": 149,
+      "food": 360,
+      "reserve": 0,
+      "queueOffset": 175,
+      "personCount": 3,
+      "queue": [
+        2,
+        17,
+        18
+      ],
+      "alliedQueue": [
+        2,
+        17,
+        18
+      ],
+      "people": [
+        {
+          "personIndex": 2,
+          "nativeId": 3,
+          "name": "赵范",
+          "belong": 3,
+          "level": 1,
+          "force": 41,
+          "iq": 41,
+          "rawThew": 0,
+          "rawArm": 3,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "03000300012929640000000300000000000022"
+        },
+        {
+          "personIndex": 17,
+          "nativeId": 18,
+          "name": "陈应",
+          "belong": 3,
+          "level": 1,
+          "force": 80,
+          "iq": 22,
+          "rawThew": 0,
+          "rawArm": 3,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "12000300015016480000000300000000000029"
+        },
+        {
+          "personIndex": 18,
+          "nativeId": 19,
+          "name": "鲍隆",
+          "belong": 3,
+          "level": 1,
+          "force": 68,
+          "iq": 35,
+          "rawThew": 0,
+          "rawArm": 1,
+          "rawArms": 0,
+          "equip": [
+            0,
+            0
+          ],
+          "special": 0,
+          "recordHex": "13000300014423470000000100000000000015"
+        }
+      ],
+      "recordHex": "2503000000100ea005360c400540338e300300a2e40000950068010000af00030016000000"
+    },
+    "caster": {
+      "personIndex": 14,
+      "nativeId": 15,
+      "name": "王朗",
+      "belong": 1,
+      "level": 1,
+      "force": 41,
+      "iq": 78,
+      "rawThew": 0,
+      "rawArm": 3,
+      "rawArms": 0,
+      "equip": [
+        0,
+        0
+      ],
+      "special": 0,
+      "recordHex": "0f00010001294e59040000030000000000002e"
+    },
+    "firstDispatch": "Put actual eligible caster14/native15 first using current native person picker and original march queue; do not rewrite GenArray. Actual kingdom menu must confirm lord0/name韩玄.",
+    "route": {
+      "resource": 59,
+      "nativeStride": 16,
+      "originLinks": [
+        28,
+        0,
+        35,
+        0,
+        37,
+        0,
+        0,
+        27
+      ],
+      "destinationLinks": [
+        34,
+        0,
+        38,
+        0,
+        0,
+        0,
+        36,
+        0
+      ],
+      "expectedWay": 0,
+      "oneBasedDestination": 37,
+      "mapId": 115
+    },
+    "derivedDefaultCaster": {
+      "hp": 56,
+      "mp": 66,
+      "canny": 84,
+      "boundary": "Default CountBaseAttr at currentForce41/IQ78/Level1/Thew100 only. Real initial MP/HP/arm/state and configuration must be observed after actual dispatch."
+    }
+  },
+  "map": {
+    "resource": 115,
+    "resourceIndex": 0,
+    "width": 32,
+    "height": 32,
+    "stride": 32,
+    "payloadLength": 1040,
+    "payloadSha256": "0a26083fafd7b32f4aa7cca35f0c52bdebb1ae5d89aa296e504cf3d3e6688bbe",
+    "castle": [
+      16,
+      17
+    ],
+    "riverCells": 958,
+    "totalCells": 1024,
+    "playerDefault": [
+      {
+        "slot": 0,
+        "x": 16,
+        "y": 2,
+        "rawTile": 22,
+        "terrain": 7
+      },
+      {
+        "slot": 1,
+        "x": 16,
+        "y": 3,
+        "rawTile": 22,
+        "terrain": 7
+      },
+      {
+        "slot": 2,
+        "x": 15,
+        "y": 2,
+        "rawTile": 22,
+        "terrain": 7
+      }
+    ],
+    "enemyDefaultGeometry": [
+      {
+        "slot": 10,
+        "x": 16,
+        "y": 17,
+        "rawTile": 3,
+        "terrain": 5
+      },
+      {
+        "slot": 11,
+        "x": 16,
+        "y": 18,
+        "rawTile": 2,
+        "terrain": 0
+      },
+      {
+        "slot": 12,
+        "x": 15,
+        "y": 17,
+        "rawTile": 2,
+        "terrain": 0
+      }
+    ],
+    "sameWaterApproachColumn16": [
+      {
+        "x": 16,
+        "y": 2,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 3,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 4,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 5,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 6,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 7,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 8,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 9,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 10,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 11,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 12,
+        "rawTile": 22
+      },
+      {
+        "x": 16,
+        "y": 13,
+        "rawTile": 32
+      }
+    ],
+    "advantage": "Caster firstslot is already on river; default navy move5 and river cost1 permits up to4 cardinal cells each native MOVE. Water covers nearly entire map instead of a small moat, so chasing defenders can remain valid river targets after leaving their island.",
+    "limits": "Initial 3 enemy occupied slots are inside island land. At most one current defender on castle5 is stationary; the actual other units/AI movement may reach river. Do not bind a person to a geometry slot: citycmdd sorts real current army by Arms. Exact current GenArray/terrain/AIM remain mandatory."
+  },
+  "nativeConditions": {
+    "skill": 12,
+    "name": "水淹",
+    "sourceDefaultNavyRow": [
+      12,
+      13,
+      11,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "special14Person14": 0,
+    "mp": 20,
+    "weatherAllowed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "targetTerrain": 7,
+    "targetSide": "enemy",
+    "aim": "Exactly adjacent eight byte1 cells; size9 container does not authorize reach4.",
+    "state": "JZ2 blocks player skill; actor HL1/SZ6/dead8 unavailable. Native WATER target SZ6 is legal and state0 can clear it; do not copy Stone target6 exclusions unnecessarily.",
+    "defenderNavy": "Targets2赵范 or17陈应 are navy; modifier50 implies320 onweather1..3 /400 onrain4 before actualArms clamp. Actual effective army/actor/target can change; prefer fresh lowIQ target17 only if really current and legal.",
+    "random": "No fixed outcome. Actual MP cost spent on failures; no forced debug/RNG. Success→real36+label/NUM/hold; failure→native failure report only."
+  },
+  "aiEvidence": {
+    "source": "vendor/iBaye/src/FgtPkAi.c:302-389,858-872",
+    "stationary": "FgtCmpMove returns only when currentterrainCITY5, not by bow/infantry/navy. No river garrison rule.",
+    "default": "g_engineConfig starts zero for aiDefenceMode, and actual standardIFACE2/item15 contains only01 (enableToolAttackRange); no override of AI mode. Resource77 script is absent. This establishes default fresh standard setup, not a field observed in the prior browser census.",
+    "chase": "ModeAT/default0 pursues real player main general. Nohurt candidate chooses distance, then actual attack/terrain tie rules. On vast-river115 this no longer inherently makes a target leave terrain7."
+  },
+  "backupAssessment": {
+    "previousZhouCang27To28": {
+      "mapId": 114,
+      "riverCount": 24,
+      "way": 6,
+      "firstCasterDefault": [
+        4,
+        16
+      ],
+      "conclusion": "Closer west approach but same moat defect; not a continuous-river replacement. Do not claim old backup solves availability."
+    },
+    "secondGuiYang": {
+      "period": 3,
+      "lord": 1,
+      "lordName": "刘度",
+      "origin": 35,
+      "destination": 36,
+      "caster": 1,
+      "casterName": "刘度",
+      "navy": 3,
+      "IQ": 52,
+      "force": 53,
+      "map115": true,
+      "way": 6,
+      "limitation": "Lordcaster creates direct defeat risk and lower canny/MP; HanXuan/WangLang is preferred."
+    },
+    "equipment": "P3 LiuZhang/WangLang city has no immediate move horse in ROM stock/equips. P3 JiangXia allies own real horses (GuanYu79 Equip23 RedHare+3, LiuBei5 Equip24 Dilu+2). Native ConfiscateMake then LargessMake can legitimately re-equip navy, but requires real tool receipts/slots/devotion effects and does not remove map114 moat risk. No equipment browser flow accepted."
+  },
+  "proofSources": [
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "lines": "889-914,930-1048",
+      "scope": "GetAllKings from actual cityBelong; actualCity37 records then yeartail; native queue/load fields"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "lines": "283-285,369-405",
+      "scope": "Mapid110+actualdCityMapId; GetDirect(dest,origin); current defender sorting"
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "lines": "831-904",
+      "scope": "Real map/full native dimensions and actual way0 formation"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "lines": "302-389,463-549,579-606,858-872",
+      "scope": "True AI/chase and skill/target permissions"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "lines": "154-198,665-705,815-856",
+      "scope": "Native move and actual46-tile resistance/power rule"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "lines": "40-142",
+      "scope": "Actual confiscate ownership and tool donation precondition, no free stat write"
+    }
+  ],
+  "performed": {
+    "browser": false,
+    "worldWrites": false,
+    "rngOrTimeWrites": false,
+    "productionEdits": false,
+    "artGeneration": false
+  }
+}

@@ -1,0 +1,3614 @@
+{
+  "schemaVersion": 1,
+  "prefix": "docs/validation/m5-person-identity-20261026-v70",
+  "binding": {
+    "path": "build/person-identity-20261026-v70/evidence-source-v2/root-bindings-reviewed-v1.json",
+    "bytes": 243872,
+    "sha256": "0b0dd42e6faf2ec896975a3f8b27b765318a37b01546850bac1a65157dad20c8"
+  },
+  "packets": [
+    {
+      "id": "data-001",
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 42519,
+          "sha256": "6223a18a2885c97feee4e558adba99cab337c3d6690b46e89115465cf48af25a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/before/.gitattributes",
+          "bytes": 42051,
+          "sha256": "8b7701bf128c6adfaf21b45fcaf37c8b18475a1bdd60550be30b7d5a2ce69e5c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/before/package.json",
+          "bytes": 21283,
+          "sha256": "8f807f1d9e284cfcb69e9f4de98806c37dee9da4945af95ec32ec245d928be92"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/cancel-return-mechanical-v3.json",
+          "bytes": 2209,
+          "sha256": "19f54e2aeae3f14ad1f686db45bad5ebc8675add5b367a552f63248308bd0ab2"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/create-identity-runner-v1.mjs",
+          "bytes": 5244,
+          "sha256": "d7c4defa21af5f7c2ee6ed6104d383a01d16866341f2fa6606486e5a9a7b1025"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v1/README.md",
+          "bytes": 2580,
+          "sha256": "5905a1ff584ada315dd2afb50957effcf895d3aa8ae96897c0fb612f0318a79b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v1/prepare-v1.mjs",
+          "bytes": 5760,
+          "sha256": "9f286351d5dac5f3a5c15bbbed2d25bf989568258c48f5d2eee48e724feee8de"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v1/publish-v1.mjs",
+          "bytes": 6747,
+          "sha256": "9faddc8b9a1edf338542aaeb67c5aedfd0df33396511a9e65efff9c2a90567f9"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v1/source-freeze-v1.json",
+          "bytes": 2327,
+          "sha256": "368cf5943ac20257a7f9f0225e77479583bbc31849ffb7079fcd85269b4529f6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v1/source-static-peer-v1.json",
+          "bytes": 8052,
+          "sha256": "e60bba1d61a400f7f021d01832902aabb009e6dc907f2bea8b716b45d32add8c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v1/v70-common-v1.mjs",
+          "bytes": 45081,
+          "sha256": "67901fba13978efe4a00a10bb86e24eab13cbd2aae8234fe9a4634088685a11c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v1/v70-reader-v1.mjs",
+          "bytes": 30969,
+          "sha256": "eba3b1535b332f5bb712a8dd49560fd9bfea0c642a6cb28653bd89af6d3e5b08"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/README.md",
+          "bytes": 3070,
+          "sha256": "372c0e87faf5d5997048b186e1915e0d168d02b0b0dd6ad78d10ebecdd362f7f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667-chunks/manifest.json",
+          "bytes": 1093,
+          "sha256": "f7a37184cec9a27daab04623891e76763437f3844aceb92e0cb48029f14784f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV3-chunks/manifest.json",
+          "bytes": 567,
+          "sha256": "dd10a171765ed0c94e28bdab074498f79352ad9432e27c66f2adecb015b478d3"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV4-chunks/manifest.json",
+          "bytes": 569,
+          "sha256": "97dbc60e637ddec5e7978fa216959c91a9e04d0cbce3617822cb8b64c761d6b8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV5-chunks/manifest.json",
+          "bytes": 1114,
+          "sha256": "d6673b6456bc1ea20f0d8399237e15341907757479a0193585c3fc27eb949f68"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV6-chunks/manifest.json",
+          "bytes": 1116,
+          "sha256": "fc426d3d2db950cd8ecc431db9a7e8b977de9647b7351d8c2009c3adb2b034bb"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile844-chunks/manifest.json",
+          "bytes": 1093,
+          "sha256": "6f00b77a56ddfbca5a3829be8c0fecfa6232e30adfe315a4f3a3f7d5b078cb27"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile844FailedV3-chunks/manifest.json",
+          "bytes": 567,
+          "sha256": "b1a5b6fe8e5db91c09a2a45fd441d82c6d3e61a55ad8da7250f947c703eab000"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc1080-chunks/manifest.json",
+          "bytes": 819,
+          "sha256": "77007e58351e5daa2a89e2d135d5b50113d69342a3f0dc166b331ed9c705d71a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720-chunks/manifest.json",
+          "bytes": 816,
+          "sha256": "c97acbb6c13194965e832e7830b139685089c6f3fc431117214ebcc2e1c154b0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720FailedV1-chunks/manifest.json",
+          "bytes": 561,
+          "sha256": "fac0f578c84b9a1c0778e330b6000248b2a9bbdb16aeaba22d6e28f52a0acac8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720FailedV2-chunks/manifest.json",
+          "bytes": 832,
+          "sha256": "2e21d8f5390e703c90d22e460ae011e1fe62043f6bfb3b1af873456d023c9b46"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/prepare-v1.mjs",
+          "bytes": 5760,
+          "sha256": "9f286351d5dac5f3a5c15bbbed2d25bf989568258c48f5d2eee48e724feee8de"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/publish-v1.mjs",
+          "bytes": 7237,
+          "sha256": "e3ada3de2fdd688406ba003ee378e014172ed5860e20831bff1c44e58ccf81f3"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/root-bindings-reviewed-v1.json",
+          "bytes": 243872,
+          "sha256": "0b0dd42e6faf2ec896975a3f8b27b765318a37b01546850bac1a65157dad20c8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/source-freeze-v1.json",
+          "bytes": 3010,
+          "sha256": "4d4470eee673b82bdd8c3852411ff211b48d2552d895f2f88eed2ea816c60d90"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/source-static-peer-v1.json",
+          "bytes": 6209,
+          "sha256": "6da8baf92c9ce04ba41cb8d11e175a0c993a5cbdc1867817797b1d5039221886"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/v70-common-v1.mjs",
+          "bytes": 49135,
+          "sha256": "6bf61a40663898017de4f1d761bebea4a68520507e131842359c8b40864abaaa"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/v70-reader-v1.mjs",
+          "bytes": 32491,
+          "sha256": "7f1847ec24fad959f560da3c45c6aba3340f637fce4ca64bf25d704f6c1c6e0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/fix-cancel-return-v3.mjs",
+          "bytes": 2020,
+          "sha256": "4e6873cd12aaffaad7f337b3b92100273b4c06fa6c59cb71e8c5f5ba70b8b10d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/fix-mobile-controls-v5.mjs",
+          "bytes": 2398,
+          "sha256": "4df5e7b5da9de18d93475e63919741c9f17bb47ccdc4acdf9aa7ca555263fc0d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/fix-mobile-entry-v4.mjs",
+          "bytes": 1721,
+          "sha256": "5b7408d3b92e712ffa57e1db6ea0d8857a6b59be6eb1ff1a03efbed221bd86f8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/freeze-source-epoch-v1.mjs",
+          "bytes": 3410,
+          "sha256": "198aa90f3d2ac0081f1d9e6930226af756ac245229f26aa37ad715a16534cd71"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/generalize-list-gutter-v7.mjs",
+          "bytes": 3043,
+          "sha256": "b3798bf970a09f298e682751c1919e5a899a553548ea08f90d5de6c5258b0737"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/generalize-list-gutter-v7b.mjs",
+          "bytes": 3043,
+          "sha256": "30451efe325cde582815c3592420938fff4139d915a8412f353b75fc725bf26a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/identity-smoke-source-v1.txt",
+          "bytes": 12673,
+          "sha256": "4858b62c35d2563b9662d7fa26ce5972baa6026c8bd39ebc913fe36f4631c0fd"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/identity-source-static-peer-v1.json",
+          "bytes": 1835,
+          "sha256": "21e2781b6aba25c58c54df4cc41c654bf5da02a7a73b9f4f66ba70d227e6c038"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/install-list-preview-v6.mjs",
+          "bytes": 1700,
+          "sha256": "10d3ac5248c28288823242ba33b74028d9b48396d9535aecb3d1540bf86592f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/install-map-reveal-v2.mjs",
+          "bytes": 1018,
+          "sha256": "e3039d850f0bead567c6bfc0b6d28876788bd0ff543a0dc5f9c0516d89e5944b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/list-gutter-generalization-v7.json",
+          "bytes": 8761,
+          "sha256": "e553b08c1da4ef0d231442fbe21d51f10762963385e249fb14ee95f27141253c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/list-preview-mechanical-v6.json",
+          "bytes": 4424,
+          "sha256": "77e97cb9a08cf2d325c6c9207132617c58f402a27b42b50e9bf9523dd5685745"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/list-preview-source-v6.txt",
+          "bytes": 3451,
+          "sha256": "ab7e53bbb8f0969c85d37dc89d52de7af9417c18056b0775568c51991efe04f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/list-preview-static-peer-v6.json",
+          "bytes": 1456,
+          "sha256": "4376fd532cc42b323028a13a87fdb6d85649fd9eebb466432a4f5c0e3e812a35"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/map-reveal-mechanical-v2.json",
+          "bytes": 5637,
+          "sha256": "fa50d1646d9a7c39d7c16a8fdd09a20fd6aaf66e1c8e2fc705652c1d1ad054df"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/map-reveal-source-v2.txt",
+          "bytes": 4458,
+          "sha256": "1fd106698df45fedac4d5b8a4af640ffc4619fc279f92adab02c3cf5f5dd2f03"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile-controls-mechanical-v5.json",
+          "bytes": 1668,
+          "sha256": "6399937d09a120d8a0ef1f329a755ee3608bbe388a4420a2f371dcfaaf79a8f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile-delta-static-peer-v1.json",
+          "bytes": 4596,
+          "sha256": "d5289deeb95b8ec60b2ea462744155d323046eda858c31d6c3fbf0311cef219c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile-entry-mechanical-v4.json",
+          "bytes": 906,
+          "sha256": "afffcc8e7c45a96c5fe247be16a7bfc2c61d55ccbfcf400aaec6a44aab4d45e2"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/browser-console.json",
+          "bytes": 1856,
+          "sha256": "7e6799765d3f869ae5f371b0f1a18fd875809cf31e3d8d6612e2a8ee5f7230c4"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/executed-tool.mjs",
+          "bytes": 43241,
+          "sha256": "4836e07757f3bd86d762a4f18a12a5ee13a7802e6b7d40dfa4a2b2ac661aab2c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/failure-identity.png",
+          "bytes": 13316,
+          "sha256": "ee390b5860c4cd2385d5000e09da6fdea490092b66a435ce555f5adb4d061590"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/owned-process-samples.jsonl",
+          "bytes": 21852,
+          "sha256": "537be25f74b1cdc175575ab690974ce909699e57a4b3e320e02bdc27c7c23154"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v3/source-verification.json",
+          "bytes": 436347,
+          "sha256": "9ad633f70f03b05a3190db6c09a0219950d47ac59a0d05fd9530edee16093c41"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/browser-console.json",
+          "bytes": 14063,
+          "sha256": "f750290b6fbd517d38035cdaa24f06dc8d26828f414c6d4031c97491a7c14110"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/executed-tool.mjs",
+          "bytes": 43270,
+          "sha256": "31d31ccac4cc7f6c9396fecba468b58f6c9392950e86d8f50c8523fc5d1cdb36"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/failure-identity.png",
+          "bytes": 44271,
+          "sha256": "009ec3b0c961e577125d034f916edb7c131a0794d3d28eb09f24bf87ffebafa5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/mobile667-identity-00-yunnan-root.png",
+          "bytes": 48208,
+          "sha256": "9b4b63d332ed3c5a2dadf125c6b69f76e16345eb9a60aed412a4027549bd78cc"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/owned-process-samples.jsonl",
+          "bytes": 36626,
+          "sha256": "6f925d405440b05632dddc70d5dbb74005246a00b50ca1aa4f43f6228f1b1ec5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v4/source-verification.json",
+          "bytes": 436347,
+          "sha256": "1f842cf734785817eed99515c7ce737055d15e7a51ceed5fe7536d5991a694eb"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/browser-console.json",
+          "bytes": 14386,
+          "sha256": "5ed94db03282c58813ece2ede6dbecba89a91259fcd7ca5643dfd1a0cfcc7392"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/executed-tool.mjs",
+          "bytes": 44027,
+          "sha256": "a9d89c2dd848116c5e87fbd280eefe20a9502f800410cf1151e0a23bac5379a2"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/failure-identity.png",
+          "bytes": 65045,
+          "sha256": "847006d20bbfc8f8b57a8165b9d13a29ea0bd10a7859c89071222dbc9ad2ff54"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-00-yunnan-root.png",
+          "bytes": 48208,
+          "sha256": "9b4b63d332ed3c5a2dadf125c6b69f76e16345eb9a60aed412a4027549bd78cc"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-01-search-person-list.png",
+          "bytes": 47915,
+          "sha256": "49c7c6a1406a863ea8d956b2944a21d3ce8ee61531fc6c11dfe5660b7d979532"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-02-mobile667-01-person-3-preview.png",
+          "bytes": 48656,
+          "sha256": "a3bff75c2ae1ea1e6eda30c8744e6670bfee72f97c4cb5f22afcbc0fc04b03ae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-03-identity-person-3-listName.png",
+          "bytes": 48656,
+          "sha256": "a3bff75c2ae1ea1e6eda30c8744e6670bfee72f97c4cb5f22afcbc0fc04b03ae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-04-identity-person-3-heading.png",
+          "bytes": 54702,
+          "sha256": "f02b3805a936dc9d06b47585f21d5bb542929d844aaa14e8ef8ae17b7bf2154d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-05-identity-person-3-ownership.png",
+          "bytes": 54670,
+          "sha256": "1dd9ac752fce656ef17f38689dcd21ebed8cc6a4394eb0b92da2608c19016740"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-06-identity-person-3-priorOwnership.png",
+          "bytes": 61535,
+          "sha256": "d8dd027b0431c991728124a0a5b65ea15d655b58badbb7feda751b196cc9a365"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-07-identity-person-3-nativeOwnership.png",
+          "bytes": 65249,
+          "sha256": "9ddc0bd3c1e698507e3cc722f0a3c9d3f27ac9307168d883242df0aab1bf4443"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-08-mobile667-02-person-139-preview.png",
+          "bytes": 49250,
+          "sha256": "1b01a6dd41c957b34656088c3b06e426482a7bb0c7ea2dbca28500dc8baa936c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-09-identity-person-139-listName.png",
+          "bytes": 49250,
+          "sha256": "1b01a6dd41c957b34656088c3b06e426482a7bb0c7ea2dbca28500dc8baa936c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-10-identity-person-139-heading.png",
+          "bytes": 55247,
+          "sha256": "bdd7cd40d472aef85306e4107966c76643730cf6ac479040b754b42446bed0db"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-11-identity-person-139-ownership.png",
+          "bytes": 55188,
+          "sha256": "fab0819e852f3a883f2d22cb04b436594248e7272dce4dc5f2937cc71d3adb40"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-12-identity-person-139-priorOwnership.png",
+          "bytes": 61824,
+          "sha256": "8d4c1820b3a70ba4f9c35a351b3bd4118baddf3204c9d1c35952fd60d7f08b7c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-13-identity-person-139-nativeOwnership.png",
+          "bytes": 65673,
+          "sha256": "850e0066d46a37da1dcd38e5a506af62580cc09d5be5e4d6490eb043da55db5a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-14-mobile667-03-person-140-preview.png",
+          "bytes": 49554,
+          "sha256": "0e99de4931a1723ff6ba4e30fc3b0845abc11933762359345af3c40c3c7e78f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-15-identity-person-140-listName.png",
+          "bytes": 49554,
+          "sha256": "0e99de4931a1723ff6ba4e30fc3b0845abc11933762359345af3c40c3c7e78f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-16-identity-person-140-heading.png",
+          "bytes": 55336,
+          "sha256": "1018764b46571594280f96c58d3cb2a801c3e51616f4c7810ddf3db8c3458f9f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-17-identity-person-140-ownership.png",
+          "bytes": 55336,
+          "sha256": "1018764b46571594280f96c58d3cb2a801c3e51616f4c7810ddf3db8c3458f9f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-18-identity-person-140-priorOwnership.png",
+          "bytes": 61545,
+          "sha256": "596eae27f46c3b28b72245e30fe7b03b5f09deecb14cd49054ac1d961a38083d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-19-identity-person-140-nativeOwnership.png",
+          "bytes": 65739,
+          "sha256": "65064610ebd0513be3128889cd276a18648e5ebdd249971e486eef921c8b5daf"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-20-mobile667-04-person-143-preview.png",
+          "bytes": 48818,
+          "sha256": "8c92476b9505e78d63a571d8cca9a61d2a8fa744e904f2295cd32a35e1a4c72a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-21-identity-person-143-listName.png",
+          "bytes": 48818,
+          "sha256": "8c92476b9505e78d63a571d8cca9a61d2a8fa744e904f2295cd32a35e1a4c72a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-22-identity-person-143-heading.png",
+          "bytes": 55195,
+          "sha256": "90249b65bc054d506fcc7bdcdd96ec86a530350bc930217283abf31494581dae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-23-identity-person-143-ownership.png",
+          "bytes": 55195,
+          "sha256": "90249b65bc054d506fcc7bdcdd96ec86a530350bc930217283abf31494581dae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-24-identity-person-143-priorOwnership.png",
+          "bytes": 61327,
+          "sha256": "b38722cb4a41859e3f8ec693e39326d1de79c2d0b2bf5f02aafe026cc92632c5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/mobile667-identity-25-identity-person-143-nativeOwnership.png",
+          "bytes": 65045,
+          "sha256": "847006d20bbfc8f8b57a8165b9d13a29ea0bd10a7859c89071222dbc9ad2ff54"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/owned-process-samples.jsonl",
+          "bytes": 293624,
+          "sha256": "cd458901099a55418fbf61b00e217f94fd2c622c685689f0188239c168c5e110"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v5/source-verification.json",
+          "bytes": 436347,
+          "sha256": "abc25c17d6c230a1fd1a8b14cefba54efe5d24125846116eb37f2e90f3eb71a7"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/browser-console.json",
+          "bytes": 14387,
+          "sha256": "ae113885492cb51fc4baf0021ae825c247ada5ea9973f3262d0da1096aa190d4"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/executed-tool.mjs",
+          "bytes": 47384,
+          "sha256": "d8ae2bc5433f6194481524d5d6c4d06388d788a43878e74a497b67a784f633a2"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/failure-identity.png",
+          "bytes": 50002,
+          "sha256": "f298a0da0827c04e21ca1b010daa0c2ab0de025a3829093469513fb58be38310"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-00-yunnan-root.png",
+          "bytes": 48212,
+          "sha256": "e2cb378b3e6523e005227f3f4bffead49819fc9292ac2611c841480873d8655f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-01-search-person-list.png",
+          "bytes": 47915,
+          "sha256": "49c7c6a1406a863ea8d956b2944a21d3ce8ee61531fc6c11dfe5660b7d979532"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-02-mobile667-01-person-3-preview.png",
+          "bytes": 48656,
+          "sha256": "a3bff75c2ae1ea1e6eda30c8744e6670bfee72f97c4cb5f22afcbc0fc04b03ae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-03-identity-person-3-listName.png",
+          "bytes": 48656,
+          "sha256": "a3bff75c2ae1ea1e6eda30c8744e6670bfee72f97c4cb5f22afcbc0fc04b03ae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-04-identity-person-3-heading.png",
+          "bytes": 54670,
+          "sha256": "1dd9ac752fce656ef17f38689dcd21ebed8cc6a4394eb0b92da2608c19016740"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-05-identity-person-3-ownership.png",
+          "bytes": 54670,
+          "sha256": "1dd9ac752fce656ef17f38689dcd21ebed8cc6a4394eb0b92da2608c19016740"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-06-identity-person-3-priorOwnership.png",
+          "bytes": 61570,
+          "sha256": "734857bba1dfbddb9a917437620d9e738b89dc25d5f9a5ba748ab2773771e23b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-07-identity-person-3-nativeOwnership.png",
+          "bytes": 65249,
+          "sha256": "9ddc0bd3c1e698507e3cc722f0a3c9d3f27ac9307168d883242df0aab1bf4443"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-08-mobile667-02-person-139-preview.png",
+          "bytes": 49250,
+          "sha256": "1b01a6dd41c957b34656088c3b06e426482a7bb0c7ea2dbca28500dc8baa936c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-09-identity-person-139-listName.png",
+          "bytes": 49250,
+          "sha256": "1b01a6dd41c957b34656088c3b06e426482a7bb0c7ea2dbca28500dc8baa936c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-10-identity-person-139-heading.png",
+          "bytes": 55188,
+          "sha256": "fab0819e852f3a883f2d22cb04b436594248e7272dce4dc5f2937cc71d3adb40"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-11-identity-person-139-ownership.png",
+          "bytes": 55188,
+          "sha256": "fab0819e852f3a883f2d22cb04b436594248e7272dce4dc5f2937cc71d3adb40"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-12-identity-person-139-priorOwnership.png",
+          "bytes": 61786,
+          "sha256": "ae407c6a3c7fcdca8fae143cee578ed5ad5511847edf77a84e3668a4c49b5339"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-13-identity-person-139-nativeOwnership.png",
+          "bytes": 65583,
+          "sha256": "ea3b65bb57d40a4699b4453106b64b34b6995dd7eb0223ec592f0ccfa82b8037"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-14-mobile667-03-person-140-preview.png",
+          "bytes": 49554,
+          "sha256": "0e99de4931a1723ff6ba4e30fc3b0845abc11933762359345af3c40c3c7e78f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-15-identity-person-140-listName.png",
+          "bytes": 49554,
+          "sha256": "0e99de4931a1723ff6ba4e30fc3b0845abc11933762359345af3c40c3c7e78f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-16-identity-person-140-heading.png",
+          "bytes": 55336,
+          "sha256": "1018764b46571594280f96c58d3cb2a801c3e51616f4c7810ddf3db8c3458f9f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-17-identity-person-140-ownership.png",
+          "bytes": 55336,
+          "sha256": "1018764b46571594280f96c58d3cb2a801c3e51616f4c7810ddf3db8c3458f9f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-18-identity-person-140-priorOwnership.png",
+          "bytes": 61454,
+          "sha256": "68581ace778cb1bf8bcb3240a60aeebac87fb206045a9051ad69fc0074173537"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-19-identity-person-140-nativeOwnership.png",
+          "bytes": 65739,
+          "sha256": "65064610ebd0513be3128889cd276a18648e5ebdd249971e486eef921c8b5daf"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-20-mobile667-04-person-143-preview.png",
+          "bytes": 48818,
+          "sha256": "8c92476b9505e78d63a571d8cca9a61d2a8fa744e904f2295cd32a35e1a4c72a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-21-identity-person-143-listName.png",
+          "bytes": 48818,
+          "sha256": "8c92476b9505e78d63a571d8cca9a61d2a8fa744e904f2295cd32a35e1a4c72a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-22-identity-person-143-heading.png",
+          "bytes": 55225,
+          "sha256": "d0c321ad89f965f23d333f3d52ec278ed74375d0dc9c90e3b472b87ceaf86506"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-23-identity-person-143-ownership.png",
+          "bytes": 55195,
+          "sha256": "90249b65bc054d506fcc7bdcdd96ec86a530350bc930217283abf31494581dae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-24-identity-person-143-priorOwnership.png",
+          "bytes": 61327,
+          "sha256": "b38722cb4a41859e3f8ec693e39326d1de79c2d0b2bf5f02aafe026cc92632c5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-25-identity-person-143-nativeOwnership.png",
+          "bytes": 65045,
+          "sha256": "847006d20bbfc8f8b57a8165b9d13a29ea0bd10a7859c89071222dbc9ad2ff54"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-26-list-preview-reveal-144-0.png",
+          "bytes": 66568,
+          "sha256": "77eb1a1a5a6cb799b68d34db439b26ec2d953b86dbeb0da289699e0b8a17aca0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/mobile667-identity-27-mobile667-05-person-144-preview.png",
+          "bytes": 50002,
+          "sha256": "f298a0da0827c04e21ca1b010daa0c2ab0de025a3829093469513fb58be38310"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/owned-process-samples.jsonl",
+          "bytes": 312503,
+          "sha256": "9e9d5676ec09df7ece8db313cd2b9d0f27e8f0d519d3fdb5fbf38ef3da73e8ff"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v6/source-verification.json",
+          "bytes": 436347,
+          "sha256": "a0ee2d73a4120c8c89c4f057db7b2d2b88b40db5c693ba6b670686244638c671"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/browser-console.json",
+          "bytes": 14466,
+          "sha256": "c72505b6976e5c0336f63fafa68d53bba9e6966974a92c51caf33aff51e7cc70"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/executed-tool.mjs",
+          "bytes": 48041,
+          "sha256": "9748a6dbc4bf2719cde8f528f64e7f7d4bc3f08bfbba7553035eb13ebbf695c4"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-00-yunnan-root.png",
+          "bytes": 48208,
+          "sha256": "9b4b63d332ed3c5a2dadf125c6b69f76e16345eb9a60aed412a4027549bd78cc"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-01-search-person-list.png",
+          "bytes": 47915,
+          "sha256": "49c7c6a1406a863ea8d956b2944a21d3ce8ee61531fc6c11dfe5660b7d979532"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-02-mobile667-01-person-3-preview.png",
+          "bytes": 48656,
+          "sha256": "a3bff75c2ae1ea1e6eda30c8744e6670bfee72f97c4cb5f22afcbc0fc04b03ae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-03-identity-person-3-listName.png",
+          "bytes": 48656,
+          "sha256": "a3bff75c2ae1ea1e6eda30c8744e6670bfee72f97c4cb5f22afcbc0fc04b03ae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-04-identity-person-3-heading.png",
+          "bytes": 54699,
+          "sha256": "9def64bf730083ec464fcbec9e4a88e9565b4616e698b2e122bdf47fd1fe06d8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-05-identity-person-3-ownership.png",
+          "bytes": 54670,
+          "sha256": "1dd9ac752fce656ef17f38689dcd21ebed8cc6a4394eb0b92da2608c19016740"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-06-identity-person-3-priorOwnership.png",
+          "bytes": 61535,
+          "sha256": "d8dd027b0431c991728124a0a5b65ea15d655b58badbb7feda751b196cc9a365"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-07-identity-person-3-nativeOwnership.png",
+          "bytes": 65320,
+          "sha256": "5a0e1b16dd7101cbf7a6b93c27b571867fc5d21ce41858c81d1a3476548a54c1"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-08-mobile667-02-person-139-preview.png",
+          "bytes": 49250,
+          "sha256": "1b01a6dd41c957b34656088c3b06e426482a7bb0c7ea2dbca28500dc8baa936c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-09-identity-person-139-listName.png",
+          "bytes": 49250,
+          "sha256": "1b01a6dd41c957b34656088c3b06e426482a7bb0c7ea2dbca28500dc8baa936c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-10-identity-person-139-heading.png",
+          "bytes": 55188,
+          "sha256": "fab0819e852f3a883f2d22cb04b436594248e7272dce4dc5f2937cc71d3adb40"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-11-identity-person-139-ownership.png",
+          "bytes": 55188,
+          "sha256": "fab0819e852f3a883f2d22cb04b436594248e7272dce4dc5f2937cc71d3adb40"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-12-identity-person-139-priorOwnership.png",
+          "bytes": 61786,
+          "sha256": "ae407c6a3c7fcdca8fae143cee578ed5ad5511847edf77a84e3668a4c49b5339"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-13-identity-person-139-nativeOwnership.png",
+          "bytes": 65672,
+          "sha256": "a38297cdd8f6d8c4b1e55f82bb216a3b3c7bfda17089d6d38b401c73ad2db735"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-14-mobile667-03-person-140-preview.png",
+          "bytes": 49554,
+          "sha256": "0e99de4931a1723ff6ba4e30fc3b0845abc11933762359345af3c40c3c7e78f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-15-identity-person-140-listName.png",
+          "bytes": 49554,
+          "sha256": "0e99de4931a1723ff6ba4e30fc3b0845abc11933762359345af3c40c3c7e78f0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-16-identity-person-140-heading.png",
+          "bytes": 55336,
+          "sha256": "1018764b46571594280f96c58d3cb2a801c3e51616f4c7810ddf3db8c3458f9f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-17-identity-person-140-ownership.png",
+          "bytes": 55336,
+          "sha256": "1018764b46571594280f96c58d3cb2a801c3e51616f4c7810ddf3db8c3458f9f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-18-identity-person-140-priorOwnership.png",
+          "bytes": 61454,
+          "sha256": "68581ace778cb1bf8bcb3240a60aeebac87fb206045a9051ad69fc0074173537"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-19-identity-person-140-nativeOwnership.png",
+          "bytes": 65828,
+          "sha256": "db2f986a4f846eb7d2f92d50404fc6516fb3184ba2edeb3aaf80e79d8b0839c6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-20-mobile667-04-person-143-preview.png",
+          "bytes": 48818,
+          "sha256": "8c92476b9505e78d63a571d8cca9a61d2a8fa744e904f2295cd32a35e1a4c72a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-21-identity-person-143-listName.png",
+          "bytes": 48818,
+          "sha256": "8c92476b9505e78d63a571d8cca9a61d2a8fa744e904f2295cd32a35e1a4c72a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-22-identity-person-143-heading.png",
+          "bytes": 55255,
+          "sha256": "67c58cbcc9fc0cca2f7fd9a9cb7930a593616124f4cff9aeda6db82da525c7e7"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-23-identity-person-143-ownership.png",
+          "bytes": 55195,
+          "sha256": "90249b65bc054d506fcc7bdcdd96ec86a530350bc930217283abf31494581dae"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-24-identity-person-143-priorOwnership.png",
+          "bytes": 61369,
+          "sha256": "b061c6df130e9610a79e49bfeb678ad145d9c6f0fb0a97327494aac25fcd5c58"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-25-identity-person-143-nativeOwnership.png",
+          "bytes": 65132,
+          "sha256": "34bb5655f7eb35e00b158c12cb667c6c096b77bde2cae57e849a803d2723707b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-26-list-preview-reveal-144-0.png",
+          "bytes": 66623,
+          "sha256": "8517bea7b9f1e2bf017ad2b76536ded817c16c5b85b240ffc183ec560d059e41"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-27-mobile667-05-person-144-preview.png",
+          "bytes": 50002,
+          "sha256": "f298a0da0827c04e21ca1b010daa0c2ab0de025a3829093469513fb58be38310"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-28-list-preview-reveal-144-0.png",
+          "bytes": 50288,
+          "sha256": "d3b88e198bc26ed7cb6fdd3b87150cb08eceb4a030d971e23e50aefee9694092"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-29-identity-person-144-listName.png",
+          "bytes": 50288,
+          "sha256": "d3b88e198bc26ed7cb6fdd3b87150cb08eceb4a030d971e23e50aefee9694092"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-30-identity-person-144-heading.png",
+          "bytes": 56082,
+          "sha256": "a59c2aa3d8188febc702aa437651cd56c5d596b7bdb36bcf120bfba96adc1d19"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-31-identity-person-144-ownership.png",
+          "bytes": 56082,
+          "sha256": "a59c2aa3d8188febc702aa437651cd56c5d596b7bdb36bcf120bfba96adc1d19"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-32-identity-person-144-priorOwnership.png",
+          "bytes": 61976,
+          "sha256": "c32e2565f25137fef314a85d68654d2de052096dddb0f7bbae06b768c106068d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-33-identity-person-144-nativeOwnership.png",
+          "bytes": 66160,
+          "sha256": "7583bca4964658b4f99d7a589e5e6b28a66cc240c314512558de9e451068e77b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/mobile667-identity-34-return-map.png",
+          "bytes": 493052,
+          "sha256": "1d3ec07e032e9d3c507a6537164f7471522f14492f966f90f77cc44b5e44d6f3"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/owned-process-samples.jsonl",
+          "bytes": 378268,
+          "sha256": "4726bcdf8ff6da705addb0cfc5f7830ea18e35970ae245126b43a4099012f821"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile667-v7/source-verification.json",
+          "bytes": 436347,
+          "sha256": "8e8d6568ffa4392c9fdeb24dc6e344be42a279cb261421def0bdc70d6e343015"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/browser-console.json",
+          "bytes": 1857,
+          "sha256": "295a98005653483233519a747ca0327d0377cd2202e0c9aa7b9fb7ef65985e4d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/executed-tool.mjs",
+          "bytes": 43241,
+          "sha256": "4836e07757f3bd86d762a4f18a12a5ee13a7802e6b7d40dfa4a2b2ac661aab2c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/failure-identity.png",
+          "bytes": 13731,
+          "sha256": "630582c3ab434d0a624fbeb56d0a36da7d0f7dd93ce2c4563df4228338d66dfa"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/owned-process-samples.jsonl",
+          "bytes": 21870,
+          "sha256": "c9bd7e18e7daba7ad6dc2bbe3535061af74519d7b754a004ec8b6347ba4bde50"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v3/source-verification.json",
+          "bytes": 436347,
+          "sha256": "9ad633f70f03b05a3190db6c09a0219950d47ac59a0d05fd9530edee16093c41"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/browser-console.json",
+          "bytes": 14465,
+          "sha256": "d4618b6425771fc152b7609395baa66540eda00d65b3037bf3eca96046181d68"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/executed-tool.mjs",
+          "bytes": 43270,
+          "sha256": "31d31ccac4cc7f6c9396fecba468b58f6c9392950e86d8f50c8523fc5d1cdb36"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-00-yunnan-root.png",
+          "bytes": 52496,
+          "sha256": "fc2a8292b5db3e50cbe366ddc2806f84e0056c1699044eba4da90a00dfd973be"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-01-search-person-list.png",
+          "bytes": 56118,
+          "sha256": "b48653b66d72790717e94e84fcc20677f95c5457908a45a236bbf83e43cfb886"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-02-mobile844-01-person-3-preview.png",
+          "bytes": 56958,
+          "sha256": "1dd63b4b9d3cbd5447951c07c782377301eb1f22d69f9420535518ea512c0bc3"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-03-identity-person-3-listName.png",
+          "bytes": 56958,
+          "sha256": "1dd63b4b9d3cbd5447951c07c782377301eb1f22d69f9420535518ea512c0bc3"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-04-identity-person-3-heading.png",
+          "bytes": 65373,
+          "sha256": "32d8d3d3f7e05c7c5d3a509620b9e3938a24f34446b0e902c7323b7f0ae0a54b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-05-identity-person-3-ownership.png",
+          "bytes": 65328,
+          "sha256": "87be5850ddff117c3355e247ead1e43338e913308047d584d51a04afab2dc73c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-06-identity-person-3-priorOwnership.png",
+          "bytes": 65328,
+          "sha256": "87be5850ddff117c3355e247ead1e43338e913308047d584d51a04afab2dc73c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-07-identity-person-3-nativeOwnership.png",
+          "bytes": 75302,
+          "sha256": "85ecba29d6f59f4be9689e1df9a1015c13f06cd5daa968662a54bf7b9cae9a67"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-08-mobile844-02-person-139-preview.png",
+          "bytes": 58427,
+          "sha256": "16efb52e48d414003d12ac3c45c8adc2487b3230d066bc22c2a4cbd9d729b4ab"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-09-identity-person-139-listName.png",
+          "bytes": 58427,
+          "sha256": "16efb52e48d414003d12ac3c45c8adc2487b3230d066bc22c2a4cbd9d729b4ab"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-10-identity-person-139-heading.png",
+          "bytes": 65870,
+          "sha256": "78769e6ca8c4cee1c9e92e53604f78c9fddc6c56c688a98cc2af7afbf7ee8d9e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-11-identity-person-139-ownership.png",
+          "bytes": 65870,
+          "sha256": "78769e6ca8c4cee1c9e92e53604f78c9fddc6c56c688a98cc2af7afbf7ee8d9e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-12-identity-person-139-priorOwnership.png",
+          "bytes": 65870,
+          "sha256": "78769e6ca8c4cee1c9e92e53604f78c9fddc6c56c688a98cc2af7afbf7ee8d9e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-13-identity-person-139-nativeOwnership.png",
+          "bytes": 75404,
+          "sha256": "b46f59ce3321383d24e65a1ef864eb52eb1dcd8bb49543952d330734d32205d4"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-14-mobile844-03-person-140-preview.png",
+          "bytes": 58577,
+          "sha256": "002a7d1675474d942dee508cc10f6aec42b7da68a4ad75b55f88cf9a37d2a37e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-15-identity-person-140-listName.png",
+          "bytes": 58577,
+          "sha256": "002a7d1675474d942dee508cc10f6aec42b7da68a4ad75b55f88cf9a37d2a37e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-16-identity-person-140-heading.png",
+          "bytes": 66161,
+          "sha256": "e5179e60cb4ab8c84170406c36b1fcbb3455366cade7d1c995065051f0d1ecb2"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-17-identity-person-140-ownership.png",
+          "bytes": 66073,
+          "sha256": "83b87b9f4e14a7678f6a12bea33124a55f4c05986fbfcdf875a8313e9715c7b6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-18-identity-person-140-priorOwnership.png",
+          "bytes": 66073,
+          "sha256": "83b87b9f4e14a7678f6a12bea33124a55f4c05986fbfcdf875a8313e9715c7b6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-19-identity-person-140-nativeOwnership.png",
+          "bytes": 75533,
+          "sha256": "64b9af3f1ae9d7864e02675208f8f06d233fa1eefc88f7689b5663bcde26077c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-20-mobile844-04-person-143-preview.png",
+          "bytes": 58084,
+          "sha256": "7c991ed5fe36c8cfd97c2be946c986052d7b3c1a3e37fa3e07021452c075730d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-21-identity-person-143-listName.png",
+          "bytes": 58084,
+          "sha256": "7c991ed5fe36c8cfd97c2be946c986052d7b3c1a3e37fa3e07021452c075730d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-22-identity-person-143-heading.png",
+          "bytes": 65605,
+          "sha256": "74d67eb72a0fc85a308962b4a9e6e3c12fe71a9777959f13ea066ce6bc0ba005"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-23-identity-person-143-ownership.png",
+          "bytes": 65605,
+          "sha256": "74d67eb72a0fc85a308962b4a9e6e3c12fe71a9777959f13ea066ce6bc0ba005"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-24-identity-person-143-priorOwnership.png",
+          "bytes": 65605,
+          "sha256": "74d67eb72a0fc85a308962b4a9e6e3c12fe71a9777959f13ea066ce6bc0ba005"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-25-identity-person-143-nativeOwnership.png",
+          "bytes": 74939,
+          "sha256": "ce523f5f3fa1b31ae7ccce9fea59fb277745d9a0577f0fc6d227bcc419c1cb0b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-26-mobile844-05-person-144-preview.png",
+          "bytes": 58975,
+          "sha256": "7a97e63beebb44ed1f786237f39685dc6fe9bdd068a56b01f42978dfd2d17376"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-27-identity-person-144-listName.png",
+          "bytes": 58975,
+          "sha256": "7a97e63beebb44ed1f786237f39685dc6fe9bdd068a56b01f42978dfd2d17376"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-28-identity-person-144-heading.png",
+          "bytes": 66502,
+          "sha256": "b3b55d41b3e27e36517ca3d881ad8445a53ab3496347daf8fa889d0822270406"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-29-identity-person-144-ownership.png",
+          "bytes": 66502,
+          "sha256": "b3b55d41b3e27e36517ca3d881ad8445a53ab3496347daf8fa889d0822270406"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-30-identity-person-144-priorOwnership.png",
+          "bytes": 66502,
+          "sha256": "b3b55d41b3e27e36517ca3d881ad8445a53ab3496347daf8fa889d0822270406"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-31-identity-person-144-nativeOwnership.png",
+          "bytes": 75782,
+          "sha256": "e8c512ba43d810cfaac309ad2745ebb489fcf656088df306320b6ba22e18325c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/mobile844-identity-32-return-map.png",
+          "bytes": 652890,
+          "sha256": "119265a37a1cf0796fd28cf3a247cf4e98fe7d74cc37b25da13fcfa849b40df8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/owned-process-samples.jsonl",
+          "bytes": 365284,
+          "sha256": "329ab3f2ac58bcabc10b5854e753a42ddfa68624ceb4491103b688f336eefadc"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/mobile844-v4/source-verification.json",
+          "bytes": 436347,
+          "sha256": "1f842cf734785817eed99515c7ce737055d15e7a51ceed5fe7536d5991a694eb"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/browser-console.json",
+          "bytes": 14999,
+          "sha256": "a0547f01d7c8468b45458a66123d69947133acf2f4ba06a8a5eac459908387b5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/executed-tool.mjs",
+          "bytes": 43241,
+          "sha256": "4836e07757f3bd86d762a4f18a12a5ee13a7802e6b7d40dfa4a2b2ac661aab2c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/owned-process-samples.jsonl",
+          "bytes": 325747,
+          "sha256": "c5c141bfc53525deb6d634f324c10d7b79916dedcd94fffe4dcfd632d323e101"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-00-yunnan-root.png",
+          "bytes": 2722661,
+          "sha256": "75df8547b18f0796f02f151c300a49c33f07127cbace4466e031ab17050caca7"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-01-search-person-list.png",
+          "bytes": 2587318,
+          "sha256": "c3744b9a8892f68e2d0c6fc0ba4740be7e9fb8186089b3db2e37312ba0320180"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-02-identity-person-3-listName.png",
+          "bytes": 2587537,
+          "sha256": "3060ed32367ee6dd9be41a02d62416f7819023d3f1a6199eb64db41b3aff3b17"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-03-identity-person-3-heading.png",
+          "bytes": 2587472,
+          "sha256": "553b26109bf6ff6750eed3c94df21d2c5a80616a3f83f6d1ead85e9096944b22"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-04-identity-person-3-ownership.png",
+          "bytes": 2587638,
+          "sha256": "d04bca412d52ea356c9231e26664e6e7458adc145673e24ed6497672980f4839"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/source-verification.json",
+          "bytes": 436347,
+          "sha256": "9ad633f70f03b05a3190db6c09a0219950d47ac59a0d05fd9530edee16093c41"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/executed-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/executed-tool.mjs",
+          "bytes": 43241,
+          "sha256": "4836e07757f3bd86d762a4f18a12a5ee13a7802e6b7d40dfa4a2b2ac661aab2c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/source-verification.json",
+          "bytes": 436347,
+          "sha256": "9ad633f70f03b05a3190db6c09a0219950d47ac59a0d05fd9530edee16093c41"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/executed-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/executed-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/executed-preview-helper.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/executed-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "scripts/hd-mobile-preview-runtime-checks.mjs",
+          "bytes": 19409,
+          "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e"
+        },
+        {
+          "path": "scripts/hd-person-identity-rom.mjs",
+          "bytes": 6532,
+          "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+        },
+        {
+          "path": "scripts/hd-person-identity-runtime-checks.mjs",
+          "bytes": 22262,
+          "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60"
+        },
+        {
+          "path": "scripts/hd-runtime-json.mjs",
+          "bytes": 7266,
+          "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5"
+        },
+        {
+          "path": "scripts/hd-runtime-owned-chrome.mjs",
+          "bytes": 13603,
+          "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761"
+        },
+        {
+          "path": "scripts/test-hd-person-identity-runtime.mjs",
+          "bytes": 48041,
+          "sha256": "9748a6dbc4bf2719cde8f528f64e7f7d4bc3f08bfbba7553035eb13ebbf695c4"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-001-archive-index.json",
+        "bytes": 111346,
+        "sha256": "0e157805adca4f747cda6aec3008ddaa8e10eb86ff840a6eb2b27894417091c9"
+      }
+    },
+    {
+      "id": "data-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-05-identity-person-3-priorOwnership.png",
+          "bytes": 2587673,
+          "sha256": "95926f7de231b93a400941e202d6847801466d66845f691866f9dc1c9aecf0aa"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-06-identity-person-3-nativeOwnership.png",
+          "bytes": 2690212,
+          "sha256": "f8c810c34863d03dcc649a7d6457d364395d47b0c7ce110229ed50dbea93e466"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-07-identity-person-139-listName.png",
+          "bytes": 2690166,
+          "sha256": "ad5c2121cbe05a7acd72d05ceb51957e051a5ac54e7eac8fbccff23166efdbd8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-08-identity-person-139-heading.png",
+          "bytes": 2669881,
+          "sha256": "e64e9ffa72ac7702d41c4d0f80d90995dbc516243c4ab7d7ac3ffd4750c1b75b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-09-identity-person-139-ownership.png",
+          "bytes": 2669892,
+          "sha256": "94f00f83d26b5008ad5e999e2bac9a583e4684d7698dfeea6ba8fc3d0311ba67"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-10-identity-person-139-priorOwnership.png",
+          "bytes": 2669874,
+          "sha256": "bb784ffcf5ecc28337808ac8cf5517c4e59751747d8892e448a2ce6633534073"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-11-identity-person-139-nativeOwnership.png",
+          "bytes": 2690094,
+          "sha256": "1f883c19db5e7435ff2a922de29726c6bf8e05c30aa95fae1e18894229bf135c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-12-identity-person-140-listName.png",
+          "bytes": 2690054,
+          "sha256": "4e24f08a3e3df5b730a00b5b285e17c5641c0d03e7790a0569cd55551067f81d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-13-identity-person-140-heading.png",
+          "bytes": 2670813,
+          "sha256": "4866d7a123a2477f47108da3f92d715e02e860bcd14aeb2d53df1c6d4f363c9a"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-002-archive-index.json",
+        "bytes": 5480,
+        "sha256": "c2dbaea8b2d31303afe00024070e7c558fc3622058c9b493bbfd3744bf98888c"
+      }
+    },
+    {
+      "id": "data-003",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-14-identity-person-140-ownership.png",
+          "bytes": 2670785,
+          "sha256": "83c47dfe914e965e3469b318fa832ac801f24e67281978f994178f89d64a75cf"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-15-identity-person-140-priorOwnership.png",
+          "bytes": 2670800,
+          "sha256": "59b8a826600bb15e3214894ac5b82d5c38bf535b663f8ac8c47a3fca41debcf0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-16-identity-person-140-nativeOwnership.png",
+          "bytes": 2689918,
+          "sha256": "333ee33f20663bec871c32c33fd2b197e1449973b76f4a09bc3de52f4bd41f95"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-17-identity-person-143-listName.png",
+          "bytes": 2689915,
+          "sha256": "248e15d438b0b4db2a1fc44f2ab855670cbc1ac5681f680e3a4f79892bc9c1ff"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-18-identity-person-143-heading.png",
+          "bytes": 2671120,
+          "sha256": "ee6cbcea14e47f178cd2978422c3da797fad4902242ac0046a7f16477cacd2fd"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-19-identity-person-143-ownership.png",
+          "bytes": 2671116,
+          "sha256": "439af455253c6971d6600fcaf18dd71471d9aeddb6a6f6fec78322b3af619f9f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-20-identity-person-143-priorOwnership.png",
+          "bytes": 2671266,
+          "sha256": "4c05486a01bc8f695db9b3b49dbcd2aa0eb4e191f472d2a70ed7547f372e1fa0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-21-identity-person-143-nativeOwnership.png",
+          "bytes": 2690152,
+          "sha256": "0a522a8291b5cee7075e39d03e6dac7c06adec616b325b5bdc8c0c9d68f0b479"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-22-identity-person-144-listName.png",
+          "bytes": 2690148,
+          "sha256": "3a0810bc052a0b7b0a1298bab71660281d04e4a5ea4358d90bd03b90b8bd2045"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-003-archive-index.json",
+        "bytes": 5486,
+        "sha256": "0939c65b6555ffb76ceae008c98dee87b4b25e7e89b928f93650406a3a7cb2c6"
+      }
+    },
+    {
+      "id": "data-004",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-23-identity-person-144-heading.png",
+          "bytes": 2670188,
+          "sha256": "c8b90b3f84605c3ad4e0a32b003efd4ab177ab411605b823cafa871c635770c4"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-24-identity-person-144-ownership.png",
+          "bytes": 2670154,
+          "sha256": "a80ee9ae4a09b32fe7c23e35b95ed21b8e220f696e831c3726090edbfee4d351"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-25-identity-person-144-priorOwnership.png",
+          "bytes": 2670057,
+          "sha256": "d81d963116edb50ca2e43ae4939b7883a7eabdb0efdf28890a34543626e73627"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-26-identity-person-144-nativeOwnership.png",
+          "bytes": 2690125,
+          "sha256": "b3e23d52ed3266b30a2a0578379c726966dfa8fc34c128c9772a3ca9a8919a4d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc1080-v3/pc1080-identity-27-return-map.png",
+          "bytes": 3764563,
+          "sha256": "3346e32506ec2dbfbaa123b8480ae98c1ff1ae0eb250bdd3299335efdd263fbd"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/browser-console.json",
+          "bytes": 13683,
+          "sha256": "726d224589fe74f3a983f1cca6b11975be56995427e66f7375458186da3f0d8e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/executed-tool.mjs",
+          "bytes": 39185,
+          "sha256": "bfabe2a23535bd9ceb2b2dfac1be307bd5f1a36ddedbcb2102ed5f64babbd28b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/failure-identity.png",
+          "bytes": 1490777,
+          "sha256": "100bb0db79d821b42ae80c787c2b241ed46d421dad75472cef57a1b0facc0aad"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/owned-process-samples.jsonl",
+          "bytes": 24311,
+          "sha256": "91268b31e227559e9cc368785478153d8894e5a3ccbeb0e2aa38612a42cd1b5d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v1/source-verification.json",
+          "bytes": 436347,
+          "sha256": "ceb0cb4f35409d5ef9b88433070f4461d8feb863abb022bc2de3331c8075908a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/browser-console.json",
+          "bytes": 14893,
+          "sha256": "326c10c42814df30975df6a339cb98e3923b39405345b21e478398a392c413b0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/executed-tool.mjs",
+          "bytes": 43019,
+          "sha256": "feadcde9f8017124eab531becd22b218731025cd296a255943aa901f2d9b6315"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/failure-identity.png",
+          "bytes": 1741161,
+          "sha256": "b1b4cc7defdfe2fb49fd1626de5ad8766910b3d24f50eb020257eac80c9ac26f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/owned-process-samples.jsonl",
+          "bytes": 335004,
+          "sha256": "df441b1119ae4c403f66dfb0c602a47e0fc5bd3af9c62bfc6aaf2a3840e92f97"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-00-yunnan-root.png",
+          "bytes": 1019002,
+          "sha256": "dbfe1fd96b12af18deeaf5adfe5d962fe5bae751903727899493cef1adfec58b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-01-search-person-list.png",
+          "bytes": 966666,
+          "sha256": "86a646ac4c9066e43ebfd31c886106f92e24117ccb3123a27e76528cf3acea92"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-02-identity-person-3-listName.png",
+          "bytes": 877062,
+          "sha256": "ca70d52f467c1aca7e035472921bb3375928a9940ce95349930d499b6b74982e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-03-identity-person-3-heading.png",
+          "bytes": 877006,
+          "sha256": "8a9185e93819283911158b94bb795f81cc4ac6dd296d718aad4c75d3ad8dd2b6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-04-identity-person-3-ownership.png",
+          "bytes": 876994,
+          "sha256": "7544d77bc62d2b8dba81b095cb5b8944761f3c8c76a43b8dbbee7a2856271f6e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-05-identity-person-3-priorOwnership.png",
+          "bytes": 876991,
+          "sha256": "2a7409cefc75f2823821fbd0a098eab81ed5d9501f72927adf32be45c105bf0a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-06-identity-person-3-nativeOwnership.png",
+          "bytes": 980571,
+          "sha256": "54bb10589b02fb1e66e7d52854f65749ed2b0c39f0ef32aa248b7a4c63c44c3c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/executed-tool.mjs",
+          "bytes": 39185,
+          "sha256": "bfabe2a23535bd9ceb2b2dfac1be307bd5f1a36ddedbcb2102ed5f64babbd28b"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-004-archive-index.json",
+        "bytes": 10349,
+        "sha256": "153ac91e234cbe9453a1b951123b2bb7872543a8bc26295eb68f168786bbb14a"
+      }
+    },
+    {
+      "id": "data-005",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-07-identity-person-139-listName.png",
+          "bytes": 980645,
+          "sha256": "23064fb181082bd07c04e7f2e9deefe4b6f92e0b64442f75925cd6fa6f23c287"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-08-identity-person-139-heading.png",
+          "bytes": 959601,
+          "sha256": "48a4a562556ddb5cd1edb7e40bb15415fdbd6c012597315b61ebca3a5f78b647"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-09-identity-person-139-ownership.png",
+          "bytes": 959590,
+          "sha256": "04b072eaf2946240aa58254c4166ec6fe9ebe8137cb71a40128e6959c3bdaf46"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-10-identity-person-139-priorOwnership.png",
+          "bytes": 959591,
+          "sha256": "d2c219d4b79308752064d2f1440cfc232a890dfabcd8e0ab7b2e72db73c05c30"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-11-identity-person-139-nativeOwnership.png",
+          "bytes": 980693,
+          "sha256": "769a98102c4b9de587501815a21d6256f03f3d2895baeb0ebdfafaeca937f87c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-12-identity-person-140-listName.png",
+          "bytes": 980537,
+          "sha256": "989c619ff7430df228225dcc941b2f0494f8cfe7aa655ebf97524e15b2abe907"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-13-identity-person-140-heading.png",
+          "bytes": 960209,
+          "sha256": "7ba155c342aa876d57fd2b8aa7ed36f26fca402ae23019ca75ae347027afb7a6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-14-identity-person-140-ownership.png",
+          "bytes": 960192,
+          "sha256": "54b5d58cc401e697ac18fd95f2bc0fbc03d5cf156a4701a69d7f68fcb57ce45c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-15-identity-person-140-priorOwnership.png",
+          "bytes": 960215,
+          "sha256": "3fa574af8d088fa9a41085baf19d60961ba679134c5e258f77321484917e8323"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-16-identity-person-140-nativeOwnership.png",
+          "bytes": 980577,
+          "sha256": "87bda9e08fd8cf2b6549f25adf4469d5e63fdf809eeffa34bb6db58d0bfa298d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-17-identity-person-143-listName.png",
+          "bytes": 980506,
+          "sha256": "1bc3caa44e0e1f7acc043a1393620a8909bc9caa53548e01e331d8f8c2acc5a9"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-18-identity-person-143-heading.png",
+          "bytes": 960449,
+          "sha256": "8026b9fcb879b843227128d8b773346babf665e50cd55f9e44b947abd936d2fe"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-19-identity-person-143-ownership.png",
+          "bytes": 960436,
+          "sha256": "2aef2c72e91675e18d25556a1c99e8759c815cedd0d55315f85f128c26692257"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-20-identity-person-143-priorOwnership.png",
+          "bytes": 960418,
+          "sha256": "fd7efb85063a06bfee2628a02d89baf727b9de36079f9f3e99a9953712aba9b0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-21-identity-person-143-nativeOwnership.png",
+          "bytes": 980426,
+          "sha256": "353f2094b076680f4a219abc6578f6ee9746a436dfc57400470fcab474396c59"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-22-identity-person-144-listName.png",
+          "bytes": 981093,
+          "sha256": "72f927175d8c5ef61fbe8b8a2f9df27e56c9a588115fd1dd387c1f50b8a04c72"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-23-identity-person-144-heading.png",
+          "bytes": 960194,
+          "sha256": "8ccb00944215d83effe05f7d1b00f98336557191d0039250861e2a1a023ff6d1"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-24-identity-person-144-ownership.png",
+          "bytes": 960252,
+          "sha256": "9553c0b534c622c5ff9e6f059e80e7fb925316fbf798cf5099e70e589cf8d663"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-25-identity-person-144-priorOwnership.png",
+          "bytes": 960184,
+          "sha256": "5847cf731e8ace107223e3edeace8b1dfa79ca89606f0adbe0cc0613ddd6aa62"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-26-identity-person-144-nativeOwnership.png",
+          "bytes": 981196,
+          "sha256": "5e5089a6195ac5a37ff3e4e760b6383bb9a30ceb838b44227e92c95d2a1731bf"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/pc720-identity-27-return-sub.png",
+          "bytes": 1843530,
+          "sha256": "52fb49ca63da4020d6d07d032f51d8aa02046cdd7fd58b23c2e744e7f0425fb4"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v2/source-verification.json",
+          "bytes": 436347,
+          "sha256": "2167e979b2fd6df7d44ff5904bfd5c1dc6910f24d20882d7b0dd1be94690eeb9"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/browser-console.json",
+          "bytes": 14894,
+          "sha256": "7ad71a7196c3aff16a355c8c4c158ff00fd25942c31ea1199c70a2c83f6638a5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/owned-process-samples.jsonl",
+          "bytes": 336077,
+          "sha256": "dac5e072204408c2643f7060c2ab96f56e9c4daf1f574d210150a10d3676df7e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-00-yunnan-root.png",
+          "bytes": 1018993,
+          "sha256": "c233f253972c75022c449eab4247b59eec7541a71d27280b434805122c00704a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-01-search-person-list.png",
+          "bytes": 966716,
+          "sha256": "2ccbe6f6539144aeb0cf258d0b6d0576e7a164ff4aff36b91836716b4d3c4f8a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-02-identity-person-3-listName.png",
+          "bytes": 877026,
+          "sha256": "d52cc3be4d1ef3de5ec979094f5ca4b6dc2213c062cc3773f7070f87dfb966c7"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-005-archive-index.json",
+        "bytes": 12579,
+        "sha256": "f5464e00d25d95b2d4bcf4285061c0244556a4c0390db3959c2a1e88ed9cf7b6"
+      }
+    },
+    {
+      "id": "data-006",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-03-identity-person-3-heading.png",
+          "bytes": 877003,
+          "sha256": "7d18773e7bbd0bfb658bf6d31aa8838c76ad3942eaa3420f55b5d5639c987f00"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-04-identity-person-3-ownership.png",
+          "bytes": 877066,
+          "sha256": "da9a574cd36ddefb36a4e87050b7fe9881860e28f197e89ec1329788fa384392"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-05-identity-person-3-priorOwnership.png",
+          "bytes": 877009,
+          "sha256": "3d6536a205385365f9a9467b3ad4bd18c27709ff818d434831e415b16f88e568"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-06-identity-person-3-nativeOwnership.png",
+          "bytes": 980530,
+          "sha256": "302b84da25701139986085b9f10f4a94a091692c3b43a15037ccf4e55233f9ba"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-07-identity-person-139-listName.png",
+          "bytes": 980726,
+          "sha256": "45e5bd68ecd2e580c5b5a8a30447958f5a0d4e9d18c715bc6115faf9b95fe2cc"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-08-identity-person-139-heading.png",
+          "bytes": 959590,
+          "sha256": "701d0ecd6f30cea1c4b13678071ec1e342c899298758f518060b0fe36772c31b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-09-identity-person-139-ownership.png",
+          "bytes": 959628,
+          "sha256": "bf64b1d8dfa0bedeee2b789e03388e372adae94e53823438815bcf6a9f968565"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-10-identity-person-139-priorOwnership.png",
+          "bytes": 959598,
+          "sha256": "f4bd1b022cd00b7cbef28376a97ea4968a960ed17df879578bc22cce78903dfa"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-11-identity-person-139-nativeOwnership.png",
+          "bytes": 980704,
+          "sha256": "5e8e4918353de5a29a8cfd49c447b574c36a156f9c93662049521e020747edc0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-12-identity-person-140-listName.png",
+          "bytes": 980469,
+          "sha256": "87653a140ae42529e6d80bc47b8967bad8e352af06bb495eea196b71e29810c1"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-13-identity-person-140-heading.png",
+          "bytes": 960195,
+          "sha256": "8fae40c3e2b48949035748204c6dafd577c8a219c9cd8e53235ecb18216657a5"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-14-identity-person-140-ownership.png",
+          "bytes": 960260,
+          "sha256": "754081c4ef54cabb8e929a2132bd4ec1565de7d50cacf7f2ae53b54a81d897d7"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-15-identity-person-140-priorOwnership.png",
+          "bytes": 960206,
+          "sha256": "9748e711c6d783be61128f2490792939e51bd989a98220cad58a3ec35aba81e2"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-16-identity-person-140-nativeOwnership.png",
+          "bytes": 980642,
+          "sha256": "7b1473cdcc82798d440ae6e8e3810ac5a1bca371f6eb6ddaf21ffd40f9c25c85"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-17-identity-person-143-listName.png",
+          "bytes": 980437,
+          "sha256": "e62d39aa908e6c04d680d19f56f20772813fde7e907813e4e7b08ea5f2eda1b0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-18-identity-person-143-heading.png",
+          "bytes": 960392,
+          "sha256": "80483393d587bec20f34d7654ebd9b7def48290e6f1be4456b596e21197e6da6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-19-identity-person-143-ownership.png",
+          "bytes": 960396,
+          "sha256": "a8f02d7e50d08f3f12e7cf5f85b663996ed17fa0a83ad064d46476b40f5f4573"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-20-identity-person-143-priorOwnership.png",
+          "bytes": 960498,
+          "sha256": "e3e210819f1a096d7044c9002c696017493b4bcecb1acc53b446e0651c957cd8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-21-identity-person-143-nativeOwnership.png",
+          "bytes": 980406,
+          "sha256": "74a3eab6166543064aec7c79091b10d04894b3e64d135e47bf44886ff31d20d6"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-22-identity-person-144-listName.png",
+          "bytes": 981127,
+          "sha256": "6a8fe1d27d67b5cce2800e846d0e3c51024c56e7871c7fa8082db909c6d80465"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-23-identity-person-144-heading.png",
+          "bytes": 960164,
+          "sha256": "7f29a857143601b58feeb04a59e9067b7f097136f700efe008971fa20d449806"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-24-identity-person-144-ownership.png",
+          "bytes": 960203,
+          "sha256": "27803a3085fed2a81569c6eb94e7a14fb6fbb6f61eb2722356b86946dd109fcf"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-25-identity-person-144-priorOwnership.png",
+          "bytes": 960250,
+          "sha256": "a16babf55a35a13c28132191cd94b53ef6c7aeb52112579ecea45a0b5bd70348"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-26-identity-person-144-nativeOwnership.png",
+          "bytes": 981139,
+          "sha256": "5cd5ec19df229d8b9a2d2c6cd860de835b44aa7b592ab412a77d58d74aae8311"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-27-return-map.png",
+          "bytes": 1843480,
+          "sha256": "d6f45117c861eaf638a0e6547609e5487d4682eb5197c261b0964b5d1ca3f9cf"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/browser-console.json",
+          "bytes": 70,
+          "sha256": "46568dae8c3ff6247fe1b949b4a578213e6a7e355676c582a97cf1417bf5341e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/executed-checks.mjs",
+          "bytes": 21928,
+          "sha256": "c3cc11bf055e232400e3cad44743c1905b45607b1ba3b395c14cc27919d9fd24"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-006-archive-index.json",
+        "bytes": 12646,
+        "sha256": "327873b1aeb830094c799c97768674a7991f535f4273832eba6195b6d7fff88d"
+      }
+    },
+    {
+      "id": "data-007",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/result.json",
+          "bytes": 792229,
+          "sha256": "96374e054ef574ab4b5b5e7e4f2829b9ce05510fbf0699d0ea755087b6245719"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/preflight-pc720-v1/source-verification.json",
+          "bytes": 436347,
+          "sha256": "4352d37435409b50290e6a65ffb236403b32c03c64f7d69e7bde1c5550345849"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-initial-tool-v3.json",
+          "bytes": 503,
+          "sha256": "6598aad08c47702d7fdf30f2f4c2237dc03bcd66c4f742682caa2738b1a2b53b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-initial-tool-v4.json",
+          "bytes": 1440,
+          "sha256": "abca3a803c3237d851d11b3ea55c3b2f45fdc320eb247d18a9e91a3db329c175"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-initial-tool-v5.json",
+          "bytes": 501,
+          "sha256": "07d5136c1a9bb2bbe3bea3596791b606f3c92769739ed7c6ace7f1aa305c87d0"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-initial-tool-v6.json",
+          "bytes": 502,
+          "sha256": "b58de585955737a3ad387cd7e4265b41062495de91f831f329fff02eb8f28318"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-initial-tool-v7.json",
+          "bytes": 501,
+          "sha256": "72019a533b4d376451edbda5e4e131f1808fd7eb0151d4aaa6c963a41919e3ed"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-terminal-tool-v3.json",
+          "bytes": 886,
+          "sha256": "03c3e3bd9e3eb34626c1d802e982a1da03689259885c456a00f07cda44ca7fa9"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-terminal-tool-v5.json",
+          "bytes": 1072,
+          "sha256": "e711840a78893a90a24615ba7230f593abd8713f345722545d3c069a4bd3bc8e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-terminal-tool-v6.json",
+          "bytes": 1086,
+          "sha256": "d4679f97c0c0573aec10cb2108dbe92b6f664903b1af31e96c9f53efd75cad83"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile667-terminal-tool-v7.json",
+          "bytes": 389,
+          "sha256": "fd4d35822ccb22ab8d2ad76948c2f44e1f34ea4d79eda361e3c9b21baf44dd5d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile844-initial-tool-v3.json",
+          "bytes": 500,
+          "sha256": "9402b9c1c86600c0d12a8b1729d0847aee27896018bf3b26aa9d7ea73d6fd91a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile844-initial-tool-v4.json",
+          "bytes": 503,
+          "sha256": "885fb5eb91c64e8b940ece152d547888fda0b0225508696da65b43757f1c2d26"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile844-intermediate-tool-v3.json",
+          "bytes": 624,
+          "sha256": "1499f487d9d94dae18305db275f8bd8946c09c38183d6fbb643d886730eb8c62"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile844-terminal-tool-v3.json",
+          "bytes": 391,
+          "sha256": "c1899c2144cad1952bdb76c559495dfdc807a56fe6f969b89a88874737bf0ee1"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-mobile844-terminal-tool-v4.json",
+          "bytes": 389,
+          "sha256": "070e9e98092b4fb153a30045ea14d30e08f7e4f72f956105d43324d34e703d11"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-pc1080-initial-tool-v3.json",
+          "bytes": 498,
+          "sha256": "4534dc3c22bd384214264d6aa3a10b44c0f44d45501e8e7e89ae4db6600baa2c"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-pc1080-terminal-tool-v3.json",
+          "bytes": 386,
+          "sha256": "7fbbb86afad8c97e1a367f0e34b03183c7ce06d5244a4c054c891c6971c61767"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-pc720-initial-tool-v1.json",
+          "bytes": 1136,
+          "sha256": "248e56516b23ae4267df74d4cfb9ff1ba2e791a7155c7cf908d9915d5791119b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-pc720-initial-tool-v2.json",
+          "bytes": 499,
+          "sha256": "41faeaad1a3d2f1c101c3669cdfeeeda1f2f5e568bd57fd0918dd50b31f61144"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-pc720-initial-tool-v3.json",
+          "bytes": 496,
+          "sha256": "f4e82db1485f5b93f23f94142643af48db3a72ba1d10dbe7e7de7e6bde480349"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-pc720-terminal-tool-v2.json",
+          "bytes": 1059,
+          "sha256": "65c1a5470b6606fc58de5a6a223ca949ea1eb6ac28e556560b34de5463518bb3"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-pc720-terminal-tool-v3.json",
+          "bytes": 385,
+          "sha256": "e730330bf96e270f62a7b05baecfa48a0ac4e03e8d4c63417d4e79e8d448c738"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-preflight-terminal-tool-v1.json",
+          "bytes": 490,
+          "sha256": "eb45e4929cdbd154a92314a20f9f2e63a7d11bbaeb694890f69fc27ef4a4261f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/raw-prepare-initial-tool-v1.json",
+          "bytes": 1416,
+          "sha256": "24d4bc8cdc3a0f6823b9a5c5996263be74382e0be06a17af27201205ec77029b"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/rom-audit-v1.json",
+          "bytes": 4319,
+          "sha256": "0fb8395a074d4c36f56bf986869ab60ba367c6c0d82a1bb5a406c064e6e9ad2f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/runner-construction-v1.json",
+          "bytes": 5422,
+          "sha256": "2694b23579cd9a065a3f8ad30db7ad586cbc73e4b73ff89a24f044038a49b0e9"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/source-epoch-v1.json",
+          "bytes": 27470,
+          "sha256": "af86c627c66d230c982195ffca7f562c51cd9f9d8c1ee7a16c2a513e25f3f95e"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/source-epoch-v2.json",
+          "bytes": 27876,
+          "sha256": "5a012a63b53145a4ee2b26f763d76dc9a1a0be92970161e051842b3d7a74b9c1"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/source-epoch-v3.json",
+          "bytes": 28090,
+          "sha256": "99134f2d55521dd6ecfedf109c4e2d8a789944a67a9d2c539cf60aaca7f34a80"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/source-epoch-v4.json",
+          "bytes": 28301,
+          "sha256": "8d5f49b4e4318fb92d979a9dc89f167276218a417e08e9731f6543a28baff82f"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/source-epoch-v5.json",
+          "bytes": 28522,
+          "sha256": "c2558a72355ebd4c00e31d4755a414d51abafcaa591e684366d0c95a6f5d2f7a"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/source-epoch-v6.json",
+          "bytes": 28734,
+          "sha256": "82c4b84568ed6098b5b9a2812c3db1a78ce02bf27f7a5217d375d6b74bca420d"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/source-epoch-v7.json",
+          "bytes": 28956,
+          "sha256": "f3d8f2942eacfeddec30f7c0192901c31df957524cd6ef8c2cf8d3cd7f0f7811"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/stage-delivery-v1.mjs",
+          "bytes": 2918,
+          "sha256": "b54ed3913a9259b00864148f7bb8960732ffa14e71e58e22b23980b657fbebb8"
+        },
+        {
+          "path": "build/person-identity-20261026-v70/verify-git-delivery-v1.mjs",
+          "bytes": 4716,
+          "sha256": "56c4445a63940deb5a251693c56a7e18572f9843b23c91d6c30cd848030e59af"
+        },
+        {
+          "path": "css/hd-city-menu.css",
+          "bytes": 15502,
+          "sha256": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7"
+        },
+        {
+          "path": "designer.html",
+          "bytes": 3146,
+          "sha256": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6"
+        },
+        {
+          "path": "docs/validation/m5-native-input-queue-20261026-v69.json",
+          "bytes": 218414,
+          "sha256": "65fc937fcd2e1ba5ace6f1f0daa644fc56eba8463caf2fb0cf94005dae18b971"
+        },
+        {
+          "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+          "bytes": 32262,
+          "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca"
+        },
+        {
+          "path": "hd-portrait-dump.html",
+          "bytes": 3409,
+          "sha256": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60"
+        },
+        {
+          "path": "js/baye.build.json",
+          "bytes": 21284,
+          "sha256": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a"
+        },
+        {
+          "path": "js/baye.js",
+          "bytes": 193335,
+          "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0"
+        },
+        {
+          "path": "js/baye.wasm",
+          "bytes": 4561414,
+          "sha256": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee"
+        },
+        {
+          "path": "js/baye.wasm.map",
+          "bytes": 29995,
+          "sha256": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d"
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "bytes": 436244,
+          "sha256": "31ad8b8b99f091e65ec33fe00ce933fb0ec2b9ff6629d49a3a66fc8ecd83f34f"
+        },
+        {
+          "path": "libs/dat-mod.lib",
+          "bytes": 207195,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+        },
+        {
+          "path": "m-ges.html",
+          "bytes": 6958,
+          "sha256": "a8985b3caf605d3f4752657645904753fe75bd7759a62a110469fae334463cc5"
+        },
+        {
+          "path": "m-ktouch.html",
+          "bytes": 6460,
+          "sha256": "22f3bfc8fd47dc7e4aaa91ece80ad3f8101ce87fcc1530ed0fa152f0061ab8d4"
+        },
+        {
+          "path": "m-old.html",
+          "bytes": 6514,
+          "sha256": "a81d35deb67b7ea69e688f20895f9b4e27b1d3b4225bb76ca4d6834fd840ae70"
+        },
+        {
+          "path": "m.html",
+          "bytes": 18478,
+          "sha256": "e8b80108989eee1ed07083b2828caf2534c68d4cbeb105fe390b2b6be6c884b6"
+        },
+        {
+          "path": "package.json",
+          "bytes": 21371,
+          "sha256": "1c35bd7aae8a3cbad01a470fefd1c040622e747373bee6036239af6408c9d4fc"
+        },
+        {
+          "path": "pc.html",
+          "bytes": 28679,
+          "sha256": "52067903716f3d7287f136052f622a09fa75e3d34f67212c4ab20e64d25b6c8d"
+        },
+        {
+          "path": "scripts/hd-city-resource-runtime-checks.mjs",
+          "bytes": 6880,
+          "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f"
+        },
+        {
+          "path": "scripts/hd-person-equipment-runtime-checks.mjs",
+          "bytes": 10661,
+          "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe"
+        },
+        {
+          "path": "scripts/test-hd-city-hud.mjs",
+          "bytes": 134812,
+          "sha256": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe"
+        },
+        {
+          "path": "scripts/test-hd-mobile-city-runtime.mjs",
+          "bytes": 127263,
+          "sha256": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9"
+        },
+        {
+          "path": "scripts/test-hd-native-sem.mjs",
+          "bytes": 9885,
+          "sha256": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60"
+        },
+        {
+          "path": "scripts/test-hd-person-equipment-runtime.mjs",
+          "bytes": 35763,
+          "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a"
+        },
+        {
+          "path": "vendor/iBaye/.gitignore",
+          "bytes": 44,
+          "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75"
+        },
+        {
+          "path": "vendor/iBaye/.gitmodules",
+          "bytes": 293,
+          "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca"
+        },
+        {
+          "path": "vendor/iBaye/ATTRIBUTION.md",
+          "bytes": 495,
+          "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4"
+        },
+        {
+          "path": "vendor/iBaye/CMakeLists.txt",
+          "bytes": 82,
+          "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68"
+        },
+        {
+          "path": "vendor/iBaye/LICENSE",
+          "bytes": 1091,
+          "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1"
+        },
+        {
+          "path": "vendor/iBaye/README.md",
+          "bytes": 2077,
+          "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5"
+        },
+        {
+          "path": "vendor/iBaye/UPSTREAM_COMMIT",
+          "bytes": 42,
+          "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659"
+        },
+        {
+          "path": "vendor/iBaye/js/.gitignore",
+          "bytes": 62,
+          "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea"
+        },
+        {
+          "path": "vendor/iBaye/js/config.sh",
+          "bytes": 61,
+          "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff"
+        },
+        {
+          "path": "vendor/iBaye/js/whitelist.json",
+          "bytes": 3368,
+          "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f"
+        },
+        {
+          "path": "vendor/iBaye/src/CMakeLists.txt",
+          "bytes": 3097,
+          "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774"
+        },
+        {
+          "path": "vendor/iBaye/src/FgtCount.c",
+          "bytes": 27302,
+          "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+        },
+        {
+          "path": "vendor/iBaye/src/FgtPkAi.c",
+          "bytes": 44229,
+          "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+        },
+        {
+          "path": "vendor/iBaye/src/Fight.c",
+          "bytes": 58254,
+          "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e"
+        },
+        {
+          "path": "vendor/iBaye/src/FightSub.c",
+          "bytes": 36284,
+          "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+        },
+        {
+          "path": "vendor/iBaye/src/Gamhzk.bin",
+          "bytes": 163840,
+          "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+        },
+        {
+          "path": "vendor/iBaye/src/PublicFun.c",
+          "bytes": 33782,
+          "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+        },
+        {
+          "path": "vendor/iBaye/src/Size.c",
+          "bytes": 1727,
+          "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/attribute.h",
+          "bytes": 8930,
+          "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/bind-objects.h",
+          "bytes": 2593,
+          "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/comm.h",
+          "bytes": 5109,
+          "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/compa.h",
+          "bytes": 3328,
+          "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/consdef.h",
+          "bytes": 6048,
+          "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/data-bind.h",
+          "bytes": 4001,
+          "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/datman.h",
+          "bytes": 1158,
+          "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/enghead.h",
+          "bytes": 370,
+          "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/errcode.h",
+          "bytes": 985,
+          "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/extern.h",
+          "bytes": 4158,
+          "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/fight.h",
+          "bytes": 9611,
+          "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/fsys.h",
+          "bytes": 1185,
+          "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/fundec.h",
+          "bytes": 2184,
+          "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/fundef.h",
+          "bytes": 200,
+          "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/graph.h",
+          "bytes": 451,
+          "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/itoa.h",
+          "bytes": 267,
+          "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/order.h",
+          "bytes": 2916,
+          "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/paccount.h",
+          "bytes": 2251,
+          "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/resource.h",
+          "bytes": 557,
+          "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/sconst.h",
+          "bytes": 4101,
+          "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/script.h",
+          "bytes": 873,
+          "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/sharefun.h",
+          "bytes": 8365,
+          "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/sources.h",
+          "bytes": 286,
+          "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/stdsys.h",
+          "bytes": 500,
+          "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa"
+        },
+        {
+          "path": "vendor/iBaye/src/bind-objects.c",
+          "bytes": 17734,
+          "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+        },
+        {
+          "path": "vendor/iBaye/src/citycmd.c",
+          "bytes": 39212,
+          "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+        },
+        {
+          "path": "vendor/iBaye/src/citycmdb.c",
+          "bytes": 34493,
+          "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+        },
+        {
+          "path": "vendor/iBaye/src/citycmdc.c",
+          "bytes": 39495,
+          "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+        },
+        {
+          "path": "vendor/iBaye/src/citycmdd.c",
+          "bytes": 38292,
+          "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+        },
+        {
+          "path": "vendor/iBaye/src/citycmde.c",
+          "bytes": 15921,
+          "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+        },
+        {
+          "path": "vendor/iBaye/src/cityedit.c",
+          "bytes": 41528,
+          "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+        },
+        {
+          "path": "vendor/iBaye/src/comIn.c",
+          "bytes": 12480,
+          "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+        },
+        {
+          "path": "vendor/iBaye/src/comOut.c",
+          "bytes": 21378,
+          "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+        },
+        {
+          "path": "vendor/iBaye/src/config.c",
+          "bytes": 179,
+          "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+        },
+        {
+          "path": "vendor/iBaye/src/convert_to_c.py",
+          "bytes": 294,
+          "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e"
+        },
+        {
+          "path": "vendor/iBaye/src/dat.lib.orig",
+          "bytes": 196890,
+          "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab"
+        },
+        {
+          "path": "vendor/iBaye/src/data-bind.c",
+          "bytes": 4662,
+          "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a"
+        },
+        {
+          "path": "vendor/iBaye/src/data/pconst.h",
+          "bytes": 1761,
+          "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+        },
+        {
+          "path": "vendor/iBaye/src/data/pstring.h",
+          "bytes": 1524,
+          "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+        },
+        {
+          "path": "vendor/iBaye/src/datman.c",
+          "bytes": 9424,
+          "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+        },
+        {
+          "path": "vendor/iBaye/src/debug.c",
+          "bytes": 1904,
+          "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac"
+        },
+        {
+          "path": "vendor/iBaye/src/font.bin",
+          "bytes": 163840,
+          "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+        },
+        {
+          "path": "vendor/iBaye/src/fsys.c",
+          "bytes": 33667,
+          "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da"
+        },
+        {
+          "path": "vendor/iBaye/src/gamEng.c",
+          "bytes": 47517,
+          "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+        },
+        {
+          "path": "vendor/iBaye/src/genver.py",
+          "bytes": 416,
+          "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff"
+        },
+        {
+          "path": "vendor/iBaye/src/hd-bridge.c",
+          "bytes": 199154,
+          "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+        },
+        {
+          "path": "vendor/iBaye/src/hd-bridge.h",
+          "bytes": 19624,
+          "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/ADDR.H",
+          "bytes": 2468,
+          "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/DictAfx.h",
+          "bytes": 702,
+          "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/DictHelp.h",
+          "bytes": 5664,
+          "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/GuiEdit.h",
+          "bytes": 2021,
+          "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/MEM.H",
+          "bytes": 1207,
+          "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/STDLIB.H",
+          "bytes": 19,
+          "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/SysResv.h",
+          "bytes": 6103,
+          "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/dictsys.h",
+          "bytes": 21754,
+          "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/filetype.h",
+          "bytes": 4695,
+          "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/flash.h",
+          "bytes": 17046,
+          "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/fsys.h",
+          "bytes": 1991,
+          "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/keytable.h",
+          "bytes": 3820,
+          "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c"
+        },
+        {
+          "path": "vendor/iBaye/src/inc/shell.h",
+          "bytes": 2138,
+          "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72"
+        },
+        {
+          "path": "vendor/iBaye/src/infdeal.c",
+          "bytes": 26196,
+          "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+        },
+        {
+          "path": "vendor/iBaye/src/itoa.c",
+          "bytes": 1038,
+          "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c"
+        },
+        {
+          "path": "vendor/iBaye/src/main.c",
+          "bytes": 116,
+          "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686"
+        },
+        {
+          "path": "vendor/iBaye/src/miniz.c",
+          "bytes": 327452,
+          "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059"
+        },
+        {
+          "path": "vendor/iBaye/src/miniz.h",
+          "bytes": 70791,
+          "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6"
+        },
+        {
+          "path": "vendor/iBaye/src/paccount.c",
+          "bytes": 3892,
+          "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd"
+        },
+        {
+          "path": "vendor/iBaye/src/pconst.c",
+          "bytes": 4213,
+          "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246"
+        },
+        {
+          "path": "vendor/iBaye/src/picture.asm",
+          "bytes": 9186,
+          "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/common/bios.c",
+          "bytes": 1053,
+          "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/common/gui.c",
+          "bytes": 3231,
+          "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/common/sem.h",
+          "bytes": 522,
+          "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/common/sys.c",
+          "bytes": 15103,
+          "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/common/timer.h",
+          "bytes": 485,
+          "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+          "bytes": 424,
+          "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/ios/fsys.c",
+          "bytes": 4119,
+          "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/ios/sem.m",
+          "bytes": 866,
+          "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+          "bytes": 229,
+          "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/ios/timer.m",
+          "bytes": 1937,
+          "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/dat.lib.c",
+          "bytes": 1181340,
+          "sha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/exportjs.c",
+          "bytes": 9789,
+          "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/font.bin.c",
+          "bytes": 1003524,
+          "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/font24.1.bin.c",
+          "bytes": 3616965,
+          "sha256": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/font24.2.bin.c",
+          "bytes": 3616965,
+          "sha256": "0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/font24.3.bin.c",
+          "bytes": 3616965,
+          "sha256": "f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-007-archive-index.json",
+        "bytes": 55939,
+        "sha256": "d83ab2e9ba0027001f068a7b5a1dd8562209c4483d96749e61091ff186b7348f"
+      }
+    },
+    {
+      "id": "data-008",
+      "files": [
+        {
+          "path": "vendor/iBaye/src/platform/js/font24.4.bin.c",
+          "bytes": 3616965,
+          "sha256": "7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/font24_ascii.1.c",
+          "bytes": 117817,
+          "sha256": "c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/font24_ascii.2.c",
+          "bytes": 117817,
+          "sha256": "41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/fsys.c",
+          "bytes": 11703,
+          "sha256": "144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/main.c",
+          "bytes": 1046,
+          "sha256": "a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/script.c",
+          "bytes": 7078,
+          "sha256": "b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/sem.c",
+          "bytes": 1132,
+          "sha256": "fe6b0d8ce49b41b54a1f0976576c6267e2476a274d2d178d1062f2dc3ea7461f"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/sys-js.c",
+          "bytes": 312,
+          "sha256": "be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/timer.c",
+          "bytes": 1797,
+          "sha256": "178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/win/fsys.c",
+          "bytes": 24,
+          "sha256": "da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/win/game.c",
+          "bytes": 827,
+          "sha256": "d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/win/script.c",
+          "bytes": 32,
+          "sha256": "81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/win/sem.c",
+          "bytes": 850,
+          "sha256": "5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/win/sys.c",
+          "bytes": 27,
+          "sha256": "2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/win/timer.c",
+          "bytes": 1274,
+          "sha256": "34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71"
+        },
+        {
+          "path": "vendor/iBaye/src/platform/win/window.c",
+          "bytes": 6742,
+          "sha256": "2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac"
+        },
+        {
+          "path": "vendor/iBaye/src/pstring.c",
+          "bytes": 4189,
+          "sha256": "0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a"
+        },
+        {
+          "path": "vendor/iBaye/src/res-msgpack.c",
+          "bytes": 135,
+          "sha256": "6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b"
+        },
+        {
+          "path": "vendor/iBaye/src/res-msgpack.h",
+          "bytes": 183,
+          "sha256": "d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34"
+        },
+        {
+          "path": "vendor/iBaye/src/showface.c",
+          "bytes": 42650,
+          "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+        },
+        {
+          "path": "vendor/iBaye/src/strcnt.c",
+          "bytes": 7932,
+          "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+        },
+        {
+          "path": "vendor/iBaye/src/tactic.c",
+          "bytes": 45067,
+          "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+        },
+        {
+          "path": "vendor/iBaye/src/touch.c",
+          "bytes": 6575,
+          "sha256": "cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236"
+        },
+        {
+          "path": "vendor/iBaye/src/touch.h",
+          "bytes": 1559,
+          "sha256": "559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73"
+        },
+        {
+          "path": "vendor/iBaye/src/varma.c",
+          "bytes": 4162,
+          "sha256": "4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508"
+        },
+        {
+          "path": "vendor/iBaye/src/version.c",
+          "bytes": 242,
+          "sha256": "3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-data-008-archive-index.json",
+        "bytes": 9678,
+        "sha256": "e962c544d13dccb815d43fa5ee0b26b9a4f84d1111b8159dfa62489e8b4d8a7f"
+      }
+    },
+    {
+      "id": "pc720FailedV1-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720FailedV1-chunks/raw-000.bin",
+          "bytes": 1251025,
+          "sha256": "3e1fdecb5b44d0b9bc676595a1626f1ff9bb0387ec624da4dcfdb4fcae8f5104"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-pc720FailedV1-raw-001-archive-index.json",
+        "bytes": 1291,
+        "sha256": "8856e07a3e3cd50ee1a5638dfb73d7628736eec8863a62bff2174868b9a05968"
+      }
+    },
+    {
+      "id": "pc720FailedV2-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720FailedV2-chunks/raw-000.bin",
+          "bytes": 33554432,
+          "sha256": "588b50ba91a6388b306f725ee86d7e9ec683f1bf2673c97b0eca5bc0f79d9483"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-pc720FailedV2-raw-001-archive-index.json",
+        "bytes": 1297,
+        "sha256": "6d12304743d7c026bd845bbb517c20bbc7db88623a67ed4c490f27ff9986ff1f"
+      }
+    },
+    {
+      "id": "pc720FailedV2-raw-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720FailedV2-chunks/raw-001.bin",
+          "bytes": 12975624,
+          "sha256": "dfa435164356618f5f4e7b2521093807a9efe878cf699da9748720650a5f0db8"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-pc720FailedV2-raw-002-archive-index.json",
+        "bytes": 1294,
+        "sha256": "2dd33c4c4807996ae95c861cc238ab93d15602e9959d5bb951cd0d1becd84073"
+      }
+    },
+    {
+      "id": "mobile667FailedV3-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV3-chunks/raw-000.bin",
+          "bytes": 818103,
+          "sha256": "9cb5723f2c525feb0b473f6865f39df760ae113b0c194beaec62c7dbab2574b4"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV3-raw-001-archive-index.json",
+        "bytes": 1296,
+        "sha256": "ddc844f0d13497725099447b421351468cb98e78b1f56f76c976bc3338889415"
+      }
+    },
+    {
+      "id": "mobile844FailedV3-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile844FailedV3-chunks/raw-000.bin",
+          "bytes": 818109,
+          "sha256": "5df9983b093888f69023ad7ab68cece41d4e54ff8638145fdaec6b2bf27a329a"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile844FailedV3-raw-001-archive-index.json",
+        "bytes": 1296,
+        "sha256": "78a15bd69fc1d0a5d8bf6210116691cf5b70ac8b230bbd7a9e402fbd5a749ad8"
+      }
+    },
+    {
+      "id": "mobile667FailedV4-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV4-chunks/raw-000.bin",
+          "bytes": 1760576,
+          "sha256": "8afffd79e2e79ab2ce547732c37e3227d83ab56b94482c1759a2e8446a4937ec"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV4-raw-001-archive-index.json",
+        "bytes": 1299,
+        "sha256": "47c090897132ea5d32c856cfcea22ff7b43c6b8fcbbb0b5b25240e5530e30e08"
+      }
+    },
+    {
+      "id": "mobile667FailedV5-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV5-chunks/raw-000.bin",
+          "bytes": 33554432,
+          "sha256": "6df9bbb3b2dad75bb3e9c3eda34df88bbd9251728e6e04957bbd9f0b9dd06ce2"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV5-raw-001-archive-index.json",
+        "bytes": 1305,
+        "sha256": "93dbdaafec616a5243cb6754cabdca93b413de08008d9fd97c821048dcd20f78"
+      }
+    },
+    {
+      "id": "mobile667FailedV5-raw-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV5-chunks/raw-001.bin",
+          "bytes": 33554432,
+          "sha256": "900509d640332df5faa3358a3af1d0963014460eb23b7be32c0dc7b459728820"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV5-raw-002-archive-index.json",
+        "bytes": 1305,
+        "sha256": "97723179ba2641756a31c1491b373a2718d46f120862b4f38f595f5a695bfedb"
+      }
+    },
+    {
+      "id": "mobile667FailedV5-raw-003",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV5-chunks/raw-002.bin",
+          "bytes": 89842,
+          "sha256": "9c318d2574382ca58cbd5d9e83584de122323ee01122af36d9b1de031946dc21"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV5-raw-003-archive-index.json",
+        "bytes": 1290,
+        "sha256": "a72beb665b66b12aee5ed529be30502e981280822c5f1f16003f0bfaaa810866"
+      }
+    },
+    {
+      "id": "mobile667FailedV6-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV6-chunks/raw-000.bin",
+          "bytes": 33554432,
+          "sha256": "963124fc3646adf61aa710b0687ab20612f17bb1ff0224727f3efd1533467628"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV6-raw-001-archive-index.json",
+        "bytes": 1305,
+        "sha256": "df23030a8975bc6576f5efbffd62beee60be3e6500b280d5ad3e176024526045"
+      }
+    },
+    {
+      "id": "mobile667FailedV6-raw-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV6-chunks/raw-001.bin",
+          "bytes": 33554432,
+          "sha256": "6e6081dbb408837e9af272006a7224383be75da8cc310e46c3babee253f6ad8b"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV6-raw-002-archive-index.json",
+        "bytes": 1305,
+        "sha256": "2c074b0ef0b18ce6e9eeab925cbc0f455e7394be423a96976ecb733a6732f577"
+      }
+    },
+    {
+      "id": "mobile667FailedV6-raw-003",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667FailedV6-chunks/raw-002.bin",
+          "bytes": 1837091,
+          "sha256": "174ad52ce521f0b34d69332441097ccd3d2cd0dbf34bf6610517acad6c248f52"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667FailedV6-raw-003-archive-index.json",
+        "bytes": 1299,
+        "sha256": "97cc28f60891c833246de684ebf1b875b2a3028bd1241ddb408a4abb5ba766a6"
+      }
+    },
+    {
+      "id": "pc1080-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc1080-chunks/raw-000.bin",
+          "bytes": 33554432,
+          "sha256": "70f88648667031e855fe57d8c3e49c93b50fac6897729c113feabca7dee7d202"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-pc1080-raw-001-archive-index.json",
+        "bytes": 1283,
+        "sha256": "b83c0cb4aedee097fb87236fb77a40a6b69e3b0886e8805a17adc2142e9ab375"
+      }
+    },
+    {
+      "id": "pc1080-raw-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc1080-chunks/raw-001.bin",
+          "bytes": 12986701,
+          "sha256": "d6094e288f9a3dfeaac85484bcd6ef1afbce20bcbaff5b653b2929db1f4280cf"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-pc1080-raw-002-archive-index.json",
+        "bytes": 1280,
+        "sha256": "6bf1b5987c0b75d7daf6792ae18d7da6eaee67ee73d6fd83bbd11f532bfdf219"
+      }
+    },
+    {
+      "id": "pc720-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720-chunks/raw-000.bin",
+          "bytes": 33554432,
+          "sha256": "bc6cba8cb68e1f39e5822c03855a6e754372bed227753bebd187d82036a0f53e"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-pc720-raw-001-archive-index.json",
+        "bytes": 1281,
+        "sha256": "ec3f6d7ed9dbf385c87d7922d87506fedf1fe4d283c98f0d987b136eac788225"
+      }
+    },
+    {
+      "id": "pc720-raw-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/pc720-chunks/raw-001.bin",
+          "bytes": 12985956,
+          "sha256": "fd70bb43a6a2dfe7252146191bd3ebfadb85ebea1d8644ac1cc1accd915413e5"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-pc720-raw-002-archive-index.json",
+        "bytes": 1278,
+        "sha256": "c22672835962441e4d40deb2af6993ec3a0424c8d104c40ab7c92ed6a7459d3b"
+      }
+    },
+    {
+      "id": "mobile844-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile844-chunks/raw-000.bin",
+          "bytes": 33554432,
+          "sha256": "bb796db5a1eb7ba87fb74a180c3581e5615fc9bd5217bdcc7442d58f361c5ab5"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile844-raw-001-archive-index.json",
+        "bytes": 1289,
+        "sha256": "ea58c13596840e2d7682b2e201101ed33ff4857a389140fb148839e370255957"
+      }
+    },
+    {
+      "id": "mobile844-raw-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile844-chunks/raw-001.bin",
+          "bytes": 33554432,
+          "sha256": "ca1113095a7bd62bd3dff4742fbb83edfed4aecabb1d4420f763e5067bf6b60d"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile844-raw-002-archive-index.json",
+        "bytes": 1289,
+        "sha256": "3719c28a732512857c8e5f5f94a4762abd4eebd32235230e9c60a4397e148e82"
+      }
+    },
+    {
+      "id": "mobile844-raw-003",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile844-chunks/raw-002.bin",
+          "bytes": 14128081,
+          "sha256": "cf9ad107a45bf4b4104cbb148a32b745d95a38556a58f43664008128a7f5ae76"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile844-raw-003-archive-index.json",
+        "bytes": 1286,
+        "sha256": "0e12279eb7dfa3a66605e33b132801b39e52d39d7a6d5c9dbf23659740c06af4"
+      }
+    },
+    {
+      "id": "mobile667-raw-001",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667-chunks/raw-000.bin",
+          "bytes": 33554432,
+          "sha256": "d723e2652d91419ec7585bd25a3c99a1efb42b16b5cdfa34022b327c485929f6"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667-raw-001-archive-index.json",
+        "bytes": 1289,
+        "sha256": "c9f41c38d0cf71fe4a328734871bb54fbe89205a7ff133b903f69106ab58d96d"
+      }
+    },
+    {
+      "id": "mobile667-raw-002",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667-chunks/raw-001.bin",
+          "bytes": 33554432,
+          "sha256": "4ca3a92c516f258c3d59e3d3e5d029072dfbed4724dc11c3703ffdb86e90886f"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667-raw-002-archive-index.json",
+        "bytes": 1289,
+        "sha256": "95e8c59635194b5536e2150d71ce980cdab05a8763dfbe0e5aa13076cb82c3ba"
+      }
+    },
+    {
+      "id": "mobile667-raw-003",
+      "files": [
+        {
+          "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667-chunks/raw-002.bin",
+          "bytes": 18932747,
+          "sha256": "2589271fe07a6bbbb19b71249073cf4b9f8c0a831222ebbfb650ec0a38001bdd"
+        }
+      ],
+      "index": {
+        "path": "docs/validation/m5-person-identity-20261026-v70-mobile667-raw-003-archive-index.json",
+        "bytes": 1286,
+        "sha256": "3643046f77e18417928766abdf50379d59c5a88a68d30c29ac74472cf28a1310"
+      }
+    }
+  ],
+  "modules": [
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-v70-common-v1.mjs",
+      "bytes": 49135,
+      "sha256": "6bf61a40663898017de4f1d761bebea4a68520507e131842359c8b40864abaaa"
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-verify.mjs",
+      "bytes": 32500,
+      "sha256": "cda4761ca1021c9765792d7bb3e219166753a3bd9f764ae856db3c9518c7e020"
+    }
+  ],
+  "images": [
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-pc1080.png",
+      "bytes": 2669881,
+      "sha256": "e64e9ffa72ac7702d41c4d0f80d90995dbc516243c4ab7d7ac3ffd4750c1b75b"
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-pc720.png",
+      "bytes": 959590,
+      "sha256": "701d0ecd6f30cea1c4b13678071ec1e342c899298758f518060b0fe36772c31b"
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-mobile844.png",
+      "bytes": 65870,
+      "sha256": "78769e6ca8c4cee1c9e92e53604f78c9fddc6c56c688a98cc2af7afbf7ee8d9e"
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-mobile667.png",
+      "bytes": 55188,
+      "sha256": "fab0819e852f3a883f2d22cb04b436594248e7272dce4dc5f2937cc71d3adb40"
+    }
+  ],
+  "facts": {
+    "accepted": true,
+    "layouts": 4,
+    "identities": 20,
+    "targetChecks": 100,
+    "maximumOriginalNameCodePoints": 4,
+    "currentCriticalSources": 156,
+    "nativeSources": 128,
+    "nativeAggregate": "617c3aea391fa57bec1576e70cb6b4b1ed76f747c948015069a71f71b168ffb0",
+    "cases": [
+      {
+        "id": "pc720FailedV1",
+        "layout": "pc720",
+        "accepted": false,
+        "credited": false,
+        "phases": 0,
+        "identities": 0,
+        "targetChecks": 0,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 1
+      },
+      {
+        "id": "pc720FailedV2",
+        "layout": "pc720",
+        "accepted": false,
+        "credited": false,
+        "phases": 28,
+        "identities": 0,
+        "targetChecks": 0,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 5,
+        "trustedMapPans": 2,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 1
+      },
+      {
+        "id": "mobile667FailedV3",
+        "layout": "mobile667",
+        "accepted": false,
+        "credited": false,
+        "phases": 0,
+        "identities": 0,
+        "targetChecks": 0,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 1
+      },
+      {
+        "id": "mobile844FailedV3",
+        "layout": "mobile844",
+        "accepted": false,
+        "credited": false,
+        "phases": 0,
+        "identities": 0,
+        "targetChecks": 0,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 1
+      },
+      {
+        "id": "mobile667FailedV4",
+        "layout": "mobile667",
+        "accepted": false,
+        "credited": false,
+        "phases": 1,
+        "identities": 0,
+        "targetChecks": 0,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 1
+      },
+      {
+        "id": "mobile667FailedV5",
+        "layout": "mobile667",
+        "accepted": false,
+        "credited": false,
+        "phases": 26,
+        "identities": 0,
+        "targetChecks": 0,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 4,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 1
+      },
+      {
+        "id": "mobile667FailedV6",
+        "layout": "mobile667",
+        "accepted": false,
+        "credited": false,
+        "phases": 28,
+        "identities": 0,
+        "targetChecks": 0,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 4,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 1,
+        "originalExitCode": 1
+      },
+      {
+        "id": "pc1080",
+        "layout": "pc1080",
+        "accepted": true,
+        "credited": true,
+        "phases": 28,
+        "identities": 5,
+        "targetChecks": 25,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 2,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 0
+      },
+      {
+        "id": "pc720",
+        "layout": "pc720",
+        "accepted": true,
+        "credited": true,
+        "phases": 28,
+        "identities": 5,
+        "targetChecks": 25,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 2,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 0
+      },
+      {
+        "id": "mobile844",
+        "layout": "mobile844",
+        "accepted": true,
+        "credited": true,
+        "phases": 33,
+        "identities": 5,
+        "targetChecks": 25,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 0,
+        "originalExitCode": 0
+      },
+      {
+        "id": "mobile667",
+        "layout": "mobile667",
+        "accepted": true,
+        "credited": true,
+        "phases": 35,
+        "identities": 5,
+        "targetChecks": 25,
+        "frozenInventorySources": 1225,
+        "currentCriticalIntersection": 145,
+        "currentCriticalNotInFrozenInventory": [
+          "designer.html",
+          "hd-portrait-dump.html",
+          "m-ges.html",
+          "m-ktouch.html",
+          "m-old.html",
+          "scripts/hd-city-resource-runtime-checks.mjs",
+          "scripts/hd-person-equipment-runtime-checks.mjs",
+          "scripts/test-hd-city-hud.mjs",
+          "scripts/test-hd-mobile-city-runtime.mjs",
+          "scripts/test-hd-native-sem.mjs",
+          "scripts/test-hd-person-equipment-runtime.mjs"
+        ],
+        "retainedPartialIdentities": 0,
+        "trustedMapPans": 0,
+        "trustedListGutterPans": 2,
+        "originalExitCode": 0
+      }
+    ],
+    "wholeReports": 11,
+    "failedOriginalRuns": 7,
+    "frozenInventoryIsNotAllServedOrExecuted": true,
+    "priorPrepareFailures": 1,
+    "savedParentDefault": {
+      "tests": 7913,
+      "registeredFiles": 150,
+      "newDefaultTests": 0,
+      "currentFullRerun": false
+    },
+    "originalProductSourceChanged": false,
+    "oldWorldRetained": true,
+    "oldWorldInputs": 0,
+    "oldWorldRestartAuthorized": false,
+    "captiveFreeEnemyRuntimeAccepted": false,
+    "all13NativePropertiesAccepted": false,
+    "realDeviceAccepted": false,
+    "stablePerformanceAccepted": false,
+    "globalHdComplete": false
+  },
+  "markdown": {
+    "path": "docs/validation/m5-person-identity-20261026-v70.md",
+    "bytes": 2742,
+    "sha256": "c754622fa0453fc7d5c3aad845a467d315f6ddf0e00881a4621e8672537b6b40"
+  }
+}

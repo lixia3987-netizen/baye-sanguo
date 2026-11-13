@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "kind": "recorded-failed-v10-fixture-provenance",
+  "currentTestsReopenIgnoredSourceResult": false,
+  "currentTestsExecuteGameOrRestoreCampaign": false,
+  "currentTestsValidateFixtureIntegrityAndPureContracts": true,
+  "sourceResult": {
+    "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/result.json",
+    "bytes": 39830852,
+    "sha256": "aac81245f8093e7185a2da8066253bfe6f8c62d4397bc5536b8f4ca11b64e98b"
+  },
+  "sourceTool": {
+    "path": "build/impact-induce-candidate-v10.mjs",
+    "bytes": 476629,
+    "sha256": "e54a5363eb4280c789e9b7c13404bdd5efe857b01d340ab52594ba2dad7c9feb"
+  },
+  "actualRecordedFixture": {
+    "path": "scripts/fixtures/hd-impact-canvass-v10-native-names.json",
+    "bytes": 620972,
+    "sha256": "427ce7b77a6fb46602bb666830a7e9722a460d395ece955e6c07abed905a152a"
+  },
+  "historicalRootTests": {
+    "path": "build/impact-skill-20261014/impact-raw-canvass-tests-root-proof-v2.json",
+    "bytes": 2602,
+    "sha256": "7a6f535db6d0f9cbe52b05fcf997172d516120487b03fb1bcbe5f7e9b2fea478",
+    "tests": 208,
+    "pass": 208,
+    "fail": 0,
+    "terminalChunkId": "6faab2",
+    "actualFixturePointersAndOriginalKeysReopened": true,
+    "recordedPrecommitAndDispatchContractsRecomputed": true,
+    "currentRunClaim": false
+  },
+  "historicalFailureTerminal": {
+    "path": "build/impact-skill-20261014/canvass-v10-terminal-receipt-v1.json",
+    "bytes": 5139,
+    "sha256": "0e81100d276b2f72dd4fed3147b66435f3d74b7f1d349e9d404cd37fa9fe8d3b"
+  },
+  "historicalIndependentAudit": {
+    "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v2-independent-audit-v1.md",
+    "bytes": 4333,
+    "sha256": "244a8acac6561a04be695ec9773c76c06b7dc4e1abff499b7090456652dc0398"
+  },
+  "snapshotDigests": [
+    {
+      "field": "actorTicket",
+      "pointer": "/impactWorldObservations/13",
+      "jsonSha256": "38a18064db313c76e4274fa7580976607c0393e54707940edaed16b0aa9dd6b3"
+    },
+    {
+      "field": "beforeTicket",
+      "pointer": "/impactWorldObservations/134",
+      "jsonSha256": "1a9327f7f84b454bf415405859f3191c3af8a6ecc05796d995b23484cc9e24f8"
+    },
+    {
+      "field": "afterTicket",
+      "pointer": "/impactWorldObservations/135",
+      "jsonSha256": "ef849f29b6d6b7bda197be045696a9492801733ac14c58aecfdfc57b4cb930f9"
+    }
+  ],
+  "nativeKeyDigests": {
+    "actorToTargetActual": "f4b932efef36ab727f37ff230427ded06167fc9f134ab53c1d5f773c90fea4db",
+    "targetEnterActual": "2f9709dd08d053f12c64b7e9a2019329367350b37daa4e021ac834ab9a7b113b"
+  },
+  "recordedRunSummary": {
+    "ok": false,
+    "monthReceipts": [],
+    "canvassMonthAccepted": false,
+    "actualAcquisitionAccepted": false,
+    "actualPreparationAccepted": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "reportedAcceptedCanvassOrders": 0,
+    "independentlyObservedPaidDispatches": 1,
+    "postDispatchPublicSaveCount": 0,
+    "publicCheckpoints": [
+      {
+        "tag": "impact-canvass-paid-input",
+        "slot": 0,
+        "beforeWorldJsonSha256": "c8b91230177eabec63f441264b092b19dfd95930e639df6a96d4904acbb404f8",
+        "afterWorldJsonSha256": "c8b91230177eabec63f441264b092b19dfd95930e639df6a96d4904acbb404f8"
+      }
+    ],
+    "impactFailureWorldJsonSha256": "0a5b615cff0102ba5703c05288319bc06048ce23790b27276b8dca6b946f20ad"
+  },
+  "scope": "The source result and original key slices were reopened by the historical root208/failure audit identified above. Current fresh-checkout tests only reopen the tracked compact fixtures and original LIB, verify their bytes/contracts and these recorded boundaries. This is not a new read of the ignored result, native input, restored world, actual month/acquisition/cast or HD acceptance."
+}

@@ -1,0 +1,2588 @@
+{
+  "schemaVersion": 1,
+  "kind": "V39 complete bounded original attempts and closed protocol evidence; classic movie target incomplete",
+  "terminal": {
+    "sessionId": 31188,
+    "chunkId": "d1acb9",
+    "exitCode": 0
+  },
+  "sourceLogicalRecords": 581,
+  "uniqueNamedFiles": 277,
+  "uniqueBlobs": 261,
+  "rawNamedBytes": 283481734,
+  "uniqueRawBytes": 275972781,
+  "uniqueCompressedBytes": 48363052,
+  "serializedPartBytes": 64545024,
+  "parts": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part001.json",
+      "bytes": 4399794,
+      "sha256": "65cc5bae6043d5a43f7d1a3bce3b62c86928c995d197ea64a7e1acf152e40e58"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part002.json",
+      "bytes": 8286882,
+      "sha256": "5f863c6b35253e05f6ebf77d7edb879f8266834a2086b88d45931855366447e3"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part003.json",
+      "bytes": 6802995,
+      "sha256": "16a8a95cdaaa9e6020b244c8b69b9150a4b97d01bbfb0857f70264c0067db251"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part004.json",
+      "bytes": 8259589,
+      "sha256": "e373f9550e842624ab19f7dd70a1452255b4d11027c80f9dfd95742173ea63ad"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part005.json",
+      "bytes": 7021074,
+      "sha256": "90679d2880e5733ba13ac7ee5bff27053cca6a047a2cc1d67e140b10704098ef"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part006.json",
+      "bytes": 8337681,
+      "sha256": "16eede3360782acac0614e9568080e1c6800757bdbbd7705d63c0c6dc5af1961"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part007.json",
+      "bytes": 8338309,
+      "sha256": "8f27f63841657c228e8cd4c195fc508319ecf653c6e2d94428a8102856fd6621"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part008.json",
+      "bytes": 8214869,
+      "sha256": "f6a5ef691cf59842635341f814b23f07ae6f72d450cc97ec0823123584ff97a9"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-archive-part009.json",
+      "bytes": 4883831,
+      "sha256": "8aed03ca0d8736e00ec3cee82cff0ccade2c7614b026dacb0922ec19ae403647"
+    }
+  ],
+  "maximumPartBytes": 8338309,
+  "actualImmediateFiles": 190,
+  "actualImmediateRawBytes": 265186489,
+  "actualImmediatePngFiles": 45,
+  "actualCapturedPngFiles": 0,
+  "actualCapturedReadbacks": 0,
+  "chunkedFiles": 0,
+  "physicalBlobsReferencedByChunkedFiles": 0,
+  "files": [
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 711999,
+      "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf",
+      "blob": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+    },
+    {
+      "path": "assets/hd-spe/wood-37/picture-0.png",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 3350024,
+      "sha256": "1dfb121cf4d2e67ce19591988ac5c19e3846fa1548094de26d094ca3a7bbb315",
+      "blob": "1dfb121cf4d2e67ce19591988ac5c19e3846fa1548094de26d094ca3a7bbb315"
+    },
+    {
+      "path": "assets/hd-spe/wood-37/picture-1.png",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 3170693,
+      "sha256": "07bec0d7ec67f03704bc5d9d20869afe8fe250fff93b8d67fe0a8a4fcf5c92a8",
+      "blob": "07bec0d7ec67f03704bc5d9d20869afe8fe250fff93b8d67fe0a8a4fcf5c92a8"
+    },
+    {
+      "path": "build/hd-full-suite-20261024-v39.log",
+      "roles": [
+        "matching-current-full-regression-source-and-log"
+      ],
+      "bytes": 613378,
+      "sha256": "52fdd2e6f46c710e4b33c64b76bacf2ab88ec32948854ea58d9b92ffece67708",
+      "blob": "52fdd2e6f46c710e4b33c64b76bacf2ab88ec32948854ea58d9b92ffece67708"
+    },
+    {
+      "path": "build/impact-skill-20261014/assemble-wood67-v39-closed-audit-draft-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 11873,
+      "sha256": "c3e3d54c7af415bded5c6e648c293b49ce450be77ee404d0aff6a4ae47f455b5",
+      "blob": "c3e3d54c7af415bded5c6e648c293b49ce450be77ee404d0aff6a4ae47f455b5"
+    },
+    {
+      "path": "build/impact-skill-20261014/assemble-wood67-v39-publication-reader-v1.mjs",
+      "roles": [
+        "bounded-publication-tools"
+      ],
+      "bytes": 12365,
+      "sha256": "b1dc3a3afe6220b5737d3d3d75bfc57f9dac2c4ef9d9491c5f2cfa353fdc42b8",
+      "blob": "b1dc3a3afe6220b5737d3d3d75bfc57f9dac2c4ef9d9491c5f2cfa353fdc42b8"
+    },
+    {
+      "path": "build/impact-skill-20261014/audit-wood67-v39-august-next-native-options-v1.mjs",
+      "roles": [
+        "source-only-next-qualification-no-action-credit"
+      ],
+      "bytes": 7182,
+      "sha256": "3ccee1c3f13d82cdbe26d39d9f7555e17f3924e6b6c3f6cee8085bc483bc4129",
+      "blob": "3ccee1c3f13d82cdbe26d39d9f7555e17f3924e6b6c3f6cee8085bc483bc4129"
+    },
+    {
+      "path": "build/impact-skill-20261014/audit-wood67-v39-economy-latest-save-v1.mjs",
+      "roles": [
+        "closed-economy-and-exact-process-evidence"
+      ],
+      "bytes": 19327,
+      "sha256": "5f6d77f0c018cfaa6fbd5fdc5a5b296bb5cbf7c859b83d54fc6f153f171ed8ad",
+      "blob": "5f6d77f0c018cfaa6fbd5fdc5a5b296bb5cbf7c859b83d54fc6f153f171ed8ad"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-wood67-v39-scope-v2.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 809,
+      "sha256": "39e22b15c868aae0728142d707c531ee989c47601ad49953eeab727d97488cea",
+      "blob": "39e22b15c868aae0728142d707c531ee989c47601ad49953eeab727d97488cea"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v23-world-dictionary-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 12527,
+      "sha256": "8ec9d70882d4bff135bd38da5e72800e18016a158f719fed293df4d3ff306e59",
+      "blob": "8ec9d70882d4bff135bd38da5e72800e18016a158f719fed293df4d3ff306e59"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v24-observation-row-stream-v4.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 11319,
+      "sha256": "828a993b8c4b1aa64451cf27b6f928ca6d249adc358af2234d58a221ce50fc10",
+      "blob": "828a993b8c4b1aa64451cf27b6f928ca6d249adc358af2234d58a221ce50fc10"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v36-caller-fence-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 2243,
+      "sha256": "ac25e61164fa5628f9486a9c955a678dc24aa2d1f7391c317817069929a24571",
+      "blob": "ac25e61164fa5628f9486a9c955a678dc24aa2d1f7391c317817069929a24571"
+    },
+    {
+      "path": "build/impact-skill-20261014/list-wood67-v39-total-audit-support-v1.mjs",
+      "roles": [
+        "bounded-publication-tools"
+      ],
+      "bytes": 2262,
+      "sha256": "4b7daf7ec65e682042866fa69e0b54bcbc18bd2a959e1cdf2adcf5212e98f284",
+      "blob": "4b7daf7ec65e682042866fa69e0b54bcbc18bd2a959e1cdf2adcf5212e98f284"
+    },
+    {
+      "path": "build/impact-skill-20261014/lock-wood67-v39-closed-source-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 3856,
+      "sha256": "0fa99a2e716dd30b8d848d2427e7ec113a41b17e7860da0ee173aa7a0a103d59",
+      "blob": "0fa99a2e716dd30b8d848d2427e7ec113a41b17e7860da0ee173aa7a0a103d59"
+    },
+    {
+      "path": "build/impact-skill-20261014/pack-wood67-v39-bounded-archive-v1.mjs",
+      "roles": [
+        "bounded-archive-writer"
+      ],
+      "bytes": 10345,
+      "sha256": "171e51fae975f666031d8b2c58382c17cef97e65d61e59cbf4a0215990cb5e59",
+      "blob": "171e51fae975f666031d8b2c58382c17cef97e65d61e59cbf4a0215990cb5e59"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-wood67-v39-actual-publication-inputs-v1.mjs",
+      "roles": [
+        "bounded-publication-tools"
+      ],
+      "bytes": 5784,
+      "sha256": "fbe6b2ce882a3fdf80689075c94ad0a5d1b97caa8d859f76f59058be5b5e7383",
+      "blob": "fbe6b2ce882a3fdf80689075c94ad0a5d1b97caa8d859f76f59058be5b5e7383"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-wood67-v39-png-closed-input-v1.mjs",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 6081,
+      "sha256": "41918dc9ab4ee35c8c0eac24dd61ad1996ae6761bba6ddac53707f90da691523",
+      "blob": "41918dc9ab4ee35c8c0eac24dd61ad1996ae6761bba6ddac53707f90da691523"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-wood67-v39-png-provenance-tool-v1.mjs",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 7712,
+      "sha256": "a52c4452a1d10495b2ef686a2881090be2f2222d5d51e62256ac3640f5c939d6",
+      "blob": "a52c4452a1d10495b2ef686a2881090be2f2222d5d51e62256ac3640f5c939d6"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-wood67-v39-png-provenance-tool-v2.mjs",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 5789,
+      "sha256": "bbbf48fb9f470d1acd9b4ae81b81af7965fbc11db56dcc00307c6dd67cdf03fc",
+      "blob": "bbbf48fb9f470d1acd9b4ae81b81af7965fbc11db56dcc00307c6dd67cdf03fc"
+    },
+    {
+      "path": "build/impact-skill-20261014/project-wood67-v39-closed-scope-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 3062,
+      "sha256": "2ef46cff19a02d3a74db27cb7e006bc28c056979a9fa12ea5644b142cf368060",
+      "blob": "2ef46cff19a02d3a74db27cb7e006bc28c056979a9fa12ea5644b142cf368060"
+    },
+    {
+      "path": "build/impact-skill-20261014/project-wood67-v39-closed-scope-v2.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 3283,
+      "sha256": "b45e94beeae1591b03038cc8941c03471c55369f2ac57bfe5c5c94d19e551fdf",
+      "blob": "b45e94beeae1591b03038cc8941c03471c55369f2ac57bfe5c5c94d19e551fdf"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-wood67-classic-v39-v1.mjs",
+      "roles": [
+        "bounded-publication-tools"
+      ],
+      "bytes": 10328,
+      "sha256": "e2a500dfc2d44ea0f22af6d877890c99e784d33682d73929f00161465e1bf07a",
+      "blob": "e2a500dfc2d44ea0f22af6d877890c99e784d33682d73929f00161465e1bf07a"
+    },
+    {
+      "path": "build/impact-skill-20261014/read-wood67-v39-closed-report-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 4233,
+      "sha256": "4317128b74e627c7f3ca15eb76aa913efebde9962e31cd194211481b7c68dfc3",
+      "blob": "4317128b74e627c7f3ca15eb76aa913efebde9962e31cd194211481b7c68dfc3"
+    },
+    {
+      "path": "build/impact-skill-20261014/record-wood67-v39-root-visual-review-v1.mjs",
+      "roles": [
+        "closed-economy-and-exact-process-evidence"
+      ],
+      "bytes": 1682,
+      "sha256": "e5077f5658b12d35afb348b82abf1cc482fd54c40f3d91bd9fd24bc3d59b0b5e",
+      "blob": "e5077f5658b12d35afb348b82abf1cc482fd54c40f3d91bd9fd24bc3d59b0b5e"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood67-v38-original-png-v2.mjs",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 13450,
+      "sha256": "2fc63f4a45dad02867cb46d175c0bfb5c9618478981e4b8f5392a7ab2d7f6c07",
+      "blob": "2fc63f4a45dad02867cb46d175c0bfb5c9618478981e4b8f5392a7ab2d7f6c07"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood67-v39-original-png-v1.mjs",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 15158,
+      "sha256": "7f3ba7249fba18090d1d630e5597f261e0393c80f24c6d5e652ecfeaba677b30",
+      "blob": "7f3ba7249fba18090d1d630e5597f261e0393c80f24c6d5e652ecfeaba677b30"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood67-v39-original-png-v2.mjs",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 17034,
+      "sha256": "c73633964363201859b7656b4378b21ec5af20c1ecfbb93969eed24553cf61e2",
+      "blob": "c73633964363201859b7656b4378b21ec5af20c1ecfbb93969eed24553cf61e2"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood67-v39-supplied-candidate-independent-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 12255,
+      "sha256": "bfec7ba08603b1e63ca7ebc367e28139d3b925c8bec84a88a80cbec8533de0be",
+      "blob": "bfec7ba08603b1e63ca7ebc367e28139d3b925c8bec84a88a80cbec8533de0be"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-wood67-v38-closed-terminal-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 20421,
+      "sha256": "0b854e809fdb04ee872f35ab32df970cc9c34fdb38dc22a30782e1b402bdd315",
+      "blob": "0b854e809fdb04ee872f35ab32df970cc9c34fdb38dc22a30782e1b402bdd315"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-wood67-v39-closed-terminal-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 23790,
+      "sha256": "0cb1b3efb8ca5b1b9b9ad23cf1678d586dcff40c628d35c9fe781552813bab76",
+      "blob": "0cb1b3efb8ca5b1b9b9ad23cf1678d586dcff40c628d35c9fe781552813bab76"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/01-native-opening-frames.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 2352106,
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "blob": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/02-opening-ended-cleanly.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 68699,
+      "sha256": "52870b56908bf0a0fb75289a9354f0b3eb9b2d8bed87d46e0207d9c7bc4cc446",
+      "blob": "52870b56908bf0a0fb75289a9354f0b3eb9b2d8bed87d46e0207d9c7bc4cc446"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/03-loaded-July-city7-WOOD-route-map.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 41536,
+      "sha256": "3194ba73b3f4b77300dec5c3b8116462224758b3d64dc05420342d3973edc7e2",
+      "blob": "3194ba73b3f4b77300dec5c3b8116462224758b3d64dc05420342d3973edc7e2"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-1.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 151127,
+      "sha256": "a3a6aa53ea2e13c2017e2372e67cb3baddaf17d3a32d10f6d93f9cda7db9b75c",
+      "blob": "a3a6aa53ea2e13c2017e2372e67cb3baddaf17d3a32d10f6d93f9cda7db9b75c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-10.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152895,
+      "sha256": "9a070f7e45068d7c2afc963dd795960f90c89946357e200d1e59c0a941a30124",
+      "blob": "9a070f7e45068d7c2afc963dd795960f90c89946357e200d1e59c0a941a30124"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-11.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152685,
+      "sha256": "81e57cc89bb25a8f0ae7cde1f790274edb7ccc38f3cd9de145a21ed97d9ee137",
+      "blob": "81e57cc89bb25a8f0ae7cde1f790274edb7ccc38f3cd9de145a21ed97d9ee137"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-12.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 153062,
+      "sha256": "ebc4673a5f64148b10a1f9220518907c1e7c901519031c55efc03f295f0825cd",
+      "blob": "ebc4673a5f64148b10a1f9220518907c1e7c901519031c55efc03f295f0825cd"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-13.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152495,
+      "sha256": "1683ee327ab9809f016cf210a5032f577e5346bfd4840523232b3f73b7d916e3",
+      "blob": "1683ee327ab9809f016cf210a5032f577e5346bfd4840523232b3f73b7d916e3"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-14.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 153102,
+      "sha256": "54e8872bc4aefeb67d77d4bdf9432ec661ed6cb10953e0147bc647ddbd68886a",
+      "blob": "54e8872bc4aefeb67d77d4bdf9432ec661ed6cb10953e0147bc647ddbd68886a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-15.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152439,
+      "sha256": "fc79b1a2fa890dfb96e4a529c37ab42483732cdfa0c890e34c10b978d86e623d",
+      "blob": "fc79b1a2fa890dfb96e4a529c37ab42483732cdfa0c890e34c10b978d86e623d"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-16.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 153055,
+      "sha256": "6f330d94f31352fe29dbc962b99a82715bbe6958ffbea79d9f2bc0bb2e2373f0",
+      "blob": "6f330d94f31352fe29dbc962b99a82715bbe6958ffbea79d9f2bc0bb2e2373f0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-17.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 151800,
+      "sha256": "c03b320ea31e8360f11df444bafed6cf4892654ba970a4f4e7e1e3582afd7651",
+      "blob": "c03b320ea31e8360f11df444bafed6cf4892654ba970a4f4e7e1e3582afd7651"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-18.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 153311,
+      "sha256": "d70b2ee9e9dc56129b40a4e9885196c477b4e948bf7a96a84cfbfd39244a97e4",
+      "blob": "d70b2ee9e9dc56129b40a4e9885196c477b4e948bf7a96a84cfbfd39244a97e4"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-19.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152423,
+      "sha256": "ba6d8f0094717732ec5df8c28a7aaa12943774ae7e1a72596ad06aa975ca4d5a",
+      "blob": "ba6d8f0094717732ec5df8c28a7aaa12943774ae7e1a72596ad06aa975ca4d5a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-2.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152425,
+      "sha256": "ea602c7b8fc4f0238c0376e3ee6649894cb4f7b95645e8434ecd254f827f5f37",
+      "blob": "ea602c7b8fc4f0238c0376e3ee6649894cb4f7b95645e8434ecd254f827f5f37"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-20.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152675,
+      "sha256": "241e8ac24e412c0b917860cc1499fde9be0bb8ab9fea70ea12c72a7241b93e85",
+      "blob": "241e8ac24e412c0b917860cc1499fde9be0bb8ab9fea70ea12c72a7241b93e85"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-21.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152456,
+      "sha256": "cfd41dc8bc1742c0aed7b7ee39c8aae919e9310aa04e23eec890c2f9e2d78b07",
+      "blob": "cfd41dc8bc1742c0aed7b7ee39c8aae919e9310aa04e23eec890c2f9e2d78b07"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-22.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152933,
+      "sha256": "a1c742df3cac3a42f0c600a95d891a62769922c31d268502598424af00649c6a",
+      "blob": "a1c742df3cac3a42f0c600a95d891a62769922c31d268502598424af00649c6a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-23.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152327,
+      "sha256": "f42f049c0c491210b1791678ba4ddee509945b53da1d942d658ec02d28dd34a7",
+      "blob": "f42f049c0c491210b1791678ba4ddee509945b53da1d942d658ec02d28dd34a7"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-24.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152816,
+      "sha256": "37e90294057903149f0274afc6ea632c279b3880ac0ef4d88471836054e2966c",
+      "blob": "37e90294057903149f0274afc6ea632c279b3880ac0ef4d88471836054e2966c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-25.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 151789,
+      "sha256": "ec06ba9c069908197e55e7f3bb35bcdc7e46c01a96ca5bb9af8e4468b5be22fd",
+      "blob": "ec06ba9c069908197e55e7f3bb35bcdc7e46c01a96ca5bb9af8e4468b5be22fd"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-3.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152753,
+      "sha256": "35ace4e30882ae048574229c34442c3163c6024e113a5fb94f0d3b8cd279604a",
+      "blob": "35ace4e30882ae048574229c34442c3163c6024e113a5fb94f0d3b8cd279604a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-4.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152921,
+      "sha256": "442f0cc0eaf14b627561bec797b8dde39187f177d8c5c273865748b4255d4e91",
+      "blob": "442f0cc0eaf14b627561bec797b8dde39187f177d8c5c273865748b4255d4e91"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-5.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152054,
+      "sha256": "387489386c56de90ba4ec0977e99d6d959c6e89aee5743086fb5f491d634dc14",
+      "blob": "387489386c56de90ba4ec0977e99d6d959c6e89aee5743086fb5f491d634dc14"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-6.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 153166,
+      "sha256": "f28c80f6196a079339755af802d83312739b9915e48e770e24d40c9acea864fe",
+      "blob": "f28c80f6196a079339755af802d83312739b9915e48e770e24d40c9acea864fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-7.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 153311,
+      "sha256": "8e220140c2442522ae2de73a342079c98182daa14cfb7a92f760e2aa458bfa4c",
+      "blob": "8e220140c2442522ae2de73a342079c98182daa14cfb7a92f760e2aa458bfa4c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-8.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 151180,
+      "sha256": "60dc1a7735986b4fc48e49c3be236891159b05035900bd40af55f8b64bcec40b",
+      "blob": "60dc1a7735986b4fc48e49c3be236891159b05035900bd40af55f8b64bcec40b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-explicit-end-turn-9.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 152457,
+      "sha256": "4180f8e17a36edb3e11807be4170bfbac8dc7225d783dcb97403e4e828ac7072",
+      "blob": "4180f8e17a36edb3e11807be4170bfbac8dc7225d783dcb97403e4e828ac7072"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/28-real-battle-ended-26.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 576665,
+      "sha256": "d56bd906eb6570f8c2e92815d07198473b34cb7ffebe9126fc8f6d8687c53a41",
+      "blob": "d56bd906eb6570f8c2e92815d07198473b34cb7ffebe9126fc8f6d8687c53a41"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-1.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 177637,
+      "sha256": "4f60c9a3cc0a65e9b106272d7e544591ffa99118b0c878bceffe1c92d8ea7c05",
+      "blob": "4f60c9a3cc0a65e9b106272d7e544591ffa99118b0c878bceffe1c92d8ea7c05"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-2.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 174726,
+      "sha256": "369a4bddc7eba9cded9bbd457437ea91d8ef55245e50898b03da83a89109fe0a",
+      "blob": "369a4bddc7eba9cded9bbd457437ea91d8ef55245e50898b03da83a89109fe0a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-3.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 175988,
+      "sha256": "75e6c564f2cf8a80a14fb48fee07d9ddce8c5011d1557cb3d5a8b1ec92feb768",
+      "blob": "75e6c564f2cf8a80a14fb48fee07d9ddce8c5011d1557cb3d5a8b1ec92feb768"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-4.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 177801,
+      "sha256": "89a490daa7e692b0b2879e3c7c3f6d1712898529a92c6c22c4609f85275895b0",
+      "blob": "89a490daa7e692b0b2879e3c7c3f6d1712898529a92c6c22c4609f85275895b0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-5.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 183816,
+      "sha256": "f3f22cbcdcf706903ee2b3a1ac5c5d97878e17d99799603adf1d4695138cd9fb",
+      "blob": "f3f22cbcdcf706903ee2b3a1ac5c5d97878e17d99799603adf1d4695138cd9fb"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-6.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 180486,
+      "sha256": "588ba15ef91fbe3d50d30fee16fbeb7420be831b05e0b9740472e09e655d741b",
+      "blob": "588ba15ef91fbe3d50d30fee16fbeb7420be831b05e0b9740472e09e655d741b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-7.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 177044,
+      "sha256": "af84bb7268790d00c14772364c340db0ccbd8daeff1f580b524528c64b4a8788",
+      "blob": "af84bb7268790d00c14772364c340db0ccbd8daeff1f580b524528c64b4a8788"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/actual-report-8.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 168598,
+      "sha256": "39e6c7c13146070d9586a8371b2cbfbdabc0cbe1e20746dc5047c0ea7e0026c2",
+      "blob": "39e6c7c13146070d9586a8371b2cbfbdabc0cbe1e20746dc5047c0ea7e0026c2"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/browser-console.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 12063,
+      "sha256": "c7c2e7d70a0d8ec11c0c37b14d3ddcaa18147cc2f427d3cd27d73009a2deba64",
+      "blob": "c7c2e7d70a0d8ec11c0c37b14d3ddcaa18147cc2f427d3cd27d73009a2deba64"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/cleanup-before-bulk.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 10525,
+      "sha256": "c4c11f8ba08fa95a80787994b3cb5a8b202b7f5bd1ee0581f810ae8f8ff99555",
+      "blob": "c4c11f8ba08fa95a80787994b3cb5a8b202b7f5bd1ee0581f810ae8f8ff99555"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/engine-inputs-before-bulk.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 286872,
+      "sha256": "b160912c092f966dfffaa94db92a0719cece38a853a61a15cbea863693d23c78",
+      "blob": "b160912c092f966dfffaa94db92a0719cece38a853a61a15cbea863693d23c78"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/engine-inputs.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 286872,
+      "sha256": "b160912c092f966dfffaa94db92a0719cece38a853a61a15cbea863693d23c78",
+      "blob": "b160912c092f966dfffaa94db92a0719cece38a853a61a15cbea863693d23c78"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/executed-json-writer.mjs",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "blob": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/executed-owned-chrome.mjs",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/executed-save-oracle.mjs",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/executed-tool.mjs",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 647992,
+      "sha256": "efd7953c63eae92fff6f8bf5a15a46d041e3fe0bd2c8c64d69cf45a46d427721",
+      "blob": "efd7953c63eae92fff6f8bf5a15a46d041e3fe0bd2c8c64d69cf45a46d427721"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/full-v24-terminal-prepareObservations.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 16438822,
+      "sha256": "2e629dfbb11c7d6a70e011e8eb2bc72ce4b18b2a8fa70c146456a2ba630e7ccd",
+      "blob": "2e629dfbb11c7d6a70e011e8eb2bc72ce4b18b2a8fa70c146456a2ba630e7ccd"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/full-v24-terminal-stableTicketReceipts.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 18790982,
+      "sha256": "e1d24132584bbd1f3f61d4c402efe9ede33d85c141bab0416f169e9d3f9dc54c",
+      "blob": "e1d24132584bbd1f3f61d4c402efe9ede33d85c141bab0416f169e9d3f9dc54c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/full-v24-v39-July-local-Plunder-prepareObservations.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3327766,
+      "sha256": "ba9c0a7ab1cf13f5b347a3179be75087159685407f618b910a885cf73656fc59",
+      "blob": "ba9c0a7ab1cf13f5b347a3179be75087159685407f618b910a885cf73656fc59"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/full-v24-v39-July-local-Plunder-stableTicketReceipts.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3758595,
+      "sha256": "77a1914ec419d265c2e51faa41f9b3d9ee35b198ba48b3ec0eee8276ff143749",
+      "blob": "77a1914ec419d265c2e51faa41f9b3d9ee35b198ba48b3ec0eee8276ff143749"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/full-v24-v39-wood-dispatch-prepareObservations.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 10253931,
+      "sha256": "c6ebf409d635e8bfe4e39fcfcaf4033db84b9046f173467355580aa53cb020cc",
+      "blob": "c6ebf409d635e8bfe4e39fcfcaf4033db84b9046f173467355580aa53cb020cc"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/full-v24-v39-wood-dispatch-stableTicketReceipts.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 11582722,
+      "sha256": "27b4847fb668c9d05424e22d072c29a4c4721da7272b45a8ae39acfcc2b1f55b",
+      "blob": "27b4847fb668c9d05424e22d072c29a4c4721da7272b45a8ae39acfcc2b1f55b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-skill-captures.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "blob": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-july-input-sango0.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 8221,
+      "sha256": "afccc92b9cbaef4cf7bed89f255d14ff551b47ebde4da5286143d859a611f5fa",
+      "blob": "afccc92b9cbaef4cf7bed89f255d14ff551b47ebde4da5286143d859a611f5fa"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-july-input-sango1.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4840,
+      "sha256": "3c65f99d69a857b50b83527727daaf6c76018afb6ec2c214497f2273335bf642",
+      "blob": "3c65f99d69a857b50b83527727daaf6c76018afb6ec2c214497f2273335bf642"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-local-plunder20-actor44-sango0.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 8221,
+      "sha256": "7bae8f669c0ac40c58208d86a2f28a2dd44f0eef774e17eb9c10d0aa92ae9979",
+      "blob": "7bae8f669c0ac40c58208d86a2f28a2dd44f0eef774e17eb9c10d0aa92ae9979"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-local-plunder20-actor44-sango1.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4840,
+      "sha256": "8077b63c8877990109087df020a93541b82db2d6457daa3791660699056a3da9",
+      "blob": "8077b63c8877990109087df020a93541b82db2d6457daa3791660699056a3da9"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-wood-route-settled-sango0.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 8221,
+      "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1",
+      "blob": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-wood-route-settled-sango1.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4840,
+      "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e",
+      "blob": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-wood7-to1-dispatched-481-sango0.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 8221,
+      "sha256": "074765355b8068a658b198bbcc910e5e1b774a912affcd721c1c596799f8bb38",
+      "blob": "074765355b8068a658b198bbcc910e5e1b774a912affcd721c1c596799f8bb38"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-wood7-to1-dispatched-481-sango1.sav",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4840,
+      "sha256": "a86653af3668be9d698a056df6260dc9bb843f0e59d1c2e56b55c5f4dfbaf710",
+      "blob": "a86653af3668be9d698a056df6260dc9bb843f0e59d1c2e56b55c5f4dfbaf710"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/observer-errors.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "blob": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/owned-process-samples.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 30063,
+      "sha256": "9f3bf4854e63aa0b044e53b7a2f6281ca19bd6f871d01ed208bae189f70a368f",
+      "blob": "9f3bf4854e63aa0b044e53b7a2f6281ca19bd6f871d01ed208bae189f70a368f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-native-classic-target-confirm-before-SAVE-oracle.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 171512,
+      "sha256": "951ef97906cdda9d4a0f45097965bed7cb1c811bc9a7891f63bb66db60252fbd",
+      "blob": "951ef97906cdda9d4a0f45097965bed7cb1c811bc9a7891f63bb66db60252fbd"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v13-city-entry-01.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 106378,
+      "sha256": "8ac2b870fe26aeb0b11063c8fba6582768ca461bdb7ccd5dff8547d069547255",
+      "blob": "8ac2b870fe26aeb0b11063c8fba6582768ca461bdb7ccd5dff8547d069547255"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v13-city-entry-02.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 106420,
+      "sha256": "3fd55d64d5206838cfebd753b70bd02c64693bf91525b92ef4baff27b7613c3c",
+      "blob": "3fd55d64d5206838cfebd753b70bd02c64693bf91525b92ef4baff27b7613c3c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v35-visible-toolbar-classic-1.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 101812,
+      "sha256": "57ce84bdfd518082a913c4557c3be0652ff6a6e5705dd6d3a6ec1d43cf48a8ac",
+      "blob": "57ce84bdfd518082a913c4557c3be0652ff6a6e5705dd6d3a6ec1d43cf48a8ac"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v35-visible-toolbar-hd-map-2.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 101743,
+      "sha256": "8a7e0d4c58d2300b5be3557743162ec78881465aab99ad31a04cf18d44cd147b",
+      "blob": "8a7e0d4c58d2300b5be3557743162ec78881465aab99ad31a04cf18d44cd147b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-1.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104808,
+      "sha256": "872de2e76fbc6c0cb40a27287aaa821f57f843e1deb5f34b32a9714e1406aa60",
+      "blob": "872de2e76fbc6c0cb40a27287aaa821f57f843e1deb5f34b32a9714e1406aa60"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-2.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104792,
+      "sha256": "f15d009c7cfbdf0a58b02a4949c97dff0e6d56e64a2c53c49907c623450f4290",
+      "blob": "f15d009c7cfbdf0a58b02a4949c97dff0e6d56e64a2c53c49907c623450f4290"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-3.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104810,
+      "sha256": "16d1315b302954656229e073b67c448f73b29d62d423a7b4f2a64b9ba82e7b7b",
+      "blob": "16d1315b302954656229e073b67c448f73b29d62d423a7b4f2a64b9ba82e7b7b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-4.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104794,
+      "sha256": "440d8bd1f246f3ad8e6a0ccad4b276543765a926d5f2b1973486036180fc40bf",
+      "blob": "440d8bd1f246f3ad8e6a0ccad4b276543765a926d5f2b1973486036180fc40bf"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-5.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104869,
+      "sha256": "5c97f9bf9d85448d41135bde256093cbaf66bbb6610e2bf2b24ba68e7ec8c284",
+      "blob": "5c97f9bf9d85448d41135bde256093cbaf66bbb6610e2bf2b24ba68e7ec8c284"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-6.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104853,
+      "sha256": "154a0bb2e626c62f34888ac9367ee3bbead24de1baa07e1dc6e5d95d7a946618",
+      "blob": "154a0bb2e626c62f34888ac9367ee3bbead24de1baa07e1dc6e5d95d7a946618"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-7.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104868,
+      "sha256": "fbc54d00abc4ea9959e5593e6746c922d0101bf999f6341503a965d9625aabef",
+      "blob": "fbc54d00abc4ea9959e5593e6746c922d0101bf999f6341503a965d9625aabef"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-classic-mode-8.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 104850,
+      "sha256": "f4f0ae7a1dc63b37bbf93eca9562b247f0ab906e28fa2887a2069ff7fe59b11a",
+      "blob": "f4f0ae7a1dc63b37bbf93eca9562b247f0ab906e28fa2887a2069ff7fe59b11a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-complete-native-policy.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4014312,
+      "sha256": "ce382b76e08511a1f51f12bc081780164b8e829797184a1daabe2fab519e442b",
+      "blob": "ce382b76e08511a1f51f12bc081780164b8e829797184a1daabe2fab519e442b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-END-before-input.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 113938,
+      "sha256": "6348081813e1607c78b00f583f3746b90e8f956c087f71158f67da544c5a7481",
+      "blob": "6348081813e1607c78b00f583f3746b90e8f956c087f71158f67da544c5a7481"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-first-PICK-full20.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 93838,
+      "sha256": "63b1dfaea9a5e8161498e4a52b4c314290397aef73d00bc3da3aed7814084332",
+      "blob": "63b1dfaea9a5e8161498e4a52b4c314290397aef73d00bc3da3aed7814084332"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-local-Plunder0-before-SAVE.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 457792,
+      "sha256": "11cdada70f2b709d0c27700ca6c2bdb615a2d92a48a5a5fab72ce9ff155eb4c0",
+      "blob": "11cdada70f2b709d0c27700ca6c2bdb615a2d92a48a5a5fab72ce9ff155eb4c0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-march-dispatch-before-SAVE-oracle.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 974586,
+      "sha256": "831ff67ee6acf05c955a7e54c4055e26abdbb5bd743e07c21e1e0520f63c1637",
+      "blob": "831ff67ee6acf05c955a7e54c4055e26abdbb5bd743e07c21e1e0520f63c1637"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-march-partial-before-oracle.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 422458,
+      "sha256": "7603a16c04c586935171aa2aca3e751c76a4cd84c492f3baee41bba69f0bb2a8",
+      "blob": "7603a16c04c586935171aa2aca3e751c76a4cd84c492f3baee41bba69f0bb2a8"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-policy-guard-000.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4105159,
+      "sha256": "19217a82f836ed39383ed649cc3afc19147d99eed485c71ac81c3b7566f57059",
+      "blob": "19217a82f836ed39383ed649cc3afc19147d99eed485c71ac81c3b7566f57059"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-settled-before-SAVE.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 91321,
+      "sha256": "8a8b59549702bfdda64b20207455bcc2d1f5f629a0d33f9a6816c480503ab371",
+      "blob": "8a8b59549702bfdda64b20207455bcc2d1f5f629a0d33f9a6816c480503ab371"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-confirmation-1.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 125078,
+      "sha256": "3d1855f54ed4a37447104342af5a9655480cd580c4deb7aab751f16361757aaa",
+      "blob": "3d1855f54ed4a37447104342af5a9655480cd580c4deb7aab751f16361757aaa"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-confirmation-2.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 125081,
+      "sha256": "cbf51ef4ef4e888243cf035f6c5e8a70b5a9c5c7e6daba1a43f015162f9143cd",
+      "blob": "cbf51ef4ef4e888243cf035f6c5e8a70b5a9c5c7e6daba1a43f015162f9143cd"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-confirmation-3.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 125852,
+      "sha256": "8cb21c8c194162f62cfb970a1cc446a1519a3e3d7d151d4d4f5518e86420306f",
+      "blob": "8cb21c8c194162f62cfb970a1cc446a1519a3e3d7d151d4d4f5518e86420306f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-confirmation-4.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 125248,
+      "sha256": "86c8bc6776744082651f564e1a97980a973331824b0bc26c19917e116163477a",
+      "blob": "86c8bc6776744082651f564e1a97980a973331824b0bc26c19917e116163477a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-final-AIM-1.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 16978,
+      "sha256": "0b24e4e20c39c2bf2f618161fc414d467013f8303fd374af7359e244935c6d3a",
+      "blob": "0b24e4e20c39c2bf2f618161fc414d467013f8303fd374af7359e244935c6d3a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-final-AIM-2.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 16980,
+      "sha256": "46b85e4eb4966ed3c52f9ee36b6d31bfdd713dee7d59f92cd51d66200b5b1f30",
+      "blob": "46b85e4eb4966ed3c52f9ee36b6d31bfdd713dee7d59f92cd51d66200b5b1f30"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-final-AIM-3.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 17045,
+      "sha256": "e62790201dee1778fb79733d37ff8079094a42ce501f14ec32109109a7c97098",
+      "blob": "e62790201dee1778fb79733d37ff8079094a42ce501f14ec32109109a7c97098"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/raw-v39-WOOD6-final-AIM-4.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 17035,
+      "sha256": "92acf7795fe67fa9b2570bd70b43c870ff3da548e67e8ac9e0df61e09eff4835",
+      "blob": "92acf7795fe67fa9b2570bd70b43c870ff3da548e67e8ac9e0df61e09eff4835"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-052.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1264063,
+      "sha256": "6c55496ece3515db91add35b5afffe04299528d69f8c7b15ee1e940543e0c370",
+      "blob": "6c55496ece3515db91add35b5afffe04299528d69f8c7b15ee1e940543e0c370"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-053.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 55231,
+      "sha256": "dfe29334e8115ac41215e5622002dabf5b5354f10742fdaad202ddba4c0928f7",
+      "blob": "dfe29334e8115ac41215e5622002dabf5b5354f10742fdaad202ddba4c0928f7"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-054.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 508,
+      "sha256": "56d6ca026b84d251b4cb8c47628f04a5a6edd27d074e61e42bac93b702e7602c",
+      "blob": "56d6ca026b84d251b4cb8c47628f04a5a6edd27d074e61e42bac93b702e7602c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-055.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 505,
+      "sha256": "333718a63fbb1a4215535fbfb3cb6e1d9e659ae49caaeafd982fe842e5dbbdcf",
+      "blob": "333718a63fbb1a4215535fbfb3cb6e1d9e659ae49caaeafd982fe842e5dbbdcf"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-056.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1527,
+      "sha256": "c3c795470bcb129b4edcebae0a5fd8bca4dd43e1b0b47a82720b7d5665bb7630",
+      "blob": "c3c795470bcb129b4edcebae0a5fd8bca4dd43e1b0b47a82720b7d5665bb7630"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-057.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 116410,
+      "sha256": "497fcc8ed199e594f88c342ec00f674f15f5ecb3d8c44147314825a3b01ad6b2",
+      "blob": "497fcc8ed199e594f88c342ec00f674f15f5ecb3d8c44147314825a3b01ad6b2"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-058.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 235416,
+      "sha256": "90e25793cc97829967f8d737b47a85f6aeef9b2c2b4fa6785d9c853fbdd46e41",
+      "blob": "90e25793cc97829967f8d737b47a85f6aeef9b2c2b4fa6785d9c853fbdd46e41"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-087.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1722,
+      "sha256": "c935885331c443d599d5119da5ac3cf96d71e84da94115d769c3dd66c40f21d8",
+      "blob": "c935885331c443d599d5119da5ac3cf96d71e84da94115d769c3dd66c40f21d8"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-088.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 114070,
+      "sha256": "2459b73559afcb88f291e61d3076e6eb5b49b5282e8e80211e9ddb1cf08cab12",
+      "blob": "2459b73559afcb88f291e61d3076e6eb5b49b5282e8e80211e9ddb1cf08cab12"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-089.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1086,
+      "sha256": "f9530a538790f7aa973aa9ea34d8fc26741ed3bd550602e8a4dab277464d278c",
+      "blob": "f9530a538790f7aa973aa9ea34d8fc26741ed3bd550602e8a4dab277464d278c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-090.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 93819,
+      "sha256": "5ec51974b7c29136d6fbb2cfbafbb4ecf21e08e4b020702619f5e9e1826dc8e8",
+      "blob": "5ec51974b7c29136d6fbb2cfbafbb4ecf21e08e4b020702619f5e9e1826dc8e8"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-091.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1349,
+      "sha256": "e6141057912b8038092db924e9070a3a091f8febfcdc6337e6a9e1854043879e",
+      "blob": "e6141057912b8038092db924e9070a3a091f8febfcdc6337e6a9e1854043879e"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-103.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4456,
+      "sha256": "a89ae1ed89e71f5779047281c2a106dc9b8b9742cfd3472a097d3fbd51de21ed",
+      "blob": "a89ae1ed89e71f5779047281c2a106dc9b8b9742cfd3472a097d3fbd51de21ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-104.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4108,
+      "sha256": "564aa4f9cd6b915284245a73776a1ab498b48edb02f4ae135c75a2f49bd118e4",
+      "blob": "564aa4f9cd6b915284245a73776a1ab498b48edb02f4ae135c75a2f49bd118e4"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-105.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 18133,
+      "sha256": "dacbe4a35b9f92d50dc3cc0294c11132912e300b37aed5fa703454f3e596ee54",
+      "blob": "dacbe4a35b9f92d50dc3cc0294c11132912e300b37aed5fa703454f3e596ee54"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-106.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 18331,
+      "sha256": "f63aacd6dda206f59cc62c928773c36c10a6cf9f403a30f00cde1e73740a349a",
+      "blob": "f63aacd6dda206f59cc62c928773c36c10a6cf9f403a30f00cde1e73740a349a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-107.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 987,
+      "sha256": "6dcf8f7e101a215dd4a01802eb9aba5f2fba4f45d7f774fabca2098e38dc77f0",
+      "blob": "6dcf8f7e101a215dd4a01802eb9aba5f2fba4f45d7f774fabca2098e38dc77f0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-109.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1261,
+      "sha256": "d6e32d0d61a48f92a8bcb34569d1b4861d949db1e2c4c529aa7c890584bea1b7",
+      "blob": "d6e32d0d61a48f92a8bcb34569d1b4861d949db1e2c4c529aa7c890584bea1b7"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-110.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1063,
+      "sha256": "efccb1605885a45c6223d1734f9ebfbeae0fc45f92b8d0ea74461bacb5521b57",
+      "blob": "efccb1605885a45c6223d1734f9ebfbeae0fc45f92b8d0ea74461bacb5521b57"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-112.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1234,
+      "sha256": "80a4a9fc74c6ea1cc077b50c00152148d76d225ee39841e5b43c0aca4cf91280",
+      "blob": "80a4a9fc74c6ea1cc077b50c00152148d76d225ee39841e5b43c0aca4cf91280"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-113.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1128,
+      "sha256": "f1ac9b18eb23b1c6ed77aeaf870155c1e1ede38834d05638229806decad7cf74",
+      "blob": "f1ac9b18eb23b1c6ed77aeaf870155c1e1ede38834d05638229806decad7cf74"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-114.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 4602,
+      "sha256": "76773acc201d56d3d7fa413083c104eac192327e9c333cac3713563324db2ef9",
+      "blob": "76773acc201d56d3d7fa413083c104eac192327e9c333cac3713563324db2ef9"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-115.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1551,
+      "sha256": "5dd029c83df1f96f51c4baf87b5251324081244e054dc822acfb27b11aa601e6",
+      "blob": "5dd029c83df1f96f51c4baf87b5251324081244e054dc822acfb27b11aa601e6"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-118.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1153,
+      "sha256": "689ba2559e51e336a0d410eb536c507f03f8d186e87c7db014be6bb41f7066c6",
+      "blob": "689ba2559e51e336a0d410eb536c507f03f8d186e87c7db014be6bb41f7066c6"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-119.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 971,
+      "sha256": "3ca0a046d5788c1675bb7ce330b7dbeb9a6fb2d93bdecd7bcb37b9008a02be2d",
+      "blob": "3ca0a046d5788c1675bb7ce330b7dbeb9a6fb2d93bdecd7bcb37b9008a02be2d"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-120.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 186860,
+      "sha256": "5c92584cfff2db0bba62bc4041abf9ab2eddb74acc36f3c7d073fc07cd8f47dc",
+      "blob": "5c92584cfff2db0bba62bc4041abf9ab2eddb74acc36f3c7d073fc07cd8f47dc"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-121.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 202776,
+      "sha256": "f857e185411f57412ca4dab579a01d8d6ed2b174cff64264a2622a30fe1ba883",
+      "blob": "f857e185411f57412ca4dab579a01d8d6ed2b174cff64264a2622a30fe1ba883"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-122.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 79191,
+      "sha256": "f70fb5ddeec50ba15032ad21d4fc6cc1a5c4acabd2bb0dd6f15d1870f2c10ec4",
+      "blob": "f70fb5ddeec50ba15032ad21d4fc6cc1a5c4acabd2bb0dd6f15d1870f2c10ec4"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-123.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 814898,
+      "sha256": "1ef8ce29513eeecb83284d1e795ad904ba53546fa97dbe1e477a381d586697e0",
+      "blob": "1ef8ce29513eeecb83284d1e795ad904ba53546fa97dbe1e477a381d586697e0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-124.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 208400,
+      "sha256": "128a46172e5bec70ce6f8f971748b9ba24e33ef03de5971bff0a3f186abdfaf7",
+      "blob": "128a46172e5bec70ce6f8f971748b9ba24e33ef03de5971bff0a3f186abdfaf7"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-125.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 202364,
+      "sha256": "d8fad986db6e8f41fe77a8f68b58753b06412001c850aa0fa2fa41eea0523b2a",
+      "blob": "d8fad986db6e8f41fe77a8f68b58753b06412001c850aa0fa2fa41eea0523b2a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-126.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 224682,
+      "sha256": "c5db663f243ca3cefbbccda5876c76e7005df3d3c4a4b09053ab4585b5e9bb01",
+      "blob": "c5db663f243ca3cefbbccda5876c76e7005df3d3c4a4b09053ab4585b5e9bb01"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-127.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 865925,
+      "sha256": "13bab1736ca991f4081b5639eca334a7b96e507b6bcaedb2cd55bf9d3a669a51",
+      "blob": "13bab1736ca991f4081b5639eca334a7b96e507b6bcaedb2cd55bf9d3a669a51"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-128.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 458451,
+      "sha256": "e8df97ddee9b0bb130ef36bc769a8480f5ac1d50a0bfde92cf98257476186eb0",
+      "blob": "e8df97ddee9b0bb130ef36bc769a8480f5ac1d50a0bfde92cf98257476186eb0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-129.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 202879,
+      "sha256": "20571fd7823c42c71a3b4c48b954f02093df742ecd885932e708d5b62112aa02",
+      "blob": "20571fd7823c42c71a3b4c48b954f02093df742ecd885932e708d5b62112aa02"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-130.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 91300,
+      "sha256": "2fe386554939405ef07fc1a49446af4752e424fd68a67d2ea4c530e161fb8eb7",
+      "blob": "2fe386554939405ef07fc1a49446af4752e424fd68a67d2ea4c530e161fb8eb7"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-132.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 6479,
+      "sha256": "723152c41c7948fdfd49bcbdedfe8469fa0769c92e56d2c4fb2d92c976fcf04a",
+      "blob": "723152c41c7948fdfd49bcbdedfe8469fa0769c92e56d2c4fb2d92c976fcf04a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-133.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 8701,
+      "sha256": "8b1830037e3fc293b82ebe7c8854921811919697987793b1a5a9e3622ab7e3c3",
+      "blob": "8b1830037e3fc293b82ebe7c8854921811919697987793b1a5a9e3622ab7e3c3"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-134.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 5248,
+      "sha256": "12ffd299f7450a8763fa51b8a56d832c33a07dfe72f108e2d7c1d06d0c36dec8",
+      "blob": "12ffd299f7450a8763fa51b8a56d832c33a07dfe72f108e2d7c1d06d0c36dec8"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-135.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 423302,
+      "sha256": "4394a5add046963623678d7e7306578bad1f6c7b1bbd784e00d29325feb095d0",
+      "blob": "4394a5add046963623678d7e7306578bad1f6c7b1bbd784e00d29325feb095d0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-136.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 281506,
+      "sha256": "8bad3830270585d51a03ee564bbed73b060c940f1777f53ecae6d4bd3a182343",
+      "blob": "8bad3830270585d51a03ee564bbed73b060c940f1777f53ecae6d4bd3a182343"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-137.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 101842,
+      "sha256": "0702b4e9e469935a1a30dc68635a4fa1016ba57297d2b7fcf7f69ffd42d87931",
+      "blob": "0702b4e9e469935a1a30dc68635a4fa1016ba57297d2b7fcf7f69ffd42d87931"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-138.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 304628,
+      "sha256": "d6539e1a9dbe9f521b3147262098cfc6a60a00886e71f346afa5c2518d0673b6",
+      "blob": "d6539e1a9dbe9f521b3147262098cfc6a60a00886e71f346afa5c2518d0673b6"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-139.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 204722,
+      "sha256": "cf31dd8514eff5ff9dd89719a22360bf623332286c926dc1987fd4721ecbe324",
+      "blob": "cf31dd8514eff5ff9dd89719a22360bf623332286c926dc1987fd4721ecbe324"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-140.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 101974,
+      "sha256": "aa1c7fdc1eb988a510291684d291b0f9fe456afced2447fd29890f25a4286bc1",
+      "blob": "aa1c7fdc1eb988a510291684d291b0f9fe456afced2447fd29890f25a4286bc1"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-141.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 172384,
+      "sha256": "3ecfc88a0010b00e9c7dfd46882a9df24000071f8ba0e81f449c8945fdeed208",
+      "blob": "3ecfc88a0010b00e9c7dfd46882a9df24000071f8ba0e81f449c8945fdeed208"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-142.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 975244,
+      "sha256": "5b75a2a3566cf09f1789cc709079181ddea517a8ec13c6b494bdbed6b18eed79",
+      "blob": "5b75a2a3566cf09f1789cc709079181ddea517a8ec13c6b494bdbed6b18eed79"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-143.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 244949,
+      "sha256": "9eeb843402d2efb38f2e2f672b56ae3532b3b1a4d26218c2bf5cbe2233a302eb",
+      "blob": "9eeb843402d2efb38f2e2f672b56ae3532b3b1a4d26218c2bf5cbe2233a302eb"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-144.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 103743,
+      "sha256": "188dc2272ec76a49628e91114ac6c0c429fc4b488b4defa920f0681b0e780b35",
+      "blob": "188dc2272ec76a49628e91114ac6c0c429fc4b488b4defa920f0681b0e780b35"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-145.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 101899,
+      "sha256": "abb8d4d4ed1b2621ecc873b0887de1f6f3b4a7f9141e196cb2fe856dde2941ed",
+      "blob": "abb8d4d4ed1b2621ecc873b0887de1f6f3b4a7f9141e196cb2fe856dde2941ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-147.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 91914,
+      "sha256": "fa5da94f403088ebaf0e38fb45b800ea3484f7a5c47d576cab535827b9086e4f",
+      "blob": "fa5da94f403088ebaf0e38fb45b800ea3484f7a5c47d576cab535827b9086e4f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-148.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 115293,
+      "sha256": "84256599df8b6c41c005b388785431e132bac40a51643b53bafb5e795f333e76",
+      "blob": "84256599df8b6c41c005b388785431e132bac40a51643b53bafb5e795f333e76"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-149.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 103874,
+      "sha256": "09d44d1582aa8ba5843149b30d9d18a6a8160d31ceb9b5a00f4a80416580c19c",
+      "blob": "09d44d1582aa8ba5843149b30d9d18a6a8160d31ceb9b5a00f4a80416580c19c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-150.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 91749,
+      "sha256": "21614ae27f26a89c472080431a23635d3de598ebeb9139cbf7e67b951656b167",
+      "blob": "21614ae27f26a89c472080431a23635d3de598ebeb9139cbf7e67b951656b167"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-151.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 13975,
+      "sha256": "4902e6f7bdb3fa3d1fd411960f439d0233382b43d415d9256cc4c946f46ed11b",
+      "blob": "4902e6f7bdb3fa3d1fd411960f439d0233382b43d415d9256cc4c946f46ed11b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-152.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 91777,
+      "sha256": "460b03482a937247ec012dc4946a1ea15d97e0b0421ffaa38b3295a0df8f637e",
+      "blob": "460b03482a937247ec012dc4946a1ea15d97e0b0421ffaa38b3295a0df8f637e"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-154.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1141,
+      "sha256": "1a6bf64ae494fa7ee4aa9451545ef256c1584e261019ca13c4c072bdf34e2f9b",
+      "blob": "1a6bf64ae494fa7ee4aa9451545ef256c1584e261019ca13c4c072bdf34e2f9b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-156.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 2451,
+      "sha256": "030acacbcb00b454fbfb220b53f2127fe076ef3e8551fb36644c651d211729e0",
+      "blob": "030acacbcb00b454fbfb220b53f2127fe076ef3e8551fb36644c651d211729e0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-157.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1053,
+      "sha256": "3f698ed192b446a3bff94610cf2c3177662bbc9956591eff15af66a988f27b17",
+      "blob": "3f698ed192b446a3bff94610cf2c3177662bbc9956591eff15af66a988f27b17"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-158.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 7856234,
+      "sha256": "092cdf7d78c83672754908cf8ed709cef6bd38c3c0c434ca6940c190fbd83079",
+      "blob": "092cdf7d78c83672754908cf8ed709cef6bd38c3c0c434ca6940c190fbd83079"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-159.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1895342,
+      "sha256": "feba326e12285f89a4bdea3e4643a9a456a0940802b6f6eef5d2afddd4a918e0",
+      "blob": "feba326e12285f89a4bdea3e4643a9a456a0940802b6f6eef5d2afddd4a918e0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-160.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 24819,
+      "sha256": "4ff7247ac159cf0c9d0d9d5b60620ebce39ecf7b64399c089d19cb635ef000c2",
+      "blob": "4ff7247ac159cf0c9d0d9d5b60620ebce39ecf7b64399c089d19cb635ef000c2"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-161.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 127425,
+      "sha256": "71c65c70afc92b0866952a7ba0d2b0f157ec0112de2479245ca460d5ff57ed78",
+      "blob": "71c65c70afc92b0866952a7ba0d2b0f157ec0112de2479245ca460d5ff57ed78"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-162.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 841657,
+      "sha256": "15a89e7ef930c2eefbbd9e67a6a93b69e396840f948efe32e436a50bfbc56a1e",
+      "blob": "15a89e7ef930c2eefbbd9e67a6a93b69e396840f948efe32e436a50bfbc56a1e"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-163.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 66984,
+      "sha256": "a7a2c595cadff612b64e4aeb458a2241a26c280dfcb917b4353607c785a0833f",
+      "blob": "a7a2c595cadff612b64e4aeb458a2241a26c280dfcb917b4353607c785a0833f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-164.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 620464,
+      "sha256": "8f5935e8fa6e3a1f8296593cbe9bcbce589273cef8219b5fea032b62e91eb519",
+      "blob": "8f5935e8fa6e3a1f8296593cbe9bcbce589273cef8219b5fea032b62e91eb519"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-165.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 88837,
+      "sha256": "b5d93e5bd2f1abcfd26446ccbe09df3d36d8d632c942ac1303f5a81941cbcacd",
+      "blob": "b5d93e5bd2f1abcfd26446ccbe09df3d36d8d632c942ac1303f5a81941cbcacd"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-166.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1065,
+      "sha256": "86f5d326769b67e21deb7740787fcbfe2a8ff227ed18948dd815f5f0f7aecf79",
+      "blob": "86f5d326769b67e21deb7740787fcbfe2a8ff227ed18948dd815f5f0f7aecf79"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-167.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1135,
+      "sha256": "ae9ea5d2f6cd44fd80ec03d4bc5291770b79f4330fa3393287bdf40fe12b8c1a",
+      "blob": "ae9ea5d2f6cd44fd80ec03d4bc5291770b79f4330fa3393287bdf40fe12b8c1a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-168.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1028,
+      "sha256": "a8e1340201baeba94c644b5cf26fce291a350b7e2dd549a7e30ea8b1884649c6",
+      "blob": "a8e1340201baeba94c644b5cf26fce291a350b7e2dd549a7e30ea8b1884649c6"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-169.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 79176,
+      "sha256": "7edfa0c813edb1eebc888d509e54df72041a74849fa5c23fbf58106cdb38c8c8",
+      "blob": "7edfa0c813edb1eebc888d509e54df72041a74849fa5c23fbf58106cdb38c8c8"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-171.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1161,
+      "sha256": "c1065063d17c524eebfc30b7ac771e5fafd213da59468d62e2f812daff0adc2f",
+      "blob": "c1065063d17c524eebfc30b7ac771e5fafd213da59468d62e2f812daff0adc2f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-172.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 2774,
+      "sha256": "06e456080c9720bc79c46deec8e89524ccb7e2a7b1ed9cf6b02d994512a30354",
+      "blob": "06e456080c9720bc79c46deec8e89524ccb7e2a7b1ed9cf6b02d994512a30354"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-174.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1147,
+      "sha256": "e08209a8d9bf606e799d3e8c5c371e3303063af8899551d696ec7baeab5677ed",
+      "blob": "e08209a8d9bf606e799d3e8c5c371e3303063af8899551d696ec7baeab5677ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-175.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1038,
+      "sha256": "c6b539970792e360d01cb811cbe9f193de3637f5e77da1ee24d5e512ef558ff6",
+      "blob": "c6b539970792e360d01cb811cbe9f193de3637f5e77da1ee24d5e512ef558ff6"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-176.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1010,
+      "sha256": "19a14954ecbd2172d33dd17da6faf42cae9987b6ab33335d8c30fe3c5e9b8db0",
+      "blob": "19a14954ecbd2172d33dd17da6faf42cae9987b6ab33335d8c30fe3c5e9b8db0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-177.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 516,
+      "sha256": "11c98c337040558f8ca51207f427adb2a1baea54bf8b93d5dd3f577f4199af05",
+      "blob": "11c98c337040558f8ca51207f427adb2a1baea54bf8b93d5dd3f577f4199af05"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-178.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 510,
+      "sha256": "42cfcb6ed669b49db555688f11dfe495c0932dde52a7ba38a2baeafc65ccb551",
+      "blob": "42cfcb6ed669b49db555688f11dfe495c0932dde52a7ba38a2baeafc65ccb551"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-179.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 511,
+      "sha256": "5a241e0f249861c866aba3123eec430ba14326bd350264f481a2c3d8e516e3fe",
+      "blob": "5a241e0f249861c866aba3123eec430ba14326bd350264f481a2c3d8e516e3fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-180.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 512,
+      "sha256": "d6574eb6f6c190c19922128b12629bc2e8e91e9f3a580a56db119d38742e2e37",
+      "blob": "d6574eb6f6c190c19922128b12629bc2e8e91e9f3a580a56db119d38742e2e37"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-181.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 332640,
+      "sha256": "905e9b452e288ed0cf1b2f97d2d768160184a99211f60f69d36f196cfb1d2328",
+      "blob": "905e9b452e288ed0cf1b2f97d2d768160184a99211f60f69d36f196cfb1d2328"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-182.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 33848020,
+      "sha256": "fa68ae74d49cf8a7e77b9cb2a9add02ffb8e312cf5606e849f33b885557d5c7d",
+      "blob": "fa68ae74d49cf8a7e77b9cb2a9add02ffb8e312cf5606e849f33b885557d5c7d"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-184.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 1545,
+      "sha256": "ec24e23cfb885b366be6bc5e6136d4465b935ca5293ac1a202c6b9a3131186c0",
+      "blob": "ec24e23cfb885b366be6bc5e6136d4465b935ca5293ac1a202c6b9a3131186c0"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-187.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 985,
+      "sha256": "946416912ee3128ffc68cb44f909f3213b44021a86381e61c4a7a83b8a76b08a",
+      "blob": "946416912ee3128ffc68cb44f909f3213b44021a86381e61c4a7a83b8a76b08a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-188.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 10406,
+      "sha256": "cdac4f54090d8bb41f67ff30a510ef9e636bf22a4375b9fe33c795a4faa5a8be",
+      "blob": "cdac4f54090d8bb41f67ff30a510ef9e636bf22a4375b9fe33c795a4faa5a8be"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-189.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 7375,
+      "sha256": "b9805ec18511ba1ee9278fa8c5103927cb63a842552baf2b0791d1e75ccc52fe",
+      "blob": "b9805ec18511ba1ee9278fa8c5103927cb63a842552baf2b0791d1e75ccc52fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/report-field-192.jsonl",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 173418,
+      "sha256": "d52ea255d38afd5a14de03cf2358002186941016b71612fa7b63544a01134755",
+      "blob": "d52ea255d38afd5a14de03cf2358002186941016b71612fa7b63544a01134755"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/result.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 143468,
+      "sha256": "6b102cde3288cf5f01f289eca730b468a579bd83a3fc60fd2af64c5eb6e2f626",
+      "blob": "6b102cde3288cf5f01f289eca730b468a579bd83a3fc60fd2af64c5eb6e2f626"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/source-verification.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 206160,
+      "sha256": "719f3b5afa9da1144adcfc24b3efb44d39afc334c38a2a1acd42c2c44d288c7d",
+      "blob": "719f3b5afa9da1144adcfc24b3efb44d39afc334c38a2a1acd42c2c44d288c7d"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/spe-observations.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 101729739,
+      "sha256": "29ce9fdbdf30df1a921a324abe27bb757447ed074ad81c77b76ca580e6558445",
+      "blob": "29ce9fdbdf30df1a921a324abe27bb757447ed074ad81c77b76ca580e6558445"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/terminal-minimal.json",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 206252,
+      "sha256": "9ac10c05f6df9d5bd7a6ba394cdaa46caeccbd54e496f3aafaba3a40a4708ad9",
+      "blob": "9ac10c05f6df9d5bd7a6ba394cdaa46caeccbd54e496f3aafaba3a40a4708ad9"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/WOOD6-natural-failure-1.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3125355,
+      "sha256": "968622f62dc28cd132fc5373db94f029f2fcef410a2d56266b78a1a5f4545483",
+      "blob": "968622f62dc28cd132fc5373db94f029f2fcef410a2d56266b78a1a5f4545483"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/WOOD6-natural-failure-2.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3125550,
+      "sha256": "195415a50aaa0cda466847c7836ef7e04a97fbf52e4ba5f473879ee98dc12649",
+      "blob": "195415a50aaa0cda466847c7836ef7e04a97fbf52e4ba5f473879ee98dc12649"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/WOOD6-natural-failure-3.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3125486,
+      "sha256": "18d9b7a1dddbf1cbe97ebd8e59b0220ca182c1068df998e6703482042f172707",
+      "blob": "18d9b7a1dddbf1cbe97ebd8e59b0220ca182c1068df998e6703482042f172707"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/WOOD6-natural-failure-4.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3125894,
+      "sha256": "c136fd5233b045d077339b478ea91af4932ed70e5c1803c0b383688da3ddc0be",
+      "blob": "c136fd5233b045d077339b478ea91af4932ed70e5c1803c0b383688da3ddc0be"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/wood67-131-v39-july-input-public-SAVE.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3079958,
+      "sha256": "45bcbe4aad3dd61f8bef0da3f21810c997245a0e0a62048320c69979c700b183",
+      "blob": "45bcbe4aad3dd61f8bef0da3f21810c997245a0e0a62048320c69979c700b183"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/wood67-131-v39-local-plunder20-actor44-public-SAVE.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3078870,
+      "sha256": "2e203b589d534a4c795abb93fa96e9a3758bc052de81696542801c59a2c2e597",
+      "blob": "2e203b589d534a4c795abb93fa96e9a3758bc052de81696542801c59a2c2e597"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/wood67-131-v39-wood-route-settled-public-SAVE.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 3130268,
+      "sha256": "42882609981f24b04acfbeb283d0e288a0f3c61f13d84b1c9aa1a3330931a03a",
+      "blob": "42882609981f24b04acfbeb283d0e288a0f3c61f13d84b1c9aa1a3330931a03a"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/wood67-131-v39-wood7-to1-dispatched-481-public-SAVE.png",
+      "roles": [
+        "complete-current-V39-immediate-original"
+      ],
+      "bytes": 41536,
+      "sha256": "3194ba73b3f4b77300dec5c3b8116462224758b3d64dc05420342d3973edc7e2",
+      "blob": "3194ba73b3f4b77300dec5c3b8116462224758b3d64dc05420342d3973edc7e2"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-v39-external-cleanup-v1.json",
+      "roles": [
+        "closed-economy-and-exact-process-evidence"
+      ],
+      "bytes": 3267,
+      "sha256": "7ab0696b37c290c6e6bc48163207741933ef0b52d658eec2812fb979e554b003",
+      "blob": "7ab0696b37c290c6e6bc48163207741933ef0b52d658eec2812fb979e554b003"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-battle-v39-owned-union-v1.json",
+      "roles": [
+        "closed-economy-and-exact-process-evidence"
+      ],
+      "bytes": 3337,
+      "sha256": "da7687ef9f020832c2950dc90c734f0c81e6f286387fff492f30ca90fb304b40",
+      "blob": "da7687ef9f020832c2950dc90c734f0c81e6f286387fff492f30ca90fb304b40"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-actual-publication-inputs-v1.json",
+      "roles": [
+        "closed-exact-publication-support-manifest"
+      ],
+      "bytes": 80107,
+      "sha256": "c17701a5989afefe7306c8a2a20f35c9f69201529f319c7caa90d5a27d6fb311",
+      "blob": "c17701a5989afefe7306c8a2a20f35c9f69201529f319c7caa90d5a27d6fb311"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-all-attempt-capture-provenance-v1.json",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 4455,
+      "sha256": "81a7229946786461d0c04a6bf45deafae05111161222c4332ea7bcec9133c46c",
+      "blob": "81a7229946786461d0c04a6bf45deafae05111161222c4332ea7bcec9133c46c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-august-next-native-options-v1.json",
+      "roles": [
+        "source-only-next-qualification-no-action-credit"
+      ],
+      "bytes": 7730,
+      "sha256": "3ffd8408ac6711bc68aade11616adbf152b5730b9895a26b7f833c4d14afcdaf",
+      "blob": "3ffd8408ac6711bc68aade11616adbf152b5730b9895a26b7f833c4d14afcdaf"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-august-next-native-options-v2.json",
+      "roles": [
+        "source-only-next-qualification-no-action-credit"
+      ],
+      "bytes": 8378,
+      "sha256": "1e034f4154219f4a13c496bfeaf5942df44d49ca2bf1673b861f80ad1375db9f",
+      "blob": "1e034f4154219f4a13c496bfeaf5942df44d49ca2bf1673b861f80ad1375db9f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-scope-v1.json",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 8668,
+      "sha256": "6be3a6799fe4346914357c4372039dab9342868d55595175d5cd78c7fe6f5402",
+      "blob": "6be3a6799fe4346914357c4372039dab9342868d55595175d5cd78c7fe6f5402"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-scope-v2.json",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 8925,
+      "sha256": "ca46365915bbcb4abd0282f004c48b2bf2e9c769171016015911124a6c49ef49",
+      "blob": "ca46365915bbcb4abd0282f004c48b2bf2e9c769171016015911124a6c49ef49"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/01-executed-tool.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 647992,
+      "sha256": "efd7953c63eae92fff6f8bf5a15a46d041e3fe0bd2c8c64d69cf45a46d427721",
+      "blob": "efd7953c63eae92fff6f8bf5a15a46d041e3fe0bd2c8c64d69cf45a46d427721"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/02-hd-wood-runtime-oracle.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e",
+      "blob": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/03-hd-wood-evidence-contract.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4",
+      "blob": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/04-hd-wood-supplied-continuation.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f",
+      "blob": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/05-hd-wood-classic-presentation.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986",
+      "blob": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/06-hd-impact-v36-wood-route.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 16732,
+      "sha256": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46",
+      "blob": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/07-hd-wood-v39-ticket-observer-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 1833,
+      "sha256": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d",
+      "blob": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/08-hd-impact-v36-caller-fence-v1.mjs",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 2243,
+      "sha256": "ac25e61164fa5628f9486a9c955a678dc24aa2d1f7391c317817069929a24571",
+      "blob": "ac25e61164fa5628f9486a9c955a678dc24aa2d1f7391c317817069929a24571"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/receipt.json",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 109841,
+      "sha256": "e19a8c06a3c48b797b7134e1422c6de92bf99ee2051d001fa8a9af900418aa3c",
+      "blob": "e19a8c06a3c48b797b7134e1422c6de92bf99ee2051d001fa8a9af900418aa3c"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-economy-latest-save-independent-v1.json",
+      "roles": [
+        "closed-economy-and-exact-process-evidence"
+      ],
+      "bytes": 25458,
+      "sha256": "124e54a39df6b20a0b5e1a2ac29e34e052366d97994c7d2a6578ca004e9490c2",
+      "blob": "124e54a39df6b20a0b5e1a2ac29e34e052366d97994c7d2a6578ca004e9490c2"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-independent-v1/immediate-files.json",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 39235,
+      "sha256": "1cb1bd63409c1570f6394ef2d6e9124b02c8ce4bd23bca994e764acdbf1afc17",
+      "blob": "1cb1bd63409c1570f6394ef2d6e9124b02c8ce4bd23bca994e764acdbf1afc17"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-independent-v1/independent-receipt.json",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 613355,
+      "sha256": "103c630ea21f73da761efb54f974001416a8c8f89869120b4a90c6529cab9882",
+      "blob": "103c630ea21f73da761efb54f974001416a8c8f89869120b4a90c6529cab9882"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-independent-v1/latest-world.json",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 147947,
+      "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b",
+      "blob": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-original-png-independent-v2.json",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 29921,
+      "sha256": "ca5fbcd757c622c9776cd675a4e7867d6deb316743398ba39297faf87ed0b588",
+      "blob": "ca5fbcd757c622c9776cd675a4e7867d6deb316743398ba39297faf87ed0b588"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-png-closed-input-v1.json",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 12257,
+      "sha256": "757d1ddce18331270b3145f10f0c78290f7c4df4a9864630895845dbfa5bd132",
+      "blob": "757d1ddce18331270b3145f10f0c78290f7c4df4a9864630895845dbfa5bd132"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-png-provenance-preparation-v1.json",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 8340,
+      "sha256": "bcd65fd9bb17f89203e5b84e7087efe3c8dd01b44822c8bb1fd8181c5217e39b",
+      "blob": "bcd65fd9bb17f89203e5b84e7087efe3c8dd01b44822c8bb1fd8181c5217e39b"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-png-provenance-preparation-v2.json",
+      "roles": [
+        "original-PNG-provenance-and-historical-preparation"
+      ],
+      "bytes": 5649,
+      "sha256": "3e3dc510a64f3f74e0008ffc9bd4d617e6fe25632b44c9385ea3b3f0c88513d4",
+      "blob": "3e3dc510a64f3f74e0008ffc9bd4d617e6fe25632b44c9385ea3b3f0c88513d4"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-publication-controlled-v1/first-marker-helper-failure.json",
+      "roles": [
+        "first-marker-helper-schema-rejection-retained"
+      ],
+      "bytes": 403,
+      "sha256": "fdbcc04576ec0fbe9619ca31513b6318fa0cfaec89ce7e185b284d91e5590cf8",
+      "blob": "fdbcc04576ec0fbe9619ca31513b6318fa0cfaec89ce7e185b284d91e5590cf8"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-publication-controlled-v1/first-marker-helper-lock-key-mismatch.mjs",
+      "roles": [
+        "first-marker-helper-schema-rejection-retained"
+      ],
+      "bytes": 5918,
+      "sha256": "eeb4973048541160762d594d0ae29840d69f145fc7401d2716d313a36ca406b2",
+      "blob": "eeb4973048541160762d594d0ae29840d69f145fc7401d2716d313a36ca406b2"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-root-closed-tool-record-v1.json",
+      "roles": [
+        "closed-economy-and-exact-process-evidence"
+      ],
+      "bytes": 1105,
+      "sha256": "affdbbb224452a182a023a5b5906f8a3a317c21cefa6f242a068f4759ec13a97",
+      "blob": "affdbbb224452a182a023a5b5906f8a3a317c21cefa6f242a068f4759ec13a97"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-root-full-regression-v1.json",
+      "roles": [
+        "frozen-source-and-full-regression"
+      ],
+      "bytes": 2031,
+      "sha256": "1c8073be2a89f9558bced70ef241ef7505aa28ddbb6aa2ac0154b3a9c377c602",
+      "blob": "1c8073be2a89f9558bced70ef241ef7505aa28ddbb6aa2ac0154b3a9c377c602"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-root-visual-review-v1.json",
+      "roles": [
+        "closed-economy-and-exact-process-evidence"
+      ],
+      "bytes": 1480,
+      "sha256": "3fb767d355719f42d16b56a6effa94c5874f4556805b53792127bd15003db52f",
+      "blob": "3fb767d355719f42d16b56a6effa94c5874f4556805b53792127bd15003db52f"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-runtime-freeze-v1.json",
+      "roles": [
+        "frozen-source-and-full-regression"
+      ],
+      "bytes": 3873,
+      "sha256": "fc7e40ff31af7985aa6f99c75dfa5a1d28e502e24a82f4b09645bc9318409aca",
+      "blob": "fc7e40ff31af7985aa6f99c75dfa5a1d28e502e24a82f4b09645bc9318409aca"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-source-allowlist-v1.json",
+      "roles": [
+        "frozen-source-and-full-regression"
+      ],
+      "bytes": 102621,
+      "sha256": "da4d0a52a258755d1bf19f7444ec69cec2c6b17a911037c9db32a57efe155043",
+      "blob": "da4d0a52a258755d1bf19f7444ec69cec2c6b17a911037c9db32a57efe155043"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-source-ready-v1.json",
+      "roles": [
+        "frozen-source-and-full-regression"
+      ],
+      "bytes": 2104,
+      "sha256": "068546b96eac1b823ed5bb086c1a80ea0a58517b6e25e502265a461ab99683fa",
+      "blob": "068546b96eac1b823ed5bb086c1a80ea0a58517b6e25e502265a461ab99683fa"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-supplied-candidate-independent-v1.json",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 9806,
+      "sha256": "6b24e61207387f81884c57979f84e0b0b813f7a6d4f6d9462c1ecb366b0518ed",
+      "blob": "6b24e61207387f81884c57979f84e0b0b813f7a6d4f6d9462c1ecb366b0518ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v39-total-audit-support-v1.json",
+      "roles": [
+        "explicit-support-manifest"
+      ],
+      "bytes": 6670,
+      "sha256": "37fc01a6aefb05fa95bdd4f367e94d0a168083e5299edb5bb379945bcc85fedf",
+      "blob": "37fc01a6aefb05fa95bdd4f367e94d0a168083e5299edb5bb379945bcc85fedf"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-failure-1.png",
+      "roles": [
+        "current-publication-copy-or-reader"
+      ],
+      "bytes": 3125355,
+      "sha256": "968622f62dc28cd132fc5373db94f029f2fcef410a2d56266b78a1a5f4545483",
+      "blob": "968622f62dc28cd132fc5373db94f029f2fcef410a2d56266b78a1a5f4545483"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+      "roles": [
+        "current-publication-copy-or-reader"
+      ],
+      "bytes": 147947,
+      "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b",
+      "blob": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+      "roles": [
+        "current-publication-copy-or-reader"
+      ],
+      "bytes": 8221,
+      "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1",
+      "blob": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+      "roles": [
+        "current-publication-copy-or-reader"
+      ],
+      "bytes": 4840,
+      "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e",
+      "blob": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-settled-save.png",
+      "roles": [
+        "current-publication-copy-or-reader"
+      ],
+      "bytes": 3130268,
+      "sha256": "42882609981f24b04acfbeb283d0e288a0f3c61f13d84b1c9aa1a3330931a03a",
+      "blob": "42882609981f24b04acfbeb283d0e288a0f3c61f13d84b1c9aa1a3330931a03a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-verify.mjs",
+      "roles": [
+        "current-publication-copy-or-reader"
+      ],
+      "bytes": 14184,
+      "sha256": "9d2416793d9fac9f60f38257678eeb87caa0a09067fc0a2b32af5fea0471ea41",
+      "blob": "9d2416793d9fac9f60f38257678eeb87caa0a09067fc0a2b32af5fea0471ea41"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-latest-world.json",
+      "roles": [
+        "exact-four-published-prior-July-input-only"
+      ],
+      "bytes": 147960,
+      "sha256": "6b4e5ff05bec60e8c93689f00ea39ecb0927aceef1db3ec8f563e8e50a724e2f",
+      "blob": "6b4e5ff05bec60e8c93689f00ea39ecb0927aceef1db3ec8f563e8e50a724e2f"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-sango0.sav",
+      "roles": [
+        "exact-four-published-prior-July-input-only"
+      ],
+      "bytes": 8221,
+      "sha256": "afccc92b9cbaef4cf7bed89f255d14ff551b47ebde4da5286143d859a611f5fa",
+      "blob": "afccc92b9cbaef4cf7bed89f255d14ff551b47ebde4da5286143d859a611f5fa"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-sango1.sav",
+      "roles": [
+        "exact-four-published-prior-July-input-only"
+      ],
+      "bytes": 4840,
+      "sha256": "f457e7012ef14fbe7636787881f2e1e5fd9139e4822d76604f5b8aa059725cc6",
+      "blob": "f457e7012ef14fbe7636787881f2e1e5fd9139e4822d76604f5b8aa059725cc6"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38.json",
+      "roles": [
+        "exact-four-published-prior-July-input-only"
+      ],
+      "bytes": 216002,
+      "sha256": "83a3728aa35990636a00e88f52d67602aa2de97364bb885051296a9cdd253705",
+      "blob": "83a3728aa35990636a00e88f52d67602aa2de97364bb885051296a9cdd253705"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "package.json",
+      "roles": [
+        "matching-current-full-regression-source-and-log"
+      ],
+      "bytes": 19484,
+      "sha256": "d89619c574dff11db482f7cbcd2d9ae376f45046379de451d79251f602fe970d",
+      "blob": "d89619c574dff11db482f7cbcd2d9ae376f45046379de451d79251f602fe970d"
+    },
+    {
+      "path": "scripts/hd-impact-v36-wood-route.mjs",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 16732,
+      "sha256": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46",
+      "blob": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46"
+    },
+    {
+      "path": "scripts/hd-wood-classic-presentation.mjs",
+      "roles": [
+        "matching-current-full-regression-source-and-log"
+      ],
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986",
+      "blob": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4",
+      "blob": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+    },
+    {
+      "path": "scripts/hd-wood-original-continuation.mjs",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 19876,
+      "sha256": "8c0764ca38b2c3530a72abbc66cb21b5d9f407e36314d5fe95d9f295b33b2c91",
+      "blob": "8c0764ca38b2c3530a72abbc66cb21b5d9f407e36314d5fe95d9f295b33b2c91"
+    },
+    {
+      "path": "scripts/hd-wood-runtime-oracle.mjs",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e",
+      "blob": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+    },
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "roles": [
+        "matching-current-full-regression-source-and-log"
+      ],
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f",
+      "blob": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+    },
+    {
+      "path": "scripts/test-hd-wood-classic-presentation.mjs",
+      "roles": [
+        "matching-current-full-regression-source-and-log"
+      ],
+      "bytes": 6847,
+      "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2",
+      "blob": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+    },
+    {
+      "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+      "roles": [
+        "matching-current-full-regression-source-and-log"
+      ],
+      "bytes": 22834,
+      "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14",
+      "blob": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pstring.h",
+      "roles": [
+        "current-critical-original-source-or-WOOD-assets"
+      ],
+      "bytes": 1524,
+      "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "blob": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/font.bin.c",
+      "roles": [
+        "explicit-frozen-total-audit-support"
+      ],
+      "bytes": 1003524,
+      "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401",
+      "blob": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+    }
+  ],
+  "format": "Each blob is keyed by raw SHA256, independently gzip compressed, gzip SHA/length pinned, base64 only inside bounded part. files[].blob refers to blobs[].sha256. Oversized files retain the complete raw SHA as files[].blob and add ordered chunks[{offset,bytes,sha256,blob}], each at most4MiB raw, referencing independent blobs. Complete file SHA is verified incrementally in exact chunk order.",
+  "sourceBoundary": "Complete current190 immediate original files including all45 ordinary screenshot PNGs, empty native capture file, all four genuine WOOD6 natural failures and complete large streams. Original581 source vector plus eight locked critical originals, explicit audit/economy/PNG/source-regression proofs and original LIB/font/WOOD assets. Remaining complete581 source checkout/Clang/runtime environment must match the source vector; it is not recursively copied. There are zero captured movie/NUM/HOLD readbacks and no classic or HD acceptance.",
+  "oldArchivesTraversed": false,
+  "privateProfileArchived": false,
+  "portableClosedArchive": false,
+  "fullRuntimeSourceTreeCopied": false,
+  "priorInputScope": "Only exact four published V38 July input files; no prior archive/history traversal.",
+  "originalRawExitAndFlagsRewritten": false,
+  "newBrowserRuns": 0,
+  "newGameInputs": 0,
+  "allFourNaturalFailuresRetained": true,
+  "actualClassicAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "limits": {
+    "singleRawFileBytes": 268435456,
+    "totalRawNamedBytes": 536870912,
+    "totalCompressedAndSerializedPartBytes": 201326592,
+    "partBytes": 8388608,
+    "rawChunkBytes": 4194304
+  },
+  "independentReaderRequired": true
+}

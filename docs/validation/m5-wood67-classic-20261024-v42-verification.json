@@ -1,0 +1,40 @@
+{
+  "acceptedForPublicationClosure": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+    "bytes": 14720,
+    "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v42.md",
+    "bytes": 3624,
+    "sha256": "1aa622267fb4c3939a89421c397aec817a2bad5ad578b8c3ac021ab9bd3840ff"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v42-verify.mjs",
+    "bytes": 10776,
+    "sha256": "577aa90d7ca25765763c77677b81e52fb79f7111b30b4621328cbaeb3d272e2b"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v42-archive.json",
+    "bytes": 513384,
+    "sha256": "5d608ecad70faad4f2aff1136135f214e15f93c52a04ec1442ae903800a33f35"
+  },
+  "latestWorld": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+    "bytes": 148013,
+    "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+  },
+  "pair": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+    }
+  ]
+}

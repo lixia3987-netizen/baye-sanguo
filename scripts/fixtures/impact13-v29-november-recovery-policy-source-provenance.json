@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 1,
+  "kind": "V29 November pure recovery and temporary acquisition source-policy proposal",
+  "sourceOnlyAccepted": true,
+  "accepted": false,
+  "rootExecutionRequired": true,
+  "testsExecutedByAuthor": 0,
+  "actualTreatExecutionAccepted": false,
+  "actualPaymentAccepted": false,
+  "actualPlunderDispatchAccepted": false,
+  "actualPlunderIncomeAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualMonthAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false,
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v29-november-recovery-plan-v1.mjs",
+      "bytes": 14242,
+      "sha256": "bcfd90fbf3a34fff84833f57409688a2c9ac3fdd84486ff0e92967c25c5baa19"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v29-november-recovery-plan-v1.mjs",
+      "bytes": 11918,
+      "sha256": "5a2e43d9a9d1c350ba115d38582483ab342fab5584a8e0f4b5b694fde11dcb69"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v29-acquisition-policy-v1.mjs",
+      "bytes": 13778,
+      "sha256": "19c58cdb0f66d1cf89366664d00455b7fda9ef66a079312557120d90434478f3"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v29-acquisition-policy-v1.mjs",
+      "bytes": 5973,
+      "sha256": "c54cf27f368ed5d10ad0be113d032ec280df4325990fa787459a156dcc51ce6b"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v29-closed-november-recovery-world-v1.json",
+      "bytes": 77958,
+      "sha256": "830d63b801fc65bafc1f5bb3e6f4dc0311e6abdd1be28300dffbff81701d812a"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v28-acquisition-plan-v1.mjs",
+      "bytes": 12982,
+      "sha256": "ea831faaeaf072313eb151b3548589fbdbcd8af57d727b4d10bdeba1ff1b0109"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v29-treat12-world-oracle-v1.mjs",
+      "bytes": 11801,
+      "sha256": "87a1443668483c31ca66544486698b4b9b9c4dcf9a56012486ac17583b536b65"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v29-treat12-world-oracle-source-provenance-v1.json",
+      "bytes": 19119,
+      "sha256": "4301fce0677eb24b72f3fb6dd1afd96d2fcd758fa263749302a91596e5a2966b"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v29-treat12-world-tests-root-v1.log",
+      "bytes": 5495,
+      "sha256": "d66c10390fc23f8165d7d6ad1b1cd76e2848356fd32f7fc3401fd5317fd46aa6"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v28-target129-native-location-advice-v1.json",
+      "bytes": 7523,
+      "sha256": "c48360bfcfad9ed58bdf5a346c63413e735e183e8fa50a711f2eb6d131b5a070"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-v28-terminal-receipt-v1.json",
+      "bytes": 422898,
+      "sha256": "e0625d9bfa7df5355375fa00b033f01cf7218ff692c1dda81f8c3eb6480c36b6"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-v28-latest-genuine-saved-world-v1.json",
+      "bytes": 77958,
+      "sha256": "830d63b801fc65bafc1f5bb3e6f4dc0311e6abdd1be28300dffbff81701d812a"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    }
+  ],
+  "interfaces": {
+    "recovery": "planV29NovemberRecovery({world,libBytes,identity?})",
+    "twoPhaseStep": "verifyV29RecoveryTreatStep({before,reportWorld,retiredWorld,libBytes,cityIndex,personId,identities?})",
+    "policy": "v29PlanCanvasses(world), v29FoodBudget/v29GuardsBeforeBattle and exact V28/V27/V23 API aliases"
+  },
+  "genuineInput": {
+    "source": {
+      "path": "build/impact-skill-20261014/impact13-battle-v28-latest-genuine-saved-world-v1.json",
+      "bytes": 77958,
+      "sha256": "830d63b801fc65bafc1f5bb3e6f4dc0311e6abdd1be28300dffbff81701d812a"
+    },
+    "fixture": {
+      "path": "build/impact-skill-20261014/hd-impact-v29-closed-november-recovery-world-v1.json",
+      "bytes": 77958,
+      "sha256": "830d63b801fc65bafc1f5bb3e6f4dc0311e6abdd1be28300dffbff81701d812a"
+    },
+    "byteEqual": true,
+    "rootProvidedClosedActual": {
+      "sessionId": 52471,
+      "chunkId": "eb28a1",
+      "exitCode": 0
+    },
+    "rootProvidedClosedIndependent": {
+      "sessionId": 15478,
+      "chunkId": "51265c",
+      "exitCode": 0
+    },
+    "date": [
+      238,
+      11
+    ],
+    "pendingOrderCount": 0,
+    "worldOfThisPrototypeOnly": "Current CLOSED V28 November genuine SAVE; all test mutations and projected after-worlds are controlled fixture values, never actual future inputs."
+  },
+  "observedNovemberArithmetic": {
+    "needsTreatPersonIds": [
+      37,
+      43,
+      60,
+      5,
+      36,
+      51,
+      28,
+      6,
+      48,
+      68,
+      33
+    ],
+    "needsTreatCount": 11,
+    "totalTreatMoney": 1100,
+    "byCity": [
+      {
+        "cityIndex": 4,
+        "count": 1,
+        "cost": 100
+      },
+      {
+        "cityIndex": 6,
+        "count": 3,
+        "cost": 300
+      },
+      {
+        "cityIndex": 7,
+        "count": 4,
+        "cost": 400
+      },
+      {
+        "cityIndex": 13,
+        "count": 3,
+        "cost": 300
+      }
+    ],
+    "alreadyAtLeast20Thew": [
+      59,
+      7,
+      25,
+      27,
+      39,
+      40
+    ],
+    "city20": {
+      "food": 114,
+      "money": 1019,
+      "rawOwnedArmy": 13339,
+      "reserve": 0,
+      "monthlyFloor": 266,
+      "requiredFood": 267,
+      "shortfall": 153
+    },
+    "worker44": {
+      "Thew": 28,
+      "IQ": 46,
+      "Force": 83,
+      "Arms": 0,
+      "conditionalFoodGain": 645,
+      "conditionalMoneyGain": 258,
+      "forecastAddedToAvailableBudget": false
+    },
+    "allPlunderDamagesPreserved": [
+      "PeopleDevotion floor/2",
+      "Farming floor/2",
+      "Commerce floor/2"
+    ],
+    "recoveryMonthAuthorization": 0,
+    "recoveryCanvassAuthorization": 0
+  },
+  "nativeSourceRanges": {
+    "TreatMake": {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "lines": [
+        198,
+        255
+      ],
+      "rules": "one trusted selection costs100; selected Thew U8 +=50 then cap100; nonking report then Devotion+1 iff<100; repeat picker can charge again"
+    },
+    "money": {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "lines": [
+        365,
+        419
+      ],
+      "library": "IFACE_CONID2 item10 command12=100 original byte money mode"
+    },
+    "manualAndThew": {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "lines": [
+        435,
+        470
+      ]
+    },
+    "PlunderMake": {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "lines": [
+        154,
+        199
+      ],
+      "rules": "IsManual/consume CONSCRIPTION24=12; MAKE initializes only OrderId/Person/City/TimeCount, zero money; DelPerson only after successful AddOrderHead"
+    },
+    "PlunderDrv": {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "lines": [
+        1068,
+        1112
+      ],
+      "rules": "food+=(IQ+Force)*5; money+=(IQ+Force)*2; devotion/farming/commerce floor/2; original AddPerson return"
+    },
+    "CanvassDrv": {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "lines": [
+        673,
+        753
+      ],
+      "criticalOrder": "three random gates684..713 precede GetPersonCity715..717"
+    },
+    "GetPersonCity": {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "lines": [
+        665,
+        680
+      ],
+      "rules": "first raw city match, no global PID dedup"
+    },
+    "aiBeforePolicy": {
+      "path": "vendor/iBaye/src/tactic.c",
+      "lines": [
+        754,
+        762
+      ]
+    }
+  },
+  "strictReuse": {
+    "copiedFrom": "hd-impact-v29-treat12-world-oracle-v1.mjs",
+    "segment": "const PERSON= through before function identity(",
+    "segmentBytes": 5385,
+    "segmentSha256": "3f1ca14e6e0027bb387f381688ac622c2ed8ba94a8c1f7306d7622ebf4aae359",
+    "bodyByteEqual": true,
+    "selectedTwoPhaseArithmetic": "Existing77-case Treat oracle reused without source modifications",
+    "nativeWorldUnknownsAndRawDuplicates": "Full JSON/typed shape kept; only selected actor must be unique; unrelated raw PID repeats remain legal and unmodified"
+  },
+  "policyForward": {
+    "parent": {
+      "path": "build/impact-skill-20261014/hd-impact-v28-acquisition-plan-v1.mjs",
+      "bytes": 12982,
+      "sha256": "ea831faaeaf072313eb151b3548589fbdbcd8af57d727b4d10bdeba1ff1b0109"
+    },
+    "candidate": {
+      "path": "build/impact-skill-20261014/hd-impact-v29-acquisition-policy-v1.mjs",
+      "bytes": 13778,
+      "sha256": "19c58cdb0f66d1cf89366664d00455b7fda9ef66a079312557120d90434478f3"
+    },
+    "exactReplacements": [
+      {
+        "oldText": "// Pure V28 bounded August acquisition planning. No I/O, native calls, RNG reads, writes or actual credit.",
+        "newText": "// Pure V29 bounded source policy derived from V28. Temporarily deprioritize129; no I/O, RNG or actual credit.",
+        "count": 1
+      },
+      {
+        "oldText": "maximumPrimaryTargetPerMonth:6",
+        "newText": "maximumPrimaryTargetPerMonth:0",
+        "count": 1
+      },
+      {
+        "oldText": "export function v28TargetMonthlyCap(targetId){return targetId===129?6:2;}",
+        "newText": "export function v28TargetMonthlyCap(targetId){return targetId===129?0:2;}",
+        "count": 1
+      }
+    ],
+    "appendedApiAliases": "\n// This is a bounded tool policy, not a permanent native Canvass prohibition.\nexport const V29_ACQUISITION_POLICY=Object.freeze({temporarilyDeprioritizedTarget:129,maximum129OrdersPerMonth:0,maximumOtherTargetOrdersPerMonth:2,maximumOrdersPerMonth:10,maximumMonthsAuthorizedByThisModule:0,sourceOnly:true,actualAcquisitionAccepted:false,actualCastAccepted:false});\nexport const V29_ENVOYS=V28_ENVOYS,V29_ACTORS_BY_CITY=V28_ACTORS_BY_CITY,V29_TARGETS=V28_TARGETS,V29_OWNED=V28_OWNED;\nexport const v29Residents=v28Residents,v29BaseCasters=v28BaseCasters,v29PlanCanvasses=v28PlanCanvasses,v29FoodBudget=v28FoodBudget,v29GuardsBeforeBattle=v28GuardsBeforeBattle,v29VerifyPlunderReturn=v28VerifyPlunderReturn,v29SourceResidueCounts=v28SourceResidueCounts,v29TargetMonthlyCap=v28TargetMonthlyCap;\n",
+    "appendedBytes": 792,
+    "inverseReplaysParentByteExactly": true,
+    "entireFoodGuardPlunderBodiesUnchanged": true,
+    "scope": "129 temporary tool monthly cap6→0; others cap2 and total10 unchanged; no world modification used to filter129; no permanent native prohibition"
+  },
+  "closedTarget129Evidence": {
+    "source": {
+      "path": "build/impact-skill-20261014/impact13-v28-target129-native-location-advice-v1.json",
+      "bytes": 7523,
+      "sha256": "c48360bfcfad9ed58bdf5a346c63413e735e183e8fa50a711f2eb6d131b5a070"
+    },
+    "missingLocationBeforeDriver13Of13Target129Calls": true,
+    "staticAugustAndNovemberNativeLocation12": true,
+    "permanentNativeExclusion": false,
+    "actualRejectedLocationBranchKnown": false,
+    "randomValuesObserved": false,
+    "recommendation": "Temporarily spend a bounded future acquisition batch on other fresh native-qualified candidates using unchanged MAKE/return gates. The cap0 policy neither predicts their AI availability nor guarantees success. Fresh target eligibility and full adjacent callback evidence remain mandatory."
+  },
+  "controlledCasePlan": {
+    "recovery": {
+      "file": "build/impact-skill-20261014/test-hd-impact-v29-november-recovery-plan-v1.mjs",
+      "authoredTopLevelCases": 39,
+      "classification": "Newly authored planning and Treat-oracle integration variants; existing native-shape/two-phase rules are reused, not39 new game features.",
+      "cases": [
+        "R01 exact genuine November bytes and date are the only prototype fixture",
+        "R02 fresh November selects only eleven needed scoped envoys for1100",
+        "R03 six already-ready envoys are never bought another Treat",
+        "R04 current food114 and cash1019 are not replaced by future645/258",
+        "R05 helper never authorizes month Canvass or actual payment",
+        "R06 every unknown measurement remains byte-identical after planning",
+        "R07 fresh Thew20 removes exactly one formerly-needed Treat",
+        "R08 cumulative cash700 permits two not three city13 Treats",
+        "R09 cash600 permits only one actor while599 permits none",
+        "R10 unearned Plunder money cannot repair a current cash-below500 gate",
+        "R11 food267 cancels an unnecessary Plunder proposal",
+        "R12 food266 still requires the strict native greater-than floor gate",
+        "R13 worker44 below native12 does not receive a Plunder proposal credit",
+        "R14 worker44 exact12 passes source stamina without future restoration",
+        "R15 any active actor order rejects a zero-order recovery input",
+        "R16 foreign worker44 cannot fund the city through forecast",
+        "R17 a second raw worker44 location blocks this scoped Plunder",
+        "R18 armed worker44 is retained rather than detached as supply labor",
+        "R19 foreign or Satrap recovery actor is skipped from the current plan",
+        "R20 selected duplicate raw actor is excluded without repairing the world",
+        "R21 existing unrelated native raw repeats are preserved rather than deduplicated",
+        "R22 changed king or foreign origin ownership fails the fixed native input scope",
+        "R23 all original State0..4 are preserved and never reset by recovery planning",
+        "R24 a new month cannot masquerade as the current November recovery input",
+        "R25 non-JSON unknown values are rejected instead of silently dropped",
+        "R26 missing required city field and sparse native array fail closed",
+        "R27 changed original LIB bytes fail before a recovery proposal",
+        "R28 unavailable non129 targets suppress needless low-stamina restoration",
+        "R29 a currently owned qualified base stops recovery even before army assignment",
+        "R30 restoring everyone to20 creates zero Treat actions without advancing time",
+        "R31 one exact report and retired world is requalified without re-paying the actor",
+        "R32 changed unrelated post-Treat unknown field is rejected",
+        "R33 loyalty cannot rise during the report stage",
+        "R34 an already-ready actor has no recovery-step authorization",
+        "R35 Devotion100 accepts unchanged loyalty but does not prove UI retirement",
+        "R36 future city20 money cannot fund a missing100 in city4",
+        "R37 post-Treat opaque order tail and raw queue must remain exact",
+        "R38 unrelated native IQ150 stays legal while a selected IQ150 is skipped",
+        "R39 no target-use row silently schedules a Canvass order"
+      ]
+    },
+    "policy": {
+      "file": "build/impact-skill-20261014/test-hd-impact-v29-acquisition-policy-v1.mjs",
+      "authoredTopLevelCases": 16,
+      "newV29PolicyDirectedVariants": [
+        "P01",
+        "P03",
+        "P05",
+        "P11",
+        "P14",
+        "P16"
+      ],
+      "inheritedInvariantIdeasRetested": [
+        "P02",
+        "P04",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P12",
+        "P13",
+        "P15"
+      ],
+      "cases": [
+        "P01 current November policy retains qualification and gives129 zero new orders",
+        "P02 exact old API aliases point to the new source policy only",
+        "P03 controlled legitimate Treat arithmetic allows at most ten non129 proposals",
+        "P04 all unknown fields original queue tails and all input bytes remain unmodified",
+        "P05 six already-paid primary orders still consume six of the monthly ten cap",
+        "P06 ten already-paid orders permit no additional proposal or debit",
+        "P07 two pending secondary orders consume that target cap",
+        "P08 same-city cash550 funds one50payment while preserving500",
+        "P09 cash549 supplies no new actor from that city",
+        "P10 an actually owned raw base with zero army stops acquisition proposals",
+        "P11 129 remaining the only available enemy is not a reason to override temporary cap0",
+        "P12 Satrap or duplicated origin actor does not become a recovery shortcut",
+        "P13 policy keeps the strict current food gate and does not credit Plunder forecast",
+        "P14 source scores remain counts and explicitly deny RNG success prediction",
+        "P15 targets outside the unchanged16 never enter a proposal",
+        "P16 reversible exact source edits retain every unrelated native rule body"
+      ]
+    },
+    "plannedCaseExecutions": 55,
+    "executedCaseExecutionsByAuthor": 0,
+    "prior77TreatCasesNotRecounted": true,
+    "prior32V28CasesNotRecounted": true,
+    "fullSuiteRerun": false
+  },
+  "authorChecks": {
+    "newSourcesOnlyWrittenWithExclusiveCreate": true,
+    "repositoryModulesImportedOrExecuted": false,
+    "cliGitBrowserGameProcessUsed": false,
+    "syntax": "Constructor-only vm.Script after removing static imports/exports and replacing import.meta.url in test parse view; compiled body never invoked. Root must run module syntax/tests.",
+    "policySourceForwardAndInverseExact": true,
+    "fixtureCurrentSourceByteEqual": true
+  },
+  "futureExecutionContract": [
+    "Root alone executes syntax/tests and any separately authorized actual runner.",
+    "Recovery helper remains0months/0Canvass; policy source can be separately integrated into a root-approved bounded actual workflow only after tests/source gates.",
+    "No actual Treat is credited until fresh original owner/ticket/public input, native report and natural retirement, raw-before-real-SAVE and exact full-world checks pass.",
+    "Devotion100 can produce equal report/retired world data; equality alone never proves UI retirement.",
+    "Every paid Treat needs a fresh plan and genuine SAVE before another payment; no replay of old November input after a new paid SAVE.",
+    "Treat leaves raw queues, all orders, guard arms and dates unchanged; Plunder worker44 pending return still needs exact original adjacent C delta and fresh guards before an AI battle.",
+    "Plunder forecast is not available cash/food and cannot fund Treats or authorize a month before a genuine native return."
+  ]
+}

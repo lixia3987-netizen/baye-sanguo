@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v39.json",
+    "bytes": 16564,
+    "sha256": "79883e209c4be66a0ec253a1617ffb6e0601cd44b4ff225c9618c95462a0b650"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v39.md",
+    "bytes": 2725,
+    "sha256": "ad7241824ce0a6d11634757b32738cd2cc65453ec4a2b4f6474d2b68541214b3"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v39-archive.json",
+    "bytes": 106603,
+    "sha256": "3b2e96379df50d075fcfc65c0ea6b8dc37f562f68ec00a61f062c706a15367a3"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v39-verify.mjs",
+    "bytes": 14184,
+    "sha256": "9d2416793d9fac9f60f38257678eeb87caa0a09067fc0a2b32af5fea0471ea41"
+  },
+  "latestWorld": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+    "bytes": 147947,
+    "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+  },
+  "pair": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-failure-1.png",
+      "bytes": 3125355,
+      "sha256": "968622f62dc28cd132fc5373db94f029f2fcef410a2d56266b78a1a5f4545483"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-settled-save.png",
+      "bytes": 3130268,
+      "sha256": "42882609981f24b04acfbeb283d0e288a0f3c61f13d84b1c9aa1a3330931a03a"
+    }
+  ],
+  "diskArchiveReadbackRequired": true,
+  "classicAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false
+}

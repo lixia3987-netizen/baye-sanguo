@@ -1,0 +1,1037 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-28",
+  "batch": "V100",
+  "tool": "built-in image_gen",
+  "transparentBackground": false,
+  "postProcessing": false,
+  "sourceCopiesExact": true,
+  "totalCalls": 10,
+  "initialImages": 10,
+  "correctedImages": 0,
+  "rejectedCandidates": 0,
+  "finalAssets": [
+    {
+      "name": "荀彧",
+      "period": 1,
+      "id": 138,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 荀彧, period 1, zero-based PersonID 138. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. A composed scholarly official with the native long face, defined brows, visible moustache and beard, and formal cloth headwear; layered dark teal and warm-gray robes.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/138-荀彧.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-1/138-荀彧.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ca1389a5-2066-4447-bf6c-8ebbbbdb9e08.png",
+      "ref": "refs/period-1/138-荀彧.png",
+      "slots": [
+        {
+          "name": "荀彧",
+          "period": 1,
+          "id": 138,
+          "ref": "refs/period-1/138-荀彧.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/138-荀彧.png",
+            "bytes": 511,
+            "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "荀彧",
+          "period": 2,
+          "id": 29,
+          "ref": "refs/period-2/29-荀彧.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/29-荀彧.png",
+            "bytes": 511,
+            "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "荀彧",
+          "period": 3,
+          "id": 38,
+          "ref": "refs/period-3/38-荀彧.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/38-荀彧.png",
+            "bytes": 511,
+            "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/138-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/138-荀彧.png",
+        "bytes": 2145729,
+        "sha256": "3ed9e953a4ccb940c96cbe70a2d4dcaa58a03d884f61bb431bd1907015fe89c5"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/138-荀彧.png",
+          "bytes": 511,
+          "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "郭嘉",
+      "period": 1,
+      "id": 126,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 郭嘉, period 1, zero-based PersonID 126. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. A youthful sharp-eyed adviser with the native slender face, restrained facial hair and low cloth cap; simple muted indigo-gray robes and a relaxed thoughtful expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/126-郭嘉.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-1/126-郭嘉.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-bef64321-08cd-4c28-8f21-1db1c6e63268.png",
+      "ref": "refs/period-1/126-郭嘉.png",
+      "slots": [
+        {
+          "name": "郭嘉",
+          "period": 1,
+          "id": 126,
+          "ref": "refs/period-1/126-郭嘉.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/126-郭嘉.png",
+            "bytes": 480,
+            "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "郭嘉",
+          "period": 2,
+          "id": 141,
+          "ref": "refs/period-2/141-郭嘉.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/141-郭嘉.png",
+            "bytes": 480,
+            "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/126-郭嘉.png",
+        "bytes": 480,
+        "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/126-郭嘉.png",
+        "bytes": 2199911,
+        "sha256": "798faf52f4917e95e0aa93cb3e6917c504482c19b6daffed8c81cd72d7aca422"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/126-郭嘉.png",
+          "bytes": 480,
+          "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "贾诩",
+      "period": 1,
+      "id": 132,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 贾诩, period 1, zero-based PersonID 132. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. An experienced adviser with the native narrow eyes, angled brows, long nose and the native amount of facial hair and headwear; understated layered charcoal and brown robes.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/132-贾诩.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-1/132-贾诩.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-0c35dde3-4161-4c2c-a4e8-1e51562d2cd7.png",
+      "ref": "refs/period-1/132-贾诩.png",
+      "slots": [
+        {
+          "name": "贾诩",
+          "period": 1,
+          "id": 132,
+          "ref": "refs/period-1/132-贾诩.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/132-贾诩.png",
+            "bytes": 428,
+            "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "贾诩",
+          "period": 2,
+          "id": 85,
+          "ref": "refs/period-2/85-贾诩.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/85-贾诩.png",
+            "bytes": 428,
+            "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "贾诩",
+          "period": 3,
+          "id": 68,
+          "ref": "refs/period-3/68-贾诩.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/68-贾诩.png",
+            "bytes": 428,
+            "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "贾诩",
+          "period": 4,
+          "id": 53,
+          "ref": "refs/period-4/53-贾诩.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/53-贾诩.png",
+            "bytes": 428,
+            "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/132-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/132-贾诩.png",
+        "bytes": 2165895,
+        "sha256": "c44350f7bba3f894152498745d4adf9af08b958d0bdc6b87edb97101345d9bb1"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/132-贾诩.png",
+          "bytes": 428,
+          "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "庞统",
+      "period": 1,
+      "id": 124,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 庞统, period 1, zero-based PersonID 124. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. A distinctive mature adviser with the native broad angular face, heavier eyebrows and visible facial hair, keeping the native hair/headwear outline; coarse textured muted brown and ochre robes.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/124-庞统.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-1/124-庞统.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-6b459590-4899-4d89-a253-397d96cecb1e.png",
+      "ref": "refs/period-1/124-庞统.png",
+      "slots": [
+        {
+          "name": "庞统",
+          "period": 1,
+          "id": 124,
+          "ref": "refs/period-1/124-庞统.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/124-庞统.png",
+            "bytes": 477,
+            "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "庞统",
+          "period": 3,
+          "id": 165,
+          "ref": "refs/period-3/165-庞统.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/165-庞统.png",
+            "bytes": 477,
+            "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/124-庞统.png",
+        "bytes": 477,
+        "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/124-庞统.png",
+        "bytes": 2236311,
+        "sha256": "2b38c32086de9ede9a86182fb773a2a9f2c32b2cf535a45042dc4bad42c2cbd2"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/124-庞统.png",
+          "bytes": 477,
+          "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "庞统",
+      "period": 2,
+      "id": 170,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 庞统, period 2, zero-based PersonID 170. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. This period-specific native portrait is authoritative, not another period: keep its angular face, sideward gaze, visible moustache/beard and distinct wrapped cloth headwear. Weathered olive-brown robes with a subdued burgundy inner layer.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/170-庞统.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-2/170-庞统.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-62fd9315-b159-43bc-9d55-8c351bd8f787.png",
+      "ref": "refs/period-2/170-庞统.png",
+      "slots": [
+        {
+          "name": "庞统",
+          "period": 2,
+          "id": 170,
+          "ref": "refs/period-2/170-庞统.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/170-庞统.png",
+            "bytes": 486,
+            "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-2/170-庞统.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-2/170-庞统.png",
+        "bytes": 2206407,
+        "sha256": "b80f45f663e929f1637fd1460caabb8f9d1627018a898db6c21458f557547ab5"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/170-庞统.png",
+          "bytes": 486,
+          "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "鲁肃",
+      "period": 1,
+      "id": 171,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 鲁肃, period 1, zero-based PersonID 171. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. A mature dignified adviser, retaining the native long face, moustache and beard, forehead and headwear outline; generous layered gray and muted brown robes, calm steady gaze.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/171-鲁肃.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-1/171-鲁肃.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-46b6a523-3c78-4419-b71a-ac91748c5c82.png",
+      "ref": "refs/period-1/171-鲁肃.png",
+      "slots": [
+        {
+          "name": "鲁肃",
+          "period": 1,
+          "id": 171,
+          "ref": "refs/period-1/171-鲁肃.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/171-鲁肃.png",
+            "bytes": 456,
+            "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "鲁肃",
+          "period": 3,
+          "id": 110,
+          "ref": "refs/period-3/110-鲁肃.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/110-鲁肃.png",
+            "bytes": 456,
+            "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "鲁肃",
+          "period": 4,
+          "id": 120,
+          "ref": "refs/period-4/120-鲁肃.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/120-鲁肃.png",
+            "bytes": 456,
+            "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/171-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/171-鲁肃.png",
+        "bytes": 2124006,
+        "sha256": "859a62c493b9b826cd716a3d311f1c66c0f31280134560b1dce627b873b4d783"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/171-鲁肃.png",
+          "bytes": 456,
+          "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "鲁肃",
+      "period": 2,
+      "id": 173,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 鲁肃, period 2, zero-based PersonID 173. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. This period-specific native portrait is authoritative. Preserve its distinct face, eyes, facial hair, tall cloth headwear silhouette and viewing direction; warm-gray and muted dark-teal formal robes.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/173-鲁肃.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-2/173-鲁肃.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-bd115841-9395-44d6-bfe3-81f20e6c1722.png",
+      "ref": "refs/period-2/173-鲁肃.png",
+      "slots": [
+        {
+          "name": "鲁肃",
+          "period": 2,
+          "id": 173,
+          "ref": "refs/period-2/173-鲁肃.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/173-鲁肃.png",
+            "bytes": 496,
+            "sha256": "258f37186bb14e9da6b8d01b8821cfd4a4e2c013ae829bb3f4a286d6e631381d"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-2/173-鲁肃.png",
+        "bytes": 496,
+        "sha256": "258f37186bb14e9da6b8d01b8821cfd4a4e2c013ae829bb3f4a286d6e631381d"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-2/173-鲁肃.png",
+        "bytes": 2309748,
+        "sha256": "a69f5477d734d93123c4ca0fe92e891de56f3697c3556fc2842984faf9343e41"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/173-鲁肃.png",
+          "bytes": 496,
+          "sha256": "258f37186bb14e9da6b8d01b8821cfd4a4e2c013ae829bb3f4a286d6e631381d"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "陆逊",
+      "period": 1,
+      "id": 115,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 陆逊, period 1, zero-based PersonID 115. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. A young composed adviser with the native smooth oval face, direct alert eyes, restrained facial hair and simple low headwear; light slate and muted blue layered robes.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/115-陆逊.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-1/115-陆逊.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-7cfc7923-4eb0-4d7d-a33c-49d89b3ed69d.png",
+      "ref": "refs/period-1/115-陆逊.png",
+      "slots": [
+        {
+          "name": "陆逊",
+          "period": 1,
+          "id": 115,
+          "ref": "refs/period-1/115-陆逊.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/115-陆逊.png",
+            "bytes": 515,
+            "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "陆逊",
+          "period": 3,
+          "id": 122,
+          "ref": "refs/period-3/122-陆逊.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/122-陆逊.png",
+            "bytes": 515,
+            "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "陆逊",
+          "period": 4,
+          "id": 133,
+          "ref": "refs/period-4/133-陆逊.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/133-陆逊.png",
+            "bytes": 515,
+            "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/115-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/115-陆逊.png",
+        "bytes": 2137155,
+        "sha256": "5cf3532a030db8f8a0d45f6f5aa210454cf6d1d9521d5a83b563748ec336631c"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/115-陆逊.png",
+          "bytes": 515,
+          "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "徐庶",
+      "period": 1,
+      "id": 135,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 徐庶, period 1, zero-based PersonID 135. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. A self-possessed mature adviser retaining the native angular face, sideward gaze, visible moustache/beard and wrapped headwear; layered dark blue and gray robes, natural cloth textures.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/135-徐庶.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-1/135-徐庶.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-f396d268-9d41-44f6-a664-e491424a1ba8.png",
+      "ref": "refs/period-1/135-徐庶.png",
+      "slots": [
+        {
+          "name": "徐庶",
+          "period": 1,
+          "id": 135,
+          "ref": "refs/period-1/135-徐庶.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/135-徐庶.png",
+            "bytes": 486,
+            "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "徐庶",
+          "period": 3,
+          "id": 20,
+          "ref": "refs/period-3/20-徐庶.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/20-徐庶.png",
+            "bytes": 486,
+            "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "徐庶",
+          "period": 4,
+          "id": 5,
+          "ref": "refs/period-4/5-徐庶.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/5-徐庶.png",
+            "bytes": 486,
+            "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/135-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/135-徐庶.png",
+        "bytes": 2267903,
+        "sha256": "dc9f0b1137e34ec2678810df5bca9bc7a8de898dfa03f6dc3e7f63efbe338828"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/135-徐庶.png",
+          "bytes": 486,
+          "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "徐庶",
+      "period": 2,
+      "id": 171,
+      "prompt": "CRITICAL FRAMING: wide horizontal 16:9, relaxed WAIST-UP portrait, the figure comfortably inside the frame. The entire headwear and hair must be visible. Put the HIGHEST POINT of hat/hair around y=20 percent. Upper 15 percent is ONLY continuous blurred courtyard/sky background, no hat, hair or ornament. Do not make a tightly cropped headshot.\nUse case: historical-scene / identity-preserve. Asset type: finished HD portrait in the existing original Three Kingdoms game series. Reinterpret the single input 24x24 native portrait of 徐庶, period 2, zero-based PersonID 171. Input image is IDENTITY GUIDANCE ONLY. Follow its visible face proportions, apparent age, brows, nose, facial hair, headwear silhouette and facing direction. This period-specific native portrait is authoritative. Keep the distinct smooth facial outline, native eyes, hair and amount of facial hair, and its own simple headwear silhouette; layered dark gray and brown robes with muted pale inner cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth and materials, gentle natural side daylight, quiet softly defocused historical courtyard without other people. Individual recognizable features, no generic cloned face. Person centered horizontally, both shoulders and full headgear/pins/hair and beard inside all edges. Natural human proportions. Opaque finished PNG.\nNever reproduce the tiny native input as a corner picture, inset, stamp, sprite or collage. No text, names, Chinese characters, watermark, signature, logo, border, UI, extra people, modern items, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/171-徐庶.png"
+      ],
+      "target": "assets/hd-portraits/hd/period-2/171-徐庶.png",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-861b73ec-68d5-4c88-91c5-0925d0e4953f.png",
+      "ref": "refs/period-2/171-徐庶.png",
+      "slots": [
+        {
+          "name": "徐庶",
+          "period": 2,
+          "id": 171,
+          "ref": "refs/period-2/171-徐庶.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/171-徐庶.png",
+            "bytes": 432,
+            "sha256": "399d431223318927fbfa1be01562a6dd01a76e61189e12f692ebfac6b7daaba4"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-2/171-徐庶.png",
+        "bytes": 432,
+        "sha256": "399d431223318927fbfa1be01562a6dd01a76e61189e12f692ebfac6b7daaba4"
+      },
+      "width": 1672,
+      "height": 940,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-2/171-徐庶.png",
+        "bytes": 2132204,
+        "sha256": "4d1b87c34054bc83440306dcac7cdb699c9867daad17b6d22bc091847cebcd8c"
+      },
+      "inputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/171-徐庶.png",
+          "bytes": 432,
+          "sha256": "399d431223318927fbfa1be01562a6dd01a76e61189e12f692ebfac6b7daaba4"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    }
+  ],
+  "canonicalEntries": [
+    {
+      "name": "荀彧",
+      "personId": 138,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/138-荀彧.png",
+      "hd": "hd/period-1/138-荀彧.png"
+    },
+    {
+      "name": "郭嘉",
+      "personId": 126,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/126-郭嘉.png",
+      "hd": "hd/period-1/126-郭嘉.png"
+    },
+    {
+      "name": "贾诩",
+      "personId": 132,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/132-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png"
+    },
+    {
+      "name": "庞统",
+      "personId": 124,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/124-庞统.png",
+      "hd": "hd/period-1/124-庞统.png"
+    },
+    {
+      "name": "庞统",
+      "personId": 170,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-2/170-庞统.png",
+      "hd": "hd/period-2/170-庞统.png"
+    },
+    {
+      "name": "鲁肃",
+      "personId": 171,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/171-鲁肃.png",
+      "hd": "hd/period-1/171-鲁肃.png"
+    },
+    {
+      "name": "鲁肃",
+      "personId": 173,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-2/173-鲁肃.png",
+      "hd": "hd/period-2/173-鲁肃.png"
+    },
+    {
+      "name": "陆逊",
+      "personId": 115,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/115-陆逊.png",
+      "hd": "hd/period-1/115-陆逊.png"
+    },
+    {
+      "name": "徐庶",
+      "personId": 135,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/135-徐庶.png",
+      "hd": "hd/period-1/135-徐庶.png"
+    },
+    {
+      "name": "徐庶",
+      "personId": 171,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-2/171-徐庶.png",
+      "hd": "hd/period-2/171-徐庶.png"
+    }
+  ],
+  "aliases": [
+    {
+      "name": "荀彧",
+      "personId": 29,
+      "period": 2,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-2/29-荀彧.png",
+      "hd": "hd/period-1/138-荀彧.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-2/29-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/138-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "荀彧",
+      "personId": 38,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/38-荀彧.png",
+      "hd": "hd/period-1/138-荀彧.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/38-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/138-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "郭嘉",
+      "personId": 141,
+      "period": 2,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-2/141-郭嘉.png",
+      "hd": "hd/period-1/126-郭嘉.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-2/141-郭嘉.png",
+        "bytes": 480,
+        "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/126-郭嘉.png",
+        "bytes": 480,
+        "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "贾诩",
+      "personId": 85,
+      "period": 2,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-2/85-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-2/85-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/132-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "贾诩",
+      "personId": 68,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/68-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/68-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/132-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "贾诩",
+      "personId": 53,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/53-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/53-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/132-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "庞统",
+      "personId": 165,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/165-庞统.png",
+      "hd": "hd/period-1/124-庞统.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/165-庞统.png",
+        "bytes": 477,
+        "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/124-庞统.png",
+        "bytes": 477,
+        "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "鲁肃",
+      "personId": 110,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/110-鲁肃.png",
+      "hd": "hd/period-1/171-鲁肃.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/110-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/171-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "鲁肃",
+      "personId": 120,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/120-鲁肃.png",
+      "hd": "hd/period-1/171-鲁肃.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/120-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/171-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "陆逊",
+      "personId": 122,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/122-陆逊.png",
+      "hd": "hd/period-1/115-陆逊.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/122-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/115-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "陆逊",
+      "personId": 133,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/133-陆逊.png",
+      "hd": "hd/period-1/115-陆逊.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/133-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/115-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "徐庶",
+      "personId": 20,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/20-徐庶.png",
+      "hd": "hd/period-1/135-徐庶.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/20-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/135-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "徐庶",
+      "personId": 5,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/5-徐庶.png",
+      "hd": "hd/period-1/135-徐庶.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/5-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/135-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      "rawReferenceBytesEqual": true
+    }
+  ],
+  "crossNameEqualReferences": [
+    {
+      "first": {
+        "name": "庞统",
+        "period": 2,
+        "id": 170
+      },
+      "second": {
+        "name": "徐庶",
+        "period": 1,
+        "id": 135
+      },
+      "rawReferenceBytesEqual": true,
+      "shareHdForbidden": true
+    }
+  ],
+  "crossNameSharingForbidden": true,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false
+}

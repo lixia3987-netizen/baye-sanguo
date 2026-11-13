@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "generator": "Codex built-in imagegen",
+  "scope": "Native STACHG27/index0/kind4 units0..5 (level-up) and6..11 (retreat/incapacitation), seven shared pictures0..6",
+  "baseRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "nativeResource": {
+    "id": 27,
+    "index": 0,
+    "bytes": 735,
+    "sha256": "90dfac8af37a8d2542b548a373eb02024d2a9a54f7191ad76b6d8b9d20bc3c4c",
+    "fingerprint": "fnv1a32:ba494eea:735",
+    "type": 0,
+    "idx": 9,
+    "count": 18,
+    "picmax": 9,
+    "startFrm": 12,
+    "endFrm": 17,
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "cdelay": 23,
+        "ndelay": 23,
+        "picIndex": 2
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "cdelay": 23,
+        "ndelay": 23,
+        "picIndex": 3
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 4
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "cdelay": 23,
+        "ndelay": 23,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "cdelay": 23,
+        "ndelay": 23,
+        "picIndex": 2
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "cdelay": 23,
+        "ndelay": 23,
+        "picIndex": 3
+      },
+      {
+        "frame": 8,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 4
+      },
+      {
+        "frame": 9,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 6
+      },
+      {
+        "frame": 10,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 5
+      },
+      {
+        "frame": 11,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 6
+      },
+      {
+        "frame": 12,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 7
+      },
+      {
+        "frame": 13,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 8
+      },
+      {
+        "frame": 14,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 7
+      },
+      {
+        "frame": 15,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 8
+      },
+      {
+        "frame": 16,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 1,
+        "picIndex": 7
+      },
+      {
+        "frame": 17,
+        "x": 0,
+        "y": 0,
+        "cdelay": 24,
+        "ndelay": 24,
+        "picIndex": 8
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 96,
+        "bytes": 71,
+        "sha256": "9d5d8f3e1b773637d7c718d9681eef2901737c397ea4e0e37fea993a449a507e",
+        "transparent": 100,
+        "black": 85,
+        "white": 71,
+        "reference": {
+          "path": "build/r20-native-status/native-picture-0.png",
+          "bytes": 154,
+          "sha256": "dd4f61aec2a6c93d037ddbae5d01c0b1a04f4bd905b9d06a2e59bf049cf0de69",
+          "role": "Native AND/OR: ink bit1 is black, forced bit0 rendered white to indicate erasure, unchanged bits transparent. Not generated artwork."
+        },
+        "preview": {
+          "path": "build/r20-native-status/preview-picture-0.png",
+          "bytes": 7374,
+          "sha256": "f069c0a45d5b89e662b9bf00fe4f6d715189a71c269c55496a432198d6a5d3a0",
+          "scale": 32,
+          "role": "Nearest-neighbour native reference on neutral gray for inspection, not a production HD asset"
+        }
+      },
+      {
+        "picIndex": 1,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 167,
+        "bytes": 71,
+        "sha256": "7fa3e67208ad189e2081c5913baf9511fc61f7476fa1443ceb3b060f4d1b83ad",
+        "transparent": 80,
+        "black": 98,
+        "white": 78,
+        "reference": {
+          "path": "build/r20-native-status/native-picture-1.png",
+          "bytes": 162,
+          "sha256": "8b425b95d6470d602ce9effe2c34db34e3b39b78bca3dd89edecfd8d6d37c46c",
+          "role": "Native AND/OR: ink bit1 is black, forced bit0 rendered white to indicate erasure, unchanged bits transparent. Not generated artwork."
+        },
+        "preview": {
+          "path": "build/r20-native-status/preview-picture-1.png",
+          "bytes": 8156,
+          "sha256": "33e8001cc8bd49a815db60276dd04c96a89eaa1fe30ec23cfa95794fbec37264",
+          "scale": 32,
+          "role": "Nearest-neighbour native reference on neutral gray for inspection, not a production HD asset"
+        }
+      },
+      {
+        "picIndex": 2,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 238,
+        "bytes": 71,
+        "sha256": "4f38d7479f4e63ac64bd1ac7d9e485a6ae8e1ba459f029a69d3191204efb6085",
+        "transparent": 113,
+        "black": 44,
+        "white": 99,
+        "reference": {
+          "path": "build/r20-native-status/native-picture-2.png",
+          "bytes": 139,
+          "sha256": "73db59c2d8b5f95aa555436db953b26655b3c1d34aba68cefa27314ecedfc091",
+          "role": "Native AND/OR: ink bit1 is black, forced bit0 rendered white to indicate erasure, unchanged bits transparent. Not generated artwork."
+        },
+        "preview": {
+          "path": "build/r20-native-status/preview-picture-2.png",
+          "bytes": 6185,
+          "sha256": "9ae89673b156ea33e8c544939e1bf9a0d0ff8c9a2f058d462f9a336577897882",
+          "scale": 32,
+          "role": "Nearest-neighbour native reference on neutral gray for inspection, not a production HD asset"
+        }
+      },
+      {
+        "picIndex": 3,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 309,
+        "bytes": 71,
+        "sha256": "85fa3ab7352cca0d3f85a07ca2eccad1ecb7a304f463d5e6d8133d7a309d7fbe",
+        "transparent": 108,
+        "black": 49,
+        "white": 99,
+        "reference": {
+          "path": "build/r20-native-status/native-picture-3.png",
+          "bytes": 132,
+          "sha256": "42ab29b9f26bdc713c63f22cdf7594fc93a67ca6a0f2c90245ece85440b9eeb6",
+          "role": "Native AND/OR: ink bit1 is black, forced bit0 rendered white to indicate erasure, unchanged bits transparent. Not generated artwork."
+        },
+        "preview": {
+          "path": "build/r20-native-status/preview-picture-3.png",
+          "bytes": 6358,
+          "sha256": "c6457e29244ae3e5e6ea86f1b61bc7a872a403a0d65aca53072c8c186f1abf11",
+          "scale": 32,
+          "role": "Nearest-neighbour native reference on neutral gray for inspection, not a production HD asset"
+        }
+      },
+      {
+        "picIndex": 4,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 380,
+        "bytes": 71,
+        "sha256": "52972b32e23580ecaa004f43ecac1cabf4d87a46fb90b0a900b926de051c8633",
+        "transparent": 104,
+        "black": 55,
+        "white": 97,
+        "reference": {
+          "path": "build/r20-native-status/native-picture-4.png",
+          "bytes": 157,
+          "sha256": "4af4f07f3b4a3aa3e7218dba23c6044265be9b94e29faa78c4d6f4abd42bd25b",
+          "role": "Native AND/OR: ink bit1 is black, forced bit0 rendered white to indicate erasure, unchanged bits transparent. Not generated artwork."
+        },
+        "preview": {
+          "path": "build/r20-native-status/preview-picture-4.png",
+          "bytes": 7112,
+          "sha256": "62c87c9d41433288cc881bb9ca84abf6a8b79042cc4297c292c952215e66a01b",
+          "scale": 32,
+          "role": "Nearest-neighbour native reference on neutral gray for inspection, not a production HD asset"
+        }
+      },
+      {
+        "picIndex": 5,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 451,
+        "bytes": 71,
+        "sha256": "efd2c1ac2a77bf8b3106c00a87a195dbd209355533ff54faa0949f38207c671b",
+        "transparent": 95,
+        "black": 139,
+        "white": 22,
+        "reference": {
+          "path": "build/r20-native-status/native-picture-5.png",
+          "bytes": 170,
+          "sha256": "be5de59eeffb7971b89ea9337bcc007df9a30be89d947c1f4cf8bb560ba8f20c",
+          "role": "Native AND/OR: ink bit1 is black, forced bit0 rendered white to indicate erasure, unchanged bits transparent. Not generated artwork."
+        },
+        "preview": {
+          "path": "build/r20-native-status/preview-picture-5.png",
+          "bytes": 7383,
+          "sha256": "ad1c429a022e084448fcebd07e605e7e95ac288e7daf73acae84dbcc5ff563ff",
+          "scale": 32,
+          "role": "Nearest-neighbour native reference on neutral gray for inspection, not a production HD asset"
+        }
+      },
+      {
+        "picIndex": 6,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 522,
+        "bytes": 71,
+        "sha256": "b5549ec7849ec6aecc5af8418402045338b8e0eac410c08da689924edbcd33c3",
+        "transparent": 116,
+        "black": 126,
+        "white": 14,
+        "reference": {
+          "path": "build/r20-native-status/native-picture-6.png",
+          "bytes": 152,
+          "sha256": "81bd74982e214317902bb01d4a607ecb1beb9ecb6d42b4439cc482f363ffb747",
+          "role": "Native AND/OR: ink bit1 is black, forced bit0 rendered white to indicate erasure, unchanged bits transparent. Not generated artwork."
+        },
+        "preview": {
+          "path": "build/r20-native-status/preview-picture-6.png",
+          "bytes": 6882,
+          "sha256": "ac890c35fc565f8cd31b4b030807665f0c2c4284720a0c43dd88d345124a8e82",
+          "scale": 32,
+          "role": "Nearest-neighbour native reference on neutral gray for inspection, not a production HD asset"
+        }
+      },
+      {
+        "picIndex": 7,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 593,
+        "bytes": 71,
+        "sha256": "45c62434074c70e1f4223d91c47020da34b551329097a407fa55d85a9b23bc06",
+        "transparent": 223,
+        "black": 26,
+        "white": 7
+      },
+      {
+        "picIndex": 8,
+        "width": 16,
+        "height": 16,
+        "count": 1,
+        "mask": 1,
+        "offset": 664,
+        "bytes": 71,
+        "sha256": "f2de222348c68cde39d313f3ca565b00fbce0ed7ba3c98efa85e9be85025bc30",
+        "transparent": 223,
+        "black": 26,
+        "white": 7
+      }
+    ]
+  },
+  "preservation": "Selected original PNG bytes and generated alpha copied unchanged. Native reference inspection PNGs are separate and not production artwork.",
+  "prompts": [
+    {
+      "picIndex": 0,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent high-resolution 2D status animation sprite for a Three Kingdoms strategy game, native STACHG picture 0 (level-up). Input image 1 is a structural reference only: a 16x16 native masked sprite enlarged for inspection; BLACK marks the original visible silhouette, GRAY is unchanged transparent background, WHITE is native erasure, not a white background to reproduce. Primary request: interpret the black silhouette as a compact front-facing generic human-shaped status figure with a central round head, tapered body, two distinct legs/feet, and two long symmetrical curved raised aura shapes on the sides. A small horizontal floating bronze light bar above the head, separated from it, matches the reference top mark. Keep the pose and overall placement of reference 1, arms/aura sides reaching almost the full width, feet near the lower edge. Style: refined painted game sprite, crisp dark contours, antique bronze and muted warm gold rim light with pale silver highlights, same restrained historical strategy icon style as the project's sword effects. Keep this symbolic figure generic, no recognizable character portrait or face, no weapon. Framing: square canvas, subject fully visible with a small transparent margin; no scene, no floor. Background and all empty holes between body/arms/legs must be genuinely transparent alpha. No white box, gray box, checkerboard, UI frame, text, letters, numbers, logo, blood, skeleton, wings, extra figures, decorative objects or cast shadow. This is one animation picture, not a sprite sheet or collage. The input is reference, not a requested bitmap copy.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-ae76d4b2-9b31-4173-b134-bb39c2390661.png",
+      "reference": "build/r20-native-status/preview-picture-0.png",
+      "transparentBackground": true,
+      "output": "assets/hd-spe/status-27/picture-0.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/status-27/picture-0.png",
+        "bytes": 1843610,
+        "sha256": "fdcaf55ec82b8a15adc390b7fb4cb064334f29414d18f8b4d4bd7a9bddc26799",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 843747,
+        "visible": 728769,
+        "opaque": 715,
+        "alphaBoundingBox": {
+          "minX": 0,
+          "minY": 17,
+          "maxX": 1252,
+          "maxY": 1253
+        }
+      },
+      "visualReview": {
+        "inspected": true,
+        "notes": "Front-facing bright bronze generic figure with separate overhead bar and long side aura. Generated original visually inspected inline; original bytes and alpha copied unchanged, no crop/rescale/recolor/mirror."
+      }
+    },
+    {
+      "picIndex": 1,
+      "prompt": "Use case: stylized-concept. Asset type: one transparent high-resolution game status sprite, STACHG picture1, an alternate level-up pose of the same symbolic figure. Input image1 is the native structural reference: black is original ink, gray is transparent unchanged pixels, white is erased empty space. Input image2 is the approved bronze/gold/silver sprite picture0; use its materials, head/body design and rendering style. Follow image1's silhouette and pose: small central round generic head lowered slightly, head has no identifiable face; torso narrows downward into two separate legs and feet; symmetrical long curved raised side aura shapes open upward to the top corners, with two short vertical upper tips, rather than picture0's detached horizontal bar. There must be NO detached horizontal bar over the head in this pose. Keep the same full-height front view and framing as image2, both legs clear and the interior gaps transparent. Restrained bronze body, warm gold edges and pale silver side streaks, crisp painted contours visible at tiny icon size. Square transparent canvas, only the single generic symbolic figure and its side aura, entirely in view with a small margin. Preserve real alpha transparency including all negative space. No background, floor, shadow, checkerboard, text, numbers, UI frame, weapons, blood, wings, skeleton, character portrait or other objects. One image only, not a sprite sheet.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-d75f1858-f171-4171-9934-78f365343131.png",
+      "reference": "build/r20-native-status/preview-picture-1.png",
+      "transparentBackground": true,
+      "output": "assets/hd-spe/status-27/picture-1.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/status-27/picture-1.png",
+        "bytes": 1776296,
+        "sha256": "d7615a3b3b2f7949c125b84a241457cd239e29ee3c7e256eab5c83e05f5ccddf",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 803099,
+        "visible": 769417,
+        "opaque": 1252,
+        "alphaBoundingBox": {
+          "minX": 0,
+          "minY": 13,
+          "maxX": 1240,
+          "maxY": 1239
+        }
+      },
+      "visualReview": {
+        "inspected": true,
+        "notes": "Same bright figure with open raised upper side tips; no detached bar. Generated original visually inspected inline; original bytes and alpha copied unchanged, no crop/rescale/recolor/mirror."
+      }
+    },
+    {
+      "picIndex": 2,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent high-resolution 2D game status transition sprite, native STACHG picture2, shared by level-up and retreat animations. Input image is structural reference: BLACK is original visible contour, GRAY is transparent unchanged backdrop, WHITE indicates erased interior, not a white square. Primary request: a single compact irregular puff shape matching this reference's lumpy silhouette, rounder at bottom right, an elongated upward protrusion above the center leaning right, small leftward notch and lower-left nub. Do not interpret this as a person, animal, flame, skull or weapon. Render the shape as a refined neutral pale silver/ivory smoke-like transition puff, thin charcoal-bronze painted outline and a restrained warm gold edge that matches historical strategy game effect sprites. The puff can have subtle soft interior brush shading with some translucency; its outside must have genuinely transparent alpha. Composition: square canvas; centered, entirely in view, filling most canvas with small transparent border; keep the distinctive top protrusion, edge bumps and asymmetry from the source. No scene/background, no floor, shadow, text, numbers, halo, badge, sparkles, extra objects, blood or new narrative symbols. One isolated effect shape, not a collage or sprite sheet.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-0d0e7b61-b99e-43a5-9d37-9564e5b04710.png",
+      "reference": "build/r20-native-status/preview-picture-2.png",
+      "transparentBackground": true,
+      "output": "assets/hd-spe/status-27/picture-2.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/status-27/picture-2.png",
+        "bytes": 1504433,
+        "sha256": "3846968a244b05c1b23b4be5ab2994bd8d22bc6d6976850c7481bc33fb35a90e",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 734654,
+        "visible": 837862,
+        "opaque": 365,
+        "alphaBoundingBox": {
+          "minX": 25,
+          "minY": 35,
+          "maxX": 1239,
+          "maxY": 1237
+        }
+      },
+      "visualReview": {
+        "inspected": true,
+        "notes": "Single irregular transition puff with one elongated upward protrusion. Generated original visually inspected inline; original bytes and alpha copied unchanged, no crop/rescale/recolor/mirror."
+      }
+    },
+    {
+      "picIndex": 3,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent high-resolution 2D native status transition picture3, same puff style as picture2. Input image1 is the exact native structural reference; black is contour, gray is transparent background and white is native erased empty space. Input image2 is the accepted painted silver/ivory puff picture2, for material/style only. Primary request: a different single asymmetrical compact irregular transition puff, with a broad rounded lower body and two separate upward protrusions: a lower slim curved nub above left-of-center and a taller slim curving nub at upper right. Follow image1's overall contour shape and asymmetry; keep the right upper protrusion distinct. Neutral pale silver/ivory brush shading, thin charcoal/bronze outline and restrained warm gold edging, clean painted game sprite for tiny strategy icon use. Do not create a person, creature, weapon or literal flame. Square transparent canvas, all visible shape in view with small transparent margin, consistent scale and light as picture2. Genuine alpha outside the contour. No white/gray background box, checkerboard, floor, cast shadow, scenery, text, numbers, decorative ring, sparkles or extra objects. One puff only, not a sprite sheet.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-63bbbca5-a175-4e1f-8f9c-3eba7e1a899b.png",
+      "reference": "build/r20-native-status/preview-picture-3.png",
+      "transparentBackground": true,
+      "output": "assets/hd-spe/status-27/picture-3.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/status-27/picture-3.png",
+        "bytes": 1447872,
+        "sha256": "fef88652f602129a630e3363b64bc22798ec278c05043b591ae204a63775adc8",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 770911,
+        "visible": 801605,
+        "opaque": 503,
+        "alphaBoundingBox": {
+          "minX": 0,
+          "minY": 21,
+          "maxX": 1239,
+          "maxY": 1234
+        }
+      },
+      "visualReview": {
+        "inspected": true,
+        "notes": "Transition puff with two uneven upward curls. Generated original visually inspected inline; original bytes and alpha copied unchanged, no crop/rescale/recolor/mirror."
+      }
+    },
+    {
+      "picIndex": 4,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent high-resolution 2D native status transition sprite, STACHG picture4, third shape in the same neutral puff sequence. Input image1 is the native contour reference, black ink outlines the visible silhouette, gray is transparent unchanged backdrop, white is erasure. Input image2 is accepted picture2 for pale silver/ivory smoke-like painting style. Primary request: match image1's distinctive changing irregular puff outline: broad rounded lower body, three narrow detached-or-nearly-connected small upward curl tips across its upper left/center/right, with uneven gaps and leftmost hooked small curl. Keep this asymmetric multi-tip contour rather than duplicating picture2's single long top protrusion. A refined neutral pale silver/ivory transition cloud, fine charcoal-bronze outline, minimal warm gold edge, subtle brush shading and translucent softness. No human or creature interpretation. Same scale, centered square framing, entire outline inside small transparent margin. Transparent alpha outside and between curl gaps; no rectangular background, checkerboard, floor, shadow, scenery, text, digits, weapons, blood, skulls, badges, rings or sparkles. One isolated sprite picture, no sheet, no montage.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-8adcc321-81cc-43bc-8fe2-7040ba0bd26e.png",
+      "reference": "build/r20-native-status/preview-picture-4.png",
+      "transparentBackground": true,
+      "output": "assets/hd-spe/status-27/picture-4.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/status-27/picture-4.png",
+        "bytes": 1655444,
+        "sha256": "ee7bc405ed03f6fab2ea045be436f0afcdcca7907bdccd406134eb68bc89b9aa",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 682471,
+        "visible": 890045,
+        "opaque": 239,
+        "alphaBoundingBox": {
+          "minX": 0,
+          "minY": 9,
+          "maxX": 1241,
+          "maxY": 1229
+        }
+      },
+      "visualReview": {
+        "inspected": true,
+        "notes": "Transition puff with three uneven upper curls. Generated original visually inspected inline; original bytes and alpha copied unchanged, no crop/rescale/recolor/mirror."
+      }
+    },
+    {
+      "picIndex": 5,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent high-resolution 2D status sprite, native STACHG picture5, dark generic retreat/incapacitation status figure. Input image1 is native structural reference: black is ink silhouette, gray is transparent unchanged backdrop, white is cleared negative space. Input image2 is approved level-up figure picture0 for the generic faceless head/body shape and painted historical game icon style, not its bright color. Primary request: follow image1's compact front-facing body: centered rounded generic helmet-like head, torso and two separate legs/feet; symmetrical sides curl upward and outward to small raised upper-corner curls around head height, rather than the long level-up aura. Keep shoulders broad, head/body and side shapes heavier and darker than the upgrade art. Render as charcoal-dark bronze symbolic figure with restrained tarnished bronze edges and minimal muted silver highlights; visually subdued, dark subject still readable on pale strategy terrain. Keep head featureless, no individual character identity. This status means withdrawal or incapacitation, do not depict literal death or gore. Transparent square canvas, whole subject in view with small margin, all gaps and backdrop actual transparent alpha. No halo bar, weapons, bones, skull, blood, grave, flames, wings, lettering, numbers, UI frame, floor, cast shadow, background or additional objects. One game sprite, not a sheet.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-a2a6b612-b8d5-4a3f-b4ce-58e68406b5a9.png",
+      "reference": "build/r20-native-status/preview-picture-5.png",
+      "transparentBackground": true,
+      "output": "assets/hd-spe/status-27/picture-5.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/status-27/picture-5.png",
+        "bytes": 1880804,
+        "sha256": "11f039188a39bbf21764a3e0aa6a28decd49386fab6e33ccd353174f5b9e1c6f",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 831955,
+        "visible": 740561,
+        "opaque": 1472,
+        "alphaBoundingBox": {
+          "minX": 0,
+          "minY": 23,
+          "maxX": 1252,
+          "maxY": 1253
+        }
+      },
+      "visualReview": {
+        "inspected": true,
+        "notes": "Subdued dark bronze figure with raised side forms. Generated original visually inspected inline; original bytes and alpha copied unchanged, no crop/rescale/recolor/mirror."
+      }
+    },
+    {
+      "picIndex": 6,
+      "prompt": "Use case: stylized-concept. Asset type: ONE transparent high-resolution 2D game status sprite, native STACHG picture6, alternate subdued retreat/incapacitation pose. Input image1 is the native structural reference: black is visible figure, gray transparent unchanged backdrop, white erased empty space. Input image2 is accepted dark bronze figure picture5 for body/head/material/lighting consistency. Preserve the same faceless round head, tapered torso and two distinct feet of image2, but CHANGE THE SIDE SILHOUETTE to match image1: both arms and side curls are lowered, compact and close to the body, their uppermost points are below the head's bottom edge at shoulder height. No tall aura reaching alongside the head; no upward side tips above the shoulders. The head must be the single highest point. Wider dark torso and heavy lower legs, two narrow gaps separating arms from torso, two visibly separate feet. Charcoal bronze with muted tarnished bronze edge and small silver highlights, dark and subdued rather than bright gold. Frontal symbolic generic human-shaped status icon, no identifiable portrait. Square transparent canvas, whole figure visible with small border; actual alpha backdrop and holes. No background, floor, cast shadow, white box, checkerboard, halo bar, text, numbers, wings, weapons, blood, skull, skeleton, grave or other objects. One sprite only, not a sheet.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-8be635f1-70d1-4bd5-9ba9-70f1000fb850.png",
+      "reference": "build/r20-native-status/preview-picture-6.png",
+      "transparentBackground": true,
+      "output": "assets/hd-spe/status-27/picture-6.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/status-27/picture-6.png",
+        "bytes": 1453440,
+        "sha256": "948d58e29ef4d13075f1652d9b34ebf8ff4a87bd262d779137c3829487dfa2ed",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 967013,
+        "visible": 605503,
+        "opaque": 714,
+        "alphaBoundingBox": {
+          "minX": 33,
+          "minY": 39,
+          "maxX": 1215,
+          "maxY": 1253
+        }
+      },
+      "visualReview": {
+        "inspected": true,
+        "notes": "Same subdued figure with lowered compact arms; head is highest. Generated original visually inspected inline; original bytes and alpha copied unchanged, no crop/rescale/recolor/mirror."
+      }
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V88",
+  "parentCommit": "211a00b4562af0cb0d7a8b1683f56a67e5dbe6a9",
+  "feature": "Current owned city serving-generals roster in status",
+  "accepted": true,
+  "started": "2026-10-26T12:06:42.623Z",
+  "finished": "2026-10-26T12:06:51.425Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 744,
+  "pass": 744,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44478,
+      "sha256": "f6254c9bd4b0200766e870d59e17254636a84f5f6b3afbe5c33b219de1e8df43"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 480808,
+      "sha256": "aa6e2097570c60a0591454d6d51c215ee6dc2686f176fcca40cac8a4f64cd3b2"
+    },
+    {
+      "path": "js/hd-city-garrison.js",
+      "bytes": 6594,
+      "sha256": "acf4e37e09eebac403c32805421918506952e83494d3dd977968ded9cebd1ba9"
+    },
+    {
+      "path": "js/hd-city-plans.js",
+      "bytes": 11337,
+      "sha256": "058c2704dc1659467ed7828520d343d2af211e528bd58c878cdab253ecc5d8ad"
+    },
+    {
+      "path": "js/hd-city-inventory.js",
+      "bytes": 6161,
+      "sha256": "519d70fe5dc84402afcc448f32ac811bec06d11e0efe756da87225f487dac06d"
+    },
+    {
+      "path": "js/hd-city-rules.js",
+      "bytes": 10197,
+      "sha256": "835baf558f58b47ce094c2990750718aafcdcd964ab1f119cb3488dc2f4230c9"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5943,
+      "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0"
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15762,
+      "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32773,
+      "sha256": "17f9ed7318684b0cbd8c16e9926312f22ca59d31a6a92db6afe6e72e20c1f85c"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30761,
+      "sha256": "bc2165f74b5cd3277ee00205134a3f8477ad103e77817ab9679d915a182bac81"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20495,
+      "sha256": "d958e2f09c490a79297dba6341e8eaf1c9316a7f1980737a46d530c95b7fe384"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/inc/dictsys.h",
+      "bytes": 21754,
+      "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded"
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+    },
+    {
+      "path": "vendor/iBaye/src/showface.c",
+      "bytes": 42650,
+      "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 247579,
+      "sha256": "4d3e451e17668c94cd951f1d19f427ee5d85b09d723fc9c623be0b3c01a94240"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 195248,
+      "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 4,
+  "fullSuiteRun": false,
+  "cCompiled": false,
+  "browserRuns": 0,
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "scope": "HUD and mobile city-host modules; no browser, game, native rebuild or full suite",
+  "contract": {
+    "scope": "Authenticated original LIB/current own CITY ROOT only; UI status is a local view",
+    "queue": "Exact current [PersonQueue, PersonQueue+Persons) within2000; preserve original slot order and duplicates",
+    "logicalPeople": 200,
+    "physicalPeople": 2000,
+    "physicalQueue": 2000,
+    "validIdRangeInclusive": [
+      0,
+      199
+    ],
+    "membership": "person.Belong equals city.Belong and king+1; no HP/arms/thew/state eligibility filter",
+    "hiddenResidents": "Other allegiance, unassigned0 and captives65535 filtered before name/arms/thew reads; no hidden names, counts or stats published",
+    "fields": "Exact zero-based name, U16 Arms, U8 Thew; 0/max retained, malformed optional numbers become null; no total-arms claim",
+    "nameHooks": "Reject callable getPersonName before any name lookup; never invoke a custom hook",
+    "snapshots": 3,
+    "namePasses": 2,
+    "dynLibRefSealed": true,
+    "refsAndRawMirrorSealed": true,
+    "reentryInvalidatesRead": true,
+    "presentation": "Readonly text rows, no buttons/links/native keys; unchanged ordinary PC polls retain section/row nodes and invalidation withdraws only roster",
+    "statusNodeRecheckedAfterReader": true,
+    "contentUpdatesPreserveSectionOrder": true,
+    "newNativeFields": false,
+    "newWorldWrites": false
+  },
+  "scopeLimits": {
+    "browserRuns": 0,
+    "layoutAccepted": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "performanceAccepted": false,
+    "fullSuiteRun": false,
+    "cCompiled": false,
+    "wasmChanged": false
+  },
+  "artifacts": [
+    {
+      "path": "build/city-garrison-20261026-v88/run-targeted-v2.mjs",
+      "bytes": 2219,
+      "sha256": "7914bbc83215086d72b92f5b2fc97a1b275b41e03616725f21ccd22a71ac1647"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/targeted-v2.json",
+      "bytes": 3856,
+      "sha256": "ebfe83359b28b71fc35df824761237a7ca5769a381a37fc1e8430430397d751f"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/targeted-v2.stdout.tap",
+      "bytes": 169228,
+      "sha256": "e0a60bbb464cd218124eb2b5351b846e8780c140ff014ffd750700811af73e1d"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/targeted-v1.json",
+      "bytes": 3856,
+      "sha256": "c336b37543089ec342b376e0b9491eecb0d439bbba420e310e3e993069c4a2c1"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/targeted-v1.stdout.tap",
+      "bytes": 169234,
+      "sha256": "4bd570eddb986e56074ea23da0e3e1e5eb24c577da1d61b2623375af421b8c9c"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/hd-city-menu-before-review-fixes.js",
+      "bytes": 480532,
+      "sha256": "012302b0522bfa965ce4a50167747c9e50e1fb2280044c9702e5cd1ae3e36bab"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/hd-city-garrison-before-review-fixes.js",
+      "bytes": 6496,
+      "sha256": "b36c584fffb4453742338c27a3a1121dda9909b2cefa16b2fc848100e96a3d42"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/run-garrison-negative-v1.mjs",
+      "bytes": 1978,
+      "sha256": "a217b294a9ef6686a5bfa1c2d6898d56fb72c71ad92c1fdc0c3938b094417fa3"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/garrison-negative-v1.json",
+      "bytes": 1097,
+      "sha256": "90cfc0e0c1e71247448217eb912a4192ae3997c4e9845da4c7ccf06cb7bb3c55"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/garrison-negative-v1.stdout.tap",
+      "bytes": 4285,
+      "sha256": "8275b9f6c0f9c1fc96078491d049f836fc04dcd0fa043916e72241047a7c3497"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/garrison-negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/negative-v1-js--hd-city-menu.js",
+      "bytes": 480532,
+      "sha256": "012302b0522bfa965ce4a50167747c9e50e1fb2280044c9702e5cd1ae3e36bab"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/negative-v1-js--hd-city-garrison.js",
+      "bytes": 6496,
+      "sha256": "b36c584fffb4453742338c27a3a1121dda9909b2cefa16b2fc848100e96a3d42"
+    },
+    {
+      "path": "build/city-garrison-20261026-v88/negative-v1-scripts--test-hd-city-hud.mjs",
+      "bytes": 247579,
+      "sha256": "4d3e451e17668c94cd951f1d19f427ee5d85b09d723fc9c623be0b3c01a94240"
+    }
+  ],
+  "finalTargetedTool": "034d34",
+  "finalTargetedExitCode": 0,
+  "reviewNegativeControl": {
+    "kind": "Original product negative control for two added regression boundaries; failure is expected and retained",
+    "started": "2026-10-26T12:05:30.923Z",
+    "finished": "2026-10-26T12:05:31.350Z",
+    "processExitCode": 1,
+    "signal": null,
+    "tests": 4,
+    "pass": 2,
+    "fail": 2,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "selectedSources": [
+      {
+        "path": "js/hd-city-garrison.js",
+        "bytes": 6496,
+        "sha256": "b36c584fffb4453742338c27a3a1121dda9909b2cefa16b2fc848100e96a3d42"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 480532,
+        "sha256": "012302b0522bfa965ce4a50167747c9e50e1fb2280044c9702e5cd1ae3e36bab"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 247579,
+        "sha256": "4d3e451e17668c94cd951f1d19f427ee5d85b09d723fc9c623be0b3c01a94240"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "expectedFailures": [
+      "last ready after isCurrent replaces dynLib",
+      "reentrant render detaches captured section and old removeChild throws NotFound"
+    ],
+    "actualGameplayAccepted": false,
+    "fullSuiteRun": false,
+    "wrapperTool": "1059ea",
+    "wrapperExitCode": 0,
+    "notAddedToFinalTestTotal": true
+  },
+  "earlierPassingRun": {
+    "path": "build/city-garrison-20261026-v88/targeted-v1.json",
+    "tests": 744,
+    "notAddedToFinalTotal": true,
+    "scope": "Before additional audit regressions; not final-source acceptance"
+  },
+  "reviewFixes": [
+    "Re-query current section after external reads and remove only direct children; update an existing section in place",
+    "Seal original dynLib reference after final readiness callback"
+  ],
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false
+}

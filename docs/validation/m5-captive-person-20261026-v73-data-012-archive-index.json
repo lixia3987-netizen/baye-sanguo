@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-012-archive-part001.json",
+      "bytes": 5991797,
+      "sha256": "08284e942d859fac81272f4a8ad9786bed49b6638c1a83838c80fd01aa28ee97",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-012-archive-part002.json",
+      "bytes": 6028817,
+      "sha256": "420aaebaee96480a6d5e036a60e9a7318378b24ea8e4b8f4408d3f1026dc3cf3",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-012-archive-part003.json",
+      "bytes": 6009361,
+      "sha256": "b0d8ffadafd4cecf0ce7d765610c3f1051ecb0711ca3e3640ab7ee49443506a7",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-012-archive-part004.json",
+      "bytes": 5970485,
+      "sha256": "eb7e0e4455a8379d18d0454b200322cbb9c7966c40ae79b012baf15ffa2a64db",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-012-archive-part005.json",
+      "bytes": 6012981,
+      "sha256": "8801e9839b5825d2bc174e3d2e5b94d6692412add8eecc4702874733896c50f4",
+      "blobs": 2
+    }
+  ],
+  "files": [
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-109-captive-identity-person-8-nativeOwnership.png",
+      "bytes": 2252425,
+      "sha256": "14ba7de90bb17afc913d971e2a381ac253f3c4bcf2d785b47c02d34ec9365574",
+      "blob": "14ba7de90bb17afc913d971e2a381ac253f3c4bcf2d785b47c02d34ec9365574",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-110-captive-location-8-hdLocation.png",
+      "bytes": 2239607,
+      "sha256": "2a04a1545002ef934cd5a493c9d225724e2eb86ebe0ccd34374bef702d59d595",
+      "blob": "2a04a1545002ef934cd5a493c9d225724e2eb86ebe0ccd34374bef702d59d595",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-111-captive-location-8-nativeLocation.png",
+      "bytes": 2252776,
+      "sha256": "c498c653be5719bd8ea10d7a4d676dee2e7632de89a15edf81157b49f98da329",
+      "blob": "c498c653be5719bd8ea10d7a4d676dee2e7632de89a15edf81157b49f98da329",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-112-captive-actor-before-cancel.png",
+      "bytes": 2267006,
+      "sha256": "9fc629ea1b3b2e5a9e5301ebb42e144aa8b348a3e433cd85794ce66a4e4060b4",
+      "blob": "9fc629ea1b3b2e5a9e5301ebb42e144aa8b348a3e433cd85794ce66a4e4060b4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-113-captive-identity-person-19-listName.png",
+      "bytes": 2267075,
+      "sha256": "2039acdb0b7fdf3f223341e3f3a631671fc3c633a07a8d15cc2f05709d101aee",
+      "blob": "2039acdb0b7fdf3f223341e3f3a631671fc3c633a07a8d15cc2f05709d101aee",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-114-captive-identity-person-19-heading.png",
+      "bytes": 2238148,
+      "sha256": "3b47eed5a7df1140903d6e99b44fcf2ceffef91f54c6e64edb0b74aa65af172e",
+      "blob": "3b47eed5a7df1140903d6e99b44fcf2ceffef91f54c6e64edb0b74aa65af172e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-115-captive-identity-person-19-ownership.png",
+      "bytes": 2238037,
+      "sha256": "7af9f0a08ae39e86e5ea88054d0b39e8aeef7ab0a18bf4e2347511d504528709",
+      "blob": "7af9f0a08ae39e86e5ea88054d0b39e8aeef7ab0a18bf4e2347511d504528709",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-116-captive-identity-person-19-priorOwnership.png",
+      "bytes": 2238099,
+      "sha256": "48c90cf894a2a13dfe2dc23adfb80100e49c88de8f2cb49f6e7c35f486421861",
+      "blob": "48c90cf894a2a13dfe2dc23adfb80100e49c88de8f2cb49f6e7c35f486421861",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-117-captive-identity-person-19-nativeOwnership.png",
+      "bytes": 2255721,
+      "sha256": "051aa04bad4a211c9470d692e5901df3b1cf9a8a727bd347e54e8ca57012f378",
+      "blob": "051aa04bad4a211c9470d692e5901df3b1cf9a8a727bd347e54e8ca57012f378",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v2/captives-118-captive-target-after-actor-cancel.png",
+      "bytes": 2252195,
+      "sha256": "459201fe9e218ad008ce5c4c260b803b346bd643305a7df685aa4a90634c4531",
+      "blob": "459201fe9e218ad008ce5c4c260b803b346bd643305a7df685aa4a90634c4531",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 10,
+  "uniqueBlobs": 10,
+  "rawNamedBytes": 22501089,
+  "uniqueRawBytes": 22501089,
+  "uniqueGzipBytes": 22508039,
+  "serializedPartBytes": 30013441,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

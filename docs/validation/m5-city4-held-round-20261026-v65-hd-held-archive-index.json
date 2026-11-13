@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city4-held-round-20261026-v65-hd-held-archive-part001.json",
+      "bytes": 2609020,
+      "sha256": "4c838175de35132a1f09ecf1a3b49662d1f502993ad6a2d504b66d53555e00e2",
+      "blobs": 7
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/city4-hd-wood-00000-ticket.json",
+      "bytes": 91573,
+      "sha256": "ccfcf0d3c911e0cf8df2577dc0ec5bd9ad7cf632849f88abebced49f89d0a914",
+      "blob": "ccfcf0d3c911e0cf8df2577dc0ec5bd9ad7cf632849f88abebced49f89d0a914",
+      "roles": [
+        "Whole original actual Held hd-held contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/city4-hd-wood-00001-guard.json",
+      "bytes": 8646219,
+      "sha256": "60bca8f7d53775c27c67342dd731620652ffbfb58439566a6f519f7e69e97390",
+      "blob": "60bca8f7d53775c27c67342dd731620652ffbfb58439566a6f519f7e69e97390",
+      "roles": [
+        "Whole original actual Held hd-held contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/city4-hd-wood-00002-capture-source.json",
+      "bytes": 14905,
+      "sha256": "9abcbc9a3554f08e99887deddd7ab01442673528f39bd8af7584b4cc1b549985",
+      "blob": "9abcbc9a3554f08e99887deddd7ab01442673528f39bd8af7584b4cc1b549985",
+      "roles": [
+        "Whole original actual Held hd-held contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/city4-hd-wood-00003-capture-installed.json",
+      "bytes": 82,
+      "sha256": "49f43c739db7764179bc76c8c8169e9659082c2dfac4d98377dc795fcca62f56",
+      "blob": "49f43c739db7764179bc76c8c8169e9659082c2dfac4d98377dc795fcca62f56",
+      "roles": [
+        "Whole original actual Held hd-held contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/city4-hd-wood-00004-guard.json",
+      "bytes": 8646210,
+      "sha256": "5f880dcaaba869271b22bfde528343e14d1d9806c1e2c4b8e8e33d656169f84e",
+      "blob": "5f880dcaaba869271b22bfde528343e14d1d9806c1e2c4b8e8e33d656169f84e",
+      "roles": [
+        "Whole original actual Held hd-held contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/city4-hd-wood-00005-retained-live.json",
+      "bytes": 7494275,
+      "sha256": "11725bea2b2db1291c3930b3d71d9f89e0c99434a36b993aa614c0fe0cb57fb5",
+      "blob": "11725bea2b2db1291c3930b3d71d9f89e0c99434a36b993aa614c0fe0cb57fb5",
+      "roles": [
+        "Whole original actual Held hd-held contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/host-retained-000.json",
+      "bytes": 650,
+      "sha256": "2cd59f74242a134c55b0dae5949b73d17520727eb6b8f39e35b38814a17b334a",
+      "blob": "2cd59f74242a134c55b0dae5949b73d17520727eb6b8f39e35b38814a17b334a",
+      "roles": [
+        "Whole original actual Held hd-held contract; supplied bytes only"
+      ]
+    }
+  ],
+  "logicalFiles": 7,
+  "uniqueBlobs": 7,
+  "rawNamedBytes": 24893914,
+  "uniqueRawBytes": 24893914,
+  "uniqueGzipBytes": 1955499,
+  "serializedPartBytes": 2609020,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

@@ -1,0 +1,1639 @@
+{
+  "at": "2026-10-11T09:10:54.389Z",
+  "compression": "gzip",
+  "roundtripVerified": true,
+  "files": [
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/battle-01-fresh-pick-667.png",
+      "bytes": 61859,
+      "sha256": "04ea49b8531d9ba75345973e0e614ad2d7bc78947359b5fcc91ee0c3feb0946f",
+      "file": "raw/0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64.gz",
+      "archiveBytes": 60452,
+      "archiveSha256": "0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/campaign-667-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 558363,
+      "sha256": "42473793f591d34ad790c40d5b2cd0593a2532416e7be95b6df4845147a25f18",
+      "file": "raw/1cc8aaa4795a489ab583e50940045dde29ce51565367193c2e7bb1ea0c94cf45.gz",
+      "archiveBytes": 558552,
+      "archiveSha256": "1cc8aaa4795a489ab583e50940045dde29ce51565367193c2e7bb1ea0c94cf45"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/campaign-667-01-inherited-map.png",
+      "bytes": 448718,
+      "sha256": "3100fe2bf53bc4408211c0717d093df25e878609f1e5d1895cf0ff7cbbff00ea",
+      "file": "raw/b6e0ac7843c8d1fd9580e4937acf1d0e68140cc52583853d9a9851675a2ab7cc.gz",
+      "archiveBytes": 448783,
+      "archiveSha256": "b6e0ac7843c8d1fd9580e4937acf1d0e68140cc52583853d9a9851675a2ab7cc"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/campaign-667-02-inherited-city-status.png",
+      "bytes": 60306,
+      "sha256": "abdf43618bede867ff5c1808449cdb50d7548814c3f9d69783d37f2dfd07e94d",
+      "file": "raw/94f3ed1529ef602cd8410cd263781979d7e4d4566daedad99b5fe57eb3684b76.gz",
+      "archiveBytes": 59801,
+      "archiveSha256": "94f3ed1529ef602cd8410cd263781979d7e4d4566daedad99b5fe57eb3684b76"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/campaign-667-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 509865,
+      "sha256": "04711231ba66103130dd3e4b30336fcf8568683ad783ee7d76cf9037032ac0e8",
+      "file": "raw/ce99a0f7776858697e03900b67d3744c943bb35c361dd29a0e1b727425063113.gz",
+      "archiveBytes": 510043,
+      "archiveSha256": "ce99a0f7776858697e03900b67d3744c943bb35c361dd29a0e1b727425063113"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/campaign-667-03-post-inheritance-operation-map.png",
+      "bytes": 394852,
+      "sha256": "11091859bb233564070051aae1a0acdbb05efb2a2319af668b509ed27ce5496f",
+      "file": "raw/7c4eef6997a5994b6536c943083c3a6524d37d1d40066ffe3383c2e51882d6ff.gz",
+      "archiveBytes": 394905,
+      "archiveSha256": "7c4eef6997a5994b6536c943083c3a6524d37d1d40066ffe3383c2e51882d6ff"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/failure-hd-overworld-canvas.png",
+      "bytes": 509675,
+      "sha256": "54adee9231da8dbc7ee5b606ee4f532be8eae058c3cfe21e2d239c45f5b4bb78",
+      "file": "raw/0a068dfccf97dc2bea7997266b883d8d4bdafc557c68b0f603d693df2b107c9e.gz",
+      "archiveBytes": 509853,
+      "archiveSha256": "0a068dfccf97dc2bea7997266b883d8d4bdafc557c68b0f603d693df2b107c9e"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/failure.png",
+      "bytes": 394913,
+      "sha256": "44df70cf7f5442061076031582d288f69848c245477f17931bd029481a8434c1",
+      "file": "raw/5a368b6205211e20343c33a313790273915c53c0c2518eb6018e89ff6ece1de4.gz",
+      "archiveBytes": 394971,
+      "archiveSha256": "5a368b6205211e20343c33a313790273915c53c0c2518eb6018e89ff6ece1de4"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/owned-process-samples.jsonl",
+      "bytes": 85184,
+      "sha256": "474e8b278168732224a6adeb51ed9fa550f4d9dcb6defd91e9b6d8f8a6be06c9",
+      "file": "raw/c7e8039cd80de13e62a68fb32915e58cebf27d3d575bcfac2fa949b9919994ff.gz",
+      "archiveBytes": 2758,
+      "archiveSha256": "c7e8039cd80de13e62a68fb32915e58cebf27d3d575bcfac2fa949b9919994ff"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/result.json",
+      "bytes": 11579334,
+      "sha256": "5e30299ece836ef490b0ff686e0dca8234e8625ebcf2795771f066fcc5ee4a9a",
+      "file": "raw/454c3d8218edb487e056eda765a66f240315b4631090af4ef24c34cc83cbed41.gz",
+      "archiveBytes": 622875,
+      "archiveSha256": "454c3d8218edb487e056eda765a66f240315b4631090af4ef24c34cc83cbed41"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1/source-verification.json",
+      "bytes": 79307,
+      "sha256": "82a36972c2b59b371d28af8b9b5511676df7a8881c6ec1ab6df86542771b6d04",
+      "file": "raw/b0a5aa6fa95afb7f8f0545ab671220d98a134ff007843f6a29d121d930ccf103.gz",
+      "archiveBytes": 17394,
+      "archiveSha256": "b0a5aa6fa95afb7f8f0545ab671220d98a134ff007843f6a29d121d930ccf103"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v1.log",
+      "bytes": 1872,
+      "sha256": "0ac887cbc089b980192693213e0cf2a98b7185f397573f8f77e9eb72724a0137",
+      "file": "raw/5533d933772760508982b831e5f7ed9caf08478d806c49efbd67fbc4fa97cebd.gz",
+      "archiveBytes": 477,
+      "archiveSha256": "5533d933772760508982b831e5f7ed9caf08478d806c49efbd67fbc4fa97cebd"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/battle-01-fresh-pick-667.png",
+      "bytes": 61859,
+      "sha256": "04ea49b8531d9ba75345973e0e614ad2d7bc78947359b5fcc91ee0c3feb0946f",
+      "file": "raw/0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64.gz",
+      "archiveBytes": 60452,
+      "archiveSha256": "0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/failure-hd-overworld-canvas.png",
+      "bytes": 558780,
+      "sha256": "6223b9ea52055b1f6c07f1df5824f54971509dcc47494bf64691e5084cc5d1a5",
+      "file": "raw/bc2c162ec3fa1d4523f7caac7e1c1c10f3297aebecbcbfe9aac2ba71898a7bcd.gz",
+      "archiveBytes": 558969,
+      "archiveSha256": "bc2c162ec3fa1d4523f7caac7e1c1c10f3297aebecbcbfe9aac2ba71898a7bcd"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/failure.png",
+      "bytes": 449390,
+      "sha256": "538bec0a363735623763c2c7c4ada71e23237c8ebae9a15eec4958ebbe491812",
+      "file": "raw/a28c852003d8d7ee89004235ea4f299cfc4fd75c6c715c97bbe6df002ead5b3b.gz",
+      "archiveBytes": 449430,
+      "archiveSha256": "a28c852003d8d7ee89004235ea4f299cfc4fd75c6c715c97bbe6df002ead5b3b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/owned-process-samples.jsonl",
+      "bytes": 55937,
+      "sha256": "21e8a27c4ada969d0450eff5bc4dcf65bf0cd30e2b6e5de9f5a5486b5095df61",
+      "file": "raw/afefe55184d01417ea139720a66c41f167e4a7a9e637288ca0d553d1a13a6df2.gz",
+      "archiveBytes": 2166,
+      "archiveSha256": "afefe55184d01417ea139720a66c41f167e4a7a9e637288ca0d553d1a13a6df2"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/result.json",
+      "bytes": 2734161,
+      "sha256": "9da77248cdb55baa8dee291ff5ab426944d4e94adb3cafce21bc0675bfab9f40",
+      "file": "raw/37284aea2afce4d6193a741a065ab1ec27e27e1cf3d0a4e23e52fd47bfea6ef6.gz",
+      "archiveBytes": 153019,
+      "archiveSha256": "37284aea2afce4d6193a741a065ab1ec27e27e1cf3d0a4e23e52fd47bfea6ef6"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2/source-verification.json",
+      "bytes": 79018,
+      "sha256": "6056501d22755c1f53742856fe197dfa072a8a72193697d743394f6678910301",
+      "file": "raw/24c08db3fb5a6833c90f2d5c8cb26c192bfe1d5e7757e4c2d8aa86871f8d97b4.gz",
+      "archiveBytes": 17304,
+      "archiveSha256": "24c08db3fb5a6833c90f2d5c8cb26c192bfe1d5e7757e4c2d8aa86871f8d97b4"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v2.log",
+      "bytes": 1054,
+      "sha256": "7fec3e31c44b74e120c7791ca7778833f6eeaddc446b380955db6978b909dcbe",
+      "file": "raw/e65c83059463acc72927bb67d11cce5968460ee8393dfa26c3ff4c855aa3ce6d.gz",
+      "archiveBytes": 386,
+      "archiveSha256": "e65c83059463acc72927bb67d11cce5968460ee8393dfa26c3ff4c855aa3ce6d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/battle-01-fresh-pick-667.png",
+      "bytes": 63035,
+      "sha256": "9aebbc081edfa40e54c60bf37d0f6d25d114753b899816c7ef2e6f5de04f2cd3",
+      "file": "raw/7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a.gz",
+      "archiveBytes": 61802,
+      "archiveSha256": "7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/failure-hd-overworld-canvas.png",
+      "bytes": 558407,
+      "sha256": "3400118f734b4ef8fc25de09d15eff9bd47d452fcd20e804ea6998b89bd7aaf9",
+      "file": "raw/38f62f40c324672cf76d8f80f5e35d9a0d0510b25f69738db1ea10e4a63f1d7c.gz",
+      "archiveBytes": 558596,
+      "archiveSha256": "38f62f40c324672cf76d8f80f5e35d9a0d0510b25f69738db1ea10e4a63f1d7c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/failure.png",
+      "bytes": 448961,
+      "sha256": "a29e017718cd0d300e14e615e000218719fb7f6f0d8656fdc0e88b9d8ef269d0",
+      "file": "raw/67efd428701076cd07f52a988e7753ce1f07c7f30349806633269e70e210323d.gz",
+      "archiveBytes": 449026,
+      "archiveSha256": "67efd428701076cd07f52a988e7753ce1f07c7f30349806633269e70e210323d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/owned-process-samples.jsonl",
+      "bytes": 60082,
+      "sha256": "eed7c0d13debb128834470d98e4e85a723fba24bc6923b69d27b49383ee2516d",
+      "file": "raw/1cf65f72ec4632d7460f37d55ab545b09669759bf4e46690334bc5e9f52cbd25.gz",
+      "archiveBytes": 2464,
+      "archiveSha256": "1cf65f72ec4632d7460f37d55ab545b09669759bf4e46690334bc5e9f52cbd25"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/result.json",
+      "bytes": 2742827,
+      "sha256": "48517f96cd746f85ca77c9f6fbf73dd63a27a72761863e425d3826ade87c6464",
+      "file": "raw/86a64a3219aecf470e77430037aa79278bcf28de95d09ffc693d7db78fb35eaa.gz",
+      "archiveBytes": 153497,
+      "archiveSha256": "86a64a3219aecf470e77430037aa79278bcf28de95d09ffc693d7db78fb35eaa"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3/source-verification.json",
+      "bytes": 79018,
+      "sha256": "59322be9dd158c63b3b2fb85fc867c63a4e0739a1e7491e61111126de3ceedec",
+      "file": "raw/48c180f634a8b779a3d0eaca01bca3eb0ade99f9d8f968b278526f2172607936.gz",
+      "archiveBytes": 17299,
+      "archiveSha256": "48c180f634a8b779a3d0eaca01bca3eb0ade99f9d8f968b278526f2172607936"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v3.log",
+      "bytes": 1054,
+      "sha256": "e535f62d901a28d08cbd2190a351379e46abbb80e33b25e3c3fbac6c50953f18",
+      "file": "raw/eb37a1ae4e43724280da0efc7d951f675f3feb3b8e3d0a9855d81deebe243d02.gz",
+      "archiveBytes": 386,
+      "archiveSha256": "eb37a1ae4e43724280da0efc7d951f675f3feb3b8e3d0a9855d81deebe243d02"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/battle-01-fresh-pick-667.png",
+      "bytes": 63035,
+      "sha256": "9aebbc081edfa40e54c60bf37d0f6d25d114753b899816c7ef2e6f5de04f2cd3",
+      "file": "raw/7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a.gz",
+      "archiveBytes": 61802,
+      "archiveSha256": "7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/failure-hd-overworld-canvas.png",
+      "bytes": 558477,
+      "sha256": "7a08f90b5f8ff7339c253c42b99ddd7638c6db6d8f31f9c5727d05f63be1abcf",
+      "file": "raw/201759a415451a1d101bb3b8338517f0f9cecff4b32b866f7471a263d29b10d1.gz",
+      "archiveBytes": 558666,
+      "archiveSha256": "201759a415451a1d101bb3b8338517f0f9cecff4b32b866f7471a263d29b10d1"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/failure.png",
+      "bytes": 448696,
+      "sha256": "e9efbe27eb5c4e4304cfec39bf41e3ba4c7a75eb7baa08a1069d4170f7201390",
+      "file": "raw/cdbedd061133fae2c4c126724ae3f29a27ed95bb5fcd7bc2710f0ec82306469d.gz",
+      "archiveBytes": 448736,
+      "archiveSha256": "cdbedd061133fae2c4c126724ae3f29a27ed95bb5fcd7bc2710f0ec82306469d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/owned-process-samples.jsonl",
+      "bytes": 55955,
+      "sha256": "16f9f201c16ab154ca6c143bdbbccadd1b1c042fcdf74bc97d50a3ad3f6f6291",
+      "file": "raw/0f65f2064fde45f334a197ce6f8a1ce2fe4c2c8eb1c2956386ea93fed72f51e7.gz",
+      "archiveBytes": 2163,
+      "archiveSha256": "0f65f2064fde45f334a197ce6f8a1ce2fe4c2c8eb1c2956386ea93fed72f51e7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/result.json",
+      "bytes": 2731124,
+      "sha256": "1e1a6ac30b6b2bd1186c5bfa61f93ebb522be75f40ef01daf77a374552cb1d23",
+      "file": "raw/9510ee82a6b1cc44425b9f750da96b87442d6d7aec4a935b92e351f2c2a28c1d.gz",
+      "archiveBytes": 153122,
+      "archiveSha256": "9510ee82a6b1cc44425b9f750da96b87442d6d7aec4a935b92e351f2c2a28c1d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4/source-verification.json",
+      "bytes": 79018,
+      "sha256": "8a3fbc595af9589d21b517e9910d025e3d52bc6ec8ce6e9b470bd17d0352ccab",
+      "file": "raw/17fc88d60081f3319bca39ffb1bca2f761f4b0bd862357b2944481ac0eaad444.gz",
+      "archiveBytes": 17299,
+      "archiveSha256": "17fc88d60081f3319bca39ffb1bca2f761f4b0bd862357b2944481ac0eaad444"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v4.log",
+      "bytes": 1054,
+      "sha256": "eca59ad573a297ea671becd00216fbb966a5eb8ea95ff8115f043d4cb1425853",
+      "file": "raw/d1aa18905b76dcaa18f0f4f06d2bd07dad283157306e326f33980f8d5a9be007.gz",
+      "archiveBytes": 386,
+      "archiveSha256": "d1aa18905b76dcaa18f0f4f06d2bd07dad283157306e326f33980f8d5a9be007"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/battle-01-fresh-pick-667.png",
+      "bytes": 63035,
+      "sha256": "9aebbc081edfa40e54c60bf37d0f6d25d114753b899816c7ef2e6f5de04f2cd3",
+      "file": "raw/7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a.gz",
+      "archiveBytes": 61802,
+      "archiveSha256": "7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 558900,
+      "sha256": "84872cc404eeebe5772e33bfaca0f4b9098f2b63f7701b4ef1c9f357da474098",
+      "file": "raw/91424fffb718f5406b101b4daa5482d52a8b6c03e68db049e307f4b3c5db7bc5.gz",
+      "archiveBytes": 559089,
+      "archiveSha256": "91424fffb718f5406b101b4daa5482d52a8b6c03e68db049e307f4b3c5db7bc5"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-01-inherited-map.png",
+      "bytes": 449512,
+      "sha256": "6d7b6dd5f5ec644ba7809fd741887d17005fe00bd0bd35feb4a1aac151b5b672",
+      "file": "raw/2683e0d37ea718a9991f852982dc4826d072d0d1f7f72dc4f3834c71ae9e2344.gz",
+      "archiveBytes": 449562,
+      "archiveSha256": "2683e0d37ea718a9991f852982dc4826d072d0d1f7f72dc4f3834c71ae9e2344"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-02-inherited-city-status.png",
+      "bytes": 59926,
+      "sha256": "e4e76297101412f92da11806617c626d867b0e7bf1a0c1c36451f9b52c9407e8",
+      "file": "raw/98baefa667cd40b2ed71e5e54b2ab9a66e41b8fe3397a1e36e4fdc98175399c8.gz",
+      "archiveBytes": 59420,
+      "archiveSha256": "98baefa667cd40b2ed71e5e54b2ab9a66e41b8fe3397a1e36e4fdc98175399c8"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 510318,
+      "sha256": "47fba85d278804199012b698edde5b412ebca6eed4c20cb50f1dcb666ff76102",
+      "file": "raw/be979b1213f7f9ec3ce294cced7013e9aa8de2457866496e71cde5d14b83b92c.gz",
+      "archiveBytes": 510496,
+      "archiveSha256": "be979b1213f7f9ec3ce294cced7013e9aa8de2457866496e71cde5d14b83b92c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-03-post-inheritance-operation-map.png",
+      "bytes": 395353,
+      "sha256": "c6c810ad07eb36a73e1a2ab06a004cf9fe73adbaf8a81306ef74b9a76a0587d5",
+      "file": "raw/78816ba62e05aa8793fc6d8f723d30e7b85084939805e51d779b202494ddce94.gz",
+      "archiveBytes": 395409,
+      "archiveSha256": "78816ba62e05aa8793fc6d8f723d30e7b85084939805e51d779b202494ddce94"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-04-saved-inherited-map-hd-overworld-canvas.png",
+      "bytes": 509884,
+      "sha256": "06779263d6ac903f7059ba986bd957e8bac575f924088af86772ac16dd529422",
+      "file": "raw/526a5a895b70dd7b981b8be8025c36b0f722fb941eae317d40efb1b7cc6e0a3f.gz",
+      "archiveBytes": 510062,
+      "archiveSha256": "526a5a895b70dd7b981b8be8025c36b0f722fb941eae317d40efb1b7cc6e0a3f"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-04-saved-inherited-map.png",
+      "bytes": 394820,
+      "sha256": "de1095061352fb2b247f594876967dd3a7197261602b4be629fb341681e30a55",
+      "file": "raw/54fa2fc1ed2af542709ad35e2669b75f51db1bfea038159c31216f7609de47df.gz",
+      "archiveBytes": 394876,
+      "archiveSha256": "54fa2fc1ed2af542709ad35e2669b75f51db1bfea038159c31216f7609de47df"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-05-genuine-mutated-map-hd-overworld-canvas.png",
+      "bytes": 509860,
+      "sha256": "5da39e9583355fa93774d6f66b49f6ba2517a13c086960121e52c5394dcf1360",
+      "file": "raw/790a0955bdbc5307c54cfa4448bf6f2545976eb6c512be80ba7097a16a75dfbd.gz",
+      "archiveBytes": 510038,
+      "archiveSha256": "790a0955bdbc5307c54cfa4448bf6f2545976eb6c512be80ba7097a16a75dfbd"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/campaign-667-05-genuine-mutated-map.png",
+      "bytes": 394761,
+      "sha256": "89f0794a112a92813556595738d0133019db719a240f597e17ee22e4aa17d425",
+      "file": "raw/94746800446f8eb71f5176d44995ef4942a4237cb088444da2ad59c461ea47b2.gz",
+      "archiveBytes": 394820,
+      "archiveSha256": "94746800446f8eb71f5176d44995ef4942a4237cb088444da2ad59c461ea47b2"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/failure.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/owned-process-samples.jsonl",
+      "bytes": 98356,
+      "sha256": "6708dfb6b10f5fa799729567d2484c6b5c69b863ca21a4a19f9156105417f075",
+      "file": "raw/2e9879e663ed2ade743eb3332fcb2414f4303c8d3d02b98dea4f1a4fa2178041.gz",
+      "archiveBytes": 2676,
+      "archiveSha256": "2e9879e663ed2ade743eb3332fcb2414f4303c8d3d02b98dea4f1a4fa2178041"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/result.json",
+      "bytes": 20908799,
+      "sha256": "7ff15347b0c354c7c0a386db0ffb221e08f572c9d871ca33fe19e5f440f53226",
+      "file": "raw/c01ad9a9b950c92ffd212b47acbade6e1864c7de91b791c13ef74162a7828d20.gz",
+      "archiveBytes": 982806,
+      "archiveSha256": "c01ad9a9b950c92ffd212b47acbade6e1864c7de91b791c13ef74162a7828d20"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5/source-verification.json",
+      "bytes": 79595,
+      "sha256": "79d2aad48f74d20585fbda3c5c3183a055021c74105f4df23d12303e05377af7",
+      "file": "raw/1b653b29531366ffc555ea7712fc3b242dbc418118facb98aec632824ee2c011.gz",
+      "archiveBytes": 17468,
+      "archiveSha256": "1b653b29531366ffc555ea7712fc3b242dbc418118facb98aec632824ee2c011"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v5.log",
+      "bytes": 3261,
+      "sha256": "c9571dfb2b5d0ff207b4f538c45b31124b61f4fb3aa9cfcec1b62ba3400b7c3c",
+      "file": "raw/f65f0f7aead48dcf1071c51d42b2241e291d234062852c724712569e2b6642ca.gz",
+      "archiveBytes": 853,
+      "archiveSha256": "f65f0f7aead48dcf1071c51d42b2241e291d234062852c724712569e2b6642ca"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/battle-01-fresh-pick-667.png",
+      "bytes": 63035,
+      "sha256": "9aebbc081edfa40e54c60bf37d0f6d25d114753b899816c7ef2e6f5de04f2cd3",
+      "file": "raw/7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a.gz",
+      "archiveBytes": 61802,
+      "archiveSha256": "7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/failure-hd-overworld-canvas.png",
+      "bytes": 559271,
+      "sha256": "aa3287e3322f2bf2d2462ca26375ade8323b7cb96d3e0be310cc8f607aeaf337",
+      "file": "raw/85429d46490e4efecb77d01f2b21223e84eee088e49b60805936dcbf822d118c.gz",
+      "archiveBytes": 559460,
+      "archiveSha256": "85429d46490e4efecb77d01f2b21223e84eee088e49b60805936dcbf822d118c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/failure.png",
+      "bytes": 448983,
+      "sha256": "2d35e4366f1e661e22ab4f62524780e5e8e5e7992b083673750dcf1fd7c134a9",
+      "file": "raw/11e9027e6b5da3135f7cc98109d828028d6060ce8f3ca5d7ac061134a9582dba.gz",
+      "archiveBytes": 449048,
+      "archiveSha256": "11e9027e6b5da3135f7cc98109d828028d6060ce8f3ca5d7ac061134a9582dba"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/owned-process-samples.jsonl",
+      "bytes": 56930,
+      "sha256": "3819179fb3a6c02366d65ee04a3865c7b61c1315d8f5b891f21f49e51b848ee2",
+      "file": "raw/d6d9ddf2a5148bd63a9b55e7946ea7f9ffec4b90ef35618a9e8f901665357907.gz",
+      "archiveBytes": 2239,
+      "archiveSha256": "d6d9ddf2a5148bd63a9b55e7946ea7f9ffec4b90ef35618a9e8f901665357907"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/result.json",
+      "bytes": 2732463,
+      "sha256": "825507d1dcf4a154cf6e66954e8e5c1e552c0442d54b0b9262515663adf6436b",
+      "file": "raw/876455389310d34c6d01bdefab3ad51e211d3a96272839ebfd9ecf6e436b82b7.gz",
+      "archiveBytes": 152970,
+      "archiveSha256": "876455389310d34c6d01bdefab3ad51e211d3a96272839ebfd9ecf6e436b82b7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6/source-verification.json",
+      "bytes": 79018,
+      "sha256": "de737aa4ea9f33ed8442059dbe9af81a243953a4ecb273fbb73de191c90c00e2",
+      "file": "raw/13586dc54ea5945d0c2c7b0f7e66cb5c3285b76efd0684c4817ca56848e99c54.gz",
+      "archiveBytes": 17307,
+      "archiveSha256": "13586dc54ea5945d0c2c7b0f7e66cb5c3285b76efd0684c4817ca56848e99c54"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v6.log",
+      "bytes": 1056,
+      "sha256": "3d5d3620979a74a0a09a33ba7687790b052e8d5c6efece880c1613b406b84e58",
+      "file": "raw/8d472d5f8dedca501038754f4d18acbdd3a6fae3ede61f01216461dbf308c4b8.gz",
+      "archiveBytes": 387,
+      "archiveSha256": "8d472d5f8dedca501038754f4d18acbdd3a6fae3ede61f01216461dbf308c4b8"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/battle-01-fresh-pick-667.png",
+      "bytes": 61859,
+      "sha256": "04ea49b8531d9ba75345973e0e614ad2d7bc78947359b5fcc91ee0c3feb0946f",
+      "file": "raw/0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64.gz",
+      "archiveBytes": 60452,
+      "archiveSha256": "0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 558932,
+      "sha256": "3afb9fcc7dd212ef4354ebf095a34a30dc4a8bf7d440ef332034674212835ea8",
+      "file": "raw/6e036d83bbf5ec147fa1c0e0e1c577ef634efeb2be848066f875c17b5dfa8634.gz",
+      "archiveBytes": 559121,
+      "archiveSha256": "6e036d83bbf5ec147fa1c0e0e1c577ef634efeb2be848066f875c17b5dfa8634"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-01-inherited-map.png",
+      "bytes": 449484,
+      "sha256": "d7e5bb7f78741c4f59e840578650b3571f7a6e0aa43da96bd29e190d04c6148d",
+      "file": "raw/2343d29c3b6583ab6a56d3f52d60a40bbf9b1982f80c93b4cf85d4f240ee83c3.gz",
+      "archiveBytes": 449549,
+      "archiveSha256": "2343d29c3b6583ab6a56d3f52d60a40bbf9b1982f80c93b4cf85d4f240ee83c3"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-02-inherited-city-status.png",
+      "bytes": 59926,
+      "sha256": "e4e76297101412f92da11806617c626d867b0e7bf1a0c1c36451f9b52c9407e8",
+      "file": "raw/98baefa667cd40b2ed71e5e54b2ab9a66e41b8fe3397a1e36e4fdc98175399c8.gz",
+      "archiveBytes": 59420,
+      "archiveSha256": "98baefa667cd40b2ed71e5e54b2ab9a66e41b8fe3397a1e36e4fdc98175399c8"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 509817,
+      "sha256": "ecb5261f6fd08d26690dcdfd70186503bd8b3066e3837656913a488e2837ca35",
+      "file": "raw/df3a09a94d894e6b7cccade5f98462a6795cbaf7a0cd121892370530bfc4f0e6.gz",
+      "archiveBytes": 509995,
+      "archiveSha256": "df3a09a94d894e6b7cccade5f98462a6795cbaf7a0cd121892370530bfc4f0e6"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-03-post-inheritance-operation-map.png",
+      "bytes": 394784,
+      "sha256": "969a32b06629a3642e7a22a2958c2729b12ac34c3b7a81d492126831097d5243",
+      "file": "raw/f110661ca3202dae2312f133859813ae6534928e60ead12db464c8e2f014b69b.gz",
+      "archiveBytes": 394841,
+      "archiveSha256": "f110661ca3202dae2312f133859813ae6534928e60ead12db464c8e2f014b69b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-04-saved-inherited-map-hd-overworld-canvas.png",
+      "bytes": 510148,
+      "sha256": "8f752c25b763fca937b1c720c1d4f3363c07e0d69d08b462cd1b4a0792a85a13",
+      "file": "raw/732cd98aa41bc4cc295e8d65e4c3e39f2af49adef2b89e2f0ee523faf626a15a.gz",
+      "archiveBytes": 510320,
+      "archiveSha256": "732cd98aa41bc4cc295e8d65e4c3e39f2af49adef2b89e2f0ee523faf626a15a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-04-saved-inherited-map.png",
+      "bytes": 394808,
+      "sha256": "216b91adf73c08b8ead2172a3fddd5567838dc8dfaa74f3edabad3007ee52a00",
+      "file": "raw/180d59e38f04be5a665d19ff9cde5de906d9b76990e30d3b1566be3c7c2dda46.gz",
+      "archiveBytes": 394864,
+      "archiveSha256": "180d59e38f04be5a665d19ff9cde5de906d9b76990e30d3b1566be3c7c2dda46"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-05-genuine-mutated-map-hd-overworld-canvas.png",
+      "bytes": 509672,
+      "sha256": "e0e0e99938236e5dd7307037d3f351c9ffed55c1da1bdec550fef36aa1efee5e",
+      "file": "raw/44a079e737d4dbdfcef5587d5a14485fdbf3837e9fa5c62700d57936c80d9179.gz",
+      "archiveBytes": 509850,
+      "archiveSha256": "44a079e737d4dbdfcef5587d5a14485fdbf3837e9fa5c62700d57936c80d9179"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-05-genuine-mutated-map.png",
+      "bytes": 394601,
+      "sha256": "e86feeede9fa65f987d5e263a0eba6d73e6285b2182de1d574c8617791dfb647",
+      "file": "raw/9969b9e3e6038c713f2460fdb4efcc5ff21072da3b2fe1db2f362308e0398e52.gz",
+      "archiveBytes": 394660,
+      "archiveSha256": "9969b9e3e6038c713f2460fdb4efcc5ff21072da3b2fe1db2f362308e0398e52"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-06-reloaded-title.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-07-restored-inherited-map-hd-overworld-canvas.png",
+      "bytes": 514647,
+      "sha256": "dd7cc193c72cef1a4dab95d4581ddfd25c4dd9e56401b6cb6e958e2b0f4f0831",
+      "file": "raw/abbb735bfc92b05a9fdc22b3344a33b49187b826b798b4c727f673ad48cfe5e4.gz",
+      "archiveBytes": 514799,
+      "archiveSha256": "abbb735bfc92b05a9fdc22b3344a33b49187b826b798b4c727f673ad48cfe5e4"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/campaign-667-07-restored-inherited-map.png",
+      "bytes": 404401,
+      "sha256": "a651962d1a80af26cb965e6167a9ed36bb777962129f310fe8de3f64770622a7",
+      "file": "raw/6782a15c95de4d50734ace5e90045817d5c9ca3c2691bbbdb411726d29098b8c.gz",
+      "archiveBytes": 404399,
+      "archiveSha256": "6782a15c95de4d50734ace5e90045817d5c9ca3c2691bbbdb411726d29098b8c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/owned-process-samples.jsonl",
+      "bytes": 108896,
+      "sha256": "a688ede7d0ae0d771df9ad84d1eab6d0cb4e8971823f50c17ca9c9f3b847dc1a",
+      "file": "raw/c39d7c2d21f419da312acc696240b09604638d39b7d2d60364ef20865bec9cb6.gz",
+      "archiveBytes": 2794,
+      "archiveSha256": "c39d7c2d21f419da312acc696240b09604638d39b7d2d60364ef20865bec9cb6"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/result.json",
+      "bytes": 22361720,
+      "sha256": "b08876fdb5398d016062fd0d8ec5b8b479859816adb847bfa96a30c40a1a18ef",
+      "file": "raw/3103b617c84e08fc48af9698be0852fd0f5c826dd64aa4802d187ac20de03760.gz",
+      "archiveBytes": 1046209,
+      "archiveSha256": "3103b617c84e08fc48af9698be0852fd0f5c826dd64aa4802d187ac20de03760"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7/source-verification.json",
+      "bytes": 79595,
+      "sha256": "68a8dba56f7a0cfd2f6bcacebccd332d9f0a63461ded921e3897f57de2186863",
+      "file": "raw/251dce20c8469073c6027f4aab332c6e8695d289cc04deee1388a7d3018ba5af.gz",
+      "archiveBytes": 17469,
+      "archiveSha256": "251dce20c8469073c6027f4aab332c6e8695d289cc04deee1388a7d3018ba5af"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-667-v7.log",
+      "bytes": 797,
+      "sha256": "5a6ce95037c1e9f7a9f5c2692042057ab28e7cecae0c101d923fbfb8a2fb2b65",
+      "file": "raw/b3289db98b272bd0db2e2bc3244028c74b56c40f13cd2aeeeb404cf7164a5337.gz",
+      "archiveBytes": 298,
+      "archiveSha256": "b3289db98b272bd0db2e2bc3244028c74b56c40f13cd2aeeeb404cf7164a5337"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/battle-01-fresh-pick-844.png",
+      "bytes": 72116,
+      "sha256": "f4a9e995ba6622101faad88ded89586867f6cdb0212c7021dc41164c98a7126d",
+      "file": "raw/0accc6d1aec3550f03140c88803ddc68f3486fa701805098a15ead8e4a8e303d.gz",
+      "archiveBytes": 70301,
+      "archiveSha256": "0accc6d1aec3550f03140c88803ddc68f3486fa701805098a15ead8e4a8e303d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/campaign-844-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 726761,
+      "sha256": "6ff40e1c0df10c865d4d6292e37996ecc51e97ded10cbe379535d037eed357cc",
+      "file": "raw/60502ebc931bc6c445c060e19757ce1c97b0c1a0b5049ad46c756341b480d37a.gz",
+      "archiveBytes": 727004,
+      "archiveSha256": "60502ebc931bc6c445c060e19757ce1c97b0c1a0b5049ad46c756341b480d37a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/campaign-844-01-inherited-map.png",
+      "bytes": 579143,
+      "sha256": "cbbfa81b5385ec007b1b977907943444b574c87d081ec57dd810be136d059980",
+      "file": "raw/c6b13d4ca2fc44b9168dfcdcf73f7f77d53af7550002673219b543d14702aa7e.gz",
+      "archiveBytes": 579327,
+      "archiveSha256": "c6b13d4ca2fc44b9168dfcdcf73f7f77d53af7550002673219b543d14702aa7e"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/campaign-844-02-inherited-city-status.png",
+      "bytes": 64789,
+      "sha256": "8963fb82c80f4514623edd1d89e3985ca16272aec500daa0d9feec9157b0a0bb",
+      "file": "raw/3b1d859c588ef07587cf0ac7faf78bac35665310dc87c383a9aafbfacb7e58bd.gz",
+      "archiveBytes": 63715,
+      "archiveSha256": "3b1d859c588ef07587cf0ac7faf78bac35665310dc87c383a9aafbfacb7e58bd"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/campaign-844-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 677199,
+      "sha256": "83f4032264235f9362b1605bccadbce3d0d5f77bf8108de47f0c59b17b70e52b",
+      "file": "raw/27d51b246cc5b5e2666ef11e65dbc5d121e50d323aaa4b98873b61fd1ef38753.gz",
+      "archiveBytes": 677427,
+      "archiveSha256": "27d51b246cc5b5e2666ef11e65dbc5d121e50d323aaa4b98873b61fd1ef38753"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/campaign-844-03-post-inheritance-operation-map.png",
+      "bytes": 520619,
+      "sha256": "70c714c44805250dac671e42691ec90a3c4f6f13202038077dc6760685026ce9",
+      "file": "raw/e9039d066b15c7dbe2a70154abd6a7c9bae9b81c4c4124d4ed85e06e0255e143.gz",
+      "archiveBytes": 520742,
+      "archiveSha256": "e9039d066b15c7dbe2a70154abd6a7c9bae9b81c4c4124d4ed85e06e0255e143"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/failure-hd-overworld-canvas.png",
+      "bytes": 676426,
+      "sha256": "fd0757e30ec6d9584ba860096ff2bfe44c4896fce49a857fa740a367e27cdd1e",
+      "file": "raw/98a9ac37ddf00834c07ef4715997d5253cc7840bec7150d42a91af1cc2149ed0.gz",
+      "archiveBytes": 676654,
+      "archiveSha256": "98a9ac37ddf00834c07ef4715997d5253cc7840bec7150d42a91af1cc2149ed0"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/failure.png",
+      "bytes": 520281,
+      "sha256": "332109ea364335a2d5797a33c8dbf64a38a30a8a5911ad5db017eb54648b14ef",
+      "file": "raw/f52a9bc89e084011b9d2d76022e3eeed3344afbc3237ff3f79142c5db0b07d64.gz",
+      "archiveBytes": 520404,
+      "archiveSha256": "f52a9bc89e084011b9d2d76022e3eeed3344afbc3237ff3f79142c5db0b07d64"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/owned-process-samples.jsonl",
+      "bytes": 85416,
+      "sha256": "d67f28f51c518b777c04b1f26978199120302e64d9dbc4d02f21dee6e42941fe",
+      "file": "raw/a7e9b6eeb4e4c04593fc3ebe8a93c869b3d0e427ad24ffa342e90098cce40f67.gz",
+      "archiveBytes": 2777,
+      "archiveSha256": "a7e9b6eeb4e4c04593fc3ebe8a93c869b3d0e427ad24ffa342e90098cce40f67"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/result.json",
+      "bytes": 11810976,
+      "sha256": "e831bc01b4ed69e66d066b4cc9c09541719ab4f35fbcd3fb67a6d26b5335e3dc",
+      "file": "raw/eebef29823e987115c20ed52b742ee006a92bb5c7bea787e6c4c3688f4b18468.gz",
+      "archiveBytes": 626284,
+      "archiveSha256": "eebef29823e987115c20ed52b742ee006a92bb5c7bea787e6c4c3688f4b18468"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1/source-verification.json",
+      "bytes": 79595,
+      "sha256": "36ee6b12ae8eb473fc458a134b97c9bf31d80e64a1f8f6fb8248946e4af560e6",
+      "file": "raw/271468afe727ea5cac7bd97519d306763c3fb0723de54975f976ad37646d6707.gz",
+      "archiveBytes": 17474,
+      "archiveSha256": "271468afe727ea5cac7bd97519d306763c3fb0723de54975f976ad37646d6707"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v1.log",
+      "bytes": 1872,
+      "sha256": "63df6bf18ea0c3c77443f9fc820bb6154c5ae7f95dbd7ccaeda4207772f0364f",
+      "file": "raw/22a42e02b287970e9ac7a2d8d4160dd646c9a37eb0289439cc3910945d5cb298.gz",
+      "archiveBytes": 474,
+      "archiveSha256": "22a42e02b287970e9ac7a2d8d4160dd646c9a37eb0289439cc3910945d5cb298"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/battle-01-fresh-pick-844.png",
+      "bytes": 72638,
+      "sha256": "b006817c38d867d64d484056b782b7963e5c454504801fbb92ec45f4c8b1ba56",
+      "file": "raw/70ad36dc4ff109efb790d0f41a9178e0e29c9fcd58f627eb964b87df38a5865c.gz",
+      "archiveBytes": 70808,
+      "archiveSha256": "70ad36dc4ff109efb790d0f41a9178e0e29c9fcd58f627eb964b87df38a5865c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/failure-hd-overworld-canvas.png",
+      "bytes": 726778,
+      "sha256": "e8ceb837f385c15ebed239783c55a491195bc0473fe8a741743ea7297ef2008c",
+      "file": "raw/0555a2ec430fe7c7a83807cdb530ad6d08d0fed220d413f4e3ca934359d03264.gz",
+      "archiveBytes": 727021,
+      "archiveSha256": "0555a2ec430fe7c7a83807cdb530ad6d08d0fed220d413f4e3ca934359d03264"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/failure.png",
+      "bytes": 579249,
+      "sha256": "aabc4556dc40a2c602c04ec7afccc7eb359db18eeb06de0613cb9baf57b96cd2",
+      "file": "raw/172bc847b6df7134ecfda5c49d7a40f59bc912c83c5e1804e49f93601a39872a.gz",
+      "archiveBytes": 579443,
+      "archiveSha256": "172bc847b6df7134ecfda5c49d7a40f59bc912c83c5e1804e49f93601a39872a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/owned-process-samples.jsonl",
+      "bytes": 55948,
+      "sha256": "e12bf4ef7747a10dda3158353a9c5b0a25bded26a5657a68fb66e5406bc2ac8c",
+      "file": "raw/10bcfdf3a5e74ea3deb5b964f61519f53522e9596d752d8d15f01d7327cb4f4d.gz",
+      "archiveBytes": 2161,
+      "archiveSha256": "10bcfdf3a5e74ea3deb5b964f61519f53522e9596d752d8d15f01d7327cb4f4d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/result.json",
+      "bytes": 2733742,
+      "sha256": "62aac3cb6750e661dab06816bc5a259fcedd8ef27369f7c11a57a9f6ffff6907",
+      "file": "raw/ff12c9c916efba1d79fe54574d2265c109f1e4814df708de3e04aaeffced60d4.gz",
+      "archiveBytes": 152980,
+      "archiveSha256": "ff12c9c916efba1d79fe54574d2265c109f1e4814df708de3e04aaeffced60d4"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2/source-verification.json",
+      "bytes": 79018,
+      "sha256": "8a3fbc595af9589d21b517e9910d025e3d52bc6ec8ce6e9b470bd17d0352ccab",
+      "file": "raw/17fc88d60081f3319bca39ffb1bca2f761f4b0bd862357b2944481ac0eaad444.gz",
+      "archiveBytes": 17299,
+      "archiveSha256": "17fc88d60081f3319bca39ffb1bca2f761f4b0bd862357b2944481ac0eaad444"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v2.log",
+      "bytes": 1054,
+      "sha256": "fa784d5d5dbbfbbd4ae226643bc9c20ef40b632e1df405e2bbc7d3072f635674",
+      "file": "raw/64c46ea7ed71540c7326dac2c85f645c273fc64652bad67f6ce62708e7ec61bd.gz",
+      "archiveBytes": 383,
+      "archiveSha256": "64c46ea7ed71540c7326dac2c85f645c273fc64652bad67f6ce62708e7ec61bd"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/battle-01-fresh-pick-844.png",
+      "bytes": 72126,
+      "sha256": "d0c4046d149de9155536317837a5fc841573c70d570752fcf1b22c54c4eab537",
+      "file": "raw/582a1ffe20c156532d3f71318f7c31f0fecd93c8c3564c12a13d31b4f844cb47.gz",
+      "archiveBytes": 70314,
+      "archiveSha256": "582a1ffe20c156532d3f71318f7c31f0fecd93c8c3564c12a13d31b4f844cb47"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/failure-hd-overworld-canvas.png",
+      "bytes": 726874,
+      "sha256": "ca11e31f3f9c28a4d19d7ceac4773e22a54628e556a86407a5eb72ab2670f04c",
+      "file": "raw/8b771603e3d1b0ae78b053edd40d1bd8aa6d8f602cad63786702e817d45f4ca1.gz",
+      "archiveBytes": 727117,
+      "archiveSha256": "8b771603e3d1b0ae78b053edd40d1bd8aa6d8f602cad63786702e817d45f4ca1"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/failure.png",
+      "bytes": 579347,
+      "sha256": "48c775238cdf3af7b74a167c9d8b621cf26200e8921194d1c2b44a67d91f6230",
+      "file": "raw/e4d662f0a73544531f706edcefa84e4ffa288414f3c463678132ffb4ee810d62.gz",
+      "archiveBytes": 579540,
+      "archiveSha256": "e4d662f0a73544531f706edcefa84e4ffa288414f3c463678132ffb4ee810d62"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/owned-process-samples.jsonl",
+      "bytes": 57729,
+      "sha256": "91eb2f3a0ccb689c0d16617ef13719d52e45c67489f4e1220ce5233afb6db5a2",
+      "file": "raw/a368d8fefd02f4aaba11b51c6369bcde26e7bc657ff39d85109fc0effe3a559c.gz",
+      "archiveBytes": 2417,
+      "archiveSha256": "a368d8fefd02f4aaba11b51c6369bcde26e7bc657ff39d85109fc0effe3a559c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/result.json",
+      "bytes": 2999445,
+      "sha256": "55c08d7fd7014e43798595d030bb377166d312ba51041708b0c1c31034dbd308",
+      "file": "raw/bc07a5c92eaa7813fc71a3c656f9350bc61755ac67576dfa7dccea98556f4ea3.gz",
+      "archiveBytes": 162432,
+      "archiveSha256": "bc07a5c92eaa7813fc71a3c656f9350bc61755ac67576dfa7dccea98556f4ea3"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3/source-verification.json",
+      "bytes": 79018,
+      "sha256": "8a3fbc595af9589d21b517e9910d025e3d52bc6ec8ce6e9b470bd17d0352ccab",
+      "file": "raw/17fc88d60081f3319bca39ffb1bca2f761f4b0bd862357b2944481ac0eaad444.gz",
+      "archiveBytes": 17299,
+      "archiveSha256": "17fc88d60081f3319bca39ffb1bca2f761f4b0bd862357b2944481ac0eaad444"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v3.log",
+      "bytes": 1054,
+      "sha256": "dfdf95e14a2f8c26b5c40a19e95c7ce62f46970218747d4e403d20640930b03e",
+      "file": "raw/45b7966d6d8018d45c0f48d130ad648f1cef2cd2c64207d9deeed64dcaea8190.gz",
+      "archiveBytes": 384,
+      "archiveSha256": "45b7966d6d8018d45c0f48d130ad648f1cef2cd2c64207d9deeed64dcaea8190"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/battle-01-fresh-pick-844.png",
+      "bytes": 72638,
+      "sha256": "e7df073a165e690e6fdfea44d55517a1949f31f1111c26e0bebd3ef1b8f35331",
+      "file": "raw/12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9.gz",
+      "archiveBytes": 70811,
+      "archiveSha256": "12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 727668,
+      "sha256": "2a3fd6a0e909b941628ecf149aa58a5c221e2f703e0f1c9f6843a1632d94b055",
+      "file": "raw/a3fbdd2bfff3b385de94cd2e0c54abd6e6ceb23e1a19a9777ac490bea6f23669.gz",
+      "archiveBytes": 727911,
+      "archiveSha256": "a3fbdd2bfff3b385de94cd2e0c54abd6e6ceb23e1a19a9777ac490bea6f23669"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-01-inherited-map.png",
+      "bytes": 579707,
+      "sha256": "2eedb0530e0bd05a2afb48e50ed87c89b34084c6dcf91c578c098fc73a33c4e3",
+      "file": "raw/065991f44bfb4ff8d15c5ae0029eebe27fe47f812c14e58559c0cfc44de8ed2f.gz",
+      "archiveBytes": 579900,
+      "archiveSha256": "065991f44bfb4ff8d15c5ae0029eebe27fe47f812c14e58559c0cfc44de8ed2f"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-02-inherited-city-status.png",
+      "bytes": 64782,
+      "sha256": "0911da005cbe86369d19c675976245d482fc619cdf0fd62d5bae9c46bf70761d",
+      "file": "raw/3ed356e0119ebc8873031b4d6fc9d343d1948976aa3d4da38a97df1e1b170c2a.gz",
+      "archiveBytes": 63668,
+      "archiveSha256": "3ed356e0119ebc8873031b4d6fc9d343d1948976aa3d4da38a97df1e1b170c2a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 676682,
+      "sha256": "28bbc528cc38e8f5503a0a9b7b779a8e194c2701f6a80d486ed9db4efb250aa7",
+      "file": "raw/7f6b13a2a865791c6308aa5a031bd19926d48ecb434dcaacc79552a322bcc3cf.gz",
+      "archiveBytes": 676910,
+      "archiveSha256": "7f6b13a2a865791c6308aa5a031bd19926d48ecb434dcaacc79552a322bcc3cf"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-03-post-inheritance-operation-map.png",
+      "bytes": 520938,
+      "sha256": "31b89012edefd3376f878b237aa2fc60eb5dc10399b4e570ea904dd91f9fbb98",
+      "file": "raw/cb9743ec81e493a585dd7a76012eec126a8f2bbc7e09f133802629e5b0a3f9b2.gz",
+      "archiveBytes": 521060,
+      "archiveSha256": "cb9743ec81e493a585dd7a76012eec126a8f2bbc7e09f133802629e5b0a3f9b2"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-04-saved-inherited-map-hd-overworld-canvas.png",
+      "bytes": 676363,
+      "sha256": "5a81d2523e171247fed9e4226013aa53eaf74095ca18fec50bad6c912e3915e6",
+      "file": "raw/a478a2c3e6b76a4af7093ea8bce069ac97f4764e763eb395a2848d035901dd4c.gz",
+      "archiveBytes": 676591,
+      "archiveSha256": "a478a2c3e6b76a4af7093ea8bce069ac97f4764e763eb395a2848d035901dd4c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-04-saved-inherited-map.png",
+      "bytes": 520277,
+      "sha256": "c50ae991ee4ebb500cab99269489217c90e56b46ae0ba02b289bad7b76396ce6",
+      "file": "raw/5b296d52dc95aac7e4ecd7a916bd4f870ff7e512fcd86049fcec37ae9d8a5b96.gz",
+      "archiveBytes": 520399,
+      "archiveSha256": "5b296d52dc95aac7e4ecd7a916bd4f870ff7e512fcd86049fcec37ae9d8a5b96"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-05-genuine-mutated-map-hd-overworld-canvas.png",
+      "bytes": 677111,
+      "sha256": "84efb45d9e0e4eae0bebddf2680a11ee372c980f08a5e352f12ef522e05542fa",
+      "file": "raw/b7dafb6e5c7d3f66ceabfccc4f8ac9eb88daf714735b6f1dce55b0367860c0f7.gz",
+      "archiveBytes": 677339,
+      "archiveSha256": "b7dafb6e5c7d3f66ceabfccc4f8ac9eb88daf714735b6f1dce55b0367860c0f7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/campaign-844-05-genuine-mutated-map.png",
+      "bytes": 520604,
+      "sha256": "9e4c3fd50bac66dfbf2184c42f1115825e87822a7d759c58fb6645dc712e4d76",
+      "file": "raw/31a408938243f2f292ac45d565b7cbf1e0eefdb8a7106b34e596f2baa7455c76.gz",
+      "archiveBytes": 520736,
+      "archiveSha256": "31a408938243f2f292ac45d565b7cbf1e0eefdb8a7106b34e596f2baa7455c76"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/failure.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/owned-process-samples.jsonl",
+      "bytes": 99454,
+      "sha256": "a4204c3c3054a43dbb0a47371cf2298c6c3619acac69dd0f802668045e36330e",
+      "file": "raw/5e5cc85016623c632adbf1d75de3992554722b65e24f8207769209f6cd150984.gz",
+      "archiveBytes": 2691,
+      "archiveSha256": "5e5cc85016623c632adbf1d75de3992554722b65e24f8207769209f6cd150984"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/result.json",
+      "bytes": 20970513,
+      "sha256": "676624012b67b010723765d67a847b3bb2492e0768720e38d216fc86dd3e308d",
+      "file": "raw/74e885d2f7f4f5267d547ee90f58832254a35c0ef01b25be22ccfe01dea30c67.gz",
+      "archiveBytes": 980537,
+      "archiveSha256": "74e885d2f7f4f5267d547ee90f58832254a35c0ef01b25be22ccfe01dea30c67"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4/source-verification.json",
+      "bytes": 79595,
+      "sha256": "c3b1e793f1b8276cbc4c60afb8b9e6d0aceb44e851c1ceac65c7a035b3c66288",
+      "file": "raw/809f85021cb97ca008f5d52140ef28bbea93536fb1f76baa3a51ce3458eb93f4.gz",
+      "archiveBytes": 17468,
+      "archiveSha256": "809f85021cb97ca008f5d52140ef28bbea93536fb1f76baa3a51ce3458eb93f4"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v4.log",
+      "bytes": 3261,
+      "sha256": "95f497b16a0ec6f7b58cf11abd2df28d619393453ece16f7152e989d6fe98f3d",
+      "file": "raw/7a14911e6fa322fd0a5d48bd30fd176082ebcf2280f3fc5e2f0b353ac466b148.gz",
+      "archiveBytes": 851,
+      "archiveSha256": "7a14911e6fa322fd0a5d48bd30fd176082ebcf2280f3fc5e2f0b353ac466b148"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/battle-01-fresh-pick-844.png",
+      "bytes": 72116,
+      "sha256": "f4a9e995ba6622101faad88ded89586867f6cdb0212c7021dc41164c98a7126d",
+      "file": "raw/0accc6d1aec3550f03140c88803ddc68f3486fa701805098a15ead8e4a8e303d.gz",
+      "archiveBytes": 70301,
+      "archiveSha256": "0accc6d1aec3550f03140c88803ddc68f3486fa701805098a15ead8e4a8e303d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/failure-hd-overworld-canvas.png",
+      "bytes": 726731,
+      "sha256": "51c0ea3d24f4a9617e234e94856730eac8b6f729181bd1da6d585bc1beba8677",
+      "file": "raw/2369574575229bb7cf199c5afd516257b71f046884e169850deb9aa2c3ced57e.gz",
+      "archiveBytes": 726974,
+      "archiveSha256": "2369574575229bb7cf199c5afd516257b71f046884e169850deb9aa2c3ced57e"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/failure.png",
+      "bytes": 579259,
+      "sha256": "55abdfcba1e85d53442095953008b0e6aefeaac4491e88fcc72c184fd4ae0d86",
+      "file": "raw/61e38d490692ece4c70c8e4bb1fee42986d639af2ad94683088bfe721c99330f.gz",
+      "archiveBytes": 579443,
+      "archiveSha256": "61e38d490692ece4c70c8e4bb1fee42986d639af2ad94683088bfe721c99330f"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/owned-process-samples.jsonl",
+      "bytes": 53320,
+      "sha256": "6b90c2226bc7c31b549dca32967e3c0b2c715bc9f03ea1e05c9fa8f602d89979",
+      "file": "raw/238ddfde1131abd4bdba1695b9687f7b0f65c01058df72ff4dc518116949eced.gz",
+      "archiveBytes": 2136,
+      "archiveSha256": "238ddfde1131abd4bdba1695b9687f7b0f65c01058df72ff4dc518116949eced"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/result.json",
+      "bytes": 2986606,
+      "sha256": "615684812667485126abb77778c589d67c9553aa579d9089fff8a1a529d8a68d",
+      "file": "raw/4d1d301b724dcdc34044d6529d835a8871d7e2b6200f4bc18426be40d1c0c5c2.gz",
+      "archiveBytes": 161769,
+      "archiveSha256": "4d1d301b724dcdc34044d6529d835a8871d7e2b6200f4bc18426be40d1c0c5c2"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5/source-verification.json",
+      "bytes": 79018,
+      "sha256": "de737aa4ea9f33ed8442059dbe9af81a243953a4ecb273fbb73de191c90c00e2",
+      "file": "raw/13586dc54ea5945d0c2c7b0f7e66cb5c3285b76efd0684c4817ca56848e99c54.gz",
+      "archiveBytes": 17307,
+      "archiveSha256": "13586dc54ea5945d0c2c7b0f7e66cb5c3285b76efd0684c4817ca56848e99c54"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v5.log",
+      "bytes": 1056,
+      "sha256": "450f6d7d52f1204baf56e291c355924276ce4d42e20003387166c5cc79a2a415",
+      "file": "raw/4d150eb1917211d9b733a905944e08e5cd3adb3a1b65a409b55b7d162e861193.gz",
+      "archiveBytes": 384,
+      "archiveSha256": "4d150eb1917211d9b733a905944e08e5cd3adb3a1b65a409b55b7d162e861193"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/battle-01-fresh-pick-844.png",
+      "bytes": 72638,
+      "sha256": "b006817c38d867d64d484056b782b7963e5c454504801fbb92ec45f4c8b1ba56",
+      "file": "raw/70ad36dc4ff109efb790d0f41a9178e0e29c9fcd58f627eb964b87df38a5865c.gz",
+      "archiveBytes": 70808,
+      "archiveSha256": "70ad36dc4ff109efb790d0f41a9178e0e29c9fcd58f627eb964b87df38a5865c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 726648,
+      "sha256": "394337bbb169049091f275d5f38ace2f9a09720ff3e40d85342aa9c151911dba",
+      "file": "raw/563073e4af7d67c018f855d89ba7af377fb3a4c60fff1e726f9e6e910cc8286b.gz",
+      "archiveBytes": 726891,
+      "archiveSha256": "563073e4af7d67c018f855d89ba7af377fb3a4c60fff1e726f9e6e910cc8286b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-01-inherited-map.png",
+      "bytes": 579118,
+      "sha256": "50be2fe388cbeb03d3dcc103fb6f9ca738cc103210fc4f6f868eaf35ea9b7987",
+      "file": "raw/0dfeb1dd58cc950d993384916589c82831935129a9063028a15713b403531acc.gz",
+      "archiveBytes": 579314,
+      "archiveSha256": "0dfeb1dd58cc950d993384916589c82831935129a9063028a15713b403531acc"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-02-inherited-city-status.png",
+      "bytes": 65050,
+      "sha256": "6eeb38f1e0c42e3d7be461d841a30cd8757ba757eda6f3d114ca00a9af58eb8b",
+      "file": "raw/a52abe6380c09df78a833820f895be7bbc6d3b47b579ce98cd3560d4194d4ad4.gz",
+      "archiveBytes": 63908,
+      "archiveSha256": "a52abe6380c09df78a833820f895be7bbc6d3b47b579ce98cd3560d4194d4ad4"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 677092,
+      "sha256": "1d94d851c9bade5ff372e7c4fab23b852628c1a488e82cb66ded61870bc73563",
+      "file": "raw/f6d7576f26d9a27fb08e6ad04779f4c76967a14c2c9caa4efb1534beb2d1df18.gz",
+      "archiveBytes": 677320,
+      "archiveSha256": "f6d7576f26d9a27fb08e6ad04779f4c76967a14c2c9caa4efb1534beb2d1df18"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-03-post-inheritance-operation-map.png",
+      "bytes": 520871,
+      "sha256": "176aa6c3197801f34cd47eed146f07932e5c7d49a28fc8414fceb8cdff87999a",
+      "file": "raw/2bf998198d2eb9367b7a62c240a132a4de9ebc82440c0ef3c7ba701aa66f3c37.gz",
+      "archiveBytes": 521009,
+      "archiveSha256": "2bf998198d2eb9367b7a62c240a132a4de9ebc82440c0ef3c7ba701aa66f3c37"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-04-saved-inherited-map-hd-overworld-canvas.png",
+      "bytes": 676210,
+      "sha256": "a4fc765fdf1edc5fea2da17def2d335c762300ec701b080454b0aed3d64c8a6f",
+      "file": "raw/e81468ad94313c8a1acdb0b5b5d7ff687980db783c0a06a5482817ad9496c5bf.gz",
+      "archiveBytes": 676438,
+      "archiveSha256": "e81468ad94313c8a1acdb0b5b5d7ff687980db783c0a06a5482817ad9496c5bf"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-04-saved-inherited-map.png",
+      "bytes": 520424,
+      "sha256": "c685e8965b9e08318dbe10248289e69a1c870e98b129af9b7b2b52521706ad92",
+      "file": "raw/8a43cfdf75a8ec4f44ae43aac569ecfef28566e1da05e9e5f08267905589d9c1.gz",
+      "archiveBytes": 520557,
+      "archiveSha256": "8a43cfdf75a8ec4f44ae43aac569ecfef28566e1da05e9e5f08267905589d9c1"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-05-genuine-mutated-map-hd-overworld-canvas.png",
+      "bytes": 676987,
+      "sha256": "7f6767fbff0324af621ddd8129d56780311aedbe065ecfd7429c9d4a057e57ad",
+      "file": "raw/30a0ad0eaa7b39f17f2a784acee180c2b07c3142b22c25195ddfaafd1acc941c.gz",
+      "archiveBytes": 677213,
+      "archiveSha256": "30a0ad0eaa7b39f17f2a784acee180c2b07c3142b22c25195ddfaafd1acc941c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-05-genuine-mutated-map.png",
+      "bytes": 520916,
+      "sha256": "65ef2db88de35e43bc223473cb13177279d7a57d7788fb7d10f94fdec68e1f68",
+      "file": "raw/9bef4897bb8ce09bd0ad9e62f0c2c7f18ec89ad0d53058a1f660a85be5cb93fb.gz",
+      "archiveBytes": 521045,
+      "archiveSha256": "9bef4897bb8ce09bd0ad9e62f0c2c7f18ec89ad0d53058a1f660a85be5cb93fb"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-06-reloaded-title.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-07-restored-inherited-map-hd-overworld-canvas.png",
+      "bytes": 684022,
+      "sha256": "c48fab08b11150c553c64270eb12d193e77b4f488abb9e894cb65b74f1517f10",
+      "file": "raw/e2b71d25cd1ba818241ff74894999b8c8e22a4244de308793f3a5e0585c0fc61.gz",
+      "archiveBytes": 684250,
+      "archiveSha256": "e2b71d25cd1ba818241ff74894999b8c8e22a4244de308793f3a5e0585c0fc61"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/campaign-844-07-restored-inherited-map.png",
+      "bytes": 541004,
+      "sha256": "ed96816c32d7967dad8199b6b52b583c7cda8a6d02c35baff8a22722efb90884",
+      "file": "raw/591a3630f3c6b025a4b70314fbfb8a3903d9d4448b60fe484d3c6cdbbb07d443.gz",
+      "archiveBytes": 541148,
+      "archiveSha256": "591a3630f3c6b025a4b70314fbfb8a3903d9d4448b60fe484d3c6cdbbb07d443"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/owned-process-samples.jsonl",
+      "bytes": 108788,
+      "sha256": "0f894555a245fc4614cc095d4f7f51ffd611259d3c4173de3863365532fd7fa8",
+      "file": "raw/0a66f650981370cba4c16f41bf1f20b79452115be31e3804aee1290a4c19afc6.gz",
+      "archiveBytes": 2793,
+      "archiveSha256": "0a66f650981370cba4c16f41bf1f20b79452115be31e3804aee1290a4c19afc6"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/result.json",
+      "bytes": 22418502,
+      "sha256": "a2b41eaf106883ed769895ee32c8f7df33b57217ca272cb785e52a82cf78218e",
+      "file": "raw/43ead3e47f58f36f209f2d421b325b26a339429e3dfe4822fd57b3a855aeaf48.gz",
+      "archiveBytes": 1049543,
+      "archiveSha256": "43ead3e47f58f36f209f2d421b325b26a339429e3dfe4822fd57b3a855aeaf48"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6/source-verification.json",
+      "bytes": 79595,
+      "sha256": "78366f466a99d4f6f5e58c21ff627a91d16f1b30123d4b4e63e4298a516ce047",
+      "file": "raw/bb8a2ffa16cea00f2ffc62e0e675fe440cad656f325816e2211491d63fd25ea0.gz",
+      "archiveBytes": 17468,
+      "archiveSha256": "bb8a2ffa16cea00f2ffc62e0e675fe440cad656f325816e2211491d63fd25ea0"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v6.log",
+      "bytes": 797,
+      "sha256": "99b6c361274172812e7b34fc063e2a039980ac94f6d1b7cb6cae5999fc92b2bb",
+      "file": "raw/c6fd758dee1f7c1c392dc775478a81029111874fe234237e62302abc97e58a3a.gz",
+      "archiveBytes": 294,
+      "archiveSha256": "c6fd758dee1f7c1c392dc775478a81029111874fe234237e62302abc97e58a3a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/battle-01-fresh-pick-844.png",
+      "bytes": 72638,
+      "sha256": "b006817c38d867d64d484056b782b7963e5c454504801fbb92ec45f4c8b1ba56",
+      "file": "raw/70ad36dc4ff109efb790d0f41a9178e0e29c9fcd58f627eb964b87df38a5865c.gz",
+      "archiveBytes": 70808,
+      "archiveSha256": "70ad36dc4ff109efb790d0f41a9178e0e29c9fcd58f627eb964b87df38a5865c"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/failure-hd-overworld-canvas.png",
+      "bytes": 726849,
+      "sha256": "a57085d7177978e725643645b541fb305d236cfa3c27511b5877057936e86a1e",
+      "file": "raw/bddd2b698e5b715c057505467da1dcb8c169500bd63f9fceb98fbd520cc339ee.gz",
+      "archiveBytes": 727092,
+      "archiveSha256": "bddd2b698e5b715c057505467da1dcb8c169500bd63f9fceb98fbd520cc339ee"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/failure.png",
+      "bytes": 579186,
+      "sha256": "12db9bac1cc252eca2e42891dcb2b843c9df317e1ea4a93b8e0fd2b6223a7db7",
+      "file": "raw/10c978ab27e18a37b414897f42fdb494e01c338f32f38a209308e96fb737349d.gz",
+      "archiveBytes": 579384,
+      "archiveSha256": "10c978ab27e18a37b414897f42fdb494e01c338f32f38a209308e96fb737349d"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/owned-process-samples.jsonl",
+      "bytes": 55962,
+      "sha256": "16052780665833305b89e8aacddd25def7b29e48b7f03104117873913625f7c1",
+      "file": "raw/c351de2e73125928c6ca554ea0834870a7d549d01f2cca5398e54450e0dc193f.gz",
+      "archiveBytes": 2164,
+      "archiveSha256": "c351de2e73125928c6ca554ea0834870a7d549d01f2cca5398e54450e0dc193f"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/result.json",
+      "bytes": 2726625,
+      "sha256": "df24f825d59e673537ecc86104895b75f173ec3965546c531fc9f536c87202e8",
+      "file": "raw/5c5bfb2981d5a3b7b7ea29a00884d184de8899aaee43274e34a11207c4d909e7.gz",
+      "archiveBytes": 153100,
+      "archiveSha256": "5c5bfb2981d5a3b7b7ea29a00884d184de8899aaee43274e34a11207c4d909e7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7/source-verification.json",
+      "bytes": 79018,
+      "sha256": "1ba91b3bdb333366328d2320f9dbbae6423afb66f6b846b95df2d5d6e50eec3d",
+      "file": "raw/1d5d0f93700913b8c6a847d2374307b2fb3d02f90638d43f7eed86a29b89b221.gz",
+      "archiveBytes": 17306,
+      "archiveSha256": "1d5d0f93700913b8c6a847d2374307b2fb3d02f90638d43f7eed86a29b89b221"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v7.log",
+      "bytes": 1056,
+      "sha256": "9ff612f7af3d8a03babe2d522ddb5b7a568108882685318943aafc04ca8f1587",
+      "file": "raw/0a938748e23abc659f4d5c3f5932a54bb3e75c965891e72c561a24ab9ae8293b.gz",
+      "archiveBytes": 384,
+      "archiveSha256": "0a938748e23abc659f4d5c3f5932a54bb3e75c965891e72c561a24ab9ae8293b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/battle-01-fresh-pick-844.png",
+      "bytes": 72126,
+      "sha256": "d0c4046d149de9155536317837a5fc841573c70d570752fcf1b22c54c4eab537",
+      "file": "raw/582a1ffe20c156532d3f71318f7c31f0fecd93c8c3564c12a13d31b4f844cb47.gz",
+      "archiveBytes": 70314,
+      "archiveSha256": "582a1ffe20c156532d3f71318f7c31f0fecd93c8c3564c12a13d31b4f844cb47"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 727580,
+      "sha256": "fa1c94c067426b63a8ff01fd06648ba312f40841067af4fbe8432bfb4b6a2ba1",
+      "file": "raw/c1ed7150822adf6975dc6750af17a158189d9e6c6ddf985a72fee831370aa4ac.gz",
+      "archiveBytes": 727823,
+      "archiveSha256": "c1ed7150822adf6975dc6750af17a158189d9e6c6ddf985a72fee831370aa4ac"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-01-inherited-map.png",
+      "bytes": 579491,
+      "sha256": "cc12084eca1da47cca4392e274a239acb7ae8c6d4299c95cd9c65ee252240a64",
+      "file": "raw/2330ec0efdb5303e829070c64ae8baf866e72cf445ede861d3f176621112efef.gz",
+      "archiveBytes": 579689,
+      "archiveSha256": "2330ec0efdb5303e829070c64ae8baf866e72cf445ede861d3f176621112efef"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-02-inherited-city-status.png",
+      "bytes": 65146,
+      "sha256": "477db0c922030dfde393bb8f5abb31ab263f3645f1c427d24e4b0e87add4fd82",
+      "file": "raw/c2398ba3cdacf4bd9738812a3a391c3531692db0c9d3193dae404681ff0c62c5.gz",
+      "archiveBytes": 64065,
+      "archiveSha256": "c2398ba3cdacf4bd9738812a3a391c3531692db0c9d3193dae404681ff0c62c5"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 713543,
+      "sha256": "ad881dd81d1fca79bcabdec57394112ff2f5c9bf93ff6c3114908d96a912601b",
+      "file": "raw/6db184368c578fd0e49cfdd03fb29c5ebd6c7f39d6f9cc89347d1c0c86d3f567.gz",
+      "archiveBytes": 713781,
+      "archiveSha256": "6db184368c578fd0e49cfdd03fb29c5ebd6c7f39d6f9cc89347d1c0c86d3f567"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-03-post-inheritance-operation-map.png",
+      "bytes": 566556,
+      "sha256": "e88d521646735b9bc9f1616d9a2ab088a6cafbbe61ce8b55726590922005eb1e",
+      "file": "raw/e315846f2300e8c6363eeb6fd32dd60c3a8da6cbb291491e19ddcd5c684bf5b0.gz",
+      "archiveBytes": 566695,
+      "archiveSha256": "e315846f2300e8c6363eeb6fd32dd60c3a8da6cbb291491e19ddcd5c684bf5b0"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-04-saved-inherited-map-hd-overworld-canvas.png",
+      "bytes": 713630,
+      "sha256": "4cc33567f0043f9dc0c76254087b0b899ad3513a3630602710cf4068c8fd8854",
+      "file": "raw/6187a19b83b84a268c09cf7f5235ef29a88459def57ec497e6c837d288fc68b3.gz",
+      "archiveBytes": 713868,
+      "archiveSha256": "6187a19b83b84a268c09cf7f5235ef29a88459def57ec497e6c837d288fc68b3"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-04-saved-inherited-map.png",
+      "bytes": 566556,
+      "sha256": "161b69d6921e111069fb3901ca766024a9b39421dd8d066520846500e5fce839",
+      "file": "raw/53f75d76136cf5107e549fc52fb80e92c1786817939d245fa1fc78932ec9b3a3.gz",
+      "archiveBytes": 566696,
+      "archiveSha256": "53f75d76136cf5107e549fc52fb80e92c1786817939d245fa1fc78932ec9b3a3"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-05-genuine-mutated-map-hd-overworld-canvas.png",
+      "bytes": 713090,
+      "sha256": "3dd467a2b060356226f3296996700e9906bc8f93f3cb0398c447b0e80562884e",
+      "file": "raw/539c437a89ca8c2131dae2c3206856b94703b3fe077888fa5466c5a5e58e98fa.gz",
+      "archiveBytes": 713328,
+      "archiveSha256": "539c437a89ca8c2131dae2c3206856b94703b3fe077888fa5466c5a5e58e98fa"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-05-genuine-mutated-map.png",
+      "bytes": 566857,
+      "sha256": "47417a0b2aa4cd15c687939edd0881583b6c5ed76309600baf589e524348c037",
+      "file": "raw/d47072f6a9f1ccfd195f269c12f8f02e1a32292e509b5f9e7a62fcb6eec7e180.gz",
+      "archiveBytes": 566986,
+      "archiveSha256": "d47072f6a9f1ccfd195f269c12f8f02e1a32292e509b5f9e7a62fcb6eec7e180"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-06-reloaded-title.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-07-restored-inherited-map-hd-overworld-canvas.png",
+      "bytes": 722495,
+      "sha256": "0c4e43e27f1d64685319a36e37a9073f3cbee4e3cf94e9f4ebfa2d00698a796c",
+      "file": "raw/6e327ceb43ae6e5873a9a4dfb077c6d6732d3c4844937da326c647fed44f4ccf.gz",
+      "archiveBytes": 722733,
+      "archiveSha256": "6e327ceb43ae6e5873a9a4dfb077c6d6732d3c4844937da326c647fed44f4ccf"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/campaign-844-07-restored-inherited-map.png",
+      "bytes": 585235,
+      "sha256": "8bd8f7d8f90238cfe2478b338f8353e7b643da268eecebfc8094ca94d59d01ce",
+      "file": "raw/10bae1df0596c51d021d473c1b2a50060c0a92c199845258f2860e27cc354604.gz",
+      "archiveBytes": 585307,
+      "archiveSha256": "10bae1df0596c51d021d473c1b2a50060c0a92c199845258f2860e27cc354604"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/owned-process-samples.jsonl",
+      "bytes": 107567,
+      "sha256": "6645ec6b4def16441b0f0edb6db365c285b294fa9cf95b78e61fde9665a38b10",
+      "file": "raw/102776429403a3bd4247bfa06be27fa193e8f8ad6d237179bdaf73d9ca720f6a.gz",
+      "archiveBytes": 2784,
+      "archiveSha256": "102776429403a3bd4247bfa06be27fa193e8f8ad6d237179bdaf73d9ca720f6a"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/result.json",
+      "bytes": 23520510,
+      "sha256": "226531d24b898d4d43933d4c24118b5eb8e4e0cb5ca6d5185828f331fc243c71",
+      "file": "raw/034b051b73de53185f5a52a2e0efb2d793747309c0a60fc9319265a0092c95e0.gz",
+      "archiveBytes": 1087059,
+      "archiveSha256": "034b051b73de53185f5a52a2e0efb2d793747309c0a60fc9319265a0092c95e0"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8/source-verification.json",
+      "bytes": 79883,
+      "sha256": "04c9fa0ac47747633ef99a09489df86577278cd0c2f9f325a8d35c306b3d51b8",
+      "file": "raw/aaa3f1762f73d764b6ec80f3c184b29bbc438ef9e7f6810c611b52c5b7e44977.gz",
+      "archiveBytes": 17540,
+      "archiveSha256": "aaa3f1762f73d764b6ec80f3c184b29bbc438ef9e7f6810c611b52c5b7e44977"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/installed-844-v8.log",
+      "bytes": 797,
+      "sha256": "68ea1db29aff5b378e3fec95855bf0aaa041a07cff83f95842a41e5787e5fa65",
+      "file": "raw/6adc399ea799816df7c1222293b40ab8684809ba1d6dea52a36e261254eef8f9.gz",
+      "archiveBytes": 294,
+      "archiveSha256": "6adc399ea799816df7c1222293b40ab8684809ba1d6dea52a36e261254eef8f9"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/final-suite-v1/result.json",
+      "bytes": 59051,
+      "sha256": "57ffadd26d6e210daaefc59e1669524f0c956dce15d432893977412c2ca0742e",
+      "file": "raw/f29242747e0fb29c3c43dbee746fa0c5aab4dff780b029ccfd6d01a1ff011c01.gz",
+      "archiveBytes": 12395,
+      "archiveSha256": "f29242747e0fb29c3c43dbee746fa0c5aab4dff780b029ccfd6d01a1ff011c01"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/final-suite-v1/test-output.log",
+      "bytes": 346778,
+      "sha256": "9cd38e4591632bc2926ce7197e322f69fc9562dca04fd57600220f3f2c0ee62d",
+      "file": "raw/1a6976a1d373824fd98c7285c93a1e014df5c700dd41bc810fe55d25f0438cba.gz",
+      "archiveBytes": 91630,
+      "archiveSha256": "1a6976a1d373824fd98c7285c93a1e014df5c700dd41bc810fe55d25f0438cba"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/user8080-before.json",
+      "bytes": 183,
+      "sha256": "826fcb741520b367f464c4d5eac82767d159daf6b14cd16eedd101b87941da5f",
+      "file": "raw/9e08ef272896b07a791ffe8c9a0abd3d15c23cc353076b36a6d608681ee9295f.gz",
+      "archiveBytes": 160,
+      "archiveSha256": "9e08ef272896b07a791ffe8c9a0abd3d15c23cc353076b36a6d608681ee9295f"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/build-consistency.json",
+      "bytes": 22005,
+      "sha256": "fae0a300e126b8a5667dedf7d98f210bb51572df5b8f9b7970442da0910c0a98",
+      "file": "raw/be511d5bc2ea5000b62e6135b2c7447c9041e095da6fd66f25165c652cf773f7.gz",
+      "archiveBytes": 6594,
+      "archiveSha256": "be511d5bc2ea5000b62e6135b2c7447c9041e095da6fd66f25165c652cf773f7"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/cleanup-user8080-verification.json",
+      "bytes": 2108,
+      "sha256": "9ae296102493908a89019254fa646087dc1b008c599673f2349c59b38f5b2bd6",
+      "file": "raw/b7d5c9745a89a24f9bc04ed717ffa9f8230caf0db9dfd2a91c77eda71e69fc00.gz",
+      "archiveBytes": 448,
+      "archiveSha256": "b7d5c9745a89a24f9bc04ed717ffa9f8230caf0db9dfd2a91c77eda71e69fc00"
+    },
+    {
+      "source": "build/mobile-campaign-completion-20261011/independent-review-v1.json",
+      "bytes": 31524,
+      "sha256": "7737cc7dca56f523b71fc0375ff66d4161db5fde9209bce23d27db23100ddbf9",
+      "file": "raw/f4d59867a1216df80b4d30b6d45600b2aa2c8888f0e169d5385aaad8167c8c43.gz",
+      "archiveBytes": 5371,
+      "archiveSha256": "f4d59867a1216df80b4d30b6d45600b2aa2c8888f0e169d5385aaad8167c8c43"
+    },
+    {
+      "source": "build/mobile-system-capture-validation-20261011/focused-v1.log",
+      "bytes": 30728,
+      "sha256": "7db9ef5234e817789563db0cc533d780771e597acb7301703c07a53e790a2fca",
+      "file": "raw/dc88ba945f1ab6fc9a20d27196c887319373fe3707f56def82218f4a8d8884c1.gz",
+      "archiveBytes": 7390,
+      "archiveSha256": "dc88ba945f1ab6fc9a20d27196c887319373fe3707f56def82218f4a8d8884c1"
+    },
+    {
+      "source": "build/mobile-system-capture-validation-20261011/freeze-v1.json",
+      "bytes": 2191,
+      "sha256": "47dc7ee571c0c0c188436b553643e7d4cab8521a6a6d748af253afbb552d7dee",
+      "file": "raw/a39fe0fb9f32e5a0856a681c55de0b4c41bbd7258a4481304603b9c8194981dc.gz",
+      "archiveBytes": 963,
+      "archiveSha256": "a39fe0fb9f32e5a0856a681c55de0b4c41bbd7258a4481304603b9c8194981dc"
+    },
+    {
+      "source": "build/mobile-system-capture-validation-20261011/old-hd-mobile-system.js",
+      "bytes": 31986,
+      "sha256": "ccd65f1c745529da4e7f11b18f8184c6633fb0081111200690a2a380793bc64d",
+      "file": "raw/6636717563ee4739803d0166a0de8fc263d1473d3f270ff0782976168c8d5d51.gz",
+      "archiveBytes": 8144,
+      "archiveSha256": "6636717563ee4739803d0166a0de8fc263d1473d3f270ff0782976168c8d5d51"
+    },
+    {
+      "source": "build/mobile-system-capture-validation-20261011/old-source-new-cases-v1.log",
+      "bytes": 6385,
+      "sha256": "e8af141699e8cb63d871fd7c63f73ecb569892679b3aff138cd772f5eb6e0f83",
+      "file": "raw/d1a5f7e1477d02a2fe8d0e74014f349f5fece84c96f225ef6de3de715925bfe6.gz",
+      "archiveBytes": 993,
+      "archiveSha256": "d1a5f7e1477d02a2fe8d0e74014f349f5fece84c96f225ef6de3de715925bfe6"
+    },
+    {
+      "source": "build/mobile-system-capture-validation-20261011/old-test-hd-mobile-system.mjs",
+      "bytes": 45979,
+      "sha256": "b4e2e50240ee72d624935348ad4c9edf2d73791d2740369ef790563a608e8546",
+      "file": "raw/42398ba490f25696f7115d507debe1e62b3835ec7a3e89dbce8c5778eb3572a5.gz",
+      "archiveBytes": 11143,
+      "archiveSha256": "42398ba490f25696f7115d507debe1e62b3835ec7a3e89dbce8c5778eb3572a5"
+    },
+    {
+      "source": "build/mobile-campaign-runtime-source-freeze-v3-20261011.json",
+      "bytes": 4771,
+      "sha256": "9d305bcc8cb12e3c7717009197f6767121936feed9c95f429ccd2a44e6339cdd",
+      "file": "raw/9e4b10835e031b06af944a796f41a2eb55830ece3deb21cfef08e30f46eca928.gz",
+      "archiveBytes": 1677,
+      "archiveSha256": "9e4b10835e031b06af944a796f41a2eb55830ece3deb21cfef08e30f46eca928"
+    },
+    {
+      "source": "build/mobile-campaign-runtime-source-freeze-v4-20261011.json",
+      "bytes": 9761,
+      "sha256": "cf41bac508d5f9ca8e4a0a1b8e07f9987e400197fe87ba67cc9f198879a8b30e",
+      "file": "raw/22c57a6fd3aef06da7fdb207d4baf535ae0dd6efa0965a25fbff51b3d1a3813f.gz",
+      "archiveBytes": 3359,
+      "archiveSha256": "22c57a6fd3aef06da7fdb207d4baf535ae0dd6efa0965a25fbff51b3d1a3813f"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+// Read-only root supplement verification; run from the repository root.
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {inflateSync,gunzipSync} from 'node:zlib';
+const P='docs/validation/m5-impact13-classic-north-20261023-v35',sha=b=>createHash('sha256').update(b).digest('hex'),read=p=>fs.readFileSync(p),json=p=>JSON.parse(read(p)),pin=p=>{const b=read(p);return{path:p,bytes:b.length,sha256:sha(b)};};
+function crc32(b){let c=0xffffffff;for(const x of b){c^=x;for(let j=0;j<8;j++)c=(c>>>1)^((c&1)?0xedb88320:0);}return(c^0xffffffff)>>>0;}
+function png(b){
+ assert.equal(b.subarray(0,8).toString('hex'),'89504e470d0a1a0a');let at=8,w,h,ch,end=false;const chunks=[];
+ while(at<b.length){const n=b.readUInt32BE(at),type=b.toString('ascii',at+4,at+8),data=b.subarray(at+8,at+8+n);assert.ok(at+12+n<=b.length);assert.equal(crc32(b.subarray(at+4,at+8+n)),b.readUInt32BE(at+8+n));at+=12+n;if(type==='IHDR'){w=data.readUInt32BE(0);h=data.readUInt32BE(4);assert.equal(data[8],8);assert.ok([2,6].includes(data[9]));ch=data[9]===6?4:3;assert.deepEqual([...data.subarray(10)],[0,0,0]);}else if(type==='IDAT')chunks.push(data);else if(type==='IEND'){end=true;break;}else assert.ok(type[0]===type[0].toLowerCase(),'Unsupported critical PNG chunk '+type);}
+ assert.ok(end&&w&&h&&ch);assert.equal(at,b.length);const z=inflateSync(Buffer.concat(chunks)),stride=w*ch;assert.equal(z.length,(stride+1)*h);const raw=Buffer.alloc(w*h*ch),rgba=Buffer.alloc(w*h*4);
+ const paeth=(a,b,c)=>{const p=a+b-c,pa=Math.abs(p-a),pb=Math.abs(p-b),pc=Math.abs(p-c);return pa<=pb&&pa<=pc?a:pb<=pc?b:c;};
+ for(let y=0;y<h;y++){const filter=z[y*(stride+1)];assert.ok(filter<=4);for(let x=0;x<stride;x++){const i=y*stride+x,a=x>=ch?raw[i-ch]:0,b=y?raw[i-stride]:0,c=y&&x>=ch?raw[i-stride-ch]:0,p=[0,a,b,Math.floor((a+b)/2),paeth(a,b,c)][filter];raw[i]=(z[y*(stride+1)+1+x]+p)&255;}}
+ for(let p=0;p<w*h;p++){rgba[4*p]=raw[ch*p];rgba[4*p+1]=raw[ch*p+1];rgba[4*p+2]=raw[ch*p+2];rgba[4*p+3]=ch===4?raw[ch*p+3]:255;}return{width:w,height:h,rgba};
+}
+
+const R=json(P+'-root-png-review.json');assert.equal(R.accepted,true);assert.deepEqual(pin(R.coreCanonical.path),R.coreCanonical);assert.deepEqual(pin(R.coreArchive.path),R.coreArchive);
+const objects=new Map();for(const p of R.objects){const g=Buffer.from(p.gzipBase64,'base64');assert.deepEqual([g.length,sha(g)],[p.gzipBytes,p.gzipSha256]);const b=gunzipSync(g);assert.deepEqual([b.length,sha(b)],[p.bytes,p.sha256]);objects.set(p.path,b);}assert.equal(objects.size,3);
+const report=JSON.parse(objects.get('build/impact-skill-20261014/root-png-revalidation-v35-v2.json'));assert.equal(report.accepted,true);assert.deepEqual([report.newGameInputs,report.newBrowserRuns,report.selectedReadbacks,report.decodedPngPixels],[0,0,32,983040]);assert.equal(report.priorFailedReview.terminal.exitCode,1);assert.equal(sha(objects.get(report.priorFailedReview.source.path)),report.priorFailedReview.source.sha256);
+const A=json(R.coreArchive.path),wanted=new Set([report.rawSource.sha256,...report.checks.flatMap(c=>c.files.map(p=>p.sha256))]),data=new Map();for(const p of A.parts){assert.deepEqual(pin(p.path),p);for(const b of json(p.path).blobs){if(!wanted.has(b.sha256))continue;const g=Buffer.from(b.base64,'base64');assert.deepEqual([g.length,sha(g)],[b.gzipBytes,b.gzipSha256]);const raw=gunzipSync(g);assert.deepEqual([raw.length,sha(raw)],[b.rawBytes,b.sha256]);data.set(b.sha256,raw);}}
+for(const hash of wanted)assert.ok(data.has(hash),'Missing exact archived original '+hash);const captures=JSON.parse(data.get(report.rawSource.sha256)),selected=captures.filter(c=>c.result?.active&&c.result?.skillId===13&&c.result?.generation===report.actualAimGeneration&&['movie','numbers','hold'].includes(c.result.phase));assert.equal(selected.length,32);let pixels=0;
+const norm=b=>{const c=Buffer.from(b);for(let i=0;i<c.length;i+=4)if(c[i+3]===0)c.fill(0,i,i+4);return c;};
+for(let i=0;i<selected.length;i++){const c=selected[i],r=report.checks[i],native=norm(Buffer.from(c.nativeRgba,'base64')),display=Buffer.from(c.hdLogicalRgba,'base64');assert.ok(native.equals(display));assert.equal(c.displayedCanvas,'lcd');assert.equal(c.result.generation,r.generation);assert.equal(r.generation,3);for(const [j,p]of[c.nativeFile,c.hdFile].entries()){const raw=data.get(p.sha256);assert.deepEqual([raw.length,sha(raw)],[p.bytes,p.sha256]);const d=png(raw);assert.deepEqual([d.width,d.height],[160,96]);assert.ok(d.rgba.equals(j===0?native:display),'Decoded complete PNG pixels differ');assert.equal(sha(d.rgba),r.files[j].rgbaSha256);pixels+=d.width*d.height;}}
+assert.equal(pixels,983040);console.log(JSON.stringify({accepted:true,readOnly:true,newGameInputs:0,readbacks:32,originalPngFiles:64,decodedPngPixels:pixels,failedV1Retained:true,coreCanonicalUnchanged:true,hdAccepted:false,globalHdComplete:false}));

@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "originalWrapperFlagsUnchanged": true,
+  "sourceRunAccepted": true,
+  "independentHd720Accepted": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-hd720-20261024-v38.json",
+    "bytes": 216002,
+    "sha256": "83a3728aa35990636a00e88f52d67602aa2de97364bb885051296a9cdd253705"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-hd720-20261024-v38.md",
+    "bytes": 2401,
+    "sha256": "2740b59a3cd5b4cd4dfc7fcd60c71bbba50cf7b5ce2c0edc530efbd0943cc54f"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive.json",
+    "bytes": 400858,
+    "sha256": "7b30c3e95b7f1be362c7e046606843a9c32a5d5b7bc80caac8b7c1ec85eb3c0f"
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part001.json",
+      "bytes": 4399794,
+      "sha256": "65cc5bae6043d5a43f7d1a3bce3b62c86928c995d197ea64a7e1acf152e40e58"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part002.json",
+      "bytes": 8368175,
+      "sha256": "56a652002889fa4a4c3c37469f35800cf643069a9b8904c5ab6d3ace1b4e7f5c"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part003.json",
+      "bytes": 8294945,
+      "sha256": "8b9ba263934f0bf7accb2a3b6a2d5a8bd06e542faaf6302832a6301858152c2a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part004.json",
+      "bytes": 8168107,
+      "sha256": "43592c4e52f9df9b436eea45d99bfeb9c94c2f3715110d7279e3b593a3ff1a2b"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part005.json",
+      "bytes": 8238843,
+      "sha256": "9234ea8729acbe34c72206e3cabb27a792b1a57b8d0ca851927c4455f22c1c24"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part006.json",
+      "bytes": 8060418,
+      "sha256": "3fdccf65634e30bb3fecb47797094fb1a76b9ef7231a5bcc286a5d95beb5646e"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part007.json",
+      "bytes": 7097630,
+      "sha256": "48def9cb3b2043a98da47f0f92f26a98572f88552f1a4a77835062eee0d59862"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part008.json",
+      "bytes": 6844705,
+      "sha256": "4b3a04c7bb6ddddd32b6f824e790426da7be940b230401fe9ac4921ad029bbde"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part009.json",
+      "bytes": 7889171,
+      "sha256": "74c374a64e7baf01e3bf377b1a2c6f44abf984475da7deed83ef623bdb942ca2"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part010.json",
+      "bytes": 7590103,
+      "sha256": "228d66fb3d2a4dc30622731a4b4f537943f628c68ddfbd43645cb352c3f2a46c"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part011.json",
+      "bytes": 8164433,
+      "sha256": "1871556fbdf637c7317702dcb33e80e87e8ce94225630fb3b0a5f01a6a4dc75e"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part012.json",
+      "bytes": 8318901,
+      "sha256": "a1e679e2842b2b2e278db91028f9386c2990cf706fae312232be9e1fca7b2601"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part013.json",
+      "bytes": 6896077,
+      "sha256": "c8db8ed6675274becbf7dccc2dc9403ecd07812efda1eb62ded2db39908a9a3d"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part014.json",
+      "bytes": 8280823,
+      "sha256": "4cc364e251cd80afece6ec843732e5d8df063a30c08b9339913ed25e4278478c"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part015.json",
+      "bytes": 6329743,
+      "sha256": "ba3701f03905bedff3d016454e9e0380bc1b90ffbed600e90a0d067a2c4fade9"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part016.json",
+      "bytes": 8196373,
+      "sha256": "c1d7eb32c758f6d4cf52319cc08125993e3edbeabb632f1be7f2270859c01c63"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part017.json",
+      "bytes": 7422781,
+      "sha256": "fddb94ec6666513c7145478add7a1940771004459b3486590c1e8e807058e82b"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part018.json",
+      "bytes": 6930853,
+      "sha256": "bb5d9ece3480b964b8f5f491dcbbbc0895b924d8c4aa3375402c17d4b6391ac8"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part019.json",
+      "bytes": 7632229,
+      "sha256": "82bf02562cf6c0bd8025059f8d2dcf64c20148181a1fab099d27d580fbccf720"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part020.json",
+      "bytes": 6916473,
+      "sha256": "8e77d95b0f845e2c57b30040d64a532d1c5ea819cfb610ad2954d8236292aeaa"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part021.json",
+      "bytes": 6854873,
+      "sha256": "eb135e3df448747f24c221e19950f1fea9010689d83562c618d235a346b33675"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part022.json",
+      "bytes": 7788393,
+      "sha256": "511bc2db6fc144a8a0f38fd79bc7a3e1c8857e0035bf6b1c960facf5193c2d00"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part023.json",
+      "bytes": 7226071,
+      "sha256": "c54af0ec434bdf57ec2a01c3059861c836347c70e25c305800fcb59b89fd6b6f"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part024.json",
+      "bytes": 7649893,
+      "sha256": "6466bc06b0b25e08e0f75b2174fe3afb15e57107178b0dfdccf556ebd41c8a11"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part025.json",
+      "bytes": 7030553,
+      "sha256": "ed5e4e994596672501ec40c6555be5025f1f5887d1aa61a621810c0d36054835"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part026.json",
+      "bytes": 8324551,
+      "sha256": "0570c72c887eb4db8a63ecd8d4e00837a15e1f5733d610cc5e0a7b4eb3e95774"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part027.json",
+      "bytes": 7646059,
+      "sha256": "3b7cc6b91f607bfa3bb8fbe4decb61ba79d1d4ba6934354cdb3d8b47dae5a4fa"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part028.json",
+      "bytes": 7448725,
+      "sha256": "ffeaf180e5802a0c24393cb4a678b618b825d82e0c750727eec9195406af8300"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-archive-part029.json",
+      "bytes": 5743943,
+      "sha256": "1cea1a62f8e18c4491dc446029272a2fe92c78f12567371edc6aaef69a602858"
+    }
+  ],
+  "latestWorld": {
+    "path": "docs/validation/m5-wood67-hd720-20261024-v38-latest-world.json",
+    "bytes": 147960,
+    "sha256": "6b4e5ff05bec60e8c93689f00ea39ecb0927aceef1db3ec8f563e8e50a724e2f"
+  },
+  "latestPair": [
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-sango0.sav",
+      "bytes": 8221,
+      "sha256": "afccc92b9cbaef4cf7bed89f255d14ff551b47ebde4da5286143d859a611f5fa"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-sango1.sav",
+      "bytes": 4840,
+      "sha256": "f457e7012ef14fbe7636787881f2e1e5fd9139e4822d76604f5b8aa059725cc6"
+    }
+  ],
+  "hdDisplayPNGs": [
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-wood6-hd.png",
+      "bytes": 1435435,
+      "sha256": "2af4cc305325a65c664fef67a7401a205f382c2d3dfd3657a78587e0416dbe20"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-wood7-hd.png",
+      "bytes": 1415674,
+      "sha256": "d06abf08e8b296517b48e76cf7259ef14ee3d2249090c14532f782a447d2a9e3"
+    }
+  ],
+  "strictSelectedHdReadbacks": 39,
+  "totalCaptureRows": 268,
+  "allRawPngFiles": 720,
+  "actualImmediateFiles": 873,
+  "fullRegression": {
+    "files": 131,
+    "pass": 7052,
+    "fail": 0
+  }
+}

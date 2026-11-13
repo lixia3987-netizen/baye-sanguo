@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "kind": "formal-canvass-verifier-registration-and-fresh-full-suite",
+  "publicationDate": "2026-10-21",
+  "publicationTimezone": "Asia/Shanghai",
+  "status": "formal-verifier-and-5339-regression-accepted-gameplay-cast-hd-pending",
+  "originalOnly": true,
+  "formalToolingAccepted": true,
+  "newGameInputs": 0,
+  "newGameplayAcceptance": false,
+  "actualPreparationAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdAccepted": false,
+  "globalHdComplete": false,
+  "guardReturnBeforeCombatObserved": false,
+  "dependencies": {
+    "baseCommit": "eb938bc9ebc1ddf597e27950f4624049f93052a8",
+    "parentAcquisitionCommit": "3b6464e89c40d090703622db7a1c94bebfb224f9",
+    "committedExternalReferences": [
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-acquisition-20261021.json",
+        "bytes": 33236,
+        "sha256": "bd0436b6659f33fe63ce3b97244b22eebafd41787280137d1e3c9f65598ecb2f"
+      },
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-acquisition-20261021-archive.json",
+        "bytes": 26488,
+        "sha256": "f991332134da56b84ee63493bb57e14c2c6676a978c5ad41753064cf874a9145"
+      }
+    ],
+    "large391MBActualResultNotDuplicated": true,
+    "scope": "Prior names/food/January and acquisition raw gameplay evidence is retained by committed archive dependency. Current named source/frozen/test/migration evidence is closed here; full historical product/game/runtime portability is not claimed."
+  },
+  "formalMigration": {
+    "newFiles": 6,
+    "updatedManifests": 2,
+    "entries": [
+      {
+        "target": "scripts/hd-impact-canvass-runtime-oracle.mjs",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/scripts/hd-impact-canvass-runtime-oracle.mjs",
+          "bytes": 23731,
+          "sha256": "fee745532b88252b22d29e677a92d9da5335aa695aa8aea3dd7e01b4a227a524"
+        },
+        "operation": "create-new",
+        "before": null
+      },
+      {
+        "target": "scripts/test-hd-impact-canvass-runtime-oracle.mjs",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/scripts/test-hd-impact-canvass-runtime-oracle.mjs",
+          "bytes": 37685,
+          "sha256": "07b87fcc96d937c2c8b51996995953cae2639d9e825ade2fa2c72180d211634c"
+        },
+        "operation": "create-new",
+        "before": null
+      },
+      {
+        "target": "scripts/fixtures/hd-impact-canvass-january-v6-controlled-world.json",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/scripts/fixtures/hd-impact-canvass-january-v6-controlled-world.json",
+          "bytes": 171276,
+          "sha256": "d9bd1bf23886949cc6131b5c13851133ee24ad9a7f90aee83920dfcdf6fccc0c"
+        },
+        "operation": "create-new",
+        "before": null
+      },
+      {
+        "target": "scripts/fixtures/hd-impact-canvass-v10-native-names.json",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/scripts/fixtures/hd-impact-canvass-v10-native-names.json",
+          "bytes": 620972,
+          "sha256": "427ce7b77a6fb46602bb666830a7e9722a460d395ece955e6c07abed905a152a"
+        },
+        "operation": "create-new",
+        "before": null
+      },
+      {
+        "target": "scripts/fixtures/hd-impact-canvass-v10-recorded-provenance.json",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/scripts/fixtures/hd-impact-canvass-v10-recorded-provenance.json",
+          "bytes": 3711,
+          "sha256": "b281941fe529a2d8ee4b169b514f2ef897ec05f4747849a0ab9a3f255f9a1d10"
+        },
+        "operation": "create-new",
+        "before": null
+      },
+      {
+        "target": "package.json",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/package.json",
+          "bytes": 14307,
+          "sha256": "ff47f805f689ed8117657e85cf77f5d4444f48483c59ce5ea5065a41c029aad0"
+        },
+        "operation": "replace-exact-baseline",
+        "before": {
+          "path": "package.json",
+          "bytes": 14165,
+          "sha256": "ce91c7955ad9a868ba807c9fb501463bc1efea5866c73e6d9164ea06f29185a0"
+        }
+      },
+      {
+        "target": ".gitattributes",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/.gitattributes",
+          "bytes": 5029,
+          "sha256": "fa77deeabfae022e0f3b5e71a68b5ff77cc7dafc86db3a2978ae4cc223406e99"
+        },
+        "operation": "replace-exact-baseline",
+        "before": {
+          "path": ".gitattributes",
+          "bytes": 4563,
+          "sha256": "b02da58daaf949cb2d1c376b0f591e66e07e9004fcf2320e07bdd27d99963975"
+        }
+      },
+      {
+        "target": "scripts/fixtures/hd-impact-canvass-v11-first-saved-dispatch.json",
+        "proposed": {
+          "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/proposed/scripts/fixtures/hd-impact-canvass-v11-first-saved-dispatch.json",
+          "bytes": 728514,
+          "sha256": "29e6d4db3033e60439c3baa932e7fc9398dd1c314117d793a7bfbe7af7b2206b"
+        },
+        "operation": "create-new",
+        "before": null
+      }
+    ],
+    "plan": {
+      "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/APPLY-PLAN.json",
+      "bytes": 4747,
+      "sha256": "aea8ef67b1ac80fef051ef1843fcc94fe0feae52875fd35e4aa0126ad82672bd"
+    },
+    "freeze": {
+      "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/freeze.json",
+      "bytes": 5860,
+      "sha256": "13aced5727fcb2d8fa51227e6db0da6e01065a6407ad66acdb4c4e21561c813a"
+    },
+    "deltas": {
+      "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2/exact-deltas.json",
+      "bytes": 26541,
+      "sha256": "86ffc32ec7410703fe636b5052e5117e0be10f8f2d1b3ac1f674bd8183434862"
+    },
+    "deltaHunks": {
+      "test": 9,
+      "package": 2,
+      "attributes": 1
+    },
+    "forwardInverseByteExact": true,
+    "rawOracleExactCopy": true,
+    "applyLog": {
+      "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2-apply.log",
+      "bytes": 3649,
+      "sha256": "7abe8da27f5c94d36be68faf50e34eca4efbec5588e853fe0fdddffc43577162"
+    },
+    "source1330DriftException": false,
+    "codeCommit": "eb938bc9ebc1ddf597e27950f4624049f93052a8",
+    "codePushVerification": {
+      "path": "build/impact-skill-20261014/canvass-formal-push-verification-v1.json",
+      "bytes": 419,
+      "sha256": "2f2f0f9cb3abdd07d01eabc562eb255cde820d13042f820bada56b031a9a2ae6"
+    },
+    "indexVerification": {
+      "path": "build/impact-skill-20261014/canvass-formal-index-verification-v1.json",
+      "bytes": 2856,
+      "sha256": "22256fc4b5abde5e7f5c9da9ca37caf9684fc82e0727db826ca3c4b6a5a0a287"
+    },
+    "attributesIndexEolOnly": true
+  },
+  "freshFullSuite": {
+    "result": {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v3/result.json",
+      "bytes": 71711,
+      "sha256": "407f4aa4309e6622e5066fd0c50f0ce1ac3cdc75ff3eaec1382610f14824170e"
+    },
+    "sourceFreeze": {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v3/source-freeze.json",
+      "bytes": 64063,
+      "sha256": "4c343a4a5210d97c1aa0e419c87700e39149cdc32c263d7fd7621f60c6be4315"
+    },
+    "fullLog": {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v3/test-output.log",
+      "bytes": 1126674,
+      "sha256": "b0475fe018b62ff3b75494e9f3fa0ed38994f3cf53ec6f075aa29143e60455a2"
+    },
+    "wrapperLog": {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v3.log",
+      "bytes": 198,
+      "sha256": "39e482c13ccfcb0ce5c8ef883a9a5ddfc50117af4beebd50e7a55a738f3962fe"
+    },
+    "runner": {
+      "path": "build/impact-skill-20261014/run-impact-verifier-suite-v3.mjs",
+      "bytes": 4016,
+      "sha256": "a03f3b33d216a19aed36711fe4095ad89c986352647559a8caecf08a35790af4"
+    },
+    "rootTerminal": {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-terminal-v3.json",
+      "bytes": 1921,
+      "sha256": "6321f7892c1c54fe6e74f20e21a417d6e10e784870035610587494becdaf11de"
+    },
+    "rootReceiptGenerator": {
+      "path": "build/impact-skill-20261014/receipt-full-suite-v3.mjs",
+      "bytes": 2296,
+      "sha256": "1f5fbe6138d556e31f7e5cc42e238443e860bfa7a4ceec184449ee3ee982592e"
+    },
+    "sessionId": 37552,
+    "terminalChunkId": "e18126",
+    "exitCode": 0,
+    "executionConcurrency": 1,
+    "modules": 92,
+    "counts": {
+      "tests": 5339,
+      "suites": 0,
+      "pass": 5339,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "currentAndFrozenSources": 248,
+    "uniqueFrozenBlobs": 247,
+    "allCurrentAndFrozenExact": true,
+    "sourceDriftExceptions": [],
+    "formalCanvass209Included": true,
+    "separateFormal209RerunClaimed": false
+  },
+  "proposedLayout209": {
+    "rootProof": {
+      "path": "build/impact-skill-20261014/canvass-formal-proposal-tests-root-proof-v2.json",
+      "bytes": 3799,
+      "sha256": "5bf5e48f511066ebfbe13b85c4ff5fea2f6f8ee01355363e22883de0ae0f0741"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/canvass-formalization-candidate-v2-fresh-checkout-tests.log",
+      "bytes": 11954,
+      "sha256": "078f96a4afd5804335cbf9ca6f38c2b1247887b01cba67b044d16faa6f2f9a3e"
+    },
+    "counts": {
+      "tests": 209,
+      "suites": 0,
+      "pass": 209,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "terminalChunkId": "9f1916",
+    "scope": "Earlier independent candidate-layout execution; not a separate fresh formal-target execution and not added to5339."
+  },
+  "recordedFixtureBoundaries": {
+    "failedV10": {
+      "provenance": {
+        "path": "scripts/fixtures/hd-impact-canvass-v10-recorded-provenance.json",
+        "bytes": 3711,
+        "sha256": "b281941fe529a2d8ee4b169b514f2ef897ec05f4747849a0ab9a3f255f9a1d10"
+      },
+      "rootProof": {
+        "path": "build/impact-skill-20261014/canvass-v10-terminal-receipt-v1.json",
+        "bytes": 5139,
+        "sha256": "0e81100d276b2f72dd4fed3147b66435f3d74b7f1d349e9d404cd37fa9fe8d3b"
+      },
+      "workflowAccepted": false,
+      "observedPaidDispatches": 1,
+      "reportedAcceptedOrders": 0,
+      "postDispatchSave": 0,
+      "normalMonths": 0,
+      "actualAcquisitionAccepted": false
+    },
+    "firstGenuineV11SavedDispatch": {
+      "fixture": {
+        "path": "scripts/fixtures/hd-impact-canvass-v11-first-saved-dispatch.json",
+        "bytes": 728514,
+        "sha256": "29e6d4db3033e60439c3baa932e7fc9398dd1c314117d793a7bfbe7af7b2206b"
+      },
+      "sourceRaw": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-001.json",
+        "bytes": 626656,
+        "sha256": "040c9cd3314455a77c3ea1dce9436694800ae3c307a39f8940e107e99daf2b14"
+      },
+      "sourceProof": {
+        "path": "build/impact-skill-20261014/canvass-v11-terminal-receipt-v1.json",
+        "bytes": 23040,
+        "sha256": "53c0bb93781fd8cb4422851c1b4396abe5aa3ef61ec25e33eec2c44c17f55430"
+      },
+      "originalPayloadAndSavedBytesExact": true,
+      "currentTestNewGameInput": false,
+      "previousV11AcquisitionAccepted": true,
+      "previousV11CompletePreparationAccepted": false,
+      "previousV11CastAccepted": false,
+      "previousV11HdAccepted": false,
+      "previousBeforeCombatObserved": false
+    }
+  },
+  "plannedDocumentation": {
+    "patch": {
+      "path": "build/impact-skill-20261014/canvass-formalization-planning-docs-patch-v1.json",
+      "bytes": 7906,
+      "sha256": "c10253ae88a1721ff4752427d1db2a9cdb6bf6465c15a5c0dae8ca9337537e97"
+    },
+    "officialDocsWrittenByPublisher": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-formalization-20261021-archive.json",
+    "bytes": 127383,
+    "sha256": "2dda66a4f3a171cc19e73ca7da91453872000592177491c669ef486a3e1ceade",
+    "namedFiles": 563,
+    "uniqueBlobs": 298,
+    "parts": 1,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Fresh complete registered suite5339/5339 was executed once across92modules. Its209 formal Canvass cases are included, not added again. Prior proposed-layout209 and earlier5130/188/208 remain separate historical runs.",
+    "The source oracle is an exact byte copy of frozen rawv2. Six new formal files and package/attrs registration changes do not modify native game behavior or create new game input.",
+    "The current suite uses controlled January data, recorded failed-v10 tickets and compact genuine first-saved-v11 dispatch/SAVE evidence; tests do not reopen original large ignored results, operate a browser/game or restore a campaign.",
+    "Old v10 remains a workflow failure:1 independently observed paid dispatch,0 accepted reported orders,0 post-dispatch SAVE,0 month and no acquisition. Pure v2 recorded-contract acceptance never reclassifies it as successful gameplay.",
+    "Prior v11 acquisition/month acceptance remains solely in its committed actual archive/root receipt. No new gameplay, attribution to a particular order/RNG branch, MP/menu13/battle cast, full preparation or HD/full/global acceptance is granted.",
+    "All248 current and frozen source tuples are exact; all247 frozen blobs are named. The old formal241 differs intentionally only in package/attributes; every other239 old path is unchanged. No runtime1330 source exception is introduced.",
+    "The committed index preserved seven target files byte-exact; .gitattributes was accepted only as an explicitly recorded EOL normalization. This archive retains the exact live source5029B bytes used by the suite and the root index receipt; no byte-identical Git checkout claim is inferred for that file.",
+    "Defaultdry/unique--write/WX/nooverwrite/safe paths/target30MiB/hard<50MiB/gzip/base64/rawhash roundtrip/canonical-last apply. Publisher does not run CLI/tests/OS/Git/native/browser/game and does not write four existing planning docs.",
+    "Only explicitly named files are archive-closed. Earlier full product/runtime/history and large actual results remain committed dependencies; portableClosedArchive=false."
+  ]
+}

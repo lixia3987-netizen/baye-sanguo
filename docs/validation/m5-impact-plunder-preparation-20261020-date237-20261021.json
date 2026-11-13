@@ -1,0 +1,443 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-native-date237-rendering-fix-and-public-load-qa",
+  "publicationDate": "2026-10-21",
+  "dependencyCommit": "d2d1020c8658174fd7621cdf1896bdf1a65b371c",
+  "scope": "Only native237-3 HUD date fix and latest original SAVE LOAD/render QA at1920x1080 and1280x720. V1/V2 failures remain failed. No new month/order/battle/cast/HD-matrix/RNG acceptance.",
+  "productDateFixAccepted": true,
+  "actualLatestPublicLoadAccepted": true,
+  "dateRenderingAccepted": true,
+  "viewports": [
+    {
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "wholeFreshMeasuredWorldUnchanged": true,
+  "normalMonths": 0,
+  "newPayments": 0,
+  "newPublicSaves": 0,
+  "newBattleAttempted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "realDeviceAccepted": false,
+  "rngContinuityAccepted": false,
+  "sameRunContinuationAccepted": false,
+  "sourceVersionMapping": {
+    "inputRootProof": {
+      "path": "build/impact-skill-20261014/impact13-battle-v10-terminal-receipt-v2.json",
+      "bytes": 17334,
+      "sha256": "846bf7fa612294b85277e89baea08868cdbf29d4d7c978f159dc55676d72cbb5"
+    },
+    "inputResult": {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v10/result.json",
+      "bytes": 145278594,
+      "sha256": "a0b56ac2bb7711fe264f462a14fcecca11f8ddd99754ad3eee2f7cb63e537618"
+    },
+    "inputSourceVerification": {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v10/source-verification.json",
+      "bytes": 530481,
+      "sha256": "396168147d81396974d090da9e0885c4a08e9470d8b9860673ce63024af27924"
+    },
+    "latestPublicSave": "impact13-129-battle-settled",
+    "latestPair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v10/native-impact13-129-battle-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "3c86f1860910bdf993104f976efa0a3a7a3b982a53fa23b247a91df31d79db97"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v10/native-impact13-129-battle-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "e1e654c98dc8268b96c66e428d7db78f3dbe85068d974957a4dad0c3167f8fc6"
+      }
+    ],
+    "latestWorld": {
+      "path": "build/impact-skill-20261014/impact13-battle-v10-latest-genuine-saved-world-v1.json",
+      "bytes": 77885,
+      "sha256": "90773941a2798fa2658effbd4359c034fb10eb41219591555faacf39a85ba5e2"
+    },
+    "date": [
+      237,
+      3
+    ],
+    "casterResidentCities": [
+      4
+    ],
+    "activeOrders": [],
+    "migration": {
+      "changedPath": "js/hd-overworld.js",
+      "before": {
+        "path": "js/hd-overworld.js",
+        "bytes": 171288,
+        "sha256": "3e050f1d1736db700b4bb5219729994827202891dcac37ba769234cc5f36d956"
+      },
+      "after": {
+        "path": "js/hd-overworld.js",
+        "bytes": 172137,
+        "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+      },
+      "hunks": 5,
+      "forwardByteExact": true,
+      "inverseByteExact": true,
+      "blanketDriftExemption": false,
+      "archiveIndex": {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-battle-20261021-archive.json",
+        "bytes": 68393,
+        "sha256": "b84db54b0845ba9c6aa9055f301a1dfa988dd38976b083e23f6971a2cc7d5717"
+      },
+      "archivePart": {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-battle-20261021-archive-part002.json",
+        "bytes": 26947506,
+        "sha256": "339a0cee2e39058dec99806313011fbc17fcf0a75463e5385bc187a7bcc9881f"
+      },
+      "patch": {
+        "path": "build/impact-skill-20261014/hd-overworld-native-date-patch-v1.json",
+        "bytes": 2585,
+        "sha256": "9f27131993e502bbbf234d2f224ded895ab8d443bf2b1517b006f06314143602"
+      },
+      "historicalSourceArchiveVerified": true,
+      "historicalUiCurrentExact": false,
+      "newUiCurrentExact": true,
+      "productRenderQaAccepted": false
+    },
+    "historicalSourceCount": 1450,
+    "historicalPhysicalSources": 1446,
+    "unchangedHistoricalTuplesCurrentExact": 1449,
+    "exactVersionMappedUiTuples": 1,
+    "historicalAllTuplesCurrentExact": false,
+    "native128CurrentExact": true,
+    "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+    "originalLibCurrentExact": true,
+    "oldRunAccepted": false,
+    "latestPersistedInputAccepted": true,
+    "freshPublicLoadPerformed": false,
+    "newCurrentSourceFreezeAccepted": false,
+    "newSourceFreezeRequiredBeforeRuntime": true,
+    "sourceMigrationGrantsBattlePermission": false,
+    "productRenderQaAccepted": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "rngContinuityAccepted": false,
+    "sameRunContinuationAccepted": false,
+    "wholeNativeAbiRestorationAccepted": false,
+    "nonserializedQueueTailRestorationAccepted": false,
+    "restoreOldV8BaselineAllowed": false,
+    "replayOrigin6Allowed": false
+  },
+  "rootValidation": {
+    "path": "build/impact-skill-20261014/native-date237-root-validation-receipt-v1.json",
+    "bytes": 6393,
+    "sha256": "7f0ebdc5d92319ec6d5c0e7b741c802953b90493b4c08232f123f7a7728bef51"
+  },
+  "rootReportedApplyAndTests": {
+    "path": "build/impact-skill-20261014/native-date237-root-reported-apply-v1.json",
+    "bytes": 2483,
+    "sha256": "28a1bae14bce209f7e3a088dbadaaa07a16ec2a8a5418b297753ed2e17ca3e4b"
+  },
+  "currentProduct": {
+    "path": "js/hd-overworld.js",
+    "bytes": 172137,
+    "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+  },
+  "formalTest": {
+    "path": "scripts/test-hd-overworld-native-date.mjs",
+    "bytes": 10355,
+    "sha256": "9891951dce0997f064474911fdcbf88a58c3b6ac6741fcb21978283dacc36b56"
+  },
+  "formalTests": {
+    "tests": 57,
+    "pass": 57,
+    "rootChunk": "ce6eb6",
+    "log": {
+      "path": "build/impact-skill-20261014/native-date-formal-test-v1.log",
+      "bytes": 4242,
+      "sha256": "71c6662309fa57189249b1d3df590235256893099f73baa345927631bbc693d0"
+    }
+  },
+  "relatedTests": {
+    "tests": 276,
+    "pass": 276,
+    "rootChunk": "325872",
+    "log": {
+      "path": "build/impact-skill-20261014/native-date-overworld-regression-v1.log",
+      "bytes": 28022,
+      "sha256": "e6477849be979f7ed70daffe22f55ade67c869db8a978fdf5661fad52ca8f4a0"
+    },
+    "moduleNamesNotCaptured": true
+  },
+  "migrationRejectionTests": {
+    "tests": 9,
+    "pass": 9,
+    "fail": 0,
+    "rootTerminal": {
+      "chunkId": "392f26",
+      "exitCode": 0
+    },
+    "script": {
+      "path": "build/impact-skill-20261014/test-date-source-version-migration-v1.mjs",
+      "bytes": 2854,
+      "sha256": "57be27309f210a553e67440a9c9361063ece87f170649d7320ce413788aaf5ea"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/date-source-version-migration-tests-v1.log",
+      "bytes": 898,
+      "sha256": "8e113b4f75d3e28c01c8c480b28882a6d51dbde0c22f179e53ac2baa688e430b"
+    },
+    "gameOrBrowserCredit": false
+  },
+  "testCountsMustNotBeAdded": true,
+  "historicalCandidateLogNotNewPassCredit": true,
+  "loadQa": [
+    {
+      "version": 1,
+      "rootTerminal": {
+        "sessionId": 26299,
+        "chunkId": "d6b0dd",
+        "exitCode": 1
+      },
+      "ok": false,
+      "error": "Error: Timed out waiting for actual refreshed date HUD\n    at waitFor (eval at <anonymous> (file:///F:/project/baye-sanguo/build/impact-skill-20261014/run-native-date237-load-qa-v1.mjs:20:73), <anonymous>:63:11)\n    at async file:///F:/project/baye-sanguo/build/impact-skill-20261014/run-native-date237-load-qa-v1.mjs:60:166",
+      "result": {
+        "path": "build/impact-skill-20261014/native-date237-load-qa-v1/result.json",
+        "bytes": 424689,
+        "sha256": "b58e9c3257b3fd1d34438004d2d48c8ae9dfec4534d550e337c140bdf8e7cf88"
+      },
+      "sourceFreeze": {
+        "path": "build/impact-skill-20261014/native-date237-load-qa-v1/source-freeze.json",
+        "bytes": 187991,
+        "sha256": "ad0285f95aeb6b5da2bf1467905093ed12845d2466f536fc071293ed3d6c43a1"
+      },
+      "sourceCount": 1082,
+      "wholeFreshLoadExact": true,
+      "views": [],
+      "externalCleanup": {
+        "path": "build/impact-skill-20261014/native-date237-external-cleanup-v1.json",
+        "bytes": 3550,
+        "sha256": "cb87c963adac459c543585d25735e1fe260093c711cd8f37a2fbe44f08557202"
+      },
+      "ownedUnion": {
+        "path": "build/impact-skill-20261014/native-date237-owned-union-v1.json",
+        "bytes": 3231,
+        "sha256": "fd9f94f3130de108945a8f246ce8b19e24990be9dcfd04a95cb6eb3bd48ce62b"
+      },
+      "recordedIdentities": 11,
+      "profileRetained": true
+    },
+    {
+      "version": 2,
+      "rootTerminal": {
+        "sessionId": 0,
+        "chunkId": "7144d2",
+        "exitCode": 1
+      },
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'https://img.bbkgames.com/script/js-sdk.js?ver=20260329',\n+   'http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3'\n+ ]\n- []\n\n    at file:///F:/project/baye-sanguo/build/impact-skill-20261014/run-native-date237-load-qa-v2.mjs:62:226",
+      "result": {
+        "path": "build/impact-skill-20261014/native-date237-load-qa-v2/result.json",
+        "bytes": 440452,
+        "sha256": "a2b643e63238c994e6ff045fea3cfebf8b5fe4cddedf82b06c95314a0ac11e5e"
+      },
+      "sourceFreeze": {
+        "path": "build/impact-skill-20261014/native-date237-load-qa-v2/source-freeze.json",
+        "bytes": 187991,
+        "sha256": "5a8935804f1b35b988cdc8644a4afce8b6fd12c1c40ba6ed85847ca58c1748a5"
+      },
+      "sourceCount": 1082,
+      "wholeFreshLoadExact": true,
+      "views": [
+        {
+          "label": "237年3月  ·  曹丕",
+          "rect": {
+            "x": 20,
+            "y": 12.40625,
+            "width": 175.6875,
+            "height": 31.1875
+          },
+          "date": {
+            "year": 237,
+            "month": 3,
+            "yearPath": "g_YearDate",
+            "monthPath": "g_MonthDate",
+            "source": "native"
+          },
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "mode": "hd-map",
+          "screenshot": "date237-1920x1080.png"
+        },
+        {
+          "label": "237年3月  ·  曹丕",
+          "rect": {
+            "x": 20,
+            "y": 12.40625,
+            "width": 175.6875,
+            "height": 31.1875
+          },
+          "date": {
+            "year": 237,
+            "month": 3,
+            "yearPath": "g_YearDate",
+            "monthPath": "g_MonthDate",
+            "source": "native"
+          },
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "mode": "hd-map",
+          "screenshot": "date237-1280x720.png"
+        }
+      ],
+      "externalCleanup": {
+        "path": "build/impact-skill-20261014/native-date237-external-cleanup-v2.json",
+        "bytes": 3546,
+        "sha256": "0684e4782ce8e1cee47ae39ed97c0d6e0844279bece25d3ce92b034024b9e815"
+      },
+      "ownedUnion": {
+        "path": "build/impact-skill-20261014/native-date237-owned-union-v2.json",
+        "bytes": 3231,
+        "sha256": "33d7164b92850d0fee8cf24ca44ef66a25fd5cdcd69ccf7a1a29eeb8c1eab1c4"
+      },
+      "recordedIdentities": 11,
+      "profileRetained": true
+    },
+    {
+      "version": 3,
+      "rootTerminal": {
+        "sessionId": 0,
+        "chunkId": "91e9f2",
+        "exitCode": 0
+      },
+      "ok": true,
+      "error": null,
+      "result": {
+        "path": "build/impact-skill-20261014/native-date237-load-qa-v3/result.json",
+        "bytes": 440174,
+        "sha256": "94be9dfa7bf86b51eca5449a65649c6f29ae3f7b4f1fa85e2f9053b84f722596"
+      },
+      "sourceFreeze": {
+        "path": "build/impact-skill-20261014/native-date237-load-qa-v3/source-freeze.json",
+        "bytes": 187991,
+        "sha256": "413affdc8d6a70af938fccbcffd83f1926e08a641e3ca3638527bf16b2058e38"
+      },
+      "sourceCount": 1082,
+      "wholeFreshLoadExact": true,
+      "views": [
+        {
+          "label": "237年3月  ·  曹丕",
+          "rect": {
+            "x": 20,
+            "y": 12.40625,
+            "width": 175.6875,
+            "height": 31.1875
+          },
+          "date": {
+            "year": 237,
+            "month": 3,
+            "yearPath": "g_YearDate",
+            "monthPath": "g_MonthDate",
+            "source": "native"
+          },
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "mode": "hd-map",
+          "screenshot": "date237-1920x1080.png"
+        },
+        {
+          "label": "237年3月  ·  曹丕",
+          "rect": {
+            "x": 20,
+            "y": 12.40625,
+            "width": 175.6875,
+            "height": 31.1875
+          },
+          "date": {
+            "year": 237,
+            "month": 3,
+            "yearPath": "g_YearDate",
+            "monthPath": "g_MonthDate",
+            "source": "native"
+          },
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "mode": "hd-map",
+          "screenshot": "date237-1280x720.png"
+        }
+      ],
+      "externalCleanup": {
+        "path": "build/impact-skill-20261014/native-date237-external-cleanup-v3.json",
+        "bytes": 3544,
+        "sha256": "3c6f40f5847cf81b84a89952bd1f756980b86161ca50b44acaaa2f6576d6e9fb"
+      },
+      "ownedUnion": {
+        "path": "build/impact-skill-20261014/native-date237-owned-union-v3.json",
+        "bytes": 3229,
+        "sha256": "29c48ee90ae58634b5c656b8fee968440ea6fd13a52d297b71fce1e39f7f9538"
+      },
+      "recordedIdentities": 11,
+      "profileRetained": true
+    }
+  ],
+  "currentQaSourceCountPerRun": 1082,
+  "currentQaSourceUnion": 1084,
+  "latestGenuineSave": {
+    "tag": "impact13-129-battle-settled",
+    "date": [
+      237,
+      3
+    ],
+    "casterResidentCities": [
+      4
+    ],
+    "activeOrders": [],
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v10/native-impact13-129-battle-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "3c86f1860910bdf993104f976efa0a3a7a3b982a53fa23b247a91df31d79db97"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v10/native-impact13-129-battle-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "e1e654c98dc8268b96c66e428d7db78f3dbe85068d974957a4dad0c3167f8fc6"
+      }
+    ],
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-battle-v10-latest-genuine-saved-world-v1.json",
+      "bytes": 77885,
+      "sha256": "90773941a2798fa2658effbd4359c034fb10eb41219591555faacf39a85ba5e2"
+    }
+  },
+  "historicalV10RunRemainsFailed": true,
+  "newCurrentBattleFreezeRequired": true,
+  "existingDocsWrittenByBuilder": false,
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-date237-20261021-archive.json",
+    "bytes": 16298,
+    "sha256": "124be09c54870dcf2ad9f3e48ee1bc7c3c0e48de62058dc49a17e01cb0052982",
+    "namedFiles": 73,
+    "uniqueBlobs": 69,
+    "parts": 1,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "V1 timed out waiting for refreshed date HUD; V2 retained both screenshots but failed its blanket blocked-URL assertion. Both actual failed results remain unchanged. V3 independently passes the corrected no-continued-nonlocal-request gate.",
+    "Only canonical original native year1..65535 and month1..12 are accepted; unknown aliases/probe retain narrow184..220 integer heuristic. No native setter/key is used by the date change.",
+    "Seven actual native keys cover opening and LOAD only. No new month, payment, public SAVE, battle, cast or fullHD acceptance. The genuine input remains V10settled237-3/caster city4.",
+    "Old source tuples retain historical oldUI archive identity; only one exact five-hunk old→new version edge is accepted, with1449 other old tuples currentexact/native128 unchanged as independently root-checked. Fresh1082 source manifests belong only to this LOAD QA; future battle must freeze its new full source set.",
+    "The145MB old actual, old52MB archive and old battle driver/product dependencies remain committed under d2d1020. Only named new evidence is archiveclosed, portableClosedArchive=false. Profiles remain outside archive."
+  ]
+}

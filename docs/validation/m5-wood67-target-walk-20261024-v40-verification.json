@@ -1,0 +1,24 @@
+{
+  "accepted": true,
+  "sourceOnly": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-target-walk-20261024-v40.json",
+    "bytes": 27356,
+    "sha256": "3b19a3ecb3c9c39492221739414953b1d0016c187464fe7cb377c97238a48854"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-target-walk-20261024-v40.md",
+    "bytes": 3035,
+    "sha256": "4315ed3fa1880f7fec843baff5c85e711074f59769aace46847d2fa61f33697b"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-target-walk-20261024-v40-verify.mjs",
+    "bytes": 7507,
+    "sha256": "5aff7898dc051e3d5d64f9ce45e2c90d88f3b53cd535238e60704714ab4a0826"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-target-walk-20261024-v40-archive.json",
+    "bytes": 28353,
+    "sha256": "ed50d865a9a1bb126f70880a4c40542b92cb07de4ff3993d35099ab7352619eb"
+  }
+}

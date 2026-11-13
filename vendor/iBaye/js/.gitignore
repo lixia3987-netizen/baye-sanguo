@@ -1,0 +1,6 @@
+CMake*
+Makefile
+baye.js
+baye.wasm
+baye.wasm.map
+*.cmake

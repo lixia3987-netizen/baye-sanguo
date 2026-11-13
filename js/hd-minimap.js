@@ -1,0 +1,700 @@
+/* A native SEARCH overlay owns this read-only overview and one return key. */
+(function (global) {
+    var state = { open: false, owner: '', epoch: 0, native: null, data: null, showLcd: false,
+        committed: '', pressed: null, paint: '', filter: 'all', query: '', editor: null, composing: false, source: '',
+        bound: false, timer: 0, ownerData: null, location: null, faction: 0, rulers: null,
+        grant: null, blocked: false, pointers: {}, focused: true, dispatch: false, retireReason: '' };
+    var mobileHost = null;
+    var FILTERS = { all: '全部', owned: '我方', neutral: '他方', empty: '空城' };
+    var LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+    var MINI_FIELDS = ['protocolVersion','active','complete','custom','defaultDraw','seq','generation','mapInputSeq',
+        'resourceId','imageIndex','width','height','mask','cursorX','cursorY','viewX','viewY','viewWidth','viewHeight','city1'];
+    var BLOCKERS = ['g_hdBattlePick','g_hdMenuActive','g_hdReportActive','g_hdQtyActive','g_hdFightActive',
+        'g_hdHelpActive','g_hdRecordActive','g_hdMovieActive','g_hdSpeActive','g_hdSkillActive','g_hdAttackActive',
+        'g_hdSkillResultActive','g_hdMakerActive','g_hdViewActive','g_hdGoodsActive','g_hdPersonPropertiesActive',
+        'g_hdResultOwnerKind','g_hdResultOwnerValid'];
+    var keys = { 37: 0x24, 38: 0x22, 39: 0x25, 40: 0x23, 13: 0x27,
+        27: 0x28, 32: 0x28, 70: 0x33, 83: 0x33, 72: 0x26 };
+    function node(id) { return document.getElementById(id); }
+    function integer(value, min, max) { return Number.isInteger(value) && value >= min && value <= max; }
+    function matchesFilter(city) {
+        var term = state.query.trim().toLowerCase();
+        return (state.filter === 'all' || city.kind === state.filter) &&
+            (!state.faction || city.belong === state.faction) &&
+            (!term || typeof city.name === 'string' && city.name.toLowerCase().indexOf(term) >= 0);
+    }
+    function filterButton(target) {
+        return !!target && Object.keys(FILTERS).some(function (key) { return target === node('hd-mini-map-filter-' + key); });
+    }
+    function searchTarget(target) { return !!target && target === node('hd-mini-map-search'); }
+    function factionTarget(target) { return !mobileHost && !!target && target === node('hd-mini-map-faction'); }
+    function searchReady() {
+        var input = node('hd-mini-map-search'), root = node('hd-mini-map');
+        return !!(input && root && root.contains(input) && input.isConnected !== false && state.focused && !document.hidden &&
+            state.open && state.data && !state.showLcd && state.committed !== state.owner && !input.disabled);
+    }
+    function editorTicket() { return {owner:state.owner,epoch:state.epoch,source:state.source}; }
+    function validEditor(value) {
+        return !!(value && state.editor === value && searchReady() && document.activeElement === node('hd-mini-map-search') &&
+            value.owner === state.owner && value.epoch === state.epoch && value.source === state.source);
+    }
+    function clearRefinements() {
+        state.query = ''; state.editor = null; state.composing = false; state.faction = 0;
+        var input = node('hd-mini-map-search');
+        if (input) { input.value = ''; input.disabled = true; }
+    }
+    function retireForSearch(reason) {
+        var oldPress = state.pressed;
+        retireInput(reason);
+        if (!mobileHost && oldPress && !oldPress.ticket && !searchTarget(oldPress.target)) { state.pressed = oldPress; }
+    }
+    function armSearch(event) {
+        if (event.isTrusted !== true || event.repeat || event.isComposing || event.keyCode === 229) { return; }
+        poll();
+        if (!searchTarget(event.target) || !searchReady()) { return; }
+        retireForSearch('search-focus'); state.editor = editorTicket();
+    }
+    function updateQuery(event) {
+        var input = node('hd-mini-map-search'), editor = state.editor, value = input && input.value;
+        if (event.isTrusted !== true || !searchTarget(event.target) || state.composing || event.isComposing) { return; }
+        poll();
+        if (!validEditor(editor) || typeof value !== 'string') { if (input) { input.value = state.query; } return; }
+        value = value.slice(0,32);
+        if (value !== state.query) {
+            retireForSearch('search'); state.query = value; state.paint = ''; state.editor = editorTicket(); render();
+        }
+        if (input.value !== value) { input.value = value; }
+    }
+    function retireKeepingEditor(reason) {
+        var keep = validEditor(state.editor);
+        retireForSearch(reason);
+        if (keep) { state.editor = editorTicket(); }
+        else { state.editor = null; state.composing = false; }
+        return keep;
+    }
+    function sourceKey(data) { return data ? JSON.stringify([data.generation,data.libraryGeneration,data.libSha256,data.cities]) : ''; }
+    function adoptSource(source) {
+        if (source !== state.source) {
+            retireForSearch('overview-data'); clearRefinements(); state.rulers = null; state.source = source; state.paint = '';
+        }
+    }
+    function chooseFilter(value) {
+        if (!Object.prototype.hasOwnProperty.call(FILTERS, value)) { return; }
+        poll();
+        if (!state.open || !state.data || state.committed === state.owner) { return; }
+        var oldPress = state.pressed;
+        retireInput('filter');
+        // Keep an already pressed PC control stale until its release is seen.
+        if (!mobileHost && oldPress && !oldPress.ticket && !filterButton(oldPress.target)) { state.pressed = oldPress; }
+        state.filter = value; state.faction = 0; state.paint = '';
+        renderFactionFilter(); render();
+    }
+
+    function readRulers(data, owner, ownerData, source) {
+        try {
+            if (mobileHost || !node('hd-mini-map-faction') || !data || !ownerData) { return null; }
+            var game = global.baye, getName = game.getPersonNameByID, cities = ownerData.g_Cities;
+            if (typeof getName !== 'function' || !cities) { return null; }
+            if (state.rulers && state.owner === owner && state.ownerData === ownerData &&
+                state.source === source && state.rulers.getName === getName) { return state.rulers; }
+            var counts = Object.create(null), byId = Object.create(null), items = [];
+            data.cities.forEach(function (city) {
+                var id = city.belong;
+                if (integer(id, 1, 0xfffd)) { counts[id] = (counts[id] || 0) + 1; }
+            });
+            Object.keys(counts).forEach(function (key) {
+                var id = Number(key), name = getName.call(game, id);
+                if (typeof name !== 'string') { return; }
+                name = name.trim();
+                if (!name || name === '-' || name.length > 32 || name.indexOf('\u0000') >= 0) { return; }
+                byId[id] = {id: id, name: name, count: counts[id]};
+                items.push(byId[id]);
+            });
+            if (global.baye !== game || game.data !== ownerData || game.getPersonNameByID !== getName ||
+                ownerData.g_Cities !== cities || !data.cities.every(function (city) {
+                    if (city.belong === null) { return true; }
+                    var raw = cities[city.index], belong = raw && raw.Belong;
+                    return (belong && typeof belong === 'object' ? belong.value : belong) === city.belong;
+                })) { return null; }
+            items.sort(function (a, b) { return b.count - a.count || a.id - b.id; });
+            return {items: items, byId: byId, getName: getName};
+        } catch (e) { return null; }
+    }
+
+    function renderFactionFilter() {
+        var select = node('hd-mini-map-faction'), wrap = node('hd-mini-map-faction-wrap');
+        if (!select || !wrap) { return; }
+        var items = state.rulers ? state.rulers.items : [], signature = JSON.stringify(items);
+        if (select._hdRulers !== signature) {
+            select.textContent = '';
+            [{id: 0, name: '全部'}].concat(items).forEach(function (ruler) {
+                var option = document.createElement('option');
+                option.value = String(ruler.id);
+                option.textContent = ruler.name + (ruler.count ? '（' + ruler.count + ' 城）' : '');
+                select.appendChild(option);
+            });
+            select._hdRulers = signature;
+        }
+        if (select.value !== String(state.faction)) { select.value = String(state.faction); }
+        wrap.hidden = !state.open || !state.data || state.showLcd || !items.length;
+        select.disabled = wrap.hidden || !state.focused || state.committed === state.owner;
+    }
+
+    function chooseFaction(event) {
+        var select = event.target, value = select.value, owner = state.owner, source = state.source;
+        poll();
+        var faction = Number(value);
+        if (event.isTrusted !== true || !factionTarget(select) || select.disabled || owner !== state.owner ||
+            source !== state.source || !integer(faction, 0, 0xfffd) || value !== String(faction) ||
+            faction && (!state.rulers || !state.rulers.byId[faction])) { return; }
+        retireForSearch('faction');
+        state.filter = 'all'; state.faction = faction; state.paint = '';
+        chrome(); render();
+    }
+    function cityInfoOwns() {
+        var data = global.baye && baye.data, active = data ? data.g_hdCityInfoActive : undefined;
+        return active !== undefined && active !== 0;
+    }
+    function token(value) { return value ? JSON.stringify(value._mobileKey ?
+        [value.generation, value.seq, value.mapInputSeq, value._mobileKey, value._libraryGeneration] :
+        [value.generation, value.seq, value.mapInputSeq]) : ''; }
+    function nativeData(value) { return mobileHost ? value._mobileData : baye.data; }
+    function mobileReading() {
+        try {
+            if (!mobileHost || !state.focused || document.hidden || typeof mobileHost.available !== 'function' ||
+                !mobileHost.available() || typeof mobileHost.readNative !== 'function' || !global.baye || !baye.hd ||
+                !baye.hd.ready() || !global.BayeHdLibIdentity) { return null; }
+            function sample() {
+                var identity = BayeHdLibIdentity.read(), receipt = mobileHost.readNative();
+                if (!identity || identity.status !== 'ready' || identity.sha256 !== LIB_SHA || identity.byteLength !== 207195 ||
+                    !integer(identity.generation, 1, 0xffffffff) || !BayeHdLibIdentity.isCurrent(identity) || !receipt ||
+                    !receipt.data || receipt.data !== baye.data || typeof receipt.key !== 'string' || !receipt.key ||
+                    receipt.libraryGeneration !== identity.generation || !receipt.native) { return null; }
+                var data = receipt.data, native = {}, raw = {}, value = receipt.native;
+                MINI_FIELDS.forEach(function (field) {
+                    native[field] = value[field];
+                    raw[field] = data['g_hdMiniMap' + (field === 'mapInputSeq' ? 'InputSeq' : field.charAt(0).toUpperCase() + field.slice(1))];
+                });
+                native.detailGeneration = value.detailGeneration;
+                if (!MINI_FIELDS.every(function (field) { return integer(native[field], 0, 0xffffffff) && native[field] === raw[field]; }) ||
+                    native.protocolVersion !== 1 || native.active !== 1 || !native.generation || !native.seq || !native.mapInputSeq ||
+                    !['complete','custom','defaultDraw','mask'].every(function (field) { return integer(native[field], 0, 1); }) ||
+                    !['resourceId','imageIndex','width','height'].every(function (field) { return integer(native[field], 0, 65535); }) ||
+                    !['cursorX','cursorY','viewX','viewY','viewWidth','viewHeight'].every(function (field) { return integer(native[field], 0, 255); }) ||
+                    !integer(native.city1, 0, 38) ||
+                    native.detailGeneration !== native.generation || native.generation !== data.g_hdDetailGeneration ||
+                    data.g_hdEngineReady !== 1 || data.g_hdMapPick !== 1 || data.g_hdMapInputSeq !== native.mapInputSeq ||
+                    [0, 7].indexOf(data.g_hdMarchPhase) < 0 || !BLOCKERS.every(function (field) {
+                        raw[field] = data[field]; return raw[field] === 0;
+                    }) || (data.g_hdTransferProtocolVersion !== undefined || data.g_hdTransferActive !== undefined) &&
+                    (data.g_hdTransferProtocolVersion !== 1 || data.g_hdTransferActive !== 0)) { return null; }
+                ['g_hdEngineReady','g_hdDetailGeneration','g_hdMapPick','g_hdMapInputSeq','g_hdMarchPhase',
+                    'g_hdTransferProtocolVersion','g_hdTransferActive'].forEach(function (field) { raw[field] = data[field]; });
+                if (baye.data !== data || !BayeHdLibIdentity.isCurrent(identity) || !mobileHost.available() || cityInfoOwns()) { return null; }
+                return {data: data, native: native, key: JSON.stringify([receipt.key, native, raw]), libraryGeneration: identity.generation};
+            }
+            var first = sample(), second = sample();
+            if (!first || !second || first.data !== second.data || first.key !== second.key ||
+                first.libraryGeneration !== second.libraryGeneration) { return null; }
+            Object.defineProperty(second.native, '_mobileKey', {value: second.key});
+            Object.defineProperty(second.native, '_mobileData', {value: second.data});
+            Object.defineProperty(second.native, '_libraryGeneration', {value: second.libraryGeneration});
+            return second.native;
+        } catch (e) { return null; }
+    }
+    function readNative() {
+        if (cityInfoOwns()) { return null; }
+        if (mobileHost) { return mobileReading(); }
+        try {
+            if (!global.baye || !baye.hd || !baye.hd.ready() || !baye.hd.miniMap || document.hidden ||
+                !global.BayeHdOverworld || BayeHdOverworld.getMode() !== 'hd-map') { return null; }
+            var value = baye.hd.miniMap(), march = baye.hd.march(), report = baye.hd.report(),
+                menu = baye.hd.menuItems(), qty = baye.hd.qty(), fight = baye.hd.fight();
+            if (!value || value.protocolVersion !== 1 || value.active !== 1 ||
+                !integer(value.generation, 1, 0xffffffff) || value.generation !== value.detailGeneration ||
+                !integer(value.seq, 1, 0xffffffff) || !integer(value.mapInputSeq, 1, 0xffffffff) ||
+                !march || march.pick !== 1 || march.mapInputSeq !== value.mapInputSeq ||
+                report && report.active || menu && menu.active || qty && qty.active || fight && fight.active || cityInfoOwns()) { return null; }
+            return value;
+        } catch (e) { return null; }
+    }
+    function overview(value) {
+        if (!value || value.complete !== 1 || value.custom !== 0 || value.defaultDraw !== 1 ||
+            value.resourceId !== 75 || value.imageIndex !== 0 || value.width !== 84 || value.height !== 64 || value.mask !== 0) { return null; }
+        var data = BayeHdOverworld.overviewData && BayeHdOverworld.overviewData();
+        if (!data || data.cities.length !== 38 || data.libSha256 !== LIB_SHA ||
+            token(value) !== token(readNative())) { return null; }
+        return data;
+    }
+    function chrome() {
+        var root = node('hd-mini-map'), on = state.open && !document.hidden &&
+            (!mobileHost || !!state.data && !state.showLcd);
+        document.documentElement.setAttribute('data-baye-mini-map', on ? 'hd' : 'off');
+        document.documentElement.setAttribute('data-baye-mini-map-lcd', on && state.showLcd ? '1' : '0');
+        if (root) {
+            root.hidden = !on;
+            root.setAttribute('aria-hidden', on ? 'false' : 'true');
+            root.classList.toggle('is-classic', !!state.showLcd);
+            root.classList.toggle('is-fallback', !state.data);
+        }
+        var toggle = node('hd-mini-map-classic');
+        if (toggle) {
+            toggle.textContent = state.showLcd ? '隐藏经典画面' : '经典画面';
+            toggle.disabled = !state.data;
+        }
+        var back = node('hd-mini-map-return');
+        if (back) { back.disabled = state.committed === state.owner; }
+        var list = node('hd-mini-map-cities');
+        if (list) { list.inert = state.open && state.committed === state.owner; }
+        var filters = node('hd-mini-map-filters');
+        if (filters) { filters.hidden = !state.data; }
+        var search = node('hd-mini-map-search'), searchWrap = node('hd-mini-map-search-wrap');
+        var tools = node('hd-mini-map-tools');
+        if (tools) { tools.hidden = !state.data; }
+        if (searchWrap) { searchWrap.hidden = !state.open || !state.data || state.showLcd; }
+        if (search) { search.disabled = !state.open || !state.data || state.showLcd || !state.focused || state.committed === state.owner; }
+        Object.keys(FILTERS).forEach(function (key) {
+            var button = node('hd-mini-map-filter-' + key);
+            if (button) { button.disabled = !state.data || state.committed === state.owner; }
+        });
+        renderFactionFilter();
+    }
+    function close() {
+        state.epoch += 1;
+        state.open = false; state.owner = ''; state.native = state.data = null; state.filter = 'all';
+        clearRefinements(); state.source = ''; state.rulers = null;
+        state.ownerData = null; state.grant = null;
+        if (mobileHost || state.pressed && state.pressed.ticket) { state.pressed = null; }
+        state.paint = ''; chrome();
+    }
+    function draw() {
+        var canvas = node('hd-mini-map-canvas'), live = readNative();
+        if (!live || token(live) !== state.owner || nativeData(live) !== state.ownerData) { close(); return; }
+        var data = overview(live);
+        if (!data) { adoptSource(''); state.data = null; state.showLcd = true; state.paint = ''; chrome(); return; }
+        adoptSource(sourceKey(data));
+        state.data = data;
+        if (!canvas || document.hidden) { return; }
+        var rect = canvas.getBoundingClientRect(), dpr = Math.min(global.devicePixelRatio || 1, 2);
+        // The mobile host reveals its CSS surface after this poll. Retry the
+        // initial paint once layout becomes visible instead of caching a blank.
+        if (!rect.width || !rect.height) { state.paint = ''; return; }
+        canvas.width = Math.round(rect.width * dpr); canvas.height = Math.round(rect.height * dpr);
+        var ctx = canvas.getContext('2d');
+        ctx.globalAlpha = 1;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.fillStyle = '#16242b'; ctx.fillRect(0, 0, rect.width, rect.height);
+        var scale = Math.min(rect.width / data.width, rect.height / data.height),
+            x = (rect.width - data.width * scale) / 2, y = (rect.height - data.height * scale) / 2;
+        ctx.drawImage(data.image, x, y, data.width * scale, data.height * scale);
+        if (typeof data.paintEnvironment === 'function') {
+            data.paintEnvironment(ctx, { x: x, y: y, w: data.width * scale, h: data.height * scale });
+        }
+        data.cities.forEach(function (city) {
+            ctx.globalAlpha = matchesFilter(city) ? 1 : 0.2;
+            var cx = x + city.x * scale, cy = y + city.y * scale;
+            var current = state.native.city1 === city.index + 1;
+            ctx.beginPath(); ctx.arc(cx, cy, current ? 7 : 4, 0, Math.PI * 2);
+            ctx.fillStyle = city.color; ctx.fill(); ctx.lineWidth = current ? 2.5 : 1;
+            ctx.strokeStyle = current ? '#fff5ce' : '#0c1725'; ctx.stroke();
+        });
+        ctx.globalAlpha = 1;
+    }
+    function render() {
+        var list = node('hd-mini-map-cities'), summary = node('hd-mini-map-summary'),
+            body = node('hd-mini-map-content'), fallback = node('hd-mini-map-fallback');
+        if (body) { body.hidden = !state.data; }
+        if (fallback) { fallback.hidden = !!state.data; }
+        var matches = state.data ? state.data.cities.filter(matchesFilter) : [];
+        var search = node('hd-mini-map-search');
+        if (search && !state.composing && !validEditor(state.editor)) { search.value = state.query; }
+        var filters = node('hd-mini-map-filters');
+        if (filters) { filters.hidden = !state.data; }
+        Object.keys(FILTERS).forEach(function (key) {
+            var button = node('hd-mini-map-filter-' + key);
+            if (!button) { return; }
+            var count = state.data ? state.data.cities.filter(function (city) { return key === 'all' || city.kind === key; }).length : 0;
+            button.textContent = FILTERS[key] + '（' + count + '）';
+            button.setAttribute('aria-pressed', !state.faction && state.filter === key ? 'true' : 'false');
+            button.disabled = !state.data || state.committed === state.owner;
+        });
+        var selected = state.data && state.data.cities.find(function (city) { return city.index + 1 === state.native.city1; });
+        if (summary) { summary.textContent = state.data ? '匹配 ' + matches.length + ' / ' + state.data.cities.length + ' 座城池' +
+            (selected ? ' · 当前位置：' + selected.name : ' · 当前游标未在城池上') : '请在经典画面查看当前小地图。'; }
+        var signature = JSON.stringify([state.owner, state.data && state.data.generation,
+            state.data && state.data.cities, state.native.city1, state.filter, state.query, state.showLcd,
+            state.faction, state.rulers && state.rulers.items]);
+        if (list && state.paint !== signature) {
+            var canLocate = !state.showLcd;
+            list.textContent = state.data && !matches.length ? '暂无匹配城池' : '';
+            var selectedRuler = state.rulers && state.rulers.byId[state.faction];
+            list.setAttribute('aria-label', (selectedRuler ? selectedRuler.name + '领有的' : FILTERS[state.filter]) + '城池');
+            if (state.data) { matches.forEach(function (city) {
+                var item = document.createElement('li'), dot = document.createElement('span'), name = document.createElement('span');
+                item.setAttribute('data-hd-mini-city', String(city.index));
+                item.className = city.index + 1 === state.native.city1 ? 'is-current' : '';
+                dot.className = 'hd-mini-map-dot'; dot.style.backgroundColor = city.color;
+                name.textContent = city.name;
+                var label = document.createElement('small'); label.textContent = city.kind === 'owned' ? '我方' :
+                    city.kind === 'empty' ? '空城' : city.kind === 'unknown' ? '未知' : '他方';
+                var ruler = state.rulers && state.rulers.byId[city.belong];
+                if (ruler) { label.textContent = ruler.name + (city.kind === 'owned' ? '（我方）' : ''); }
+                var row = item;
+                if (canLocate) {
+                    row = document.createElement('button');
+                    row.type = 'button';
+                    row.className = 'hd-mini-map-city-button';
+                    row.setAttribute('aria-label', '定位' + city.name + '（' + label.textContent + '）');
+                    item.appendChild(row);
+                }
+                row.appendChild(dot); row.appendChild(name); row.appendChild(label);
+                if (canLocate) {
+                    var action = document.createElement('span');
+                    action.className = 'hd-mini-map-locate';
+                    action.setAttribute('aria-hidden', 'true');
+                    action.textContent = '定位';
+                    row.appendChild(action);
+                }
+                list.appendChild(item);
+            }); }
+            if (mobileHost) { list.scrollTop = 0; }
+            state.paint = signature;
+            draw();
+        }
+    }
+    function matchesLocation(request, active, seq) {
+        var n = request.native, data = request.data, pos = data.g_CityPos, identityApi = global.BayeHdLibIdentity;
+        if (document.hidden || !state.focused || !global.baye || baye.data !== data || !baye.hd.ready() ||
+            !identityApi || BayeHdOverworld.getMode() !== 'hd-map' || mobileHost && !mobileHost.available() ||
+            data.g_hdEngineReady !== 1 || data.g_hdMapPick !== 1 || cityInfoOwns() ||
+            data.g_hdMiniMapActive !== active || data.g_hdMiniMapSeq !== seq ||
+            data.g_hdDetailGeneration !== n.generation || data.g_hdMapInputSeq !== n.mapInputSeq ||
+            data.g_hdMapCity !== n.city1 || [0,7].indexOf(data.g_hdMarchPhase) < 0 ||
+            data.g_hdTransferActive !== undefined && data.g_hdTransferActive !== 0 ||
+            !BLOCKERS.every(function (field) { return data[field] === 0; }) ||
+            !pos || pos.setx !== n.cursorX || pos.sety !== n.cursorY || pos.x !== n.viewX || pos.y !== n.viewY) { return false; }
+        var identity = identityApi.read();
+        return !!(identity && identity.status === 'ready' && identity.sha256 === LIB_SHA && identity.byteLength === 207195 &&
+            identity.generation === request.libraryGeneration && identityApi.isCurrent(identity) && baye.data === data);
+    }
+    function finishLocation() {
+        var request = state.location;
+        if (!request) { return; }
+        state.location = null;
+        // SEARCH retires inside the same GetCitySet. Its serial skips zero.
+        var retiredSeq = ((request.native.seq + 1) >>> 0) || 1;
+        if (!matchesLocation(request, 0, retiredSeq)) { return; }
+        var map = BayeHdOverworld, overview = map.overviewData(), view = map.debugSnapshot();
+        if (view.hitsEnabled && sourceKey(overview) === request.source && matchesLocation(request, 0, retiredSeq)) {
+            map.centerOnCity(request.index);
+        }
+    }
+    function poll() {
+        var value = readNative();
+        if (!value) { if (state.open) { close(); } finishLocation(); return; }
+        var owner = token(value), ownerData = nativeData(value), data = overview(value), source = sourceKey(data);
+        var rulers = readRulers(data, owner, ownerData, source);
+        var after = readNative();
+        if (owner !== token(after) || ownerData !== nativeData(after)) { state.location = null; close(); return; }
+        if (state.location && (owner !== state.location.key || ownerData !== state.location.data)) { state.location = null; }
+        if (!state.open || owner !== state.owner || state.ownerData !== ownerData) {
+            state.epoch++; state.grant = null;
+            if (mobileHost || state.pressed && state.pressed.ticket) { state.pressed = null; }
+            state.owner = owner; state.committed = '';
+            state.showLcd = !data; state.paint = ''; state.filter = 'all';
+            clearRefinements(); state.source = source;
+        }
+        adoptSource(source);
+        state.ownerData = ownerData;
+        state.open = true; state.native = value; state.data = data;
+        state.rulers = rulers;
+        if (state.faction && (!rulers || !rulers.byId[state.faction])) { state.faction = 0; }
+        if (!data) { state.showLcd = true; state.filter = 'all'; }
+        chrome(); render();
+    }
+    function returnKey(code, owner) {
+        var live = readNative();
+        if (!state.open || !owner || owner !== state.owner || owner !== token(live) || nativeData(live) !== state.ownerData ||
+            state.committed === owner || !integer(code, 0, 255) || mobileHost &&
+            (!state.dispatch || code !== 0x28 || !state.data || state.showLcd)) { return false; }
+        state.committed = owner;
+        chrome();
+        if (cityInfoOwns()) { return false; }
+        // The native tpicflag consumes this one key solely to dismiss the map.
+        if (global.sendKey) { sendKey(code); }
+        else if (baye.sendKey) { baye.sendKey(code); }
+        else { state.committed = ''; chrome(); return false; }
+        return true;
+    }
+    function getInputTicket() {
+        if (!state.focused || !state.ownerData || !state.open || !state.data || state.showLcd || state.committed === state.owner) { return null; }
+        var live = readNative();
+        if (!live || token(live) !== state.owner || nativeData(live) !== state.ownerData) { return null; }
+        var result = {key: state.owner, epoch: state.epoch, libraryGeneration: mobileHost ? live._libraryGeneration : state.data.libraryGeneration,
+            generation: live.generation, seq: live.seq, mapInputSeq: live.mapInputSeq};
+        Object.defineProperty(result, 'data', {value: state.ownerData});
+        return Object.freeze(result);
+    }
+    function sameTicket(a, b) { return !!(a && b && a.data === b.data && a.key === b.key && a.epoch === b.epoch); }
+    function retireInput(reason) {
+        state.epoch++; state.pressed = state.grant = null; state.retireReason = reason || 'retired';
+    }
+    function guardedTarget(event) {
+        var root = node('hd-mini-map'), target = event.target && event.target.closest && event.target.closest('button');
+        if (!root || !target || !root.contains(target) || target.disabled) { return null; }
+        var list = node('hd-mini-map-cities');
+        return mobileHost && target === node('hd-mini-map-return') || list && list.contains(target) ? target : null;
+    }
+    function activateButton(target, ticket) {
+        if (!sameTicket(ticket, getInputTicket())) { return; }
+        var request = null;
+        if (target !== node('hd-mini-map-return')) {
+            var row = target.parentElement, value = row && row.getAttribute('data-hd-mini-city');
+            var index = Number(value), city = state.data.cities[index];
+            if (value == null || !integer(index, 0, 37)) { return; }
+            if (!city || city.index !== index || !matchesFilter(city)) { return; }
+            request = {index: index, native: Object.assign({}, state.native), data: ticket.data, key: ticket.key,
+                libraryGeneration: ticket.libraryGeneration, source: state.source};
+            if (!matchesLocation(request, 1, request.native.seq)) { return; }
+        }
+        state.dispatch = true;
+        try {
+            if (returnKey(0x28, ticket.key)) { state.location = request; }
+        } finally { state.dispatch = false; }
+    }
+    function geometry(target) {
+        try {
+            var r = target.getBoundingClientRect();
+            return r && [r.left,r.top,r.width,r.height].every(Number.isFinite) && r.width >= 44 && r.height >= 44 ?
+                [r.left,r.top,r.width,r.height] : null;
+        } catch (e) { return null; }
+    }
+    function visible(target, x, y) {
+        try {
+            if (!target || target.isConnected === false || document.hidden) { return false; }
+            for (var p = target; p; p = p.parentElement) {
+                var style = global.getComputedStyle && getComputedStyle(p);
+                if (p.hidden || p.inert || style && (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0)) { return false; }
+            }
+            var hit = document.elementFromPoint(x, y);
+            return hit === target || target.contains(hit);
+        } catch (e) { return false; }
+    }
+    function focusedButton(target, rect) {
+        return target === document.activeElement && rect && visible(target, rect[0] + rect[2] / 2, rect[1] + rect[3] / 2);
+    }
+    function bindGuardedInput(root) {
+        document.addEventListener('pointerdown', function (event) {
+            if (event.isTrusted === true) { state.location = null; }
+            state.pointers[event.pointerId] = true;
+            if (Object.keys(state.pointers).length > 1 || event.isPrimary === false) {
+                state.blocked = true; retireInput('multiple-pointers');
+            }
+        }, true);
+        root.addEventListener('pointerdown', function (event) {
+            if (searchTarget(event.target)) { return; }
+            var target = guardedTarget(event);
+            if (!mobileHost && !target) { return; }
+            var ticket = getInputTicket(), rect = target && geometry(target);
+            state.grant = null;
+            if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0 || !integer(event.pointerId, 0, 0xffffffff) || state.blocked ||
+                !target || !rect || !ticket || !visible(target, event.clientX, event.clientY) ||
+                !sameTicket(ticket, getInputTicket())) { retireInput('invalid-down'); return; }
+            state.pressed = {target: target, ticket: ticket, id: event.pointerId, rect: rect, x: event.clientX, y: event.clientY};
+        });
+        document.addEventListener('pointermove', function (event) {
+            if (!state.pressed || !state.pressed.ticket || state.pressed.id !== event.pointerId) { return; }
+            var press = state.pressed;
+            if (Math.hypot(event.clientX - press.x, event.clientY - press.y) > 10 ||
+                JSON.stringify(press.rect) !== JSON.stringify(geometry(press.target)) || !sameTicket(press.ticket, getInputTicket())) {
+                retireInput('move-or-owner-change');
+            }
+        }, true);
+        document.addEventListener('pointerup', function (event) {
+            var press = state.pressed;
+            if (press && press.ticket && press.id === event.pointerId) {
+                var target = guardedTarget(event);
+                state.pressed = null;
+                if (event.isTrusted === true && event.isPrimary === true && event.button === 0 && !state.blocked &&
+                    target === press.target && Math.hypot(event.clientX - press.x, event.clientY - press.y) <= 10 &&
+                    JSON.stringify(press.rect) === JSON.stringify(geometry(target)) && visible(target, event.clientX, event.clientY) &&
+                    sameTicket(press.ticket, getInputTicket())) { state.grant = {target: target, ticket: press.ticket,
+                        rect: press.rect, at: Date.now()}; }
+                else { retireInput('invalid-release'); }
+            }
+            delete state.pointers[event.pointerId];
+            if (!Object.keys(state.pointers).length) { state.blocked = false; }
+        }, true);
+        document.addEventListener('pointercancel', function (event) {
+            delete state.pointers[event.pointerId]; retireInput('pointercancel');
+            state.blocked = Object.keys(state.pointers).length > 0;
+        }, true);
+        document.addEventListener('lostpointercapture', function (event) {
+            // Touch releases implicit capture between pointerup and click.
+            // Only a lost capture during an unfinished press cancels its grant.
+            if (state.pressed && state.pressed.ticket || state.pointers[event.pointerId]) { retireInput('lost-capture'); }
+        }, true);
+        document.addEventListener('scroll', function () { retireKeepingEditor('scroll'); }, true);
+        root.addEventListener('click', function (event) {
+            var target = guardedTarget(event), grant = state.grant; state.grant = null;
+            if (!target) { return; }
+            event.preventDefault(); event.stopPropagation();
+            poll();
+            if (!grant || grant.target !== target || event.isTrusted !== true || !(event.detail > 0) || state.blocked ||
+                Date.now() - grant.at > 700 || !visible(target, event.clientX, event.clientY) ||
+                JSON.stringify(grant.rect) !== JSON.stringify(geometry(target))) { return; }
+            activateButton(target, grant.ticket);
+        });
+        root.addEventListener('focusout', function (event) {
+            if (state.pressed && state.pressed.key && state.pressed.target === event.target) { retireInput('button-blur'); }
+        });
+    }
+    function start() {
+        if (global.BayeHdLibIdentity && typeof BayeHdLibIdentity.subscribe === 'function' && !state.identityBound) {
+            state.identityBound = true;
+            BayeHdLibIdentity.subscribe(function () {
+                state.location = null;
+                if (mobileHost) { retireInput('identity'); close(); }
+                else { retireForSearch('identity'); }
+            });
+        }
+        if (state.bound || !node('hd-mini-map')) { return; }
+        state.bound = true;
+        // Registered on window before city/battle listeners. Repeats stay
+        // consumed until C retires the exact overlay, never becoming movement.
+        global.addEventListener('keydown', function (event) {
+            if (event.isTrusted === true && !event.repeat) { state.location = null; }
+            if (searchTarget(event.target) || factionTarget(event.target)) {
+                if (searchTarget(event.target) && !validEditor(state.editor)) { armSearch(event); }
+                if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
+                else if (event.stopPropagation) { event.stopPropagation(); }
+                return;
+            }
+            var live = readNative();
+            var target = live && state.open && (event.keyCode === 13 || event.keyCode === 32) && guardedTarget(event);
+            if (target && !event.isComposing && !event.altKey && !event.ctrlKey && !event.metaKey) {
+                bayeConsumeKeyEvent(event);
+                if (event.repeat) { return; }
+                retireInput('button-keydown');
+                poll();
+                var ticket = getInputTicket(), rect = geometry(target);
+                if (event.isTrusted === true && ticket && !state.blocked && focusedButton(target, rect)) {
+                    state.pressed = {target: target, ticket: ticket, rect: rect, key: event.keyCode};
+                }
+                return;
+            }
+            if (live && state.open && filterButton(event.target)) {
+                // Enter/Space activate the local button; Tab keeps native focus navigation.
+                if (!event.isComposing && event.keyCode !== 229 && [9, 13, 32].indexOf(event.keyCode) < 0 &&
+                    (keys[event.keyCode] != null || event.keyCode >= 48 && event.keyCode <= 57)) { bayeConsumeKeyEvent(event); }
+                return;
+            }
+            if (!live || event.isComposing || event.keyCode === 229 ||
+                typeof global.bayeInputIgnored === 'function' && bayeInputIgnored(event)) { return; }
+            var code = event.keyCode >= 48 && event.keyCode <= 57 ? 0x40 + event.keyCode - 48 : keys[event.keyCode];
+            if (code == null) { return; }
+            if (mobileHost && (!state.open || !state.data || state.showLcd)) { return; }
+            bayeConsumeKeyEvent(event); poll();
+            if (mobileHost) { return; }
+            if (!event.repeat) { returnKey(code, token(live)); }
+        }, true);
+        global.addEventListener('keyup', function (event) {
+            var press = state.pressed;
+            if (press && press.key && press.key === event.keyCode) {
+                state.pressed = null;
+                bayeConsumeKeyEvent(event); poll();
+                var target = guardedTarget(event), rect = target && geometry(target);
+                if (event.isTrusted === true && !event.isComposing && !state.blocked && target === press.target &&
+                    JSON.stringify(press.rect) === JSON.stringify(rect) && focusedButton(target, rect)) {
+                    activateButton(target, press.ticket);
+                }
+                return;
+            }
+            if (!searchTarget(event.target) && !factionTarget(event.target)) { return; }
+            if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
+            else if (event.stopPropagation) { event.stopPropagation(); }
+        }, true);
+        var root = node('hd-mini-map');
+        var search = node('hd-mini-map-search');
+        var faction = node('hd-mini-map-faction');
+        if (faction) { faction.addEventListener('change', chooseFaction); }
+        if (search) {
+            search.addEventListener('focus',armSearch);
+            search.addEventListener('blur',function () { state.editor = null; state.composing = false; search.value = state.query; });
+            search.addEventListener('input',updateQuery);
+            search.addEventListener('compositionstart',function (event) {
+                if (event.isTrusted === true && searchTarget(event.target)) { state.composing = validEditor(state.editor); }
+            });
+            search.addEventListener('compositionend',function (event) {
+                if (event.isTrusted !== true || !searchTarget(event.target)) { return; }
+                var composing = state.composing; state.composing = false;
+                if (composing) { updateQuery(event); }
+                else { search.value = state.query; }
+            });
+        }
+        Object.keys(FILTERS).forEach(function (key) {
+            var button = node('hd-mini-map-filter-' + key);
+            if (button) { button.addEventListener('click', function (event) {
+                event.preventDefault(); event.stopPropagation(); chooseFilter(key);
+            }); }
+        });
+        root.addEventListener('pointerdown', function (event) {
+            if (searchTarget(event.target)) { armSearch(event); return; }
+            if (mobileHost || guardedTarget(event)) { return; }
+            state.pressed = { owner: state.owner, epoch: state.epoch, target: event.target };
+        });
+        root.addEventListener('pointercancel', function () { if (!mobileHost) { state.pressed = null; } });
+        root.addEventListener('click', function (event) {
+            if (mobileHost || guardedTarget(event)) { return; }
+            var target = event.target.closest && event.target.closest('button'), pressed = state.pressed;
+            state.pressed = null;
+            poll();
+            if (!target || pressed && (pressed.epoch !== state.epoch || pressed.owner !== state.owner ||
+                !target.contains(pressed.target)) ||
+                token(readNative()) !== state.owner || !state.open) { return; }
+            if (target.id === 'hd-mini-map-return') { returnKey(0x28, state.owner); }
+            if (target.id === 'hd-mini-map-classic' && state.data) {
+                state.showLcd = !state.showLcd;
+                if (state.showLcd) { retireInput('classic'); clearRefinements(); }
+                chrome(); render();
+            }
+        });
+        bindGuardedInput(root);
+        global.addEventListener('resize', function () {
+            var editing = retireKeepingEditor('resize');
+            if (mobileHost && !editing) { close(); }
+            if (state.open) { poll(); draw(); }
+        });
+        ['orientationchange','pagehide','blur'].forEach(function (event) {
+            global.addEventListener(event, function () {
+                state.location = null; state.pointers = {}; state.blocked = false;
+                if (!mobileHost) { retireForSearch(event); }
+                clearRefinements();
+                if (event === 'blur' || event === 'pagehide') { state.focused = false; }
+                chrome();
+                if (!mobileHost) { return; }
+                retireInput(event); close();
+            });
+        });
+        ['focus','pageshow'].forEach(function (event) {
+            global.addEventListener(event, function () { state.focused = true; if (state.open || mobileHost) { poll(); } });
+        });
+        document.addEventListener('visibilitychange', function () {
+            state.location = null; state.pointers = {}; state.blocked = false;
+            if (mobileHost) { retireInput('visibility'); close(); }
+            poll();
+        });
+        state.timer = global.setInterval(poll, 180); poll();
+    }
+    global.BayeHdMiniMap = { start: start, poll: poll, onEngineMiniMap: poll,
+        attachMobileHost: function (host) { state.location = null; close(); mobileHost = host || {}; state.focused = true; start(); poll(); },
+        retireInteraction: function (reason) { state.location = null; retireInput(reason); close(); },
+        getInputTicket: getInputTicket,
+        returnKey: returnKey, isOpen: function () { return state.open; },
+        debugSnapshot: function () { return { open: state.open, owner: state.owner, native: state.native,
+            presentationEpoch: state.epoch, mobileHost: !!mobileHost, retireReason: state.retireReason,
+            showLcd: state.showLcd, complete: !!state.data, committed: state.committed === state.owner,
+            filter: state.filter, faction: state.faction, query: state.query,
+            matchingCities: state.data ? state.data.cities.filter(matchesFilter).length : 0,
+            cities: state.data ? state.data.cities : [] }; } };
+})(window);

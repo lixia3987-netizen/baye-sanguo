@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-10",
+  "branch": "feature/hd-graphics",
+  "scope": "Original-only entry and resource-cache migration; separate from full HD completion",
+  "accepted": true,
+  "changes": [
+    "Home and PC retain original game entry; legacy choose/loadlib URLs return to local home.",
+    "Original LIB bytes are verified independently of old path preferences and IndexedDB cache.",
+    "Old save data and metadata are preserved; cloud writes use existing paired-save transactions and original identity checks.",
+    "All four mobile entrances use the original loader; mobile HD remains pending."
+  ],
+  "originalLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "saveIdentity": "v1:414390:1d36da77:1e9c0477",
+  "sourceTests": {
+    "tests": 1108,
+    "pass": 1108,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": 50,
+    "sourceRecords": 1265,
+    "sourceDrift": [],
+    "execution": {
+      "path": "build/r24-full-source-tests-v1-execution.json",
+      "bytes": 3501,
+      "sha256": "5bc5c0691b0e074c31a3e1303f81d69cf34bd94608bac022270e412511d7caa4"
+    },
+    "focused": {
+      "path": "build/original-game-focused-tests-v2.json",
+      "bytes": 4364,
+      "sha256": "9bf0e5639aa01a44f1e6072e1f65343bafd2771529690c8b4acce47a5faa4cec"
+    },
+    "independentSourceReview": {
+      "path": "build/r24-original-entry-source-independent-review.json",
+      "bytes": 5981,
+      "sha256": "eae7d994d2caf387a5076fef3f2303d15fbaaf3d44a3e063ca4e76a97efc7852"
+    }
+  },
+  "browserEntry": {
+    "result": {
+      "path": "build/r24-original-entry-actual-v1/result.json",
+      "bytes": 694213,
+      "sha256": "fb3679fd065ab38b06453c19cabdc7614b02daa0f55759cdb74029f4971905ad"
+    },
+    "runner": {
+      "path": "scripts\\test-original-game-runtime.mjs",
+      "bytes": 22981,
+      "sha256": "a9c0549c387a654848159a65926dfd376a31835e43673a7cb25e35ce2caa9454"
+    },
+    "cases": [
+      "index",
+      "first-no-path",
+      "choose.html",
+      "loadlib.html",
+      "online-save",
+      "old-sc-cache-success",
+      "same-path-wrong-cache-success",
+      "verified-cache-offline-success",
+      "wrong-SHA-retry",
+      "wrong-SHA-retry-success",
+      "download-404-retry",
+      "download-404-retry-success"
+    ],
+    "cacheFixtures": [
+      {
+        "case": "index",
+        "path": null,
+        "cacheSource": null,
+        "actualCacheSha": null
+      },
+      {
+        "case": "old-sc-cache",
+        "path": "libs/sc-mod.lib",
+        "cacheSource": "libs/sc-mod.lib",
+        "actualCacheSha": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c"
+      },
+      {
+        "case": "same-path-wrong-cache",
+        "path": "libs/dat-mod.lib",
+        "cacheSource": "libs/sc-mod.lib",
+        "actualCacheSha": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c"
+      },
+      {
+        "case": "verified-cache-offline",
+        "path": "libs/dat-mod.lib",
+        "cacheSource": "libs/dat-mod.lib",
+        "actualCacheSha": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "case": "wrong-SHA-retry",
+        "path": null,
+        "cacheSource": null,
+        "actualCacheSha": null
+      },
+      {
+        "case": "download-404-retry",
+        "path": null,
+        "cacheSource": null,
+        "actualCacheSha": null
+      }
+    ],
+    "trustedInputs": 3,
+    "exceptions": 0,
+    "dialogs": 0,
+    "serverErrors": 0,
+    "sourceDrift": [],
+    "isolation": {
+      "userServicePort": 8080,
+      "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-original-runtime-wxwrsQ",
+      "httpPort": 12293,
+      "debugPort": 12294,
+      "chromePid": 64076,
+      "chromeExitCode": null,
+      "chromeSignalCode": "SIGTERM",
+      "chromeExited": true,
+      "serverClosed": true,
+      "profileRemoved": true,
+      "profileError": null,
+      "httpPortClosed": true,
+      "debugPortClosed": true,
+      "cleaned": true
+    },
+    "rootIsolation": {
+      "path": "build/r24-original-entry-actual-v1-isolation-root.json",
+      "bytes": 3187,
+      "sha256": "1404e2846cf1ff5035c65572d0a9ef06ae7c6cd1a2be06433977367339e8c906"
+    },
+    "savePreservationScope": "Deliberately invalid sentinel save strings in a private test profile were preserved byte-for-byte; no valid saved-world load is claimed. Cloud transaction behavior has VM tests, not real remote-account acceptance.",
+    "failureScope": "Corrupt-resource and HTTP404 loads show visible errors/retry; dynLib stays unset and preferences stay unchanged. Observers avoid native getters until exact verified LIB. Retry reaches actual native MAIN_SPE3; no exact _main call-count claim."
+  },
+  "originalHdRegression": {
+    "result": {
+      "path": "build/r24-overworld-original-entry-bridge-v1/result.json",
+      "bytes": 4702573,
+      "sha256": "1740d550e9b3af6b2462e2f3197be00eaa587bfd80624291d855bbc3757f4459"
+    },
+    "coverage": {
+      "pointerCities1080": 38,
+      "pointerCities720": 38,
+      "distinctOwnedRoots": 1,
+      "nonOwnedSelections": 74,
+      "actualTabHiding": true,
+      "cameraBounds": true,
+      "zoom": [
+        0.5,
+        2.2
+      ]
+    },
+    "sourceDrift": [],
+    "isolation": {
+      "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-overworld-runtime-ES2UWQ",
+      "httpPort": 1588,
+      "debugPort": 1589,
+      "chromePid": 55848,
+      "userServicePort": 8080,
+      "scope": "Only the server, Chrome child and fresh profile created by this runner are owned",
+      "chromeExitCode": null,
+      "chromeSignalCode": "SIGTERM",
+      "chromeExited": true,
+      "serverClosed": true,
+      "profileRemoved": true,
+      "profileError": null,
+      "httpPortClosed": true,
+      "debugPortClosed": true,
+      "cleaned": true
+    },
+    "rootIsolation": {
+      "path": "build/r24-overworld-original-entry-bridge-v1-isolation-root.json",
+      "bytes": 4408,
+      "sha256": "16b43db1b95ca834c7365ff024e95c198b57765b912913b2c5458e3af2767a3d"
+    }
+  },
+  "installedEngine": [
+    {
+      "path": "js/baye.js",
+      "bytes": 192446,
+      "sha256": "fd55a72ea966641204f032a9e68b11d45efb8c9afe0f258de841cb06194edf11"
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4521847,
+      "sha256": "71ee6726687a5c5a5a1d9509010aef3ad82b8308b84c813374074777d7851572"
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29983,
+      "sha256": "1ddda3fdb2b858135a468fe118f2a4c5093839f29ec09ad7bf101378fb72b186"
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 15801,
+      "sha256": "1cefbf6bda96f024cc932b6c605a183b7070cd7e68bed028390e8f4aa9e1f5f3"
+    }
+  ],
+  "archiveIndex": {
+    "path": "docs/validation/m4-original-entry-20261010/runtime-index.json",
+    "bytes": 38569,
+    "sha256": "e4192bdf2b70d5ebf60ac5010a4726d007ed7e3cbabd8837f1f7f302fe13358f"
+  },
+  "boundaries": [
+    "User service port8080 remained HTTP200 with the same owner; tests used fresh profiles and owned ephemeral ports.",
+    "External SDK/analytics calls were blocked in the private browser. Real cloud login/upload/download is not accepted here.",
+    "Source manifests record physical execution bytes. Existing text files may be normalized for Git line endings; archived reports remain unchanged.",
+    "Original remaining skills, complete four-era gameplay, performance, and mobile HD are still pending. No new Mod development or whole-HD completion is claimed."
+  ],
+  "runtimeSourcePeer": {
+    "path": "build/r24-original-entry-runtime-source-peer-review-v1.json",
+    "bytes": 4275,
+    "sha256": "5f5853758cec66e422df7be7faa86be41828991230237bf6cd66759b7376586d"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "acceptedForPublicationClosure": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41.json",
+    "bytes": 10647,
+    "sha256": "fb74d01825b9d5a41feedb78fb3ebe39813beae09e7dc6b5aaa6a71319f67b24"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41.md",
+    "bytes": 3780,
+    "sha256": "8adf6eea12673c949efec79cb586089195606c2ea2e184f4e3263e631a59c1ba"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-verify.mjs",
+    "bytes": 16100,
+    "sha256": "f7e3425bac9888e6ae67229e9e0be5f7d7d93c664d051bd5023b3b01bb1de139"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-archive.json",
+    "bytes": 67339,
+    "sha256": "932041c88cb4a3f18d597c0c0e2bc1454d4661642e1467149994815d9e2ec829"
+  },
+  "latestWorld": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-latest-world.json",
+    "bytes": 148035,
+    "sha256": "8b532d9c428e3d9d3e14a4db68967e88bfefe75b86019353d82ae11469a6d723"
+  },
+  "pair": [
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango0.sav",
+      "bytes": 8221,
+      "sha256": "922292cb792e8fb249ef112cbb06644d89d40ee5da9a75888762ed55faf035c8"
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango1.sav",
+      "bytes": 4840,
+      "sha256": "9bd6b46b97225869505370be246e334ef6c2701f3d779c6236d493e4b1371ac5"
+    }
+  ],
+  "buyHistory": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-buy-history.json.gz",
+    "bytes": 650623,
+    "sha256": "bc2878a8de39717decb77948f238a6362a6e76af400ecb196eab86599f453619"
+  }
+}

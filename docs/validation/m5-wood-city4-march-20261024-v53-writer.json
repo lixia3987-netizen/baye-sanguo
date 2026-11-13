@@ -1,0 +1,754 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood-city4-march-20261024-v53.json",
+    "bytes": 313602,
+    "sha256": "3dae948cf8d494cc702468bf319436190698896fd7ecd59be073122115abd8c5"
+  },
+  "published": [
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53-archive-part001.json",
+      "bytes": 6955973,
+      "sha256": "fcbbe46788e232347a9031c3647285ea070aff83d2817f4774dac67be065eb04"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53-archive-part002.json",
+      "bytes": 8382057,
+      "sha256": "63cc61dd746f4fa2cbfdb754611f6668bb906daf401acc9a1bf252628b6bf79c"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53-archive-part003.json",
+      "bytes": 1449960,
+      "sha256": "7753aa7535bbcc3ce40425a7d5bf022205f3495cd2befcf79e532797d9e7ba64"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53-archive.json",
+      "bytes": 170531,
+      "sha256": "fd894c9d15f14ad1cdaac92f24061260047a247cdab8f83e141ae7a5ef6b9755"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53-verify.mjs",
+      "bytes": 93125,
+      "sha256": "b3bcb0c6788cf7b4bf7f548fde1dd5bd09f0ff5421abe46e56d469136aa751c7"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53-observed-unsaved-world.json",
+      "bytes": 148004,
+      "sha256": "58f8ac8d6366c09023a834995bde26bd0973e32a1b12292d463f1644b983c1f6"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53.json",
+      "bytes": 313602,
+      "sha256": "3dae948cf8d494cc702468bf319436190698896fd7ecd59be073122115abd8c5"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v53.md",
+      "bytes": 2429,
+      "sha256": "c2d0f965f80cbb264cf5fa43fedd5a414fd671fb87a058a27e7a34084a6fd10d"
+    }
+  ],
+  "stats": {
+    "logicalFiles": 452,
+    "uniqueBlobs": 414,
+    "parts": 3,
+    "serializedPartBytes": 16787990,
+    "rawNamedBytes": 70096983,
+    "uniqueRawBytes": 69337717,
+    "currentSources": 1461,
+    "exactIgnored": 130,
+    "ordinaryPngsDecoded": 3
+  },
+  "privateVerified": {
+    "accepted": true,
+    "logicalFiles": 452,
+    "uniqueBlobs": 414,
+    "ordinaryPngsDecoded": 3,
+    "sourceBinding": {
+      "presentStrict": 1461,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "full": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/v53-focus-root-full-v1.json",
+          "bytes": 72764,
+          "sha256": "af208a3677d3518e00cd8517148e18f65e8576931ae0bcdc28fffed0c84d095f"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/v53-focus-root-full-v1.stdout.log",
+          "bytes": 659891,
+          "sha256": "f7cdf067947a7e6675fa8bffd7034da7876fa527df1a79d663d304862670723c"
+        },
+        "tests": 7832,
+        "pass": 7832,
+        "previousTests": 7828,
+        "newDefaultCases": 4,
+        "registeredFiles": 143,
+        "sourceCount": 359,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "Fresh V53 complete default regression; reader does not rerun tests",
+        "newTestExecutionsByReader": 0
+      },
+      "target": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/v53-focus-target-v1/receipt.json",
+          "bytes": 5416,
+          "sha256": "9e1ec9e97d8f9c92231691074ef8ae77dcd8127381c35b52f47a666270336bd6"
+        },
+        "tests": 10,
+        "pass": 10,
+        "oldCaseNamesAndBodiesRetained": 6,
+        "newCases": 4,
+        "countedAgainInDefault": false
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-march-v53-source-controls-v1.json",
+          "bytes": 18618,
+          "sha256": "7bf3ac785ac8a3c9f749e29683d6fc5d8e7872e3dd359a3b1a77148c1320fb6a"
+        },
+        "tests": 21,
+        "pass": 21,
+        "sourceCount": 42,
+        "defaultCasesAdded": 0
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 45193,
+        "initialChunk": "47a964",
+        "terminalChunk": "e2707b",
+        "exitCode": 1
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "Actual one131 March451 is fully queued but unsaved; historical P51 and genuine V53 resume SAVE remain history, not current rollback input",
+        "phase": "UNSAVED-detached-prefix",
+        "sourceCount": 1149,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 38,
+        "historicalCompletedRepairs": 2,
+        "completedRepairs": 2,
+        "historicalPlunders": 1,
+        "newDistributions": 0,
+        "newPlunders": 0,
+        "newMarches": 1,
+        "actualMarchObserved": true,
+        "qualifiedSavedMarch": false,
+        "postMarchPublicSaveObserved": false,
+        "resumeEpochEstablished": true,
+        "newPublicSaves": 1,
+        "publicSaves": [
+          {
+            "tag": "wood67-131-v53-city4-march-resume",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v53-city4-march-resume-sango0.sav",
+                "bytes": 8221,
+                "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+              },
+              {
+                "path": "native-wood67-131-v53-city4-march-resume-sango1.sav",
+                "bytes": 4840,
+                "sha256": "a4fb8f6d3a7aaec545cc2b1004bf6d3bf25322519536369f6c427d9898619dfa"
+              }
+            ],
+            "worldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+            "keysBefore": 3,
+            "keysAfter": 7
+          }
+        ],
+        "lastGenuineSavedPrefixTag": "wood67-131-v53-city4-march-resume",
+        "latestSavedPrefixTag": "wood67-131-v53-city4-march-resume",
+        "latestPairPins": [
+          {
+            "path": "native-wood67-131-v53-city4-march-resume-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "native-wood67-131-v53-city4-march-resume-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a4fb8f6d3a7aaec545cc2b1004bf6d3bf25322519536369f6c427d9898619dfa"
+          }
+        ],
+        "mainInputAvailable": false,
+        "publishedNewMainInput": false,
+        "mustNotReloadHistoricalInput": true,
+        "reloadWouldRollback": true,
+        "mayRepeatCompletedAction": false,
+        "currentCampaignStateNotRepresentedBySavedPair": true,
+        "finalPairMatchesActualWorld": false,
+        "pairMatchesObservedWorld": false,
+        "lastGenuinePairMatchesSavedWorld": true,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "historicalSeedCompared": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "carryFood": 451,
+        "carryFoodActuallyDeducted": 451,
+        "moneySpent": 0,
+        "thewSpent": 0,
+        "actualIncomeObserved": false,
+        "actualIncomeAccepted": false,
+        "ordinaryEndAccepted": false,
+        "conditionalEndAdmissionQualified": false,
+        "nextAction": {
+          "kind": "preserve-unsaved-detached-prefix-only",
+          "retryMarch": false,
+          "reloadPriorSave": false,
+          "ordinaryEndAccepted": false
+        },
+        "originalFlags": {
+          "resultOk": false,
+          "scenarioOk": false,
+          "newMarchesReportedByController": 0,
+          "newMarchesReportedByWrapper": 0,
+          "actualPreparationAccepted": false,
+          "acceptedForPreparationClosure": false,
+          "scenarioActualPreparationAccepted": false,
+          "scenarioActualMarchAccepted": false,
+          "cleanupTreeExited": true,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": true,
+        "supplementalReadOnlyClosureAccepted": null,
+        "rawFlagsRewritten": false,
+        "independentPairCount": 108,
+        "actualTicketReads": 216,
+        "contentAddressedFullTickets": 49,
+        "bootstrapNativeKeysTotal": 50,
+        "sceneNativeKeys": 49,
+        "additionalStartupNativeKeys": 1,
+        "quantityConfirmations": 1,
+        "person131Confirmations": 1,
+        "completeWorldCheckpoints": 2,
+        "extraFinalWorld": true,
+        "seedFingerprint": "46c131cc5a1e9ec88b6deb4aa69156031d3b65d7b59867b412d4c6a552d7841f",
+        "zeroNativeLoadedPresentationPreflight": true,
+        "namedFocusRegionObserved": true,
+        "namedFocusClicks": 3,
+        "namedFocusMeasurementPackets": 9,
+        "focusProductSources": 3,
+        "actualBodyFocusObserved": true,
+        "publicModeChoicePackets": 3,
+        "publicModeTrustedPointers": 27,
+        "recovery": {
+          "beforeKeys": 47,
+          "nativeCodes": [
+            40,
+            35
+          ],
+          "afterKeys": 49,
+          "finalPhysicalEnterNativeDispatches": 0,
+          "physicalTrustedKeyPairs": 50,
+          "recordActive": 0,
+          "finalMenuContext": 2,
+          "finalMenuKind": 1,
+          "finalMenuIndex": 1,
+          "newSave": false,
+          "additionalWorldDelta": false
+        },
+        "observedQueuedWorldSha256": "c8c673bcf5d4a99ddfbdd43c16c387a8753f590ed189a6e50a10ecca8e800375",
+        "lastGenuineSavedWorldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+        "pendingPlunderOrder": {
+          "slot": 0,
+          "order": {
+            "OrderId": 26,
+            "Person": 44,
+            "City": 20,
+            "Object": 0,
+            "Arms": 29496,
+            "Food": 51,
+            "Money": 29496,
+            "Consume": 51,
+            "TimeCount": 0
+          }
+        },
+        "city20": {
+          "food": 1,
+          "money": 886,
+          "forecastFoodCredited": false
+        },
+        "newBuy": 0,
+        "newPayments": 0,
+        "newPlunder": 0,
+        "newMarch": 1,
+        "newEnd": 0,
+        "newBattle": 0,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1461,
+        "ignoredAllowed": 130,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 31590,
+            "sha256": "867c4e25ae5652543f8d4a3bcf69dc0ebe16ea228a59598ba8063d720079a936"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 32085,
+            "sha256": "f95bd5dfd5a9f4c985625b86689542893c3f956ee23bab346a269b1457b162a2"
+          },
+          "change": "Only exact V53 archive byte attributes appended after actual closure"
+        }
+      },
+      "main": null,
+      "observedUnsavedPrefix": {
+        "world": {
+          "path": "docs/validation/m5-wood-city4-march-20261024-v53-observed-unsaved-world.json",
+          "bytes": 148004,
+          "sha256": "58f8ac8d6366c09023a834995bde26bd0973e32a1b12292d463f1644b983c1f6"
+        },
+        "source": {
+          "path": "build/impact-skill-20261014/city4-march-actual-v53/failure-owner-before-recovery.json",
+          "bytes": 275748,
+          "sha256": "3f88eb016aa84f8b60c702bd0139dc505b0f26d0652b9944fc44579bb2fb5a71"
+        },
+        "finalTicket": {
+          "path": "build/impact-skill-20261014/city4-march-actual-v53/final-protected-owner.json",
+          "bytes": 250330,
+          "sha256": "7cc2faf205f8d4e2bad40a73f4e8aa508ebe8d81f1d4851c4394b3cad632ef41"
+        },
+        "beforeRecoveryKeys": 47,
+        "finalKeys": 49,
+        "actualMarchObserved": true,
+        "qualifiedSavedMarch": false,
+        "pairMatchesObservedWorld": false,
+        "loadableCurrentMain": false,
+        "city4Food": 6334,
+        "orders": [
+          0,
+          170
+        ],
+        "carryFood": 451,
+        "city20Food": 1,
+        "city20Money": 886,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266
+      },
+      "lastGenuinePublicSave": {
+        "role": "historical-pre-dispatch-save-only",
+        "tag": "wood67-131-v53-city4-march-resume",
+        "record": {
+          "path": "build/impact-skill-20261014/city4-march-actual-v53/wood67-131-v53-city4-march-resume-public-save.json",
+          "bytes": 1197752,
+          "sha256": "b9652a98489c8344f1d1b12cc22e08b19bc98eca24185c37ed645b5006172dba"
+        },
+        "pair": [
+          {
+            "path": "build/impact-skill-20261014/city4-march-actual-v53/native-wood67-131-v53-city4-march-resume-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "build/impact-skill-20261014/city4-march-actual-v53/native-wood67-131-v53-city4-march-resume-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a4fb8f6d3a7aaec545cc2b1004bf6d3bf25322519536369f6c427d9898619dfa"
+          }
+        ],
+        "pairMatchesObservedWorld": false,
+        "mayReloadAsCurrentInput": false
+      },
+      "continuation": {
+        "mainInputAvailable": false,
+        "nextInputAuthorized": false,
+        "mustNotReloadHistoricalInput": true,
+        "mayRepeatCompletedAction": false,
+        "status": "blocked-unsaved-native-dispatch",
+        "profilePreservationIsSaveAcceptance": false
+      },
+      "supplementalClosure": null,
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": false,
+        "displayFocusProductChanged": true,
+        "newPlunder": 0,
+        "actualMarchObserved": true,
+        "qualifiedSavedMarch": false,
+        "newEND": 0,
+        "newBattle": 0,
+        "actualSupplyIncomeAccepted": false,
+        "ordinaryEndAccepted": false,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "physicalPaintAccepted": false,
+        "performanceAccepted": false,
+        "broaderResponsiveLayoutAccepted": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousEightTrackedInputsRequired": true,
+        "ignoredPolicyPreviousFailureIsNotMain": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "diskVerified": {
+    "accepted": true,
+    "logicalFiles": 452,
+    "uniqueBlobs": 414,
+    "ordinaryPngsDecoded": 3,
+    "sourceBinding": {
+      "presentStrict": 1461,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "full": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/v53-focus-root-full-v1.json",
+          "bytes": 72764,
+          "sha256": "af208a3677d3518e00cd8517148e18f65e8576931ae0bcdc28fffed0c84d095f"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/v53-focus-root-full-v1.stdout.log",
+          "bytes": 659891,
+          "sha256": "f7cdf067947a7e6675fa8bffd7034da7876fa527df1a79d663d304862670723c"
+        },
+        "tests": 7832,
+        "pass": 7832,
+        "previousTests": 7828,
+        "newDefaultCases": 4,
+        "registeredFiles": 143,
+        "sourceCount": 359,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "Fresh V53 complete default regression; reader does not rerun tests",
+        "newTestExecutionsByReader": 0
+      },
+      "target": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/v53-focus-target-v1/receipt.json",
+          "bytes": 5416,
+          "sha256": "9e1ec9e97d8f9c92231691074ef8ae77dcd8127381c35b52f47a666270336bd6"
+        },
+        "tests": 10,
+        "pass": 10,
+        "oldCaseNamesAndBodiesRetained": 6,
+        "newCases": 4,
+        "countedAgainInDefault": false
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-march-v53-source-controls-v1.json",
+          "bytes": 18618,
+          "sha256": "7bf3ac785ac8a3c9f749e29683d6fc5d8e7872e3dd359a3b1a77148c1320fb6a"
+        },
+        "tests": 21,
+        "pass": 21,
+        "sourceCount": 42,
+        "defaultCasesAdded": 0
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 45193,
+        "initialChunk": "47a964",
+        "terminalChunk": "e2707b",
+        "exitCode": 1
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "Actual one131 March451 is fully queued but unsaved; historical P51 and genuine V53 resume SAVE remain history, not current rollback input",
+        "phase": "UNSAVED-detached-prefix",
+        "sourceCount": 1149,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 38,
+        "historicalCompletedRepairs": 2,
+        "completedRepairs": 2,
+        "historicalPlunders": 1,
+        "newDistributions": 0,
+        "newPlunders": 0,
+        "newMarches": 1,
+        "actualMarchObserved": true,
+        "qualifiedSavedMarch": false,
+        "postMarchPublicSaveObserved": false,
+        "resumeEpochEstablished": true,
+        "newPublicSaves": 1,
+        "publicSaves": [
+          {
+            "tag": "wood67-131-v53-city4-march-resume",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v53-city4-march-resume-sango0.sav",
+                "bytes": 8221,
+                "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+              },
+              {
+                "path": "native-wood67-131-v53-city4-march-resume-sango1.sav",
+                "bytes": 4840,
+                "sha256": "a4fb8f6d3a7aaec545cc2b1004bf6d3bf25322519536369f6c427d9898619dfa"
+              }
+            ],
+            "worldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+            "keysBefore": 3,
+            "keysAfter": 7
+          }
+        ],
+        "lastGenuineSavedPrefixTag": "wood67-131-v53-city4-march-resume",
+        "latestSavedPrefixTag": "wood67-131-v53-city4-march-resume",
+        "latestPairPins": [
+          {
+            "path": "native-wood67-131-v53-city4-march-resume-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "native-wood67-131-v53-city4-march-resume-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a4fb8f6d3a7aaec545cc2b1004bf6d3bf25322519536369f6c427d9898619dfa"
+          }
+        ],
+        "mainInputAvailable": false,
+        "publishedNewMainInput": false,
+        "mustNotReloadHistoricalInput": true,
+        "reloadWouldRollback": true,
+        "mayRepeatCompletedAction": false,
+        "currentCampaignStateNotRepresentedBySavedPair": true,
+        "finalPairMatchesActualWorld": false,
+        "pairMatchesObservedWorld": false,
+        "lastGenuinePairMatchesSavedWorld": true,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "historicalSeedCompared": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "carryFood": 451,
+        "carryFoodActuallyDeducted": 451,
+        "moneySpent": 0,
+        "thewSpent": 0,
+        "actualIncomeObserved": false,
+        "actualIncomeAccepted": false,
+        "ordinaryEndAccepted": false,
+        "conditionalEndAdmissionQualified": false,
+        "nextAction": {
+          "kind": "preserve-unsaved-detached-prefix-only",
+          "retryMarch": false,
+          "reloadPriorSave": false,
+          "ordinaryEndAccepted": false
+        },
+        "originalFlags": {
+          "resultOk": false,
+          "scenarioOk": false,
+          "newMarchesReportedByController": 0,
+          "newMarchesReportedByWrapper": 0,
+          "actualPreparationAccepted": false,
+          "acceptedForPreparationClosure": false,
+          "scenarioActualPreparationAccepted": false,
+          "scenarioActualMarchAccepted": false,
+          "cleanupTreeExited": true,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": true,
+        "supplementalReadOnlyClosureAccepted": null,
+        "rawFlagsRewritten": false,
+        "independentPairCount": 108,
+        "actualTicketReads": 216,
+        "contentAddressedFullTickets": 49,
+        "bootstrapNativeKeysTotal": 50,
+        "sceneNativeKeys": 49,
+        "additionalStartupNativeKeys": 1,
+        "quantityConfirmations": 1,
+        "person131Confirmations": 1,
+        "completeWorldCheckpoints": 2,
+        "extraFinalWorld": true,
+        "seedFingerprint": "46c131cc5a1e9ec88b6deb4aa69156031d3b65d7b59867b412d4c6a552d7841f",
+        "zeroNativeLoadedPresentationPreflight": true,
+        "namedFocusRegionObserved": true,
+        "namedFocusClicks": 3,
+        "namedFocusMeasurementPackets": 9,
+        "focusProductSources": 3,
+        "actualBodyFocusObserved": true,
+        "publicModeChoicePackets": 3,
+        "publicModeTrustedPointers": 27,
+        "recovery": {
+          "beforeKeys": 47,
+          "nativeCodes": [
+            40,
+            35
+          ],
+          "afterKeys": 49,
+          "finalPhysicalEnterNativeDispatches": 0,
+          "physicalTrustedKeyPairs": 50,
+          "recordActive": 0,
+          "finalMenuContext": 2,
+          "finalMenuKind": 1,
+          "finalMenuIndex": 1,
+          "newSave": false,
+          "additionalWorldDelta": false
+        },
+        "observedQueuedWorldSha256": "c8c673bcf5d4a99ddfbdd43c16c387a8753f590ed189a6e50a10ecca8e800375",
+        "lastGenuineSavedWorldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+        "pendingPlunderOrder": {
+          "slot": 0,
+          "order": {
+            "OrderId": 26,
+            "Person": 44,
+            "City": 20,
+            "Object": 0,
+            "Arms": 29496,
+            "Food": 51,
+            "Money": 29496,
+            "Consume": 51,
+            "TimeCount": 0
+          }
+        },
+        "city20": {
+          "food": 1,
+          "money": 886,
+          "forecastFoodCredited": false
+        },
+        "newBuy": 0,
+        "newPayments": 0,
+        "newPlunder": 0,
+        "newMarch": 1,
+        "newEnd": 0,
+        "newBattle": 0,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1461,
+        "ignoredAllowed": 130,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 31590,
+            "sha256": "867c4e25ae5652543f8d4a3bcf69dc0ebe16ea228a59598ba8063d720079a936"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 32085,
+            "sha256": "f95bd5dfd5a9f4c985625b86689542893c3f956ee23bab346a269b1457b162a2"
+          },
+          "change": "Only exact V53 archive byte attributes appended after actual closure"
+        }
+      },
+      "main": null,
+      "observedUnsavedPrefix": {
+        "world": {
+          "path": "docs/validation/m5-wood-city4-march-20261024-v53-observed-unsaved-world.json",
+          "bytes": 148004,
+          "sha256": "58f8ac8d6366c09023a834995bde26bd0973e32a1b12292d463f1644b983c1f6"
+        },
+        "source": {
+          "path": "build/impact-skill-20261014/city4-march-actual-v53/failure-owner-before-recovery.json",
+          "bytes": 275748,
+          "sha256": "3f88eb016aa84f8b60c702bd0139dc505b0f26d0652b9944fc44579bb2fb5a71"
+        },
+        "finalTicket": {
+          "path": "build/impact-skill-20261014/city4-march-actual-v53/final-protected-owner.json",
+          "bytes": 250330,
+          "sha256": "7cc2faf205f8d4e2bad40a73f4e8aa508ebe8d81f1d4851c4394b3cad632ef41"
+        },
+        "beforeRecoveryKeys": 47,
+        "finalKeys": 49,
+        "actualMarchObserved": true,
+        "qualifiedSavedMarch": false,
+        "pairMatchesObservedWorld": false,
+        "loadableCurrentMain": false,
+        "city4Food": 6334,
+        "orders": [
+          0,
+          170
+        ],
+        "carryFood": 451,
+        "city20Food": 1,
+        "city20Money": 886,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266
+      },
+      "lastGenuinePublicSave": {
+        "role": "historical-pre-dispatch-save-only",
+        "tag": "wood67-131-v53-city4-march-resume",
+        "record": {
+          "path": "build/impact-skill-20261014/city4-march-actual-v53/wood67-131-v53-city4-march-resume-public-save.json",
+          "bytes": 1197752,
+          "sha256": "b9652a98489c8344f1d1b12cc22e08b19bc98eca24185c37ed645b5006172dba"
+        },
+        "pair": [
+          {
+            "path": "build/impact-skill-20261014/city4-march-actual-v53/native-wood67-131-v53-city4-march-resume-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "build/impact-skill-20261014/city4-march-actual-v53/native-wood67-131-v53-city4-march-resume-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a4fb8f6d3a7aaec545cc2b1004bf6d3bf25322519536369f6c427d9898619dfa"
+          }
+        ],
+        "pairMatchesObservedWorld": false,
+        "mayReloadAsCurrentInput": false
+      },
+      "continuation": {
+        "mainInputAvailable": false,
+        "nextInputAuthorized": false,
+        "mustNotReloadHistoricalInput": true,
+        "mayRepeatCompletedAction": false,
+        "status": "blocked-unsaved-native-dispatch",
+        "profilePreservationIsSaveAcceptance": false
+      },
+      "supplementalClosure": null,
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": false,
+        "displayFocusProductChanged": true,
+        "newPlunder": 0,
+        "actualMarchObserved": true,
+        "qualifiedSavedMarch": false,
+        "newEND": 0,
+        "newBattle": 0,
+        "actualSupplyIncomeAccepted": false,
+        "ordinaryEndAccepted": false,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "physicalPaintAccepted": false,
+        "performanceAccepted": false,
+        "broaderResponsiveLayoutAccepted": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousEightTrackedInputsRequired": true,
+        "ignoredPolicyPreviousFailureIsNotMain": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "sourceFilesModified": false,
+  "newBrowserRuns": 0,
+  "newNativeInputs": 0,
+  "newTargetExecutions": 0,
+  "newFullExecutions": 0,
+  "originalFlagsRewritten": false
+}

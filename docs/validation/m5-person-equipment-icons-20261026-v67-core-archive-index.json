@@ -1,0 +1,1426 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-equipment-icons-20261026-v67-core-archive-part001.json",
+      "bytes": 8193713,
+      "sha256": "30d8b139b8cc106759f94d800fb2cb11eae20f364f77d3575ae60adab78b96bb",
+      "blobs": 97
+    },
+    {
+      "path": "docs/validation/m5-person-equipment-icons-20261026-v67-core-archive-part002.json",
+      "bytes": 6029037,
+      "sha256": "30eca1cf37ef6fa5955cd56143edd5ff01d1684bb53b8303f195b03372a4964d",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-equipment-icons-20261026-v67-core-archive-part003.json",
+      "bytes": 5870857,
+      "sha256": "51786a18d397276586a565806ddb9bfd497c23440311e6eaaebae33bdcb3698f",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-equipment-icons-20261026-v67-core-archive-part004.json",
+      "bytes": 7551618,
+      "sha256": "af93a8ed05c96749a3af2c167049db1d7b38ffc88141f3ab3c257beb73961ae8",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-person-equipment-icons-20261026-v67-core-archive-part005.json",
+      "bytes": 6681278,
+      "sha256": "bf9af6b3c6b6ef1fd99524eff2f46a7bbde26dfda7f7ee92226da1d78f875eeb",
+      "blobs": 31
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 40897,
+      "sha256": "6b5bdd067485f902181259124ea1443bd93d403fc3c6a7da148f99f0b06cec21",
+      "blob": "6b5bdd067485f902181259124ea1443bd93d403fc3c6a7da148f99f0b06cec21",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/before/css/hd-city-menu.css",
+      "bytes": 14850,
+      "sha256": "7e49268a562e8965d6e6d8e5fc96507382af5100281755937ab230597103f728",
+      "blob": "7e49268a562e8965d6e6d8e5fc96507382af5100281755937ab230597103f728",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/before/js/hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/before/m.html",
+      "bytes": 18454,
+      "sha256": "54cab091cc80c7627ab6d2c37558a27bdd133385c8e97b2825cb4c0f2dbd2276",
+      "blob": "54cab091cc80c7627ab6d2c37558a27bdd133385c8e97b2825cb4c0f2dbd2276",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/before/pc.html",
+      "bytes": 28655,
+      "sha256": "427b37b33bc5ed60efc32cd5e18b874fa0d830d71e8c7775d4f27a677a11199e",
+      "blob": "427b37b33bc5ed60efc32cd5e18b874fa0d830d71e8c7775d4f27a677a11199e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/before/runtime-checks-checkout-v1.mjs",
+      "bytes": 6342,
+      "sha256": "6d4add6831d4d2f9db36cfcf33c155394bdef24f5153142e07c53ec23446de6b",
+      "blob": "6d4add6831d4d2f9db36cfcf33c155394bdef24f5153142e07c53ec23446de6b",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/before/scripts/hd-person-equipment-runtime-checks.mjs",
+      "bytes": 6267,
+      "sha256": "fd44fa83d7e16a4d147a2e0a46b03cedae5e49e7bc4a002bfca25fbc51b2d440",
+      "blob": "fd44fa83d7e16a4d147a2e0a46b03cedae5e49e7bc4a002bfca25fbc51b2d440",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/before/scripts/test-hd-city-hud.mjs",
+      "bytes": 123784,
+      "sha256": "87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f",
+      "blob": "87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/checkout-css-crlf-before-v1.css",
+      "bytes": 15484,
+      "sha256": "e00f700c3450b1a52e9e7537c31f8bd1112d86fa151176d1aae768bab4a9a29c",
+      "blob": "e00f700c3450b1a52e9e7537c31f8bd1112d86fa151176d1aae768bab4a9a29c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/checkout-normalization-v1.json",
+      "bytes": 555,
+      "sha256": "d6dc104635ad76a438fa6afa006bc66a1cbb495a74f3119b9d728bc4ac894ccc",
+      "blob": "d6dc104635ad76a438fa6afa006bc66a1cbb495a74f3119b9d728bc4ac894ccc",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/checkout-test-crlf-before-v1.mjs",
+      "bytes": 125631,
+      "sha256": "580ae039556197203f2cf79c311c8201f6c66e3163c054fade427100ea7578a4",
+      "blob": "580ae039556197203f2cf79c311c8201f6c66e3163c054fade427100ea7578a4",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/checkout-test-normalization-v1.json",
+      "bytes": 404,
+      "sha256": "f9ce6101ac01b4378ce53eec2c1fd2f477b85f5c5ffb5ce45c5a688d93088f3c",
+      "blob": "f9ce6101ac01b4378ce53eec2c1fd2f477b85f5c5ffb5ce45c5a688d93088f3c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/README-root-binding-v6.md",
+      "bytes": 6111,
+      "sha256": "d5380938ebb6c9d2fb93e918f1e30490550937aa7469286526920236be78d775",
+      "blob": "d5380938ebb6c9d2fb93e918f1e30490550937aa7469286526920236be78d775",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/mobile-chunks-v1/manifest.json",
+      "bytes": 1919,
+      "sha256": "7ac6efb70beef0eb4ee0ff2aa88f24d996c43a219e26fcef34ff565342ebfb41",
+      "blob": "7ac6efb70beef0eb4ee0ff2aa88f24d996c43a219e26fcef34ff565342ebfb41",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/prepare-mobile-chunks-v1.mjs",
+      "bytes": 3093,
+      "sha256": "46b6df803a559242aa8695913243d10a4321ce9e79907e7912fd4039de77ee4c",
+      "blob": "46b6df803a559242aa8695913243d10a4321ce9e79907e7912fd4039de77ee4c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/publish-v67-equipment-v6.mjs",
+      "bytes": 6726,
+      "sha256": "e75f4870f14dbb7025b88a91dfe63ba0c0e96d2fc625669c40fbf9f5ec9b1173",
+      "blob": "e75f4870f14dbb7025b88a91dfe63ba0c0e96d2fc625669c40fbf9f5ec9b1173",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/root-bindings-v1.json",
+      "bytes": 34167,
+      "sha256": "fe9a123455ab75480807ab4812b5aef3b966052bce39b3aa7a613598f01c5a18",
+      "blob": "fe9a123455ab75480807ab4812b5aef3b966052bce39b3aa7a613598f01c5a18",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/source-inverse-v6.json",
+      "bytes": 89538,
+      "sha256": "f34c4491ddb85152d2ba84c969378e6ac93ca1f302ebb43cf4a14d54a42e427d",
+      "blob": "f34c4491ddb85152d2ba84c969378e6ac93ca1f302ebb43cf4a14d54a42e427d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/source-preparation-v6.json",
+      "bytes": 17977,
+      "sha256": "4bbb297f80c69db4389ce8aefb22dc3329282ac4fd628e435f0f889b797f6a66",
+      "blob": "4bbb297f80c69db4389ce8aefb22dc3329282ac4fd628e435f0f889b797f6a66",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/v67-equipment-reader-v6.mjs",
+      "bytes": 42425,
+      "sha256": "9559aeb9d40f793e20b7cdfd9f56dc8a8320e8f9cfb30f35a729da6d063fe970",
+      "blob": "9559aeb9d40f793e20b7cdfd9f56dc8a8320e8f9cfb30f35a729da6d063fe970",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/v67-source-static-peer-v4.json",
+      "bytes": 4797,
+      "sha256": "45b9e55616a4ae501057621dd5cbce08576271a35d368b2f244e1c4eb5009cc3",
+      "blob": "45b9e55616a4ae501057621dd5cbce08576271a35d368b2f244e1c4eb5009cc3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v1.before.json",
+      "bytes": 277108,
+      "sha256": "0096c2584062b11dfaee9a4dd97088afbc3d58b923a0778944ca984c2b263a77",
+      "blob": "0096c2584062b11dfaee9a4dd97088afbc3d58b923a0778944ca984c2b263a77",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v1.json",
+      "bytes": 1700,
+      "sha256": "52f63d2a7a2e4d8d967be8f5c674ba83b8e1ca9aa50ae1cbcfcefe2af3a17e3f",
+      "blob": "52f63d2a7a2e4d8d967be8f5c674ba83b8e1ca9aa50ae1cbcfcefe2af3a17e3f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v1.stdout.tap",
+      "bytes": 1625118,
+      "sha256": "f08cfab38075314a28120518c21394d618e78960e68b894b20a71786980b1ccd",
+      "blob": "f08cfab38075314a28120518c21394d618e78960e68b894b20a71786980b1ccd",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v2.before.json",
+      "bytes": 277108,
+      "sha256": "d5234824621d3303e0b24a92acdb8eba542866a878a62b455f1f905e64c955a6",
+      "blob": "d5234824621d3303e0b24a92acdb8eba542866a878a62b455f1f905e64c955a6",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v2.json",
+      "bytes": 1699,
+      "sha256": "535f5dbcf54ef54832e8d37146a14efcdd3b89ccd4cd031ecccbae663fc2831d",
+      "blob": "535f5dbcf54ef54832e8d37146a14efcdd3b89ccd4cd031ecccbae663fc2831d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/full-default-v2.stdout.tap",
+      "bytes": 1624229,
+      "sha256": "94299f8463f5e4c805acc4305a5addc5502daac2378024c2209f57d8b2fc6caa",
+      "blob": "94299f8463f5e4c805acc4305a5addc5502daac2378024c2209f57d8b2fc6caa",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/integrated-hud-v1.stdout.tap",
+      "bytes": 45518,
+      "sha256": "3a55c267343030046632642cc86f6ed4b2d563db608e72189e11c17ecc36c8e7",
+      "blob": "3a55c267343030046632642cc86f6ed4b2d563db608e72189e11c17ecc36c8e7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/integrated-hud-v2.stdout.tap",
+      "bytes": 46051,
+      "sha256": "e4438b3aeb00b401efe17c3146991a66e6373cda401b58c85fe2cf3cfa56a60d",
+      "blob": "e4438b3aeb00b401efe17c3146991a66e6373cda401b58c85fe2cf3cfa56a60d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/lf-repair-before/gitattributes",
+      "bytes": 40742,
+      "sha256": "2cb1aa8df29e99cdbdddabd51140eff32fc6f6f124c697e13fb095a9d9f40177",
+      "blob": "2cb1aa8df29e99cdbdddabd51140eff32fc6f6f124c697e13fb095a9d9f40177",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/lf-repair-before/js/hd-overworld-layers.js",
+      "bytes": 5819,
+      "sha256": "412dfac7163f9d97b2f0b216e029037da9d78efa6f5071c19a3c5a16c033dccb",
+      "blob": "412dfac7163f9d97b2f0b216e029037da9d78efa6f5071c19a3c5a16c033dccb",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/lf-repair-before/scripts/test-hd-overworld-layers.mjs",
+      "bytes": 11846,
+      "sha256": "a73c05ec66e8fc1bf4d054e363313a9f1e0576c3be5a1ea9ea338e52d809d7a9",
+      "blob": "a73c05ec66e8fc1bf4d054e363313a9f1e0576c3be5a1ea9ea338e52d809d7a9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/lf-repair-target-v1.json",
+      "bytes": 1215,
+      "sha256": "adc6c3c30b9768a4adfb0380a5f1492d076567416ebbe875ed2d25a8c104e62a",
+      "blob": "adc6c3c30b9768a4adfb0380a5f1492d076567416ebbe875ed2d25a8c104e62a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/lf-repair-target-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/lf-repair-target-v1.stdout.tap",
+      "bytes": 3585,
+      "sha256": "8f401ef362ba0383c5794e86f73a01bcead7542ad6defe494ad974a2b51c2e24",
+      "blob": "8f401ef362ba0383c5794e86f73a01bcead7542ad6defe494ad974a2b51c2e24",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "blob": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/entry-for-内政-0.png",
+      "bytes": 52916,
+      "sha256": "81ee620bc37626ce7d89dc703639a14d38aa3dea301ee2947d3e63adbbfb8012",
+      "blob": "81ee620bc37626ce7d89dc703639a14d38aa3dea301ee2947d3e63adbbfb8012",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/entry-for-内政-13.png",
+      "bytes": 48597,
+      "sha256": "2d88abeefbc7a6114f2c11a194c8ef6f2ad176606b8e746180656ff37445a564",
+      "blob": "2d88abeefbc7a6114f2c11a194c8ef6f2ad176606b8e746180656ff37445a564",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/entry-for-内政-4.png",
+      "bytes": 52911,
+      "sha256": "784bbe397d8054b79a142d278f36ceb7b03828e8a02b811ede4b065e3132e7fd",
+      "blob": "784bbe397d8054b79a142d278f36ceb7b03828e8a02b811ede4b065e3132e7fd",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/entry-for-内政-9.png",
+      "bytes": 48585,
+      "sha256": "ee582097d83d7af88e709b62c89beb082c4bfb2fbd3476bfa8e7688d040ab800",
+      "blob": "ee582097d83d7af88e709b62c89beb082c4bfb2fbd3476bfa8e7688d040ab800",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/executed-equipment-helper.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/executed-preview-helper.mjs",
+      "bytes": 18631,
+      "sha256": "91d996dad796f450c61d298e120fc93062ee4dbaf6e7283a5608d4ebc9abcd13",
+      "blob": "91d996dad796f450c61d298e120fc93062ee4dbaf6e7283a5608d4ebc9abcd13",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/executed-tool.mjs",
+      "bytes": 118104,
+      "sha256": "21b33e49b5611baf29f0f4c0b2dd3b3da99472a90947f44f8b48df2c427b252b",
+      "blob": "21b33e49b5611baf29f0f4c0b2dd3b3da99472a90947f44f8b48df2c427b252b",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/final-preview-HD-map-hd-overworld-canvas.png",
+      "bytes": 529380,
+      "sha256": "5d1fe15250e6989e1739ec3f30eeae44d7e47b45bd788884a9d2291e028ab221",
+      "blob": "5d1fe15250e6989e1739ec3f30eeae44d7e47b45bd788884a9d2291e028ab221",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/final-preview-HD-map.png",
+      "bytes": 423377,
+      "sha256": "8c4fb8af87a329e53da0d3bde4dd9e825e20df8dd52c92d764dd97f70ce8a1fa",
+      "blob": "8c4fb8af87a329e53da0d3bde4dd9e825e20df8dd52c92d764dd97f70ce8a1fa",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-01-person-0-preview.png",
+      "bytes": 115006,
+      "sha256": "af172e93cb492def5da0bd1c98039e7a2ade538cd9056339fc4725bba48ccfc9",
+      "blob": "af172e93cb492def5da0bd1c98039e7a2ade538cd9056339fc4725bba48ccfc9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-02-person-20-preview.png",
+      "bytes": 116809,
+      "sha256": "3a9887b8057e6a4bb0db87174857c9d8f46de1ab55014494305723808f698a02",
+      "blob": "3a9887b8057e6a4bb0db87174857c9d8f46de1ab55014494305723808f698a02",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-03-person-20-all-properties.png",
+      "bytes": 56328,
+      "sha256": "577ac4aeb49c438ab00a343e417ecf11a7593e627b5ea6269d294b77eca0816e",
+      "blob": "577ac4aeb49c438ab00a343e417ecf11a7593e627b5ea6269d294b77eca0816e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-04-equipment-person-20-slot-0.png",
+      "bytes": 58464,
+      "sha256": "22e0097eb371eb33ce311ad3e3af3f74349bad388e7d8cea85d3d278ab251a80",
+      "blob": "22e0097eb371eb33ce311ad3e3af3f74349bad388e7d8cea85d3d278ab251a80",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-05-equipment-person-20-slot-1.png",
+      "bytes": 59100,
+      "sha256": "7889ce25933bea19322d70c46d5c959aad76bb69107a7b3e04b91d6ab5fe43f4",
+      "blob": "7889ce25933bea19322d70c46d5c959aad76bb69107a7b3e04b91d6ab5fe43f4",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-06-person-0-preview.png",
+      "bytes": 114160,
+      "sha256": "e279ffd729eaa9fadff63a5862d354f086e8a6eafed6abd296d4206df37b1dfc",
+      "blob": "e279ffd729eaa9fadff63a5862d354f086e8a6eafed6abd296d4206df37b1dfc",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-07-equipment-person-0-slot-0.png",
+      "bytes": 64403,
+      "sha256": "d8e8f8853674b17e0c3fa27b504e8548330258d274ccd7d034d99eaaf8a9dc5d",
+      "blob": "d8e8f8853674b17e0c3fa27b504e8548330258d274ccd7d034d99eaaf8a9dc5d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-08-person-19-preview.png",
+      "bytes": 47254,
+      "sha256": "03e8a92201829b37fe6fcb0846a6637a413c812a7b6843d5e59defee17172389",
+      "blob": "03e8a92201829b37fe6fcb0846a6637a413c812a7b6843d5e59defee17172389",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-09-equipment-person-19-empty.png",
+      "bytes": 47254,
+      "sha256": "03e8a92201829b37fe6fcb0846a6637a413c812a7b6843d5e59defee17172389",
+      "blob": "03e8a92201829b37fe6fcb0846a6637a413c812a7b6843d5e59defee17172389",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-10-person-0-preview.png",
+      "bytes": 114160,
+      "sha256": "e279ffd729eaa9fadff63a5862d354f086e8a6eafed6abd296d4206df37b1dfc",
+      "blob": "e279ffd729eaa9fadff63a5862d354f086e8a6eafed6abd296d4206df37b1dfc",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-11-tool-0-preview.png",
+      "bytes": 50285,
+      "sha256": "eaf326335285d67fd35bd8a442938ac25f8bb0dad12927cf3adccf4eb0365aae",
+      "blob": "eaf326335285d67fd35bd8a442938ac25f8bb0dad12927cf3adccf4eb0365aae",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-12-tool-0-all-properties.png",
+      "bytes": 48993,
+      "sha256": "e9b194787c8ffbb25e479a2d9d2faf6a1f106bb4a6ff0692e3a5cd4918b62507",
+      "blob": "e9b194787c8ffbb25e479a2d9d2faf6a1f106bb4a6ff0692e3a5cd4918b62507",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-13-tool-22-preview.png",
+      "bytes": 49349,
+      "sha256": "c394be53dc51207445b3f464c6a0607922a535df10eaba0d6f64746865c57ce9",
+      "blob": "c394be53dc51207445b3f464c6a0607922a535df10eaba0d6f64746865c57ce9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-14-tool-22-all-properties.png",
+      "bytes": 46762,
+      "sha256": "739251646e9964d4a18f63466849dfea484a7de890d8c390a3a586a818fba053",
+      "blob": "739251646e9964d4a18f63466849dfea484a7de890d8c390a3a586a818fba053",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-15-map-hd-overworld-canvas.png",
+      "bytes": 529000,
+      "sha256": "4e8296f6dfa2ab714da0dd72d6a9a9fed55315d982607c452f5fe266d1f0e277",
+      "blob": "4e8296f6dfa2ab714da0dd72d6a9a9fed55315d982607c452f5fe266d1f0e277",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-667x375-15-map.png",
+      "bytes": 422747,
+      "sha256": "53f185dfc8adf877f95713cf961668fe1688c041c880ddb099b63c5e65eaa14c",
+      "blob": "53f185dfc8adf877f95713cf961668fe1688c041c880ddb099b63c5e65eaa14c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-01-person-0-preview.png",
+      "bytes": 118919,
+      "sha256": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "blob": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-02-person-20-preview.png",
+      "bytes": 120972,
+      "sha256": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "blob": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-03-person-20-all-properties.png",
+      "bytes": 60367,
+      "sha256": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "blob": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-04-equipment-person-20-slot-0.png",
+      "bytes": 64686,
+      "sha256": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "blob": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-05-equipment-person-20-slot-1.png",
+      "bytes": 70165,
+      "sha256": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "blob": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-06-person-0-preview.png",
+      "bytes": 117955,
+      "sha256": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "blob": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-07-equipment-person-0-slot-0.png",
+      "bytes": 69898,
+      "sha256": "3810565fab3fbce3865e4c48e2dd30386e181eb2a529933b1ff0d68df29b9aa8",
+      "blob": "3810565fab3fbce3865e4c48e2dd30386e181eb2a529933b1ff0d68df29b9aa8",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-08-person-19-preview.png",
+      "bytes": 51335,
+      "sha256": "c7b29617c337f53816f201cec891f0afbb249bd5343f6dacff22df7974df7dd9",
+      "blob": "c7b29617c337f53816f201cec891f0afbb249bd5343f6dacff22df7974df7dd9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-09-equipment-person-19-empty.png",
+      "bytes": 51335,
+      "sha256": "c7b29617c337f53816f201cec891f0afbb249bd5343f6dacff22df7974df7dd9",
+      "blob": "c7b29617c337f53816f201cec891f0afbb249bd5343f6dacff22df7974df7dd9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-10-person-0-preview.png",
+      "bytes": 117955,
+      "sha256": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "blob": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-11-tool-0-preview.png",
+      "bytes": 55625,
+      "sha256": "23588898ee52bf28c9d439358c382cf88df946fa5a8d8679338771b066e07399",
+      "blob": "23588898ee52bf28c9d439358c382cf88df946fa5a8d8679338771b066e07399",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-12-tool-0-all-properties.png",
+      "bytes": 51727,
+      "sha256": "3a557449a695fce4b7491152d4fc2d9bc326fe132568b977ce1efbe3ec01e68e",
+      "blob": "3a557449a695fce4b7491152d4fc2d9bc326fe132568b977ce1efbe3ec01e68e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-13-tool-22-preview.png",
+      "bytes": 53726,
+      "sha256": "8a47c51cea81fc86d884ec1cd8c58bd1f29b941d1c73028cffad4b181aafa7be",
+      "blob": "8a47c51cea81fc86d884ec1cd8c58bd1f29b941d1c73028cffad4b181aafa7be",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-14-tool-22-all-properties.png",
+      "bytes": 51685,
+      "sha256": "c92bf9883f6b29fe8c227bd41d4c860b9f57d80fcdeceb84ef20c20b2dbe30b7",
+      "blob": "c92bf9883f6b29fe8c227bd41d4c860b9f57d80fcdeceb84ef20c20b2dbe30b7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-15-map-hd-overworld-canvas.png",
+      "bytes": 681764,
+      "sha256": "693843a1202a4d08da0411192850cdc9c793e3781ab5026cf673f084e7004ddd",
+      "blob": "693843a1202a4d08da0411192850cdc9c793e3781ab5026cf673f084e7004ddd",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/preview-844x390-15-map.png",
+      "bytes": 539483,
+      "sha256": "c28447178ee77b4528b670c20ca7930e7e3857d66ca46aab6282ae2ce77e9cf4",
+      "blob": "c28447178ee77b4528b670c20ca7930e7e3857d66ca46aab6282ae2ce77e9cf4",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/mobile-preview-v1/source-verification.json",
+      "bytes": 11677,
+      "sha256": "0c407873cf9ec7e16c2051f433ced4cf397dcf6ef8d59102723e826cb346193c",
+      "blob": "0c407873cf9ec7e16c2051f433ced4cf397dcf6ef8d59102723e826cb346193c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/ATTRIBUTION.md",
+      "bytes": 497,
+      "sha256": "4d46a7535078b9ed35508e3ccb71b697121d96610ab9ce6402cdc4cbd4a0b550",
+      "blob": "4d46a7535078b9ed35508e3ccb71b697121d96610ab9ce6402cdc4cbd4a0b550",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/CMakeLists.txt",
+      "bytes": 3104,
+      "sha256": "d845597089d96040dec7180a298d1e4990e3189a7650b67aabd80a07a5bd96cf",
+      "blob": "d845597089d96040dec7180a298d1e4990e3189a7650b67aabd80a07a5bd96cf",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/FgtPkAi.c",
+      "bytes": 44358,
+      "sha256": "2487fb711f3068f2a8a8fc31d6196fbb5a09a21c650f698c521b3fd3513c27ac",
+      "blob": "2487fb711f3068f2a8a8fc31d6196fbb5a09a21c650f698c521b3fd3513c27ac",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/FightSub.c",
+      "bytes": 37357,
+      "sha256": "52c5b6b8481cac4adca7caa766be8435076f3b465bb278099cee5c78c67e3c61",
+      "blob": "52c5b6b8481cac4adca7caa766be8435076f3b465bb278099cee5c78c67e3c61",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/PublicFun.c",
+      "bytes": 34737,
+      "sha256": "854c8e6a842d2de57ababe038c42d7669ca89867b1422602c05c9ec527df4c70",
+      "blob": "854c8e6a842d2de57ababe038c42d7669ca89867b1422602c05c9ec527df4c70",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/baye/script.h",
+      "bytes": 885,
+      "sha256": "dcda1d71c72458d54c6d1f3714bb93d73ce7152f03b9a07b2c6968379aca587d",
+      "blob": "dcda1d71c72458d54c6d1f3714bb93d73ce7152f03b9a07b2c6968379aca587d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/bind-objects.c",
+      "bytes": 18323,
+      "sha256": "e439347b9b2f8d330192c662deb4a46afc924cb6267d30ff0b93e395fe779f4f",
+      "blob": "e439347b9b2f8d330192c662deb4a46afc924cb6267d30ff0b93e395fe779f4f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/cityedit.c",
+      "bytes": 41556,
+      "sha256": "bf85248097d6448e4197e3ad19992c417081a85f1c082aca8ce2759718115500",
+      "blob": "bf85248097d6448e4197e3ad19992c417081a85f1c082aca8ce2759718115500",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/convert_to_c.py",
+      "bytes": 312,
+      "sha256": "f5798a1ec66584c125c484d02556bd14b71832feb2ea236661bbcc1bf32d4ab5",
+      "blob": "f5798a1ec66584c125c484d02556bd14b71832feb2ea236661bbcc1bf32d4ab5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/gamEng.c",
+      "bytes": 47529,
+      "sha256": "8be6c9733c69db035e207607b3f4a2e854896c874c8a8fe1755faf7a4eae2feb",
+      "blob": "8be6c9733c69db035e207607b3f4a2e854896c874c8a8fe1755faf7a4eae2feb",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/genver.py",
+      "bytes": 425,
+      "sha256": "41d40713c4632f4572b8570666e8445392c54aed74e8bc0748365b8e8e286d8f",
+      "blob": "41d40713c4632f4572b8570666e8445392c54aed74e8bc0748365b8e8e286d8f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/hd-bridge.c",
+      "bytes": 203616,
+      "sha256": "9972c278fdac1aaa39c4e3d64f8a3175a93d5c602bc519e5f6cc880098c38d0c",
+      "blob": "9972c278fdac1aaa39c4e3d64f8a3175a93d5c602bc519e5f6cc880098c38d0c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/hd-bridge.h",
+      "bytes": 20095,
+      "sha256": "5f23074b1d0fd04eec16f5c1619527763ebed74dd2dfb966a794778a2763ade5",
+      "blob": "5f23074b1d0fd04eec16f5c1619527763ebed74dd2dfb966a794778a2763ade5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/platform/common/sys.c",
+      "bytes": 15865,
+      "sha256": "4ecefcd130f308692a412d61942f57efa85bd45fe6bbaa6e25e62754670b09f3",
+      "blob": "4ecefcd130f308692a412d61942f57efa85bd45fe6bbaa6e25e62754670b09f3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/platform/js/exportjs.c",
+      "bytes": 10288,
+      "sha256": "0e021ad6c6817fce4d3709377c202c768d908fa39e07e3cf823058b251520374",
+      "blob": "0e021ad6c6817fce4d3709377c202c768d908fa39e07e3cf823058b251520374",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/platform/js/script.c",
+      "bytes": 7098,
+      "sha256": "269dbe35aa7453cd3d7f0a5cc44b13c62be526f528b831a76d79d33ca4c4d4f4",
+      "blob": "269dbe35aa7453cd3d7f0a5cc44b13c62be526f528b831a76d79d33ca4c4d4f4",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-before/vendor/iBaye/src/showface.c",
+      "bytes": 44002,
+      "sha256": "41b6721d407f0ade4c3266ebe9f135402d2cfb1973d54e5bb1ff06ac0bc94b62",
+      "blob": "41b6721d407f0ade4c3266ebe9f135402d2cfb1973d54e5bb1ff06ac0bc94b62",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/native-checkout-normalization-v3.json",
+      "bytes": 7616,
+      "sha256": "a364930905bd52dec8ac576e27f3cf9615483b49673e1e334c0255dbbda59574",
+      "blob": "a364930905bd52dec8ac576e27f3cf9615483b49673e1e334c0255dbbda59574",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/overworld-lf-repair-v1.json",
+      "bytes": 2039,
+      "sha256": "54e1672452db354ad34e4aa419e3fda2cb8b799318bcf306989bc3b056767f1c",
+      "blob": "54e1672452db354ad34e4aa419e3fda2cb8b799318bcf306989bc3b056767f1c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/browser-console.json",
+      "bytes": 15237,
+      "sha256": "bb0e8d6496deb3c222e4534f9140437bfea008ffeef50d3e4921dd452556cff8",
+      "blob": "bb0e8d6496deb3c222e4534f9140437bfea008ffeef50d3e4921dd452556cff8",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/executed-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/executed-tool.mjs",
+      "bytes": 34588,
+      "sha256": "cddf31b5f2d96155c4cc39e84554acc29f7b17a4fbf0603ff56d6020250fb371",
+      "blob": "cddf31b5f2d96155c4cc39e84554acc29f7b17a4fbf0603ff56d6020250fb371",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/pc1080-equipment-00-luoyang-root.png",
+      "bytes": 2295894,
+      "sha256": "57680d84df96c9ba78f696a1a9a19337b49401c8a055148bcba2645dccf2ad87",
+      "blob": "57680d84df96c9ba78f696a1a9a19337b49401c8a055148bcba2645dccf2ad87",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/pc1080-equipment-01-search-person-list.png",
+      "bytes": 2225096,
+      "sha256": "7558763d12bb4ee3d5983f4c70aa3483cd878068be53bb0410cf925098981edb",
+      "blob": "7558763d12bb4ee3d5983f4c70aa3483cd878068be53bb0410cf925098981edb",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/pc1080-equipment-02-equipment-person-20-slot-0.png",
+      "bytes": 2200702,
+      "sha256": "2b584a5b7a9b7b6fdd3c1b511b654187a773024a8847e17c4c4c7d99ed699cb8",
+      "blob": "2b584a5b7a9b7b6fdd3c1b511b654187a773024a8847e17c4c4c7d99ed699cb8",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/pc1080-equipment-03-equipment-person-20-slot-1.png",
+      "bytes": 2200704,
+      "sha256": "4011503313d57e287c34da03efc489168c51559e5bd461e64e124cf2b89ed69b",
+      "blob": "4011503313d57e287c34da03efc489168c51559e5bd461e64e124cf2b89ed69b",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/pc1080-equipment-04-equipment-person-0-slot-0.png",
+      "bytes": 2178510,
+      "sha256": "238b04a0a20ad654be561387e761ba1b45046d95d1282d999737eb9632ef441d",
+      "blob": "238b04a0a20ad654be561387e761ba1b45046d95d1282d999737eb9632ef441d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/pc1080-equipment-05-equipment-person-19-empty.png",
+      "bytes": 2241824,
+      "sha256": "a9f523fdee247c4e811f14555fa076cbf7c28ae29439b0556dc97cc68eaccb6d",
+      "blob": "a9f523fdee247c4e811f14555fa076cbf7c28ae29439b0556dc97cc68eaccb6d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/result.json",
+      "bytes": 4976423,
+      "sha256": "20591c3a27de87af97e93993bdee3f9f605d839033ac02c487476a488b6e5659",
+      "blob": "20591c3a27de87af97e93993bdee3f9f605d839033ac02c487476a488b6e5659",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc1080-v1/source-verification.json",
+      "bytes": 434471,
+      "sha256": "b1c96f8ceaa0915b5ebfde32a7ea4e1acdc20319a9769cdd16abb326e9ecc700",
+      "blob": "b1c96f8ceaa0915b5ebfde32a7ea4e1acdc20319a9769cdd16abb326e9ecc700",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/browser-console.json",
+      "bytes": 15239,
+      "sha256": "0b29260073efcfe0515ab2e1036c0f75e7a8558390884439949842dd982379a2",
+      "blob": "0b29260073efcfe0515ab2e1036c0f75e7a8558390884439949842dd982379a2",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/executed-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/executed-tool.mjs",
+      "bytes": 34588,
+      "sha256": "cddf31b5f2d96155c4cc39e84554acc29f7b17a4fbf0603ff56d6020250fb371",
+      "blob": "cddf31b5f2d96155c4cc39e84554acc29f7b17a4fbf0603ff56d6020250fb371",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/pc720-equipment-00-luoyang-root.png",
+      "bytes": 878384,
+      "sha256": "c6277a7ee4e74aca814c9ee2ef85b6d5ecc35a1e69e4a2fc6b5369d47a64184c",
+      "blob": "c6277a7ee4e74aca814c9ee2ef85b6d5ecc35a1e69e4a2fc6b5369d47a64184c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/pc720-equipment-01-search-person-list.png",
+      "bytes": 867909,
+      "sha256": "ad877b47c142709e13b47f7be5aeca66a8f2a85d602f050d570026410470cf4a",
+      "blob": "ad877b47c142709e13b47f7be5aeca66a8f2a85d602f050d570026410470cf4a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/pc720-equipment-02-equipment-person-20-slot-0.png",
+      "bytes": 795512,
+      "sha256": "6877f2e8c586677ae1dc3dcd13516d14126d06dbabd8ae51773a61c0b9dd3475",
+      "blob": "6877f2e8c586677ae1dc3dcd13516d14126d06dbabd8ae51773a61c0b9dd3475",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/pc720-equipment-03-equipment-person-20-slot-1.png",
+      "bytes": 795526,
+      "sha256": "9bd71246dbf6db2fe5cf3aa1ba61f2fd7caa46b0f8058e1d712ab27bf706769c",
+      "blob": "9bd71246dbf6db2fe5cf3aa1ba61f2fd7caa46b0f8058e1d712ab27bf706769c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/pc720-equipment-04-equipment-person-0-slot-0.png",
+      "bytes": 772586,
+      "sha256": "39d7f114098530e4d1452745dccda9b448b0cc7ddb40b4dd55ef92befb4ba0db",
+      "blob": "39d7f114098530e4d1452745dccda9b448b0cc7ddb40b4dd55ef92befb4ba0db",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/pc720-equipment-05-equipment-person-19-empty.png",
+      "bytes": 835789,
+      "sha256": "3ecf511bc0a83bcef77c5db1073b5a46dd298ff305016b426f183d3b7e92c7a9",
+      "blob": "3ecf511bc0a83bcef77c5db1073b5a46dd298ff305016b426f183d3b7e92c7a9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/result.json",
+      "bytes": 4973992,
+      "sha256": "e7e9dfd640bfe135c545aa923a58de970cfe28114ab9baf5ebc977b822085536",
+      "blob": "e7e9dfd640bfe135c545aa923a58de970cfe28114ab9baf5ebc977b822085536",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/pc720-v1/source-verification.json",
+      "bytes": 434471,
+      "sha256": "b1c96f8ceaa0915b5ebfde32a7ea4e1acdc20319a9769cdd16abb326e9ecc700",
+      "blob": "b1c96f8ceaa0915b5ebfde32a7ea4e1acdc20319a9769cdd16abb326e9ecc700",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/preflight-v1/browser-console.json",
+      "bytes": 70,
+      "sha256": "46568dae8c3ff6247fe1b949b4a578213e6a7e355676c582a97cf1417bf5341e",
+      "blob": "46568dae8c3ff6247fe1b949b4a578213e6a7e355676c582a97cf1417bf5341e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/preflight-v1/result.json",
+      "bytes": 767132,
+      "sha256": "5a7d50dd7793ef9874cccf3f6ad32effd7b002be7cb0273c0d290bc767d81ad3",
+      "blob": "5a7d50dd7793ef9874cccf3f6ad32effd7b002be7cb0273c0d290bc767d81ad3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/preflight-v1/source-verification.json",
+      "bytes": 434471,
+      "sha256": "b1a594549406f5405a7fc12216108a77bcc7e3dbb33cacfdd2bf67c1331943ee",
+      "blob": "b1a594549406f5405a7fc12216108a77bcc7e3dbb33cacfdd2bf67c1331943ee",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/preflight-v2/browser-console.json",
+      "bytes": 70,
+      "sha256": "46568dae8c3ff6247fe1b949b4a578213e6a7e355676c582a97cf1417bf5341e",
+      "blob": "46568dae8c3ff6247fe1b949b4a578213e6a7e355676c582a97cf1417bf5341e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/preflight-v2/result.json",
+      "bytes": 789093,
+      "sha256": "13a794a4b4f91c079af6fde97f5bbbaae3dffd0b0294f9848f5cb8ad377a481e",
+      "blob": "13a794a4b4f91c079af6fde97f5bbbaae3dffd0b0294f9848f5cb8ad377a481e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/preflight-v2/source-verification.json",
+      "bytes": 434470,
+      "sha256": "f10a2339c03f8d56f1f770d85b335c3ff8cdfa4d3a52fb4590952d79a89621f8",
+      "blob": "f10a2339c03f8d56f1f770d85b335c3ff8cdfa4d3a52fb4590952d79a89621f8",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-full-v1-terminal-tool-v1.json",
+      "bytes": 409,
+      "sha256": "d192c42d44ee19650cd1ddf651f5a35a8ad64d51b67374ef18b20dc488792d94",
+      "blob": "d192c42d44ee19650cd1ddf651f5a35a8ad64d51b67374ef18b20dc488792d94",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-full-v2-initial-tool-v1.json",
+      "bytes": 346,
+      "sha256": "b76d58d0d2635268def8bb86e128f1d4d00e8baeb1d6a4774c302dbe524fa090",
+      "blob": "b76d58d0d2635268def8bb86e128f1d4d00e8baeb1d6a4774c302dbe524fa090",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-full-v2-terminal-tool-v1.json",
+      "bytes": 408,
+      "sha256": "9440a2ce9cd06e92bc840f8c7ccd2455ce1ea3dfca1d2cdb7361c216ed83a3de",
+      "blob": "9440a2ce9cd06e92bc840f8c7ccd2455ce1ea3dfca1d2cdb7361c216ed83a3de",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-mobile-terminal-tool-v1.json",
+      "bytes": 2339,
+      "sha256": "df8d0c29044568894c734afc5bbea6d8242c3930f86b516493ac42f498798f9a",
+      "blob": "df8d0c29044568894c734afc5bbea6d8242c3930f86b516493ac42f498798f9a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-original-tool-35cd9a-v1.json",
+      "bytes": 1523,
+      "sha256": "d58a37a878d6779a74de257cace688ec4b2f5a2f4fea32facbe6cc05aea09a44",
+      "blob": "d58a37a878d6779a74de257cace688ec4b2f5a2f4fea32facbe6cc05aea09a44",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-original-tool-98427a-v1.json",
+      "bytes": 1274,
+      "sha256": "a40d732fcd03f39d3f42c66f01b5f9338dc7bdb77be8028f12f5e4a671c0f063",
+      "blob": "a40d732fcd03f39d3f42c66f01b5f9338dc7bdb77be8028f12f5e4a671c0f063",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-original-tool-a5a4cc-v1.json",
+      "bytes": 1159,
+      "sha256": "62b7ec037551e45718623e76cb42ea8036e9f8b11a094f5d0c35ab26d8c4207c",
+      "blob": "62b7ec037551e45718623e76cb42ea8036e9f8b11a094f5d0c35ab26d8c4207c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/raw-original-tool-b8b8e5-v1.json",
+      "bytes": 1598,
+      "sha256": "6feb81d9702a16823f15f59250a29aad18e6f1db37bbae3407de858a830d7ab2",
+      "blob": "6feb81d9702a16823f15f59250a29aad18e6f1db37bbae3407de858a830d7ab2",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/runtime-check-integration-v1.json",
+      "bytes": 844,
+      "sha256": "c9fc2169b745d84af7e239c6a0803ff371063dc04e5a3d8bb905530a23bcf6ad",
+      "blob": "c9fc2169b745d84af7e239c6a0803ff371063dc04e5a3d8bb905530a23bcf6ad",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/runtime-mechanical-source-inverse-v1.json",
+      "bytes": 7858,
+      "sha256": "46c87dbf0b972ffdb4459d5f4895dce2cdc9e52d76e98c453a309cefec600e4a",
+      "blob": "46c87dbf0b972ffdb4459d5f4895dce2cdc9e52d76e98c453a309cefec600e4a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/runtime-source-preparation-v1.json",
+      "bytes": 2137,
+      "sha256": "10386d61d92e67c264c6651ce096108f580b399da4f0cf4ae37d73d6c415b273",
+      "blob": "10386d61d92e67c264c6651ce096108f580b399da4f0cf4ae37d73d6c415b273",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/source-integration-v4.json",
+      "bytes": 3198,
+      "sha256": "d094f58738bdb721b8fb5ba8330da3aa8cd6cf1edb8aca0dfcda8238ccf6d2cf",
+      "blob": "d094f58738bdb721b8fb5ba8330da3aa8cd6cf1edb8aca0dfcda8238ccf6d2cf",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/equipment-icons-20261026-v67/v67-root-terminal-proof-v1.json",
+      "bytes": 2104,
+      "sha256": "b3440e115ef80fbd0f6e798ab9b14cb42a99ad7d135afa2eabb87b3e4b4d549d",
+      "blob": "b3440e115ef80fbd0f6e798ab9b14cb42a99ad7d135afa2eabb87b3e4b4d549d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15365,
+      "sha256": "4ce218279c71adcc49fa35a1f8dfadb00b93fb2601371f67c2d487e80c2a9081",
+      "blob": "4ce218279c71adcc49fa35a1f8dfadb00b93fb2601371f67c2d487e80c2a9081",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 433456,
+      "sha256": "71792cdfd2d6689e0b32011df1b317e056f29408133329c834eb95fb4bea437f",
+      "blob": "71792cdfd2d6689e0b32011df1b317e056f29408133329c834eb95fb4bea437f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "m.html",
+      "bytes": 18472,
+      "sha256": "b06e5d9a7abb5b9501f9995ae790a2867f0c6a97461d628c5d4b628b2d5dc595",
+      "blob": "b06e5d9a7abb5b9501f9995ae790a2867f0c6a97461d628c5d4b628b2d5dc595",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 21183,
+      "sha256": "809fd447dd1177d6af707c189c4a0408011c1bfe5a78816012a21a09bc7a140d",
+      "blob": "809fd447dd1177d6af707c189c4a0408011c1bfe5a78816012a21a09bc7a140d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 28673,
+      "sha256": "7324640cdf6661aca0a456a8700c5453b785891139432a0196f25bdb25c19754",
+      "blob": "7324640cdf6661aca0a456a8700c5453b785891139432a0196f25bdb25c19754",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-equipment-runtime-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 128839,
+      "sha256": "c3988b69375c7ecbd5ffef637c76841e8fade19f19da06a700cda2d0e7209fb6",
+      "blob": "c3988b69375c7ecbd5ffef637c76841e8fade19f19da06a700cda2d0e7209fb6",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    }
+  ],
+  "logicalFiles": 152,
+  "uniqueBlobs": 138,
+  "rawNamedBytes": 43671873,
+  "uniqueRawBytes": 42819188,
+  "uniqueGzipBytes": 25720713,
+  "serializedPartBytes": 34326503,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

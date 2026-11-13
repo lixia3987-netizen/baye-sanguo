@@ -1,0 +1,30 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in edit",
+  "callOrdinal": 2,
+  "request": {
+    "transparent_background": false,
+    "prompt": "Use case: precise-object-edit / text-localization (visual glyph copying, no translation).\nAsset: second frame of the original resource40 LIUYAN two-frame game illustration.\nInput image 1 is the EDIT TARGET, the actual generated first frame. Input image 2 is the authoritative original native frame1 REFERENCE FOR BLACK GLYPH SHAPES IN THE TOP SPEECH BUBBLE.\nMake one narrowly localized edit to image 1: insert the exact black lettering/marks visibly shown inside the top central bubble of image 2 into the pale empty bubble of image 1. The bubble must contain those reference glyph shapes, clearly visible and crisply drawn. It must NOT remain empty. Copy the strokes/contours, count, order and relative spacing directly from the bitmap reference, enlarged into the bubble. This is visual shape copying: do not guess or transcribe different Chinese words, do not translate, and do not invent punctuation or additional words. Preserve any marks that actually appear in the native reference and no others.\nEverything outside the bubble interior is invariant: keep both soldiers' identities, faces, gaze, body poses, armour, helmets, hands, exact spear directions, leg positions, feet, mountain background, brush texture, lighting, palette, crop and all other pixels as unchanged as possible. Keep the existing bubble outline, size, position and tail. Do not add movement, attack, gestures, people, new scenery, titles, border or watermark.\nKeep the same full opaque painted square. No transparency, no checkerboard, no sprite sheet. The only intended frame difference is the native frame1 dialogue inside the existing speech bubble.",
+    "referenced_image_paths": [
+      "F:/project/baye-sanguo/build/r25-liuyan-40-art-v1/picture-0.png",
+      "F:/project/baye-sanguo/build/r25-native-liuyan-40/picture-1-nearest-4x.png"
+    ]
+  },
+  "references": [
+    {
+      "path": "build/r25-liuyan-40-art-v1/picture-0.png",
+      "role": "Edit target. Preserve the entire actual generated frame0 image; change only its bubble interior.",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-0.png",
+      "bytes": 3113150,
+      "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+      "role": "Authoritative exact native frame1 glyph-shape and placement reference. Not a style reference.",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-1-nearest-4x.png",
+      "bytes": 3430,
+      "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726"
+    }
+  ],
+  "scope": "Raw generated second-frame candidate; frame0 known glyph failure remains preserved; no production or runtime acceptance"
+}

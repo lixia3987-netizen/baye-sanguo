@@ -1,0 +1,3287 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-11T12:35:42.432Z",
+  "status": "partial",
+  "globalHdComplete": false,
+  "originalOnly": true,
+  "versionSelectorRemoved": true,
+  "product": "FIRE5 retains the full160x96 native LCD and replaces only the authenticated opaque65x64@48,16 movie/NUM/HOLD window using the existing two pictures.",
+  "manifest": {
+    "before": 52,
+    "after": 53,
+    "oldObjectsAndOrderExact": true,
+    "topLevelExact": true,
+    "onlyAddedSkill5": true,
+    "art": [
+      {
+        "path": "assets/hd-spe/fire-35/picture-0.png",
+        "bytes": 1505512,
+        "sha256": "477a2a5d07c9e58de37c22939d0941fb2497c41170ccf9be7a0f11f25303f7ef"
+      },
+      {
+        "path": "assets/hd-spe/fire-35/picture-1.png",
+        "bytes": 1699430,
+        "sha256": "0580b6a9f856e5bc502aaab378ba3a4321a2d4214c172aba88d5f1acfd253be4"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "name": "pc-1080-v1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "classic": false,
+      "missingAssets": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "startedAt": "2026-10-11T12:07:48.681Z",
+      "finishedAt": "2026-10-11T12:09:01.253Z",
+      "phases": 18,
+      "publicInputs": 110,
+      "engineInputs": 265,
+      "sourceCount": 1214,
+      "fireAttempts": [
+        {
+          "attempt": 1,
+          "weatherBefore": 1,
+          "actor": {
+            "slot": 2,
+            "nativeToken": 61,
+            "name": "程银"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 2,
+          "weatherBefore": 1,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 3,
+          "weatherBefore": 1,
+          "actor": {
+            "slot": 5,
+            "nativeToken": 64,
+            "name": "梁兴"
+          },
+          "target": {
+            "slot": 10,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 28,
+          "mpAfter": 13,
+          "armsBefore": 1170,
+          "armsAfter": 770,
+          "damage": 400
+        }
+      ],
+      "appliedResult": {
+        "session": 1,
+        "kind": 1,
+        "value": 400,
+        "attempt": 3
+      },
+      "readonlyExtraKeys": 0,
+      "pixels": {
+        "actualLcdCallbacks": 23,
+        "events": 1,
+        "sourceCopies": 8,
+        "movieHd": 8,
+        "postHd": 16,
+        "labels": 16,
+        "numericReadbacks": 15,
+        "completedHoldReadbacks": 1,
+        "fallbackReadbacks": 0,
+        "outsidePixelsPerHdReadback": 11200,
+        "outsidePixelComparisons": 268800,
+        "verifiedReadbacks": 24
+      },
+      "native": {
+        "count": 128,
+        "aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+        "installed": {
+          "schemaVersion": 1,
+          "sourceRevision": "0e997203b909479dedd445686c18358270d62432",
+          "engineSourceSha256": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+          "engineSourceModified": true,
+          "emscriptenVersion": "3.1.51",
+          "cmakeVersion": "cmake version 3.31.6",
+          "sourceDateEpoch": 1791711430,
+          "hdMenuProtocol": {
+            "nativeFallback": 254,
+            "controlField": "g_hdFightMenuControl"
+          },
+          "hdInputProtocol": {
+            "version": 3,
+            "fight": [
+              "g_hdFightInputKind",
+              "g_hdFightInputSeq",
+              "g_hdFightActor"
+            ],
+            "menu": [
+              "g_hdMenuActive",
+              "g_hdMenuContext",
+              "g_hdMenuKind",
+              "g_hdMenuSeq"
+            ],
+            "march": [
+              "g_hdMarchPhase",
+              "g_hdMarchSession",
+              "g_hdMarchOrigin",
+              "g_hdMarchSelected",
+              "g_hdMarchInputSeq",
+              "g_hdMapInputSeq"
+            ],
+            "transfer": [
+              "g_hdTransferProtocolVersion",
+              "g_hdTransferActive",
+              "g_hdTransferCommand",
+              "g_hdTransferSession",
+              "g_hdTransferInputSeq",
+              "g_hdTransferPhase",
+              "g_hdTransferOrigin",
+              "g_hdTransferTarget",
+              "g_hdTransferPerson",
+              "g_hdTransferFood",
+              "g_hdTransferMoney",
+              "g_hdTransferArms",
+              "g_hdTransferDistance",
+              "g_hdTransferCommitSeq",
+              "g_hdTransferCommitResult"
+            ],
+            "diplomacy": [
+              "g_hdDiplomacyProtocolVersion",
+              "g_hdDiplomacyActive",
+              "g_hdDiplomacyCommand",
+              "g_hdDiplomacyPhase",
+              "g_hdDiplomacySession",
+              "g_hdDiplomacyInputSeq",
+              "g_hdDiplomacyGeneration",
+              "g_hdDiplomacyOrigin",
+              "g_hdDiplomacyActor",
+              "g_hdDiplomacyTarget",
+              "g_hdDiplomacyCommitSeq",
+              "g_hdDiplomacyCommitResult"
+            ],
+            "report": [
+              "g_hdReportActive",
+              "g_hdReportInputSeq"
+            ],
+            "record": [
+              "g_hdRecordActive",
+              "g_hdRecordMode",
+              "g_hdRecordIndex",
+              "g_hdRecordCount",
+              "g_hdRecordSeq"
+            ],
+            "qty": [
+              "g_hdQtyActive",
+              "g_hdQtySession",
+              "g_hdQtyInputSeq",
+              "g_hdQtyLastKey",
+              "g_hdQtyCursor",
+              "g_hdQtyStep",
+              "g_hdQtyReady"
+            ]
+          },
+          "hdTransferProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.transfer()",
+            "fields": [
+              "g_hdTransferProtocolVersion",
+              "g_hdTransferActive",
+              "g_hdTransferCommand",
+              "g_hdTransferSession",
+              "g_hdTransferInputSeq",
+              "g_hdTransferPhase",
+              "g_hdTransferOrigin",
+              "g_hdTransferTarget",
+              "g_hdTransferPerson",
+              "g_hdTransferFood",
+              "g_hdTransferMoney",
+              "g_hdTransferArms",
+              "g_hdTransferDistance",
+              "g_hdTransferCommitSeq",
+              "g_hdTransferCommitResult"
+            ],
+            "commands": {
+              "transportation": 13,
+              "move": 14
+            },
+            "phases": {
+              "idle": 0,
+              "person": 1,
+              "food": 2,
+              "money": 3,
+              "arms": 4,
+              "targetTip": 5,
+              "targetPick": 6,
+              "reject": 7,
+              "departureReport": 8,
+              "done": 9
+            },
+            "owner": "independent U32 session/inputSeq; zero skipped; detail-generation reset invalidates suspended publishers",
+            "values": "only actual returned person/amount/target values; 255 city/distance and 65535 person mean not yet known",
+            "departure": "report8 observes native Thew/cargo debits before the original single AddOrderHead and DelPerson",
+            "commit": "monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added",
+            "retirement": "DONE inactive retains last receipt; next begin clears values/result; reset retires the session",
+            "input": "read-only; existing menu, quantity, report and map-input receipts remain authoritative"
+          },
+          "hdDiplomacyProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.diplomacy()",
+            "fields": [
+              "g_hdDiplomacyProtocolVersion",
+              "g_hdDiplomacyActive",
+              "g_hdDiplomacyCommand",
+              "g_hdDiplomacyPhase",
+              "g_hdDiplomacySession",
+              "g_hdDiplomacyInputSeq",
+              "g_hdDiplomacyGeneration",
+              "g_hdDiplomacyOrigin",
+              "g_hdDiplomacyActor",
+              "g_hdDiplomacyTarget",
+              "g_hdDiplomacyCommitSeq",
+              "g_hdDiplomacyCommitResult"
+            ],
+            "commands": {
+              "alienate": 15,
+              "canvass": 16,
+              "counterespionage": 17,
+              "induce": 19
+            },
+            "phases": {
+              "idle": 0,
+              "actor": 1,
+              "target": 2,
+              "commit": 3,
+              "reject": 4,
+              "done": 5
+            },
+            "owner": "independent session/inputSeq plus actual detail generation; all skip zero; stale suspended publishers cannot revive a retired owner",
+            "people": "actual returned U16 person IDs; actor and target65535 and origin255 are unpublished sentinels; actor selection resets both people each iteration",
+            "commit": "phase3 observes original debits before AddOrderHead; exactly one native result is recorded after original DelPerson. Result1 queued, result2 full queue, without rollback or an invented success report",
+            "cancellation": "target cancellation returns to a freshly published actor list; actor cancellation follows native command return; no added keys",
+            "retirement": "DONE inactive retains an audit receipt; next begin/reset/world commit invalidates previous session and clears people/result",
+            "input": "observation only; original PERSON and report native owner receipts remain authoritative; original costs, eligibility and monthly random outcomes are unchanged"
+          },
+          "hdSpeProtocol": {
+            "version": 2,
+            "event": [
+              "g_hdSpeGeneration",
+              "g_hdSpeEventId",
+              "g_hdSpeParentEventId",
+              "g_hdSpeDepth"
+            ],
+            "frames": [
+              "g_hdSpeFrameIndex",
+              "g_hdSpeFrameValid",
+              "g_hdSpeCommitSeq",
+              "g_hdSpeVisibleFrames"
+            ],
+            "resourceFingerprint": "fnv1a32:payload:resourceLength",
+            "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+            "skipEligible": "keyflag === 1"
+          },
+          "hdDetailProtocol": {
+            "version": 1,
+            "generation": "g_hdDetailGeneration",
+            "menuIds": [
+              "g_hdMenuIds",
+              "g_hdMenuIdsCount",
+              "g_hdMenuIdsKind",
+              "g_hdMenuIdsSeq",
+              "g_hdMenuIdsGeneration"
+            ],
+            "menuIdKinds": {
+              "person": 3,
+              "goods": 4,
+              "campaign": {
+                "context": 5,
+                "successor": 1,
+                "defenders": 2
+              }
+            },
+            "menuIdentity": "current data, generation, context, kind, sequence, count, index, packed names and complete zero-based native ID list; never inferred from names",
+            "successorReceipt": "synchronous baye-hd-successor-committed after native loyalty and ownership updates; read-only, before subsequent battle food and monthly processing",
+            "goods": [
+              "g_hdGoodsGeneration",
+              "g_hdGoodsMenuSeq",
+              "g_hdGoodsIndex",
+              "g_hdGoodsTool",
+              "g_hdGoodsPropertyCount",
+              "g_hdGoodsPropertyFlags",
+              "g_hdGoodsPageStart",
+              "g_hdGoodsPageEnd"
+            ],
+            "help": [
+              "g_hdHelpProtocolVersion",
+              "g_hdHelpGeneration",
+              "g_hdHelpInputSeq",
+              "g_hdHelpKind",
+              "g_hdHelpComplete",
+              "g_hdHelpPerson",
+              "g_hdHelpSlot",
+              "g_hdHelpFields"
+            ],
+            "toolAccess": [
+              "bayeHdGetToolCount",
+              "bayeHdGetToolField",
+              "bayeHdGetArmType"
+            ]
+          },
+          "hdPersonPropertiesProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.personProperties()",
+            "protocolField": "g_hdPersonPropertiesProtocolVersion",
+            "owner": [
+              "g_hdPersonPropertiesActive",
+              "g_hdPersonPropertiesGeneration",
+              "g_hdPersonPropertiesMenuSeq",
+              "g_hdPersonPropertiesIndex",
+              "g_hdPersonPropertiesPerson"
+            ],
+            "menuOwner": [
+              "g_hdDetailGeneration",
+              "g_hdMenuActive",
+              "g_hdMenuContext",
+              "g_hdMenuKind",
+              "g_hdMenuSeq",
+              "g_hdMenuIndex",
+              "g_hdMenuIds",
+              "g_hdMenuIdsGeneration",
+              "g_hdMenuIdsSeq",
+              "g_hdMenuIdsKind",
+              "g_hdMenuIdsCount"
+            ],
+            "identity": "U16 zero-based person ID and selected row; full native IDs match before publication, never name matching",
+            "paint": [
+              "g_hdPersonPropertiesPaintSeq",
+              "g_hdPersonPropertiesTitlePaintSeq",
+              "g_hdPersonPropertiesValuePaintSeq"
+            ],
+            "publication": "temporary selected-row paint ticket; publish only after original set_menu and full menu_ids confirm owner and index",
+            "page": [
+              "g_hdPersonPropertiesPropertyCount",
+              "g_hdPersonPropertiesPageIndex",
+              "g_hdPersonPropertiesPageStart",
+              "g_hdPersonPropertiesPageEnd"
+            ],
+            "pageRange": "actual native spc and exclusive end; propertyCount 0..255 and pageIndex 0..254, no inferred page size",
+            "completeness": {
+              "cumulative": "g_hdPersonPropertiesComplete: every property has a captured title and value; prior paint revisions remain explicit",
+              "currentPage": "g_hdPersonPropertiesPageComplete: nonempty selected name and all current-page title/value revisions match PaintSeq"
+            },
+            "flags": {
+              "field": "g_hdPersonPropertiesPropertyFlags",
+              "titleCaptured": 1,
+              "valueCaptured": 2
+            },
+            "text": {
+              "name": "g_hdPersonPropertiesNameGbk",
+              "nameBytes": 32,
+              "titles": "g_hdPersonPropertiesPropertyTitles",
+              "values": "g_hdPersonPropertiesPropertyValues",
+              "slotBytes": 128,
+              "slots": 256,
+              "encoding": "bounded NUL-terminated raw GBK final native strings; nonempty titles, empty values allowed"
+            },
+            "custom": "g_hdPersonPropertiesCustom: observed only in the existing title/value hook branches; no added hook/getter/draw calls",
+            "retirement": "menu owner, selected row or full IDs change; report/help/qty takeover or native reset invalidates the paint ticket and captured source",
+            "input": "read-only observer adds no keys or game writes; explicit player LEFT/RIGHT follows original native paging and boundary behavior"
+          },
+          "hdOverviewProtocol": {
+            "version": 1,
+            "view": [
+              "g_hdViewSeq",
+              "g_hdViewGeneration",
+              "g_hdViewInputSeq",
+              "g_hdViewForce",
+              "g_hdViewPageStart",
+              "g_hdViewPageSize",
+              "g_hdViewFoodKnown",
+              "g_hdViewRowPersons",
+              "g_hdViewPointPersons"
+            ],
+            "miniMap": [
+              "g_hdMiniMapSeq",
+              "g_hdMiniMapGeneration",
+              "g_hdMiniMapInputSeq",
+              "g_hdMiniMapDefaultDraw",
+              "g_hdMiniMapCustom",
+              "g_hdMiniMapResourceId"
+            ]
+          },
+          "hdMakerProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdMakerGeneration",
+              "g_hdMakerSession",
+              "g_hdMakerInputSeq",
+              "g_hdMakerPhase"
+            ],
+            "phases": {
+              "scroll": 1,
+              "hold": 2
+            },
+            "input": "original GamDelay(5000, 2), one function key or touch-up returns",
+            "holdSource": "last actual SysCopyScreen snapshot of the matching MAKER child; public LCD display must match",
+            "retirement": "GamMakerInf return, native reset, or held LCD dirty/copy interference",
+            "custom": "same observed showAbout invocation; custom default branch retains LCD"
+          },
+          "hdSpeCompositionProtocol": {
+            "version": 1,
+            "nestedOpaqueCoverage": {
+              "mode": 3,
+              "fields": [
+                "g_hdSpeSceneMode",
+                "g_hdSpeSceneX",
+                "g_hdSpeSceneY",
+                "g_hdSpeSceneWidth",
+                "g_hdSpeSceneHeight"
+              ],
+              "displayedFields": [
+                "g_hdSpeDisplaySceneMode",
+                "g_hdSpeDisplaySceneX",
+                "g_hdSpeDisplaySceneY",
+                "g_hdSpeDisplaySceneWidth",
+                "g_hdSpeDisplaySceneHeight"
+              ],
+              "establishment": "same-origin, fully opaque selected rectangles form a containment chain; only actual supported writes and controlled copies establish their current and displayed coverage",
+              "retirement": "uncontrolled drawing, unsupported paint, changed resources or nested owners permanently retire coverage; future dimensions cannot authorize an older displayed copy"
+            },
+            "source": "actual ordinary picture draw observed before its matching native attack child",
+            "background": "g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin",
+            "clears": [
+              "g_hdSpeClearFrames",
+              "g_hdSpeDisplayClearFrames"
+            ],
+            "displayedCommit": "actual SysCopyScreen composition snapshot published by timed_flush_lcd",
+            "retirement": "uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset"
+          },
+          "hdAiTargetProtocol": {
+            "version": 2,
+            "publicApi": [
+              "baye.hd.spe().aiTarget",
+              "baye.hd.spe().display.aiTarget"
+            ],
+            "protocolField": "g_hdSpeAiProtocolVersion",
+            "scope": "actual AI chosen command target; STACHG_SPE 27, resource index 0, kind 4, units 12..17, keyflag 0",
+            "command": [
+              "CommandType",
+              "CommandParam",
+              "ActorIndex",
+              "TargetIndex",
+              "ActorPerson",
+              "TargetPerson"
+            ],
+            "identity": "g_hdSpeAi and g_hdSpeDisplayAi carry actual zero-based U16 person IDs, unit positions and map viewport",
+            "region": "actual before-draw 16x16 target cell within the baseline 160x96 scale-1 LCD; no guessed battle background",
+            "base": [
+              "g_hdSpeAiBasePixels",
+              "g_hdSpeDisplayAiBasePixels"
+            ],
+            "baseFormat": "256 row-major original g_VisScr U8 pixel indices; captured once before the first clear or sprite draw",
+            "baseRgba": [
+              "g_hdSpeAiBaseRgba",
+              "g_hdSpeDisplayAiBaseRgba"
+            ],
+            "baseRgbaFormat": "1024 original little-endian RGBA bytes from the actual native palette at the first pre-draw capture; repeated indices share identical RGBA and used palette indices must remain unchanged",
+            "palette": [
+              "PaletteZero",
+              "PaletteInk"
+            ],
+            "clears": [
+              "g_hdSpeAiClearFrames",
+              "g_hdSpeDisplayAiClearFrames"
+            ],
+            "displayedCommit": "matching actual SysCopyScreen carries its fixed base and cumulative clear history; timed LCD flush publishes its own SPE event/commit/frame ticket",
+            "retirement": "uncontrolled drawing, changed native actor/target/map, nested event, report/help/quantity, resize, unsupported drawing state or reset permanently invalidates the base",
+            "input": "read-only observation adds no input, skip, return, attack or skill-result numeric owner; original unskippable keyflag-0 playback remains intact"
+          },
+          "hdStatusEffectProtocol": {
+            "version": 1,
+            "publicApi": [
+              "baye.hd.spe().statusEffect",
+              "baye.hd.spe().display.statusEffect"
+            ],
+            "protocolField": "g_hdSpeStatusProtocolVersion",
+            "bindings": [
+              "g_hdSpeStatusProtocolVersion",
+              "g_hdSpeStatusValid",
+              "g_hdSpeStatusReason",
+              "g_hdSpeStatusPhase",
+              "g_hdSpeStatusSubjectIndex",
+              "g_hdSpeStatusSubjectPerson",
+              "g_hdSpeStatusSubjectX",
+              "g_hdSpeStatusSubjectY",
+              "g_hdSpeStatusBeforeLevel",
+              "g_hdSpeStatusAfterLevel",
+              "g_hdSpeStatusBeforeExperience",
+              "g_hdSpeStatusAfterExperience",
+              "g_hdSpeStatusBeforeState",
+              "g_hdSpeStatusAfterState",
+              "g_hdSpeStatusBeforeHp",
+              "g_hdSpeStatusAfterHp",
+              "g_hdSpeStatusBeforeArms",
+              "g_hdSpeStatusAfterArms",
+              "g_hdSpeStatusLevelMax",
+              "g_hdSpeStatusMapSX",
+              "g_hdSpeStatusMapSY",
+              "g_hdSpeStatusMapWidth",
+              "g_hdSpeStatusMapHeight",
+              "g_hdSpeStatusScreenWidth",
+              "g_hdSpeStatusScreenHeight",
+              "g_hdSpeStatusRegionX",
+              "g_hdSpeStatusRegionY",
+              "g_hdSpeStatusRegionWidth",
+              "g_hdSpeStatusRegionHeight",
+              "g_hdSpeStatusPaletteZero",
+              "g_hdSpeStatusPaletteInk",
+              "g_hdSpeStatusBasePixels",
+              "g_hdSpeStatusBaseRgba",
+              "g_hdSpeStatusClearFrames",
+              "g_hdSpeDisplayStatusValid",
+              "g_hdSpeDisplayStatusReason",
+              "g_hdSpeDisplayStatusPhase",
+              "g_hdSpeDisplayStatusSubjectIndex",
+              "g_hdSpeDisplayStatusSubjectPerson",
+              "g_hdSpeDisplayStatusSubjectX",
+              "g_hdSpeDisplayStatusSubjectY",
+              "g_hdSpeDisplayStatusBeforeLevel",
+              "g_hdSpeDisplayStatusAfterLevel",
+              "g_hdSpeDisplayStatusBeforeExperience",
+              "g_hdSpeDisplayStatusAfterExperience",
+              "g_hdSpeDisplayStatusBeforeState",
+              "g_hdSpeDisplayStatusAfterState",
+              "g_hdSpeDisplayStatusBeforeHp",
+              "g_hdSpeDisplayStatusAfterHp",
+              "g_hdSpeDisplayStatusBeforeArms",
+              "g_hdSpeDisplayStatusAfterArms",
+              "g_hdSpeDisplayStatusLevelMax",
+              "g_hdSpeDisplayStatusMapSX",
+              "g_hdSpeDisplayStatusMapSY",
+              "g_hdSpeDisplayStatusMapWidth",
+              "g_hdSpeDisplayStatusMapHeight",
+              "g_hdSpeDisplayStatusScreenWidth",
+              "g_hdSpeDisplayStatusScreenHeight",
+              "g_hdSpeDisplayStatusRegionX",
+              "g_hdSpeDisplayStatusRegionY",
+              "g_hdSpeDisplayStatusRegionWidth",
+              "g_hdSpeDisplayStatusRegionHeight",
+              "g_hdSpeDisplayStatusPaletteZero",
+              "g_hdSpeDisplayStatusPaletteInk",
+              "g_hdSpeDisplayStatusBasePixels",
+              "g_hdSpeDisplayStatusBaseRgba",
+              "g_hdSpeDisplayStatusClearFrames"
+            ],
+            "scope": "actual FgtChkAtkEnd branch; STACHG_SPE 27, resource index 0, kind 4, upgrade units 0..5 or departure units 6..11, keyflag 0",
+            "reasons": {
+              "upgrade": 1,
+              "death": 2
+            },
+            "phases": {
+              "command": 1,
+              "initialize": 2
+            },
+            "identity": [
+              "Reason",
+              "Phase",
+              "SubjectIndex",
+              "SubjectPerson",
+              "SubjectX",
+              "SubjectY"
+            ],
+            "mutation": [
+              "BeforeLevel",
+              "AfterLevel",
+              "BeforeExperience",
+              "AfterExperience",
+              "BeforeState",
+              "AfterState",
+              "BeforeHp",
+              "AfterHp",
+              "BeforeArms",
+              "AfterArms",
+              "LevelMax"
+            ],
+            "base": [
+              "g_hdSpeStatusBasePixels",
+              "g_hdSpeDisplayStatusBasePixels"
+            ],
+            "baseFormat": "256 row-major original g_VisScr U8 pixel indices captured once before the first clear or sprite draw",
+            "baseRgba": [
+              "g_hdSpeStatusBaseRgba",
+              "g_hdSpeDisplayStatusBaseRgba"
+            ],
+            "baseRgbaFormat": "1024 actual little-endian palette RGBA bytes; identical indices share identical colors and every used palette index remains unchanged",
+            "palette": [
+              "PaletteZero",
+              "PaletteInk"
+            ],
+            "clears": [
+              "g_hdSpeStatusClearFrames",
+              "g_hdSpeDisplayStatusClearFrames"
+            ],
+            "displayedCommit": "actual SysCopyScreen carries fixed subject/base and cumulative clear history; timed LCD flush publishes its matching SPE event/commit/frame ticket",
+            "initialization": "phase2 is certified only within the original FgtInit status-check scope, with inactive fight and no guessed command owner",
+            "retirement": "uncontrolled drawing, changed subject/map/palette/resource, nested events, overlays, resize, native end or reset permanently invalidates the source",
+            "input": "read-only observation adds no skip, return or numeric hold owner; death STATE_SW and zero-HP/zero-Arms upgrades are actual native branch outcomes"
+          },
+          "hdAttackProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdAttackGeneration",
+              "g_hdAttackSession",
+              "g_hdAttackPhase"
+            ],
+            "phases": {
+              "movie": 1,
+              "numbers": 2,
+              "hold": 3
+            },
+            "hurt": "actual CountPlusSub result captured by the unchanged FgtAtkAction",
+            "display": "g_hdAttackDisplay copied scene and cumulative actual digit poses, published only at timed LCD flush",
+            "digits": [
+              "DigitIndex",
+              "DigitX",
+              "DigitY",
+              "DigitFirstY",
+              "DigitDrawCount"
+            ],
+            "input": "no added skip or return; original numeric and final delays retain native input behavior",
+            "custom": "same single observed willShowPKAnimation invocation; custom presence always retires HD source"
+          },
+          "hdSkillResultProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdSkillResultGeneration",
+              "g_hdSkillResultSession",
+              "g_hdSkillResultPhase"
+            ],
+            "nativeStack": [
+              "g_hdResultOwnerKind",
+              "g_hdResultOwnerValid",
+              "g_hdResultOwnerGeneration",
+              "g_hdResultOwnerSession"
+            ],
+            "phases": {
+              "movie": 1,
+              "numbers": 2,
+              "hold": 3
+            },
+            "value": "exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount",
+            "label": "actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer",
+            "scene": "owned BACKPIC, verified equal opaque rectangle, or actual-copy-established nested opaque coverage; no unknown full-arena background inferred",
+            "display": "controlled actual movie, label and numeric writes snapshot published at timed LCD flush",
+            "input": "no added skip or return; original movie, number and result waiting lifecycle",
+            "custom": "presence captured in original showSkill and single willShowPKAnimation invocation",
+            "retirement": "uncontrolled drawing, nested owner, malformed source, custom hook, reset; parent source never revived"
+          },
+          "saveProtocol": {
+            "version": 149,
+            "legacyVersions": [
+              144,
+              145,
+              146,
+              147,
+              148
+            ],
+            "filesPerSlot": 2,
+            "fightersBytes": 600,
+            "goodsQueueBytes": 4000
+          },
+          "artifacts": {
+            "baye.js": {
+              "bytes": 193321,
+              "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2"
+            },
+            "baye.wasm": {
+              "bytes": 4561352,
+              "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5"
+            },
+            "baye.wasm.map": {
+              "bytes": 29983,
+              "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646"
+            }
+          }
+        }
+      },
+      "scope": {
+        "accepted": "One actual original-LIB FIRE5/SPE35 action, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. The complete160x96 LCD is retained with only the authenticated opaque65x64 window replaced; all11200 outside logical pixels match actualLCD.",
+        "notRun": "Other shared35 skills11/18, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.",
+        "publicInput": "Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome."
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-1080-v1/result.json",
+        "file": "m5-fire-window-20261011/0ae17cbfd3dc772b40560d5b081ee984e34f2ad6b7de2e8972d3ec1a893e7ece.json.gz",
+        "rawBytes": 19940092,
+        "rawSha256": "0ae17cbfd3dc772b40560d5b081ee984e34f2ad6b7de2e8972d3ec1a893e7ece",
+        "bytes": 810088,
+        "sha256": "a0f77bb5d1bad8fb8b411e026adfea8760998bf7387ae628bc76862bf5e2d87b"
+      },
+      "executedTool": {
+        "source": "build/fire-window-20261011/pc-1080-v1/executed-tool.mjs",
+        "file": "m5-fire-window-20261011/12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077.mjs.gz",
+        "rawBytes": 76968,
+        "rawSha256": "12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077",
+        "bytes": 24874,
+        "sha256": "d3e50dc43c728d26d8bb24126b9f504f4e62e264b12f937b3f354ea0b5e3dd0d"
+      },
+      "captures": {
+        "source": "build/fire-window-20261011/pc-1080-v1/native-skill-captures.json",
+        "file": "m5-fire-window-20261011/e38b5059311be021171d79f2bad8c3632687f63229a9cb1e47042dcc09d30f34.json.gz",
+        "rawBytes": 6742433,
+        "rawSha256": "e38b5059311be021171d79f2bad8c3632687f63229a9cb1e47042dcc09d30f34",
+        "bytes": 396846,
+        "sha256": "f1749b3f26f4c6ccae69f086e8d3285af57f9d5f888d803c47a7a5b76783dab0"
+      },
+      "sourceVerification": {
+        "source": "build/fire-window-20261011/pc-1080-v1/source-verification.json",
+        "file": "m5-fire-window-20261011/6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7.json.gz",
+        "rawBytes": 432663,
+        "rawSha256": "6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7",
+        "bytes": 69012,
+        "sha256": "5c4fd63fd77a49f42e56206cf0a7b23d6c11c74d933a893f77cbf04862c13576"
+      },
+      "engineInputEvidence": {
+        "source": "build/fire-window-20261011/pc-1080-v1/engine-inputs.json",
+        "file": "m5-fire-window-20261011/d106d2697f2f2ed77282c782a0cde5304a362d7efb0d531252ba1d2943838339.json.gz",
+        "rawBytes": 59346,
+        "rawSha256": "d106d2697f2f2ed77282c782a0cde5304a362d7efb0d531252ba1d2943838339",
+        "bytes": 1628,
+        "sha256": "b89bf0cad931abe920f63554e44dd9f034a0e1d5327f9a0a35d3a3aee247f37f"
+      },
+      "selectedImages": [
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/31-real-skill-result-retired.png",
+          "file": "m5-fire-window-20261011/9f010b6a5b02ee13676812f1a9451f79978622420f9aff6e563da74cfcea1587.png.gz",
+          "rawBytes": 302730,
+          "rawSha256": "9f010b6a5b02ee13676812f1a9451f79978622420f9aff6e563da74cfcea1587",
+          "bytes": 296408,
+          "sha256": "3a98c64057c1f938ceda66dbbcc8185864c04458955192388beb7d93e5eabfe0"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-000-movie-hd.png",
+          "file": "m5-fire-window-20261011/8a521c8880d8b5543417fc994ad0a2d793c11f5e92c4122657db851ddf08d966.png.gz",
+          "rawBytes": 783812,
+          "rawSha256": "8a521c8880d8b5543417fc994ad0a2d793c11f5e92c4122657db851ddf08d966",
+          "bytes": 764865,
+          "sha256": "37d926549cb1be85c27e764e525b479300933101f17826a415c34aa30bdf6078"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-000-movie-lcd.png",
+          "file": "m5-fire-window-20261011/7eca57685b5fd386a85311ee82795388ca122701654de00cce3a9e22e59a407f.png.gz",
+          "rawBytes": 5024,
+          "rawSha256": "7eca57685b5fd386a85311ee82795388ca122701654de00cce3a9e22e59a407f",
+          "bytes": 5007,
+          "sha256": "874f31f88e070dd53b0e775fe6734bad628e0be7bb6a6b18f664a017065ed3da"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-007-movie-hd.png",
+          "file": "m5-fire-window-20261011/4e93e3394d14ad46837a7bc18abd6a475f5b3adfd0de97f6e85f7aad33888ea7.png.gz",
+          "rawBytes": 811213,
+          "rawSha256": "4e93e3394d14ad46837a7bc18abd6a475f5b3adfd0de97f6e85f7aad33888ea7",
+          "bytes": 792251,
+          "sha256": "afcc2109607dcfd5a4ca201cd3b670f2a67e9e6ab8338c5061d7894d34a398ef"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-007-movie-lcd.png",
+          "file": "m5-fire-window-20261011/323ded22d1d2a31d6fd4aba0765d6a6e473a3fd321c9f40258ac9ff6be41ecad.png.gz",
+          "rawBytes": 5040,
+          "rawSha256": "323ded22d1d2a31d6fd4aba0765d6a6e473a3fd321c9f40258ac9ff6be41ecad",
+          "bytes": 5042,
+          "sha256": "df6ff8f2a50470e738af36fcee9a4d2dd1d69e4f67e9cb5bee06405113f890ce"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-008-numbers-hd.png",
+          "file": "m5-fire-window-20261011/6d5430200f95a9dc45faf4cfbb66bd1eab28df911b6854791ce8b360cc8788e2.png.gz",
+          "rawBytes": 757555,
+          "rawSha256": "6d5430200f95a9dc45faf4cfbb66bd1eab28df911b6854791ce8b360cc8788e2",
+          "bytes": 738922,
+          "sha256": "f2d90f9cf80715de51987cb7b2c9a2f78c0e4cc2dcfd45006bbac028224477d7"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-008-numbers-lcd.png",
+          "file": "m5-fire-window-20261011/d51712d1023323ea7fab57f294ed568c2800e8821c35cd1cd3b674b924b5b8ca.png.gz",
+          "rawBytes": 5246,
+          "rawSha256": "d51712d1023323ea7fab57f294ed568c2800e8821c35cd1cd3b674b924b5b8ca",
+          "bytes": 5231,
+          "sha256": "404ce691f1774317b4dde6d22f609917b078aa8658e1108883dc9ea4f877de7a"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-023-hold-hd.png",
+          "file": "m5-fire-window-20261011/3cf9678bba33c4f669ac5fe24ab63e191ea61afc569e9489d02b652ae181379c.png.gz",
+          "rawBytes": 634762,
+          "rawSha256": "3cf9678bba33c4f669ac5fe24ab63e191ea61afc569e9489d02b652ae181379c",
+          "bytes": 615387,
+          "sha256": "75f1b3dfc717e0e51f39a07e7aafaf33bf993950a15b8d2b5bc1854b88a103bf"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-1080-v1/fire-023-hold-lcd.png",
+          "file": "m5-fire-window-20261011/8e3f50218e43e8b980e6f35c1f8f5b1777a7c5a9dbdd3a53ff27e4c326f65211.png.gz",
+          "rawBytes": 5250,
+          "rawSha256": "8e3f50218e43e8b980e6f35c1f8f5b1777a7c5a9dbdd3a53ff27e4c326f65211",
+          "bytes": 5250,
+          "sha256": "a6a5890ab133e6cd64d35e0b36ba3d109bdcc6e0056e393c94d80f89921d63e0"
+        }
+      ]
+    },
+    {
+      "name": "pc-720-v2",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "classic": false,
+      "missingAssets": false,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "startedAt": "2026-10-11T12:15:48.423Z",
+      "finishedAt": "2026-10-11T12:17:09.856Z",
+      "phases": 20,
+      "publicInputs": 116,
+      "engineInputs": 297,
+      "sourceCount": 1214,
+      "fireAttempts": [
+        {
+          "attempt": 1,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 2,
+            "nativeToken": 61,
+            "name": "程银"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 2,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 3,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 5,
+            "nativeToken": 64,
+            "name": "梁兴"
+          },
+          "target": {
+            "slot": 10,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 28,
+          "mpAfter": 13,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 4,
+          "weatherBefore": 1,
+          "actor": {
+            "slot": 2,
+            "nativeToken": 61,
+            "name": "程银"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 22,
+          "mpAfter": 7,
+          "armsBefore": 800,
+          "armsAfter": 560,
+          "damage": 240
+        }
+      ],
+      "appliedResult": {
+        "session": 1,
+        "kind": 1,
+        "value": 240,
+        "attempt": 4
+      },
+      "readonlyExtraKeys": 0,
+      "pixels": {
+        "actualLcdCallbacks": 22,
+        "events": 1,
+        "sourceCopies": 8,
+        "movieHd": 8,
+        "postHd": 15,
+        "labels": 15,
+        "numericReadbacks": 14,
+        "completedHoldReadbacks": 1,
+        "fallbackReadbacks": 0,
+        "outsidePixelsPerHdReadback": 11200,
+        "outsidePixelComparisons": 257600,
+        "verifiedReadbacks": 23
+      },
+      "native": {
+        "count": 128,
+        "aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+        "installed": {
+          "schemaVersion": 1,
+          "sourceRevision": "0e997203b909479dedd445686c18358270d62432",
+          "engineSourceSha256": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+          "engineSourceModified": true,
+          "emscriptenVersion": "3.1.51",
+          "cmakeVersion": "cmake version 3.31.6",
+          "sourceDateEpoch": 1791711430,
+          "hdMenuProtocol": {
+            "nativeFallback": 254,
+            "controlField": "g_hdFightMenuControl"
+          },
+          "hdInputProtocol": {
+            "version": 3,
+            "fight": [
+              "g_hdFightInputKind",
+              "g_hdFightInputSeq",
+              "g_hdFightActor"
+            ],
+            "menu": [
+              "g_hdMenuActive",
+              "g_hdMenuContext",
+              "g_hdMenuKind",
+              "g_hdMenuSeq"
+            ],
+            "march": [
+              "g_hdMarchPhase",
+              "g_hdMarchSession",
+              "g_hdMarchOrigin",
+              "g_hdMarchSelected",
+              "g_hdMarchInputSeq",
+              "g_hdMapInputSeq"
+            ],
+            "transfer": [
+              "g_hdTransferProtocolVersion",
+              "g_hdTransferActive",
+              "g_hdTransferCommand",
+              "g_hdTransferSession",
+              "g_hdTransferInputSeq",
+              "g_hdTransferPhase",
+              "g_hdTransferOrigin",
+              "g_hdTransferTarget",
+              "g_hdTransferPerson",
+              "g_hdTransferFood",
+              "g_hdTransferMoney",
+              "g_hdTransferArms",
+              "g_hdTransferDistance",
+              "g_hdTransferCommitSeq",
+              "g_hdTransferCommitResult"
+            ],
+            "diplomacy": [
+              "g_hdDiplomacyProtocolVersion",
+              "g_hdDiplomacyActive",
+              "g_hdDiplomacyCommand",
+              "g_hdDiplomacyPhase",
+              "g_hdDiplomacySession",
+              "g_hdDiplomacyInputSeq",
+              "g_hdDiplomacyGeneration",
+              "g_hdDiplomacyOrigin",
+              "g_hdDiplomacyActor",
+              "g_hdDiplomacyTarget",
+              "g_hdDiplomacyCommitSeq",
+              "g_hdDiplomacyCommitResult"
+            ],
+            "report": [
+              "g_hdReportActive",
+              "g_hdReportInputSeq"
+            ],
+            "record": [
+              "g_hdRecordActive",
+              "g_hdRecordMode",
+              "g_hdRecordIndex",
+              "g_hdRecordCount",
+              "g_hdRecordSeq"
+            ],
+            "qty": [
+              "g_hdQtyActive",
+              "g_hdQtySession",
+              "g_hdQtyInputSeq",
+              "g_hdQtyLastKey",
+              "g_hdQtyCursor",
+              "g_hdQtyStep",
+              "g_hdQtyReady"
+            ]
+          },
+          "hdTransferProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.transfer()",
+            "fields": [
+              "g_hdTransferProtocolVersion",
+              "g_hdTransferActive",
+              "g_hdTransferCommand",
+              "g_hdTransferSession",
+              "g_hdTransferInputSeq",
+              "g_hdTransferPhase",
+              "g_hdTransferOrigin",
+              "g_hdTransferTarget",
+              "g_hdTransferPerson",
+              "g_hdTransferFood",
+              "g_hdTransferMoney",
+              "g_hdTransferArms",
+              "g_hdTransferDistance",
+              "g_hdTransferCommitSeq",
+              "g_hdTransferCommitResult"
+            ],
+            "commands": {
+              "transportation": 13,
+              "move": 14
+            },
+            "phases": {
+              "idle": 0,
+              "person": 1,
+              "food": 2,
+              "money": 3,
+              "arms": 4,
+              "targetTip": 5,
+              "targetPick": 6,
+              "reject": 7,
+              "departureReport": 8,
+              "done": 9
+            },
+            "owner": "independent U32 session/inputSeq; zero skipped; detail-generation reset invalidates suspended publishers",
+            "values": "only actual returned person/amount/target values; 255 city/distance and 65535 person mean not yet known",
+            "departure": "report8 observes native Thew/cargo debits before the original single AddOrderHead and DelPerson",
+            "commit": "monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added",
+            "retirement": "DONE inactive retains last receipt; next begin clears values/result; reset retires the session",
+            "input": "read-only; existing menu, quantity, report and map-input receipts remain authoritative"
+          },
+          "hdDiplomacyProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.diplomacy()",
+            "fields": [
+              "g_hdDiplomacyProtocolVersion",
+              "g_hdDiplomacyActive",
+              "g_hdDiplomacyCommand",
+              "g_hdDiplomacyPhase",
+              "g_hdDiplomacySession",
+              "g_hdDiplomacyInputSeq",
+              "g_hdDiplomacyGeneration",
+              "g_hdDiplomacyOrigin",
+              "g_hdDiplomacyActor",
+              "g_hdDiplomacyTarget",
+              "g_hdDiplomacyCommitSeq",
+              "g_hdDiplomacyCommitResult"
+            ],
+            "commands": {
+              "alienate": 15,
+              "canvass": 16,
+              "counterespionage": 17,
+              "induce": 19
+            },
+            "phases": {
+              "idle": 0,
+              "actor": 1,
+              "target": 2,
+              "commit": 3,
+              "reject": 4,
+              "done": 5
+            },
+            "owner": "independent session/inputSeq plus actual detail generation; all skip zero; stale suspended publishers cannot revive a retired owner",
+            "people": "actual returned U16 person IDs; actor and target65535 and origin255 are unpublished sentinels; actor selection resets both people each iteration",
+            "commit": "phase3 observes original debits before AddOrderHead; exactly one native result is recorded after original DelPerson. Result1 queued, result2 full queue, without rollback or an invented success report",
+            "cancellation": "target cancellation returns to a freshly published actor list; actor cancellation follows native command return; no added keys",
+            "retirement": "DONE inactive retains an audit receipt; next begin/reset/world commit invalidates previous session and clears people/result",
+            "input": "observation only; original PERSON and report native owner receipts remain authoritative; original costs, eligibility and monthly random outcomes are unchanged"
+          },
+          "hdSpeProtocol": {
+            "version": 2,
+            "event": [
+              "g_hdSpeGeneration",
+              "g_hdSpeEventId",
+              "g_hdSpeParentEventId",
+              "g_hdSpeDepth"
+            ],
+            "frames": [
+              "g_hdSpeFrameIndex",
+              "g_hdSpeFrameValid",
+              "g_hdSpeCommitSeq",
+              "g_hdSpeVisibleFrames"
+            ],
+            "resourceFingerprint": "fnv1a32:payload:resourceLength",
+            "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+            "skipEligible": "keyflag === 1"
+          },
+          "hdDetailProtocol": {
+            "version": 1,
+            "generation": "g_hdDetailGeneration",
+            "menuIds": [
+              "g_hdMenuIds",
+              "g_hdMenuIdsCount",
+              "g_hdMenuIdsKind",
+              "g_hdMenuIdsSeq",
+              "g_hdMenuIdsGeneration"
+            ],
+            "menuIdKinds": {
+              "person": 3,
+              "goods": 4,
+              "campaign": {
+                "context": 5,
+                "successor": 1,
+                "defenders": 2
+              }
+            },
+            "menuIdentity": "current data, generation, context, kind, sequence, count, index, packed names and complete zero-based native ID list; never inferred from names",
+            "successorReceipt": "synchronous baye-hd-successor-committed after native loyalty and ownership updates; read-only, before subsequent battle food and monthly processing",
+            "goods": [
+              "g_hdGoodsGeneration",
+              "g_hdGoodsMenuSeq",
+              "g_hdGoodsIndex",
+              "g_hdGoodsTool",
+              "g_hdGoodsPropertyCount",
+              "g_hdGoodsPropertyFlags",
+              "g_hdGoodsPageStart",
+              "g_hdGoodsPageEnd"
+            ],
+            "help": [
+              "g_hdHelpProtocolVersion",
+              "g_hdHelpGeneration",
+              "g_hdHelpInputSeq",
+              "g_hdHelpKind",
+              "g_hdHelpComplete",
+              "g_hdHelpPerson",
+              "g_hdHelpSlot",
+              "g_hdHelpFields"
+            ],
+            "toolAccess": [
+              "bayeHdGetToolCount",
+              "bayeHdGetToolField",
+              "bayeHdGetArmType"
+            ]
+          },
+          "hdPersonPropertiesProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.personProperties()",
+            "protocolField": "g_hdPersonPropertiesProtocolVersion",
+            "owner": [
+              "g_hdPersonPropertiesActive",
+              "g_hdPersonPropertiesGeneration",
+              "g_hdPersonPropertiesMenuSeq",
+              "g_hdPersonPropertiesIndex",
+              "g_hdPersonPropertiesPerson"
+            ],
+            "menuOwner": [
+              "g_hdDetailGeneration",
+              "g_hdMenuActive",
+              "g_hdMenuContext",
+              "g_hdMenuKind",
+              "g_hdMenuSeq",
+              "g_hdMenuIndex",
+              "g_hdMenuIds",
+              "g_hdMenuIdsGeneration",
+              "g_hdMenuIdsSeq",
+              "g_hdMenuIdsKind",
+              "g_hdMenuIdsCount"
+            ],
+            "identity": "U16 zero-based person ID and selected row; full native IDs match before publication, never name matching",
+            "paint": [
+              "g_hdPersonPropertiesPaintSeq",
+              "g_hdPersonPropertiesTitlePaintSeq",
+              "g_hdPersonPropertiesValuePaintSeq"
+            ],
+            "publication": "temporary selected-row paint ticket; publish only after original set_menu and full menu_ids confirm owner and index",
+            "page": [
+              "g_hdPersonPropertiesPropertyCount",
+              "g_hdPersonPropertiesPageIndex",
+              "g_hdPersonPropertiesPageStart",
+              "g_hdPersonPropertiesPageEnd"
+            ],
+            "pageRange": "actual native spc and exclusive end; propertyCount 0..255 and pageIndex 0..254, no inferred page size",
+            "completeness": {
+              "cumulative": "g_hdPersonPropertiesComplete: every property has a captured title and value; prior paint revisions remain explicit",
+              "currentPage": "g_hdPersonPropertiesPageComplete: nonempty selected name and all current-page title/value revisions match PaintSeq"
+            },
+            "flags": {
+              "field": "g_hdPersonPropertiesPropertyFlags",
+              "titleCaptured": 1,
+              "valueCaptured": 2
+            },
+            "text": {
+              "name": "g_hdPersonPropertiesNameGbk",
+              "nameBytes": 32,
+              "titles": "g_hdPersonPropertiesPropertyTitles",
+              "values": "g_hdPersonPropertiesPropertyValues",
+              "slotBytes": 128,
+              "slots": 256,
+              "encoding": "bounded NUL-terminated raw GBK final native strings; nonempty titles, empty values allowed"
+            },
+            "custom": "g_hdPersonPropertiesCustom: observed only in the existing title/value hook branches; no added hook/getter/draw calls",
+            "retirement": "menu owner, selected row or full IDs change; report/help/qty takeover or native reset invalidates the paint ticket and captured source",
+            "input": "read-only observer adds no keys or game writes; explicit player LEFT/RIGHT follows original native paging and boundary behavior"
+          },
+          "hdOverviewProtocol": {
+            "version": 1,
+            "view": [
+              "g_hdViewSeq",
+              "g_hdViewGeneration",
+              "g_hdViewInputSeq",
+              "g_hdViewForce",
+              "g_hdViewPageStart",
+              "g_hdViewPageSize",
+              "g_hdViewFoodKnown",
+              "g_hdViewRowPersons",
+              "g_hdViewPointPersons"
+            ],
+            "miniMap": [
+              "g_hdMiniMapSeq",
+              "g_hdMiniMapGeneration",
+              "g_hdMiniMapInputSeq",
+              "g_hdMiniMapDefaultDraw",
+              "g_hdMiniMapCustom",
+              "g_hdMiniMapResourceId"
+            ]
+          },
+          "hdMakerProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdMakerGeneration",
+              "g_hdMakerSession",
+              "g_hdMakerInputSeq",
+              "g_hdMakerPhase"
+            ],
+            "phases": {
+              "scroll": 1,
+              "hold": 2
+            },
+            "input": "original GamDelay(5000, 2), one function key or touch-up returns",
+            "holdSource": "last actual SysCopyScreen snapshot of the matching MAKER child; public LCD display must match",
+            "retirement": "GamMakerInf return, native reset, or held LCD dirty/copy interference",
+            "custom": "same observed showAbout invocation; custom default branch retains LCD"
+          },
+          "hdSpeCompositionProtocol": {
+            "version": 1,
+            "nestedOpaqueCoverage": {
+              "mode": 3,
+              "fields": [
+                "g_hdSpeSceneMode",
+                "g_hdSpeSceneX",
+                "g_hdSpeSceneY",
+                "g_hdSpeSceneWidth",
+                "g_hdSpeSceneHeight"
+              ],
+              "displayedFields": [
+                "g_hdSpeDisplaySceneMode",
+                "g_hdSpeDisplaySceneX",
+                "g_hdSpeDisplaySceneY",
+                "g_hdSpeDisplaySceneWidth",
+                "g_hdSpeDisplaySceneHeight"
+              ],
+              "establishment": "same-origin, fully opaque selected rectangles form a containment chain; only actual supported writes and controlled copies establish their current and displayed coverage",
+              "retirement": "uncontrolled drawing, unsupported paint, changed resources or nested owners permanently retire coverage; future dimensions cannot authorize an older displayed copy"
+            },
+            "source": "actual ordinary picture draw observed before its matching native attack child",
+            "background": "g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin",
+            "clears": [
+              "g_hdSpeClearFrames",
+              "g_hdSpeDisplayClearFrames"
+            ],
+            "displayedCommit": "actual SysCopyScreen composition snapshot published by timed_flush_lcd",
+            "retirement": "uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset"
+          },
+          "hdAiTargetProtocol": {
+            "version": 2,
+            "publicApi": [
+              "baye.hd.spe().aiTarget",
+              "baye.hd.spe().display.aiTarget"
+            ],
+            "protocolField": "g_hdSpeAiProtocolVersion",
+            "scope": "actual AI chosen command target; STACHG_SPE 27, resource index 0, kind 4, units 12..17, keyflag 0",
+            "command": [
+              "CommandType",
+              "CommandParam",
+              "ActorIndex",
+              "TargetIndex",
+              "ActorPerson",
+              "TargetPerson"
+            ],
+            "identity": "g_hdSpeAi and g_hdSpeDisplayAi carry actual zero-based U16 person IDs, unit positions and map viewport",
+            "region": "actual before-draw 16x16 target cell within the baseline 160x96 scale-1 LCD; no guessed battle background",
+            "base": [
+              "g_hdSpeAiBasePixels",
+              "g_hdSpeDisplayAiBasePixels"
+            ],
+            "baseFormat": "256 row-major original g_VisScr U8 pixel indices; captured once before the first clear or sprite draw",
+            "baseRgba": [
+              "g_hdSpeAiBaseRgba",
+              "g_hdSpeDisplayAiBaseRgba"
+            ],
+            "baseRgbaFormat": "1024 original little-endian RGBA bytes from the actual native palette at the first pre-draw capture; repeated indices share identical RGBA and used palette indices must remain unchanged",
+            "palette": [
+              "PaletteZero",
+              "PaletteInk"
+            ],
+            "clears": [
+              "g_hdSpeAiClearFrames",
+              "g_hdSpeDisplayAiClearFrames"
+            ],
+            "displayedCommit": "matching actual SysCopyScreen carries its fixed base and cumulative clear history; timed LCD flush publishes its own SPE event/commit/frame ticket",
+            "retirement": "uncontrolled drawing, changed native actor/target/map, nested event, report/help/quantity, resize, unsupported drawing state or reset permanently invalidates the base",
+            "input": "read-only observation adds no input, skip, return, attack or skill-result numeric owner; original unskippable keyflag-0 playback remains intact"
+          },
+          "hdStatusEffectProtocol": {
+            "version": 1,
+            "publicApi": [
+              "baye.hd.spe().statusEffect",
+              "baye.hd.spe().display.statusEffect"
+            ],
+            "protocolField": "g_hdSpeStatusProtocolVersion",
+            "bindings": [
+              "g_hdSpeStatusProtocolVersion",
+              "g_hdSpeStatusValid",
+              "g_hdSpeStatusReason",
+              "g_hdSpeStatusPhase",
+              "g_hdSpeStatusSubjectIndex",
+              "g_hdSpeStatusSubjectPerson",
+              "g_hdSpeStatusSubjectX",
+              "g_hdSpeStatusSubjectY",
+              "g_hdSpeStatusBeforeLevel",
+              "g_hdSpeStatusAfterLevel",
+              "g_hdSpeStatusBeforeExperience",
+              "g_hdSpeStatusAfterExperience",
+              "g_hdSpeStatusBeforeState",
+              "g_hdSpeStatusAfterState",
+              "g_hdSpeStatusBeforeHp",
+              "g_hdSpeStatusAfterHp",
+              "g_hdSpeStatusBeforeArms",
+              "g_hdSpeStatusAfterArms",
+              "g_hdSpeStatusLevelMax",
+              "g_hdSpeStatusMapSX",
+              "g_hdSpeStatusMapSY",
+              "g_hdSpeStatusMapWidth",
+              "g_hdSpeStatusMapHeight",
+              "g_hdSpeStatusScreenWidth",
+              "g_hdSpeStatusScreenHeight",
+              "g_hdSpeStatusRegionX",
+              "g_hdSpeStatusRegionY",
+              "g_hdSpeStatusRegionWidth",
+              "g_hdSpeStatusRegionHeight",
+              "g_hdSpeStatusPaletteZero",
+              "g_hdSpeStatusPaletteInk",
+              "g_hdSpeStatusBasePixels",
+              "g_hdSpeStatusBaseRgba",
+              "g_hdSpeStatusClearFrames",
+              "g_hdSpeDisplayStatusValid",
+              "g_hdSpeDisplayStatusReason",
+              "g_hdSpeDisplayStatusPhase",
+              "g_hdSpeDisplayStatusSubjectIndex",
+              "g_hdSpeDisplayStatusSubjectPerson",
+              "g_hdSpeDisplayStatusSubjectX",
+              "g_hdSpeDisplayStatusSubjectY",
+              "g_hdSpeDisplayStatusBeforeLevel",
+              "g_hdSpeDisplayStatusAfterLevel",
+              "g_hdSpeDisplayStatusBeforeExperience",
+              "g_hdSpeDisplayStatusAfterExperience",
+              "g_hdSpeDisplayStatusBeforeState",
+              "g_hdSpeDisplayStatusAfterState",
+              "g_hdSpeDisplayStatusBeforeHp",
+              "g_hdSpeDisplayStatusAfterHp",
+              "g_hdSpeDisplayStatusBeforeArms",
+              "g_hdSpeDisplayStatusAfterArms",
+              "g_hdSpeDisplayStatusLevelMax",
+              "g_hdSpeDisplayStatusMapSX",
+              "g_hdSpeDisplayStatusMapSY",
+              "g_hdSpeDisplayStatusMapWidth",
+              "g_hdSpeDisplayStatusMapHeight",
+              "g_hdSpeDisplayStatusScreenWidth",
+              "g_hdSpeDisplayStatusScreenHeight",
+              "g_hdSpeDisplayStatusRegionX",
+              "g_hdSpeDisplayStatusRegionY",
+              "g_hdSpeDisplayStatusRegionWidth",
+              "g_hdSpeDisplayStatusRegionHeight",
+              "g_hdSpeDisplayStatusPaletteZero",
+              "g_hdSpeDisplayStatusPaletteInk",
+              "g_hdSpeDisplayStatusBasePixels",
+              "g_hdSpeDisplayStatusBaseRgba",
+              "g_hdSpeDisplayStatusClearFrames"
+            ],
+            "scope": "actual FgtChkAtkEnd branch; STACHG_SPE 27, resource index 0, kind 4, upgrade units 0..5 or departure units 6..11, keyflag 0",
+            "reasons": {
+              "upgrade": 1,
+              "death": 2
+            },
+            "phases": {
+              "command": 1,
+              "initialize": 2
+            },
+            "identity": [
+              "Reason",
+              "Phase",
+              "SubjectIndex",
+              "SubjectPerson",
+              "SubjectX",
+              "SubjectY"
+            ],
+            "mutation": [
+              "BeforeLevel",
+              "AfterLevel",
+              "BeforeExperience",
+              "AfterExperience",
+              "BeforeState",
+              "AfterState",
+              "BeforeHp",
+              "AfterHp",
+              "BeforeArms",
+              "AfterArms",
+              "LevelMax"
+            ],
+            "base": [
+              "g_hdSpeStatusBasePixels",
+              "g_hdSpeDisplayStatusBasePixels"
+            ],
+            "baseFormat": "256 row-major original g_VisScr U8 pixel indices captured once before the first clear or sprite draw",
+            "baseRgba": [
+              "g_hdSpeStatusBaseRgba",
+              "g_hdSpeDisplayStatusBaseRgba"
+            ],
+            "baseRgbaFormat": "1024 actual little-endian palette RGBA bytes; identical indices share identical colors and every used palette index remains unchanged",
+            "palette": [
+              "PaletteZero",
+              "PaletteInk"
+            ],
+            "clears": [
+              "g_hdSpeStatusClearFrames",
+              "g_hdSpeDisplayStatusClearFrames"
+            ],
+            "displayedCommit": "actual SysCopyScreen carries fixed subject/base and cumulative clear history; timed LCD flush publishes its matching SPE event/commit/frame ticket",
+            "initialization": "phase2 is certified only within the original FgtInit status-check scope, with inactive fight and no guessed command owner",
+            "retirement": "uncontrolled drawing, changed subject/map/palette/resource, nested events, overlays, resize, native end or reset permanently invalidates the source",
+            "input": "read-only observation adds no skip, return or numeric hold owner; death STATE_SW and zero-HP/zero-Arms upgrades are actual native branch outcomes"
+          },
+          "hdAttackProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdAttackGeneration",
+              "g_hdAttackSession",
+              "g_hdAttackPhase"
+            ],
+            "phases": {
+              "movie": 1,
+              "numbers": 2,
+              "hold": 3
+            },
+            "hurt": "actual CountPlusSub result captured by the unchanged FgtAtkAction",
+            "display": "g_hdAttackDisplay copied scene and cumulative actual digit poses, published only at timed LCD flush",
+            "digits": [
+              "DigitIndex",
+              "DigitX",
+              "DigitY",
+              "DigitFirstY",
+              "DigitDrawCount"
+            ],
+            "input": "no added skip or return; original numeric and final delays retain native input behavior",
+            "custom": "same single observed willShowPKAnimation invocation; custom presence always retires HD source"
+          },
+          "hdSkillResultProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdSkillResultGeneration",
+              "g_hdSkillResultSession",
+              "g_hdSkillResultPhase"
+            ],
+            "nativeStack": [
+              "g_hdResultOwnerKind",
+              "g_hdResultOwnerValid",
+              "g_hdResultOwnerGeneration",
+              "g_hdResultOwnerSession"
+            ],
+            "phases": {
+              "movie": 1,
+              "numbers": 2,
+              "hold": 3
+            },
+            "value": "exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount",
+            "label": "actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer",
+            "scene": "owned BACKPIC, verified equal opaque rectangle, or actual-copy-established nested opaque coverage; no unknown full-arena background inferred",
+            "display": "controlled actual movie, label and numeric writes snapshot published at timed LCD flush",
+            "input": "no added skip or return; original movie, number and result waiting lifecycle",
+            "custom": "presence captured in original showSkill and single willShowPKAnimation invocation",
+            "retirement": "uncontrolled drawing, nested owner, malformed source, custom hook, reset; parent source never revived"
+          },
+          "saveProtocol": {
+            "version": 149,
+            "legacyVersions": [
+              144,
+              145,
+              146,
+              147,
+              148
+            ],
+            "filesPerSlot": 2,
+            "fightersBytes": 600,
+            "goodsQueueBytes": 4000
+          },
+          "artifacts": {
+            "baye.js": {
+              "bytes": 193321,
+              "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2"
+            },
+            "baye.wasm": {
+              "bytes": 4561352,
+              "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5"
+            },
+            "baye.wasm.map": {
+              "bytes": 29983,
+              "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646"
+            }
+          }
+        }
+      },
+      "scope": {
+        "accepted": "One actual original-LIB FIRE5/SPE35 action, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. The complete160x96 LCD is retained with only the authenticated opaque65x64 window replaced; all11200 outside logical pixels match actualLCD.",
+        "notRun": "Other shared35 skills11/18, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.",
+        "publicInput": "Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome."
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-720-v2/result.json",
+        "file": "m5-fire-window-20261011/b0f322a03de9d5d0193417867f23c48840f72409770257f07c69b47f7d34a06d.json.gz",
+        "rawBytes": 22106732,
+        "rawSha256": "b0f322a03de9d5d0193417867f23c48840f72409770257f07c69b47f7d34a06d",
+        "bytes": 849957,
+        "sha256": "23a91846a2c77005b5539c8b901176885d525e3ea1e0459ce25e4c4196f70704"
+      },
+      "executedTool": {
+        "source": "build/fire-window-20261011/pc-720-v2/executed-tool.mjs",
+        "file": "m5-fire-window-20261011/12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077.mjs.gz",
+        "rawBytes": 76968,
+        "rawSha256": "12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077",
+        "bytes": 24874,
+        "sha256": "d3e50dc43c728d26d8bb24126b9f504f4e62e264b12f937b3f354ea0b5e3dd0d"
+      },
+      "captures": {
+        "source": "build/fire-window-20261011/pc-720-v2/native-skill-captures.json",
+        "file": "m5-fire-window-20261011/6deec2772fa37aeae1844039506b06af7542f94c6778c615b66cd1dc85de5527.json.gz",
+        "rawBytes": 6467860,
+        "rawSha256": "6deec2772fa37aeae1844039506b06af7542f94c6778c615b66cd1dc85de5527",
+        "bytes": 387904,
+        "sha256": "33b2196ac60e240120611ae6cb2ac3eeedbeb94f3babb75062b21177c9a3c271"
+      },
+      "sourceVerification": {
+        "source": "build/fire-window-20261011/pc-720-v2/source-verification.json",
+        "file": "m5-fire-window-20261011/6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7.json.gz",
+        "rawBytes": 432663,
+        "rawSha256": "6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7",
+        "bytes": 69012,
+        "sha256": "5c4fd63fd77a49f42e56206cf0a7b23d6c11c74d933a893f77cbf04862c13576"
+      },
+      "engineInputEvidence": {
+        "source": "build/fire-window-20261011/pc-720-v2/engine-inputs.json",
+        "file": "m5-fire-window-20261011/7fe9b184641de7ad566ee2f777014b4d07e5898c3b6a89edbe2bd8a8cc0cb734.json.gz",
+        "rawBytes": 66536,
+        "rawSha256": "7fe9b184641de7ad566ee2f777014b4d07e5898c3b6a89edbe2bd8a8cc0cb734",
+        "bytes": 1794,
+        "sha256": "01ba08744c58774e060eb55f294fa36a16f8224bb5a8f194431c277f7a65d165"
+      },
+      "selectedImages": [
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/31-real-skill-result-retired.png",
+          "file": "m5-fire-window-20261011/856a96e47bc1241d32762c687f0c846b55fadee67ec94686d8d5bb4f62691ffc.png.gz",
+          "rawBytes": 198537,
+          "rawSha256": "856a96e47bc1241d32762c687f0c846b55fadee67ec94686d8d5bb4f62691ffc",
+          "bytes": 196057,
+          "sha256": "8fe8a5a817fdfcdd509148c94123e8f8ef2dc05a094dbf1290d594f6ee63cd8c"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-000-movie-hd.png",
+          "file": "m5-fire-window-20261011/62ccfb6f9adfcecff1de5b5096bc6d946be20a4432de522473ed70cf55dfcd69.png.gz",
+          "rawBytes": 783584,
+          "rawSha256": "62ccfb6f9adfcecff1de5b5096bc6d946be20a4432de522473ed70cf55dfcd69",
+          "bytes": 764543,
+          "sha256": "84200e1a008046decc648395c461645aa9ae93b057fde5e8f97fc1aeb4946e14"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-000-movie-lcd.png",
+          "file": "m5-fire-window-20261011/40089a3ed299ab2d5b94c031bc8fb9c6b84928bd56bb247f2c22dd8c465768bc.png.gz",
+          "rawBytes": 4913,
+          "rawSha256": "40089a3ed299ab2d5b94c031bc8fb9c6b84928bd56bb247f2c22dd8c465768bc",
+          "bytes": 4928,
+          "sha256": "7f85ce29b5a514dad60cf8ac26e3ca2743d0dc81ee3aed5d1ad21397edc91e7a"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-007-movie-hd.png",
+          "file": "m5-fire-window-20261011/8704db5279093f4e88068e1ed37a2db656ecf703313a4d88a1b168f4cc137c04.png.gz",
+          "rawBytes": 810825,
+          "rawSha256": "8704db5279093f4e88068e1ed37a2db656ecf703313a4d88a1b168f4cc137c04",
+          "bytes": 791765,
+          "sha256": "55969e0d7630eec684b3ecb84f393e3a987d0759a2dc780fb0ee4cab313c5037"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-007-movie-lcd.png",
+          "file": "m5-fire-window-20261011/e973b4bc1dc8d6d834776c828f35a99bcb5ba6258d114388d9237028817a420e.png.gz",
+          "rawBytes": 4909,
+          "rawSha256": "e973b4bc1dc8d6d834776c828f35a99bcb5ba6258d114388d9237028817a420e",
+          "bytes": 4901,
+          "sha256": "e0f4bc113788ba266906534658c1c1466f74a109e3c6b8bcbe659c7cecb7bcc3"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-008-numbers-hd.png",
+          "file": "m5-fire-window-20261011/aa8dbb1c16203f8da7e2fe28d09400ec071a412ec51249116bd4e101b9f389ee.png.gz",
+          "rawBytes": 757080,
+          "rawSha256": "aa8dbb1c16203f8da7e2fe28d09400ec071a412ec51249116bd4e101b9f389ee",
+          "bytes": 738083,
+          "sha256": "cc165598f057b3269e903167b3b9c81835008839c97811f1127b1ff11812f741"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-008-numbers-lcd.png",
+          "file": "m5-fire-window-20261011/3b599d1cca38cd704537adf060d6e18cd40f636e51aab85946a9c5719b4486a4.png.gz",
+          "rawBytes": 5110,
+          "rawSha256": "3b599d1cca38cd704537adf060d6e18cd40f636e51aab85946a9c5719b4486a4",
+          "bytes": 5086,
+          "sha256": "e8d3bd5cb849d4c3b6d008d96625c346e4c191883834e1c386108f08497138d2"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-022-hold-hd.png",
+          "file": "m5-fire-window-20261011/7e1ed6ef0f3863d6c14fe4474cf4f28f80a9092588c5a9540e7135fac17047b0.png.gz",
+          "rawBytes": 636552,
+          "rawSha256": "7e1ed6ef0f3863d6c14fe4474cf4f28f80a9092588c5a9540e7135fac17047b0",
+          "bytes": 616995,
+          "sha256": "a0f48ed9a6c45b15b469b1d6f4a2007379a870284c78ae9594a1e40261498214"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-720-v2/fire-022-hold-lcd.png",
+          "file": "m5-fire-window-20261011/f9b8c04d89ff1c987015446b711bd78472d79267854e406312e6a71b814d78f9.png.gz",
+          "rawBytes": 5155,
+          "rawSha256": "f9b8c04d89ff1c987015446b711bd78472d79267854e406312e6a71b814d78f9",
+          "bytes": 5154,
+          "sha256": "7a79e5edc191235c2a9a16a0d6422f0634c33b1e2bbd06d19910d3e23345f719"
+        }
+      ]
+    },
+    {
+      "name": "pc-missing-v1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "classic": false,
+      "missingAssets": true,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "startedAt": "2026-10-11T12:18:10.147Z",
+      "finishedAt": "2026-10-11T12:19:45.352Z",
+      "phases": 18,
+      "publicInputs": 161,
+      "engineInputs": 387,
+      "sourceCount": 1214,
+      "fireAttempts": [
+        {
+          "attempt": 1,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 560,
+          "damage": 240
+        }
+      ],
+      "appliedResult": {
+        "session": 1,
+        "kind": 1,
+        "value": 240,
+        "attempt": 1
+      },
+      "readonlyExtraKeys": 0,
+      "pixels": {
+        "actualLcdCallbacks": 22,
+        "events": 1,
+        "sourceCopies": 8,
+        "movieHd": 0,
+        "postHd": 0,
+        "labels": 15,
+        "numericReadbacks": 14,
+        "completedHoldReadbacks": 1,
+        "fallbackReadbacks": 23,
+        "outsidePixelsPerHdReadback": 11200,
+        "outsidePixelComparisons": 0,
+        "verifiedReadbacks": 23
+      },
+      "native": {
+        "count": 128,
+        "aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+        "installed": {
+          "schemaVersion": 1,
+          "sourceRevision": "0e997203b909479dedd445686c18358270d62432",
+          "engineSourceSha256": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+          "engineSourceModified": true,
+          "emscriptenVersion": "3.1.51",
+          "cmakeVersion": "cmake version 3.31.6",
+          "sourceDateEpoch": 1791711430,
+          "hdMenuProtocol": {
+            "nativeFallback": 254,
+            "controlField": "g_hdFightMenuControl"
+          },
+          "hdInputProtocol": {
+            "version": 3,
+            "fight": [
+              "g_hdFightInputKind",
+              "g_hdFightInputSeq",
+              "g_hdFightActor"
+            ],
+            "menu": [
+              "g_hdMenuActive",
+              "g_hdMenuContext",
+              "g_hdMenuKind",
+              "g_hdMenuSeq"
+            ],
+            "march": [
+              "g_hdMarchPhase",
+              "g_hdMarchSession",
+              "g_hdMarchOrigin",
+              "g_hdMarchSelected",
+              "g_hdMarchInputSeq",
+              "g_hdMapInputSeq"
+            ],
+            "transfer": [
+              "g_hdTransferProtocolVersion",
+              "g_hdTransferActive",
+              "g_hdTransferCommand",
+              "g_hdTransferSession",
+              "g_hdTransferInputSeq",
+              "g_hdTransferPhase",
+              "g_hdTransferOrigin",
+              "g_hdTransferTarget",
+              "g_hdTransferPerson",
+              "g_hdTransferFood",
+              "g_hdTransferMoney",
+              "g_hdTransferArms",
+              "g_hdTransferDistance",
+              "g_hdTransferCommitSeq",
+              "g_hdTransferCommitResult"
+            ],
+            "diplomacy": [
+              "g_hdDiplomacyProtocolVersion",
+              "g_hdDiplomacyActive",
+              "g_hdDiplomacyCommand",
+              "g_hdDiplomacyPhase",
+              "g_hdDiplomacySession",
+              "g_hdDiplomacyInputSeq",
+              "g_hdDiplomacyGeneration",
+              "g_hdDiplomacyOrigin",
+              "g_hdDiplomacyActor",
+              "g_hdDiplomacyTarget",
+              "g_hdDiplomacyCommitSeq",
+              "g_hdDiplomacyCommitResult"
+            ],
+            "report": [
+              "g_hdReportActive",
+              "g_hdReportInputSeq"
+            ],
+            "record": [
+              "g_hdRecordActive",
+              "g_hdRecordMode",
+              "g_hdRecordIndex",
+              "g_hdRecordCount",
+              "g_hdRecordSeq"
+            ],
+            "qty": [
+              "g_hdQtyActive",
+              "g_hdQtySession",
+              "g_hdQtyInputSeq",
+              "g_hdQtyLastKey",
+              "g_hdQtyCursor",
+              "g_hdQtyStep",
+              "g_hdQtyReady"
+            ]
+          },
+          "hdTransferProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.transfer()",
+            "fields": [
+              "g_hdTransferProtocolVersion",
+              "g_hdTransferActive",
+              "g_hdTransferCommand",
+              "g_hdTransferSession",
+              "g_hdTransferInputSeq",
+              "g_hdTransferPhase",
+              "g_hdTransferOrigin",
+              "g_hdTransferTarget",
+              "g_hdTransferPerson",
+              "g_hdTransferFood",
+              "g_hdTransferMoney",
+              "g_hdTransferArms",
+              "g_hdTransferDistance",
+              "g_hdTransferCommitSeq",
+              "g_hdTransferCommitResult"
+            ],
+            "commands": {
+              "transportation": 13,
+              "move": 14
+            },
+            "phases": {
+              "idle": 0,
+              "person": 1,
+              "food": 2,
+              "money": 3,
+              "arms": 4,
+              "targetTip": 5,
+              "targetPick": 6,
+              "reject": 7,
+              "departureReport": 8,
+              "done": 9
+            },
+            "owner": "independent U32 session/inputSeq; zero skipped; detail-generation reset invalidates suspended publishers",
+            "values": "only actual returned person/amount/target values; 255 city/distance and 65535 person mean not yet known",
+            "departure": "report8 observes native Thew/cargo debits before the original single AddOrderHead and DelPerson",
+            "commit": "monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added",
+            "retirement": "DONE inactive retains last receipt; next begin clears values/result; reset retires the session",
+            "input": "read-only; existing menu, quantity, report and map-input receipts remain authoritative"
+          },
+          "hdDiplomacyProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.diplomacy()",
+            "fields": [
+              "g_hdDiplomacyProtocolVersion",
+              "g_hdDiplomacyActive",
+              "g_hdDiplomacyCommand",
+              "g_hdDiplomacyPhase",
+              "g_hdDiplomacySession",
+              "g_hdDiplomacyInputSeq",
+              "g_hdDiplomacyGeneration",
+              "g_hdDiplomacyOrigin",
+              "g_hdDiplomacyActor",
+              "g_hdDiplomacyTarget",
+              "g_hdDiplomacyCommitSeq",
+              "g_hdDiplomacyCommitResult"
+            ],
+            "commands": {
+              "alienate": 15,
+              "canvass": 16,
+              "counterespionage": 17,
+              "induce": 19
+            },
+            "phases": {
+              "idle": 0,
+              "actor": 1,
+              "target": 2,
+              "commit": 3,
+              "reject": 4,
+              "done": 5
+            },
+            "owner": "independent session/inputSeq plus actual detail generation; all skip zero; stale suspended publishers cannot revive a retired owner",
+            "people": "actual returned U16 person IDs; actor and target65535 and origin255 are unpublished sentinels; actor selection resets both people each iteration",
+            "commit": "phase3 observes original debits before AddOrderHead; exactly one native result is recorded after original DelPerson. Result1 queued, result2 full queue, without rollback or an invented success report",
+            "cancellation": "target cancellation returns to a freshly published actor list; actor cancellation follows native command return; no added keys",
+            "retirement": "DONE inactive retains an audit receipt; next begin/reset/world commit invalidates previous session and clears people/result",
+            "input": "observation only; original PERSON and report native owner receipts remain authoritative; original costs, eligibility and monthly random outcomes are unchanged"
+          },
+          "hdSpeProtocol": {
+            "version": 2,
+            "event": [
+              "g_hdSpeGeneration",
+              "g_hdSpeEventId",
+              "g_hdSpeParentEventId",
+              "g_hdSpeDepth"
+            ],
+            "frames": [
+              "g_hdSpeFrameIndex",
+              "g_hdSpeFrameValid",
+              "g_hdSpeCommitSeq",
+              "g_hdSpeVisibleFrames"
+            ],
+            "resourceFingerprint": "fnv1a32:payload:resourceLength",
+            "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+            "skipEligible": "keyflag === 1"
+          },
+          "hdDetailProtocol": {
+            "version": 1,
+            "generation": "g_hdDetailGeneration",
+            "menuIds": [
+              "g_hdMenuIds",
+              "g_hdMenuIdsCount",
+              "g_hdMenuIdsKind",
+              "g_hdMenuIdsSeq",
+              "g_hdMenuIdsGeneration"
+            ],
+            "menuIdKinds": {
+              "person": 3,
+              "goods": 4,
+              "campaign": {
+                "context": 5,
+                "successor": 1,
+                "defenders": 2
+              }
+            },
+            "menuIdentity": "current data, generation, context, kind, sequence, count, index, packed names and complete zero-based native ID list; never inferred from names",
+            "successorReceipt": "synchronous baye-hd-successor-committed after native loyalty and ownership updates; read-only, before subsequent battle food and monthly processing",
+            "goods": [
+              "g_hdGoodsGeneration",
+              "g_hdGoodsMenuSeq",
+              "g_hdGoodsIndex",
+              "g_hdGoodsTool",
+              "g_hdGoodsPropertyCount",
+              "g_hdGoodsPropertyFlags",
+              "g_hdGoodsPageStart",
+              "g_hdGoodsPageEnd"
+            ],
+            "help": [
+              "g_hdHelpProtocolVersion",
+              "g_hdHelpGeneration",
+              "g_hdHelpInputSeq",
+              "g_hdHelpKind",
+              "g_hdHelpComplete",
+              "g_hdHelpPerson",
+              "g_hdHelpSlot",
+              "g_hdHelpFields"
+            ],
+            "toolAccess": [
+              "bayeHdGetToolCount",
+              "bayeHdGetToolField",
+              "bayeHdGetArmType"
+            ]
+          },
+          "hdPersonPropertiesProtocol": {
+            "version": 1,
+            "publicApi": "baye.hd.personProperties()",
+            "protocolField": "g_hdPersonPropertiesProtocolVersion",
+            "owner": [
+              "g_hdPersonPropertiesActive",
+              "g_hdPersonPropertiesGeneration",
+              "g_hdPersonPropertiesMenuSeq",
+              "g_hdPersonPropertiesIndex",
+              "g_hdPersonPropertiesPerson"
+            ],
+            "menuOwner": [
+              "g_hdDetailGeneration",
+              "g_hdMenuActive",
+              "g_hdMenuContext",
+              "g_hdMenuKind",
+              "g_hdMenuSeq",
+              "g_hdMenuIndex",
+              "g_hdMenuIds",
+              "g_hdMenuIdsGeneration",
+              "g_hdMenuIdsSeq",
+              "g_hdMenuIdsKind",
+              "g_hdMenuIdsCount"
+            ],
+            "identity": "U16 zero-based person ID and selected row; full native IDs match before publication, never name matching",
+            "paint": [
+              "g_hdPersonPropertiesPaintSeq",
+              "g_hdPersonPropertiesTitlePaintSeq",
+              "g_hdPersonPropertiesValuePaintSeq"
+            ],
+            "publication": "temporary selected-row paint ticket; publish only after original set_menu and full menu_ids confirm owner and index",
+            "page": [
+              "g_hdPersonPropertiesPropertyCount",
+              "g_hdPersonPropertiesPageIndex",
+              "g_hdPersonPropertiesPageStart",
+              "g_hdPersonPropertiesPageEnd"
+            ],
+            "pageRange": "actual native spc and exclusive end; propertyCount 0..255 and pageIndex 0..254, no inferred page size",
+            "completeness": {
+              "cumulative": "g_hdPersonPropertiesComplete: every property has a captured title and value; prior paint revisions remain explicit",
+              "currentPage": "g_hdPersonPropertiesPageComplete: nonempty selected name and all current-page title/value revisions match PaintSeq"
+            },
+            "flags": {
+              "field": "g_hdPersonPropertiesPropertyFlags",
+              "titleCaptured": 1,
+              "valueCaptured": 2
+            },
+            "text": {
+              "name": "g_hdPersonPropertiesNameGbk",
+              "nameBytes": 32,
+              "titles": "g_hdPersonPropertiesPropertyTitles",
+              "values": "g_hdPersonPropertiesPropertyValues",
+              "slotBytes": 128,
+              "slots": 256,
+              "encoding": "bounded NUL-terminated raw GBK final native strings; nonempty titles, empty values allowed"
+            },
+            "custom": "g_hdPersonPropertiesCustom: observed only in the existing title/value hook branches; no added hook/getter/draw calls",
+            "retirement": "menu owner, selected row or full IDs change; report/help/qty takeover or native reset invalidates the paint ticket and captured source",
+            "input": "read-only observer adds no keys or game writes; explicit player LEFT/RIGHT follows original native paging and boundary behavior"
+          },
+          "hdOverviewProtocol": {
+            "version": 1,
+            "view": [
+              "g_hdViewSeq",
+              "g_hdViewGeneration",
+              "g_hdViewInputSeq",
+              "g_hdViewForce",
+              "g_hdViewPageStart",
+              "g_hdViewPageSize",
+              "g_hdViewFoodKnown",
+              "g_hdViewRowPersons",
+              "g_hdViewPointPersons"
+            ],
+            "miniMap": [
+              "g_hdMiniMapSeq",
+              "g_hdMiniMapGeneration",
+              "g_hdMiniMapInputSeq",
+              "g_hdMiniMapDefaultDraw",
+              "g_hdMiniMapCustom",
+              "g_hdMiniMapResourceId"
+            ]
+          },
+          "hdMakerProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdMakerGeneration",
+              "g_hdMakerSession",
+              "g_hdMakerInputSeq",
+              "g_hdMakerPhase"
+            ],
+            "phases": {
+              "scroll": 1,
+              "hold": 2
+            },
+            "input": "original GamDelay(5000, 2), one function key or touch-up returns",
+            "holdSource": "last actual SysCopyScreen snapshot of the matching MAKER child; public LCD display must match",
+            "retirement": "GamMakerInf return, native reset, or held LCD dirty/copy interference",
+            "custom": "same observed showAbout invocation; custom default branch retains LCD"
+          },
+          "hdSpeCompositionProtocol": {
+            "version": 1,
+            "nestedOpaqueCoverage": {
+              "mode": 3,
+              "fields": [
+                "g_hdSpeSceneMode",
+                "g_hdSpeSceneX",
+                "g_hdSpeSceneY",
+                "g_hdSpeSceneWidth",
+                "g_hdSpeSceneHeight"
+              ],
+              "displayedFields": [
+                "g_hdSpeDisplaySceneMode",
+                "g_hdSpeDisplaySceneX",
+                "g_hdSpeDisplaySceneY",
+                "g_hdSpeDisplaySceneWidth",
+                "g_hdSpeDisplaySceneHeight"
+              ],
+              "establishment": "same-origin, fully opaque selected rectangles form a containment chain; only actual supported writes and controlled copies establish their current and displayed coverage",
+              "retirement": "uncontrolled drawing, unsupported paint, changed resources or nested owners permanently retire coverage; future dimensions cannot authorize an older displayed copy"
+            },
+            "source": "actual ordinary picture draw observed before its matching native attack child",
+            "background": "g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin",
+            "clears": [
+              "g_hdSpeClearFrames",
+              "g_hdSpeDisplayClearFrames"
+            ],
+            "displayedCommit": "actual SysCopyScreen composition snapshot published by timed_flush_lcd",
+            "retirement": "uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset"
+          },
+          "hdAiTargetProtocol": {
+            "version": 2,
+            "publicApi": [
+              "baye.hd.spe().aiTarget",
+              "baye.hd.spe().display.aiTarget"
+            ],
+            "protocolField": "g_hdSpeAiProtocolVersion",
+            "scope": "actual AI chosen command target; STACHG_SPE 27, resource index 0, kind 4, units 12..17, keyflag 0",
+            "command": [
+              "CommandType",
+              "CommandParam",
+              "ActorIndex",
+              "TargetIndex",
+              "ActorPerson",
+              "TargetPerson"
+            ],
+            "identity": "g_hdSpeAi and g_hdSpeDisplayAi carry actual zero-based U16 person IDs, unit positions and map viewport",
+            "region": "actual before-draw 16x16 target cell within the baseline 160x96 scale-1 LCD; no guessed battle background",
+            "base": [
+              "g_hdSpeAiBasePixels",
+              "g_hdSpeDisplayAiBasePixels"
+            ],
+            "baseFormat": "256 row-major original g_VisScr U8 pixel indices; captured once before the first clear or sprite draw",
+            "baseRgba": [
+              "g_hdSpeAiBaseRgba",
+              "g_hdSpeDisplayAiBaseRgba"
+            ],
+            "baseRgbaFormat": "1024 original little-endian RGBA bytes from the actual native palette at the first pre-draw capture; repeated indices share identical RGBA and used palette indices must remain unchanged",
+            "palette": [
+              "PaletteZero",
+              "PaletteInk"
+            ],
+            "clears": [
+              "g_hdSpeAiClearFrames",
+              "g_hdSpeDisplayAiClearFrames"
+            ],
+            "displayedCommit": "matching actual SysCopyScreen carries its fixed base and cumulative clear history; timed LCD flush publishes its own SPE event/commit/frame ticket",
+            "retirement": "uncontrolled drawing, changed native actor/target/map, nested event, report/help/quantity, resize, unsupported drawing state or reset permanently invalidates the base",
+            "input": "read-only observation adds no input, skip, return, attack or skill-result numeric owner; original unskippable keyflag-0 playback remains intact"
+          },
+          "hdStatusEffectProtocol": {
+            "version": 1,
+            "publicApi": [
+              "baye.hd.spe().statusEffect",
+              "baye.hd.spe().display.statusEffect"
+            ],
+            "protocolField": "g_hdSpeStatusProtocolVersion",
+            "bindings": [
+              "g_hdSpeStatusProtocolVersion",
+              "g_hdSpeStatusValid",
+              "g_hdSpeStatusReason",
+              "g_hdSpeStatusPhase",
+              "g_hdSpeStatusSubjectIndex",
+              "g_hdSpeStatusSubjectPerson",
+              "g_hdSpeStatusSubjectX",
+              "g_hdSpeStatusSubjectY",
+              "g_hdSpeStatusBeforeLevel",
+              "g_hdSpeStatusAfterLevel",
+              "g_hdSpeStatusBeforeExperience",
+              "g_hdSpeStatusAfterExperience",
+              "g_hdSpeStatusBeforeState",
+              "g_hdSpeStatusAfterState",
+              "g_hdSpeStatusBeforeHp",
+              "g_hdSpeStatusAfterHp",
+              "g_hdSpeStatusBeforeArms",
+              "g_hdSpeStatusAfterArms",
+              "g_hdSpeStatusLevelMax",
+              "g_hdSpeStatusMapSX",
+              "g_hdSpeStatusMapSY",
+              "g_hdSpeStatusMapWidth",
+              "g_hdSpeStatusMapHeight",
+              "g_hdSpeStatusScreenWidth",
+              "g_hdSpeStatusScreenHeight",
+              "g_hdSpeStatusRegionX",
+              "g_hdSpeStatusRegionY",
+              "g_hdSpeStatusRegionWidth",
+              "g_hdSpeStatusRegionHeight",
+              "g_hdSpeStatusPaletteZero",
+              "g_hdSpeStatusPaletteInk",
+              "g_hdSpeStatusBasePixels",
+              "g_hdSpeStatusBaseRgba",
+              "g_hdSpeStatusClearFrames",
+              "g_hdSpeDisplayStatusValid",
+              "g_hdSpeDisplayStatusReason",
+              "g_hdSpeDisplayStatusPhase",
+              "g_hdSpeDisplayStatusSubjectIndex",
+              "g_hdSpeDisplayStatusSubjectPerson",
+              "g_hdSpeDisplayStatusSubjectX",
+              "g_hdSpeDisplayStatusSubjectY",
+              "g_hdSpeDisplayStatusBeforeLevel",
+              "g_hdSpeDisplayStatusAfterLevel",
+              "g_hdSpeDisplayStatusBeforeExperience",
+              "g_hdSpeDisplayStatusAfterExperience",
+              "g_hdSpeDisplayStatusBeforeState",
+              "g_hdSpeDisplayStatusAfterState",
+              "g_hdSpeDisplayStatusBeforeHp",
+              "g_hdSpeDisplayStatusAfterHp",
+              "g_hdSpeDisplayStatusBeforeArms",
+              "g_hdSpeDisplayStatusAfterArms",
+              "g_hdSpeDisplayStatusLevelMax",
+              "g_hdSpeDisplayStatusMapSX",
+              "g_hdSpeDisplayStatusMapSY",
+              "g_hdSpeDisplayStatusMapWidth",
+              "g_hdSpeDisplayStatusMapHeight",
+              "g_hdSpeDisplayStatusScreenWidth",
+              "g_hdSpeDisplayStatusScreenHeight",
+              "g_hdSpeDisplayStatusRegionX",
+              "g_hdSpeDisplayStatusRegionY",
+              "g_hdSpeDisplayStatusRegionWidth",
+              "g_hdSpeDisplayStatusRegionHeight",
+              "g_hdSpeDisplayStatusPaletteZero",
+              "g_hdSpeDisplayStatusPaletteInk",
+              "g_hdSpeDisplayStatusBasePixels",
+              "g_hdSpeDisplayStatusBaseRgba",
+              "g_hdSpeDisplayStatusClearFrames"
+            ],
+            "scope": "actual FgtChkAtkEnd branch; STACHG_SPE 27, resource index 0, kind 4, upgrade units 0..5 or departure units 6..11, keyflag 0",
+            "reasons": {
+              "upgrade": 1,
+              "death": 2
+            },
+            "phases": {
+              "command": 1,
+              "initialize": 2
+            },
+            "identity": [
+              "Reason",
+              "Phase",
+              "SubjectIndex",
+              "SubjectPerson",
+              "SubjectX",
+              "SubjectY"
+            ],
+            "mutation": [
+              "BeforeLevel",
+              "AfterLevel",
+              "BeforeExperience",
+              "AfterExperience",
+              "BeforeState",
+              "AfterState",
+              "BeforeHp",
+              "AfterHp",
+              "BeforeArms",
+              "AfterArms",
+              "LevelMax"
+            ],
+            "base": [
+              "g_hdSpeStatusBasePixels",
+              "g_hdSpeDisplayStatusBasePixels"
+            ],
+            "baseFormat": "256 row-major original g_VisScr U8 pixel indices captured once before the first clear or sprite draw",
+            "baseRgba": [
+              "g_hdSpeStatusBaseRgba",
+              "g_hdSpeDisplayStatusBaseRgba"
+            ],
+            "baseRgbaFormat": "1024 actual little-endian palette RGBA bytes; identical indices share identical colors and every used palette index remains unchanged",
+            "palette": [
+              "PaletteZero",
+              "PaletteInk"
+            ],
+            "clears": [
+              "g_hdSpeStatusClearFrames",
+              "g_hdSpeDisplayStatusClearFrames"
+            ],
+            "displayedCommit": "actual SysCopyScreen carries fixed subject/base and cumulative clear history; timed LCD flush publishes its matching SPE event/commit/frame ticket",
+            "initialization": "phase2 is certified only within the original FgtInit status-check scope, with inactive fight and no guessed command owner",
+            "retirement": "uncontrolled drawing, changed subject/map/palette/resource, nested events, overlays, resize, native end or reset permanently invalidates the source",
+            "input": "read-only observation adds no skip, return or numeric hold owner; death STATE_SW and zero-HP/zero-Arms upgrades are actual native branch outcomes"
+          },
+          "hdAttackProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdAttackGeneration",
+              "g_hdAttackSession",
+              "g_hdAttackPhase"
+            ],
+            "phases": {
+              "movie": 1,
+              "numbers": 2,
+              "hold": 3
+            },
+            "hurt": "actual CountPlusSub result captured by the unchanged FgtAtkAction",
+            "display": "g_hdAttackDisplay copied scene and cumulative actual digit poses, published only at timed LCD flush",
+            "digits": [
+              "DigitIndex",
+              "DigitX",
+              "DigitY",
+              "DigitFirstY",
+              "DigitDrawCount"
+            ],
+            "input": "no added skip or return; original numeric and final delays retain native input behavior",
+            "custom": "same single observed willShowPKAnimation invocation; custom presence always retires HD source"
+          },
+          "hdSkillResultProtocol": {
+            "version": 1,
+            "owner": [
+              "g_hdSkillResultGeneration",
+              "g_hdSkillResultSession",
+              "g_hdSkillResultPhase"
+            ],
+            "nativeStack": [
+              "g_hdResultOwnerKind",
+              "g_hdResultOwnerValid",
+              "g_hdResultOwnerGeneration",
+              "g_hdResultOwnerSession"
+            ],
+            "phases": {
+              "movie": 1,
+              "numbers": 2,
+              "hold": 3
+            },
+            "value": "exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount",
+            "label": "actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer",
+            "scene": "owned BACKPIC, verified equal opaque rectangle, or actual-copy-established nested opaque coverage; no unknown full-arena background inferred",
+            "display": "controlled actual movie, label and numeric writes snapshot published at timed LCD flush",
+            "input": "no added skip or return; original movie, number and result waiting lifecycle",
+            "custom": "presence captured in original showSkill and single willShowPKAnimation invocation",
+            "retirement": "uncontrolled drawing, nested owner, malformed source, custom hook, reset; parent source never revived"
+          },
+          "saveProtocol": {
+            "version": 149,
+            "legacyVersions": [
+              144,
+              145,
+              146,
+              147,
+              148
+            ],
+            "filesPerSlot": 2,
+            "fightersBytes": 600,
+            "goodsQueueBytes": 4000
+          },
+          "artifacts": {
+            "baye.js": {
+              "bytes": 193321,
+              "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2"
+            },
+            "baye.wasm": {
+              "bytes": 4561352,
+              "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5"
+            },
+            "baye.wasm.map": {
+              "bytes": 29983,
+              "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646"
+            }
+          }
+        }
+      },
+      "scope": {
+        "accepted": "One actual original-LIB FIRE5/SPE35 action, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. The complete actual160x96 LCD is physically presented.",
+        "notRun": "Other shared35 skills11/18, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.",
+        "publicInput": "Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome."
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-missing-v1/result.json",
+        "file": "m5-fire-window-20261011/9bd75175ed174f10d864eb0ce083d89513dbe3a0af1f2575dc923f059738165b.json.gz",
+        "rawBytes": 27084931,
+        "rawSha256": "9bd75175ed174f10d864eb0ce083d89513dbe3a0af1f2575dc923f059738165b",
+        "bytes": 774053,
+        "sha256": "ebf4a3c7d70271a4785a8325778ed16e534e50d574cf63cb912625333931c41c"
+      },
+      "executedTool": {
+        "source": "build/fire-window-20261011/pc-missing-v1/executed-tool.mjs",
+        "file": "m5-fire-window-20261011/12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077.mjs.gz",
+        "rawBytes": 76968,
+        "rawSha256": "12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077",
+        "bytes": 24874,
+        "sha256": "d3e50dc43c728d26d8bb24126b9f504f4e62e264b12f937b3f354ea0b5e3dd0d"
+      },
+      "captures": {
+        "source": "build/fire-window-20261011/pc-missing-v1/native-skill-captures.json",
+        "file": "m5-fire-window-20261011/4b526ea5aad0f14a0305d4509133d325dc803f4167786d83a2838baacf991e16.json.gz",
+        "rawBytes": 6276764,
+        "rawSha256": "4b526ea5aad0f14a0305d4509133d325dc803f4167786d83a2838baacf991e16",
+        "bytes": 222537,
+        "sha256": "910f8e5f0a78538b8764f6ea9dcc98a9739ffa502977b3dff13ac7e0136ebd32"
+      },
+      "sourceVerification": {
+        "source": "build/fire-window-20261011/pc-missing-v1/source-verification.json",
+        "file": "m5-fire-window-20261011/6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7.json.gz",
+        "rawBytes": 432663,
+        "rawSha256": "6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7",
+        "bytes": 69012,
+        "sha256": "5c4fd63fd77a49f42e56206cf0a7b23d6c11c74d933a893f77cbf04862c13576"
+      },
+      "engineInputEvidence": {
+        "source": "build/fire-window-20261011/pc-missing-v1/engine-inputs.json",
+        "file": "m5-fire-window-20261011/182022fca9bbfe06244aaee096953cb55562ac8df26ed067eba1b6c38fc05aaf.json.gz",
+        "rawBytes": 86538,
+        "rawSha256": "182022fca9bbfe06244aaee096953cb55562ac8df26ed067eba1b6c38fc05aaf",
+        "bytes": 2216,
+        "sha256": "de282e2e982c6f2921bd4be131c9520de6abe9cd19af93b3364457bf9da439d5"
+      },
+      "selectedImages": [
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/31-real-skill-result-retired.png",
+          "file": "m5-fire-window-20261011/2febf2fc7d345e40e6c600dc6a2802d507d5295b98900b2a638922ab1adcc88e.png.gz",
+          "rawBytes": 302736,
+          "rawSha256": "2febf2fc7d345e40e6c600dc6a2802d507d5295b98900b2a638922ab1adcc88e",
+          "bytes": 296580,
+          "sha256": "db0ae5c51975989c847b3cff79ae0de6fd20bb982d146d3ddc9ae9b717211cb8"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-000-movie-hd.png",
+          "file": "m5-fire-window-20261011/30134b01681637fb91c113eca52f2e6cb6f0dde097d1dfd9d643e768acbd090f.png.gz",
+          "rawBytes": 50567,
+          "rawSha256": "30134b01681637fb91c113eca52f2e6cb6f0dde097d1dfd9d643e768acbd090f",
+          "bytes": 26766,
+          "sha256": "91112555e49f13036cf9f8720d13e57a2cfd6269d9bbbac32dab9989b06eaaf6"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-000-movie-lcd.png",
+          "file": "m5-fire-window-20261011/a23da5b2a178dfc2e3b9710edc4673cce48fd7e6be5eeb59c10f33b2268383eb.png.gz",
+          "rawBytes": 4827,
+          "rawSha256": "a23da5b2a178dfc2e3b9710edc4673cce48fd7e6be5eeb59c10f33b2268383eb",
+          "bytes": 4827,
+          "sha256": "156476db017951d45e10d3452c328e3326f237a7ac554ff768fea506e4bd7af3"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-007-movie-hd.png",
+          "file": "m5-fire-window-20261011/a76d48a73a52ef04afe0e2662c5eb463a900e9394b0f4674453786ed4e997a3a.png.gz",
+          "rawBytes": 50550,
+          "rawSha256": "a76d48a73a52ef04afe0e2662c5eb463a900e9394b0f4674453786ed4e997a3a",
+          "bytes": 26591,
+          "sha256": "8374a73815c25d501ab98ad29c0c62d4775645632ff7daf4199cb709c093d0e2"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-007-movie-lcd.png",
+          "file": "m5-fire-window-20261011/ffc984c9f287b2a27b60148b8cdde2075b68c633da9aefea6b930ba1a1dde6e1.png.gz",
+          "rawBytes": 4828,
+          "rawSha256": "ffc984c9f287b2a27b60148b8cdde2075b68c633da9aefea6b930ba1a1dde6e1",
+          "bytes": 4827,
+          "sha256": "61caa8a6742c952ecee3f83c1903531cfb638c5d18a7b7d113d1c331d006192b"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-008-numbers-hd.png",
+          "file": "m5-fire-window-20261011/90351c1e95770e79fe80e47d89844982865d9abbc62719411a008ac432acd369.png.gz",
+          "rawBytes": 50908,
+          "rawSha256": "90351c1e95770e79fe80e47d89844982865d9abbc62719411a008ac432acd369",
+          "bytes": 27210,
+          "sha256": "8f87534b0d6c8493cc40da9b92a8971ba0b8cd69243b198f3b7af39d85784cf3"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-008-numbers-lcd.png",
+          "file": "m5-fire-window-20261011/21191dab6bcb4e89a8dca45e141babb0b669d96900d5aa3c5b52afcf1d370c18.png.gz",
+          "rawBytes": 5030,
+          "rawSha256": "21191dab6bcb4e89a8dca45e141babb0b669d96900d5aa3c5b52afcf1d370c18",
+          "bytes": 5021,
+          "sha256": "edec0bc7a72b604d52930a3f3746d1477d5e4c3923933b6961b1ebb4861bdd42"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-022-hold-hd.png",
+          "file": "m5-fire-window-20261011/957bb3300905a81dc4c8b1a8205a5d591565892062a67eff120bb786ea7917db.png.gz",
+          "rawBytes": 51096,
+          "rawSha256": "957bb3300905a81dc4c8b1a8205a5d591565892062a67eff120bb786ea7917db",
+          "bytes": 27420,
+          "sha256": "e4a4bc39b99d6502c0ca70ae48be6182508f18d3ae46f189d76137d259ce500c"
+        },
+        {
+          "source": "build/fire-window-20261011/pc-missing-v1/fire-022-hold-lcd.png",
+          "file": "m5-fire-window-20261011/81fc16ad16ecd064f8661bef88be5c6f4d41047f5c302aa03c27cbdddf15050b.png.gz",
+          "rawBytes": 5074,
+          "rawSha256": "81fc16ad16ecd064f8661bef88be5c6f4d41047f5c302aa03c27cbdddf15050b",
+          "bytes": 5039,
+          "sha256": "3702b5518ec01bfa3efa5d0fe85f3fc6d5b8c4c9f7c0496dc7dd7318165ca86a"
+        }
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "name": "pc-1080-v1",
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-1080-v1/result.json",
+        "file": "m5-fire-window-20261011/0ae17cbfd3dc772b40560d5b081ee984e34f2ad6b7de2e8972d3ec1a893e7ece.json.gz",
+        "rawBytes": 19940092,
+        "rawSha256": "0ae17cbfd3dc772b40560d5b081ee984e34f2ad6b7de2e8972d3ec1a893e7ece",
+        "bytes": 810088,
+        "sha256": "a0f77bb5d1bad8fb8b411e026adfea8760998bf7387ae628bc76862bf5e2d87b"
+      }
+    },
+    {
+      "name": "pc-720-v2",
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-720-v2/result.json",
+        "file": "m5-fire-window-20261011/b0f322a03de9d5d0193417867f23c48840f72409770257f07c69b47f7d34a06d.json.gz",
+        "rawBytes": 22106732,
+        "rawSha256": "b0f322a03de9d5d0193417867f23c48840f72409770257f07c69b47f7d34a06d",
+        "bytes": 849957,
+        "sha256": "23a91846a2c77005b5539c8b901176885d525e3ea1e0459ce25e4c4196f70704"
+      }
+    },
+    {
+      "name": "pc-missing-v1",
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-missing-v1/result.json",
+        "file": "m5-fire-window-20261011/9bd75175ed174f10d864eb0ce083d89513dbe3a0af1f2575dc923f059738165b.json.gz",
+        "rawBytes": 27084931,
+        "rawSha256": "9bd75175ed174f10d864eb0ce083d89513dbe3a0af1f2575dc923f059738165b",
+        "bytes": 774053,
+        "sha256": "ebf4a3c7d70271a4785a8325778ed16e534e50d574cf63cb912625333931c41c"
+      }
+    },
+    {
+      "name": "pc-720-v1",
+      "accepted": false,
+      "classification": "natural-FIRE-not-observed-within-three-legal-attempts",
+      "error": "AssertionError [ERR_ASSERTION]: Actual standard-LIB FIRE5 was naturally produced\n    at verifySkillCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:666:9)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:783:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "fireAttempts": [
+        {
+          "attempt": 1,
+          "weatherBefore": 1,
+          "actor": {
+            "slot": 2,
+            "nativeToken": 61,
+            "name": "程银"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 2,
+          "weatherBefore": 1,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 3,
+          "weatherBefore": 1,
+          "actor": {
+            "slot": 5,
+            "nativeToken": 64,
+            "name": "梁兴"
+          },
+          "target": {
+            "slot": 10,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 28,
+          "mpAfter": 13,
+          "armsBefore": 1170,
+          "armsAfter": 1170,
+          "damage": 0
+        }
+      ],
+      "sourceCount": 1214,
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-720-v1/result.json",
+        "file": "m5-fire-window-20261011/baae8e4d57cba787e7233422c71c37c53b7cef91a0234e548941a6a69c41d94f.json.gz",
+        "rawBytes": 21593637,
+        "rawSha256": "baae8e4d57cba787e7233422c71c37c53b7cef91a0234e548941a6a69c41d94f",
+        "bytes": 581138,
+        "sha256": "d213f25df7a38b4e4efd84b68b9ffd266a88ae4af03ecebf5ea212a4f528b64d"
+      },
+      "executedTool": {
+        "source": "build/fire-window-20261011/pc-720-v1/executed-tool.mjs",
+        "file": "m5-fire-window-20261011/12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077.mjs.gz",
+        "rawBytes": 76968,
+        "rawSha256": "12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077",
+        "bytes": 24874,
+        "sha256": "d3e50dc43c728d26d8bb24126b9f504f4e62e264b12f937b3f354ea0b5e3dd0d"
+      },
+      "captures": {
+        "source": "build/fire-window-20261011/pc-720-v1/native-skill-captures.json",
+        "file": "m5-fire-window-20261011/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.json.gz",
+        "rawBytes": 3,
+        "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+      }
+    },
+    {
+      "name": "pc-classic-v1",
+      "accepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "classification": "runner-ACK-expects-sequence-change-during-same-native-AIM",
+      "error": "Error: Timed out waiting for one classic AIM cursor ACK\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:218:11)\n    at async attemptFire (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:563:478)\n    at async battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:618:12)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:440:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:380:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:782:9)",
+      "sourceCount": 1214,
+      "movement": {
+        "key": "ArrowRight",
+        "nativeCode": 37,
+        "count": 1,
+        "priorCachedPresentation": {
+          "inputKind": 5,
+          "actorIndex": 2,
+          "inputSeq": 147,
+          "focus": {
+            "x": 11,
+            "y": 15
+          }
+        },
+        "terminalNative": {
+          "inputKind": 5,
+          "actorIndex": 2,
+          "inputSeq": 147,
+          "focus": {
+            "x": 12,
+            "y": 15
+          }
+        },
+        "caveat": "Prior focus is the cached shared presentation, not an immediate atomic native pre-key snapshot.",
+        "confirmedCast": false,
+        "capturedFIRE": 0
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-classic-v1/result.json",
+        "file": "m5-fire-window-20261011/b3c2397fec9c05e4d11a3353e975c09e80b0623eeb639ff36386ef35ae522911.json.gz",
+        "rawBytes": 9196281,
+        "rawSha256": "b3c2397fec9c05e4d11a3353e975c09e80b0623eeb639ff36386ef35ae522911",
+        "bytes": 310435,
+        "sha256": "40feb5d546ef195ccea37cb50296e644405be65241da632e4fd46633b0c6b3f3"
+      },
+      "executedTool": {
+        "source": "build/fire-window-20261011/pc-classic-v1/executed-tool.mjs",
+        "file": "m5-fire-window-20261011/12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077.mjs.gz",
+        "rawBytes": 76968,
+        "rawSha256": "12f4c2b1e10d96d670ad2607ff65eec9a0d015751d087eb1267a52263290f077",
+        "bytes": 24874,
+        "sha256": "d3e50dc43c728d26d8bb24126b9f504f4e62e264b12f937b3f354ea0b5e3dd0d"
+      },
+      "captures": {
+        "source": "build/fire-window-20261011/pc-classic-v1/native-skill-captures.json",
+        "file": "m5-fire-window-20261011/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.json.gz",
+        "rawBytes": 3,
+        "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+      },
+      "engineInputEvidence": {
+        "source": "build/fire-window-20261011/pc-classic-v1/engine-inputs.json",
+        "file": "m5-fire-window-20261011/9ded10475adf51769c6b9e354f14bbda1440e80db39ea14f3e858016367a7d95.json.gz",
+        "rawBytes": 49697,
+        "rawSha256": "9ded10475adf51769c6b9e354f14bbda1440e80db39ea14f3e858016367a7d95",
+        "bytes": 1429,
+        "sha256": "096047e020ff7c1d3b61ee9bc17e3195d07130928f02d3fba4dca036190f687a"
+      },
+      "sourceVerification": {
+        "source": "build/fire-window-20261011/pc-classic-v1/source-verification.json",
+        "file": "m5-fire-window-20261011/6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7.json.gz",
+        "rawBytes": 432663,
+        "rawSha256": "6a8450672f331e94b7b4502d90964e9584ec75c62566cddc74a3c3c296c6eab7",
+        "bytes": 69012,
+        "sha256": "5c4fd63fd77a49f42e56206cf0a7b23d6c11c74d933a893f77cbf04862c13576"
+      },
+      "independentReview": {
+        "source": "build/fire-window-20261011/independent-review/classic-v1-aim-ack-source-review-v1.json",
+        "file": "m5-fire-window-20261011/2ffd6967f7c389ad564c6b2f448fb16da59da674df5e14c36a2582a79469c69a.json.gz",
+        "rawBytes": 4955,
+        "rawSha256": "2ffd6967f7c389ad564c6b2f448fb16da59da674df5e14c36a2582a79469c69a",
+        "bytes": 1913,
+        "sha256": "4bc3096b8ea7e22c6e1c3201f26c23ed0b9c5c8d85d41151ada1f1a1567b53e0"
+      }
+    },
+    {
+      "name": "pc-classic-v2",
+      "accepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "classification": "natural-FIRE-not-observed-within-four-legal-attempts",
+      "error": "AssertionError [ERR_ASSERTION]: Actual standard-LIB FIRE5 was naturally produced\n    at verifySkillCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:668:9)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:785:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "fireAttempts": [
+        {
+          "attempt": 1,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 2,
+            "nativeToken": 61,
+            "name": "程银"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 2,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 3,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 5,
+            "nativeToken": 64,
+            "name": "梁兴"
+          },
+          "target": {
+            "slot": 10,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 28,
+          "mpAfter": 13,
+          "armsBefore": 1040,
+          "armsAfter": 1040,
+          "damage": 0
+        },
+        {
+          "attempt": 4,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 23,
+          "mpAfter": 8,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        }
+      ],
+      "capturedFIRE": 0,
+      "sourceCount": 1214,
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-classic-v2/result.json",
+        "file": "m5-fire-window-20261011/714e28f675cac72e8dd3cfc453df62be2f244b4ceb31b4aacf130ae20df99947.json.gz",
+        "rawBytes": 20655469,
+        "rawSha256": "714e28f675cac72e8dd3cfc453df62be2f244b4ceb31b4aacf130ae20df99947",
+        "bytes": 561269,
+        "sha256": "9883aa0b4330b2246663e0202a4305577e3ded50d525ed3a2476d17896fc2a35"
+      },
+      "executedTool": {
+        "source": "build/fire-window-20261011/pc-classic-v2/executed-tool.mjs",
+        "file": "m5-fire-window-20261011/26160233fde0ef2402c2820ab6e5ed7df380f7fb327df6eaf3b03380a107d5ea.mjs.gz",
+        "rawBytes": 77152,
+        "rawSha256": "26160233fde0ef2402c2820ab6e5ed7df380f7fb327df6eaf3b03380a107d5ea",
+        "bytes": 24939,
+        "sha256": "5dfb60c7fef5c3b7d74dbbeb19da00e38b101cbf696b6ceb36fb629ef50643a9"
+      },
+      "captures": {
+        "source": "build/fire-window-20261011/pc-classic-v2/native-skill-captures.json",
+        "file": "m5-fire-window-20261011/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.json.gz",
+        "rawBytes": 3,
+        "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+      },
+      "engineInputEvidence": {
+        "source": "build/fire-window-20261011/pc-classic-v2/engine-inputs.json",
+        "file": "m5-fire-window-20261011/af3e358e1ca29283c5e912eca2bfea0d2def91969c50f4b248d6b4fc9520b9af.json.gz",
+        "rawBytes": 89718,
+        "rawSha256": "af3e358e1ca29283c5e912eca2bfea0d2def91969c50f4b248d6b4fc9520b9af",
+        "bytes": 2310,
+        "sha256": "8293db1ef0a7a7e976d909a2463f6bdc15443d750074dd590947d64d6f724aa1"
+      },
+      "sourceVerification": {
+        "source": "build/fire-window-20261011/pc-classic-v2/source-verification.json",
+        "file": "m5-fire-window-20261011/5f0fc38375e68b083642a16321bb3faaad46286dafb0c7f3b1278dec31c930ab.json.gz",
+        "rawBytes": 432663,
+        "rawSha256": "5f0fc38375e68b083642a16321bb3faaad46286dafb0c7f3b1278dec31c930ab",
+        "bytes": 69011,
+        "sha256": "465e355e2d897b69e53bbc15c01a209256dab56c02f6ae870770d50c3bd0b6fa"
+      }
+    },
+    {
+      "name": "pc-classic-v3",
+      "accepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "classification": "natural-FIRE-not-observed-within-five-legal-attempts",
+      "error": "AssertionError [ERR_ASSERTION]: Actual standard-LIB FIRE5 was naturally produced\n    at verifySkillCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:668:9)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:785:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "fireAttempts": [
+        {
+          "attempt": 1,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 2,
+            "nativeToken": 61,
+            "name": "程银"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 2,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 37,
+          "mpAfter": 22,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 3,
+          "weatherBefore": 3,
+          "actor": {
+            "slot": 5,
+            "nativeToken": 64,
+            "name": "梁兴"
+          },
+          "target": {
+            "slot": 10,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 28,
+          "mpAfter": 13,
+          "armsBefore": 1040,
+          "armsAfter": 1040,
+          "damage": 0
+        },
+        {
+          "attempt": 4,
+          "weatherBefore": 2,
+          "actor": {
+            "slot": 2,
+            "nativeToken": 61,
+            "name": "程银"
+          },
+          "target": {
+            "slot": 11,
+            "nativeToken": 86,
+            "name": "方悦"
+          },
+          "mpBefore": 22,
+          "mpAfter": 7,
+          "armsBefore": 800,
+          "armsAfter": 800,
+          "damage": 0
+        },
+        {
+          "attempt": 5,
+          "weatherBefore": 2,
+          "actor": {
+            "slot": 4,
+            "nativeToken": 63,
+            "name": "张横"
+          },
+          "target": {
+            "slot": 10,
+            "nativeToken": 12,
+            "name": "王匡"
+          },
+          "mpBefore": 22,
+          "mpAfter": 7,
+          "armsBefore": 1040,
+          "armsAfter": 1040,
+          "damage": 0
+        }
+      ],
+      "capturedFIRE": 0,
+      "sourceCount": 1214,
+      "evidence": {
+        "source": "build/fire-window-20261011/pc-classic-v3/result.json",
+        "file": "m5-fire-window-20261011/c8cded8c086ad7cce343fb787ee4b0037effa3ee5d072a84e7c81de4e2c9c67e.json.gz",
+        "rawBytes": 19273448,
+        "rawSha256": "c8cded8c086ad7cce343fb787ee4b0037effa3ee5d072a84e7c81de4e2c9c67e",
+        "bytes": 534143,
+        "sha256": "8eda50c08cf1e4a6b2d20b4a7ac9b0b3a47825d19c04bc0982093fa98a35c868"
+      },
+      "executedTool": {
+        "source": "build/fire-window-20261011/pc-classic-v3/executed-tool.mjs",
+        "file": "m5-fire-window-20261011/26160233fde0ef2402c2820ab6e5ed7df380f7fb327df6eaf3b03380a107d5ea.mjs.gz",
+        "rawBytes": 77152,
+        "rawSha256": "26160233fde0ef2402c2820ab6e5ed7df380f7fb327df6eaf3b03380a107d5ea",
+        "bytes": 24939,
+        "sha256": "5dfb60c7fef5c3b7d74dbbeb19da00e38b101cbf696b6ceb36fb629ef50643a9"
+      },
+      "captures": {
+        "source": "build/fire-window-20261011/pc-classic-v3/native-skill-captures.json",
+        "file": "m5-fire-window-20261011/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.json.gz",
+        "rawBytes": 3,
+        "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+      },
+      "engineInputEvidence": {
+        "source": "build/fire-window-20261011/pc-classic-v3/engine-inputs.json",
+        "file": "m5-fire-window-20261011/c1116d44d00d279030efb9e350bdc2af0fe2101b9ff43be15fed80e63e20f748.json.gz",
+        "rawBytes": 91334,
+        "rawSha256": "c1116d44d00d279030efb9e350bdc2af0fe2101b9ff43be15fed80e63e20f748",
+        "bytes": 2335,
+        "sha256": "5d4854db7d04522c3e7da31668d6bcc8fb9358324d181ff5080c06c98d981389"
+      },
+      "sourceVerification": {
+        "source": "build/fire-window-20261011/pc-classic-v3/source-verification.json",
+        "file": "m5-fire-window-20261011/5f0fc38375e68b083642a16321bb3faaad46286dafb0c7f3b1278dec31c930ab.json.gz",
+        "rawBytes": 432663,
+        "rawSha256": "5f0fc38375e68b083642a16321bb3faaad46286dafb0c7f3b1278dec31c930ab",
+        "bytes": 69011,
+        "sha256": "465e355e2d897b69e53bbc15c01a209256dab56c02f6ae870770d50c3bd0b6fa"
+      }
+    },
+    {
+      "name": "preflight-v1",
+      "preflightOnly": true,
+      "accepted": true,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "sourceCount": 1214,
+      "evidence": {
+        "source": "build/fire-window-20261011/preflight-v1/result.json",
+        "file": "m5-fire-window-20261011/5caa23678da274c87bd168c07e39363ad8604219cee01296996c4a58e1f3bfbb.json.gz",
+        "rawBytes": 779398,
+        "rawSha256": "5caa23678da274c87bd168c07e39363ad8604219cee01296996c4a58e1f3bfbb",
+        "bytes": 140414,
+        "sha256": "d7bc32d8fbdf0c465d23e5b298034f01ca625b0258c3290c954b65f71273b882"
+      }
+    }
+  ],
+  "classic": {
+    "status": "pending",
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "fallbackAccepted": false,
+    "attemptNames": [
+      "pc-classic-v1",
+      "pc-classic-v2",
+      "pc-classic-v3"
+    ],
+    "boundary": "Controlled classic fallback tests and actual AIM cursor movement do not prove actual classic FIRE movie/NUM/HOLD acceptance."
+  },
+  "suite": {
+    "startedAt": "2026-10-11T12:27:24.673Z",
+    "finishedAt": "2026-10-11T12:28:39.429Z",
+    "executionConcurrency": 1,
+    "modules": 89,
+    "exitCode": 0,
+    "counts": {
+      "tests": 4339,
+      "suites": 0,
+      "pass": 4339,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sourceCount": 228,
+    "sourceDrift": [],
+    "evidence": {
+      "source": "build/fire-window-20261011/final-suite-v2/result.json",
+      "file": "m5-fire-window-20261011/6bec29e8f420281da7866d321a89a8380c863b3edc176631d3d7ffc82631a0c6.json.gz",
+      "rawBytes": 61445,
+      "rawSha256": "6bec29e8f420281da7866d321a89a8380c863b3edc176631d3d7ffc82631a0c6",
+      "bytes": 12901,
+      "sha256": "b2103daaf6710d3c7a2b663ce8d032cb0e70c7003d978ae97e20ca8811a1ee89"
+    },
+    "log": {
+      "source": "build/fire-window-20261011/final-suite-v2/test-output.log",
+      "file": "m5-fire-window-20261011/7c67c452461442e1de465e91724b6ef013df905fc43ef988002d96366efbc8c7.log.gz",
+      "rawBytes": 385105,
+      "rawSha256": "7c67c452461442e1de465e91724b6ef013df905fc43ef988002d96366efbc8c7",
+      "bytes": 101191,
+      "sha256": "e80cef6435736c8d0fcfcfccf6ca592efdb92d3eb667bcc791ab5eb540de1771"
+    },
+    "priorSuite": {
+      "source": "build/fire-window-20261011/final-suite/result.json",
+      "file": "m5-fire-window-20261011/59176de715335705863ec2c0cd14c60b9e6b0357db1af6709f034ef238c0ebcf.json.gz",
+      "rawBytes": 61445,
+      "rawSha256": "59176de715335705863ec2c0cd14c60b9e6b0357db1af6709f034ef238c0ebcf",
+      "bytes": 12901,
+      "sha256": "2835f0f61c4f343c0108730ce9e9ad4c0c0439eeb09b05d1213fe73e3838f470"
+    },
+    "priorSuiteLog": {
+      "source": "build/fire-window-20261011/final-suite/test-output.log",
+      "file": "m5-fire-window-20261011/0f7cfc7a25fb1b38b80703cb0cab2283b15f42efd64aa9a810b42a5bbb8cfdc8.log.gz",
+      "rawBytes": 385074,
+      "rawSha256": "0f7cfc7a25fb1b38b80703cb0cab2283b15f42efd64aa9a810b42a5bbb8cfdc8",
+      "bytes": 101180,
+      "sha256": "4739ca1622ff3c8aa238379cadf10cf10eca903183fa08d3a922c00b4ca79bc3"
+    }
+  },
+  "tests": {
+    "newCases": {
+      "total": 75,
+      "speFrontend": 19,
+      "bridge": 46,
+      "mobileControlledVm": 10
+    },
+    "speFrontend": {
+      "counts": {
+        "tests": 173,
+        "pass": 173,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/fire5-spe-frontend-all-v1-20261011.log",
+        "file": "m5-fire-window-20261011/35b025c82456386943a9b0f3ea26b68d47e9acc5307a459f33c30d59c1104cbf.log.gz",
+        "rawBytes": 19409,
+        "rawSha256": "35b025c82456386943a9b0f3ea26b68d47e9acc5307a459f33c30d59c1104cbf",
+        "bytes": 6166,
+        "sha256": "620785072f0ac815f7fd779d192339dc7b130db58770fcfa22263d644d69ac24"
+      }
+    },
+    "mobileAndOriginalEntry": {
+      "counts": {
+        "tests": 56,
+        "pass": 56,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/mobile-entry-tests-v1.log",
+        "file": "m5-fire-window-20261011/e318f16aaa21015b5dd17666b9535e8c31986a3688fa23ce5b8ed3e0c2607803.log.gz",
+        "rawBytes": 5363,
+        "rawSha256": "e318f16aaa21015b5dd17666b9535e8c31986a3688fa23ce5b8ed3e0c2607803",
+        "bytes": 2129,
+        "sha256": "816d6b62b9e337ce0d38a884481adfd162bfc1e12527a341e97ba06c0ca23fc2"
+      }
+    },
+    "bridge": {
+      "counts": {
+        "tests": 78,
+        "pass": 78,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/bridge-v2.log",
+        "file": "m5-fire-window-20261011/a6e0be82de590325678f77a2aa12d868337cbfe8ef1ac8649914e4ed4dafd241.log.gz",
+        "rawBytes": 6902,
+        "rawSha256": "a6e0be82de590325678f77a2aa12d868337cbfe8ef1ac8649914e4ed4dafd241",
+        "bytes": 1552,
+        "sha256": "a4702d9dfe14d0317b682594d643668de5ae5c2629b36fb2cb8dbd1ba6afaa1f"
+      }
+    },
+    "nativeUnchangedRerun": {
+      "counts": {
+        "tests": 35,
+        "pass": 35,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/native-fixtures-v1.log",
+        "file": "m5-fire-window-20261011/87f88b7e695fb3485b6f1d30b2ad8ec72bde9b6367b652eb27f03ffb65838736.log.gz",
+        "rawBytes": 4165,
+        "rawSha256": "87f88b7e695fb3485b6f1d30b2ad8ec72bde9b6367b652eb27f03ffb65838736",
+        "bytes": 1614,
+        "sha256": "49ef7fc435c923913c773e7bce3c4f8924977043e6deb948cc07479f83aad18a"
+      }
+    },
+    "firstFrontend": {
+      "tests": 16,
+      "pass": 14,
+      "fail": 2,
+      "evidence": {
+        "source": "build/fire-window-20261011/fire5-spe-frontend-focused-v1-20261011.log",
+        "file": "m5-fire-window-20261011/50d21ef18052fca024bbf19961436d2155fe3b7423c5d85ceb85cdbf03c0ee1f.log.gz",
+        "rawBytes": 3713,
+        "rawSha256": "50d21ef18052fca024bbf19961436d2155fe3b7423c5d85ceb85cdbf03c0ee1f",
+        "bytes": 1382,
+        "sha256": "3d3e518ede8bb87bf37df8cd7b49f60467761e80cac8b7a81e7d76865e3e82c4"
+      },
+      "classifications": [
+        "One expectation incorrectly required redraw after a safely closed overlay had restored the physical LCD; fixture corrected.",
+        "One actual product boundary allowed raw skill5 with unverified context to retain the legacy crop; matching/crop exclusion corrected without authorizing HD."
+      ]
+    },
+    "firstBridge": {
+      "exitCode": 1,
+      "tests": 78,
+      "pass": 77,
+      "fail": 1,
+      "toolOutputChunk": "76fd99",
+      "failingCase": "future clear copy",
+      "assertion": "true !== false",
+      "fixtureCorrection": "Frame2 clear bit is a possible already-established frontier. Change the negative to bit3, genuinely beyond displayed frame2. Original fixture preserved.",
+      "source": {
+        "bytes": 19890,
+        "sha256": "73e3bc45b34b97b8d3504d982b703ac6638958572a713b0f2533de16f9cfecb0"
+      },
+      "evidence": {
+        "source": "build/fire-window-20261011/bridge-v1-failure.json",
+        "file": "m5-fire-window-20261011/50b18a2a6e5b86565a0172f3dffe434a16651b3708a988d77e8311c149fc059f.json.gz",
+        "rawBytes": 463,
+        "rawSha256": "50b18a2a6e5b86565a0172f3dffe434a16651b3708a988d77e8311c149fc059f",
+        "bytes": 323,
+        "sha256": "6525b5c58b6ceb5d26dbfffa13ab1e4e0bc851a8bc255ced54f5663ddc0f9fff"
+      },
+      "classification": "fixture-negative-used-an-already-established-clear-frontier; not a product failure"
+    },
+    "finalFocused": {
+      "source": "build/fire-window-20261011/fire5-spe-frontend-focused-v2-20261011.log",
+      "file": "m5-fire-window-20261011/185ce4865bcaa11dd6b78647c88b16d5ba05acb703e20940c5795cc907acef6b.log.gz",
+      "rawBytes": 2331,
+      "rawSha256": "185ce4865bcaa11dd6b78647c88b16d5ba05acb703e20940c5795cc907acef6b",
+      "bytes": 998,
+      "sha256": "6744dcf347c4d9a27261b9faf4aa4a412b6407ea8513cea74daf911e6d818d19"
+    }
+  },
+  "cleanup": {
+    "sampledAt": "2026-10-11T12:33:31.8586876Z",
+    "attemptCount": 8,
+    "recordedCount": 98,
+    "survivors": [],
+    "privateListeners": [],
+    "privatePorts": [
+      3171,
+      3172,
+      4656,
+      4657,
+      5544,
+      5545,
+      8673,
+      8674,
+      9404,
+      9405,
+      11294,
+      11295,
+      14779,
+      14780
+    ],
+    "userUnchanged": true,
+    "userPid": 57860,
+    "userBirth": "2026-10-10T11:26:04.2797180Z",
+    "userHttpStatus": 200,
+    "evidence": {
+      "source": "build/fire-window-20261011/cleanup-verification.json",
+      "file": "m5-fire-window-20261011/be22e43c297433feeead475b73f1929e5ba25881c4507969ed99e7f9e66260fc.json.gz",
+      "rawBytes": 562,
+      "rawSha256": "be22e43c297433feeead475b73f1929e5ba25881c4507969ed99e7f9e66260fc",
+      "bytes": 325,
+      "sha256": "2694f44f233b6f39e4564880d3f57c38a287abd76fdcc3ba5e2adb1ec9d0ac0d"
+    }
+  },
+  "native": {
+    "changed": false,
+    "rebuildRequired": false,
+    "count": 128,
+    "aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+  },
+  "sourceRefs": [
+    {
+      "source": "build/fire-window-20261011/fire5-product-freeze-v1-20261011.json",
+      "file": "m5-fire-window-20261011/9d698cc07cc83b0cdbed33af3c01943dec7b3e05b5679cd8c0c54ffa235ae342.json.gz",
+      "rawBytes": 3755,
+      "rawSha256": "9d698cc07cc83b0cdbed33af3c01943dec7b3e05b5679cd8c0c54ffa235ae342",
+      "bytes": 1550,
+      "sha256": "72e6b34bb16a76b1418c57c94873642dfd103da39786706d6f02a9ee35ea93ff"
+    },
+    {
+      "source": "build/fire-window-20261011/fire5-product-delta-v1-20261011.json",
+      "file": "m5-fire-window-20261011/559346e44cdc631c0868efd9f03b4d4a01d6b7e9cf82a67f10d443560293f4d9.json.gz",
+      "rawBytes": 235360,
+      "rawSha256": "559346e44cdc631c0868efd9f03b4d4a01d6b7e9cf82a67f10d443560293f4d9",
+      "bytes": 47011,
+      "sha256": "ca47536aad1a365aab3cdaed07aa38d060548210e2d8bb9986f9b22b7794345d"
+    },
+    {
+      "source": "build/fire-window-20261011/independent-review/fire5-frozen-product-source-review-v1.json",
+      "file": "m5-fire-window-20261011/9665453d35b4dc1b3f6760bc9b6111c5844d78f814070be94fc14b512b229bdb.json.gz",
+      "rawBytes": 7028,
+      "rawSha256": "9665453d35b4dc1b3f6760bc9b6111c5844d78f814070be94fc14b512b229bdb",
+      "bytes": 2902,
+      "sha256": "d68a6d620b2cc28e7f634a4ad78a8d93a30f4eb27564e3c62314dcaa9d2608cb"
+    },
+    {
+      "source": "build/fire-window-20261011/independent-review/pc-classic-v2-v3-untriggered-review.json",
+      "file": "m5-fire-window-20261011/5a26e1ce2ecba2ab59bfe55458b0c7ea84fcf81ec35c9b2c5fb3a313c2cff423.json.gz",
+      "rawBytes": 6865,
+      "rawSha256": "5a26e1ce2ecba2ab59bfe55458b0c7ea84fcf81ec35c9b2c5fb3a313c2cff423",
+      "bytes": 1487,
+      "sha256": "8ae5327c1f791db7611db95ade4b9b768685b0961f785a4b063089fc4c9b255a"
+    }
+  ],
+  "limits": [
+    "Only actual original FIRE5/SPE35 is newly accepted; shared35 skills11/18 keep the old route and were not newly cast.",
+    "Full160x96 presentation retains actual LCD outside65x64; this is not a complete HD battle background.",
+    "Eight source copies and measured LCD callbacks are distinct; coalesced callbacks do not prove every physical display frame.",
+    "Ten new mobile tests use controlled VM ABI/public getters and real ROM identity; no new mobile C/browser or real Android/iOS acceptance.",
+    "Classic actual FIRE/movie/NUM/HOLD remains pending: v1 cursor ACK tool error, v2/v3 natural no-FIRE attempts all remain unaccepted; controlled fallback tests and actual cursor movement do not replace an actual cast.",
+    "Other skills/periods, custom gameplay, full campaign/save/RNG continuity, visibility/resize matrix, performance and whole HD remain pending."
+  ],
+  "archive": "./m5-fire-window-20261011-archive.json"
+}

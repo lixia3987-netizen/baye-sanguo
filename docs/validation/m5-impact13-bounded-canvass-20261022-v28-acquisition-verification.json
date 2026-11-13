@@ -1,0 +1,581 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-21T22:40:26.388Z",
+  "accepted": true,
+  "rootActualTerminal": {
+    "sessionId": 52471,
+    "chunkId": "eb28a1",
+    "exitCode": 0
+  },
+  "rootIndependentTerminal": {
+    "sessionId": 15478,
+    "chunkId": "51265c",
+    "exitCode": 0
+  },
+  "rootBindingTerminal": {
+    "sessionId": null,
+    "chunkId": "069076",
+    "exitCode": 0
+  },
+  "rootManifestTerminal": {
+    "sessionId": null,
+    "chunkId": "ba5244",
+    "exitCode": 0
+  },
+  "rootConfigTerminal": {
+    "sessionId": null,
+    "chunkId": "8cbb0a",
+    "exitCode": 0
+  },
+  "rootArchiveWriterTerminal": {
+    "sessionId": 13771,
+    "chunkId": "b7ef87",
+    "exitCode": 0
+  },
+  "rootArchiveReaderTerminal": {
+    "sessionId": null,
+    "chunkId": "d43efa",
+    "exitCode": 0
+  },
+  "rootFormalTestsTerminal": {
+    "sessionId": null,
+    "chunkId": "8cf1f5",
+    "exitCode": 0
+  },
+  "receipt": {
+    "path": "build/impact-skill-20261014/impact13-battle-v28-terminal-receipt-v1.json",
+    "bytes": 422898,
+    "sha256": "e0625d9bfa7df5355375fa00b033f01cf7218ff692c1dda81f8c3eb6480c36b6"
+  },
+  "independentVerifier": {
+    "path": "build/impact-skill-20261014/verify-impact13-battle-v28-acquisition-terminal-draft-v1.mjs",
+    "bytes": 62168,
+    "sha256": "7163ebe5b534b1ed4d94326e197f19be85862fd2b9506d922a50afcab1952ff3"
+  },
+  "latestWorld": {
+    "path": "build/impact-skill-20261014/impact13-battle-v28-latest-genuine-saved-world-v1.json",
+    "bytes": 77958,
+    "sha256": "830d63b801fc65bafc1f5bb3e6f4dc0311e6abdd1be28300dffbff81701d812a"
+  },
+  "latestPair": [
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v28/native-impact13-129-v28-month3-policy-settled-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0ba3e7e87683d428d5adccd49b1080fdb15d0eba98ba63b8abffab18ca2e9a29"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v28/native-impact13-129-v28-month3-policy-settled-sango1.sav",
+      "bytes": 4840,
+      "sha256": "efe5fcabeb2b52521f8483a53d3b21a2b736b5d88a422e04c87c4db89e53d6f3"
+    }
+  ],
+  "latestDate": [
+    238,
+    11
+  ],
+  "latestTag": "impact13-129-v28-month3-policy-settled",
+  "latestPendingOrders": [],
+  "archiveBuilder": {
+    "path": "build/impact-skill-20261014/build-impact13-v28-acquisition-archive-v1.mjs",
+    "bytes": 19212,
+    "sha256": "9bd5f840332ec99430c4ff05acbad42ccdee5cf8c253ade25e37212d70e257b1"
+  },
+  "archiveReader": {
+    "path": "build/impact-skill-20261014/verify-impact13-v28-acquisition-archive-v1.mjs",
+    "bytes": 13467,
+    "sha256": "2a2e8fa5bf225d248961bb89823528c149a0de931da14a5a8dfcc2a8be3e5b5f"
+  },
+  "archiveWriterLog": {
+    "path": "build/impact-skill-20261014/impact13-acquisition28-publication-write-root-v1.log",
+    "bytes": 2497,
+    "sha256": "3b106c43acb128e9550e3e4f8549459952f7ba0c428258e092e70529130553b6"
+  },
+  "archiveReaderLog": {
+    "path": "build/impact-skill-20261014/impact13-acquisition28-publication-read-root-v1.log",
+    "bytes": 631,
+    "sha256": "4156e2763fc028c07cb1bfce3eac6c32063ae2464f6dce06a062a6545fd3c211"
+  },
+  "rootPublicationBinding": {
+    "path": "build/impact-skill-20261014/impact13-acquisition28-publication-closed-ready-root-v1.json",
+    "bytes": 4771,
+    "sha256": "0f9c02aa1028af9f39573aed2b5d5f843bc2f0cf53677f7413f7d72046afbc78"
+  },
+  "rootManifest": {
+    "path": "build/impact-skill-20261014/impact13-acquisition28-publication-manifest-root-v1.json",
+    "bytes": 80920,
+    "sha256": "d3a86fa210c6acffa63d5ed615d17298afe9054085d6f87696f5a8dce0c803ee"
+  },
+  "rootConfig": {
+    "path": "build/impact-skill-20261014/impact13-acquisition28-publication-config-root-v1.json",
+    "bytes": 1221708,
+    "sha256": "672c6c6c2f2075160d961fe18a801b0137d9c21125ddf525cbf0dfcab9fdc890"
+  },
+  "publicationPreparationLogs": [
+    {
+      "path": "build/impact-skill-20261014/impact13-acquisition28-publication-assemble-root-v1.log",
+      "bytes": 572,
+      "sha256": "ab83a5eac93d495d3b076a5aa66f646231083fed0b64de81a208de1f36fd8044"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-acquisition28-publication-freeze-root-v1.log",
+      "bytes": 512,
+      "sha256": "e250e4b2f7d66bc097f03495f587b0d563ffd4df4321843264255e51246c3526"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive-part001.json",
+      "bytes": 25069297,
+      "sha256": "b1beb91a3add792b4690e53eed9767b65ae61e29f6f1cf940de591ec40edb5b1"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive-part002.json",
+      "bytes": 19285604,
+      "sha256": "d2cf2c4df42c8e0d9ccf6f42ad1fc8334110c3486345f4ca6e78b0662250a277"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive-part003.json",
+      "bytes": 21095652,
+      "sha256": "09844374c42d4f0b7a5165621d2e6ef11844e445e923b307b5fed2318fda262d"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive-part004.json",
+      "bytes": 28348184,
+      "sha256": "e4e68cfbe8f1357fefb03b1510c90da26b93784d9846b8a72d2a8580e25a0ef0"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive-part005.json",
+      "bytes": 28803223,
+      "sha256": "7414d1337b0f35f8b9877de96819a0a5fe91b894f7768185b6ff8d847c4dc9d7"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive-part006.json",
+      "bytes": 29217190,
+      "sha256": "91b00f03e41009139da012b5cefd3521770badfa6dc995e4009e971d1fa131ea"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive-part007.json",
+      "bytes": 7557104,
+      "sha256": "70878db63928e1aacbb4a5ddfa249d0fda3b52652d022bda7bb090a13e8f680e"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition-archive.json",
+      "bytes": 161400,
+      "sha256": "dfd48b95687c3060d8c202afb8851b60ebcd75f87acd16ddc3942a95109b8aaf"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition.md",
+      "bytes": 6316,
+      "sha256": "b8b1ddf48e1bdaa8763700fa6e46dc35922fd1050aff8ab98f419bf12f9edb67"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition.json",
+      "bytes": 1436209,
+      "sha256": "9182399ee003d30aebc4871e8cebfc1f39ca469fcb5b3503d9660d32287b45b0"
+    }
+  ],
+  "namedFiles": 430,
+  "uniqueBlobs": 355,
+  "parts": 7,
+  "archiveReaderResult": {
+    "ok": true,
+    "canonical": {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v28-acquisition.json",
+      "bytes": 1436209,
+      "sha256": "9182399ee003d30aebc4871e8cebfc1f39ca469fcb5b3503d9660d32287b45b0"
+    },
+    "namedFiles": 430,
+    "uniqueBlobs": 355,
+    "parts": 7,
+    "allRawRoundtripsExact": true,
+    "allNamedBlobsClosed": true,
+    "noUnreferencedBlobs": true,
+    "rawResultsEmbeddedOnce": [
+      {
+        "id": "v28",
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v28/result.json",
+        "bytes": 84570,
+        "sha256": "a8031d25cebe5e9a6c87ac28f16549dfbee5c2e427021f1233645e89849277fd"
+      }
+    ],
+    "latestPairsPackedAccepted": true,
+    "currentNamedDiskReopened": true,
+    "portableClosedArchive": false
+  },
+  "independentAcceptanceFlags": {
+    "sourceRunAccepted": true,
+    "failedRunEvidenceAccepted": false,
+    "allImplementedChecksPassed": true,
+    "completeFinalReportPreserved": true,
+    "aggregateObservationArraysPreserved": true,
+    "postRunSourceVerificationPersisted": true,
+    "completePublicSaveTicketsRetained": true,
+    "latestPackedInputAccepted": true,
+    "packedLatestSaveInputAccepted": true,
+    "actualContinuationAccepted": true,
+    "v28AcquisitionRunAccepted": true,
+    "v27AcquisitionRunAccepted": false,
+    "v26AcquisitionRunAccepted": false,
+    "v22ContinuationAccepted": false,
+    "v23ContinuationAccepted": false,
+    "v25PendingResumeAccepted": false,
+    "actualPaidDispatchesIndependentlyAccepted": true,
+    "adjacentNativeTransitionsIndependentlyAccepted": true,
+    "naturalReturnEvidenceAccepted": true,
+    "guardEvidenceAccepted": true,
+    "actualCanvassDispatchAccepted": true,
+    "actualPlunderDispatchAccepted": true,
+    "actualPlunderIncomeAccepted": true,
+    "actualAcquisitionAccepted": false,
+    "latestIsPriorInput": false,
+    "partialMonth": false,
+    "actualBuyDispatchAccepted": false,
+    "actualBuyNaturalReturnsAccepted": false,
+    "buyFoodCreditedOnlyAtMake": false,
+    "noInitialBuyOrdersAccepted": true,
+    "buyActionsRequested": false,
+    "driverSupplyAccepted": true,
+    "actualPreparationAccepted": false,
+    "actualCastOccurred": false,
+    "actualCastAccepted": false,
+    "actualMovieAccepted": false,
+    "actualPixelAccepted": false,
+    "classicNativePixelAccepted": false,
+    "classicVisualAccepted": false,
+    "exactMissingAssetFallbackAccepted": false,
+    "fallbackAccepted": false,
+    "hd720VisualAccepted": false,
+    "hd1080VisualAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false,
+    "campaignAccepted": false
+  },
+  "testEvidence": {
+    "existingControlledCasesRerun": 490,
+    "currentScopedControlledCasesExecuted": 32,
+    "reusedOrExistingGateCases": 17,
+    "newDirectedCaseVariants": 15,
+    "formalScopedControlledCasesRerun": 32,
+    "formalAdditionalDistinctCases": 0,
+    "formalRerunRepeatsSame32Cases": true,
+    "distinctCoverageTotalClaimed": false,
+    "historicalFullSuiteRerun": false,
+    "formalFilesAdded": 4,
+    "formalPureModulesAdded": 1,
+    "formalTestFilesAdded": 1,
+    "formalHistoricalFixturesAdded": 2,
+    "sourceProvenance": {
+      "path": "build/impact-skill-20261014/impact13-v28-acquisition-plan-source-provenance-v1.json",
+      "bytes": 12928,
+      "sha256": "fbbbcd8e5a2010f195be7923cbf867edb201bf29890f8fbfb080160151524d85"
+    },
+    "sourceProvenanceWasAuthoredBeforeTestsAndPreservedVerbatim": true,
+    "sourceProvenanceRootExecutedTestsAtWriting": 0,
+    "currentTestPassEvidenceOnly": {
+      "path": "build/impact-skill-20261014/impact13-v28-plan-contract-tests-root-v1.log",
+      "bytes": 3128,
+      "sha256": "da35774143fe703deba008ac9d226ed292604908ac4ca15ef97a155d2747745b"
+    },
+    "rootContractLog": {
+      "path": "build/impact-skill-20261014/impact13-v28-existing-acquisition-contracts-root-v1.log",
+      "bytes": 37135,
+      "sha256": "fbe9c049448186cd6024b17fd136245945d290570c300500755879ee464cebb9"
+    },
+    "rootScopedSourceLog": {
+      "path": "build/impact-skill-20261014/impact13-v28-plan-contract-tests-root-v1.log",
+      "bytes": 3128,
+      "sha256": "da35774143fe703deba008ac9d226ed292604908ac4ca15ef97a155d2747745b"
+    },
+    "rootScopedFormalLog": {
+      "path": "build/impact-skill-20261014/impact13-v28-formal-canvass-tests-root-v1.log",
+      "bytes": 3128,
+      "sha256": "5f9233082c391cee10d75b21614725abbd76c182b3f50ff0cfd491a32358cc53"
+    },
+    "formalCanvassTests": {
+      "terminalConfirmedByRoot": true,
+      "terminal": {
+        "sessionId": null,
+        "chunkId": "8cf1f5",
+        "exitCode": 0
+      },
+      "caseCount": 32,
+      "testPaths": [
+        "scripts/test-hd-impact-v28-acquisition-plan.mjs"
+      ],
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v28-formal-canvass-tests-root-v1.log",
+        "bytes": 3128,
+        "sha256": "5f9233082c391cee10d75b21614725abbd76c182b3f50ff0cfd491a32358cc53"
+      }
+    },
+    "formalRegistrationProof": {
+      "path": "build/impact-skill-20261014/impact13-v28-canvass-formal-registration-proof-v1.json",
+      "bytes": 9881,
+      "sha256": "c0bfc50e2eaf59e3ef0aea031172efa5b4b24e427dc9a6aceb9386bbe8d39776"
+    },
+    "historicalSourceSnapshotMappings": [
+      {
+        "sourcePath": "package.json",
+        "historicalSourceRecord": {
+          "path": "package.json",
+          "source": "package.json",
+          "bytes": 16076,
+          "sha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb",
+          "actualSha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb",
+          "match": true
+        },
+        "before": {
+          "path": "package.json",
+          "bytes": 16076,
+          "sha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb"
+        },
+        "beforeSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-package-before-v1.json",
+          "bytes": 16076,
+          "sha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb"
+        },
+        "after": {
+          "path": "package.json",
+          "bytes": 16172,
+          "sha256": "3d5e0682ce91df8ea96cd9ed588f69136a344902219865c17a58929edb819274"
+        },
+        "afterSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-package-after-v1.json",
+          "bytes": 16172,
+          "sha256": "3d5e0682ce91df8ea96cd9ed588f69136a344902219865c17a58929edb819274"
+        },
+        "registrationProof": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-formal-registration-proof-v1.json",
+          "bytes": 9881,
+          "sha256": "c0bfc50e2eaf59e3ef0aea031172efa5b4b24e427dc9a6aceb9386bbe8d39776"
+        },
+        "scope": "The immutable CLOSED actual receipt/sourceVerification records the exact registration BEFORE configuration; current configuration matches AFTER snapshots. No new all-current source verification is claimed."
+      },
+      {
+        "sourcePath": ".gitattributes",
+        "historicalSourceRecord": {
+          "path": ".gitattributes",
+          "source": ".gitattributes",
+          "bytes": 9136,
+          "sha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca",
+          "actualSha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca",
+          "match": true
+        },
+        "before": {
+          "path": ".gitattributes",
+          "bytes": 9136,
+          "sha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca"
+        },
+        "beforeSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-attributes-before-v1.txt",
+          "bytes": 9136,
+          "sha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca"
+        },
+        "after": {
+          "path": ".gitattributes",
+          "bytes": 9462,
+          "sha256": "768578e166201223fa589ec02082524a4d9d52b7cc1e7864447708babf6174c6"
+        },
+        "afterSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-attributes-after-v1.txt",
+          "bytes": 9462,
+          "sha256": "768578e166201223fa589ec02082524a4d9d52b7cc1e7864447708babf6174c6"
+        },
+        "registrationProof": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-formal-registration-proof-v1.json",
+          "bytes": 9881,
+          "sha256": "c0bfc50e2eaf59e3ef0aea031172efa5b4b24e427dc9a6aceb9386bbe8d39776"
+        },
+        "scope": "The immutable CLOSED actual receipt/sourceVerification records the exact registration BEFORE configuration; current configuration matches AFTER snapshots. No new all-current source verification is claimed."
+      }
+    ],
+    "receiptAndHistoricalSourceVerificationUnmodified": true,
+    "allCurrentSourcesReverifiedAfterRegistration": false,
+    "independentTerminal": {
+      "sessionId": 15478,
+      "chunkId": "51265c",
+      "exitCode": 0
+    },
+    "publicationReadyBinding": {
+      "path": "build/impact-skill-20261014/impact13-acquisition28-publication-closed-ready-root-v1.json",
+      "bytes": 4771,
+      "sha256": "0f9c02aa1028af9f39573aed2b5d5f843bc2f0cf53677f7413f7d72046afbc78"
+    },
+    "countsScope": "32 case executions include17 inherited regression cases and15 directed V28 variants; formal32 repeats exactly the same cases and adds0. No combined distinct-coverage total is claimed. These are controlled validation, never actual acquisition or classic acceptance."
+  },
+  "futureTreat12ControlledEvidence": {
+    "path": "build/impact-skill-20261014/impact13-v29-treat12-world-tests-root-receipt-v1.json",
+    "bytes": 2062,
+    "sha256": "09328b9a9454a8868938791772731b4e6a3d37a2d2aab5415f83556834a0fcaf"
+  },
+  "futureTreat12SourcePeer": {
+    "path": "build/impact-skill-20261014/impact13-v29-treat12-world-source-peer-v1.json",
+    "bytes": 9539,
+    "sha256": "9642d4854d296963115d8b67b5825c6e84229264253dfff814cc45972e1ad853"
+  },
+  "reportSourcePeer": {
+    "path": "build/impact-skill-20261014/impact13-v28-overview-wording-peer-v2.json",
+    "bytes": 19148,
+    "sha256": "430ba84b14abb3a43332ac255f195df6d14236f3b5acfd6a451c17d064c43dc2"
+  },
+  "targetLocationSourceAdvice": {
+    "path": "build/impact-skill-20261014/impact13-v28-target129-native-location-advice-v1.json",
+    "bytes": 7523,
+    "sha256": "c48360bfcfad9ed58bdf5a346c63413e735e183e8fa50a711f2eb6d131b5a070"
+  },
+  "reportWordingForwardFix": {
+    "path": "build/impact-skill-20261014/impact13-v28-report-wording-forward-fix-v1.json",
+    "bytes": 1606,
+    "sha256": "95e30f51ac96163834b1ae3a56a120c1650a0d9b9f0f633c3cfc7eec5c50af70"
+  },
+  "postRunFormalRegistration": {
+    "proof": {
+      "path": "build/impact-skill-20261014/impact13-v28-canvass-formal-registration-proof-v1.json",
+      "bytes": 9881,
+      "sha256": "c0bfc50e2eaf59e3ef0aea031172efa5b4b24e427dc9a6aceb9386bbe8d39776"
+    },
+    "historicalSourceVerification": {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v28/source-verification.json",
+      "bytes": 1912331,
+      "sha256": "612af96436ad9472a446daf5ce431d70b4759d4bf80ffab18ddeb4eeaf0e6f54"
+    },
+    "sourceSnapshotMappings": [
+      {
+        "sourcePath": "package.json",
+        "historicalSourceRecord": {
+          "path": "package.json",
+          "source": "package.json",
+          "bytes": 16076,
+          "sha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb",
+          "actualSha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb",
+          "match": true
+        },
+        "before": {
+          "path": "package.json",
+          "bytes": 16076,
+          "sha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb"
+        },
+        "beforeSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-package-before-v1.json",
+          "bytes": 16076,
+          "sha256": "ca1d3759752ed728af67e9d811d3a29eda08a9b174972eb982d88d5fadd1c7cb"
+        },
+        "after": {
+          "path": "package.json",
+          "bytes": 16172,
+          "sha256": "3d5e0682ce91df8ea96cd9ed588f69136a344902219865c17a58929edb819274"
+        },
+        "afterSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-package-after-v1.json",
+          "bytes": 16172,
+          "sha256": "3d5e0682ce91df8ea96cd9ed588f69136a344902219865c17a58929edb819274"
+        },
+        "registrationProof": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-formal-registration-proof-v1.json",
+          "bytes": 9881,
+          "sha256": "c0bfc50e2eaf59e3ef0aea031172efa5b4b24e427dc9a6aceb9386bbe8d39776"
+        },
+        "scope": "The immutable CLOSED actual receipt/sourceVerification records the exact registration BEFORE configuration; current configuration matches AFTER snapshots. No new all-current source verification is claimed."
+      },
+      {
+        "sourcePath": ".gitattributes",
+        "historicalSourceRecord": {
+          "path": ".gitattributes",
+          "source": ".gitattributes",
+          "bytes": 9136,
+          "sha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca",
+          "actualSha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca",
+          "match": true
+        },
+        "before": {
+          "path": ".gitattributes",
+          "bytes": 9136,
+          "sha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca"
+        },
+        "beforeSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-attributes-before-v1.txt",
+          "bytes": 9136,
+          "sha256": "787898ba8fc4f3e19744786ff47abff642bd2949271fed8c80f26bf4203e7cca"
+        },
+        "after": {
+          "path": ".gitattributes",
+          "bytes": 9462,
+          "sha256": "768578e166201223fa589ec02082524a4d9d52b7cc1e7864447708babf6174c6"
+        },
+        "afterSnapshot": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-registration-attributes-after-v1.txt",
+          "bytes": 9462,
+          "sha256": "768578e166201223fa589ec02082524a4d9d52b7cc1e7864447708babf6174c6"
+        },
+        "registrationProof": {
+          "path": "build/impact-skill-20261014/impact13-v28-canvass-formal-registration-proof-v1.json",
+          "bytes": 9881,
+          "sha256": "c0bfc50e2eaf59e3ef0aea031172efa5b4b24e427dc9a6aceb9386bbe8d39776"
+        },
+        "scope": "The immutable CLOSED actual receipt/sourceVerification records the exact registration BEFORE configuration; current configuration matches AFTER snapshots. No new all-current source verification is claimed."
+      }
+    ],
+    "allCurrentSourcesReverifiedAfterRegistration": false
+  },
+  "externalCommittedDependencies": [
+    {
+      "commit": "bd59d4898eaee4be1e45ca68d5442ee32aeab9c9",
+      "pins": [
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition.json",
+          "bytes": 1298932,
+          "sha256": "37efecb53ab5b69228fefdbc56d6901e4015c3f22e4d89d1221e3eca20476c45"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition.md",
+          "bytes": 5764,
+          "sha256": "067b684dd57d822ddccac66b2d2c9cd310b40b8f854da9d2f0ca97303c52e51b"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive.json",
+          "bytes": 146935,
+          "sha256": "2f1c2dc1ddf28d65517c921d9d63ea5c3691c16e4a15f68b4ce5515292d62f4e"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part001.json",
+          "bytes": 27132548,
+          "sha256": "9470269658bf2a9f30c1b1164591b02ec409b00f7e839f313e99161ee3942157"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part002.json",
+          "bytes": 25853338,
+          "sha256": "576c7fdfd6a0e006e690849eb18468d61cb095b8666fb4da9b0a7a39c090fd7f"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part003.json",
+          "bytes": 28651630,
+          "sha256": "0d605ac020e857e57409ebbc27a0791ca390a563c6e67e71b913771de0b79fa1"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part004.json",
+          "bytes": 28905567,
+          "sha256": "3da4e80414bcae96cce45efa8d2eda365cf77bfbd70f60d8a3ab674798c97e5c"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part005.json",
+          "bytes": 28947131,
+          "sha256": "b59cf4e065732ab4b1a828052ea47c87914e437ac6f8ad67db9be0052e5d6a5e"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part006.json",
+          "bytes": 7002256,
+          "sha256": "40d5f00f57afb1620f200c1d578544d9895069eb2f303511fd972c771800be00"
+        },
+        {
+          "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-verification.json",
+          "bytes": 6723,
+          "sha256": "ba0aaa1b1fae13238288e33e05e213ec22d16fcbc32d90624389023c1b875488"
+        }
+      ],
+      "scope": "Delivered V27 canonical/report/index/sixparts/verification remain external. Only two indispensable current August packed SAVE halves may be byte aliases from prior actual-v27; no earlier raw result or archive body is reembedded."
+    }
+  ],
+  "portableClosedArchive": false,
+  "scope": "ROOT independently reopened every archived raw blob and every named current disk file; latest packed SAVE pair checked. V27 ten exact committed documents are external dependencies. Future Treat77 is separate controlled source evidence with no UI, actual Treat or cast credit. Formal32 repeats source32 (17 inherited regressions,15 directed V28 variants); existing490 is related-contract rerun, not historical full-suite acceptance. Registration BEFORE/AFTER snapshots bridge package/attributes without claiming a new whole-current-tree source verification."
+}

@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 2,
+  "dependencyCommit": "d2d1020c8658174fd7621cdf1896bdf1a65b371c",
+  "namedFiles": [
+    {
+      "path": ".gitattributes",
+      "bytes": 5329,
+      "sha256": "caba1c25544d40a50eafc024851ee70299da7f66191cef7db30c4f3898324eaf"
+    },
+    {
+      "path": "build/impact-skill-20261014/apply-hd-overworld-native-date-candidate-v1.mjs",
+      "bytes": 2602,
+      "sha256": "c50b99091d103c4a6454b63f94deeba35cc7fafeace236b1a43aec7f9ea26291"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-native-date237-archive-v1.mjs",
+      "bytes": 12750,
+      "sha256": "81c4ed9601b5ba15b2b0f9e99f29a4f8dd627a1bbec50dd033198d92be108d1d"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-native-date237-archive-v2.mjs",
+      "bytes": 12745,
+      "sha256": "14ead09c3c4e58cbfab6c48e4378627ca7e6886a706440ad522cfa86dfff41e2"
+    },
+    {
+      "path": "build/impact-skill-20261014/date-source-version-migration-tests-v1.log",
+      "bytes": 898,
+      "sha256": "8e113b4f75d3e28c01c8c480b28882a6d51dbde0c22f179e53ac2baa688e430b"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-latest-v10-input-candidate-v1.mjs",
+      "bytes": 12096,
+      "sha256": "6e8e97153104382ecd0b75dbae5f074c931aa66dc96fbb36586142c271e6b7f3"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-overworld-native-date-candidate-dry-v1.log",
+      "bytes": 187,
+      "sha256": "2df7d7d3849603d4a7e51c1ac7b7995916949ac1da433b1056c4d0a353354113"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-overworld-native-date-candidate-freeze-v1.json",
+      "bytes": 2565,
+      "sha256": "a45c7a19dd6b0cbaf7e99f4ba542b816476ade9847f94f1882dd150aa0072243"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-overworld-native-date-candidate-v1.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-overworld-native-date-formal-test-copy-v1.json",
+      "bytes": 1903,
+      "sha256": "3d5efcca8112b13a2f870714253c6a7ecac7a6bf2a4ab09630c866e09eeb6f20"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-overworld-native-date-original-v1.js",
+      "bytes": 171288,
+      "sha256": "3e050f1d1736db700b4bb5219729994827202891dcac37ba769234cc5f36d956"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-overworld-native-date-patch-v1.json",
+      "bytes": 2585,
+      "sha256": "9f27131993e502bbbf234d2f224ded895ab8d443bf2b1517b006f06314143602"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-overworld-native-date237-source-proposal-v1.json",
+      "bytes": 4403,
+      "sha256": "10b75e41b477554467945692e1d3f3ec14077e2ecd0fcfddc40d6a9a9bb34478"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v10/native-impact13-129-battle-settled-sango0.sav",
+      "bytes": 8221,
+      "sha256": "3c86f1860910bdf993104f976efa0a3a7a3b982a53fa23b247a91df31d79db97"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v10/native-impact13-129-battle-settled-sango1.sav",
+      "bytes": 4840,
+      "sha256": "e1e654c98dc8268b96c66e428d7db78f3dbe85068d974957a4dad0c3167f8fc6"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v10/source-verification.json",
+      "bytes": 530481,
+      "sha256": "396168147d81396974d090da9e0885c4a08e9470d8b9860673ce63024af27924"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-v10-latest-genuine-saved-world-v1.json",
+      "bytes": 77885,
+      "sha256": "90773941a2798fa2658effbd4359c034fb10eb41219591555faacf39a85ba5e2"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-v10-terminal-receipt-v2.json",
+      "bytes": 17334,
+      "sha256": "846bf7fa612294b85277e89baea08868cdbf29d4d7c978f159dc55676d72cbb5"
+    },
+    {
+      "path": "build/impact-skill-20261014/latest-v10-date-migration-root-v1.json",
+      "bytes": 3825,
+      "sha256": "e588ee44f85d27f91b384be8960e68eab1c44299a4a8f0459e81c60b07c456ee"
+    },
+    {
+      "path": "build/impact-skill-20261014/latest-v10-date-migration-root-v1.log",
+      "bytes": 3285,
+      "sha256": "d28ce9b77dc4f6a71e257dfdb03659f95aa7be6e008499a21f5d6401680d45c2"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date-formal-test-v1.log",
+      "bytes": 4242,
+      "sha256": "71c6662309fa57189249b1d3df590235256893099f73baa345927631bbc693d0"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date-overworld-regression-v1.log",
+      "bytes": 28022,
+      "sha256": "e6477849be979f7ed70daffe22f55ade67c869db8a978fdf5661fad52ca8f4a0"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-archive-dry-v1.log",
+      "bytes": 793,
+      "sha256": "1f470b7be343d0fa87b70606479809ec5688ee5fc42abcb7d7a33ae02abb7299"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-archive-inputs-v1.json",
+      "bytes": 23961,
+      "sha256": "b9d6ca323ce28a7de591b8c8ea7377d1d84d48b58de2bfdbdd109200f8afee15"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-archive-inputs-v3.json",
+      "bytes": 25817,
+      "sha256": "ead24d757b0c849d354e6ed2fca3ec3e3981aca901cfdd902e90fba6e3e169d1"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-archive-inputs-v4.json",
+      "bytes": 26412,
+      "sha256": "1bcddff239bc7d25d4449b95bccf9b7fbec03d18a12c7b0972f4cea8081ca965"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-attributes-before-v1.txt",
+      "bytes": 5280,
+      "sha256": "d8d0cba072029ee75301f980afb149e5046ffef2401e9548da5df5621d63da93"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-external-cleanup-v1.json",
+      "bytes": 3550,
+      "sha256": "cb87c963adac459c543585d25735e1fe260093c711cd8f37a2fbe44f08557202"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-external-cleanup-v2.json",
+      "bytes": 3546,
+      "sha256": "0684e4782ce8e1cee47ae39ed97c0d6e0844279bece25d3ce92b034024b9e815"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-external-cleanup-v3.json",
+      "bytes": 3544,
+      "sha256": "3c6f40f5847cf81b84a89952bd1f756980b86161ca50b44acaaa2f6576d6e9fb"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v1.log",
+      "bytes": 447,
+      "sha256": "02ce4523cff7c81391a4a75371c8c3b226da404fd56a120951e0a7b770bdb2be"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v1/failure.png",
+      "bytes": 65055,
+      "sha256": "52476c120af359835e0953f9fa947f30e0b2334c1664754c45363428f902ab06"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v1/fresh-loaded-world.json",
+      "bytes": 147859,
+      "sha256": "04d911f8bda32fba7567afe7ff7703b427e6d6126922fc515aae2049a322fe95"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v1/owned-process-samples.jsonl",
+      "bytes": 18775,
+      "sha256": "1fc9cbf44b5639f24d4b5fff6d3e4d1f06f3b767588d2161935d6db4d31eff35"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v1/result.json",
+      "bytes": 424689,
+      "sha256": "b58e9c3257b3fd1d34438004d2d48c8ae9dfec4534d550e337c140bdf8e7cf88"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v1/source-freeze.json",
+      "bytes": 187991,
+      "sha256": "ad0285f95aeb6b5da2bf1467905093ed12845d2466f536fc071293ed3d6c43a1"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2.log",
+      "bytes": 473,
+      "sha256": "4349948b905d44d603e3a70c09028ea759030889cd7659444b0d188bdbdcd6e4"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2/date237-1280x720.png",
+      "bytes": 1430461,
+      "sha256": "b9f0735e9d6224271673b17e20085a7f204f1349c74817fc29266f2c9ae839bd"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2/date237-1920x1080.png",
+      "bytes": 3033038,
+      "sha256": "baf41be9859243e08e44dbdba7843458fccbd851fc6f6be5b21684e239f9e945"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2/failure.png",
+      "bytes": 1430341,
+      "sha256": "4f4b2806dcea53615632f9d04d49d821361c6fc339c9982d7a04060acac8f2eb"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2/fresh-loaded-world.json",
+      "bytes": 147859,
+      "sha256": "04d911f8bda32fba7567afe7ff7703b427e6d6126922fc515aae2049a322fe95"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2/owned-process-samples.jsonl",
+      "bytes": 19809,
+      "sha256": "d907d56c857b2460b6bd4437ab3562764fe18a45b6ac3ddfb2c6a86ef45e94b0"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2/result.json",
+      "bytes": 440452,
+      "sha256": "a2b643e63238c994e6ff045fea3cfebf8b5fe4cddedf82b06c95314a0ac11e5e"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v2/source-freeze.json",
+      "bytes": 187991,
+      "sha256": "5a8935804f1b35b988cdc8644a4afce8b6fd12c1c40ba6ed85847ca58c1748a5"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v3.log",
+      "bytes": 256,
+      "sha256": "00ef08ea0da7ddb2dac4ccc724353ccacb9e6c41525e46399858907109e516c2"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v3/date237-1280x720.png",
+      "bytes": 1430357,
+      "sha256": "c9ddb1c98ed9ffb9b49dc488141a124073e904868332a81d7f66ee3923b5b13a"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v3/date237-1920x1080.png",
+      "bytes": 3033582,
+      "sha256": "cb75ae72998c07a4b308183a34b04c6084177d7317a3d44b7bad438a8e9ee838"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v3/fresh-loaded-world.json",
+      "bytes": 147859,
+      "sha256": "04d911f8bda32fba7567afe7ff7703b427e6d6126922fc515aae2049a322fe95"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v3/owned-process-samples.jsonl",
+      "bytes": 19829,
+      "sha256": "c4d7038b53b5072bea7e8b0810deedf5e2cecdf78b06630c2c5be2cc702df9da"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v3/result.json",
+      "bytes": 440174,
+      "sha256": "94be9dfa7bf86b51eca5449a65649c6f29ae3f7b4f1fa85e2f9053b84f722596"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-load-qa-v3/source-freeze.json",
+      "bytes": 187991,
+      "sha256": "413affdc8d6a70af938fccbcffd83f1926e08a641e3ca3638527bf16b2058e38"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-owned-union-v1.json",
+      "bytes": 3231,
+      "sha256": "fd9f94f3130de108945a8f246ce8b19e24990be9dcfd04a95cb6eb3bd48ce62b"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-owned-union-v2.json",
+      "bytes": 3231,
+      "sha256": "33d7164b92850d0fee8cf24ca44ef66a25fd5cdcd69ccf7a1a29eeb8c1eab1c4"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-owned-union-v3.json",
+      "bytes": 3229,
+      "sha256": "29c48ee90ae58634b5c656b8fee968440ea6fd13a52d297b71fce1e39f7f9538"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-root-reported-apply-v1.json",
+      "bytes": 2483,
+      "sha256": "28a1bae14bce209f7e3a088dbadaaa07a16ec2a8a5418b297753ed2e17ca3e4b"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-root-validation-receipt-v1.json",
+      "bytes": 6393,
+      "sha256": "7f0ebdc5d92319ec6d5c0e7b741c802953b90493b4c08232f123f7a7728bef51"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-user8080-before-v1.json",
+      "bytes": 137,
+      "sha256": "110333c354892291db28246fd6fb97ab407c15823d5ba752f91c8be34a747525"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-user8080-before-v2.json",
+      "bytes": 137,
+      "sha256": "004d9119670a2b5520dad588aa7a2f021e7c452ed1837aab9998815113d0200f"
+    },
+    {
+      "path": "build/impact-skill-20261014/native-date237-user8080-before-v3.json",
+      "bytes": 137,
+      "sha256": "ed409803f08d722b468dd652d999028eed401d2e4b687ded058a72e148872e67"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-native-date237-load-qa-v1.mjs",
+      "bytes": 15795,
+      "sha256": "c67da6850375f15b59945243518db22ee87df3639eaf1ce7478a486fbe80a003"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-native-date237-load-qa-v2.mjs",
+      "bytes": 15803,
+      "sha256": "c31232cb84f767bb6c0e25e99fef63d4c09f191431405466f1d4ebd306e82147"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-native-date237-load-qa-v3.mjs",
+      "bytes": 15974,
+      "sha256": "16624bb9d11a368bb390464b178121cd9d76c8820bae260d5508fd4e10aff60d"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-date-source-version-migration-v1.mjs",
+      "bytes": 2854,
+      "sha256": "57be27309f210a553e67440a9c9361063ece87f170649d7320ce413788aaf5ea"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-overworld-native-date-candidate-v1.log",
+      "bytes": 9720,
+      "sha256": "b129cda28b9559dc60fbb9f1ba48f8028e6cd7b3751ec27f1c811acd2ebe2662"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-overworld-native-date-candidate-v1.mjs",
+      "bytes": 7355,
+      "sha256": "77ac94fb42b528f958d95cded1e2712d69da7a4f7fc5c8a6f12c61c6fedb78b2"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-overworld-native-date-v2.mjs",
+      "bytes": 10355,
+      "sha256": "9891951dce0997f064474911fdcbf88a58c3b6ac6741fcb21978283dacc36b56"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "scripts/test-hd-overworld-environment.mjs",
+      "bytes": 22014,
+      "sha256": "50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4"
+    },
+    {
+      "path": "scripts/test-hd-overworld-identity.mjs",
+      "bytes": 22278,
+      "sha256": "f6adef043c8e8ce941afb80743f3abbd43946c532875b1b89ea53461f09085b1"
+    },
+    {
+      "path": "scripts/test-hd-overworld-layers.mjs",
+      "bytes": 11652,
+      "sha256": "238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7"
+    },
+    {
+      "path": "scripts/test-hd-overworld-native-date.mjs",
+      "bytes": 10355,
+      "sha256": "9891951dce0997f064474911fdcbf88a58c3b6ac6741fcb21978283dacc36b56"
+    },
+    {
+      "path": "scripts/test-hd-overworld-runtime.mjs",
+      "bytes": 58335,
+      "sha256": "d8c4db269f589af9fa4158e89f34e814cc3fbfbfdc053c404264fce59d96cdd5"
+    },
+    {
+      "path": "scripts/test-hd-overworld-touch.mjs",
+      "bytes": 28588,
+      "sha256": "cdba0aae82e2cf05b88e5b5386250943fd525f8865e26b4be79613acb4537b86"
+    }
+  ],
+  "parts": [
+    {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-date237-20261021-archive-part001.json",
+      "bytes": 14788921,
+      "sha256": "38c7bf28b4c49843fa8d7b113ec6f4716a4c067f2594d93bce57b0aebb3becbb",
+      "blobs": 69
+    }
+  ],
+  "uniqueBlobs": 69,
+  "namedFileArchiveClosed": true,
+  "portableClosedArchive": false,
+  "externalDependencies": [
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v10/result.json",
+      "bytes": 145278594,
+      "sha256": "a0b56ac2bb7711fe264f462a14fcecca11f8ddd99754ad3eee2f7cb63e537618"
+    },
+    {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-battle-20261021-archive.json",
+      "bytes": 68393,
+      "sha256": "b84db54b0845ba9c6aa9055f301a1dfa988dd38976b083e23f6971a2cc7d5717"
+    },
+    {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-battle-20261021-archive-part001.json",
+      "bytes": 29534018,
+      "sha256": "a5a67c38203c9be9867f454549fc2876ee7e79c1c9cef14292ecda4cab0277f3"
+    },
+    {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-battle-20261021-archive-part002.json",
+      "bytes": 26947506,
+      "sha256": "339a0cee2e39058dec99806313011fbc17fcf0a75463e5385bc187a7bcc9881f"
+    },
+    {
+      "path": "build/impact13-runtime-candidate-v10.mjs",
+      "bytes": 272266,
+      "sha256": "ec94ab8784e3bf8744fc85275fee7030a9b1dc9f71a138b18aa797e81c9ad1d0"
+    }
+  ]
+}

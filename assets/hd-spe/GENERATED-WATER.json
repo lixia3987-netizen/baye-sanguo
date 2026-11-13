@@ -1,0 +1,464 @@
+{
+  "schemaVersion": 1,
+  "localDate": "2026-10-09",
+  "baseRevision": "ff56cf38b4b823c6848caa2172184fd11358f448",
+  "resourceId": 36,
+  "itemIndex": 0,
+  "nativeSkill": {
+    "id": 12,
+    "name": "水淹",
+    "mp": 20,
+    "power": 800,
+    "destroy": 0,
+    "state": 0,
+    "target": "Actual enemy on terrain7, one of eight adjacent AIM cells; weather1..4 only. Applied damage and native NUM15/hold must be observed, not inferred from the resource."
+  },
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "native": {
+    "payloadSha256": "d606f81b597b3596a197273e87064edac201634a0cf3f838a78c00beb4b9f75a",
+    "fingerprint": "fnv1a32:6d62e7a8:1084",
+    "header": {
+      "type": 0,
+      "idx": 14,
+      "count": 8,
+      "picmax": 2,
+      "startFrm": 0,
+      "endFrm": 7
+    },
+    "units": [
+      {
+        "frame": 0,
+        "offset": 6,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "offset": 11,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "offset": 16,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "offset": 21,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "offset": 26,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "offset": 31,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "offset": 36,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "offset": 41,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "index": 0,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "offset": 46,
+        "packedBitsSha256": "2772253ec4905620c4bc6be4f4b97b562cf8b78de6a5c0c2c602a373566e1d9d",
+        "references": [
+          {
+            "path": "F:\\project\\baye-sanguo\\build\\r15-water-native\\WATER36-picture-0.png",
+            "bytes": 722,
+            "sha256": "8d80d7abbd216fef5430174553b7bc8c972cb7fa00ec74d23e0ed51453581dbd",
+            "width": 64,
+            "height": 64,
+            "source": "Fresh native packed-bit decode, MSB-first bit1 black0; bit0 opaque white255. Scale8 redraws each native bit as a diagnostic cell, not a resized AI image."
+          },
+          {
+            "path": "F:\\project\\baye-sanguo\\build\\r15-water-native\\WATER36-picture-0-packed-cells-x8.png",
+            "bytes": 10634,
+            "sha256": "07815ca2e21ccfdbe606dfe68bb388aeb44e728aa22d2a9c47116f7be0e41ba6",
+            "width": 512,
+            "height": 512,
+            "source": "Fresh native packed-bit decode, MSB-first bit1 black0; bit0 opaque white255. Scale8 redraws each native bit as a diagnostic cell, not a resized AI image."
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "offset": 565,
+        "packedBitsSha256": "5343dda310f8108aa82f455297228b4a8058e0975b8b5745a14a1a09999b2661",
+        "references": [
+          {
+            "path": "F:\\project\\baye-sanguo\\build\\r15-water-native\\WATER36-picture-1.png",
+            "bytes": 741,
+            "sha256": "505e0b754a3058db68f3f1568799261b7e2d6329476211abdc0bd482cf1c78d7",
+            "width": 64,
+            "height": 64,
+            "source": "Fresh native packed-bit decode, MSB-first bit1 black0; bit0 opaque white255. Scale8 redraws each native bit as a diagnostic cell, not a resized AI image."
+          },
+          {
+            "path": "F:\\project\\baye-sanguo\\build\\r15-water-native\\WATER36-picture-1-packed-cells-x8.png",
+            "bytes": 10961,
+            "sha256": "188d78225e2365d427239129033e6ccc2bc2363cc370833a34521d25a5e947b7",
+            "width": 512,
+            "height": 512,
+            "source": "Fresh native packed-bit decode, MSB-first bit1 black0; bit0 opaque white255. Scale8 redraws each native bit as a diagnostic cell, not a resized AI image."
+          }
+        ]
+      }
+    ]
+  },
+  "mode": "Built-in style transfer from actual native bitmaps; two original opaque PNG outputs, no external CLI/API fallback.",
+  "callCount": 2,
+  "calls": [
+    {
+      "picture": 0,
+      "status": "generated-accepted-static-art-and-installed",
+      "tool": "builtin image_gen.imagegen",
+      "transparentBackground": false,
+      "exactPrompt": "Use case: style-transfer\nAsset type: HD reinterpretation of WATER_SPE resource 36 / item 0 / picture 0, one complete opaque logical 64 by 64 animation picture. Produce one original high-resolution square PNG, preferably 1280 by 1280; preserve the entire composition, not a sprite sheet.\nReference roles: Image 1 is the exact original native picture 0 and is PRIMARY authority for the complete silhouette, pose, placement, occlusion and water shapes. Image 2 is the exact same packed bits freshly decoded as large diagnostic cells and is PRIMARY readable geometry; do not paint the pixel grid. Image 3 is an accepted HD historical game frame for painting finish, restrained natural lighting and existing muted armor materials ONLY. Do not copy its stone walls, rocks, character pose or scenery.\nTask: transform the native black-and-white water picture into detailed, restrained hand-painted historical Three Kingdoms game art. Faithfully follow the broad curling water crest across the upper band, the sweeping diagonal white water shapes and the smaller curling currents across the lower half. Interpret them as natural turbulent river water and foam, with subdued gray-green water and pale foam, without colored magic. The one small partly submerged helmeted human figure has its dark rounded head mass around the native center-left; its bent, occluded body and limbs follow the native diagonal shapes toward the lower right. Preserve the exact native picture 0 positions, size and occlusions. The person's head and upper body must remain small within the complete water scene. Where native detail is ambiguous, use restrained material shading inside the existing silhouette rather than inventing a new object or weapon. Do not enlarge the person into a portrait or invent uncovered feet.\nComposition and finish: complete square picture edge to edge, same narrow dark areas at the top and edges as the native picture. The entire frame, including gaps, is opaque. Natural charcoal-green shadow areas, muted weathered bronze/dark historical helmet and clothing only where the native silhouette supports them; same realistic brush texture and soft light as Image 3, while preserving the water scene's geometry. No added landscape, horizon, boats, horses, troops, flags, buildings, stones or new props. No giant wave at a new position. The native frame's readable shape governs the result.\nConstraints: original opaque PNG, NO alpha transparency. No text, digits, damage numbers, UI, labels, watermark, border, colored glyphs, electric effects, effect trails or literal black-and-white pixel pattern. One complete native picture 0 reinterpreted in HD, with a single partially concealed figure and the supplied native water shapes.",
+      "references": [
+        {
+          "path": "F:/project/baye-sanguo/build/r15-water-native/WATER36-picture-0.png",
+          "role": "Primary native geometry / exact bit diagnostic",
+          "sha256": "8d80d7abbd216fef5430174553b7bc8c972cb7fa00ec74d23e0ed51453581dbd"
+        },
+        {
+          "path": "F:/project/baye-sanguo/build/r15-water-native/WATER36-picture-0-packed-cells-x8.png",
+          "role": "Primary native geometry / exact bit diagnostic",
+          "sha256": "07815ca2e21ccfdbe606dfe68bb388aeb44e728aa22d2a9c47116f7be0e41ba6"
+        },
+        {
+          "path": "F:/project/baye-sanguo/assets/hd-spe/stone-42/picture-0.png",
+          "role": "Accepted Stone palette and painting style only",
+          "sha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8"
+        }
+      ],
+      "original": {
+        "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-04f3869f-f28f-444a-9372-1bf764edd07d.png",
+        "bytes": 3234799,
+        "sha256": "04841954d326f0fea99a634e5d01050936aff28c72c61316d27cc59b10f4e4bb",
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": 2
+      },
+      "scratch": {
+        "path": "build/r15-water-art/picture-0.png",
+        "byteEqualToOriginal": true
+      },
+      "productionPath": "assets/hd-spe/water-36/picture-0.png",
+      "transforms": "None: no cropping, resizing, alpha conversion, recoloring, re-encoding, text overlay or compositing. Original PNG bytes only.",
+      "productionCopyByteExact": true
+    },
+    {
+      "picture": 1,
+      "status": "generated-accepted-static-art-and-installed",
+      "tool": "builtin image_gen.imagegen",
+      "transparentBackground": false,
+      "exactPrompt": "Use case: style-transfer\nAsset type: HD reinterpretation of WATER_SPE resource36 / item0 / picture1, the second complete opaque 64 by 64 logical movie picture. Generate one original high-resolution square PNG, preferably1280 by1280. This must be a different native picture1 pose, not a duplicate of picture0 or a sprite sheet.\nReference roles: Image1 is the exact original native picture1, PRIMARY authority for the full water shape, figure pose, placement, scale and occlusions. Image2 is picture1's packed bits freshly redrawn as readable diagnostic cells, PRIMARY geometry only; do not paint its pixel grid. Image3 is the accepted HD picture0 from this same effect, SECONDARY continuity reference for the same one human's identity, helmet/armor materials, natural water colors, soft lighting and painting finish. Image3 must not override picture1's changed native pose and head position.\nTask: render the entire native picture1 as restrained realistic hand-painted historical Three Kingdoms game art. Preserve its broad curling foamy water crest across the upper band and the diagonally sweeping turbulent currents and small curls in the lower half. Compared to picture0, the single partly submerged helmeted human is shifted toward the center-right, with the changed head/upper body silhouette and bent diagonal body defined by Images1 and2. Keep exactly this native picture1 placement and outline; do not leave the helmet in picture0's center-left position, mirror the whole prior image, or introduce a second person. Keep the one small figure partly hidden behind the corresponding foamy currents. Do not add visible feet, weapons or limbs that the native water conceals. Ambiguous native forms receive restrained surface shading inside the existing shape.\nContinuity: same quiet gray-green river water, pale foam, charcoal-green shadow gaps and muted historical bronze/dark helmet and clothing as Image3, with the same light direction and realistic brush texture. Preserve the native picture1 upper and lower water layout; changing foam and figure outline must follow the native bits, not a new landscape or camera. Complete opaque square from edge to edge including narrow dark top/edge regions.\nConstraints: original opaque PNG with NO alpha transparency. No text, digits, damage numbers, label, UI, logo, border, watermark, magic glyphs, colored electric effects, trails, extra troops, flags, boats, horses, buildings, rocks or new scenery. No literal black-and-white pixel pattern in the final image. One faithful complete picture1 of the original alternating water scene, preserving the supplied geometry and the same one partially concealed historical human.",
+      "references": [
+        {
+          "path": "F:/project/baye-sanguo/build/r15-water-native/WATER36-picture-1.png",
+          "role": "Primary native geometry / exact bit diagnostic",
+          "sha256": "505e0b754a3058db68f3f1568799261b7e2d6329476211abdc0bd482cf1c78d7"
+        },
+        {
+          "path": "F:/project/baye-sanguo/build/r15-water-native/WATER36-picture-1-packed-cells-x8.png",
+          "role": "Primary native geometry / exact bit diagnostic",
+          "sha256": "188d78225e2365d427239129033e6ccc2bc2363cc370833a34521d25a5e947b7"
+        },
+        {
+          "path": "F:/project/baye-sanguo/build/r15-water-art/picture-0.png",
+          "role": "Accepted WATER picture0 character/material continuity only",
+          "sha256": "04841954d326f0fea99a634e5d01050936aff28c72c61316d27cc59b10f4e4bb"
+        }
+      ],
+      "original": {
+        "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-93ba7878-bcee-4392-989b-6723cca48612.png",
+        "bytes": 3423919,
+        "sha256": "554cd385f3b3e822d412796121b765c184904b0c855a151081d4ecc184983ff7",
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": 2
+      },
+      "scratch": {
+        "path": "build/r15-water-art/picture-1.png",
+        "byteEqualToOriginal": true
+      },
+      "productionPath": "assets/hd-spe/water-36/picture-1.png",
+      "transforms": "None: no cropping, resizing, alpha conversion, recoloring, re-encoding, text overlay or compositing. Original PNG bytes only.",
+      "productionCopyByteExact": true
+    }
+  ],
+  "status": "Two original opaque PNGs installed; static art review PASS. Actual playback acceptance is recorded separately in docs/validation/m4-water-20261009.json.",
+  "staticArtReview": {
+    "sha256": "9e6bacbef2ab8657e2f05665d7992294775340650ca9f80fb8b86e1b09e63dea",
+    "result": "PASS",
+    "schemaVersion": 1,
+    "createdAt": "2026-10-08T20:08:19.570000+00:00",
+    "status": "passed-static-original-art-review",
+    "scope": "Actual view of two native packed-cell diagnostic PNGs, two unmodified HD candidate PNGs and one accepted Stone style reference. No browser/gameplay/animation/runtime acceptance.",
+    "blockers": [],
+    "inputFiles": [
+      {
+        "path": "build/r15-water-native/WATER36-picture-0-packed-cells-x8.png",
+        "sha256": "07815ca2e21ccfdbe606dfe68bb388aeb44e728aa22d2a9c47116f7be0e41ba6",
+        "bytes": 10634,
+        "format": "PNG",
+        "mode": "RGB",
+        "width": 512,
+        "height": 512,
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "opaquePixels": 262144,
+        "nonOpaquePixels": 0,
+        "actualView": "view_image original detail in this independent review"
+      },
+      {
+        "path": "build/r15-water-native/WATER36-picture-1-packed-cells-x8.png",
+        "sha256": "188d78225e2365d427239129033e6ccc2bc2363cc370833a34521d25a5e947b7",
+        "bytes": 10961,
+        "format": "PNG",
+        "mode": "RGB",
+        "width": 512,
+        "height": 512,
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "opaquePixels": 262144,
+        "nonOpaquePixels": 0,
+        "actualView": "view_image original detail in this independent review"
+      },
+      {
+        "path": "build/r15-water-art/picture-0.png",
+        "sha256": "04841954d326f0fea99a634e5d01050936aff28c72c61316d27cc59b10f4e4bb",
+        "bytes": 3234799,
+        "format": "PNG",
+        "mode": "RGB",
+        "width": 1254,
+        "height": 1254,
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "opaquePixels": 1572516,
+        "nonOpaquePixels": 0,
+        "actualView": "view_image original detail in this independent review"
+      },
+      {
+        "path": "build/r15-water-art/picture-1.png",
+        "sha256": "554cd385f3b3e822d412796121b765c184904b0c855a151081d4ecc184983ff7",
+        "bytes": 3423919,
+        "format": "PNG",
+        "mode": "RGB",
+        "width": 1254,
+        "height": 1254,
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "opaquePixels": 1572516,
+        "nonOpaquePixels": 0,
+        "actualView": "view_image original detail in this independent review"
+      },
+      {
+        "path": "assets/hd-spe/stone-42/picture-0.png",
+        "sha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8",
+        "bytes": 2914976,
+        "format": "PNG",
+        "mode": "RGB",
+        "width": 1254,
+        "height": 1254,
+        "alphaExtrema": [
+          255,
+          255
+        ],
+        "opaquePixels": 1572516,
+        "nonOpaquePixels": 0,
+        "actualView": "view_image original detail in this independent review"
+      }
+    ],
+    "freshNativeGridVerification": {
+      "librarySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "speId": 36,
+      "resourceIndex": 0,
+      "fingerprint": "fnv1a32:6d62e7a8:1084",
+      "pictures": [
+        {
+          "slot": 0,
+          "rawSlotSha256": "51d8c35a52638157a87d5d01af7e5f930c74cbb57e2b9d0498fc4ef2873c9347",
+          "mask": 0,
+          "nativeSize": [
+            64,
+            64
+          ],
+          "diagnosticPath": "build/r15-water-native/WATER36-picture-0-packed-cells-x8.png",
+          "integerScale": 8,
+          "comparedDiagnosticPixels": 262144,
+          "byteDecodedGridMatches": true
+        },
+        {
+          "slot": 1,
+          "rawSlotSha256": "b2d902cbf833295ee506fc63d92178473f13c285a3cb2c3b92d44a33a52a19b1",
+          "mask": 0,
+          "nativeSize": [
+            64,
+            64
+          ],
+          "diagnosticPath": "build/r15-water-native/WATER36-picture-1-packed-cells-x8.png",
+          "integerScale": 8,
+          "comparedDiagnosticPixels": 262144,
+          "byteDecodedGridMatches": true
+        }
+      ]
+    },
+    "observations": [
+      {
+        "id": "head-position-and-outline",
+        "pass": true,
+        "native": "Picture0 has the large head/person silhouette left of centre around the middle height; picture1 places the head/person farther right with a different narrower surrounding visible silhouette. Native pixel evidence does not establish a named weapon or person identity.",
+        "hd": "Picture0 has one bronze-helmeted head left of centre; picture1 has the corresponding one-person head right of centre. Body/shoulders are partly submerged/hidden by waves. Broad frame positions and two distinct poses are retained; not claimed as exact pixel registration."
+      },
+      {
+        "id": "wave-layout",
+        "pass": true,
+        "native": "Both frames have upper broad curling water bands/checkered crests and strong lower diagonal strips descending toward the right; the two lower patterns and person contours differ.",
+        "hd": "Both images keep curling upper foam/waves and several lower right-down diagonal surges. Water fills the opaque square. The two frames have visibly different water/person arrangements."
+      },
+      {
+        "id": "single-partly-obscured-person",
+        "pass": true,
+        "observation": "Exactly one visible human in each candidate, chiefly head/upper shoulders; waves obscure the lower body. No added soldiers, boats, coastline, magic symbols or independent weapon."
+      },
+      {
+        "id": "text-ui-props",
+        "pass": true,
+        "observation": "No visible text, numbers, interface panels, logos, frames or narrative props. Helmet and visible armor use the accepted character material treatment rather than adding a named lord identity."
+      },
+      {
+        "id": "frame-distinction",
+        "pass": true,
+        "nativeSlotHashesDiffer": true,
+        "hdOriginalHashesDiffer": true,
+        "observation": "Actual visual inspection confirms two different frames, rather than relying on different file hashes alone."
+      },
+      {
+        "id": "stone-style-continuity",
+        "pass": true,
+        "observation": "Compared actual accepted Stone42 picture0: charcoal-green tone, restrained bronze helmet/armor and realistic hand-painted detail continue into the water candidates. Stone rubble/rod props are absent from WATER."
+      },
+      {
+        "id": "opaque-originals",
+        "pass": true,
+        "mode": "RGB",
+        "size": [
+          1254,
+          1254
+        ],
+        "pixelsPerImage": 1572516,
+        "alpha": [
+          255,
+          255
+        ],
+        "nonOpaquePixelsPerImage": 0
+      }
+    ],
+    "limits": [
+      "Art acceptance concerns the original static images only. Native movie cadence/live clears, displayed NUM15 damage, input lifecycle and final compositing remain separate actual runtime gates.",
+      "Generated detail interprets the small bitmap; no claim that every native pixel, hand anatomy or unidentified feature is literally reproduced."
+    ],
+    "performed": {
+      "imageGeneration": false,
+      "imageEditing": false,
+      "productionWrites": false,
+      "browserStarted": false,
+      "userServiceTouched": false,
+      "onlyOutput": "build/r15-water-art-review.json"
+    }
+  },
+  "presentation": {
+    "kind": 2,
+    "startFrm": 0,
+    "endFrm": 7,
+    "logicalWindow": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "nativeNum15": {
+      "id": 15,
+      "resourceIndex": 0,
+      "pictureIndex": 0,
+      "nativeWidth": 12,
+      "nativeHeight": 16,
+      "count": 10,
+      "mask": 0,
+      "x": 0,
+      "y": 0,
+      "resourceLength": 327,
+      "resourceFingerprint": "fnv1a32:b37d7407:327"
+    }
+  },
+  "acceptance": {
+    "artOnly": true,
+    "runtime": "See docs/validation/m4-water-20261009.json for separately recorded actual player casts and native label/NUM15/hold validation. Static art acceptance alone proves no gameplay; the first LCD route failed before any cast."
+  }
+}

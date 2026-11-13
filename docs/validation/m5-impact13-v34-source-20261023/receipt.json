@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-23T14:27:56.829Z",
+  "accepted": true,
+  "scope": "Current original April Buy/March/guard and north-route source contracts, controlled tests and full source/native-C regression only. Actual browser runs are separate.",
+  "commands": [
+    {
+      "name": "full-regression",
+      "path": "build/hd-full-suite-20261023-v34.log",
+      "terminal": {
+        "sessionId": 70121,
+        "chunkId": "42355e",
+        "exitCode": 0
+      },
+      "tests": 6795,
+      "pass": 6795,
+      "fail": 0,
+      "original": {
+        "path": "build/hd-full-suite-20261023-v34.log",
+        "bytes": 584261,
+        "sha256": "a87023295832d98c155a40edd3cb7d57ae5a73bc40b0dc1a261d17e4dbe3c097"
+      },
+      "archive": {
+        "path": "docs/validation/m5-impact13-v34-source-20261023/full-regression.log.gz",
+        "bytes": 148487,
+        "sha256": "986c550929f76e700eea7877dea47af358c843fb1fea1a9bed8b6f3327a9ae19",
+        "encoding": "gzip-original-bytes"
+      }
+    },
+    {
+      "name": "new-contracts",
+      "path": "build/v34-all-new-tests-v1.log",
+      "terminal": {
+        "sessionId": null,
+        "chunkId": "f3b682",
+        "exitCode": 0
+      },
+      "tests": 92,
+      "pass": 92,
+      "fail": 0,
+      "original": {
+        "path": "build/v34-all-new-tests-v1.log",
+        "bytes": 7045,
+        "sha256": "6a9bd7e7044e20233f694bd2c3234df1b22e7241acd1a0f6430cae443ba33476"
+      },
+      "archive": {
+        "path": "docs/validation/m5-impact13-v34-source-20261023/new-contracts.log.gz",
+        "bytes": 2763,
+        "sha256": "ef775808c42aa0e25dc9aeba16281b1e3501a2b75d7872b6557faa1abff5791e",
+        "encoding": "gzip-original-bytes"
+      }
+    }
+  ],
+  "counts": {
+    "preparation": 73,
+    "northRoute": 19,
+    "newControlled": 92,
+    "registeredFiles": 127,
+    "fullPass": 6795
+  },
+  "actualFullCommand": "npm test",
+  "node": "v24.14.0",
+  "CC": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+  "packageAfterRun": {
+    "bytes": 18609,
+    "sha256": "04e512f45afa5f30cd052b74f4e6ba7f98150ffc20399e2466519e8c1522654d",
+    "command": "node --test --test-concurrency=1 scripts/test-hd-input.mjs scripts/test-hd-battle-mode.mjs scripts/test-hd-battle-commands.mjs scripts/test-hd-march.mjs scripts/test-hd-city-entry.mjs scripts/test-hd-engine-protocol.mjs scripts/test-hd-dialog-routing.mjs scripts/test-hd-portraits.mjs scripts/test-hd-campaign-flow.mjs scripts/test-hd-campaign-engine.mjs scripts/test-hd-save-transaction.mjs scripts/test-hd-saveload-ui.mjs scripts/test-hd-save-pages.mjs scripts/test-hd-campaign-telemetry.mjs scripts/test-hd-render-visibility.mjs scripts/test-hd-performance-metrics.mjs scripts/test-hd-road-presentation.mjs scripts/test-hd-battle-terrain.mjs scripts/test-hd-battle-scene.mjs scripts/test-hd-battle-scene-runtime-oracle.mjs scripts/test-hd-battle-feedback.mjs scripts/test-hd-spe.mjs scripts/test-hd-spe-engine.mjs scripts/test-hd-maker-engine.mjs scripts/test-hd-maker-bridge.mjs scripts/test-hd-attack-engine.mjs scripts/test-hd-attack-bridge.mjs scripts/test-hd-skill-engine.mjs scripts/test-hd-skill-bridge.mjs scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs scripts/test-hd-idb-mod-compat.mjs scripts/test-hd-details-engine.mjs scripts/test-hd-person-properties-engine.mjs scripts/test-hd-details-bridge.mjs scripts/test-hd-overviews-engine.mjs scripts/test-hd-overviews-bridge.mjs scripts/test-hd-minimap.mjs scripts/test-hd-overworld-layers.mjs scripts/test-hd-overworld-environment.mjs scripts/test-hd-ai-target-engine.mjs scripts/test-hd-ai-target-bridge.mjs scripts/test-hd-status-effect-engine.mjs scripts/test-hd-status-effect-bridge.mjs scripts/test-hd-wood-engine.mjs scripts/test-hd-wood-bridge.mjs scripts/test-hd-aid-bridge.mjs scripts/test-hd-aid.mjs scripts/test-hd-aid-engine.mjs scripts/test-original-game-entry.mjs scripts/test-hd-liuyan-bridge.mjs scripts/test-hd-zhoufeng-bridge.mjs scripts/test-hd-dingshen-bridge.mjs scripts/test-hd-runtime-owned-chrome.mjs scripts/test-hd-runtime-json.mjs scripts/test-hd-wood-runtime-oracle.mjs scripts/test-hd-qimen20-bridge.mjs scripts/test-hd-mobile.mjs scripts/test-lcd-touch.mjs scripts/test-hd-mobile-map.mjs scripts/test-hd-overworld-touch.mjs scripts/test-hd-mobile-city.mjs scripts/test-hd-city-mobile-host.mjs scripts/test-hd-mobile-portraits.mjs scripts/test-hd-battle-mobile-host.mjs scripts/test-hd-mobile-battle.mjs scripts/test-hd-mobile-battle-runtime-oracle.mjs scripts/test-hd-mobile-spe.mjs scripts/test-hd-mobile-successor-runtime-oracle.mjs scripts/test-hd-mobile-march-runtime-oracle.mjs scripts/test-hd-mobile-recruitment-runtime-oracle.mjs scripts/test-hd-mobile-distribution-runtime-oracle.mjs scripts/test-hd-mobile-equipment-runtime-oracle.mjs scripts/test-hd-mobile-detail-runtime-checks.mjs scripts/test-hd-mobile-system-runtime-oracle.mjs scripts/test-hd-mobile-system.mjs scripts/test-hd-mobile-trade-runtime-oracle.mjs scripts/test-hd-mobile-trade-engine.mjs scripts/test-hd-mobile-transfer-engine.mjs scripts/test-hd-mobile-transfer-runtime-oracle.mjs scripts/test-hd-mobile-minimap.mjs scripts/test-hd-mobile-diplomacy-engine.mjs scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs scripts/test-hd-mobile-battle-overviews-runtime-oracle.mjs scripts/test-hd-mobile-defender-runtime-oracle.mjs scripts/test-hd-battle-note.mjs scripts/test-hd-mobile-defender-settlement-runtime-oracle.mjs scripts/test-hd-impact-diplomacy-runtime-oracle.mjs scripts/test-hd-impact-plunder-runtime-oracle.mjs scripts/test-hd-impact-canvass-runtime-oracle.mjs scripts/test-hd-impact-v23-acquisition-plan.mjs scripts/test-hd-impact-v23-canvass16-make-oracle.mjs scripts/test-hd-impact-v23-canvass16-natural-return.mjs scripts/test-hd-impact-v23-json-normalize.mjs scripts/test-hd-impact-v23-world-dictionary.mjs scripts/test-hd-impact-v24-final-report-storage.mjs scripts/test-hd-impact-v24-observation-row-stream.mjs scripts/test-hd-impact-v24-selected-row-terminal-integrity.mjs scripts/test-hd-impact-v24-month-window.mjs scripts/test-hd-impact-v25-pending-resume.mjs scripts/test-hd-impact-v26-raw-buy11-oracle.mjs scripts/test-hd-impact-v27-acquisition-plan.mjs scripts/test-hd-impact-v27-canvass16-make-oracle.mjs scripts/test-hd-impact-v27-canvass16-natural-return.mjs scripts/test-hd-impact-v28-acquisition-plan.mjs scripts/test-hd-impact-v29-treat12-world-oracle.mjs scripts/test-hd-impact-v29-november-recovery-plan.mjs scripts/test-hd-impact-v29-acquisition-policy.mjs scripts/test-hd-impact-v30-search3-world-oracle.mjs scripts/test-hd-impact-v30-search3-natural-return.mjs scripts/test-hd-impact-v31-acquisition-policy.mjs scripts/test-hd-impact-v31-canvass16-make-oracle.mjs scripts/test-hd-impact-v31-canvass16-natural-return.mjs scripts/test-hd-impact-v31-water-token-give-oracle.mjs scripts/test-hd-impact-v32-acquisition-policy.mjs scripts/test-hd-impact-v32-canvass16-make-oracle.mjs scripts/test-hd-impact-v32-canvass16-natural-return.mjs scripts/test-hd-impact-v32-water-token-give-oracle.mjs scripts/test-hd-impact-v32-conditional-plunder-prefix.mjs scripts/test-hd-display-settings.mjs scripts/test-hd-aid-runtime-oracle.mjs scripts/test-hd-impact-v33-city6-readiness.mjs scripts/test-hd-impact-v33-water-token-give-oracle.mjs scripts/test-hd-impact-v34-preparation.mjs scripts/test-hd-impact-v34-north-route.mjs"
+  },
+  "sourcePinsAfterRun": [
+    {
+      "path": "scripts/hd-impact-v34-preparation.mjs",
+      "bytes": 15337,
+      "sha256": "a081fffd877785021009fc588940adbaf3b4c730cee79194afcca818606dca1e"
+    },
+    {
+      "path": "scripts/test-hd-impact-v34-preparation.mjs",
+      "bytes": 12616,
+      "sha256": "ca9ce18265898a6e556237ee73e4e90ff1ad1addb2bb414612e6a5d6accb57df"
+    },
+    {
+      "path": "scripts/hd-impact-v34-north-route.mjs",
+      "bytes": 12187,
+      "sha256": "337e8d335c8973c2eb732b2368df623083eb1884a15afc165e27befb59a5296f"
+    },
+    {
+      "path": "scripts/test-hd-impact-v34-north-route.mjs",
+      "bytes": 14565,
+      "sha256": "e2f9ea89799caa85bbcfe00061b2d240d8dc1e93253c19ab7fc75578d4ccedc2"
+    }
+  ],
+  "sourcePinBoundary": "Recorded after completion; not a separate pre-run freeze. The actual V34 browser runner records its own independent source freeze.",
+  "actualPaymentAccepted": false,
+  "actualMarchAccepted": false,
+  "actualBattleMpObserved": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false
+}

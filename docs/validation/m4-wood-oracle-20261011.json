@@ -1,0 +1,679 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original WOOD maintained oracle static validation",
+  "status": "oracle-static-validated-actual-pending",
+  "scope": "Original WOOD6/7 maintained observer/oracle evidence contracts and static source regression only; no actual preparation or player cast acceptance.",
+  "validatedAt": "2026-10-10T17:23:14.807Z",
+  "accepted": false,
+  "oracleStaticRegressionAccepted": true,
+  "preparationAccepted": false,
+  "qualifiedCasterAccepted": false,
+  "actualWoodCastAccepted": false,
+  "castAccepted": false,
+  "hdAccepted": false,
+  "fullHdReplacementAccepted": false,
+  "fullRegression": {
+    "execution": {
+      "path": "build/r34-wood-full-source-tests-v3-execution.json",
+      "bytes": 3964,
+      "sha256": "9bdbe7311f2c9c1126cfbe607119bb66a2f62c466d8544a8d9e488f3b84e091b",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/9bdbe7311f2c9c1126cfbe607119bb66a2f62c466d8544a8d9e488f3b84e091b.gz",
+        "bytes": 1225,
+        "sha256": "27b49764c7943bd044633e38ae115bc4fbc591f71a501f6a8f0a0faad49fc692",
+        "encoding": "gzip"
+      }
+    },
+    "log": {
+      "path": "build/r34-wood-full-source-tests-v3.log",
+      "bytes": 341758,
+      "sha256": "18ea55fabe5b3afcd07163399df6b148aa2832f4f41c3485fa0ce498f1b2e240",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/18ea55fabe5b3afcd07163399df6b148aa2832f4f41c3485fa0ce498f1b2e240.gz",
+        "bytes": 60301,
+        "sha256": "87af96062b879a9b0f50657dadd05b4a27c9581408a6b4e055126ca45bfa5abc",
+        "encoding": "gzip"
+      }
+    },
+    "wrapper": {
+      "path": "build/r34-run-source-tests-root-v3.mjs",
+      "bytes": 3622,
+      "sha256": "20e80f59e72095d3518c40822fbe0a0c154424011a9006cd8fc0067206fb9330",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/20e80f59e72095d3518c40822fbe0a0c154424011a9006cd8fc0067206fb9330.gz",
+        "bytes": 1660,
+        "sha256": "6e045ced2b6b68aa38af54a446db543b353cf008400a2e5c9b286d7605fe0edd",
+        "encoding": "gzip"
+      }
+    },
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "--test",
+      "--test-reporter=tap",
+      "--test-concurrency=4",
+      "scripts/test-hd-input.mjs",
+      "scripts/test-hd-battle-mode.mjs",
+      "scripts/test-hd-battle-commands.mjs",
+      "scripts/test-hd-march.mjs",
+      "scripts/test-hd-city-entry.mjs",
+      "scripts/test-hd-engine-protocol.mjs",
+      "scripts/test-hd-dialog-routing.mjs",
+      "scripts/test-hd-portraits.mjs",
+      "scripts/test-hd-campaign-flow.mjs",
+      "scripts/test-hd-campaign-engine.mjs",
+      "scripts/test-hd-save-transaction.mjs",
+      "scripts/test-hd-saveload-ui.mjs",
+      "scripts/test-hd-save-pages.mjs",
+      "scripts/test-hd-campaign-telemetry.mjs",
+      "scripts/test-hd-render-visibility.mjs",
+      "scripts/test-hd-performance-metrics.mjs",
+      "scripts/test-hd-road-presentation.mjs",
+      "scripts/test-hd-battle-terrain.mjs",
+      "scripts/test-hd-battle-feedback.mjs",
+      "scripts/test-hd-spe.mjs",
+      "scripts/test-hd-spe-engine.mjs",
+      "scripts/test-hd-maker-engine.mjs",
+      "scripts/test-hd-maker-bridge.mjs",
+      "scripts/test-hd-attack-engine.mjs",
+      "scripts/test-hd-attack-bridge.mjs",
+      "scripts/test-hd-skill-engine.mjs",
+      "scripts/test-hd-skill-bridge.mjs",
+      "scripts/test-hd-lib-identity.mjs",
+      "scripts/test-hd-overworld-identity.mjs",
+      "scripts/test-hd-ownership.mjs",
+      "scripts/test-hd-city-hud.mjs",
+      "scripts/test-hd-idb-mod-compat.mjs",
+      "scripts/test-hd-details-engine.mjs",
+      "scripts/test-hd-person-properties-engine.mjs",
+      "scripts/test-hd-details-bridge.mjs",
+      "scripts/test-hd-overviews-engine.mjs",
+      "scripts/test-hd-overviews-bridge.mjs",
+      "scripts/test-hd-minimap.mjs",
+      "scripts/test-hd-overworld-layers.mjs",
+      "scripts/test-hd-overworld-environment.mjs",
+      "scripts/test-hd-ai-target-engine.mjs",
+      "scripts/test-hd-ai-target-bridge.mjs",
+      "scripts/test-hd-status-effect-engine.mjs",
+      "scripts/test-hd-status-effect-bridge.mjs",
+      "scripts/test-hd-wood-engine.mjs",
+      "scripts/test-hd-wood-bridge.mjs",
+      "scripts/test-hd-aid-bridge.mjs",
+      "scripts/test-hd-aid.mjs",
+      "scripts/test-hd-aid-engine.mjs",
+      "scripts/test-original-game-entry.mjs",
+      "scripts/test-hd-liuyan-bridge.mjs",
+      "scripts/test-hd-zhoufeng-bridge.mjs",
+      "scripts/test-hd-dingshen-bridge.mjs",
+      "scripts/test-hd-runtime-owned-chrome.mjs",
+      "scripts/test-hd-runtime-json.mjs",
+      "scripts/test-hd-wood-runtime-oracle.mjs"
+    ],
+    "node": "v24.14.0",
+    "compiler": {
+      "path": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+      "bytes": 75238912,
+      "sha256": "bbe1455a704cd779edf71fb8003920d7033c5ea042dbd7be23c4aa192d126cee"
+    },
+    "exitCode": 0,
+    "moduleCount": 56,
+    "summary": {
+      "tests": 1364,
+      "pass": 1364,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sources": {
+      "count": 481,
+      "pre": {
+        "path": "build/r34-wood-full-source-tests-v3-sources-pre.json",
+        "bytes": 79260,
+        "sha256": "2ce4dabf0f36413b720c771a4a586468324917792bc6115883a7df96b0568bc8",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/2ce4dabf0f36413b720c771a4a586468324917792bc6115883a7df96b0568bc8.gz",
+          "bytes": 25571,
+          "sha256": "8a3cfd21ec492075bfa098ce2023d39e261fc5dcf4ffbeaa5add0176756244fe",
+          "encoding": "gzip"
+        }
+      },
+      "post": {
+        "path": "build/r34-wood-full-source-tests-v3-sources-post.json",
+        "bytes": 79260,
+        "sha256": "2ce4dabf0f36413b720c771a4a586468324917792bc6115883a7df96b0568bc8",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/2ce4dabf0f36413b720c771a4a586468324917792bc6115883a7df96b0568bc8.gz",
+          "bytes": 25571,
+          "sha256": "8a3cfd21ec492075bfa098ce2023d39e261fc5dcf4ffbeaa5add0176756244fe",
+          "encoding": "gzip"
+        }
+      },
+      "rawPrePostEqual": true,
+      "drift": [],
+      "added": [],
+      "allCurrentListedBytesVerifiedByPublisher": true,
+      "rawSourceTreeRecursivelyArchived": false
+    }
+  },
+  "maintainedTools": {
+    "outputs": [
+      {
+        "path": "scripts/hd-wood-runtime-oracle.mjs",
+        "bytes": 49172,
+        "sha256": "a597db90224baba9a91213bb71e1455b58ae6bde73b068afbb760ae2a12c03f9",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/a597db90224baba9a91213bb71e1455b58ae6bde73b068afbb760ae2a12c03f9.gz",
+          "bytes": 14829,
+          "sha256": "73a5ef3b9616dcb44a7b3b7847a5295eca869920fc27713f3aa7466e4dac7ac7",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/hd-wood-evidence-contract.mjs",
+        "bytes": 10453,
+        "sha256": "f96b11f32391a4730d5579302ded169c9de178de86b8d64e7ee9fe900fc4dc65",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/f96b11f32391a4730d5579302ded169c9de178de86b8d64e7ee9fe900fc4dc65.gz",
+          "bytes": 3781,
+          "sha256": "928e008b1812a968c3a68d04fb0d69e513b598989bb12f28d3f25cc6213e663a",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/test-hd-wood-runtime-oracle.mjs",
+        "bytes": 11775,
+        "sha256": "ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e.gz",
+          "bytes": 4125,
+          "sha256": "e8f03e4c298552b232b7f328daee03d1bcc601263342b39a5ed383894a8ec1f8",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/test-hd-wood-runtime.mjs",
+        "bytes": 162635,
+        "sha256": "85d20e58f5f5d6ecdb828e8836a05e5ee25b1e530a5b3494e85272cab415a4f5",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/85d20e58f5f5d6ecdb828e8836a05e5ee25b1e530a5b3494e85272cab415a4f5.gz",
+          "bytes": 46040,
+          "sha256": "97a5d7ab06bca6f540c2483264ecb655c1514e3fb7f4500ec472b7e3a9322c19",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "package.json",
+        "bytes": 8234,
+        "sha256": "4ce377a68226dbd785edd02b8a5c57915003a7a1a446a895597c0fd54a2a9a68",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/4ce377a68226dbd785edd02b8a5c57915003a7a1a446a895597c0fd54a2a9a68.gz",
+          "bytes": 1446,
+          "sha256": "769f7d920c5c8f7b502e3c3ebdbab0221234ddc2aa5786d4dd2431b602623ddc",
+          "encoding": "gzip"
+        }
+      }
+    ],
+    "promotion": {
+      "path": "build/r34-wood-maintained-oracle-promotion-proof-v1.json",
+      "bytes": 8100,
+      "sha256": "ecc59bbd39705c50841df8064b4f5447fecfa99e9d39396d2bdb294eb90c2d39",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/ecc59bbd39705c50841df8064b4f5447fecfa99e9d39396d2bdb294eb90c2d39.gz",
+        "bytes": 2539,
+        "sha256": "40b57923622decafa65bbf6de0315b238d56ef8abfea75e37124328a92b07908",
+        "encoding": "gzip"
+      }
+    },
+    "delta": {
+      "path": "build/r34-wood-maintained-oracle-promotion-delta-v1.json",
+      "bytes": 7441,
+      "sha256": "0c4c372aceca8eb4efbe0311ec04275b828313e1f2442d64263e2966399c62ca",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/0c4c372aceca8eb4efbe0311ec04275b828313e1f2442d64263e2966399c62ca.gz",
+        "bytes": 1965,
+        "sha256": "69fe8e95132a4678a5195f3167623991f51e33d4dd5e9ddcf7a4ed21618e3757",
+        "encoding": "gzip"
+      }
+    },
+    "editCount": 12,
+    "inverseSourceBytesExact": true,
+    "before": [
+      {
+        "path": "build/r34-wood-maintained-promotion-before-v1/scripts__hd-wood-runtime-oracle.mjs",
+        "bytes": 46923,
+        "sha256": "d827714d5712b37cac29e747bcbe8b723975abe049aad6dd80ffbbf656b7d7c8",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/d827714d5712b37cac29e747bcbe8b723975abe049aad6dd80ffbbf656b7d7c8.gz",
+          "bytes": 14399,
+          "sha256": "5092346c784edbfb6c9c927375572c25ae5f10e4ef71fcc32b5c7e19295e4372",
+          "encoding": "gzip"
+        },
+        "originalPath": "scripts/hd-wood-runtime-oracle.mjs"
+      },
+      {
+        "path": "build/r34-wood-maintained-promotion-before-v1/scripts__test-hd-wood-runtime.mjs",
+        "bytes": 162582,
+        "sha256": "37803de71277b7dd9105d0d5dbb8b2488711991c79e3bb8f07e74d8e38f77568",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/37803de71277b7dd9105d0d5dbb8b2488711991c79e3bb8f07e74d8e38f77568.gz",
+          "bytes": 46025,
+          "sha256": "40d2988792f181262629a2af478ecba40df3ea81b5421c14e4d5c876b86d0c4a",
+          "encoding": "gzip"
+        },
+        "originalPath": "scripts/test-hd-wood-runtime.mjs"
+      },
+      {
+        "path": "build/r34-wood-maintained-promotion-before-v1/package.json",
+        "bytes": 8115,
+        "sha256": "b221037aa35e166733f0421af847477f2f78d01ced43e72284bd220274b81603",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/b221037aa35e166733f0421af847477f2f78d01ced43e72284bd220274b81603.gz",
+          "bytes": 1428,
+          "sha256": "90749c2b860a204c17c214ba569b633d3a9a56d2d23907d0712d841ee43eee07",
+          "encoding": "gzip"
+        },
+        "originalPath": "package.json"
+      }
+    ]
+  },
+  "formalPureCoverage": {
+    "source": {
+      "path": "scripts/test-hd-wood-runtime-oracle.mjs",
+      "bytes": 11775,
+      "sha256": "ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e.gz",
+        "bytes": 4125,
+        "sha256": "e8f03e4c298552b232b7f328daee03d1bcc601263342b39a5ed383894a8ec1f8",
+        "encoding": "gzip"
+      }
+    },
+    "registrations": 40,
+    "positive": 14,
+    "negative": 26,
+    "allPassedExactlyOnceInFullTap": true,
+    "names": [
+      {
+        "name": "Original standard LIB identity",
+        "negative": false
+      },
+      {
+        "name": "Serialized read-only observer compiles offline",
+        "negative": false
+      },
+      {
+        "name": "Actual WOOD37 independent timer: eight versus one copies, first64 then66",
+        "negative": false
+      },
+      {
+        "name": "All actual ROM bitplane pixels, visible slots and cumulative clear footprints replay independently",
+        "negative": false
+      },
+      {
+        "name": "Bound real-shaped transient movie owner is allowed before numeric scene readiness",
+        "negative": false
+      },
+      {
+        "name": "All8 actual rolling-wood copies required and accepted",
+        "negative": false
+      },
+      {
+        "name": "Fallingstone selected interval requires only its one true64 copy",
+        "negative": false
+      },
+      {
+        "name": "missing first copy",
+        "negative": true
+      },
+      {
+        "name": "missing middle copy",
+        "negative": true
+      },
+      {
+        "name": "final copy alone",
+        "negative": true
+      },
+      {
+        "name": "duplicate final cannot substitute for missing",
+        "negative": true
+      },
+      {
+        "name": "Unknown copied commit",
+        "negative": true
+      },
+      {
+        "name": "Movie generation cannot borrow another attempt",
+        "negative": true
+      },
+      {
+        "name": "Metadata cannot detach from callback snapshot",
+        "negative": true
+      },
+      {
+        "name": "Missing callback snapshot",
+        "negative": true
+      },
+      {
+        "name": "Actual units cannot detach from snapshot roster",
+        "negative": true
+      },
+      {
+        "name": "Movie must already observe paid native MP",
+        "negative": true
+      },
+      {
+        "name": "Movie cannot claim target damage before NUM stage",
+        "negative": true
+      },
+      {
+        "name": "WOOD cannot borrow the state-only no-SKILL-owner convention",
+        "negative": true
+      },
+      {
+        "name": "ARMS_GAIN is not WOOD ARMS_LOSS",
+        "negative": true
+      },
+      {
+        "name": "No synthetic movement-state1 rule",
+        "negative": true
+      },
+      {
+        "name": "Postlude source-shaped nested event, actual damage and completed target loss",
+        "negative": false
+      },
+      {
+        "name": "Postlude incorrect applied damage",
+        "negative": true
+      },
+      {
+        "name": "Actual three-point full ancestor visibility accepted",
+        "negative": false
+      },
+      {
+        "name": "Transparent ancestor is not visible HD",
+        "negative": true
+      },
+      {
+        "name": "Obscured peripheral point cannot borrow center visibility",
+        "negative": true
+      },
+      {
+        "name": "Full missing-asset LCD canvas is checked at every physical pixel",
+        "negative": false
+      },
+      {
+        "name": "A non-center fallback pixel mismatch cannot pass logical sampling",
+        "negative": true
+      },
+      {
+        "name": "First64 window checks four external strips including unknown extra2 columns",
+        "negative": false
+      },
+      {
+        "name": "First64 cannot authorize its futurewide right2 columns",
+        "negative": true
+      },
+      {
+        "name": "Certified66 excludes only its own actual expanded window",
+        "negative": false
+      },
+      {
+        "name": "Physical top LCD boundary mismatch",
+        "negative": true
+      },
+      {
+        "name": "Physical bottom LCD boundary mismatch",
+        "negative": true
+      },
+      {
+        "name": "Physical left LCD boundary mismatch",
+        "negative": true
+      },
+      {
+        "name": "Physical right LCD boundary mismatch",
+        "negative": true
+      },
+      {
+        "name": "True final Arms0 retreat is allowed with nonzero HP after native FgtChkAtkEnd",
+        "negative": false
+      },
+      {
+        "name": "State8 without native zero Arms OR zero HP is rejected",
+        "negative": true
+      },
+      {
+        "name": "Final lethal retreat does not allow premature movie Arms0/state8",
+        "negative": true
+      },
+      {
+        "name": "Actual CSS pointer-events none permits the canvas owning stage hit",
+        "negative": false
+      },
+      {
+        "name": "Another child overlay in the same root is not the owning canvas/stage",
+        "negative": true
+      }
+    ]
+  },
+  "buildSourceHistory": {
+    "freeze": {
+      "path": "build/r34-wood-oracle-upgrade-freeze-v3.json",
+      "bytes": 5284,
+      "sha256": "12f06ae43c53ba3d81d939dc21657bdc632e2c5de0eddb119c60f1c2f5114dba",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/12f06ae43c53ba3d81d939dc21657bdc632e2c5de0eddb119c60f1c2f5114dba.gz",
+        "bytes": 2228,
+        "sha256": "10047003e4734f47e994719bc0d2fafb3c6032bd57d631c8725d2aec50d56730",
+        "encoding": "gzip"
+      }
+    },
+    "sources": [
+      {
+        "path": "build/r34-wood-runtime-oracle-candidate-v3.mjs",
+        "bytes": 49196,
+        "sha256": "26c012377cbc1c4b1dab0f7ed159abefc9237711771f382594317900d9f3d864",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/26c012377cbc1c4b1dab0f7ed159abefc9237711771f382594317900d9f3d864.gz",
+          "bytes": 14854,
+          "sha256": "423c20023e3c8c21c4ca165075aa3d2052b32f9949afc676dda77e99006c9a83",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "build/r34-wood-evidence-contract-v3.mjs",
+        "bytes": 10453,
+        "sha256": "f96b11f32391a4730d5579302ded169c9de178de86b8d64e7ee9fe900fc4dc65",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/f96b11f32391a4730d5579302ded169c9de178de86b8d64e7ee9fe900fc4dc65.gz",
+          "bytes": 3781,
+          "sha256": "928e008b1812a968c3a68d04fb0d69e513b598989bb12f28d3f25cc6213e663a",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "build/r34-wood-oracle-offline-selftests-v3.mjs",
+        "bytes": 12080,
+        "sha256": "dd782a93994e01f98fc23de05137a62f33d364285f420e32629b3a268f7466ba",
+        "archive": {
+          "path": "docs/validation/m4-wood-oracle-20261011/raw/dd782a93994e01f98fc23de05137a62f33d364285f420e32629b3a268f7466ba.gz",
+          "bytes": 4272,
+          "sha256": "2433acacbffac32afc9f0cd28bb6462a392feb5b67e5776a154bc8a9c93c1bc7",
+          "encoding": "gzip"
+        }
+      }
+    ],
+    "domPointerDelta": {
+      "path": "build/r34-wood-oracle-dom-pointer-delta-v3.json",
+      "bytes": 3315,
+      "sha256": "54390ec035e11b7529157f39fdb656e03e525c69f00b14beae686b7e02b8cde6",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/54390ec035e11b7529157f39fdb656e03e525c69f00b14beae686b7e02b8cde6.gz",
+        "bytes": 1180,
+        "sha256": "502d9dac0a8bbbe4df47d8610fcaf0cb50f8972de2786bfd04d72e07abc7f5d9",
+        "encoding": "gzip"
+      }
+    },
+    "independentSourcePeer": {
+      "path": "build/r34-wood-oracle-v3-source-independent-review-v1.json",
+      "bytes": 7058,
+      "sha256": "166cb881f98abbacf823aa547242b0e34a3b87847026f528475282b4995d0874",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/166cb881f98abbacf823aa547242b0e34a3b87847026f528475282b4995d0874.gz",
+        "bytes": 3090,
+        "sha256": "5385efecf5e7f031bb4a2bb1b3d9703df341307087b718f3d65ae79ae9dda003",
+        "encoding": "gzip"
+      }
+    },
+    "rootOfflineLog": {
+      "path": "build/r34-wood-oracle-offline-selftests-root-v3.log",
+      "bytes": 5322,
+      "sha256": "1cd07a20b8e66f50313944111d3c7bd7781b90b139ef0136bc14956f14573c7f",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/1cd07a20b8e66f50313944111d3c7bd7781b90b139ef0136bc14956f14573c7f.gz",
+        "bytes": 1371,
+        "sha256": "18174be3f88cfd95c993e2e9eb827f589c559f79a152f2aa8cafcf75654565d2",
+        "encoding": "gzip"
+      }
+    },
+    "rootOfflineWrapperTests": 1,
+    "rootOfflineInternalChecks": 40,
+    "priorReferencesNotRecursivelyArchived": {
+      "preservedV1": {
+        "path": "build/r34-wood-oracle-candidate-freeze-v1.json",
+        "bytes": 2105,
+        "sha256": "42af62dc5e4f8eb32dc88f32200dc17a5f26e5922a35d60b8f0ebc5f0e8c8116"
+      },
+      "preservedV2": {
+        "path": "build/r34-wood-oracle-upgrade-freeze-v2.json",
+        "bytes": 4060,
+        "sha256": "f4be816f79f9fe8e31d946deddc74fa01e1ba148d6783d3c9c5f05c6237d5003"
+      },
+      "nativeEvidence": {
+        "fight": {
+          "path": "vendor/iBaye/src/Fight.c",
+          "bytes": 58254,
+          "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+          "lines": "1431-1475",
+          "guard": "!pos->hp || !per->Arms",
+          "assignment": "pos->state = STATE_SW",
+          "arms0AllowsNonzeroHp": true
+        },
+        "type": {
+          "path": "vendor/iBaye/src/baye/fight.h",
+          "bytes": 9611,
+          "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+          "stateLine": 127,
+          "hpLine": 217,
+          "hpType": "U16"
+        },
+        "observerHpRead": "Number(pos.hp) in candidate readUnits; actual units are observed, not computed from damage"
+      },
+      "domEvidence": {
+        "path": "css/hd-spe.css",
+        "bytes": 3016,
+        "sha256": "035db04c5f30d20879a17178fff3936ef5e9c4bd2114390b4f7d0f0a5b743651",
+        "selector": ".hd-spe-canvas",
+        "fact": "pointer-events: none; open root uses pointer-events:auto",
+        "existingExecutedReference": {
+          "path": "build/r33-liuyan-observer-v1.mjs",
+          "bytes": 15277,
+          "sha256": "689d0ca95516600feb8bd9b4adc5c53e9715219a242d97d7851a8b23f6fc829e"
+        }
+      }
+    }
+  },
+  "readonlyCastPreflight": {
+    "result": {
+      "path": "build/r34-maintained-wood-oracle-cast-preflight-root-v1/result.json",
+      "bytes": 780826,
+      "sha256": "2220085de627e2bf9ee020a40ffe04060d1560fe6d5a5cf7c2308575db5b8129",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/2220085de627e2bf9ee020a40ffe04060d1560fe6d5a5cf7c2308575db5b8129.gz",
+        "bytes": 143962,
+        "sha256": "2e33aa1a6c1d9ec04d109095182fc97ab5360e673560cf62fe8603afdcb32535",
+        "encoding": "gzip"
+      }
+    },
+    "sources": {
+      "path": "build/r34-maintained-wood-oracle-cast-preflight-root-v1/source-verification.json",
+      "bytes": 430880,
+      "sha256": "fd8336961f7ac905df0410bb2cdcac5bb61a3055e8428cca8f5dd337c6b140e2",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/fd8336961f7ac905df0410bb2cdcac5bb61a3055e8428cca8f5dd337c6b140e2.gz",
+        "bytes": 68747,
+        "sha256": "3c2ce46ab9ab654a0b446bc1493b80648c22ffa4ed1de3dcc005b3fdaa564f50",
+        "encoding": "gzip"
+      }
+    },
+    "log": {
+      "path": "build/r34-maintained-wood-oracle-cast-preflight-root-v1.log",
+      "bytes": 338,
+      "sha256": "fd072cc23948cb97ab4610a52bd5807cabda474526374f46be3eb6242e0beb92",
+      "archive": {
+        "path": "docs/validation/m4-wood-oracle-20261011/raw/fd072cc23948cb97ab4610a52bd5807cabda474526374f46be3eb6242e0beb92.gz",
+        "bytes": 267,
+        "sha256": "3d42d4d7b3f681ff689288228a50916c12d74564a17da5605546650677b02494",
+        "encoding": "gzip"
+      }
+    },
+    "sourceCount": 1208,
+    "drift": [],
+    "added": [],
+    "preflightOnly": true,
+    "castOnly": true,
+    "requests": 0,
+    "inputs": 0,
+    "profile": null,
+    "actualCleanupCoverage": false,
+    "actualCastAccepted": false
+  },
+  "evidenceContract": {
+    "speId": 37,
+    "skills": [
+      6,
+      7
+    ],
+    "movieCopies": {
+      "skill6": 8,
+      "skill7": 1
+    },
+    "rollingWoodCoverage": "Actual copied first64 then66; display64 cannot borrow current/future66; full160x96 native and outside pixels required",
+    "numeric": "Both genuine positive ARMS_LOSS results require ROM15 label/digits/completed hold and late native retirement",
+    "visibility": "Three actual owning canvas/stage hit points plus visible ancestors; pointer-events:none allowed, foreign overlays rejected",
+    "actualCoverageAccepted": false
+  },
+  "archive": {
+    "runtimeIndex": {
+      "path": "docs/validation/m4-wood-oracle-20261011/runtime-index.json",
+      "bytes": 14362,
+      "sha256": "aa5511495951ff9c17320a3edb7e461a5286468f3747b04482c362e03480df45"
+    },
+    "logicalFiles": 26,
+    "uniqueGzipFiles": 24,
+    "logicalOriginalBytes": 2306932,
+    "uniqueGzipBytes": 472555,
+    "portableClosedArchive": false,
+    "byteClosedExplicitAllowlist": true,
+    "gzipRoundtripVerified": true
+  },
+  "publisher": {
+    "path": "build/r34-publish-wood-oracle-static-root-v1.mjs",
+    "bytes": 18886,
+    "sha256": "c0984b967e76c0505997c2dee2f8fa14c5b5bd569ac0d2bcc12c56989283089a",
+    "archive": {
+      "path": "docs/validation/m4-wood-oracle-20261011/raw/c0984b967e76c0505997c2dee2f8fa14c5b5bd569ac0d2bcc12c56989283089a.gz",
+      "bytes": 7250,
+      "sha256": "c3e46f21ec32aa6e29ba2389839f8ef0a98bb93236a8af95c8517d65bcdbd5f6",
+      "encoding": "gzip"
+    }
+  },
+  "limitations": [
+    "No actual campaign, player save, browser profile, user storage or finite-canvass result is included or accepted.",
+    "The40 formal node:test cases use frozen standard ROM/controlled evidence fixtures. They test copy/owner/HD/LCD/NUM rejection contracts, not genuine player casting.",
+    "The prior offline log has one Node wrapper with40 internal checks; the later maintained full suite separately registers40 real Node tests within1364 total.",
+    "Only explicit raw paths are gzip byte closed. Native sources, library/font/asset/compiler files, older v1/v2 histories and historical campaigns referenced by inventories/reviews/freezes are external, not recursively archived.",
+    "All481 current source rows are checked before publication, but their full raw tree is not archived. This limited record is not portable or a full source/native/compiler closure.",
+    "Cast-only preflight has zero requests/inputs/profile and no actual input preparation acceptance. Its no-launch cleanup flags are not OS cleanup coverage.",
+    "No actual WOOD preparation/caster/HD/fallback/performance/mobile/cloud success is established."
+  ]
+}

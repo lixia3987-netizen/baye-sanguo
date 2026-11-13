@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-capital-paid-food-checkpoint",
+  "publicationDate": "2026-10-21",
+  "publicationTimezone": "Asia/Shanghai",
+  "status": "partial-food-paid-saved-guard40-still-pending",
+  "originalOnly": true,
+  "noNewNativeBuild": true,
+  "noNewProductionCode": true,
+  "foodCheckpointAccepted": true,
+  "tradeDispatchAccepted": true,
+  "actualPreparationAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdAccepted": false,
+  "globalHdComplete": false,
+  "originalLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "dependencies": {
+    "baseCommit": "b91cf74ec78bf8abc721f2fd45eaed08a92c6b1b",
+    "committedExternalReferences": [
+      {
+        "path": "build/impact-skill-20261014/prepare-induce-actual-v6/result.json",
+        "bytes": 77450104,
+        "sha256": "15372d36bdc911d9f29264f52212af00ebeb5c7d4058f57c599a58a00f76108a"
+      }
+    ],
+    "scope": "Prior January/November evidence, original product/source/history and prior5130 frozen blobs remain committed dependencies. Old large archive parts, the77MB January result and240 frozen blobs are not duplicated. Current external result bytes are rehashed solely to compare the real input world."
+  },
+  "failedAttempt": {
+    "version": 7,
+    "result": {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7/result.json",
+      "bytes": 4350507,
+      "sha256": "94075b470bd1b4cbd37a9f7f425fe123ce5d80788909a483693eebe6b0c713ce"
+    },
+    "terminal": {
+      "path": "build/impact-skill-20261014/capital-food-v7-terminal-receipt-v1.json",
+      "bytes": 1621,
+      "sha256": "e5c4dc7bfc327bebc40d7c294c0dc56c1d0a08006a768759d8640077a704b651"
+    },
+    "tool": {
+      "path": "build/impact-induce-candidate-v7.mjs",
+      "bytes": 458051,
+      "sha256": "f0dc79a60ff361f28f3f5a2ad49c83b89771d5bcf3b658d63863c00c01551ed5"
+    },
+    "ok": false,
+    "exitCode": 1,
+    "noPaymentOccurred": true,
+    "publicSaveCount": 0,
+    "normalMonths": 0,
+    "quantityBeforeFinalConfirm": 72,
+    "worldEqualsFreshLoadedInput": true,
+    "error": "Error: Timed out waiting for actual classic LCD visible and on top\n    at waitFor (file:///F:/project/baye-sanguo/build/impact-induce-candidate-v7.mjs:187:11)\n    at async v35BuyCapitalFoodNative (file:///F:/project/baye-sanguo/build/impact-induce-candidate-v7.mjs:406:176)\n    at async v35RunCapitalFoodOnly (file:///F:/project/baye-sanguo/build/impact-induce-candidate-v7.mjs:388:66)\n    at async main (file:///F:/project/baye-sanguo/build/impact-induce-candidate-v7.mjs:2586:14)"
+  },
+  "actualExecution": {
+    "version": 8,
+    "result": {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/result.json",
+      "bytes": 12817277,
+      "sha256": "addbdd51ce810b12045dd6f452d8d17e5fd0c15f82eae5f487c3133efa22df83"
+    },
+    "terminal": {
+      "path": "build/impact-skill-20261014/capital-food-v8-terminal-receipt-v1.json",
+      "bytes": 2758,
+      "sha256": "1ff5b262ab778dc87cd5ee33e740c9c8d5b21503a79cef0cbf282566544f75d9"
+    },
+    "tool": {
+      "path": "build/impact-induce-candidate-v8.mjs",
+      "bytes": 462141,
+      "sha256": "913704de5758badb5efecba333bc001bf71e2318bec67622984e5b47fee9f112"
+    },
+    "startedAt": "2026-10-20T16:13:38.329Z",
+    "finishedAt": "2026-10-20T16:13:51.435Z",
+    "ok": true,
+    "exitCode": 0,
+    "scope": {
+      "accepted": "Fresh original public January LOAD preserving Gov20, one real capital16/person40 Trade11 for72Food/360Money/Thew12, complete raw dispatch and genuine packed public SAVE at ordinary MAP; guard40 is honestly pending atslot1",
+      "notRun": "No strategy month/order resolution/guard return/battle-before-return acceptance, no governance/diplomacy/new Plunder/new army/MOVE/caster acquisition/skill13/HD/full game/RNG continuity"
+    }
+  },
+  "sources": {
+    "actual": {
+      "logical": 1302,
+      "normalizedPhysical": 1298,
+      "sourceVerification": {
+        "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/source-verification.json",
+        "bytes": 467503,
+        "sha256": "8b70741343c1542d5f1c6b72d288d9e3718f6617b90f33a7e54e7cd37809de33"
+      },
+      "allRecordedTuplesCurrentExact": true,
+      "nativeFiles": 128,
+      "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+    },
+    "candidateDeltas": [
+      {
+        "version": 7,
+        "source": {
+          "path": "build/impact-induce-candidate-v7.mjs",
+          "bytes": 458051,
+          "sha256": "f0dc79a60ff361f28f3f5a2ad49c83b89771d5bcf3b658d63863c00c01551ed5"
+        },
+        "delta": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v7-delta.json",
+          "bytes": 55508,
+          "sha256": "1f528d6dcaf71cf4ebfbc389511201aecc37229acfa81491858dcb706c8fed58"
+        },
+        "freeze": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v7-freeze.json",
+          "bytes": 8303,
+          "sha256": "3ed6ec407aa58b2b19ba0476e30371dc63986465ada418d5e4da39c362b70ce7"
+        },
+        "review": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v7-independent-audit-v1.md",
+          "bytes": 9480,
+          "sha256": "528e259d210e976fc59a270db9c9716396b6c6f1d68645c12707ff058a57242b"
+        },
+        "forwardByteExact": true,
+        "inverseByteExact": true
+      },
+      {
+        "version": 8,
+        "source": {
+          "path": "build/impact-induce-candidate-v8.mjs",
+          "bytes": 462141,
+          "sha256": "913704de5758badb5efecba333bc001bf71e2318bec67622984e5b47fee9f112"
+        },
+        "delta": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v8-delta.json",
+          "bytes": 9173,
+          "sha256": "6361eb5b95ace8278dec3405c141fcc7d65abec4cad1d4c67cbbea66c500215e"
+        },
+        "freeze": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v8-freeze.json",
+          "bytes": 13735,
+          "sha256": "cd3fb7fd8fa6a8a57fdaa218c88875e95bc5579dbbb199bbca2597d65a818e8d"
+        },
+        "review": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v8-independent-audit-v1.md",
+          "bytes": 6971,
+          "sha256": "ce5108eff6cfb41f884dc2101158b756586ece04fcaaea8736c5cf650f02f969"
+        },
+        "forwardByteExact": true,
+        "inverseByteExact": true
+      }
+    ],
+    "priorSuiteCurrentByteRecheck": {
+      "count": 241,
+      "allCurrentExact": true,
+      "testsRerun": false
+    }
+  },
+  "tests": {
+    "priorRecord": {
+      "result": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/result.json",
+        "bytes": 69575,
+        "sha256": "712e535c1008d5d02024e5f09723329fcec244eb8b533fc89f151698d8b2d16f"
+      },
+      "terminal": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-terminal-v2.json",
+        "bytes": 1434,
+        "sha256": "c406242972104ab7f3d20a9ddd01c5c4c826f176443483d1a12441e158f686f2"
+      },
+      "sourceFreeze": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/source-freeze.json",
+        "bytes": 62084,
+        "sha256": "e7a6c7e98f7efa2a058ce525c09d37db6b8e652a4ffd65473b4c4c4990588658"
+      },
+      "executionConcurrency": 1,
+      "modules": 91,
+      "counts": {
+        "tests": 5130,
+        "suites": 0,
+        "pass": 5130,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "startedAt": "2026-10-20T15:16:33.377Z",
+      "finishedAt": "2026-10-20T15:18:07.931Z"
+    },
+    "rerunForThisCheckpoint": false,
+    "future188TestsIncluded": false
+  },
+  "foodPurchase": {
+    "city": 16,
+    "person": 40,
+    "orderId": 11,
+    "orderSlot": 1,
+    "food": 72,
+    "money": 360,
+    "thew": 12,
+    "before": {
+      "money": 5679,
+      "food": 159,
+      "thew40": 100,
+      "capitalResidentIds": [
+        40,
+        0
+      ]
+    },
+    "after": {
+      "money": 5319,
+      "food": 231,
+      "thew40": 88,
+      "capitalResidentIds": [
+        0
+      ]
+    },
+    "upperBoundArms": 11500,
+    "oneMonthConsumption": 230,
+    "strictFoodRequired": 231,
+    "actualPaid": true,
+    "wholeMeasuredRawFormulaAccepted": true,
+    "oldGovernanceOrder0": {
+      "OrderId": 4,
+      "Person": 20,
+      "City": 16,
+      "Object": 65535,
+      "Arms": 0,
+      "Food": 0,
+      "Money": 48232,
+      "Consume": 57,
+      "TimeCount": 0
+    },
+    "oldGovernanceAllRawFieldsRetained": true,
+    "opaqueNewOrder": {
+      "fields": [
+        "Object",
+        "Arms",
+        "Food",
+        "Money",
+        "Consume"
+      ],
+      "actual": {
+        "Object": 51899,
+        "Arms": 725,
+        "Food": 0,
+        "Money": 57344,
+        "Consume": 187
+      },
+      "semanticAcceptance": false
+    },
+    "guard40TemporarilyPending": true,
+    "guard40ReturnObserved": false,
+    "guardReturnBeforeCombatAccepted": false,
+    "king0StillResident": true,
+    "nineCity20GuardsUnchanged": [
+      30,
+      45,
+      8,
+      17,
+      69,
+      70,
+      11,
+      10,
+      38
+    ]
+  },
+  "quantityConfirmation": {
+    "displayHandoff": {
+      "beforeMode": "hd",
+      "afterMode": "classic",
+      "completeTicketsEqual": true,
+      "nativeKeys": [],
+      "classicLcd": {
+        "x": 1664,
+        "y": 920,
+        "width": 240,
+        "height": 144
+      }
+    },
+    "completeReadyFreshFenceEqual": true,
+    "actualNativeKeys": [
+      39
+    ],
+    "qtySession": 3,
+    "inputSeq": [
+      11,
+      12
+    ],
+    "lastKey": 39,
+    "quantity": 72,
+    "oneFinalConfirmationObserved": true
+  },
+  "latestRecovery": {
+    "tag": "impact-capital-paid-food-040",
+    "slot": 0,
+    "date": [
+      237,
+      1
+    ],
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/native-impact-capital-paid-food-040-sango0.sav",
+        "bytes": 8221,
+        "sha256": "ec9364bfcdb9ddd2680b2cd034a8d4eca04c1cebe63392452ea53c820db40d97"
+      },
+      {
+        "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/native-impact-capital-paid-food-040-sango1.sav",
+        "bytes": 4840,
+        "sha256": "54c67918370e78c4cb36f899c193b3e5c583c83c59574954c20fe6e75c1eca05"
+      }
+    ],
+    "worldSemanticSha256": "c8b91230177eabec63f441264b092b19dfd95930e639df6a96d4904acbb404f8",
+    "fullMeasuredPersistedFieldsAccepted": true,
+    "saveBeforeAfterFinalPaidWorldEqual": true,
+    "supersedes": "impact-induce-pending-016",
+    "olderCheckpointAllowed": false,
+    "replayFoodAllowed": false,
+    "guard40ActuallyPending": true,
+    "activeOrders": [
+      {
+        "slot": 0,
+        "OrderId": 4,
+        "Person": 20,
+        "City": 16,
+        "Object": 65535,
+        "Arms": 0,
+        "Food": 0,
+        "Money": 48232,
+        "Consume": 57,
+        "TimeCount": 0
+      },
+      {
+        "slot": 1,
+        "OrderId": 11,
+        "Person": 40,
+        "City": 16,
+        "Object": 51899,
+        "Arms": 725,
+        "Food": 0,
+        "Money": 57344,
+        "Consume": 187,
+        "TimeCount": 0
+      }
+    ],
+    "target117Faction": 2,
+    "target136Faction": 2,
+    "city12Faction": 2,
+    "rngContinuityAccepted": false
+  },
+  "notPerformed": {
+    "strategyMonths": 0,
+    "canvass": 0,
+    "induce": 0,
+    "newPlunder": 0,
+    "newArmy": 0,
+    "battle": 0,
+    "skill13Cast": 0,
+    "guard40ReturnObserved": false
+  },
+  "isolation": [
+    {
+      "version": 7,
+      "external": {
+        "path": "build/impact-skill-20261014/capital-food-v7-external-cleanup-v1.json",
+        "bytes": 3440,
+        "sha256": "2c9fa6514463d42f38d9ed28f28678027190140cd7ba5dd224568d1d8d5f768a"
+      },
+      "sampleRecords": 2,
+      "exactHistoricalIdentityCount": 11,
+      "matchingIdentities": 0,
+      "privateListeners": 0,
+      "user8080Unchanged": true,
+      "profileRetained": true,
+      "directoriesDeleted": false,
+      "publisherPerformedOsQuery": false
+    },
+    {
+      "version": 8,
+      "external": {
+        "path": "build/impact-skill-20261014/capital-food-v8-external-cleanup-v1.json",
+        "bytes": 3441,
+        "sha256": "bddc53c7cefce1d98aaf2c796dd3b95e2fb69d7d77a42798348a4faba752d688"
+      },
+      "sampleRecords": 3,
+      "exactHistoricalIdentityCount": 11,
+      "matchingIdentities": 0,
+      "privateListeners": 0,
+      "user8080Unchanged": true,
+      "profileRetained": true,
+      "directoriesDeleted": false,
+      "publisherPerformedOsQuery": false
+    }
+  ],
+  "plannedDocumentation": {
+    "patch": {
+      "path": "build/impact-skill-20261014/capital-food-planning-docs-patch-v1.json",
+      "bytes": 8316,
+      "sha256": "24bbfb0683143f3debcae68f94e9821bd097e5cfe6b05f47a631481dd70cf5d1"
+    },
+    "documents": [
+      "docs/hd-development-plan.md",
+      "docs/hd-remaining-work.md",
+      "docs/hd-full-replacement-checklist.md",
+      "docs/hd-spe-spec.md"
+    ],
+    "officialDocsWrittenByPublisher": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-capital-food-20261021-archive.json",
+    "bytes": 15679,
+    "sha256": "caf4ef57429d8d621a0294d1b0160be7402631b6b06aebbed5f8eeec64cea79e",
+    "namedFiles": 69,
+    "uniqueBlobs": 65,
+    "parts": 1,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Only the current real capital16/person40 Trade11 and unique genuine publicSAVE are accepted; actual preparation, caster acquisition, skill13 casting, HD/fallback matrix and global/fullHD remainfalse.",
+    "v7 is a preserved terminal1 failure after editing quantity72 under a covering HD overlay; no final quantity Enter/payment/world delta/publicSAVE occurred. The PowerShell @($null).Count artifact is not used as a SAVE count.",
+    "v8 actual confirmation follows complete quantity mode-before/mode-after equality and visible/topmost original classicLCD, full world/owner/identity/reference/key fences and exactly one native39. No game/world mutation was accepted for the display handoff.",
+    "The raw formula uses real ROM Thew12,72Food/360Money and rawDelPerson. Only the new Trade11 slot1 Object/Arms/Food/Money/Consume are opaque observed values with semanticAcceptance=false; every other measured field, including all oldGov0 bytes, is exact.",
+    "Guard40 is actually pending on Trade11 and no longer a capital resident. King0 remains resident and all nine city20 guards retain all measured person fields. No normal month, order resolution, guard return, defensive survival or return-before-combat is observed.",
+    "New latest impact-capital-paid-food-040 supersedes pending016 as the sole genuine recovery pair. Do not reload the old unpaid pair to repeat food payment or reconstruct a replacement SAVE. FutureCanvass/recruitment/AI route work is excluded and receives no prospective credit.",
+    "All exposed packed people19B/cities37B/orders14B and persisted resident prefix200/goods2000/fighters600/flags30 match actual SAVE. Queue200..1999 and config are sampled raw-world checks only, not serialized restoration. Seed/RNG continuity, unmeasured header options/cursor/custom fields and whole native ABI remain unaccepted.",
+    "Previously executed91 modules/5130 tests is the prior real serial test record, not a new food test run. Rehashing current241 source tuples does not rerun tests; source-only future tests are not counted.",
+    "The explicit69 named-file bytes are closed only within this list. Complete prior product/source/history and large January/November/fullsuite archives rely on committedb91cf74 and its history; portableClosedArchive=false.",
+    "Root terminal and external cleanup receipts are file evidence. Publisher does not query OS, stop processes, delete profiles, run tests, launch HTTP/browser or send game input. Both original private profiles remain preserved.",
+    "The source audit was a static pre-actual review; actual payment acceptance comes from the separately preserved realv8 run/root terminal proof. No new native build or production code change is claimed for this publication."
+  ]
+}

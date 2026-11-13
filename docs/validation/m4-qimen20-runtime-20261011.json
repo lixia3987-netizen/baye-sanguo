@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "id": "m4-qimen20-runtime-20261011",
+  "status": "accepted-limited-installed1080",
+  "accepted": true,
+  "actualCastAccepted": true,
+  "hdAccepted": true,
+  "scenario": "installed1080",
+  "skillId": 20,
+  "speId": 39,
+  "nativeContract": {
+    "skillId": 20,
+    "aim": 1,
+    "mp": 20,
+    "state": 4,
+    "moveUnchanged": true,
+    "resultKind": 2,
+    "value": 0,
+    "numericResult": false,
+    "numericHold": false,
+    "speId": 39,
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "fingerprint": "fnv1a32:6b0ebc5a:1084",
+    "window": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "clearTicks": 25,
+    "nextTicks": 25
+  },
+  "otherMatrixAccepted": false,
+  "naturalReleaseAccepted": false,
+  "fullHdAccepted": false,
+  "portableClosedArchive": false,
+  "scope": "One real original-game friendly QIMEN20 cast, eight native/HD callbacks, full160x96 LCD preservation outside certified64x64 window, report and owner retirement; no other mode, resolution, natural release or whole-game claim.",
+  "execution": {
+    "result": {
+      "path": "build/r36-qimen20-actual-v1-installed1080/result.json",
+      "bytes": 11759107,
+      "sha256": "a3f264998587f1239a04f65ab2d1671722ce758faee516c3c816fc19a8dec360"
+    },
+    "terminal": {
+      "path": "build/r36-qimen20-actual-v1-installed1080-execution.json",
+      "bytes": 4398,
+      "sha256": "8e5c869090875d1a337eb845c6976f0a2bca7f3beb7696511c46183e23d68cc6"
+    },
+    "operator": "root inline wx log and terminal recorder",
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "build/r34-test-hd-qimen20-runtime-candidate-v1.mjs",
+      "--from-phase2",
+      "build/r22-aid-phase2-actual-v5",
+      "--phase2-source",
+      "approved-v5",
+      "--max-turns",
+      "20",
+      "--artifact-dir",
+      "build/r36-qimen20-actual-v1-installed1080"
+    ],
+    "launcher": {
+      "wrapper": {
+        "path": "build/r36-run-qimen20-root-v1.mjs",
+        "bytes": 8891,
+        "sha256": "018393c136b0f1ccdc9a5e8a39091384fa03af81dd72b5951fdee0751972a439"
+      },
+      "usedForPreflight": false,
+      "usedForActual": false,
+      "usedForAfter": true,
+      "after": {
+        "path": "build/r36-qimen20-actual-v1-installed1080-after-execution.json",
+        "bytes": 3908,
+        "sha256": "59767ddc8d73c4a3441940a56fb1725858df4d23689344bcb8006bb7994b988c"
+      }
+    },
+    "preflight": {
+      "result": {
+        "path": "build/r36-qimen20-readonly-preflight-root-v1/result.json",
+        "bytes": 878981,
+        "sha256": "d49ce21470246e09377602352a52286fa729439d43c9f8ea5338c4cc7a9d03f2"
+      },
+      "terminal": {
+        "path": "build/r36-qimen20-readonly-preflight-root-v1-execution.json",
+        "bytes": 2126,
+        "sha256": "ef65761087d06d1d3439f404ef472b171961905139c18ad3e0cdd9e56f68a4b3"
+      },
+      "acceptedForActualInput": true,
+      "gameplayAccepted": false
+    }
+  },
+  "independentAudit": null,
+  "independentActualReview": "pending, not used for acceptance",
+  "acceptanceEvidence": "Root actual pixel oracle, terminal, after/isolation/history and original-image visual proof",
+  "visualInspection": {
+    "path": "build/r36-qimen20-actual-visual-inspection-root-v1.json",
+    "bytes": 1377,
+    "sha256": "a6e0270bc8d7f8f106a09981048ecd9dd1094086d7dae53cea7e503f43512b85"
+  },
+  "actual": {
+    "actor": {
+      "id": 189,
+      "personIndex": 188,
+      "name": "南方小鬼",
+      "mpBefore": 146,
+      "mpAfter": 126
+    },
+    "target": {
+      "id": 145,
+      "personIndex": 144,
+      "name": "吴兰",
+      "hpBefore": 81,
+      "hpAfter": 81,
+      "armsBefore": 100,
+      "armsAfter": 100,
+      "stateBefore": 0,
+      "stateAfter": 4,
+      "moveBefore": 4,
+      "moveAfter": 4
+    },
+    "skillId": 20,
+    "eventId": 4,
+    "actorIndex": 0,
+    "targetIndex": 1,
+    "nativeCallbacks": 8,
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "hdReadbacks": 8,
+    "mpCost": 20,
+    "targetStateBefore": 0,
+    "targetStateAfter": 4,
+    "targetMoveBefore": 4,
+    "targetMoveAfter": 4,
+    "reportedText": "吴兰 陷入了 奇门 状态",
+    "statusReports": 1,
+    "reportAcknowledgements": 1,
+    "numericReadbacks": 0,
+    "holdReadbacks": 0,
+    "numericResult": false,
+    "numericHold": false,
+    "retiredReportActive": 0,
+    "movieInputs": 0
+  },
+  "provenance": {
+    "actualSourceRevision": {
+      "revision": "cf12500cdc46bc1b70729e876aa0675b9c1715cd",
+      "modified": false,
+      "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+    },
+    "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "engineSourceModified": true,
+    "nativeSourceCount": 128,
+    "nativeSourceAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "engineQuartet": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+        "archived": false
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+        "archived": false
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+        "archived": false
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 16650,
+        "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+        "archived": false
+      }
+    ],
+    "runtimeFreeze": {
+      "path": "build/r34-qimen20-runtime-delta-freeze-v1.json",
+      "bytes": 69909,
+      "sha256": "4fe93d2f709d50d52752b51a9d56b7ba419630f03e0de327cc47193beff5b349"
+    },
+    "executedSources": [
+      {
+        "path": "build/r34-test-hd-qimen20-runtime-candidate-v1.mjs",
+        "bytes": 121800,
+        "sha256": "7d33ea13a9f4a50d569ed0a40b880f7a223bff2c5ab10304cc53e9ec6b67d0f9"
+      },
+      {
+        "path": "build/r34-qimen20-runtime-oracle-v1.mjs",
+        "bytes": 24304,
+        "sha256": "22797ecbb4107723a930b02da049be2d2441ad656586226d7c0067440d530a85"
+      },
+      {
+        "path": "build/r34-qimen20-observer-v1.mjs",
+        "bytes": 15277,
+        "sha256": "14d345bd06d345caad73cda30ee2dc75239d80b1df4d912b067b153f21bdb5d6"
+      },
+      {
+        "path": "build/r34-qimen20-pixels-v1.mjs",
+        "bytes": 10740,
+        "sha256": "8e57f3bc8aafe58d7e66d6276e90a11593b82438545714c47873c32b7fed947a"
+      }
+    ],
+    "sourceVerification": {
+      "ok": true,
+      "count": 1223,
+      "physicalCount": 1219,
+      "drift": 0,
+      "added": 0,
+      "raw": {
+        "path": "build/r36-qimen20-actual-v1-installed1080/source-verification.json",
+        "bytes": 435681,
+        "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+      },
+      "externalSourceFilesNotArchived": true
+    },
+    "inputOriginalPair": [
+      {
+        "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+        "bytes": 8221,
+        "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+      },
+      {
+        "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+        "bytes": 4840,
+        "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+      }
+    ],
+    "inputPhase2Result": {
+      "path": "build/r22-aid-phase2-actual-v5/result.json",
+      "bytes": 48322439,
+      "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782",
+      "archived": false,
+      "portable": false
+    },
+    "inputPairReencoded": false,
+    "newPublicSaveCreated": false
+  },
+  "cleanup": {
+    "after": {
+      "path": "build/r36-qimen20-actual-v1-installed1080-after-execution.json",
+      "bytes": 3908,
+      "sha256": "59767ddc8d73c4a3441940a56fb1725858df4d23689344bcb8006bb7994b988c"
+    },
+    "isolation": {
+      "path": "build/r36-qimen20-actual-v1-installed1080-root-after-isolation-v1.json",
+      "bytes": 3274,
+      "sha256": "5914ad1c0ccc89f8d7f5ad6a526184557b94f53f31401bb3c24142f536dfac2c"
+    },
+    "historicalUnion": {
+      "path": "build/r36-qimen20-installed1080-v1-verified-historical-owned-union-root-v1.json",
+      "bytes": 5944,
+      "sha256": "3fdd9b861ed7a5d6986e1b5f0b8525c93d7b9db7b2a4725d611c6c1c67add693"
+    },
+    "historicalExit": {
+      "path": "build/r36-qimen20-installed1080-v1-root-historical-exit-v1.json",
+      "bytes": 3713,
+      "sha256": "3fb6a28c2a2e20f51fe00b070165b8df0daced23b4befea040afe743872181ec"
+    },
+    "historicalIdentityCount": 11,
+    "allRecordedHistoricalOwnedGone": true,
+    "userServicePreserved": true,
+    "privatePortsGone": true,
+    "profileIntentionallyRetained": true,
+    "profileArchived": false,
+    "directoriesDeleted": false,
+    "originalUserServiceObservation": "Recorded terminal-check fact, not a future service availability claim"
+  },
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-qimen20-runtime-20261011/runtime-index.json",
+      "bytes": 37853,
+      "sha256": "1446551b65d859c67db3b9804cb2fc352ac7a27ed533fbd85c7b6ae5a87d93df"
+    },
+    "logicalRawFiles": 74,
+    "uniqueGzipFiles": 52,
+    "rawLogicalBytes": 39716591,
+    "gzipBytes": 11851038,
+    "encoding": "gzip",
+    "originalBytesPreserved": true,
+    "aliasesPreserved": true,
+    "roundtripVerified": true,
+    "portableClosedArchive": false,
+    "limits": [
+      "Complete source/native files remain external references",
+      "Parent phase2 result is external; exact approved original input pair and its proof are archived",
+      "No private browser profile, unrelated process inventory, or user storage is archived",
+      "No720/classic/missing-picture/natural-release/performance/mobile/whole-HD acceptance"
+    ]
+  },
+  "publisher": {
+    "path": "build/r36-publish-qimen20-runtime-candidate-v2.mjs",
+    "bytes": 32598,
+    "sha256": "6b9206284895cb96c9b1263de6430c446cfcd2fedd2bc682b24196a13a4024d0"
+  }
+}

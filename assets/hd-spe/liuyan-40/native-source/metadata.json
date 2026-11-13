@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "scope": "Original ROM extraction only; no HD generation, product edit, browser or game acceptance",
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "resource": {
+    "resource": 40,
+    "item": 0,
+    "bytes": 1084,
+    "sha256": "2b1f0fb020dd068a39f470a605c0fd0e5ed6de515dfd50a9cb808ea80f18b66c",
+    "fingerprint": "fnv1a32:bd0140e0:1084",
+    "header": [
+      0,
+      12,
+      8,
+      2,
+      0,
+      7
+    ],
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      }
+    ],
+    "pictures": [
+      {
+        "index": 0,
+        "offset": 46,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "bytes": 519,
+        "sha256": "8ab791ecb9fec04126d2e28c1f3fec845f7e51d04e40945684dc3cbce2ff8af6"
+      },
+      {
+        "index": 1,
+        "offset": 565,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "bytes": 519,
+        "sha256": "48b5fbc3651c7f910e050170cbf8334cfd4dbe6383057a930425dbf2976d2084"
+      }
+    ]
+  },
+  "bitSemantics": {
+    "layout": "row-major bytes, MSB first, one opaque plane (mask0)",
+    "zero": {
+      "nativeIndex": 0,
+      "defaultPaletteU32": "0x00ffffff",
+      "pngRgba": [
+        255,
+        255,
+        255,
+        0
+      ],
+      "meaning": "Opaque native write of index0, not AND transparency preserving the old native pixel"
+    },
+    "one": {
+      "nativeIndex": 255,
+      "defaultPaletteU32": "0xff000000",
+      "pngRgba": [
+        0,
+        0,
+        0,
+        255
+      ]
+    },
+    "rgbaNotes": "PNG preserves default palette RGBA including transparent white RGB. A viewer may composite transparency; this is not a photographed LCD or a generated HD image."
+  },
+  "sourceLocations": [
+    "vendor/iBaye/src/PublicFun.c:239 original bitplane metadata and mode0 drawing",
+    "vendor/iBaye/src/comOut.c:209 GamPicShowV/SysPicture flag0",
+    "vendor/iBaye/src/platform/common/sys.c:35 default palette; :546 SysPictureEx; :335 SysCopyScreen palette lookup"
+  ],
+  "files": [
+    {
+      "path": "build/r25-native-liuyan-40/resource-40-item-0.bin",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\resource-40-item-0.bin",
+      "bytes": 1084,
+      "sha256": "2b1f0fb020dd068a39f470a605c0fd0e5ed6de515dfd50a9cb808ea80f18b66c",
+      "role": "Exact original resource40/item0 bytes"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-0.bin",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-0.bin",
+      "bytes": 519,
+      "sha256": "8ab791ecb9fec04126d2e28c1f3fec845f7e51d04e40945684dc3cbce2ff8af6",
+      "role": "Exact original PictureHeadType plus opaque MSB-first plane"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-0-native-64.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-0-native-64.png",
+      "bytes": 887,
+      "sha256": "1a2fbd359951531c91f9293bd1cc09be66a977287947bb6f7d79a41b0a4fe318",
+      "role": "Lossless source-plane decoding with actual default native palette endpoints, not HD art or live LCD capture",
+      "width": 64,
+      "height": 64,
+      "inkPixels": 1927,
+      "zeroPixels": 2169,
+      "rgbaSha256": "8236e13d4239e8ee4cd7eeab12a6ec4b41637f908c5369bcac74b903439f7292"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-0-nearest-4x.png",
+      "bytes": 3404,
+      "sha256": "f2085396f6421e0e8def150534286cec4b8d93b661d3b9708e6c2b42cb8cc1d9",
+      "role": "Nearest-neighbour inspection enlargement only",
+      "width": 256,
+      "height": 256,
+      "rgbaSha256": "7e1cec5b0c8d8d2097af62ba7a82793977989eb2c1f4a416acd1fbbafc887564"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-1.bin",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-1.bin",
+      "bytes": 519,
+      "sha256": "48b5fbc3651c7f910e050170cbf8334cfd4dbe6383057a930425dbf2976d2084",
+      "role": "Exact original PictureHeadType plus opaque MSB-first plane"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-1-native-64.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-1-native-64.png",
+      "bytes": 898,
+      "sha256": "bd86cb47e356d314c2689c842bc67fbcdd9656eb7367dac3f4139e4b9f1b43b6",
+      "role": "Lossless source-plane decoding with actual default native palette endpoints, not HD art or live LCD capture",
+      "width": 64,
+      "height": 64,
+      "inkPixels": 1918,
+      "zeroPixels": 2178,
+      "rgbaSha256": "1449cc02f8668cf87fcc5d9b4a4da20349ddfbe0b49a0d4df937b6b27d96ff10"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-1-nearest-4x.png",
+      "bytes": 3430,
+      "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726",
+      "role": "Nearest-neighbour inspection enlargement only",
+      "width": 256,
+      "height": 256,
+      "rgbaSha256": "c37d4c9128bb35208e0cc1bd54128d755434fa8aab0102042769405688ace65a"
+    }
+  ]
+}

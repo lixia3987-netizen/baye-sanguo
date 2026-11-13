@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city4-held-round-20261026-v65-close-archive-part001.json",
+      "bytes": 2511020,
+      "sha256": "5addf6703eb686ad027b4b42976644c4571e1fa7ab10c5f18cbfb7ead3228734",
+      "blobs": 10
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-current-guard-000-entry.json",
+      "bytes": 8645388,
+      "sha256": "b5de697c5cf4536aa9ab56d7e924562ad047f8909fd47a2f9d20d686f81f7bc9",
+      "blob": "b5de697c5cf4536aa9ab56d7e924562ad047f8909fd47a2f9d20d686f81f7bc9",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-current-guard-000-prepare-observation.json",
+      "bytes": 8645388,
+      "sha256": "b5de697c5cf4536aa9ab56d7e924562ad047f8909fd47a2f9d20d686f81f7bc9",
+      "blob": "b5de697c5cf4536aa9ab56d7e924562ad047f8909fd47a2f9d20d686f81f7bc9",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-current-guard-000-system-pointer.json",
+      "bytes": 8645388,
+      "sha256": "b5de697c5cf4536aa9ab56d7e924562ad047f8909fd47a2f9d20d686f81f7bc9",
+      "blob": "b5de697c5cf4536aa9ab56d7e924562ad047f8909fd47a2f9d20d686f81f7bc9",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-key-000-after.json",
+      "bytes": 103090,
+      "sha256": "64c3f3ff4f99df14a57ae0dc9b38bc1fcc8347a955ef6ae5cbafae5f3dc14a90",
+      "blob": "64c3f3ff4f99df14a57ae0dc9b38bc1fcc8347a955ef6ae5cbafae5f3dc14a90",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-key-000-before.json",
+      "bytes": 92099,
+      "sha256": "ab9e4b73807801b9181bf64ea1ea5b97546aa3b62c32ceb12818e0d0c448b94c",
+      "blob": "ab9e4b73807801b9181bf64ea1ea5b97546aa3b62c32ceb12818e0d0c448b94c",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-retained-live-observation-000.json",
+      "bytes": 403288,
+      "sha256": "3d334b9fc75daf9a3e0bb64828c1ee1ecdcf3feecd1e91b5741327a620bd89ea",
+      "blob": "3d334b9fc75daf9a3e0bb64828c1ee1ecdcf3feecd1e91b5741327a620bd89ea",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-ticket-c35d6b8e2bdb62d539e17675e01d42c2c5849acb7e55a883ead57c23682d1dd2.json",
+      "bytes": 91634,
+      "sha256": "c35d6b8e2bdb62d539e17675e01d42c2c5849acb7e55a883ead57c23682d1dd2",
+      "blob": "c35d6b8e2bdb62d539e17675e01d42c2c5849acb7e55a883ead57c23682d1dd2",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/battle-close-ticket-ccfcf0d3c911e0cf8df2577dc0ec5bd9ad7cf632849f88abebced49f89d0a914.json",
+      "bytes": 91573,
+      "sha256": "ccfcf0d3c911e0cf8df2577dc0ec5bd9ad7cf632849f88abebced49f89d0a914",
+      "blob": "ccfcf0d3c911e0cf8df2577dc0ec5bd9ad7cf632849f88abebced49f89d0a914",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/host-before-known-close.json",
+      "bytes": 91707,
+      "sha256": "77b23686e80ae33b3b283c764a39620571af937745cd9f05a93e9d5f23f73c42",
+      "blob": "77b23686e80ae33b3b283c764a39620571af937745cd9f05a93e9d5f23f73c42",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/host-evidence/host-retained-001.json",
+      "bytes": 608,
+      "sha256": "6f44ae5a0fd4740dbcf8a89ee270202515ae4b50792f279e1fbb66ebb8dfa3b9",
+      "blob": "6f44ae5a0fd4740dbcf8a89ee270202515ae4b50792f279e1fbb66ebb8dfa3b9",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0022.json",
+      "bytes": 7193963,
+      "sha256": "546eb174be20134fcd9ad804c3667d2cfcbb803d16cfe1887f9d8959aadfbd53",
+      "blob": "546eb174be20134fcd9ad804c3667d2cfcbb803d16cfe1887f9d8959aadfbd53",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0023.json",
+      "bytes": 7193963,
+      "sha256": "d1d2ebbc2c10effbc32db07e406e276a7a21c0258d14357ce6073f92ea095cd1",
+      "blob": "d1d2ebbc2c10effbc32db07e406e276a7a21c0258d14357ce6073f92ea095cd1",
+      "roles": [
+        "Whole original actual Held close contract; supplied bytes only"
+      ]
+    }
+  ],
+  "logicalFiles": 12,
+  "uniqueBlobs": 10,
+  "rawNamedBytes": 41198089,
+  "uniqueRawBytes": 23907313,
+  "uniqueGzipBytes": 1881469,
+  "serializedPartBytes": 2511020,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

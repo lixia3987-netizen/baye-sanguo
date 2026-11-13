@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "createdAt": "2026-10-10T22:28:30.776Z",
+  "baseCommit": "42c48893af34e42306cd6c143547e6bd227a3744",
+  "status": "Bounded original mobile HD march accepted at 844x390; current modifications checkpoint",
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "fullNativeAbiAccepted": false,
+  "portableClosedArchive": false,
+  "width667Accepted": false,
+  "changes": [
+    "Give the bound mobile CITY march ownership of food and departure reports",
+    "Keep current mobile march button nodes across unchanged polls while rejecting changed owners",
+    "Size the mobile map using its actual canvas surface beside the march sidebar",
+    "Strengthen the trusted runtime scenario, natural report retirement and retained failure observations",
+    "Refresh shared JavaScript HTML cache versions"
+  ],
+  "staticRegression": {
+    "modules": 70,
+    "tests": 2188,
+    "passed": 2188,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "concurrency": 4,
+    "durationMs": 23738.1022,
+    "clang": "build/toolchain/emsdk/upstream/bin/clang.exe"
+  },
+  "testHistory": [
+    {
+      "log": "build/mobile-hd-march-fixes-suite-20261011.log",
+      "passed": 2184,
+      "failed": 2,
+      "note": "Early overworld test fixture lacked draw isolation and exact floating-boundary handling; original failures retained"
+    },
+    {
+      "log": "build/mobile-hd-march-frozen-suite-20261011.log",
+      "passed": 2186,
+      "failed": 0,
+      "note": "Before the final same-button DOM regression cases"
+    },
+    {
+      "log": "build/mobile-hd-march-dom-suite-20261011.log",
+      "passed": 2188,
+      "failed": 0,
+      "note": "Final frozen current product and tests"
+    }
+  ],
+  "runtime": [
+    {
+      "name": "first",
+      "result": "build/mobile-hd-march-844-first-20261011/result.json",
+      "startedAt": "2026-10-10T22:11:04.996Z",
+      "finishedAt": "2026-10-10T22:11:20.528Z",
+      "ok": false,
+      "accepted": false,
+      "marchAccepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: Current control can be revealed #hd-city-menu [data-hd-qty-cancel]\n    at reveal (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:34:14)\n    at async action (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:43:5)\n    at async cancel (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:85:13)\n    at async runMobileMarchChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:92:3)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:577:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:619:86",
+      "sourceCount": 62,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "historicalIdentityCount": 11,
+      "nativeKeys": 20,
+      "nativeLcdTouches": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-844",
+        "failure"
+      ]
+    },
+    {
+      "name": "second",
+      "result": "build/mobile-hd-march-844-second-20261011/result.json",
+      "startedAt": "2026-10-10T22:15:55.752Z",
+      "finishedAt": "2026-10-10T22:16:57.800Z",
+      "ok": false,
+      "accepted": false,
+      "marchAccepted": false,
+      "error": "Error: Timed out Touch cancel-food retires into its genuine owner\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:201:78)\n    at async action (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:53:59)\n    at async cancel (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:111:13)\n    at async runMobileMarchChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:118:3)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:577:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:619:86",
+      "sourceCount": 62,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "historicalIdentityCount": 11,
+      "nativeKeys": 21,
+      "nativeLcdTouches": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-844",
+        "failure"
+      ]
+    },
+    {
+      "name": "third",
+      "result": "build/mobile-hd-march-844-third-20261011/result.json",
+      "startedAt": "2026-10-10T22:18:18.960Z",
+      "finishedAt": "2026-10-10T22:19:33.084Z",
+      "ok": false,
+      "accepted": false,
+      "marchAccepted": false,
+      "error": "Error: Timed out Touch cancel-target retires into its genuine owner\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:201:78)\n    at async action (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:53:59)\n    at async cancel (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:115:13)\n    at async runMobileMarchChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:148:33)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:577:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:619:86",
+      "sourceCount": 62,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "historicalIdentityCount": 11,
+      "nativeKeys": 35,
+      "nativeLcdTouches": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-844",
+        "march-cancel-food-844",
+        "failure"
+      ]
+    },
+    {
+      "name": "fourth",
+      "result": "build/mobile-hd-march-844-fourth-20261011/result.json",
+      "startedAt": "2026-10-10T22:23:51.028Z",
+      "finishedAt": "2026-10-10T22:24:56.070Z",
+      "ok": true,
+      "accepted": true,
+      "marchAccepted": true,
+      "error": null,
+      "sourceCount": 137,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "historicalIdentityCount": 12,
+      "nativeKeys": 56,
+      "nativeLcdTouches": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-844",
+        "march-cancel-food-844",
+        "march-cancel-target-844",
+        "march-food-844",
+        "march-target-tip-844",
+        "march-target-844",
+        "march-classic-target-844",
+        "march-target-selected-844",
+        "march-armout-844",
+        "march-departed-844",
+        "march-genuine-battle-844"
+      ]
+    }
+  ],
+  "acceptedScope": [
+    "Original P1 Ma Teng HD march 8→9 at 844×390 via trusted controls",
+    "Two exact native cancellation paths; selected queue, grain, money and orders",
+    "Current target selection without native movement, explicit acknowledged confirmation and genuine strategy handoff"
+  ],
+  "marchVerdict": {
+    "ok": true,
+    "measuredWorldAccepted": true,
+    "scope": "Original P1 Ma Teng source8 -> enemy9; ordered selection/cancellation and measured HD march trace",
+    "origin": 8,
+    "target": 9,
+    "orderIndex": 170,
+    "slot": 0,
+    "distance": 1,
+    "selectionEvidence": "actual-ordered-person-IDs",
+    "selectedPersonIds": [
+      5,
+      58
+    ],
+    "tokens": [
+      6,
+      59,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "food": {
+      "confirmed": 504,
+      "before": 505,
+      "after": 1
+    },
+    "money": {
+      "cost": 0,
+      "before": 237,
+      "after": 237
+    },
+    "checked": {
+      "people": 200,
+      "cities": 38,
+      "queue": 2000,
+      "orderRows": 200,
+      "fighterBytes": 600,
+      "fighterFlags": 30
+    },
+    "limits": [
+      "Recorded worldSource fields only, not full native ABI",
+      "A pure checker cannot establish that fixtures are actual browser observations",
+      "Caller retains trusted CDP action, visible current selector/owner/geometry and source/cleanup evidence",
+      "No strategy month, battle result, natural release, real device or whole HD acceptance"
+    ],
+    "hdMarchTraceAccepted": true,
+    "wholeHdAccepted": false,
+    "fullHdAccepted": false,
+    "fullNativeAbiAccepted": false,
+    "actualInputProvenance": "caller-retained-original-trusted-trace",
+    "libraryGeneration": 2,
+    "marchSession": 3,
+    "phases": [
+      "persons",
+      "food",
+      "target-tip",
+      "target",
+      "target-selected",
+      "armout",
+      "departed"
+    ],
+    "input": {
+      "actionCount": 14,
+      "selectionActions": 2,
+      "ackTargetTip": 1,
+      "ackArmout": 1,
+      "nativeLcdTouches": 0
+    }
+  },
+  "cancellations": [
+    {
+      "stage": "food",
+      "verdict": {
+        "ok": true,
+        "cancellationAccepted": true,
+        "measuredWorldAccepted": true,
+        "cancelStage": "food",
+        "origin": 8,
+        "selectedPersonIds": [
+          5,
+          58
+        ],
+        "checkRedundantOnAddPerson": 0,
+        "restoredResidentQueue": [
+          5,
+          58,
+          60,
+          61,
+          62,
+          63,
+          65,
+          66
+        ],
+        "queueMayReorder": true,
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighters": 600,
+          "fighterIndex": 30
+        },
+        "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+      }
+    },
+    {
+      "stage": "target",
+      "verdict": {
+        "ok": true,
+        "cancellationAccepted": true,
+        "measuredWorldAccepted": true,
+        "cancelStage": "target",
+        "origin": 8,
+        "selectedPersonIds": [
+          5,
+          58
+        ],
+        "checkRedundantOnAddPerson": 0,
+        "restoredResidentQueue": [
+          5,
+          58,
+          60,
+          61,
+          62,
+          63,
+          65,
+          66
+        ],
+        "queueMayReorder": true,
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighters": 600,
+          "fighterIndex": 30
+        },
+        "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+      }
+    }
+  ],
+  "strategyHandoff": {
+    "keys": [
+      40,
+      39
+    ],
+    "battle": {
+      "active": 1,
+      "over": 0,
+      "wait": 1,
+      "phase": 1,
+      "aimType": 255,
+      "inputKind": 1,
+      "inputSeq": 5,
+      "actorIndex": 255,
+      "tip": "",
+      "skip": 0,
+      "result": "",
+      "cityIndex": 9,
+      "mapW": 32,
+      "mapH": 32,
+      "bout": 1,
+      "boutMax": 30,
+      "focusX": 4,
+      "focusY": 16
+    },
+    "hdBattle": true
+  },
+  "sourceVerification": {
+    "currentFiles": 137,
+    "allCurrentByteAndShaMatches": true,
+    "drift": [],
+    "exceptions": []
+  },
+  "userService": {
+    "before": {
+      "checkedAt": "2026-10-10T22:14:52.6763516Z",
+      "port": 8080,
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "path": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "after": {
+      "checkedAt": "2026-10-10T22:27:57.8693608Z",
+      "port": 8080,
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "path": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200,
+      "sameIdentity": true
+    }
+  },
+  "processVerification": {
+    "proof": "build/mobile-hd-march-owned-historical-after-20261011.json",
+    "checkedAt": "2026-10-10T22:27:58.3780598Z",
+    "identities": 45,
+    "allExactIdentitiesAbsent": true,
+    "note": "Read-only OS identity recheck; no additional process termination"
+  },
+  "pendingScope": [
+    "667x375 current march scenario",
+    "Other origins, periods, rejection/report families and full queue cases",
+    "Android/iOS real devices and fixed-device performance",
+    "Full native ABI, battle outcomes, full succession and whole HD",
+    "Phase4 retains the prior food-confirmed hint until a new target hint replaces it; dismissing it is JavaScript-only"
+  ],
+  "archiveNote": "Selected original logs/results/screenshots/proofs only. Private browser profiles and complete historical source trees remain local; failure result flags are unchanged.",
+  "archive": [
+    {
+      "source": "build/mobile-hd-march-844-first-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/first-result.json.gz",
+      "bytes": 3946419,
+      "sha256": "9ce9fcba63cc88b7792582b3b7bbaff2fe4b1a0f94abbf9d51a69b890bb37e96",
+      "gzipBytes": 244076,
+      "gzipSha256": "b9c0eca19a506be95f3ada49ba36aa0acba42cff59a05c508be91fc881c167c4",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-first-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/first-source-verification.json.gz",
+      "bytes": 10130,
+      "sha256": "7ac6c3c8f3666e75669fd145412cc61ca232dbb3d3c07a965607bd6d2a02183d",
+      "gzipBytes": 3405,
+      "gzipSha256": "d6e41f26a7f531fc094b0923dd33b2e2bc6a3114bc1be1a5ffd458ef7eef607a",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-first-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/first-owned-process-samples.jsonl.gz",
+      "bytes": 57048,
+      "sha256": "12e424dca8721237731db2f9b04beaccc2a84a16c2263efc61ddad3410c9ca4a",
+      "gzipBytes": 2146,
+      "gzipSha256": "a6cdb5f6b44a170f8ddeeff1958443b63dfd57321f1126d182ae33dd42e85969",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-first-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/first-executed-tool.mjs.gz",
+      "bytes": 70344,
+      "sha256": "c803cdeba2f2bea4146ed8644628571e27f848fd31e8970d51ced186b939b9c3",
+      "gzipBytes": 20908,
+      "gzipSha256": "335a2194ecb05976b9e6a07f6a2893c4bbd938a48e2562cd835989e77411ac76",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-first-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/first-cli.log.gz",
+      "bytes": 1639,
+      "sha256": "645442f1e56a4fb4f39740ffbb98fcc86a457afb318fd167bf8fa99611210642",
+      "gzipBytes": 424,
+      "gzipSha256": "cd132d4ff2106eb36120ded3f71289332fbf8e8c1a28b1b1eac5f198f9a7037f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-first-20261011/failure.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/first-failure.png.gz",
+      "bytes": 58369,
+      "sha256": "ed2e6742359b3828c06aa1bae381a5a116428245e9c3d5d877ce1eb05cdc63e1",
+      "gzipBytes": 56632,
+      "gzipSha256": "10182cacf23f263b858b625f356c2dd16e6d21c19d3e2a0a67a5963fac5e3f05",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-second-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/second-result.json.gz",
+      "bytes": 4318907,
+      "sha256": "27531718477755373220c95307e0362f8c7931dfdbc52f4867fc45be01f395aa",
+      "gzipBytes": 271847,
+      "gzipSha256": "2e743620e8a70ccc37fc8dd7b16104ca0b8ad19805a56dc78f62b0b66b4e6929",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-second-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/second-source-verification.json.gz",
+      "bytes": 10130,
+      "sha256": "7fb5c458413d1a0f3bb8c79e0982088a54ee6b1beb9b1b4596354c1d586c047e",
+      "gzipBytes": 3399,
+      "gzipSha256": "d3c1eb7c3e14cb4d9bb4d716c102f22bf5e0f9eef0536e3ba070c5338c394c74",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-second-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/second-owned-process-samples.jsonl.gz",
+      "bytes": 52207,
+      "sha256": "54ceb85873a8d03e7cb8843ac954f129b9662cb8fb71f87e544b257d3339fc7e",
+      "gzipBytes": 2112,
+      "gzipSha256": "a6422ba3a80ae5a9b5c2fca670550b3ce1efb7f79c14d94cf1723cb67e85fb97",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-second-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/second-executed-tool.mjs.gz",
+      "bytes": 70354,
+      "sha256": "f39ff52260d055b248f267e2cb88b4076b521f37f609074085c934902488d14d",
+      "gzipBytes": 20913,
+      "gzipSha256": "088c7919bb8ec18d60e2735f8f620f5696e7e184518ab5cb59351f04edb384eb",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-second-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/second-cli.log.gz",
+      "bytes": 1574,
+      "sha256": "ff97263c190c392b7f41911828434ff7c5fff626af69e3f255aa3db1e01eff39",
+      "gzipBytes": 399,
+      "gzipSha256": "712436d070833404ef6dbf2c9ec07f0110a3d5c0215f27398104c0ae9b761f9a",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-second-20261011/failure.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/second-failure.png.gz",
+      "bytes": 578597,
+      "sha256": "7b9f8476bb2f557c1e6795d55e02e1f824646346c40939388aa9de3e98efe0e7",
+      "gzipBytes": 578762,
+      "gzipSha256": "b9456ba595f9d9866e5d4bf609f5c2e014c4ae8dd8b30a5911e32bb489431901",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-third-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/third-result.json.gz",
+      "bytes": 13491143,
+      "sha256": "d90fe8545dff1a64780680a0b01c9bea9d22f3af8f33db33a9ea6adf3fc8f056",
+      "gzipBytes": 778302,
+      "gzipSha256": "2033a00fd6dc604019f998da6a2ac0d52e7d3efd58828bc7b57aa848418263c6",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-third-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/third-source-verification.json.gz",
+      "bytes": 10130,
+      "sha256": "36ef4db2437ef96ad8d6285e64483f7c8540fdaec10887113d833120ec398412",
+      "gzipBytes": 3401,
+      "gzipSha256": "2fddd67e34cbff638b5e76217a3fe2d7c499feffe7542b8a6a0b83b6be853e0e",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-third-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/third-owned-process-samples.jsonl.gz",
+      "bytes": 63524,
+      "sha256": "18420a7e9de518954841d93db91fd3ab9c73cebc85be642203dd0632bd539eaf",
+      "gzipBytes": 2232,
+      "gzipSha256": "2058a0da0e024df1f901d46456abc9164f1c5a8a40d6cdd15755062fbfd7f0e8",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-third-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/third-executed-tool.mjs.gz",
+      "bytes": 70354,
+      "sha256": "f39ff52260d055b248f267e2cb88b4076b521f37f609074085c934902488d14d",
+      "gzipBytes": 20913,
+      "gzipSha256": "088c7919bb8ec18d60e2735f8f620f5696e7e184518ab5cb59351f04edb384eb",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-third-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/third-cli.log.gz",
+      "bytes": 1631,
+      "sha256": "675f19adc4870448d7e3aaa747d851324ada52ad917957c82782828961f0add5",
+      "gzipBytes": 412,
+      "gzipSha256": "535840c77a03a2d021192fe158346b3d5f3d52a05448c0ef50262463bd8b48e0",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-third-20261011/failure.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/third-failure.png.gz",
+      "bytes": 409232,
+      "sha256": "0c6a43baf4fcfd21345f8ca31df794c74d2c013f4f7ef78b0dccb0c47d15c9ab",
+      "gzipBytes": 409312,
+      "gzipSha256": "1378efa7ff1b9f2dd541ea1b30a4845b45d10c671ea1dda795c0f2319f9c0685",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-result.json.gz",
+      "bytes": 41463892,
+      "sha256": "be665e82ad1bbba47ee8d6897c72416ed935c0b0765b700526b95696982232c4",
+      "gzipBytes": 2377882,
+      "gzipSha256": "d62e45914d3ccdc5874fc8d73baa774dae126b0bf292acd8a0e7b01400404fd6",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-source-verification.json.gz",
+      "bytes": 26286,
+      "sha256": "02c2359fae887ada2ea5e7e8b8ebaed6a09232f28f59be6a10ce0e54589d4244",
+      "gzipBytes": 8746,
+      "gzipSha256": "4347e17db4f0dfb7448b36735f04135bbe0d69b17bf33e281ab4f8056a0a69c2",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-owned-process-samples.jsonl.gz",
+      "bytes": 135630,
+      "sha256": "e2bac874d4820b3a2526c4729cfaec630638053bd4637130165fbe083e96dd06",
+      "gzipBytes": 3000,
+      "gzipSha256": "5e18a9a8399ab04979db26c5e8e92ea74e34515ceb0a4c93d36275605c666ef1",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-executed-tool.mjs.gz",
+      "bytes": 70402,
+      "sha256": "42ed1658ff1f2ac4cae67d2c2c088a2152488adcc371ebaf333ffc10e64d0883",
+      "gzipBytes": 20918,
+      "gzipSha256": "5f87aa66dcd8ef1237797d0888fdb574211deafa24567664897f269999c08d10",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-cli.log.gz",
+      "bytes": 2179,
+      "sha256": "4a2ef4aa6e7f2fd922244a5687f20c07d3d96dfcb818110f729d5dcf6d280b36",
+      "gzipBytes": 455,
+      "gzipSha256": "45740bf962833890f7ea91739af60372ebc0d7db4024bf3152943a1220ef12e1",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/march-food-844.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-march-food-844.png.gz",
+      "bytes": 53100,
+      "sha256": "27bae52b49cdc734db5fbbd4e638f8d9fd8745a9d32ad211ee3bd52ba924070f",
+      "gzipBytes": 52054,
+      "gzipSha256": "cdb6632f8b145ccf2b7aa76ccc7e4a327165ceb8e8ac437d080073e4c65540b4",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/march-target-844.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-march-target-844.png.gz",
+      "bytes": 445946,
+      "sha256": "53dfbfc30b6e16ad6539a764e7161a0b48189f7ce80523fa5c3876f693a97976",
+      "gzipBytes": 446067,
+      "gzipSha256": "a535b109ce7faa9f39a37caf5438793e78be6c5ed5a393ba0a90d209327615e9",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/march-target-selected-844.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-march-target-selected-844.png.gz",
+      "bytes": 406726,
+      "sha256": "20b231b69606a5a4b060583abd219f0c02f34b235f20451a7b8281ce437563f6",
+      "gzipBytes": 406810,
+      "gzipSha256": "c61125150318e660c678508ba5d4dbce383318d77640ec6a5ccb8b6712bf5440",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/march-classic-target-844.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-march-classic-target-844.png.gz",
+      "bytes": 29433,
+      "sha256": "c6efc1e191d50c475b259b39c1f2ec239f0babba193b16d727de78d50bdc028d",
+      "gzipBytes": 27464,
+      "gzipSha256": "afecc98a140a556742d57d610a5c66df23c0e0cedb385516f0eda60b47c33af3",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/march-armout-844.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-march-armout-844.png.gz",
+      "bytes": 62438,
+      "sha256": "cfb3050bf2d2267af2ce2ae5c0e3bb47153ba3ce9e2a3db123a92241e321ee62",
+      "gzipBytes": 61062,
+      "gzipSha256": "5642e9477a2fe020a956815e8ba64d4ed7f6a723ebc10d18ccb1fa3f746e9b61",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/march-departed-844.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-march-departed-844.png.gz",
+      "bytes": 61405,
+      "sha256": "7ea5f5f29a76d365a56b828592da69a17c29cda77ab4f7228db4a3d6d443e312",
+      "gzipBytes": 59825,
+      "gzipSha256": "347abc1806321eac10d05c1c37a05dac117c3c180d52c3395e9c872877110605",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-844-fourth-20261011/march-genuine-battle-844.png",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/fourth-march-genuine-battle-844.png.gz",
+      "bytes": 61771,
+      "sha256": "8649a87ac82eebc48c1267b1a59360e8d57ff53e2e82ef24f31ad2559555ceac",
+      "gzipBytes": 59837,
+      "gzipSha256": "ba99b059abc361a8a9aedaede0897bf1be230121200cf6bb113d01a4d4d1bba0",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-fixes-suite-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-fixes-suite-20261011.log.gz",
+      "bytes": 531106,
+      "sha256": "76d77361c7cc390a843124397305335c7ba24fe2a519b521d084bd4737f5decc",
+      "gzipBytes": 87587,
+      "gzipSha256": "e8a3dd80be060f9a4eff0f78cd9c29a88f4a31d934a7278a84193693caf4604d",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-frozen-suite-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-frozen-suite-20261011.log.gz",
+      "bytes": 529416,
+      "sha256": "2f4411e77e5738a55aa4881fecc2e1bde90a7ebb54a749a6e2c8437ef09e7a42",
+      "gzipBytes": 87080,
+      "gzipSha256": "08677736c9c00f39fb6ca22f24662e1d0290bde4872f45971b03b748266794a8",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-dom-suite-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-dom-suite-20261011.log.gz",
+      "bytes": 529907,
+      "sha256": "97716f1f070289e28c74e93de620c51b3d426c0c338229990b7c064fe86dcd6b",
+      "gzipBytes": 87178,
+      "gzipSha256": "434d7b00825d957eced2bbbfc3a4db7c81db93129670859b3d2dfb20ab37af3f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-city-dialog-freeze-v2.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-city-dialog-freeze-v2.json.gz",
+      "bytes": 3086,
+      "sha256": "087dcf5ebac8e83c793e2f15368c9b4ea4e451491e99eb37738bd6693f235346",
+      "gzipBytes": 1457,
+      "gzipSha256": "417262773e4e96721b9eae4787a023058906ca37b6eb106a4b02f14346f5893b",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-dom-freeze-v3.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-target-dom-freeze-v3.json.gz",
+      "bytes": 5421,
+      "sha256": "fd3a8391d5094d482be885f91832a4fd3aa656a759adcd36d293b806fc35f261",
+      "gzipBytes": 2035,
+      "gzipSha256": "3714245b4785fafdccb4896f7592f79264469f837bbc09233e38449507cab9c2",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-dom-delta-v3.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-target-dom-delta-v3.json.gz",
+      "bytes": 825,
+      "sha256": "97741cbb1927ce51f9d56268623214579f5a178b121d53c6f0ae46c76dd45991",
+      "gzipBytes": 506,
+      "gzipSha256": "d868129517e62a3dfdde156fd57f055779480d909523aa6e33e28865381f47ec",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-march-map-surface-geometry-freeze-v1.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-march-map-surface-geometry-freeze-v1.json.gz",
+      "bytes": 5673,
+      "sha256": "8e3e285f7c6f6c158c477412b010cdc362d2a9557935844395883a895034e29a",
+      "gzipBytes": 2011,
+      "gzipSha256": "d35b2102cb35af042e8b6dd26099373957156a4f442f4e9d4c6c81a6ff8c6bd4",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-user-service-before-20261011.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-user-service-before-20261011.json.gz",
+      "bytes": 203,
+      "sha256": "90482e281d45f44179670ae6fa0f201b7dc15069a1462e9316cac0848dd346ad",
+      "gzipBytes": 168,
+      "gzipSha256": "3c2bb64e314e194ddcbde4e1c8befb0c3bccc5b01a75a29e027a33f38c30ca9a",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-user-service-after-20261011.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-user-service-after-20261011.json.gz",
+      "bytes": 228,
+      "sha256": "5371ecc30897d0e769c0c89dc16216fbcc319dd4efb4109540cbca7833a3388d",
+      "gzipBytes": 184,
+      "gzipSha256": "7083c3a7952cffb959e5a919de4f7c165394a242ba378f1e535bd5388874fee8",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-owned-historical-after-20261011.json",
+      "archived": "docs/validation/m5-mobile-march-runtime-20261011/raw/mobile-hd-march-owned-historical-after-20261011.json.gz",
+      "bytes": 16497,
+      "sha256": "d8776cd10ffc07a41027e7ca9a6e957adff0a133f446bd8041e86f316d0015fb",
+      "gzipBytes": 857,
+      "gzipSha256": "dfe5ecb0ec1a6173b4500c93943169a21034395bb8b005ee4064e6c49e99e7ee",
+      "roundTripExact": true
+    }
+  ]
+}

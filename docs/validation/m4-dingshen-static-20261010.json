@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-dingshen15-static-source-validation",
+  "date": "2026-10-10",
+  "baseRevision": "2e59500c74aa403e243eecd77a17458ba5082767",
+  "scope": "Original standard LIB only. Independent skill15/SPE39 bridge and renderer wiring with existing original QIMEN39 art. Static source checks only.",
+  "sourceChecks": true,
+  "actual15Accepted": false,
+  "hdAccepted": false,
+  "fallbackRuntimeAccepted": false,
+  "actualRuntimePending": true,
+  "newNativeBuild": false,
+  "wholeHdAccepted": false,
+  "nativeContract": {
+    "skillId": 15,
+    "skillRowIndex": 14,
+    "target": "enemy",
+    "mp": 20,
+    "state": 3,
+    "moveOnHit": 1,
+    "power": 0,
+    "destroy": 0,
+    "speId": 39,
+    "resourceIndex": 0,
+    "kind": 2,
+    "startFrm": 0,
+    "endFrm": 7,
+    "count": 8,
+    "picmax": 2,
+    "fingerprint": "fnv1a32:6b0ebc5a:1084",
+    "window": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "unitTicks": 25,
+    "marker": {
+      "dingshenVersion": 1,
+      "opaqueCoverageVersion": 1,
+      "skillId": 15
+    },
+    "numericPostlude": false,
+    "numericHold": false,
+    "transientResult": "Native SKILL movie/resultKind1/value0 is valid; result.scene owns its nested event ticket.",
+    "recovery": "Standard FgtDrvState may reset state3 each bout by rand()%60 < IQ>>1; no fixed duration or RNG write. Movement is recomputed by a later native CountMoveP call."
+  },
+  "manifest": {
+    "entries": 52,
+    "previousEntries": 51,
+    "previousObjectsAndOrderPreserved": true,
+    "newEntry": {
+      "speId": 39,
+      "resourceIndex": 0,
+      "kind": 2,
+      "startFrm": 0,
+      "endFrm": 7,
+      "count": 8,
+      "picmax": 2,
+      "resourceFingerprint": "fnv1a32:6b0ebc5a:1084",
+      "resourceLength": 1084,
+      "units": [
+        {
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 1,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 2,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 3,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 4,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 5,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 6,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 7,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/qimen-39/picture-0.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 64,
+          "logicalHeight": 64,
+          "nativeWidth": 64,
+          "nativeHeight": 64,
+          "mask": 0
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/qimen-39/picture-1.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 64,
+          "logicalHeight": 64,
+          "nativeWidth": 64,
+          "nativeHeight": 64,
+          "mask": 0
+        }
+      ],
+      "opaqueCoverageVersion": 1,
+      "dingshenVersion": 1,
+      "skillId": 15
+    },
+    "source": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 586439,
+      "sha256": "bec59fa2b68528db579a445b13d584e2de1d9dcb6f56c6e7153af15775de8020"
+    },
+    "unchangedArt": [
+      {
+        "path": "assets/hd-spe/qimen-39/picture-0.png",
+        "bytes": 2458901,
+        "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882"
+      },
+      {
+        "path": "assets/hd-spe/qimen-39/picture-1.png",
+        "bytes": 2485449,
+        "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2"
+      }
+    ]
+  },
+  "sourceFiles": [
+    {
+      "path": "js/bridge.js",
+      "bytes": 145896,
+      "sha256": "6bdee30bc8995ada436a3365f29d61c3758c2034be18fb783f53794d209a391e"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 94351,
+      "sha256": "98d672f2c1f4465f6402ac5328dba795cb0ce777f06e66cea4d015f2c80c6f86"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 586439,
+      "sha256": "bec59fa2b68528db579a445b13d584e2de1d9dcb6f56c6e7153af15775de8020"
+    },
+    {
+      "path": "scripts/generate-hd-spe-dingshen-entry.mjs",
+      "bytes": 7270,
+      "sha256": "2108b7ed14febbe22838b1896a622ae41337087117dae60233f4da382265a64f"
+    },
+    {
+      "path": "scripts/specs/hd-spe-dingshen.json",
+      "bytes": 1730,
+      "sha256": "4cb91f3adbb22543ae7dc8ffc4711d0f31dadb3985473aeb62c775d5b26d4ea9"
+    },
+    {
+      "path": "scripts/test-hd-dingshen-bridge.mjs",
+      "bytes": 12524,
+      "sha256": "6e1f5bd328f005501ca875846541c1400d5c70ef7151586931d98df301c45ea7"
+    },
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 176465,
+      "sha256": "661041cf834dd104ee2d5ac709b6ff1f595500c488e75a42dbbbdb82fffdd848"
+    }
+  ],
+  "regression": {
+    "execution": {
+      "path": "build/r31-dingshen-full-source-tests-v1-execution.json",
+      "bytes": 3697,
+      "sha256": "ad1a56d103dc805946b930f8ba82e7166bc7ec137538862a535fd6f68d3d7fc4"
+    },
+    "summary": {
+      "tests": 1293,
+      "pass": 1293,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "moduleCount": 53,
+    "sourceCount": 475,
+    "pre": {
+      "path": "build/r31-dingshen-full-source-tests-v1-sources-pre.json",
+      "bytes": 78297,
+      "sha256": "44311b68b22e34e25b0b69ebb118918e56d06edec8ba5b5670f18f9211670382"
+    },
+    "post": {
+      "path": "build/r31-dingshen-full-source-tests-v1-sources-post.json",
+      "bytes": 78297,
+      "sha256": "44311b68b22e34e25b0b69ebb118918e56d06edec8ba5b5670f18f9211670382"
+    },
+    "drift": [],
+    "added": [],
+    "independentAudit": {
+      "path": "build/r31-dingshen-full-source-tests-independent-audit-v1.json",
+      "bytes": 9410,
+      "sha256": "e29b17f3dc87c0999fadbd72a0a6fc70e582f2be869045df4a6f9647f97b058f"
+    }
+  },
+  "baseline": {
+    "execution": {
+      "path": "build/r31-dingshen-prior-bridge-baseline-v1-execution.json",
+      "bytes": 2115,
+      "sha256": "e3b7f05890dbb9966d13834ab09af91c09df1e00664dd7256fd8c7fdea66a6d4"
+    },
+    "summary": {
+      "tests": 49,
+      "pass": 40,
+      "fail": 9,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "expectedFailure": true,
+    "scope": "New bridge tests on prior2e59500 bridge in an isolated build tree; nine source authorization gaps, not game failures."
+  },
+  "review": {
+    "path": "build/r31-dingshen-current-source-independent-review-v2.json",
+    "bytes": 7296,
+    "sha256": "f508fd7f5ec9bb828526f54df7f27767958fc6517a7836172513811073583408"
+  },
+  "engine": [
+    {
+      "path": "js/baye.js",
+      "bytes": 192446,
+      "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4535346,
+      "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29983,
+      "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 16650,
+      "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+    }
+  ],
+  "actualRuntime": {
+    "installed1080": false,
+    "installed720": false,
+    "missing1080": false,
+    "classic1080": false,
+    "browserStarted": false,
+    "serverStarted": false
+  },
+  "nextAcceptance": [
+    "Public original save LOAD and legal31→32 combat, current native enemy AIM, normal MP20 selection and natural hit.",
+    "Independent state0→3 and move1, unchanged HP/arms, all8 native callbacks and copied physical pixels, HD outside authenticated64 square unchanged.",
+    "Actual state report, native natural0ACK when it occurs or acknowledged report, movie/result/report retirement, mode fallback and full native roster restoration."
+  ],
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-dingshen-static-20261010/runtime-index.json",
+      "bytes": 21179,
+      "sha256": "e1b6c03df4f543aa54950d161f9a9ef8b0250485db6ebdb145d9a9258c0fe673"
+    },
+    "logicalFiles": 41,
+    "uniqueGzip": 40,
+    "portableClosedArchive": false,
+    "originalsDeleted": false
+  },
+  "boundaries": [
+    "VM raw-ABI fixtures and compiled source tests are not actual player-cast, browser HD pixels or real fallback acceptance.",
+    "This source change does not accept or rewrite previous skill14/16/20 runtime records, mobile/performance or whole-game HD.",
+    "Source hashes refer to physical working-tree bytes; CRLF and Git-normalized LF remain separate byte domains.",
+    "Only original runtime rendering and supporting source tests were changed; LIB/native build/artwork and user browser/service were not operated."
+  ]
+}

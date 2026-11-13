@@ -1,0 +1,1155 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-08",
+  "scope": "Actual image-by-image visual review of the first authentic HD ordinary attack interval21:9:17 only; 6 native/HD SPE pairs plus15 numeric/hold pairs. No new browser run or production change by this audit.",
+  "method": "tools.view_image inspected all42 actual original PNG files; source routine and actual NUM15 packed bottom rows checked independently, and held native PNG ink rows were read directly without image editing.",
+  "imageCount": 42,
+  "attackFramePairs": 6,
+  "numericHoldPairs": 15,
+  "files": [
+    {
+      "path": "build/r09-attack-staged-hd/attack-0000-event5-spe-frame-native.png",
+      "bytes": 3940,
+      "sha256": "f9d563127c82a589c2f12fcf7b33d65e9cee82f5931bee3079e783d4dae88ba4",
+      "index": 0,
+      "presentation": "native",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 2,
+      "frame": 10,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0000-event5-spe-frame-hd.png",
+      "bytes": 1708651,
+      "sha256": "deaa0693ef181a74abbb80d399ee8c295ef8b37ca5410abdf3d46ebc1e5f7bde",
+      "index": 0,
+      "presentation": "HD",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 2,
+      "frame": 10,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0001-event5-spe-frame-native.png",
+      "bytes": 3995,
+      "sha256": "4a8d42a0564e8eac6ac7a17aafc9994564d029c4c41161ce1c38977d49fb1cb4",
+      "index": 1,
+      "presentation": "native",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 3,
+      "frame": 11,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0001-event5-spe-frame-hd.png",
+      "bytes": 1647817,
+      "sha256": "557a9c828850112fd9db6979ef64c1df519c235c7577b8c9934bf7d847d569b0",
+      "index": 1,
+      "presentation": "HD",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 3,
+      "frame": 11,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0002-event5-spe-frame-native.png",
+      "bytes": 3980,
+      "sha256": "684a3d3feab633f8febebd41b5ec90df021d12f3d6fe9f2fdd19035979d286a3",
+      "index": 2,
+      "presentation": "native",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 4,
+      "frame": 12,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0002-event5-spe-frame-hd.png",
+      "bytes": 1599201,
+      "sha256": "5245c963c7178abd7410ebbfd3e788e71bf8ce0df2f2d5649711bbd32b8a6ff4",
+      "index": 2,
+      "presentation": "HD",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 4,
+      "frame": 12,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0003-event5-spe-frame-native.png",
+      "bytes": 4060,
+      "sha256": "c45967cc44224106da4a76e1c7bdbad089aa767f9670bfdcc37e901d10a2b2aa",
+      "index": 3,
+      "presentation": "native",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 5,
+      "frame": 14,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0003-event5-spe-frame-hd.png",
+      "bytes": 1573639,
+      "sha256": "74e6cb3d0957df752e07e4dea09da886b3e2e1fe8e78c3e2127c637ab9528225",
+      "index": 3,
+      "presentation": "HD",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 5,
+      "frame": 14,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0004-event5-spe-frame-native.png",
+      "bytes": 4049,
+      "sha256": "77a62763b0b2fcdf07ca8f808aa2a690d81f8eb93255dfea1a278eeda18045d2",
+      "index": 4,
+      "presentation": "native",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 6,
+      "frame": 15,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0004-event5-spe-frame-hd.png",
+      "bytes": 1566678,
+      "sha256": "b8b5d26a2f54fcdee9a2c5f8f3d77ce91a09174fcdc544f8a031a0e97b362915",
+      "index": 4,
+      "presentation": "HD",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 6,
+      "frame": 15,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0005-event5-spe-frame-native.png",
+      "bytes": 4035,
+      "sha256": "6295ae8aa475aaad221c14d79e3b26a2336e3ae14bae8290f8f31e980a2e53eb",
+      "index": 5,
+      "presentation": "native",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0005-event5-spe-frame-hd.png",
+      "bytes": 1451097,
+      "sha256": "9bded9af35e61d0001e513ca3b7ee4c18fe9a035ce2ad0292a3a3089078d954d",
+      "index": 5,
+      "presentation": "HD",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0006-event5-after-spe-native.png",
+      "bytes": 4072,
+      "sha256": "ed4ee4b47d152d1953b434ac28fc37ffb966fe6cddccdfa85a76941b5182aa18",
+      "index": 6,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 56,
+          "firstY": 56,
+          "drawCount": 1
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0006-event5-after-spe-hd.png",
+      "bytes": 1425380,
+      "sha256": "09056ddebc198dc8a094fbec209eb5d4350c8806692e34a13a2b19049d65bfec",
+      "index": 6,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 56,
+          "firstY": 56,
+          "drawCount": 1
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0007-event5-after-spe-native.png",
+      "bytes": 4072,
+      "sha256": "8379750e8e6f77d27b81877264fa6e338baaf2f86f86337d645f8ef8f08f43e9",
+      "index": 7,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 55,
+          "firstY": 56,
+          "drawCount": 2
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0007-event5-after-spe-hd.png",
+      "bytes": 1423213,
+      "sha256": "8ba19f43716bdc19d3fa60c37b1925a570f95c4ad4d94cc3bc80096df18252ce",
+      "index": 7,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 55,
+          "firstY": 56,
+          "drawCount": 2
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0008-event5-after-spe-native.png",
+      "bytes": 4068,
+      "sha256": "a62019de3e8287ca109b9ff55afaa6f8ad7af1342fd8ce8f6b07f287cafd5936",
+      "index": 8,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 54,
+          "firstY": 56,
+          "drawCount": 3
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0008-event5-after-spe-hd.png",
+      "bytes": 1421053,
+      "sha256": "dadd4b0e773c26ea3eb721f0f024cae2146ee0b5810d065bc896c9503508740b",
+      "index": 8,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 54,
+          "firstY": 56,
+          "drawCount": 3
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0009-event5-after-spe-native.png",
+      "bytes": 4070,
+      "sha256": "3a94628d79c07b18462143741883c3a668bd885927ca710af361045a0bc6e176",
+      "index": 9,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 53,
+          "firstY": 56,
+          "drawCount": 4
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0009-event5-after-spe-hd.png",
+      "bytes": 1419173,
+      "sha256": "73da121495ebca44d3c27ac35ae1aa3002932176edbf30960b8fba622113874f",
+      "index": 9,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 53,
+          "firstY": 56,
+          "drawCount": 4
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0010-event5-after-spe-native.png",
+      "bytes": 4065,
+      "sha256": "7d3f3cdd1d3cc6190e7d93b0441528798318fdfa4449ff19e6d2ec5b7d507d98",
+      "index": 10,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 52,
+          "firstY": 56,
+          "drawCount": 5
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0010-event5-after-spe-hd.png",
+      "bytes": 1416970,
+      "sha256": "13a935bc3d4ff89e5ec6a86257c0ff0eb087a5d193c528575caa2397caf6cb26",
+      "index": 10,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 52,
+          "firstY": 56,
+          "drawCount": 5
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0011-event5-after-spe-native.png",
+      "bytes": 4067,
+      "sha256": "2d8fa7e77f2b7c00d9b3baf941a33364ab270aebf28dee1f68614bb2dff5266f",
+      "index": 11,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 51,
+          "firstY": 56,
+          "drawCount": 6
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0011-event5-after-spe-hd.png",
+      "bytes": 1415070,
+      "sha256": "0bb6baae71cb9715646d7be204bc288e2534aeb1ee6b7047f802d1b1e67ab757",
+      "index": 11,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 51,
+          "firstY": 56,
+          "drawCount": 6
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0012-event5-after-spe-native.png",
+      "bytes": 4068,
+      "sha256": "91eacf19976317ebb073ded3f470ea41730be2a3edbcbed4e11eed8cecf20e67",
+      "index": 12,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 50,
+          "firstY": 56,
+          "drawCount": 7
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0012-event5-after-spe-hd.png",
+      "bytes": 1413413,
+      "sha256": "04794068585c4dd8f4261419b2afe1ae5d82407cbc9aea56a162d0c222a4f2f6",
+      "index": 12,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 50,
+          "firstY": 56,
+          "drawCount": 7
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0013-event5-after-spe-native.png",
+      "bytes": 4071,
+      "sha256": "1de11cad6cda0cf4aadd8a85243fa9d8fea0da9cc2908514a4632bf45065c558",
+      "index": 13,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0013-event5-after-spe-hd.png",
+      "bytes": 1411397,
+      "sha256": "bb46c1d496d9018ae380d2941e22768d4711f5d59c476d5a485a6073f2c1e823",
+      "index": 13,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0014-event5-after-spe-native.png",
+      "bytes": 4124,
+      "sha256": "7b96e5943045a315bfdb378a3c798c79cc06c44af0925d1770a08e0843707f43",
+      "index": 14,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 56,
+          "firstY": 56,
+          "drawCount": 1
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0014-event5-after-spe-hd.png",
+      "bytes": 1400618,
+      "sha256": "7d764ce2e51e366373a8373b555ae7bebde5a201573a4252def1f1ef64809df7",
+      "index": 14,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 56,
+          "firstY": 56,
+          "drawCount": 1
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0015-event5-after-spe-native.png",
+      "bytes": 4131,
+      "sha256": "d0b68a1637afcc08a96a4aa3f6607a23c3c7045b824580549cfdd0ba66b94e97",
+      "index": 15,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 55,
+          "firstY": 56,
+          "drawCount": 2
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0015-event5-after-spe-hd.png",
+      "bytes": 1399769,
+      "sha256": "2b99c96f60a78ff4a3cb9a46b11758faaf3a6bb919f1cf483b2647eccc802653",
+      "index": 15,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 55,
+          "firstY": 56,
+          "drawCount": 2
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0016-event5-after-spe-native.png",
+      "bytes": 4132,
+      "sha256": "4a81d5fe88bb863eac147fa49f31b558ac134805d4d217a3a8efa6de26915b76",
+      "index": 16,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 53,
+          "firstY": 56,
+          "drawCount": 4
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0016-event5-after-spe-hd.png",
+      "bytes": 1397547,
+      "sha256": "e6cab613a3647212b3ee8256ceb32d85002c20bd98d0dfcc0ba401c0fa25a2af",
+      "index": 16,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 53,
+          "firstY": 56,
+          "drawCount": 4
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0017-event5-after-spe-native.png",
+      "bytes": 4123,
+      "sha256": "54eab15ff3098c73c8a54a54a328749869f6aafccbf0dd69c01b9d792281209b",
+      "index": 17,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 52,
+          "firstY": 56,
+          "drawCount": 5
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0017-event5-after-spe-hd.png",
+      "bytes": 1396588,
+      "sha256": "115198c6307dd4662101777d6fa5b48151beab4844a80ea5e1b2b7bee0118b30",
+      "index": 17,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 52,
+          "firstY": 56,
+          "drawCount": 5
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0018-event5-after-spe-native.png",
+      "bytes": 4119,
+      "sha256": "e4a4a2b8874d9ab2aaa968601d65252a3e4166adfcc2efb3cc7803f74c16c8b8",
+      "index": 18,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 51,
+          "firstY": 56,
+          "drawCount": 6
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0018-event5-after-spe-hd.png",
+      "bytes": 1395629,
+      "sha256": "307335a5370e9dfb209a38d9b8fd111f3938bdd1532b5f4bd237d01a5dd29325",
+      "index": 18,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 51,
+          "firstY": 56,
+          "drawCount": 6
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0019-event5-after-spe-native.png",
+      "bytes": 4117,
+      "sha256": "ffbe6ad2f3727b340dc40f55ce444d910e2045bd742f58e489f029e0ec122601",
+      "index": 19,
+      "presentation": "native",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0019-event5-after-spe-hd.png",
+      "bytes": 1393234,
+      "sha256": "507ee4a7e94671094a4ab2a5f54e7bebdeffa14a7205b114c43598c863beb955",
+      "index": 19,
+      "presentation": "HD",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0020-event5-held-lcd-readback-native.png",
+      "bytes": 4117,
+      "sha256": "ffbe6ad2f3727b340dc40f55ce444d910e2045bd742f58e489f029e0ec122601",
+      "index": 20,
+      "presentation": "native",
+      "stage": "held-lcd-readback",
+      "phase": "hold",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    },
+    {
+      "path": "build/r09-attack-staged-hd/attack-0020-event5-held-lcd-readback-hd.png",
+      "bytes": 1393234,
+      "sha256": "507ee4a7e94671094a4ab2a5f54e7bebdeffa14a7205b114c43598c863beb955",
+      "index": 20,
+      "presentation": "HD",
+      "stage": "held-lcd-readback",
+      "phase": "hold",
+      "commit": 9,
+      "frame": 17,
+      "hurt": 14,
+      "digits": [
+        {
+          "digit": 1,
+          "x": 55,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        },
+        {
+          "digit": 4,
+          "x": 61,
+          "y": 49,
+          "firstY": 56,
+          "drawCount": 8
+        }
+      ],
+      "storage": "runtime-primary-archive-pending",
+      "actuallyViewed": true
+    }
+  ],
+  "conclusion": {
+    "visualBlockingDefect": false,
+    "croppedFigureWeaponOrArrow": false,
+    "coveredOrClippedDamageNumber": false,
+    "opaqueArrowPatch": "No conspicuous white rectangle or distracting opaque patch in actual captures0003/0004.",
+    "clearSeams": "Some cleared background regions become flatter, but no conspicuous harsh rectangular seam was seen in the six actual HD frames.",
+    "digits": "Actual hurt14 remains readable. HD4 leaves seven thin separated gold lines; conspicuous but consistent with replaying real historic draws. The typeface/tail shape is an artwork substitution, not native pixel equivalence."
+  },
+  "nativeNumber": {
+    "libraryPath": "libs/dat-mod.lib",
+    "librarySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "resourceId": 15,
+    "resourceIndex": 0,
+    "width": 12,
+    "height": 16,
+    "count": 10,
+    "mask": 0,
+    "resourceLength": 327,
+    "resourceFingerprint": "fnv1a32:b37d7407:327",
+    "sha256": "985c9475eca5c714d6ab471d1e02f582842f6c44edd15b9cdcff5ded534e368e",
+    "advanceX": 6,
+    "drawsPerDigit": 8,
+    "observedDigitX": [
+      55,
+      61
+    ],
+    "observedFirstY": 56,
+    "observedLastY": 49,
+    "bottomRows": [
+      {
+        "digit": 1,
+        "y": 15,
+        "packedInk": "..########.."
+      },
+      {
+        "digit": 4,
+        "y": 15,
+        "packedInk": ".....######."
+      }
+    ],
+    "actualHeldInkRegion": {
+      "image": "build/r09-attack-staged-hd/attack-0020-event5-held-lcd-readback-native.png",
+      "xStart": 55,
+      "xEndExclusive": 78,
+      "yStart": 49,
+      "yEndInclusive": 72,
+      "predicate": "alpha>0 denotes opaque black NUM15 ink; alpha0 denotes transparent-white LCD export",
+      "rows": [
+        [
+          49,
+          ".............##........"
+        ],
+        [
+          50,
+          ".....#......###........"
+        ],
+        [
+          51,
+          "..####......###........"
+        ],
+        [
+          52,
+          ".....#.....#.##........"
+        ],
+        [
+          53,
+          ".....#....#..##........"
+        ],
+        [
+          54,
+          ".....#....#..##........"
+        ],
+        [
+          55,
+          ".....#...#...##........"
+        ],
+        [
+          56,
+          ".....#..#....##........"
+        ],
+        [
+          57,
+          ".....#..#....##........"
+        ],
+        [
+          58,
+          ".....#.#.....##........"
+        ],
+        [
+          59,
+          ".....#.##########......"
+        ],
+        [
+          60,
+          ".....#.......##........"
+        ],
+        [
+          61,
+          ".....#.......##........"
+        ],
+        [
+          62,
+          ".....#.......##........"
+        ],
+        [
+          63,
+          ".....#.......##........"
+        ],
+        [
+          64,
+          "..####.....######......"
+        ],
+        [
+          65,
+          "..####.....######......"
+        ],
+        [
+          66,
+          "..####.....######......"
+        ],
+        [
+          67,
+          "..####.....######......"
+        ],
+        [
+          68,
+          "..####.....######......"
+        ],
+        [
+          69,
+          "..####.....######......"
+        ],
+        [
+          70,
+          "..####.....######......"
+        ],
+        [
+          71,
+          "..####.....######......"
+        ],
+        [
+          72,
+          "......................."
+        ]
+      ]
+    },
+    "mechanism": "FgtAtvShowNum draws the actual NUM15 mask0 12x16 picture at y-j for j0..7, then advances x by wid/2=6. SysPictureEx flag0 writes every pixel of that full box. Moving upward only overwrites its new box, leaving old bottom rows; the second digit also erases the overlapping half of the first digit.",
+    "appearanceDistinction": "Native hold contains contiguous bottom ink rows65..71, while HD Georgia produces separated gold horizontal strokes. Only the actual native LCD reconstruction has pixel-exact acceptance; HD presentation is not pixel-identical to NUM15."
+  },
+  "sourceFiles": [
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 34293,
+      "sha256": "bd2a18b5deab5c6abc195f0a2b8ccec00fff3ddfd3681d12898b8c78c2b51ccd"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 30761,
+      "sha256": "6b2a2c62cf4606ac58cc1f7650df3e0f7c30fd92df773ba4746ca1849757fb82"
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/sys.c",
+      "bytes": 15103,
+      "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 39288,
+      "sha256": "d79375a8e9403fa51b4df433fd97b69a8c7e679d3d6545b4d2814f7b575f411f"
+    }
+  ],
+  "limits": [
+    "No claim of all37 playable attack ranges/families or unknown LIB/Mod/mobile/flip/performance acceptance.",
+    "Original native exports were viewed without contrast correction, resizing or compositing.",
+    "The42 reviewed runtime PNG originals are listed with exactSHA/bytes here and are delegated to the root runtime archive; this native/input archive does not duplicate those40 unique runtime PNG blobs."
+  ]
+}

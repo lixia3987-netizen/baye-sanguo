@@ -1,0 +1,2102 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-10T14:12:41.839Z",
+  "portableClosedArchive": false,
+  "originalsDeleted": false,
+  "rawEntries": [
+    {
+      "path": "assets/hd-spe/GENERATED-LIUYAN.json",
+      "bytes": 24437,
+      "sha256": "09de715d12e5a438764a4037f00d8e588fdb1e1818d6bd4e669f063651589719",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/09de715d12e5a438764a4037f00d8e588fdb1e1818d6bd4e669f063651589719.gz",
+        "bytes": 4393,
+        "sha256": "a1332bde6aebd8bcc7254dc0b2b81264c8d849c761db6ec3435b48b9b02d8cf0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "assets/hd-spe/liuyan-40/picture-0.png",
+      "bytes": 2737107,
+      "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab.gz",
+        "bytes": 2670397,
+        "sha256": "829ec2f3108bd3716797dc021ab30b0efe6f9ae421d2d13f439d79fb2f0877f8",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "assets/hd-spe/liuyan-40/picture-1.png",
+      "bytes": 2664650,
+      "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d.gz",
+        "bytes": 2597940,
+        "sha256": "24df85ed5c18c6ca289494120581932107774133024d7d5bc6926cbcac7f2616",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 582873,
+      "sha256": "45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3.gz",
+        "bytes": 17398,
+        "sha256": "308b3f336c1b4646965bb25db1d24fa326c304d4f38981a0994b7bdc3aa29f68",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r21-write-large-json-v2.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+        "bytes": 2551,
+        "sha256": "910e676103d0565c466561a1ed48992965f2886d9f7b006ce6427b382c712425",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d.gz",
+        "bytes": 2184,
+        "sha256": "4491b08eccb06e58b10679cee9175f0e073e922e1f8745b5009c40a4d3e11189",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97.gz",
+        "bytes": 1593,
+        "sha256": "a76f329c1400fad814e5a5a4f928a9bae34778d323def6b637fc7c60bf86928a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-actual-v5/result.json",
+      "bytes": 48322439,
+      "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782.gz",
+        "bytes": 3218424,
+        "sha256": "4a5a6c1fb9d495581cebe5cce1d452d033db39e3f9d501df0e19d9da4875965e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-driver-v5-final-v2.mjs",
+      "bytes": 138744,
+      "sha256": "6734d992f05c9cdb687469fba73d481676330f101f9fd1046964619c47ca6746",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6734d992f05c9cdb687469fba73d481676330f101f9fd1046964619c47ca6746.gz",
+        "bytes": 38489,
+        "sha256": "15b4d02fb14abfbabf2991961daaf9cdf6befb0687b3609ea0bb4c63861c9245",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-v5-terminal-independent-audit.json",
+      "bytes": 38502,
+      "sha256": "d3fd102be74c234053c7522c838301ec537a2bda5b5a36388902f2341e539ec9",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/d3fd102be74c234053c7522c838301ec537a2bda5b5a36388902f2341e539ec9.gz",
+        "bytes": 7891,
+        "sha256": "fb8a3ad95bc9f253ae8452afa62dee736dd15d8b1a42886d0ab5b3992796b352",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r26-liuyan-runtime-draft-freeze-v1.json",
+      "bytes": 3217,
+      "sha256": "639a9e10fc60013a05d04c487e31ea8f0f30ba53a60fdf4eb500ed9b3f7da508",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/639a9e10fc60013a05d04c487e31ea8f0f30ba53a60fdf4eb500ed9b3f7da508.gz",
+        "bytes": 1571,
+        "sha256": "4c3a521651b288dd809ec75ed5456a5bed4924c1d847db5f3b0dcc2b06329d54",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r26-liuyan-runtime-plan-v1.json",
+      "bytes": 27340,
+      "sha256": "4bf9c2747703ca3419396de05d939575ea7a175b7194567c5fc4cb561d4b4aa5",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4bf9c2747703ca3419396de05d939575ea7a175b7194567c5fc4cb561d4b4aa5.gz",
+        "bytes": 9409,
+        "sha256": "dec5d7719d02b1232b3ae4e7a0b0fea001f76770ddf2ec09d2e29b1f8668a9a3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-assemble-liuyan-runtime-v1.mjs",
+      "bytes": 10546,
+      "sha256": "a1b3f96bab74bc7108a3ef3d06b41f0c602ea931bc34d9ac8d6a88484ca6cad6",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/a1b3f96bab74bc7108a3ef3d06b41f0c602ea931bc34d9ac8d6a88484ca6cad6.gz",
+        "bytes": 3911,
+        "sha256": "274e67e386e3730b739a98e09550c7e8c4e6672d3882f910f1f042dfa17ea99d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v1.mjs",
+      "bytes": 12368,
+      "sha256": "bd8cdc2adae99cf8f64bfaccf08d3d46e5d0b4988ce7219041a80250c2afe955",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/bd8cdc2adae99cf8f64bfaccf08d3d46e5d0b4988ce7219041a80250c2afe955.gz",
+        "bytes": 4889,
+        "sha256": "5200a2a6f565e0321465dc52b77a71c6d6a4315b5b18ee2523e8ea78a899c33c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v2.mjs",
+      "bytes": 12655,
+      "sha256": "fc80bdbaf82f20afd0f04725201dd8b594b9efd058953449ffe78bcbcc6e860b",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/fc80bdbaf82f20afd0f04725201dd8b594b9efd058953449ffe78bcbcc6e860b.gz",
+        "bytes": 4987,
+        "sha256": "6f4ce6202a435b5f746d06352c71ca7d1fe42912238ff93e97870cb17bf372d5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v3.log",
+      "bytes": 648,
+      "sha256": "f4ff17ce59b92b3bfdef041e71aa3e94eb7fc577c52335acfec347d38dc794ef",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/f4ff17ce59b92b3bfdef041e71aa3e94eb7fc577c52335acfec347d38dc794ef.gz",
+        "bytes": 429,
+        "sha256": "2494f8e51e9489235096a93d21d45db08ba1011339426bb9882acf548e55c219",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v3.mjs",
+      "bytes": 15049,
+      "sha256": "f06a670b66180b446db1601f6b86d38c0fb21addd4489faeb1e92a63d00baef0",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/f06a670b66180b446db1601f6b86d38c0fb21addd4489faeb1e92a63d00baef0.gz",
+        "bytes": 5815,
+        "sha256": "83325520701cd46ad509996d7756424ca7c89cee2ffeeced1accf4f6860fe5d3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-audit-liuyan-reader-v1-memory-failure.json",
+      "bytes": 393,
+      "sha256": "4063a244f76bdc0e0a12377322eafb7b51d84dc24435c4585ce1b7c1ca8edf50",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4063a244f76bdc0e0a12377322eafb7b51d84dc24435c4585ce1b7c1ca8edf50.gz",
+        "bytes": 274,
+        "sha256": "b6985a2ad47e831234290a81fa1966e586fdfaccc972009986c7822b69307d45",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-finalize-liuyan-oracle-v1.mjs",
+      "bytes": 3655,
+      "sha256": "47177a61b1f9257f43375557ae6d6d6bdaba9f56893700aa3f50deabee3a9111",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/47177a61b1f9257f43375557ae6d6d6bdaba9f56893700aa3f50deabee3a9111.gz",
+        "bytes": 1469,
+        "sha256": "e9d324ab456bebd2971fb3ba007888f6c2dc91f020e6fc200f2ade2d4c3ba4e2",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080-execution-root-v1.json",
+      "bytes": 1572,
+      "sha256": "7c57f512d622e81f4cfb4c5d33ec422c0a3814ac336d238187d8df51942bac77",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c57f512d622e81f4cfb4c5d33ec422c0a3814ac336d238187d8df51942bac77.gz",
+        "bytes": 709,
+        "sha256": "4b95ddb1c8253b5ce933d41aabc9df8995e3a6675a1fa1d88abf5cf89bab3c08",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080-terminal.log",
+      "bytes": 669,
+      "sha256": "5c64c59ad85744aa29f88bd1ad5df08bf2447e2043024580acfbc160643be32c",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/5c64c59ad85744aa29f88bd1ad5df08bf2447e2043024580acfbc160643be32c.gz",
+        "bytes": 421,
+        "sha256": "65bc38200a200621a752be5371ae85d69e1ab0cdea5530ff5b97d6c1b18bf11b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/02-actual-native-march-persons.png",
+      "bytes": 2142084,
+      "sha256": "b2e7ad17ed40aac895769d6255f5293e6d3a858dcb8a65653e9629a0f5f13370",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b2e7ad17ed40aac895769d6255f5293e6d3a858dcb8a65653e9629a0f5f13370.gz",
+        "bytes": 2142297,
+        "sha256": "c88b9f942f2902acc0c09c2031a27c7b66ccd85bf0b30039614e785b22cf55e5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/02-public-original-checkpoint-loaded.png",
+      "bytes": 3086242,
+      "sha256": "7eb206b51c285952b25c59fce742ac9271b0b79e41df3f1e1f0399c85911a3c2",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7eb206b51c285952b25c59fce742ac9271b0b79e41df3f1e1f0399c85911a3c2.gz",
+        "bytes": 3087150,
+        "sha256": "1a1a75a605bd67cf8b67ca8cf7ccfa779306b385302059f21b2b05b118d6ebbf",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/03-original-dispatch-order.png",
+      "bytes": 2312735,
+      "sha256": "674d681636853b634ebf6ee770a61d4969c38eee1c3f9537124bdc52543b5058",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/674d681636853b634ebf6ee770a61d4969c38eee1c3f9537124bdc52543b5058.gz",
+        "bytes": 2313430,
+        "sha256": "39914e1b9dd5255f90072b30efe73a0aa0b5a5b6925fa16a7605ab0bfdeea09e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/04-real-battle-caster.png",
+      "bytes": 182682,
+      "sha256": "2a9815b36ce98804789910a2d0ecd7f01a50a2c8eac41ae297cbbb368780d4e7",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/2a9815b36ce98804789910a2d0ecd7f01a50a2c8eac41ae297cbbb368780d4e7.gz",
+        "bytes": 172738,
+        "sha256": "fb208c47cc6d16d0a504b563a3d91d915e5549c813efa13ac5c439c3d814dfd3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 264104,
+      "sha256": "b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0.gz",
+        "bytes": 258219,
+        "sha256": "7034b870497b23bb57ec4a669ef02b6e4f0fb610d1e53b4ec3187a81a19d26ff",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/28-explicit-end-turn-1.png",
+      "bytes": 276895,
+      "sha256": "492ee55d50366cf93c73e377af42b4710110e8e5f5624bdb2b30344cc682feab",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/492ee55d50366cf93c73e377af42b4710110e8e5f5624bdb2b30344cc682feab.gz",
+        "bytes": 271128,
+        "sha256": "f8e0d6dbde480351a21cefe028359081bf652f42095ebd4c0ce7315c6454c41e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/28-explicit-end-turn-2.png",
+      "bytes": 263210,
+      "sha256": "6b4337afefc6cbfa60e3603340c6588cc2e6b4511800b9dd6cdb56616afa1b04",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6b4337afefc6cbfa60e3603340c6588cc2e6b4511800b9dd6cdb56616afa1b04.gz",
+        "bytes": 257141,
+        "sha256": "1c017ef4076a11c2949925835929ee34595abb6145f327a79a5d8681d4a87ecb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/28-explicit-end-turn-3.png",
+      "bytes": 264104,
+      "sha256": "ddec4650525d632ba5c67ac37e191a2a3d815f98058eca2147b4ca719d3793fb",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ddec4650525d632ba5c67ac37e191a2a3d815f98058eca2147b4ca719d3793fb.gz",
+        "bytes": 258156,
+        "sha256": "160e7046be9762b254f7f863a016562f3db1063926cb2c0f658a95bb0bbd27c2",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/actual-report-1.png",
+      "bytes": 248935,
+      "sha256": "ae3323472f54f1873dd4c764d2df57ab0af6a2c913fba1bf121d94fd5a432844",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ae3323472f54f1873dd4c764d2df57ab0af6a2c913fba1bf121d94fd5a432844.gz",
+        "bytes": 244464,
+        "sha256": "977ad335234e31a050ad4cd784a63ea138c8ae075054a426c0a84445dc42e990",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/browser-console.json",
+      "bytes": 12529,
+      "sha256": "47ae7c862c694b2cc74692e0548a4a5ff1ba14dbdef4ed8ece037a32ea8c1ba1",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/47ae7c862c694b2cc74692e0548a4a5ff1ba14dbdef4ed8ece037a32ea8c1ba1.gz",
+        "bytes": 1419,
+        "sha256": "daf55fb192bf13c3367bdd44db51caf65104115d7a629242606fc91172df54a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/engine-inputs.json",
+      "bytes": 29194,
+      "sha256": "ada2e4411e01cd8570e9f4632255a0d05840c06e3f6c6dc1b972d3866af66f4f",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ada2e4411e01cd8570e9f4632255a0d05840c06e3f6c6dc1b972d3866af66f4f.gz",
+        "bytes": 997,
+        "sha256": "c7a0f38c2c8f13330d4cda3ac81bf781f43c980b5986d1aa1f7d7a3fe607af31",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0002-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0002-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0002-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0003-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0003-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0003-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0004-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0004-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0004-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0005-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0005-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0005-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0006-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0006-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0006-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0007-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0007-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0007-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/native-liuyan-captures.json",
+      "bytes": 5398663,
+      "sha256": "6b904b70d75e8cb0dbe148b7a963153d907f5272ab6b08805c2679b024974f31",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6b904b70d75e8cb0dbe148b7a963153d907f5272ab6b08805c2679b024974f31.gz",
+        "bytes": 362787,
+        "sha256": "c162bd6bc444663cb695bea2afd8eea19f21f9d49f911f8d35dea2b7149ef080",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/native-report-observations.json",
+      "bytes": 271801,
+      "sha256": "0c8ee45c42e577e7b72f2354176b11f85dd9ae7bd7eddf664fe356843d502ba3",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/0c8ee45c42e577e7b72f2354176b11f85dd9ae7bd7eddf664fe356843d502ba3.gz",
+        "bytes": 5262,
+        "sha256": "8736760c4abdd01b7482a1f7c212d10ea8b62942ec7cdf134c5cb25f92a2d867",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+        "bytes": 23,
+        "sha256": "c56c0d08573b7497eaa9c28aa6d0c61275e182c852871520143db6558d354f2c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/result.json",
+      "bytes": 19164917,
+      "sha256": "c1611e1f2f24999089955240e7645685923a5c85ed1e8230c3382990acc4b1ee",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/c1611e1f2f24999089955240e7645685923a5c85ed1e8230c3382990acc4b1ee.gz",
+        "bytes": 866582,
+        "sha256": "02a1dd410dac74181b955f23d9f6cb097b2ae2fba0fd24fd24c680bf1ca61180",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/skill16-actual-confusion-1.png",
+      "bytes": 264104,
+      "sha256": "b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0.gz",
+        "bytes": 258219,
+        "sha256": "7034b870497b23bb57ec4a669ef02b6e4f0fb610d1e53b4ec3187a81a19d26ff",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/source-verification.json",
+      "bytes": 435349,
+      "sha256": "645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d.gz",
+        "bytes": 69712,
+        "sha256": "28b1bda551b4caceecf570dca38ff1329ad4c243a0e8c196336b64ba14cb4114",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080/spe-observations.json",
+      "bytes": 8020069,
+      "sha256": "8b16c6cbb15e23ab3b540f7dfba75fe7b3e585ef737a3de5d32082b8e207634f",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/8b16c6cbb15e23ab3b540f7dfba75fe7b3e585ef737a3de5d32082b8e207634f.gz",
+        "bytes": 114961,
+        "sha256": "c3a18f31c843e603094fe9b5eadc352be6c4a54e373e92c7a1ef8a078505502d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720-execution-root-v1.json",
+      "bytes": 1638,
+      "sha256": "2bedbe9376cbff5848c2cd3842ef43025d53420980cd3a36674672721cb3a2c3",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/2bedbe9376cbff5848c2cd3842ef43025d53420980cd3a36674672721cb3a2c3.gz",
+        "bytes": 824,
+        "sha256": "77d64a0933ce80a09ed64e466b84dd55662d491c06034b2829143d867304d106",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720-terminal.log",
+      "bytes": 679,
+      "sha256": "0a5c50760f1ec037d3353b04c68afa0d61ed86ba4f4d02170604ea287e4c148f",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/0a5c50760f1ec037d3353b04c68afa0d61ed86ba4f4d02170604ea287e4c148f.gz",
+        "bytes": 446,
+        "sha256": "ee83a9e4218ec424fde891181b593410565a4f7e44fec602fb849f961721288e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/02-actual-native-march-persons.png",
+      "bytes": 761875,
+      "sha256": "078b4558a5e867fbd03429df6f8c6f496d5410d929492bf6a714f72ca15655ae",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/078b4558a5e867fbd03429df6f8c6f496d5410d929492bf6a714f72ca15655ae.gz",
+        "bytes": 761568,
+        "sha256": "dc63c2890c0fd890429219830547c9e9f0aec134df69300affd3ed9fcca37855",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/02-public-original-checkpoint-loaded.png",
+      "bytes": 1507084,
+      "sha256": "cd4499f4bed5d88bcc8bca331bfa2225d1382587c1f5e3380154a935fd70dde4",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/cd4499f4bed5d88bcc8bca331bfa2225d1382587c1f5e3380154a935fd70dde4.gz",
+        "bytes": 1507542,
+        "sha256": "207f5940537e43aea9e505c6a1fd313309de9a8c6016b166bd7d67b72530b407",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/03-original-dispatch-order.png",
+      "bytes": 882294,
+      "sha256": "a7a5a5d724f22c410ca1a27d824ca5de6c01f5fee349882f41bf3e7036b5de42",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/a7a5a5d724f22c410ca1a27d824ca5de6c01f5fee349882f41bf3e7036b5de42.gz",
+        "bytes": 882568,
+        "sha256": "61a158d2a7e24a012b3455ae9d399c31ff078274dfcb3001a447b2dcd3dc8f10",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/04-real-battle-caster.png",
+      "bytes": 163609,
+      "sha256": "07a0510faa6e719d9b6de220c1c0983eb62d8db6b61e62e3f0341a2f1bd15abf",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/07a0510faa6e719d9b6de220c1c0983eb62d8db6b61e62e3f0341a2f1bd15abf.gz",
+        "bytes": 161854,
+        "sha256": "2d9fa75ef20ae83f5b1aa430657a5041c77ab82181a348c82d11d426e2eabefd",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/28-explicit-end-turn-1.png",
+      "bytes": 185016,
+      "sha256": "e361e0be0748c4f9310084c340b9fef6d64edd786bf65f0af6893c199dddee6d",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/e361e0be0748c4f9310084c340b9fef6d64edd786bf65f0af6893c199dddee6d.gz",
+        "bytes": 182870,
+        "sha256": "8c5f492e645d467e21c5ddf1454c489649a8ea2141b8d397c2a75aa03318c3c3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/browser-console.json",
+      "bytes": 12567,
+      "sha256": "6b0f4f8323c318b24d3878174ed8bc1d13ad9c9f3aff551b64b8011c5cbf740b",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6b0f4f8323c318b24d3878174ed8bc1d13ad9c9f3aff551b64b8011c5cbf740b.gz",
+        "bytes": 1421,
+        "sha256": "0371f4994aaa377373009bd63d5022a6b12d65d036aa2b8ae0109e11e8bd5f49",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/result.json",
+      "bytes": 3024620,
+      "sha256": "778d1f36d0771392dc26dad2d6dd90e3464e609587ec34f79fdc60f58effd51b",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/778d1f36d0771392dc26dad2d6dd90e3464e609587ec34f79fdc60f58effd51b.gz",
+        "bytes": 317527,
+        "sha256": "e036eb6cfeaed7f7fd6e2015018208c71c445541d9d467ae0062ad2225c18c09",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720/source-verification.json",
+      "bytes": 435349,
+      "sha256": "645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d.gz",
+        "bytes": 69712,
+        "sha256": "28b1bda551b4caceecf570dca38ff1329ad4c243a0e8c196336b64ba14cb4114",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080-execution-root-v1.json",
+      "bytes": 1637,
+      "sha256": "589bcbbad3b446cdcefb8958ddbb6fa39fe7f8f798fa9d9b929b4200c4d17d31",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/589bcbbad3b446cdcefb8958ddbb6fa39fe7f8f798fa9d9b929b4200c4d17d31.gz",
+        "bytes": 826,
+        "sha256": "56c6d7a7b8b3dcccb2f8b70d747fba405696d829b513c1fcf74d9557c1cb27f6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080-terminal.log",
+      "bytes": 678,
+      "sha256": "da08b4a6a19b3a473be3c120b83d725f11c451da0899204e02936457b6e50d79",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/da08b4a6a19b3a473be3c120b83d725f11c451da0899204e02936457b6e50d79.gz",
+        "bytes": 446,
+        "sha256": "d93c38f6aceee04ee6a0ef8791c4d374b61370e3ed9e04578aa17c1e6dddf3ba",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/02-actual-native-march-persons.png",
+      "bytes": 2200720,
+      "sha256": "9070502b2cd6f24c41a21baf773ffb14781ba20636d162ed4868e4efafcf72d7",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/9070502b2cd6f24c41a21baf773ffb14781ba20636d162ed4868e4efafcf72d7.gz",
+        "bytes": 2201393,
+        "sha256": "64ab931aa9027341698156fdda5344f1dbda111318d7265935afb44367e7d2cb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/02-public-original-checkpoint-loaded.png",
+      "bytes": 3085402,
+      "sha256": "ade1e105d85ea47c6cb5e7f2fa6cd6b9052651cf67fb018df387a5e2fd2752ed",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ade1e105d85ea47c6cb5e7f2fa6cd6b9052651cf67fb018df387a5e2fd2752ed.gz",
+        "bytes": 3086310,
+        "sha256": "7a96379ed5164d4c21ff1791f137eecde9ab4103e55deae310f977c74355b1aa",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/03-original-dispatch-order.png",
+      "bytes": 2312137,
+      "sha256": "365ab792dd5c0b20e6de52af29d76e90cdc6105d3e31828e187fc66449e74535",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/365ab792dd5c0b20e6de52af29d76e90cdc6105d3e31828e187fc66449e74535.gz",
+        "bytes": 2312832,
+        "sha256": "6e8c2705d25ee49598f71adc841fac7ae02027ea9e351c2a0cbe3cf79aba3a63",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/04-real-battle-caster.png",
+      "bytes": 182742,
+      "sha256": "7ac3b04a2ee970c4c9c5c7a2f2cb52fcd50bb9e662a04839a9fd9f00d50e7585",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7ac3b04a2ee970c4c9c5c7a2f2cb52fcd50bb9e662a04839a9fd9f00d50e7585.gz",
+        "bytes": 172902,
+        "sha256": "84be8506788bc8fef3f43cac9a9c64671073b54baa5569f80337f2fc2b62b8e6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/28-explicit-end-turn-1.png",
+      "bytes": 276879,
+      "sha256": "f0ed04d72c29c49f4b2a1d85ce5754d9bfe68c3b9c41310e9610c369d4c9dbff",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/f0ed04d72c29c49f4b2a1d85ce5754d9bfe68c3b9c41310e9610c369d4c9dbff.gz",
+        "bytes": 271139,
+        "sha256": "75a003efe12c8603bf3034a6458fc38eb0e4879438d863c1a1efbecf08a1cbea",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/browser-console.json",
+      "bytes": 12529,
+      "sha256": "51b8b447066ccc21a1eb99ecd587b067226f6e0c4607ba22677ae8ee8aef3f28",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/51b8b447066ccc21a1eb99ecd587b067226f6e0c4607ba22677ae8ee8aef3f28.gz",
+        "bytes": 1415,
+        "sha256": "9ddd4ebfc452531cd754895f30df2e116aa94002ee209c5cb0e2f0daf2541b4c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/result.json",
+      "bytes": 3015523,
+      "sha256": "7594214b8e5357045e07f9a5bdf1709bb5b5acc532a65cf118cb0fc7e6c46dee",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7594214b8e5357045e07f9a5bdf1709bb5b5acc532a65cf118cb0fc7e6c46dee.gz",
+        "bytes": 317525,
+        "sha256": "49e7b84f1ccab7baebea689e7f9c203968fb6fc9bb2611ff3a54cdcde4a8e9ac",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080/source-verification.json",
+      "bytes": 435349,
+      "sha256": "645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d.gz",
+        "bytes": 69712,
+        "sha256": "28b1bda551b4caceecf570dca38ff1329ad4c243a0e8c196336b64ba14cb4114",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720-execution-root-v1.json",
+      "bytes": 1433,
+      "sha256": "90e38b6249c5231eff87c958b0b088c9c3c13816e1a3748dacc411ec6b41c5ef",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/90e38b6249c5231eff87c958b0b088c9c3c13816e1a3748dacc411ec6b41c5ef.gz",
+        "bytes": 716,
+        "sha256": "70a7ce415fed2a94520aacacf8821b3342f31a9855d09f49616efdb4714273fa",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720-terminal.log",
+      "bytes": 679,
+      "sha256": "04c6cbc30cccaf314f93364f4e2dba943ef20c02d7d9ad07ab00bbbb822a8504",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/04c6cbc30cccaf314f93364f4e2dba943ef20c02d7d9ad07ab00bbbb822a8504.gz",
+        "bytes": 446,
+        "sha256": "e89726200ccd8326582a8a82591c0a6402de29de26cf7852c7180345b2569b3e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/02-actual-native-march-persons.png",
+      "bytes": 816185,
+      "sha256": "fe3e33004ca9894c1b0e5266d75cfca178678cb6630f4968abc6a2eb23095024",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/fe3e33004ca9894c1b0e5266d75cfca178678cb6630f4968abc6a2eb23095024.gz",
+        "bytes": 816356,
+        "sha256": "a898e43f1342627f5700d3aa214612645b3330a8eb54515958033464de02e54c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/02-public-original-checkpoint-loaded.png",
+      "bytes": 58817,
+      "sha256": "1a7e72979334ae1c64ff4c9196d29f046af3818d1f9ad788a48204a6159bdd43",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1a7e72979334ae1c64ff4c9196d29f046af3818d1f9ad788a48204a6159bdd43.gz",
+        "bytes": 55205,
+        "sha256": "e414b15a6a2c29772f9ed539ee5a7c91b34d96d71ae6455b53d798b3fcc94a46",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/03-original-dispatch-order.png",
+      "bytes": 882117,
+      "sha256": "d43cb925ad09029922c5a0152d218c56c6296cc6ffc51510c4eecfa8e436d536",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/d43cb925ad09029922c5a0152d218c56c6296cc6ffc51510c4eecfa8e436d536.gz",
+        "bytes": 882386,
+        "sha256": "45eec402209d4ccead98252c46d334cd526b91d680c4306cc9642b3b1282dc5f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/04-real-battle-caster.png",
+      "bytes": 163499,
+      "sha256": "95b253f383e11c9f4fffd8e291a987363e251d4d06f67e12e75f07db7b4ee63d",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/95b253f383e11c9f4fffd8e291a987363e251d4d06f67e12e75f07db7b4ee63d.gz",
+        "bytes": 161695,
+        "sha256": "8088a7e76b7d15defd416c4d196ddfe86d2f65cd62135183543a999df63f3233",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/28-explicit-end-turn-1.png",
+      "bytes": 192668,
+      "sha256": "bdd68edbd0bc9a8ee74d531fc6d4c38e0f95a390686501bf06a14816e6cc28e8",
+      "kind": "original-png",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/bdd68edbd0bc9a8ee74d531fc6d4c38e0f95a390686501bf06a14816e6cc28e8.gz",
+        "bytes": 190776,
+        "sha256": "67b0e591fadbdc18827d7b85d05aa6b5d7a2e2ae23fd473a6ec0ba52366c3e76",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/browser-console.json",
+      "bytes": 12635,
+      "sha256": "490c92c0cfca65ba125b50b961714daed65edd93f1dc7a2414b82779f09ae255",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/490c92c0cfca65ba125b50b961714daed65edd93f1dc7a2414b82779f09ae255.gz",
+        "bytes": 1411,
+        "sha256": "ddf8791afd06c81d9f8298eba3d5079f7de85591ff5497ea139765cc49cce710",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/result.json",
+      "bytes": 3024839,
+      "sha256": "b17a51005244d0bc185c2ea1034e8a61cdc0c29cb7703a5cc2031b424bffd15d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b17a51005244d0bc185c2ea1034e8a61cdc0c29cb7703a5cc2031b424bffd15d.gz",
+        "bytes": 317735,
+        "sha256": "a0b250563465b8858540416f27f89575105b54dc0879ed35be8d34325e33eeab",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720/source-verification.json",
+      "bytes": 435349,
+      "sha256": "645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/645ad9166dd021bd6c5ca8212dc5b2c80e88a448c68918e2bcfb454a9215140d.gz",
+        "bytes": 69712,
+        "sha256": "28b1bda551b4caceecf570dca38ff1329ad4c243a0e8c196336b64ba14cb4114",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-archive-generator-freeze-v1.json",
+      "bytes": 1505,
+      "sha256": "d6e1ab037cb859d63ae4400e3a4a857f4e12e1b744847fd80bd7c84516574058",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/d6e1ab037cb859d63ae4400e3a4a857f4e12e1b744847fd80bd7c84516574058.gz",
+        "bytes": 793,
+        "sha256": "fd7ee8121ff9022236a7744c7935f806d4773ed2a901a0a16a3c141ba09ae884",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-archive-generator-freeze-v2.json",
+      "bytes": 1284,
+      "sha256": "0feadf89298ea06988eb699361157b0d2b55b56f449c9a73699682a974289b1d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/0feadf89298ea06988eb699361157b0d2b55b56f449c9a73699682a974289b1d.gz",
+        "bytes": 683,
+        "sha256": "2cf728fa754b8e114f3c6c99c128ec1611d0ec9c39b268d3f347a6d9d25a6847",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-archive-generator-v2-delta.json",
+      "bytes": 4222,
+      "sha256": "9573e60496e051c9da9ecf015433349e6cdbf13d9b6f45d2260cef7f7225f8b3",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/9573e60496e051c9da9ecf015433349e6cdbf13d9b6f45d2260cef7f7225f8b3.gz",
+        "bytes": 1490,
+        "sha256": "b948ab0842e773a63131b9553d27925fa837d5c8f34d39b96688cef2403a7d56",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-candidate-assembly-proof-v1.json",
+      "bytes": 3071,
+      "sha256": "c432332e6e2b93b5f000eaa80cc7d8471b36b0a78e9ba530f12b6cde53bc3de8",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/c432332e6e2b93b5f000eaa80cc7d8471b36b0a78e9ba530f12b6cde53bc3de8.gz",
+        "bytes": 1467,
+        "sha256": "d43f4b0a29afd823fceb24288d45f1112d9e0cb49b24d914b5460e26372c0918",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-draft-source-independent-review-v1.json",
+      "bytes": 3748,
+      "sha256": "8722411da5fd04940b8b4502567a33c7bebb210932494cd61fedbbe79bf97150",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/8722411da5fd04940b8b4502567a33c7bebb210932494cd61fedbbe79bf97150.gz",
+        "bytes": 1704,
+        "sha256": "9d96217ca088c0c8252ebbccb6a7ebdee17b53141e1782751978fb27340b9c55",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-final-source-independent-review-v2.json",
+      "bytes": 4586,
+      "sha256": "42f684858d8c2a345a8b614a1a11c1590a88c987b6515d099ec32700f20d49c5",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/42f684858d8c2a345a8b614a1a11c1590a88c987b6515d099ec32700f20d49c5.gz",
+        "bytes": 2028,
+        "sha256": "42ab4b186d6393d5423fcdedb64e570d05e2eaa0236c8c02d178bb07c4013f5d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-installed1080-terminal-independent-audit-v1.json",
+      "bytes": 25719,
+      "sha256": "15562d1426177953c538d3d07347b7b76c461edcfe47647c8c3e3f7f390b3f62",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/15562d1426177953c538d3d07347b7b76c461edcfe47647c8c3e3f7f390b3f62.gz",
+        "bytes": 4859,
+        "sha256": "747cf268fadd918c7cdd6b0c6f653227b1dda7aa1072abf5f720adc5181ede46",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-observer-prefinal-v1.mjs",
+      "bytes": 12914,
+      "sha256": "92069cad9c86e814154d9d06fe43022470f4fbad1f761582224040b68e0c145d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/92069cad9c86e814154d9d06fe43022470f4fbad1f761582224040b68e0c145d.gz",
+        "bytes": 4273,
+        "sha256": "fe80b79b0c9417c8a067a6f48d1b36f03a10c3edab02ed67f88afce2dd26bb4d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-observer-v1.mjs",
+      "bytes": 13079,
+      "sha256": "6b4ae3daf1059897f84643cc6838416fba0b32f8ac9b5d2e1415319cdcba1d0c",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6b4ae3daf1059897f84643cc6838416fba0b32f8ac9b5d2e1415319cdcba1d0c.gz",
+        "bytes": 4364,
+        "sha256": "7c4919c36c98417d24e8de165b7107fad66773584f555cb8d82e821f92e84fb7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-oracle-delta-v1.json",
+      "bytes": 11893,
+      "sha256": "3b76449332a29357156caf8a78282407842b14acfa980e3984ba82703195761e",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3b76449332a29357156caf8a78282407842b14acfa980e3984ba82703195761e.gz",
+        "bytes": 3777,
+        "sha256": "c383a859e34e6ab1b70a0f2365aa1a4c26f200ec1fa953b91278a110bf708773",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-oracle-final-delta-v1.json",
+      "bytes": 4219,
+      "sha256": "7f564963d889ed2ad56a61ca848f7c8f54441ed315d910e20bedf3a975027084",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7f564963d889ed2ad56a61ca848f7c8f54441ed315d910e20bedf3a975027084.gz",
+        "bytes": 1507,
+        "sha256": "b185fa53be88b13f729b050f8035b2ae7b3a2b79aa8fae04b82e0af43851f676",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-oracle-freeze-v1.json",
+      "bytes": 4115,
+      "sha256": "83742223b4009ad74a18eece85bfdaa0592e4cb48f38adc79cb95f498761ea46",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/83742223b4009ad74a18eece85bfdaa0592e4cb48f38adc79cb95f498761ea46.gz",
+        "bytes": 1691,
+        "sha256": "5aa66145b96fbc68618b6ecffbad1a466b08319082d79897a4a71479642ad940",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-oracle-freeze-v2.json",
+      "bytes": 3330,
+      "sha256": "783df10d2238e4859b03a41ef95e17b82872a6f5bf9bcba549cb436a6e6ac46c",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/783df10d2238e4859b03a41ef95e17b82872a6f5bf9bcba549cb436a6e6ac46c.gz",
+        "bytes": 1366,
+        "sha256": "6edf65f5fc929b1b03b7b9b00d853a04ef0c265121433c0096bf8daaf278ece5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-oracle-v2-delta.json",
+      "bytes": 7032,
+      "sha256": "1f862450d5ee0692f48d32d591f9cce98c6bc1bbcb0526eb931b222f98cd266c",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1f862450d5ee0692f48d32d591f9cce98c6bc1bbcb0526eb931b222f98cd266c.gz",
+        "bytes": 2520,
+        "sha256": "732e5b102ddedd6576158837039d85c0c174e9e5ff0fd0b1f026baf932daad32",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-pixels-v1.mjs",
+      "bytes": 10695,
+      "sha256": "9bb3ffe63d87c9252fd7fc7ba29b89812038a6a9965a4d5a2b45794cc1303229",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/9bb3ffe63d87c9252fd7fc7ba29b89812038a6a9965a4d5a2b45794cc1303229.gz",
+        "bytes": 3903,
+        "sha256": "1071e009919508590c1fba22c38cb982e12ba21399c306a3c5b43e8260fa6b57",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-readonly-preflight-root-v1/result.json",
+      "bytes": 877287,
+      "sha256": "b9a43125b2ad6950441f04194a0f4ebfc1964ac134885799929b7a13cd2999f9",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b9a43125b2ad6950441f04194a0f4ebfc1964ac134885799929b7a13cd2999f9.gz",
+        "bytes": 153280,
+        "sha256": "6e217bda92b4a36a06f52bd4a12d1a7241e7b872493e14e8bef13783afd3ca0d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-archive-inputs-root-v1.json",
+      "bytes": 21638,
+      "sha256": "dcb9a2bc7e860a70d62fdab21a9c96a078f6d7e97ff277d3bc6640639c94b8d2",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/dcb9a2bc7e860a70d62fdab21a9c96a078f6d7e97ff277d3bc6640639c94b8d2.gz",
+        "bytes": 5576,
+        "sha256": "723bfe6bccf1b8565664964af62d2d46b2455b1ab3af1d35e85e2d3d68540690",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-archive-plan-v1.json",
+      "bytes": 14441,
+      "sha256": "ff0d8e1a75ac79d9ae3f2bbda8440593b14ee79a8e0824034a47a07cf566d9bd",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ff0d8e1a75ac79d9ae3f2bbda8440593b14ee79a8e0824034a47a07cf566d9bd.gz",
+        "bytes": 5416,
+        "sha256": "8b677953270dda99a2a8682a24db68677edfd8496de955e8f89da881a64dd2b9",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-final-freeze-root-v1.json",
+      "bytes": 1545,
+      "sha256": "99015dd1f6cf48fb6b82b009138c054ea549099907d496ab1dbf53907169d672",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/99015dd1f6cf48fb6b82b009138c054ea549099907d496ab1dbf53907169d672.gz",
+        "bytes": 710,
+        "sha256": "f008a7794e7df0008fb37117f749f6c6ce1956d7b2a8ba58f83c0c082c05d94f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-prefinal-v1.mjs",
+      "bytes": 22414,
+      "sha256": "45d741d445f3803f5fb8f4d8d2f781b89218c7088967f97ad45025969c126617",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/45d741d445f3803f5fb8f4d8d2f781b89218c7088967f97ad45025969c126617.gz",
+        "bytes": 7696,
+        "sha256": "f0699adcc410622d5a4b575dc61e32d1154377e81c37f59d602c1763be276fd8",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-final-proof-v1.json",
+      "bytes": 5742,
+      "sha256": "12f25e6c6af7815970a1bcda711a6847d13c24d87133011719968934296c7470",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/12f25e6c6af7815970a1bcda711a6847d13c24d87133011719968934296c7470.gz",
+        "bytes": 1798,
+        "sha256": "815387e1d682176c09d6c41dc5b3830502f9d11d833112e4a13ffd325c2cb445",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-prefinal-v1.mjs",
+      "bytes": 16048,
+      "sha256": "c936be4da02550f88eb4b7450bcc149a46942c6b404c07bcefe06eff6af31f07",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/c936be4da02550f88eb4b7450bcc149a46942c6b404c07bcefe06eff6af31f07.gz",
+        "bytes": 5874,
+        "sha256": "e2a398c974b9c10d46963a58cef8e0d454b0203c8446ec2f7e26e751b1e40f21",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-proof-v1.json",
+      "bytes": 5430,
+      "sha256": "8a21fc4e1152ab1e13218ac87b680768b36ed25358796c651c3400867f4d9cb6",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/8a21fc4e1152ab1e13218ac87b680768b36ed25358796c651c3400867f4d9cb6.gz",
+        "bytes": 1732,
+        "sha256": "790f2e68066a368d6829c8b2b4a3e44835a1314206acf4f33c185abb9827318a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-proof-v2.json",
+      "bytes": 6223,
+      "sha256": "929685625aa67652b0457ef23caa4d4738bd38c43fa807f7a833d471c430bd0e",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/929685625aa67652b0457ef23caa4d4738bd38c43fa807f7a833d471c430bd0e.gz",
+        "bytes": 1910,
+        "sha256": "6923ef299e7caedd5d4290cb2916ff2fec0645f5f72ee94c1fcb1b5059c06181",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v1-final.log",
+      "bytes": 134,
+      "sha256": "78cab335cf0794a716b8f94b37ba56cfb4386c2e7563235a003af2651b9b2932",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/78cab335cf0794a716b8f94b37ba56cfb4386c2e7563235a003af2651b9b2932.gz",
+        "bytes": 135,
+        "sha256": "b1dc45ec50d3a6c45be112f66f39dae0f254b2489e66727f2a713420f3fb546e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v1-first.log",
+      "bytes": 128,
+      "sha256": "3524fb5f2ecdc3f5db165f93fb7140937fc5071f5497961c67c38b704c5bb16a",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3524fb5f2ecdc3f5db165f93fb7140937fc5071f5497961c67c38b704c5bb16a.gz",
+        "bytes": 132,
+        "sha256": "6c9460fc7cc957e3fcd74d1924859407f937127f739995db6f72a254061d69ec",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v1.mjs",
+      "bytes": 16476,
+      "sha256": "0760bb1185956b800a8e9c775735bc45894b8b9447eab71b2fe8b37322e30171",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/0760bb1185956b800a8e9c775735bc45894b8b9447eab71b2fe8b37322e30171.gz",
+        "bytes": 6033,
+        "sha256": "a983978447a232a092241f32bf4abdd4b08c2c64c052f7b150932f72acd7a08f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v2-first.log",
+      "bytes": 128,
+      "sha256": "6b75809b94b2c428bdd3207472784b222b613e4dbd01d4c9cadfa465ad79e162",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6b75809b94b2c428bdd3207472784b222b613e4dbd01d4c9cadfa465ad79e162.gz",
+        "bytes": 132,
+        "sha256": "3c96b558cf651dc889dd011c5a8f863035715ac4ce5c110cb03c8d63fd1c79c6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v2.mjs",
+      "bytes": 20706,
+      "sha256": "a86a3b9436b1952f521d471aa5920369379ed8816d76be85618a0730505ce7c7",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/a86a3b9436b1952f521d471aa5920369379ed8816d76be85618a0730505ce7c7.gz",
+        "bytes": 7292,
+        "sha256": "1a04644fca92e9e67cc3ada7bbab5142f34e3213060de6de36157afb17183a12",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-v1.mjs",
+      "bytes": 22732,
+      "sha256": "f778fdb7429b4f1386a0df2100d94635b3f890010204ab96e0dc323f96a3a153",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/f778fdb7429b4f1386a0df2100d94635b3f890010204ab96e0dc323f96a3a153.gz",
+        "bytes": 7797,
+        "sha256": "04d6f40440e0cc3214e25f0660e3780e88e3b5d4137a7f5c27b155b245356cf4",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-v2.mjs",
+      "bytes": 23066,
+      "sha256": "6b03e5a5fa6903881a19d4ec2ef6593795c929f35e988269ab9020337088ac5b",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6b03e5a5fa6903881a19d4ec2ef6593795c929f35e988269ab9020337088ac5b.gz",
+        "bytes": 7916,
+        "sha256": "4a9e53a8a9704af4adb0126beb94ea45fb834b888b2b9df24fd924421f813222",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-source-preflight-fragment-v1.mjs",
+      "bytes": 4841,
+      "sha256": "8c61933b034aa25b3f94a7016939cfff462ddb4261e323b77120b3f02a3c6c51",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/8c61933b034aa25b3f94a7016939cfff462ddb4261e323b77120b3f02a3c6c51.gz",
+        "bytes": 2272,
+        "sha256": "f2caa91fb6e2380bbd52762b5e3377ed693f401504a26c060740a2f5f07e2bf4",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-liuyan-v4-orphan-renderer-cleanup-root-v1.json",
+      "bytes": 448,
+      "sha256": "5dcf2e8cbc6ce404c06b80ea2aede515b603d9770aa136ca8dedeb38d007818f",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/5dcf2e8cbc6ce404c06b80ea2aede515b603d9770aa136ca8dedeb38d007818f.gz",
+        "bytes": 300,
+        "sha256": "71ccd567d0a97d68061436822f9a4b3e617e043e745bf17a4fd4a6bfb2cf7ac2",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-make-archive-inputs-root-v1.mjs",
+      "bytes": 3838,
+      "sha256": "c3fa0571cd81f2de3887d9ac6adaf211a6572801788257c19c54c81f9418e8ae",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/c3fa0571cd81f2de3887d9ac6adaf211a6572801788257c19c54c81f9418e8ae.gz",
+        "bytes": 1532,
+        "sha256": "ce7eab09b5b3f6c9cd2bc43b18b9e29716ed5afc44d96b08353eee97760cece7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-make-liuyan-oracle-v1.mjs",
+      "bytes": 10970,
+      "sha256": "06424f1cf8f6efab69cbcfe19d99c0f4dd9ff86e3dab50da492e12301e29c9fc",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/06424f1cf8f6efab69cbcfe19d99c0f4dd9ff86e3dab50da492e12301e29c9fc.gz",
+        "bytes": 3864,
+        "sha256": "ffc6304bf2500ac7164b6531dff255a9243011fb9ead069e19bebaa5ffdde59a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-make-liuyan-oracle-v2.mjs",
+      "bytes": 6890,
+      "sha256": "985804a6ab5ecb34e983054b55cae63e8b8a87f4a1e9f1a22882e7b60c598552",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/985804a6ab5ecb34e983054b55cae63e8b8a87f4a1e9f1a22882e7b60c598552.gz",
+        "bytes": 2541,
+        "sha256": "832a4f6748416e672f2947df29980faeb818f0a24f36744c5764d9633bdf66a8",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-next-original-spe-family-plan-v1.json",
+      "bytes": 74104,
+      "sha256": "021eba54c08796eae38a7ad3d73fc2ba3ae44ce9bdc83540e556fcc1b70794f2",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/021eba54c08796eae38a7ad3d73fc2ba3ae44ce9bdc83540e556fcc1b70794f2.gz",
+        "bytes": 8857,
+        "sha256": "8749852e0ef092979d9a7d8d7103d81e9c20add17dc0c57acc8b5005499d44c2",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-next-original-spe-family-plan-v1.mjs",
+      "bytes": 12365,
+      "sha256": "4891ca2e9e699c12206fb207dc95c4425a2bf20d5c6f1c68911e805b386d0253",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4891ca2e9e699c12206fb207dc95c4425a2bf20d5c6f1c68911e805b386d0253.gz",
+        "bytes": 5626,
+        "sha256": "3f5d1b99546de4f1daab307ffc1ddbdf2210520fb00673631f9413979869b6dd",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-test-hd-liuyan-runtime-assembly-draft-v1.mjs",
+      "bytes": 107305,
+      "sha256": "41d5ae6650d5af05275d14f5ace48834894431256149813aa257e1f94c32eed3",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/41d5ae6650d5af05275d14f5ace48834894431256149813aa257e1f94c32eed3.gz",
+        "bytes": 33071,
+        "sha256": "039406641f74a7dd7b8b4e9d791818c9df4bbc2799201b36997ee256233c2240",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-test-hd-liuyan-runtime-candidate-v1.mjs",
+      "bytes": 107560,
+      "sha256": "da5694b86b169d9ec01175556d24f3d4fd73d67f940b5914ee626bffb87ccd8e",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/da5694b86b169d9ec01175556d24f3d4fd73d67f940b5914ee626bffb87ccd8e.gz",
+        "bytes": 33122,
+        "sha256": "17c9e94f08b15ccb5184d3659b731839c4b7747580baac036c74c1ff1726ee19",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-test-hd-liuyan-runtime-prefinal-root-v1.mjs",
+      "bytes": 107380,
+      "sha256": "fbf16252996ebb7f8733242875fc2a735e7399c9111b60c2d1791573b201371d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/fbf16252996ebb7f8733242875fc2a735e7399c9111b60c2d1791573b201371d.gz",
+        "bytes": 33084,
+        "sha256": "3ad2a1590276e432f6eba33aabf558b0d438290a91494a46047d34307136b0ba",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-user-service-before-actual-v1.json",
+      "bytes": 365,
+      "sha256": "ea5120965ec794aeb6696f5e92f744605d53c5ad7b32dbe71e8a3e653fe7b842",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ea5120965ec794aeb6696f5e92f744605d53c5ad7b32dbe71e8a3e653fe7b842.gz",
+        "bytes": 257,
+        "sha256": "0c6d9a34d696e221ac7c33603bc0fb97f90976d4893f726fa09c4c523c0d5361",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-user-service-before-v1.json",
+      "bytes": 361,
+      "sha256": "7d57d9e6235d8035dfd4277f8feddeb17fc08dd89da19f657b4c66988c93cbfb",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7d57d9e6235d8035dfd4277f8feddeb17fc08dd89da19f657b4c66988c93cbfb.gz",
+        "bytes": 254,
+        "sha256": "760621e90f473403d1180c57e1cbfc7312d71e4195068ea568fc63a4e0daff3c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-write-liuyan-runtime-archive-v1.mjs",
+      "bytes": 20782,
+      "sha256": "708f85511dfda38e5190b3a4db242cb93b68f5e79b7a41e7c85fffa6fe481f54",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/708f85511dfda38e5190b3a4db242cb93b68f5e79b7a41e7c85fffa6fe481f54.gz",
+        "bytes": 6646,
+        "sha256": "18f5871f35656a1d1dce209c44a192b34d2bad453e6a8eaf26c6c386f305d939",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r27-write-liuyan-runtime-archive-v2.mjs",
+      "bytes": 21049,
+      "sha256": "036439fe7dd5994e66e01ff664f4a4b7552ee76eb131a7586730dbaebda4fd49",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/036439fe7dd5994e66e01ff664f4a4b7552ee76eb131a7586730dbaebda4fd49.gz",
+        "bytes": 6740,
+        "sha256": "7e9aeb4dacab021ab1332c3a6dbfc1bbb4941eba9ecedac7ee6246134d1fb733",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+      "bytes": 8261128,
+      "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1.gz",
+        "bytes": 5574984,
+        "sha256": "3538b8381aa92d93c349aa18cf9511df7d79ec585e6402ffe5b65cbf0ada7db7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 16650,
+      "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a.gz",
+        "bytes": 4620,
+        "sha256": "8fb932ef79015b57f52cf00a59ccc9046b52cc538d24dda14ba938da1a2c4154",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 192446,
+      "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643.gz",
+        "bytes": 48277,
+        "sha256": "971c9a0b70f43e235c196d0bc5400a02054c87f6ee30380a606e8e601a41d5e3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4535346,
+      "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e.gz",
+        "bytes": 2503675,
+        "sha256": "95076699970874937e1df893b7ed540c36f7a5502744de19cd2926a44dc9861e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29983,
+      "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e.gz",
+        "bytes": 8602,
+        "sha256": "95c8ff8f647fed01c8ea9ecfd5b9a47d097815298083df40f7c62588060f5d6e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 141211,
+      "sha256": "31f3adf490fa79d08c4fe56d6910a2cf6ec3c748f793cf8a37252b5350b0830a",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/31f3adf490fa79d08c4fe56d6910a2cf6ec3c748f793cf8a37252b5350b0830a.gz",
+        "bytes": 26894,
+        "sha256": "b33743294f4513a15cb7a4d4b8ae869503329d5725748e52984959b4ee1a6298",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 84222,
+      "sha256": "60c78056e05100fcd360c266c19da22c5fdb00022a9dc0cb3f0ce4b844d8ec87",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/60c78056e05100fcd360c266c19da22c5fdb00022a9dc0cb3f0ce4b844d8ec87.gz",
+        "bytes": 17528,
+        "sha256": "00cf522d891e2a466ff5b5f125a0046ed739fccae4f6294a17e5a9043c606651",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 29890,
+      "sha256": "e29b9b73580d2228814cc08ddd38daa288c37047adc7f7ec66cadffa7e6b572d",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/e29b9b73580d2228814cc08ddd38daa288c37047adc7f7ec66cadffa7e6b572d.gz",
+        "bytes": 8350,
+        "sha256": "09ae2f23bdec6e0633d566ab4d440d988cbb749ee16f19fa258d59e88759feb4",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e.gz",
+        "bytes": 86125,
+        "sha256": "91f95c013909c36f7c0b781f05fdef37c4cda940ca1bc1f5d3c1345e5824c1b5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27413,
+      "sha256": "ac7a9bdf525c506886f86e26c602ebfe3d6736e67d69fc0de2ac825f0430c28a",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ac7a9bdf525c506886f86e26c602ebfe3d6736e67d69fc0de2ac825f0430c28a.gz",
+        "bytes": 6405,
+        "sha256": "c493a17d9d61d88e604363f1b7d9e5fd85d693700083c5ee81608f32390d9dd8",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/comOut.c",
+      "bytes": 21378,
+      "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f.gz",
+        "bytes": 4725,
+        "sha256": "0fc4f8c169a18bea15e9a15f2825f6117704a6db7df761ac8922412cbe0ab84a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/data/pstring.h",
+      "bytes": 1524,
+      "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df.gz",
+        "bytes": 562,
+        "sha256": "7263f8a26236296431b1328a897eac765bbdef44c37a7392446f44abafdb0b76",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540.gz",
+        "bytes": 9135,
+        "sha256": "b4c3583411e1391de0190861aa7194007176925747b555ff99b5337f53331369",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39.gz",
+        "bytes": 11120,
+        "sha256": "22da33b2c932ec75eb0bc3a53377e9c39c07cdd9e502ba3e33f0b4044a470567",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 187342,
+      "sha256": "1070c0a62747dc2aeb646afba4d1b7561565ec547658b72af6324fede8f9439f",
+      "kind": "raw",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1070c0a62747dc2aeb646afba4d1b7561565ec547658b72af6324fede8f9439f.gz",
+        "bytes": 32482,
+        "sha256": "f8db6f8ff2eb553fa152deef6f907d9dcc404ae91363bbc71e40cbf9f012b8d8",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    }
+  ],
+  "selectedPng": [
+    {
+      "mode": "installed-hd1080",
+      "skillId": 16,
+      "eventId": 6,
+      "generation": 3,
+      "frameIndex": 0,
+      "role": "native",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/png/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.png",
+        "bytes": 5920,
+        "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "skillId": 16,
+      "eventId": 6,
+      "generation": 3,
+      "frameIndex": 0,
+      "role": "hd",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/png/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.png",
+        "bytes": 1304903,
+        "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "skillId": 16,
+      "eventId": 6,
+      "generation": 3,
+      "frameIndex": 1,
+      "role": "native",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/png/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.png",
+        "bytes": 5905,
+        "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "skillId": 16,
+      "eventId": 6,
+      "generation": 3,
+      "frameIndex": 1,
+      "role": "hd",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/png/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.png",
+        "bytes": 1295218,
+        "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "role": "report",
+      "path": "build/r27-liuyan-actual-v1-installed1080/actual-report-1.png",
+      "bytes": 248935,
+      "sha256": "ae3323472f54f1873dd4c764d2df57ab0af6a2c913fba1bf121d94fd5a432844",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/png/ae3323472f54f1873dd4c764d2df57ab0af6a2c913fba1bf121d94fd5a432844.png",
+        "bytes": 248935,
+        "sha256": "ae3323472f54f1873dd4c764d2df57ab0af6a2c913fba1bf121d94fd5a432844"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "role": "retired",
+      "path": "build/r27-liuyan-actual-v1-installed1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 264104,
+      "sha256": "b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0",
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/png/b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0.png",
+        "bytes": 264104,
+        "sha256": "b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0"
+      }
+    }
+  ],
+  "originalPngInventory": {
+    "path": "docs/validation/m4-liuyan-runtime-20261010/original-png-inventory.json",
+    "bytes": 28751,
+    "sha256": "90012f5cd9a1bdceb5259f669f67a31cbf486b29ecc2ffa1c02aa5979f5fd5c3"
+  },
+  "counts": {
+    "logicalRaw": 153,
+    "physicalGzip": 129,
+    "originalPng": 49,
+    "logicalRepresentativePng": 6,
+    "physicalRepresentativePng": 6
+  },
+  "allOriginalArtifactsGzipped": true,
+  "allGzipRoundTripsVerified": true,
+  "allPreviewCopiesByteEqual": true
+}

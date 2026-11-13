@@ -1,0 +1,720 @@
+{
+  "schemaVersion": 1,
+  "kind": "WOOD6/7 original recruitment preparation and callback source contracts; no actual recruitment or battle acceptance",
+  "sourceOnly": true,
+  "sourcePreparationAccepted": true,
+  "productionChanged": false,
+  "newFormalFiles": [
+    {
+      "path": "scripts/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-hooks.mjs",
+      "bytes": 8160,
+      "sha256": "612539477d0bf9404aabde4e517e0801a24443fea075e32d771e7a8db33cef88"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-preparation.mjs",
+      "bytes": 27102,
+      "sha256": "c816542a18ac5879ede35af455fe9c92993285b62a57f73fcda8db41fb9ad0f5"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-preparation.mjs",
+      "bytes": 26794,
+      "sha256": "f98bc26c4086b1955307a4f1393df9b850d38689a58cd6aad4ab8f056c6e4b79"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-runtime.mjs",
+      "bytes": 16527,
+      "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-runtime.mjs",
+      "bytes": 26836,
+      "sha256": "826e462d957e7f26d3c3039530c7872e793fc2d897694254c34c4abbf20d3b71"
+    }
+  ],
+  "differentNewRegisteredCases": 196,
+  "components": {
+    "hooks": 38,
+    "preparation": 73,
+    "runtime": 85
+  },
+  "previousFormalPass": 7186,
+  "fullRegression": {
+    "schemaVersion": 1,
+    "accepted": true,
+    "checkedAt": "2026-10-23T19:44:21.499Z",
+    "terminal": {
+      "sessionId": 59575,
+      "chunkId": "9f033f",
+      "exitCode": 0
+    },
+    "command": "npm.cmd test",
+    "environment": {
+      "CC": "F:\\project\\baye-sanguo\\build\\toolchain\\emsdk\\upstream\\bin\\clang.exe"
+    },
+    "registeredFiles": 136,
+    "tests": 7382,
+    "pass": 7382,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 288449.3091,
+    "previousPass": 7186,
+    "newDifferentTests": 196,
+    "newDifferentComponents": {
+      "hooks": 38,
+      "preparation": 73,
+      "runtime": 85
+    },
+    "previousFullReceipt": {
+      "path": "build/impact-skill-20261014/wood67-v40-root-full-regression-v1.json",
+      "bytes": 4273,
+      "sha256": "4d62bd52e2955b7761727164ebbc56c5e22221d777eb9201a5669f85ea6933a9"
+    },
+    "beforeSnapshot": {
+      "path": "build/impact-skill-20261014/wood67-recruitment-root-full-regression-v1-before.json",
+      "bytes": 7516,
+      "sha256": "53a340df675fa10ca50605efea18974187cb27d9eda0f7469be0bbcbfe21be6a"
+    },
+    "log": {
+      "path": "build/hd-full-suite-20261024-recruitment-v40.log",
+      "bytes": 630241,
+      "sha256": "24ce2ee0746535f648ea31fb01433f84cd3d42754b9e48865e3785e04889ceee"
+    },
+    "sources": [
+      {
+        "path": "scripts/test-hd-spe.mjs",
+        "bytes": 303084,
+        "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 80899,
+        "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+      },
+      {
+        "path": "js/hd-spe.js",
+        "bytes": 133919,
+        "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f"
+      },
+      {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 711999,
+        "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33782,
+        "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pconst.h",
+        "bytes": 1761,
+        "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+      },
+      {
+        "path": "vendor/iBaye/src/datman.c",
+        "bytes": 9424,
+        "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "scripts/hd-wood-runtime-oracle.mjs",
+        "bytes": 49408,
+        "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+      },
+      {
+        "path": "scripts/hd-wood-evidence-contract.mjs",
+        "bytes": 10750,
+        "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+      },
+      {
+        "path": "scripts/hd-wood-supplied-continuation.mjs",
+        "bytes": 26600,
+        "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+      },
+      {
+        "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+        "bytes": 22834,
+        "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+      },
+      {
+        "path": "scripts/hd-wood-classic-presentation.mjs",
+        "bytes": 1965,
+        "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+      },
+      {
+        "path": "scripts/test-hd-wood-classic-presentation.mjs",
+        "bytes": 6847,
+        "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+      },
+      {
+        "path": "package.json",
+        "bytes": 20118,
+        "sha256": "f8731de4624d9dfa4cb0c4292dda0568bfcdb2f58201e6641726686be57659a3"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdc.c",
+        "bytes": 39495,
+        "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmd.c",
+        "bytes": 39212,
+        "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmde.c",
+        "bytes": 15921,
+        "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 45067,
+        "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/order.h",
+        "bytes": 2916,
+        "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtCount.c",
+        "bytes": 27302,
+        "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+      },
+      {
+        "path": "js/hd-overworld.js",
+        "bytes": 172137,
+        "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+      },
+      {
+        "path": "scripts/hd-wood-recruitment-hooks.mjs",
+        "bytes": 5591,
+        "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc"
+      },
+      {
+        "path": "scripts/test-hd-wood-recruitment-hooks.mjs",
+        "bytes": 8160,
+        "sha256": "612539477d0bf9404aabde4e517e0801a24443fea075e32d771e7a8db33cef88"
+      },
+      {
+        "path": "scripts/hd-wood-recruitment-preparation.mjs",
+        "bytes": 27102,
+        "sha256": "c816542a18ac5879ede35af455fe9c92993285b62a57f73fcda8db41fb9ad0f5"
+      },
+      {
+        "path": "scripts/test-hd-wood-recruitment-preparation.mjs",
+        "bytes": 26794,
+        "sha256": "f98bc26c4086b1955307a4f1393df9b850d38689a58cd6aad4ab8f056c6e4b79"
+      },
+      {
+        "path": "scripts/hd-wood-recruitment-runtime.mjs",
+        "bytes": 16527,
+        "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6"
+      },
+      {
+        "path": "scripts/test-hd-wood-recruitment-runtime.mjs",
+        "bytes": 26836,
+        "sha256": "826e462d957e7f26d3c3039530c7872e793fc2d897694254c34c4abbf20d3b71"
+      },
+      {
+        "path": ".gitattributes",
+        "bytes": 21770,
+        "sha256": "9ccc92b63aceafcc5f71c42a505e7456a4a1c6e021e4d7bacbd48e05fe74aaed"
+      },
+      {
+        "path": "scripts/hd-impact-v32-conditional-plunder-prefix.mjs",
+        "bytes": 26243,
+        "sha256": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013"
+      },
+      {
+        "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+        "bytes": 10021,
+        "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+      }
+    ],
+    "august": [
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v39.json",
+        "bytes": 16564,
+        "sha256": "79883e209c4be66a0ec253a1617ffb6e0601cd44b4ff225c9618c95462a0b650"
+      },
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+        "bytes": 147947,
+        "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+      },
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+        "bytes": 8221,
+        "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+      },
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+        "bytes": 4840,
+        "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+      }
+    ],
+    "gameExecutedByThisCheck": false,
+    "newPayment": false,
+    "actualRecruitmentAccepted": false,
+    "actualNativeReturnAccepted": false,
+    "actual404Observed": false,
+    "actualFallbackAccepted": false,
+    "actualClassicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-recruitment-root-full-regression-v1.json",
+      "bytes": 8499,
+      "sha256": "29d4c0d780643024e26bfc565f568ee036709f4a9b3624b63ec20a79093c3856"
+    }
+  },
+  "targeted": {
+    "hooks": {
+      "tests": 38,
+      "terminal": {
+        "chunkId": "fcda69",
+        "exitCode": 0
+      },
+      "localLogAvailable": false,
+      "fullOriginalLogContainsCases": true
+    },
+    "preparation": {
+      "receipt": {
+        "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/receipt.json",
+        "bytes": 5055,
+        "sha256": "6641d93773ca1b7f16680e685600376bb2632554807bd007e65bace19ef54361"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/final-tap.txt",
+        "bytes": 13237,
+        "sha256": "7c2edbf1c8884c45c4b2cc68faf3ad1e87eb48a40132a2f17d10c4e7ac498b53"
+      },
+      "tests": 73
+    },
+    "runtime": {
+      "receipt": {
+        "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/receipt.json",
+        "bytes": 2667,
+        "sha256": "eb706f8ddc90cdf804f98dfecbd55f096e5719bc08e498dfe721e3999ded7ee0"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/stdout.txt",
+        "bytes": 17888,
+        "sha256": "09e41a3cc05475fc2e38050e4dd478a30a4d035b485ab24f805f5b05565758a2"
+      },
+      "tests": 85
+    }
+  },
+  "fullLogFormat": "Node spec original bytes",
+  "targetedLogFormat": "Node TAP original bytes for73/85; hooks38 terminal-only, full original log preserved",
+  "independentReview": {
+    "path": "build/impact-skill-20261014/wood-recruitment-final-independent-v1.json",
+    "bytes": 5697,
+    "sha256": "9f7aa5ef4966f3bdb69b4d84e64e57020bd870d98c16d025b0d3a41d80c23fea"
+  },
+  "currentSources": [
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 303084,
+      "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 711999,
+      "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+    },
+    {
+      "path": "scripts/hd-wood-runtime-oracle.mjs",
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+    },
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+    },
+    {
+      "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+      "bytes": 22834,
+      "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+    },
+    {
+      "path": "scripts/hd-wood-classic-presentation.mjs",
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+    },
+    {
+      "path": "scripts/test-hd-wood-classic-presentation.mjs",
+      "bytes": 6847,
+      "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+    },
+    {
+      "path": "package.json",
+      "bytes": 20118,
+      "sha256": "f8731de4624d9dfa4cb0c4292dda0568bfcdb2f58201e6641726686be57659a3"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-hooks.mjs",
+      "bytes": 8160,
+      "sha256": "612539477d0bf9404aabde4e517e0801a24443fea075e32d771e7a8db33cef88"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-preparation.mjs",
+      "bytes": 27102,
+      "sha256": "c816542a18ac5879ede35af455fe9c92993285b62a57f73fcda8db41fb9ad0f5"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-preparation.mjs",
+      "bytes": 26794,
+      "sha256": "f98bc26c4086b1955307a4f1393df9b850d38689a58cd6aad4ab8f056c6e4b79"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-runtime.mjs",
+      "bytes": 16527,
+      "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-runtime.mjs",
+      "bytes": 26836,
+      "sha256": "826e462d957e7f26d3c3039530c7872e793fc2d897694254c34c4abbf20d3b71"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 21770,
+      "sha256": "9ccc92b63aceafcc5f71c42a505e7456a4a1c6e021e4d7bacbd48e05fe74aaed"
+    },
+    {
+      "path": "scripts/hd-impact-v32-conditional-plunder-prefix.mjs",
+      "bytes": 26243,
+      "sha256": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013"
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+    }
+  ],
+  "package": {
+    "path": "package.json",
+    "bytes": 20118,
+    "sha256": "f8731de4624d9dfa4cb0c4292dda0568bfcdb2f58201e6641726686be57659a3"
+  },
+  "currentAugustInput": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39.json",
+      "bytes": 16564,
+      "sha256": "79883e209c4be66a0ec253a1617ffb6e0601cd44b4ff225c9618c95462a0b650"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+      "bytes": 147947,
+      "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+    }
+  ],
+  "currentActualState": {
+    "date": [
+      239,
+      8
+    ],
+    "caster131": {
+      "belong": 1,
+      "city": 7,
+      "arms": 0,
+      "experience": 8,
+      "level": 17,
+      "thew": 100
+    },
+    "captured129": {
+      "belong": 65535,
+      "city": 12,
+      "arms": 0
+    },
+    "worker44Thew": 16,
+    "city20": {
+      "food": 493,
+      "money": 1086,
+      "strictCurrentRequired": 267
+    },
+    "ordersPending": 0,
+    "classicAccepted": false,
+    "exactMissingAccepted": false,
+    "anotherCastQualified": false
+  },
+  "sourceRecipeOnly": {
+    "recruitActors": [
+      48,
+      68,
+      28,
+      6,
+      27,
+      25
+    ],
+    "recruitQuantities": [
+      620,
+      620,
+      620,
+      620,
+      620,
+      440
+    ],
+    "recruitTotal": 3540,
+    "minimumResidentGuards": 600,
+    "keeper12Target": 720,
+    "caster131Target": 2920,
+    "moneyCost": 354,
+    "cargo541SourceOnly": true,
+    "sourceCargo": 541,
+    "fullReturningArms": 4140,
+    "fullReturningStrictFood": 83,
+    "notPaidOrExecuted": true
+  },
+  "contracts": [
+    "Pinned LIB original Order24 costs and typed opaque five stack fields; whole raw world and queue200 plus1800 tail preserved",
+    "Resident-only600 guard excludes Mothball/pending; cash500 minimum and no future tax/calamity budget",
+    "Eight measured selection/quantity ACK chains and predeclared public packed SAVE worlds",
+    "Paid-but-not-enqueued exact charge prefix stops without retry/March permission",
+    "March170 solo native132, dynamic current budget, native Mode1 Way3 map110, complete dispatch SAVE",
+    "Six adjacent original callbacks and exact AddPerson/DelOrder, readonly context/async all32params, unique identity/epoch",
+    "First PICK distinct from order170, full20 slots, current effective arm/HP/MP, owners retired",
+    "PostOwn uses actual casualty/capture/current residency; no2920 restoration or complete AI/month equivalence"
+  ],
+  "historicalControls": {
+    "coreFirstExtended": {
+      "tests": 68,
+      "pass": 67,
+      "fail": 1,
+      "reason": "Test fixture indexed a step with no quantity arrow; corrected fixture selection, no core relaxation"
+    },
+    "corePreviousFinal": {
+      "tests": 70,
+      "pass": 70,
+      "newFormalCountAdded": 0
+    },
+    "runtimeFirst": {
+      "tests": 80,
+      "pass": 79,
+      "fail": 1,
+      "reason": "Test arithmetic expectation and developing source drift preserved with before/after pins; not a final acceptance"
+    },
+    "runtimePrevious85": {
+      "tests": 85,
+      "pass": 85,
+      "final": false,
+      "reason": "Final v3 strengthens two existing sustained-pollution rejection tests; count unchanged"
+    },
+    "prototype36NotAdded": true,
+    "nativeAudit26NotAdded": true,
+    "inputObserver20NotAdded": true,
+    "independentObserver10NotAdded": true,
+    "targetReplaysNotAdded": true,
+    "hooksTargetLocalLogAvailable": false,
+    "hooksTargetNotRerunForLog": true
+  },
+  "unexecuted": {
+    "newRuntimeCandidateExecuted": false,
+    "newNativeInputs": 0,
+    "newPayments": 0,
+    "newSoldiers": 0,
+    "newPublicSave": 0,
+    "newEND": 0,
+    "actualRecruitmentAccepted": false,
+    "actualDistributionAccepted": false,
+    "actualNativeReturnAccepted": false,
+    "actualMarchAccepted": false,
+    "actualMonthAccepted": false,
+    "actual404Observed": false,
+    "actualFallbackAccepted": false,
+    "actualCastAccepted": false,
+    "actualClassicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40-archive.json",
+    "bytes": 29862,
+    "sha256": "f39cd8eedd01a1b89c420fc10d70ac0076b1b30cf15339c154892868a967d5c7"
+  },
+  "boundaries": {
+    "oldArchivesTraversed": false,
+    "oldActualPartsRead": false,
+    "sourceOnly": true,
+    "matchingCheckoutRequired": true,
+    "portableClosedRuntimeArchive": false,
+    "newGameInputs": 0,
+    "newPayments": 0,
+    "newSoldiers": 0,
+    "newEND": 0,
+    "newPublicSave": 0,
+    "actualRecruitmentAccepted": false,
+    "actualNativeReturnAccepted": false,
+    "actual404Observed": false,
+    "actualFallbackAccepted": false,
+    "actualCastAccepted": false,
+    "actualClassicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40-verify.mjs",
+    "bytes": 6713,
+    "sha256": "6202f543b462665eff3cd713a91bbe9e86173ef7ac7961292fc4b563207386dd"
+  }
+}

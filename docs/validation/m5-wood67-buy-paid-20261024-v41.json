@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original V41 paid+queued Buy failed prefix; new authoritative same-September SAVE",
+  "acceptedForPublicationClosure": true,
+  "closedTerminal": {
+    "sessionId": 97511,
+    "chunkId": "bfd174",
+    "exitCode": 1
+  },
+  "originalController": {
+    "wrapper": {
+      "evidenceComplete": true,
+      "originalWorkflowOk": false,
+      "accepted": false,
+      "sourceRunAccepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false
+    },
+    "error": "Error: Timed out waiting for V41 original command repeated person picker\n    at waitFor (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v41.mjs:744:11)\n    at async v41ExitRepeatedPicker (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v41.mjs:3136:48)\n    at async v41Buy (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v41.mjs:3101:234)\n    at async v41Workflow (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v41.mjs:3111:963)\n    at async smoke (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v41.mjs:947:5)\n    at async main (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v41.mjs:1575:9)",
+    "rawFlagsChanged": false,
+    "paymentCounters": {
+      "newBuyCount": 0,
+      "newPayments": 0,
+      "buyMoneyPaid": 0,
+      "buyThewPaid": 0
+    },
+    "zeroCountersDoNotProveZeroCost": true,
+    "exceptionPrecededCounters": true
+  },
+  "conclusion": {
+    "originalControllerAccepted": false,
+    "actualBuyAccepted": true,
+    "actualCostAccepted": true,
+    "scope": "Actual original Buy11 MAKE/fullworld and two genuine packed public SAVE checkpoints only; not the old repeated-picker preparation contract.",
+    "actualMoneyPaid": 200,
+    "actualThewPaid": 12,
+    "actualFoodCredited": 40,
+    "actualBuyOrderQueued": true,
+    "actualNativeReturnObserved": false,
+    "actualMarchAccepted": false,
+    "actualMonthAccepted": false,
+    "actualCastAccepted": false,
+    "actualClassicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false
+  },
+  "actualFacts": {
+    "publicDualSaves": 2,
+    "nativeQuantityDoneKeys": 50,
+    "nativeFailedSaveAfterKeys": 54,
+    "nativeKeysAfterQuantityDone": [
+      40,
+      35,
+      39,
+      39
+    ],
+    "extraRepeatedPickerEscapeKeys": 0,
+    "completeOrdinaryMapAtQuantityDone": true,
+    "activeOrderSlots": [
+      0
+    ],
+    "pendingBuyer50Resident": false,
+    "nativeReturnCallbacks": 0,
+    "marches": 0,
+    "naturalMonths": 0,
+    "castAttempts": 0,
+    "nativeCaptureRows": 0,
+    "ordinaryPngs": 6,
+    "fullMoviePixelOracleExecuted": false,
+    "missingClassicFamilies": [
+      6,
+      7
+    ]
+  },
+  "evidenceLayers": {
+    "terminalMinimalBulkComplete": false,
+    "finalResultEvidenceComplete": true,
+    "fullTransportRowsVerified": 587,
+    "originalControllerRemainsFailed": true,
+    "currentCorrectedBuyCodeIsOldExecution": false,
+    "priorControlled18WereFixtureTransportOnly": true,
+    "wrongRepeatedPickerAssumptionDisprovedByActualRun": true,
+    "notASecondGameOrReplay": true
+  },
+  "proofs": {
+    "economy": {
+      "path": "build/impact-skill-20261014/v41-actual-route-independent-v1/receipt.json",
+      "bytes": 18294,
+      "sha256": "2e902b1ebffe761046daffaa79a159a46692fe9efad5560936a232fb4e49dab4"
+    },
+    "reportTransport": {
+      "path": "build/impact-skill-20261014/v41-actual-runtime-independent-v1/report-audit.json",
+      "bytes": 32769,
+      "sha256": "8983e16faec2e65370840043a839adb101dd8b8e18429ea4850dedfe40a872e7"
+    },
+    "executedSourceLock": {
+      "path": "build/impact-skill-20261014/v41-actual-runtime-independent-v1/source-lock.json",
+      "bytes": 178223,
+      "sha256": "5ec3f2cc3902efb7bc1f6e9f2cb751a5cd4168fda577e0ff7411052ec1323cab"
+    },
+    "sourceBoundary": {
+      "path": "build/impact-skill-20261014/v41-png-executed-source-boundary-v1.json",
+      "bytes": 5868,
+      "sha256": "150e61504f5ce707e78cac67dfc108d675421a410e003681d3900ea83fb692ce"
+    },
+    "png": {
+      "path": "build/impact-skill-20261014/v41-png-original-provenance-v1.json",
+      "bytes": 7015,
+      "sha256": "d791d1638ab23bb26db1c812fa256341f1f0097a9fe7829c882d95ffe00c228c"
+    },
+    "uiCause": {
+      "path": "build/impact-skill-20261014/v41-actual-runtime-independent-v1/ui-cause.json",
+      "bytes": 3693,
+      "sha256": "7a4f1d3bb7ed0d95f4e1e6a777402033090f42d66e4bdb9a0c769e8a188013d8"
+    },
+    "cleanup": {
+      "path": "build/impact-skill-20261014/wood67-battle-v41-external-cleanup-v1.json",
+      "bytes": 3277,
+      "sha256": "18bef73fc7bd78180a16b5218f66f958dbac63d6a9fea8f7bad0f0800f111c69"
+    },
+    "ownedUnion": {
+      "path": "build/impact-skill-20261014/wood67-battle-v41-owned-union-v1.json",
+      "bytes": 3347,
+      "sha256": "25d0f093f4b0af34b3dd65ccba725660454e340f3942a3ef0673bc489185b93c"
+    },
+    "baselineFull": {
+      "path": "build/impact-skill-20261014/wood67-v41-root-full-regression-v2.json",
+      "bytes": 36510,
+      "sha256": "38aaccf495e46fe9aade2272cc04d0e9d5bf4deb45579e89ab1dfc85177e6171"
+    }
+  },
+  "executedSource": {
+    "candidate": {
+      "path": "build/wood67-runtime-candidate-v41.mjs",
+      "bytes": 755436,
+      "sha256": "7a800fe42ce76dce430151c0149e2eddfd68b5752c9c509c93f439aa6501115c"
+    },
+    "logicalSources": 607,
+    "explicitSources": 600,
+    "criticalCopies": 9,
+    "sourceCommit": "bec3d9ea59d083ddf6d692cca8bbd9f01e67f7f4",
+    "closedSourceVerificationAccepted": true,
+    "current607TreeEqualityRequired": false,
+    "laterFormalCorrectionScope": "Any repaired ordinary-MAP/no-ESC Buy contract and its new full regression are a separate later source batch. They are not used to rewrite or accept this old controller."
+  },
+  "oldFormalRecovery": {
+    "path": "build/impact-skill-20261014/v41-paid-prefix-original-formal-v1/receipt.json",
+    "bytes": 5339,
+    "sha256": "a2f8005175d8912b98d825f4fb1f5e7f1d3728bafd2ddc560f674c3052d30fdd"
+  },
+  "latestSavedCheckpoint": {
+    "tag": "wood67-131-v41-failed-native-prefix",
+    "world": {
+      "original": {
+        "path": "build/impact-skill-20261014/v41-actual-route-independent-v1/latest-world.json",
+        "bytes": 148035,
+        "sha256": "8b532d9c428e3d9d3e14a4db68967e88bfefe75b86019353d82ae11469a6d723"
+      },
+      "published": {
+        "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-latest-world.json",
+        "bytes": 148035,
+        "sha256": "8b532d9c428e3d9d3e14a4db68967e88bfefe75b86019353d82ae11469a6d723"
+      }
+    },
+    "pair": [
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v41/native-wood67-131-v41-failed-native-prefix-sango0.sav",
+          "bytes": 8221,
+          "sha256": "922292cb792e8fb249ef112cbb06644d89d40ee5da9a75888762ed55faf035c8"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango0.sav",
+          "bytes": 8221,
+          "sha256": "922292cb792e8fb249ef112cbb06644d89d40ee5da9a75888762ed55faf035c8"
+        }
+      },
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v41/native-wood67-131-v41-failed-native-prefix-sango1.sav",
+          "bytes": 4840,
+          "sha256": "9bd6b46b97225869505370be246e334ef6c2701f3d779c6236d493e4b1371ac5"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango1.sav",
+          "bytes": 4840,
+          "sha256": "9bd6b46b97225869505370be246e334ef6c2701f3d779c6236d493e4b1371ac5"
+        }
+      }
+    ],
+    "current": {
+      "date": [
+        239,
+        9
+      ],
+      "casterCity": 16,
+      "casterArms": 2431,
+      "casterExperience": 12,
+      "buyer50Thew": 88,
+      "city20Food": 267,
+      "city20Money": 886,
+      "city20StrictFood": 267,
+      "allSevenCitiesCurrentlyStrictSafe": true,
+      "activeOrders": [
+        0
+      ],
+      "allThirtyArmyFlagsClear": true,
+      "originalDormant132BytesRetained": true
+    },
+    "anotherBuyAllowed": false,
+    "nextInputAuthorized": false
+  },
+  "derivedBuyHistory": {
+    "file": {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-buy-history.json.gz",
+      "bytes": 650623,
+      "sha256": "bc2878a8de39717decb77948f238a6362a6e76af400ecb196eab86599f453619"
+    },
+    "logicalBytes": 6796027,
+    "logicalSha256": "327991f0d07f72573280e2dc77dc56d35cb1f62d5992bf90f35364580aaa3d50",
+    "sourceReceipt": {
+      "path": "build/impact-skill-20261014/v41-paid-prefix-derived-history-v1.json",
+      "bytes": 4593,
+      "sha256": "62fc18024803ed18054a91cef8a993e18563cad9a13a698502591e526c9bd88f"
+    },
+    "originalRawEvidence": false,
+    "ledgerField": "ledger",
+    "libBytesOmitted": true,
+    "currentOriginalLibMustBeIndependentlyVerified": true,
+    "threeObservedExitTicketsEqual": true,
+    "additionalExitKeys": [],
+    "anotherBuyAllowed": false,
+    "nextInputAuthorized": false
+  },
+  "historicalRegression": {
+    "registeredFiles": 141,
+    "pass": 7668,
+    "status": "Historical pre-execution source baseline only",
+    "wrongRepeatedPickerFixtureDisprovedByActualRun": true,
+    "correctedSourceRegressionAcceptedHere": false
+  },
+  "nextBoundary": {
+    "authoritativeInput": "This failed-native-prefix public SAVE and pair, never the old prepayment input",
+    "noRepeatBuy": true,
+    "noRestorePrepaymentInput": true,
+    "nativeReturnNotPrecredited": true,
+    "buyer50MustRemainPending": true,
+    "doNotClearOpaqueOrderFields": true,
+    "nextInputAuthorized": false,
+    "requirement": "Any later March170/oneEND continuation needs its own reviewed admission and real Order11 AddPerson/DelOrder before170. No fabricated return, second payment, world/RNG/native setter or current enemy/cast guarantee."
+  },
+  "boundary": {
+    "allImmediateOriginalFilesRetained": true,
+    "oldArchivesTraversed": false,
+    "privateProfileArchived": false,
+    "matchingCheckoutRequired": true,
+    "portableClosedArchive": false,
+    "fullRuntimeSourceTreeCopied": false,
+    "rawFlagsRewritten": false,
+    "ordinaryScreenshotsGrantMovieOrNativePixelAcceptance": false,
+    "sourceControlsCountedAsActual": false,
+    "currentCorrectedFormalContractRetrospectivelyApplied": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-archive.json",
+    "bytes": 67339,
+    "sha256": "932041c88cb4a3f18d597c0c0e2bc1454d4661642e1467149994815d9e2ec829"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-verify.mjs",
+    "bytes": 16100,
+    "sha256": "f7e3425bac9888e6ae67229e9e0be5f7d7d93c664d051bd5023b3b01bb1de139"
+  }
+}

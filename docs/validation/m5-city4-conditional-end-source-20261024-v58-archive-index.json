@@ -1,0 +1,2655 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city4-conditional-end-source-20261024-v58-archive-part001.json",
+      "bytes": 2840588,
+      "sha256": "80102e00c311a2e848df33ecfc5d9d5e164070031c48d806499d5858758c7242",
+      "blobs": 258
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/v58-end-source-integration-v1.json",
+      "bytes": 2165,
+      "sha256": "49344344558b6df61a46d41198062abd063137876ef48405628ec11d6ca54649",
+      "blob": "49344344558b6df61a46d41198062abd063137876ef48405628ec11d6ca54649",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-source-integration-v2.json",
+      "bytes": 3925,
+      "sha256": "01bf6387c6e0dc0d7ccf03830c1dfe4e0ce773a8b43f761b8059bab1629da508",
+      "blob": "01bf6387c6e0dc0d7ccf03830c1dfe4e0ce773a8b43f761b8059bab1629da508",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-source-freeze-v1.json",
+      "bytes": 4615,
+      "sha256": "74300023a7eb9d443c8cd4b55d9d893079ceef4e1a3494edfb924e891fceb940",
+      "blob": "74300023a7eb9d443c8cd4b55d9d893079ceef4e1a3494edfb924e891fceb940",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v1.json",
+      "bytes": 183231,
+      "sha256": "4515d611d88cb7de1320dbb93f7047293008cc6483de710913698151bff56a5c",
+      "blob": "4515d611d88cb7de1320dbb93f7047293008cc6483de710913698151bff56a5c",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2.json",
+      "bytes": 183263,
+      "sha256": "f09b099bad98beac73c0d9d2c0ca657069d8fe562c62a4267e6c4044e235d694",
+      "blob": "f09b099bad98beac73c0d9d2c0ca657069d8fe562c62a4267e6c4044e235d694",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-controller-controls-v1.json",
+      "bytes": 5065,
+      "sha256": "450c3649ee167e17eedf3667f7247a01b3ffb0e7c567339544961a6a28fc447f",
+      "blob": "450c3649ee167e17eedf3667f7247a01b3ffb0e7c567339544961a6a28fc447f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-v1.json",
+      "bytes": 98483,
+      "sha256": "94ea7a5a702482e0add4c40236683230967bf77b1214145fb1e214f0c41ef9f3",
+      "blob": "94ea7a5a702482e0add4c40236683230967bf77b1214145fb1e214f0c41ef9f3",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/hd-wood-city4-continuation.mjs",
+      "bytes": 52185,
+      "sha256": "04cfde7b2e6fb64f19ce2c07df93f0df14280378ad7e702f49aef026686dc5dc",
+      "blob": "04cfde7b2e6fb64f19ce2c07df93f0df14280378ad7e702f49aef026686dc5dc",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/test-hd-wood-city4-continuation.mjs",
+      "bytes": 50045,
+      "sha256": "be428c25aed9275201e1c177065274605e95ccec246106933b07baf6f1b9164f",
+      "blob": "be428c25aed9275201e1c177065274605e95ccec246106933b07baf6f1b9164f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/package.json",
+      "bytes": 20831,
+      "sha256": "2ae8b31d64d5d00e3396f0cf7627ddea123182e7da4169b4d7427019379e23fe",
+      "blob": "2ae8b31d64d5d00e3396f0cf7627ddea123182e7da4169b4d7427019379e23fe",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-closed-v1.json",
+      "bytes": 412,
+      "sha256": "586439fd1bca90d355b09b4d54c30e64ab7abb98e1f11c1008ae7a4542ece959",
+      "blob": "586439fd1bca90d355b09b4d54c30e64ab7abb98e1f11c1008ae7a4542ece959",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v58-root-publication-v3.mjs",
+      "bytes": 7976,
+      "sha256": "e606fb16b64d83fe6acca65a2d3533bd0cc300ed50bc089cef2c87f8106a1905",
+      "blob": "e606fb16b64d83fe6acca65a2d3533bd0cc300ed50bc089cef2c87f8106a1905",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v58-root-publication-v2.mjs",
+      "bytes": 6835,
+      "sha256": "08813d50352c10a55df67660c76a3d87e7adb9b98e057cdadc994e8cd63812db",
+      "blob": "08813d50352c10a55df67660c76a3d87e7adb9b98e057cdadc994e8cd63812db",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-root-preparation-failure-v2.json",
+      "bytes": 737,
+      "sha256": "ffd8ac8204622648c4b84a884aa0675533f859535aba0b9c37073138c4c638bf",
+      "blob": "ffd8ac8204622648c4b84a884aa0675533f859535aba0b9c37073138c4c638bf",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-dispatched-input-origin-boundary-peer-v1.json",
+      "bytes": 6209,
+      "sha256": "bfac0a016af683fd5e8fc41d1028d100bab41306881340c6f8305eb3adea0fc2",
+      "blob": "bfac0a016af683fd5e8fc41d1028d100bab41306881340c6f8305eb3adea0fc2",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-transition-source-peer-v1.json",
+      "bytes": 12271,
+      "sha256": "297fb7d55ee84b7e491796fbada996d871b9da23fd934831bac48737dafb2b4e",
+      "blob": "297fb7d55ee84b7e491796fbada996d871b9da23fd934831bac48737dafb2b4e",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-source-peer-v1.json",
+      "bytes": 5103,
+      "sha256": "b696b8097040e3406622236112bd267ed7e415976bef515a3deef7a69cdeba4f",
+      "blob": "b696b8097040e3406622236112bd267ed7e415976bef515a3deef7a69cdeba4f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v58-end-source-peer-v1.mjs",
+      "bytes": 7606,
+      "sha256": "99a0e10659a92c91b486b832efca3d94ce0633cd4360f60e8dcb464bdf56df92",
+      "blob": "99a0e10659a92c91b486b832efca3d94ce0633cd4360f60e8dcb464bdf56df92",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-diagnostic-peer-v1.json",
+      "bytes": 4184,
+      "sha256": "bb086f7c2cd1e483cac5fb5fb56571824f6c49207156df34a56047459433aff0",
+      "blob": "bb086f7c2cd1e483cac5fb5fb56571824f6c49207156df34a56047459433aff0",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v58-end-diagnostic-peer-v1.mjs",
+      "bytes": 3920,
+      "sha256": "2bcd22f4ac640e295e05a962ac012278035230cefcfa442fb8e31ae22d1e1a63",
+      "blob": "2bcd22f4ac640e295e05a962ac012278035230cefcfa442fb8e31ae22d1e1a63",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-city4-end-battle-close-design-v1.json",
+      "bytes": 11360,
+      "sha256": "276bd0a8e943df0a2869fdaaa7e9dbc7c19ff2eb19608f2b2486fbd46e5645e3",
+      "blob": "276bd0a8e943df0a2869fdaaa7e9dbc7c19ff2eb19608f2b2486fbd46e5645e3",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-source-design-v1.json",
+      "bytes": 8472,
+      "sha256": "ccc423da0f70cdf604dce6fb7ceaab71e4b23acd8129673d1b1ecb4708fd6b60",
+      "blob": "ccc423da0f70cdf604dce6fb7ceaab71e4b23acd8129673d1b1ecb4708fd6b60",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/record-city4-end-source-design-v1.mjs",
+      "bytes": 4916,
+      "sha256": "bf2764629eea0ea7234c33b0db2f8d3d1e86b8219343007df66278cd3123666b",
+      "blob": "bf2764629eea0ea7234c33b0db2f8d3d1e86b8219343007df66278cd3123666b",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-escape-native-source-audit-v1.json",
+      "bytes": 9078,
+      "sha256": "3ef6d28288e7b2c3f34c7e4ddd5f237ba03f46ae6973fb89adba430c72ba54a2",
+      "blob": "3ef6d28288e7b2c3f34c7e4ddd5f237ba03f46ae6973fb89adba430c72ba54a2",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-source-candidate-v1/README.md",
+      "bytes": 2386,
+      "sha256": "fd076e9d1858adae7154b319a1851b4ddaaea978aca2670709fdac20103e3b94",
+      "blob": "fd076e9d1858adae7154b319a1851b4ddaaea978aca2670709fdac20103e3b94",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-source-candidate-v1/source-preparation-v1.json",
+      "bytes": 2965,
+      "sha256": "e1c73cf9dc6494e59af43b62a3efedb85a602f5ae9a04e4f9221db982ffeda88",
+      "blob": "e1c73cf9dc6494e59af43b62a3efedb85a602f5ae9a04e4f9221db982ffeda88",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-plan-candidate-v1/exact-replacements.json",
+      "bytes": 8771,
+      "sha256": "696673d91cce8a774781755d570bada8307902d03865322e0624618c54e51616",
+      "blob": "696673d91cce8a774781755d570bada8307902d03865322e0624618c54e51616",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-plan-candidate-v1/hd-development-plan.md",
+      "bytes": 207816,
+      "sha256": "be05b1b9b02573967315bc31d8bc3b69857f2f7cc6bee1702d79b7a926ddccf4",
+      "blob": "be05b1b9b02573967315bc31d8bc3b69857f2f7cc6bee1702d79b7a926ddccf4",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-plan-candidate-v1/hd-remaining-work.md",
+      "bytes": 236982,
+      "sha256": "dfa1fa201bc6f2b0c2386be23869b386b42c7f41b8919913682e528d827de982",
+      "blob": "dfa1fa201bc6f2b0c2386be23869b386b42c7f41b8919913682e528d827de982",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-plan-candidate-v1/m5-city4-conditional-end-source-20261024-v58.md",
+      "bytes": 1955,
+      "sha256": "8ceabc9c440ddcc86c3980b07570d025d52a2186f4bbab7df7578a4fc5ad6dfa",
+      "blob": "8ceabc9c440ddcc86c3980b07570d025d52a2186f4bbab7df7578a4fc5ad6dfa",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/hd-development-plan.md",
+      "bytes": 206262,
+      "sha256": "cd0c12785b64d5cb7adcd3851efe166748cf3564c39765d7ddbfca796af85a35",
+      "blob": "cd0c12785b64d5cb7adcd3851efe166748cf3564c39765d7ddbfca796af85a35",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/hd-remaining-work.md",
+      "bytes": 234564,
+      "sha256": "7ecb69ffd396103569d3f485c5cde29e1eaac5fa1ab919584c347037051907f7",
+      "blob": "7ecb69ffd396103569d3f485c5cde29e1eaac5fa1ab919584c347037051907f7",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-city4-end-source-reader-v1.mjs",
+      "bytes": 16210,
+      "sha256": "01a8f8d4e2945d43d666babc2456069415875d863f7c7a6d3e3f2503c2d1e137",
+      "blob": "01a8f8d4e2945d43d666babc2456069415875d863f7c7a6d3e3f2503c2d1e137",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v58-city4-end-source-v1.mjs",
+      "bytes": 11463,
+      "sha256": "9905e172d94b17688a93f0429df086a223385ab3fad1a8b5ffc7fee459ac22c8",
+      "blob": "9905e172d94b17688a93f0429df086a223385ab3fad1a8b5ffc7fee459ac22c8",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v58-publication-source-v1.mjs",
+      "bytes": 4189,
+      "sha256": "d5a702d72cc0c08c6f17c21662797e516070c81dfdfc3bf83fcf8370eeb3730f",
+      "blob": "d5a702d72cc0c08c6f17c21662797e516070c81dfdfc3bf83fcf8370eeb3730f",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-publication-source-preparation-v1.json",
+      "bytes": 60591,
+      "sha256": "883bda57fbfe3b7fb986058d66557560a07fb810afb417e1daa427bc42f37cc3",
+      "blob": "883bda57fbfe3b7fb986058d66557560a07fb810afb417e1daa427bc42f37cc3",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 208115,
+      "sha256": "b6f73582d13565076007c904204f85b6683661e5ee74f9817b1bc9e6d1bbc3d4",
+      "blob": "b6f73582d13565076007c904204f85b6683661e5ee74f9817b1bc9e6d1bbc3d4",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 237397,
+      "sha256": "6403148c82f06a36efcbac6f9ab88ba069ce0deadc0e81ef3f04ca5a100d093b",
+      "blob": "6403148c82f06a36efcbac6f9ab88ba069ce0deadc0e81ef3f04ca5a100d093b",
+      "roles": [
+        "explicit source integration, raw regression, design or review support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v58-city4-end-source-v2.mjs",
+      "bytes": 11679,
+      "sha256": "6230352d8a2ae7d64860382e3d27714de1daf84772fdacdd83fb38af42ebb613",
+      "blob": "6230352d8a2ae7d64860382e3d27714de1daf84772fdacdd83fb38af42ebb613",
+      "roles": [
+        "inert publication source and exact closed bindings"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-city4-end-source-reader-v2.mjs",
+      "bytes": 16410,
+      "sha256": "41ed7803074d55bf8ee0dbbb3af4c5ea31e57ad4a097ae9612d8448b10067246",
+      "blob": "41ed7803074d55bf8ee0dbbb3af4c5ea31e57ad4a097ae9612d8448b10067246",
+      "roles": [
+        "inert publication source and exact closed bindings"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-source-publication-bindings-v2.json",
+      "bytes": 10995,
+      "sha256": "9c2877817cfc561a1a1bac22216daabd9a4a5887bb72ca08b83e239e1f73faa7",
+      "blob": "9c2877817cfc561a1a1bac22216daabd9a4a5887bb72ca08b83e239e1f73faa7",
+      "roles": [
+        "inert publication source and exact closed bindings"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v1-negative.stdout.tap",
+      "bytes": 1004,
+      "sha256": "632d3069ae97e1b2f7f07e5408ef2b7a146f11b9812ca92f47f1696bc08af406",
+      "blob": "632d3069ae97e1b2f7f07e5408ef2b7a146f11b9812ca92f47f1696bc08af406",
+      "roles": [
+        "complete original old-formal negative TAP and stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v1-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "complete original old-formal negative TAP and stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v1-positive.stdout.tap",
+      "bytes": 47175,
+      "sha256": "c718378f4f029d1ca79065d087b92413c671a701d6ef784997542a2e4210e674",
+      "blob": "c718378f4f029d1ca79065d087b92413c671a701d6ef784997542a2e4210e674",
+      "roles": [
+        "complete original Node target TAP and stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v1-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "complete original Node target TAP and stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-negative.stdout.tap",
+      "bytes": 1003,
+      "sha256": "4907fca0a48f6aaea5d62ae0b35ac77f3aa6dd480e89bb90b97e6c0f148e2e44",
+      "blob": "4907fca0a48f6aaea5d62ae0b35ac77f3aa6dd480e89bb90b97e6c0f148e2e44",
+      "roles": [
+        "complete original old-formal negative TAP and stderr",
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "complete original old-formal negative TAP and stderr",
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-positive.stdout.tap",
+      "bytes": 3102,
+      "sha256": "8c05440208ca2e9a1a671fbabc55dccecfee76fcb3050262b1a2ea00fffe1f0b",
+      "blob": "8c05440208ca2e9a1a671fbabc55dccecfee76fcb3050262b1a2ea00fffe1f0b",
+      "roles": [
+        "complete original Node target TAP and stderr",
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "complete original Node target TAP and stderr",
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-controller-controls-v1.stdout.tap",
+      "bytes": 3392,
+      "sha256": "814b8fbf79762d79087b5de3f448e373f9464c2b0f18d01aa56a756f253a0c59",
+      "blob": "814b8fbf79762d79087b5de3f448e373f9464c2b0f18d01aa56a756f253a0c59",
+      "roles": [
+        "complete source-only controller VM TAP and stderr",
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-controller-controls-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "complete source-only controller VM TAP and stderr",
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-v1.stdout.log",
+      "bytes": 665183,
+      "sha256": "581659f702d80095117c21256547e90bffda085501db6a5dd66aacb3382cea69",
+      "blob": "581659f702d80095117c21256547e90bffda085501db6a5dd66aacb3382cea69",
+      "roles": [
+        "complete fresh default npm output and stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "complete fresh default npm output and stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-v1-before.json",
+      "bytes": 97382,
+      "sha256": "0cad3961cfbf63bd422125de9ad81b30e02efa46a50161bd48f5b8cfef6ce3c0",
+      "blob": "0cad3961cfbf63bd422125de9ad81b30e02efa46a50161bd48f5b8cfef6ce3c0",
+      "roles": [
+        "fresh full selected-source manifest"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-diagnostic-v1/hd-wood-city4-end-input.mjs",
+      "bytes": 12296,
+      "sha256": "5ad61ccbc69f4907521d357ea8ffac9c2e3826bed4477e600576f06d77da4e07",
+      "blob": "5ad61ccbc69f4907521d357ea8ffac9c2e3826bed4477e600576f06d77da4e07",
+      "roles": [
+        "preserved original loader before diagnostic correction"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-session-v1.mjs",
+      "bytes": 2954,
+      "sha256": "1a71331052796919da7a6c3d0048dc78faaf327f543c146022d3ce1682e54b99",
+      "blob": "1a71331052796919da7a6c3d0048dc78faaf327f543c146022d3ce1682e54b99",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-observer-v1.mjs",
+      "bytes": 3296,
+      "sha256": "87ed001e242b97d41bc2eca832e7d13664b080c8b426576916b6a9bc089400ab",
+      "blob": "87ed001e242b97d41bc2eca832e7d13664b080c8b426576916b6a9bc089400ab",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/october-city4-end-v1.mjs",
+      "bytes": 4018,
+      "sha256": "05c10966eca16781859e8bb7a7b7716a2913a82bdb02342d1e7eaf7ecc29026c",
+      "blob": "05c10966eca16781859e8bb7a7b7716a2913a82bdb02342d1e7eaf7ecc29026c",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/run-october-city4-end-v1.mjs",
+      "bytes": 873,
+      "sha256": "efbf75bfe0cf61b8040fff755de83a6227074975aadf01160361208d826b483f",
+      "blob": "efbf75bfe0cf61b8040fff755de83a6227074975aadf01160361208d826b483f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/test-city4-end-controller-source-v1.mjs",
+      "bytes": 16969,
+      "sha256": "22a96e648dbb1547804e85612b4d290c6ea9ed0ce8ee68fa5e760259d0e58557",
+      "blob": "22a96e648dbb1547804e85612b4d290c6ea9ed0ce8ee68fa5e760259d0e58557",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback",
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-city4-continuation.mjs",
+      "bytes": 52844,
+      "sha256": "e73c15c5dc156b16f7f57e2898ed471b8e94b21d38b7722397453dc314dfb027",
+      "blob": "e73c15c5dc156b16f7f57e2898ed471b8e94b21d38b7722397453dc314dfb027",
+      "roles": [
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-continuation.mjs",
+      "bytes": 55355,
+      "sha256": "35cebe466ed5d5bade9d0579d4c56313829224a96e06df6c5031acc1910e2e05",
+      "blob": "35cebe466ed5d5bade9d0579d4c56313829224a96e06df6c5031acc1910e2e05",
+      "roles": [
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-city4-end-input.mjs",
+      "bytes": 12487,
+      "sha256": "e69f79ee3099c5c1ed1c062f4ec9c2f4712f99554d91b68bb7fbb7f6b2ae8794",
+      "blob": "e69f79ee3099c5c1ed1c062f4ec9c2f4712f99554d91b68bb7fbb7f6b2ae8794",
+      "roles": [
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-end-input.mjs",
+      "bytes": 11287,
+      "sha256": "da72e0df612039ca746f03489f6b26679420910d3bfb68e533e6190481f0f414",
+      "blob": "da72e0df612039ca746f03489f6b26679420910d3bfb68e533e6190481f0f414",
+      "roles": [
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 20961,
+      "sha256": "bee24f3035bde24293afb016602306cb3052e7b6d011c79b0bd3e83b93ceac57",
+      "blob": "bee24f3035bde24293afb016602306cb3052e7b6d011c79b0bd3e83b93ceac57",
+      "roles": [
+        "frozen controller or complete current formal source bytes"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-city4-continuation-source-v1.mjs",
+      "bytes": 7570,
+      "sha256": "2a640f41c08246b65e0c150726a0856e4665ca7f3a38dfd9c90740e760611ee5",
+      "blob": "2a640f41c08246b65e0c150726a0856e4665ca7f3a38dfd9c90740e760611ee5",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-city4-continuation-test-v1.mjs",
+      "bytes": 2238,
+      "sha256": "83be16fc309317241085a36ebf1283b0110c5860d422d2ec18195e7c507143d9",
+      "blob": "83be16fc309317241085a36ebf1283b0110c5860d422d2ec18195e7c507143d9",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/0-hd-wood-city4-continuation.mjs",
+      "bytes": 50430,
+      "sha256": "113a0fabb67451a7f83e44b505f9c53fd4fa936bb9f371b0993f1b21dd305128",
+      "blob": "113a0fabb67451a7f83e44b505f9c53fd4fa936bb9f371b0993f1b21dd305128",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/1-test-hd-wood-city4-continuation.mjs",
+      "bytes": 40932,
+      "sha256": "a9a12c98bc4c30488aaf984addf304e25d3d803fde7e3ee8e18cbd6fe25b2f98",
+      "blob": "a9a12c98bc4c30488aaf984addf304e25d3d803fde7e3ee8e18cbd6fe25b2f98",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/2-build-city4-continuation-source-v1.mjs",
+      "bytes": 6184,
+      "sha256": "189945c8d004ca1b348f6259cc12f6de036c13b0bb5ce175d037bcb795d35213",
+      "blob": "189945c8d004ca1b348f6259cc12f6de036c13b0bb5ce175d037bcb795d35213",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/3-build-city4-continuation-test-v1.mjs",
+      "bytes": 1975,
+      "sha256": "643f82691436c0fce9d96af6e60c0d5d0fdc85446004c96cd346415ad5dad13f",
+      "blob": "643f82691436c0fce9d96af6e60c0d5d0fdc85446004c96cd346415ad5dad13f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/4-city4-continuation-chain-v1.js.txt",
+      "bytes": 18399,
+      "sha256": "8d9832d3aa6da645963b5e0bc1b40c3399529fd8f3e2f319c12a1dbe4ad161cc",
+      "blob": "8d9832d3aa6da645963b5e0bc1b40c3399529fd8f3e2f319c12a1dbe4ad161cc",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/5-city4-continuation-fixture-and-tests-v1.js.txt",
+      "bytes": 29210,
+      "sha256": "2e7031c09964a008a159ab9e469cd94a52fe86ea8bc605bf8a9f7a70bf51f814",
+      "blob": "2e7031c09964a008a159ab9e469cd94a52fe86ea8bc605bf8a9f7a70bf51f814",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/receipt.json",
+      "bytes": 2153,
+      "sha256": "90ac4522c40ad97561e32979046169f90293406be267a45879c55d08dd619f41",
+      "blob": "90ac4522c40ad97561e32979046169f90293406be267a45879c55d08dd619f41",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-c-evidence-v1.json",
+      "bytes": 18008,
+      "sha256": "f8ac7b3fe171a561a790904a4376cf4b917dccd7b2d9c5c108d8499ab0c89d47",
+      "blob": "f8ac7b3fe171a561a790904a4376cf4b917dccd7b2d9c5c108d8499ab0c89d47",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-chain-v1.js.txt",
+      "bytes": 18706,
+      "sha256": "5e6e26718d54ad4ba3b015ce4d488b17f584a098db37539ef79adce365f3deff",
+      "blob": "5e6e26718d54ad4ba3b015ce4d488b17f584a098db37539ef79adce365f3deff",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-fixture-and-tests-v1.js.txt",
+      "bytes": 34399,
+      "sha256": "9e36e475d576b0ee748766578f7c735a68945b5148315bb90ed96131fe6d3f87",
+      "blob": "9e36e475d576b0ee748766578f7c735a68945b5148315bb90ed96131fe6d3f87",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-independent-review-final-v1.json",
+      "bytes": 6874,
+      "sha256": "965606e2f8d5fd6db9004371f8210f96bd5f3e3489a17e57988def31c034910d",
+      "blob": "965606e2f8d5fd6db9004371f8210f96bd5f3e3489a17e57988def31c034910d",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v5/receipt.json",
+      "bytes": 9109,
+      "sha256": "ea128ab38808ea2d3c480e7fa28070e06cd64d741c47bc438ae97a1fcbc3a94b",
+      "blob": "ea128ab38808ea2d3c480e7fa28070e06cd64d741c47bc438ae97a1fcbc3a94b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v5/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v5/stdout.txt",
+      "bytes": 4820,
+      "sha256": "a71f96cbd9293f4da09cb57f28e3529d594adcb74156f0d2fa88c54e44e8b4d1",
+      "blob": "a71f96cbd9293f4da09cb57f28e3529d594adcb74156f0d2fa88c54e44e8b4d1",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v6/receipt.json",
+      "bytes": 9109,
+      "sha256": "af092c7ee350b2b800c8b8735d3b8245bde6a7a5c4cf2eb5a3dc4e50dba58ff6",
+      "blob": "af092c7ee350b2b800c8b8735d3b8245bde6a7a5c4cf2eb5a3dc4e50dba58ff6",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v6/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v6/stdout.txt",
+      "bytes": 4937,
+      "sha256": "8f994c03d260c1609648691e386eec4951023b72348d4a46b63713d5b9be7bd7",
+      "blob": "8f994c03d260c1609648691e386eec4951023b72348d4a46b63713d5b9be7bd7",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v7/receipt.json",
+      "bytes": 10713,
+      "sha256": "a4bc7400d2c29d1aec942f9bcf02c4df413459d0e4423ca11cae3c1d9314f659",
+      "blob": "a4bc7400d2c29d1aec942f9bcf02c4df413459d0e4423ca11cae3c1d9314f659",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v7/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v7/stdout.txt",
+      "bytes": 5296,
+      "sha256": "7e9be286387eeb05ac9b6664a59a89542c10d29270bca4c48291904a6ce5419b",
+      "blob": "7e9be286387eeb05ac9b6664a59a89542c10d29270bca4c48291904a6ce5419b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v8/receipt.json",
+      "bytes": 15628,
+      "sha256": "b2ebceaa1b3e5ec2cc7ae5eb6bfee746ef3677a09daf9ca8c96af94bdeadad3d",
+      "blob": "b2ebceaa1b3e5ec2cc7ae5eb6bfee746ef3677a09daf9ca8c96af94bdeadad3d",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v8/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v8/stdout.txt",
+      "bytes": 5818,
+      "sha256": "b0c91e2c991b34d95cf612d64278dd7c4b798f57741f6644f505707e5de5d7c3",
+      "blob": "b0c91e2c991b34d95cf612d64278dd7c4b798f57741f6644f505707e5de5d7c3",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v3.json",
+      "bytes": 12654,
+      "sha256": "f382c27d30414ab1cb826c61425d5452237048f801fe04f29dd372083b75eb4a",
+      "blob": "f382c27d30414ab1cb826c61425d5452237048f801fe04f29dd372083b75eb4a",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4.json",
+      "bytes": 12654,
+      "sha256": "eea710b7b9efe6396d6be3d44bf2302f497fd4c2fb461f9023e145e31d46d069",
+      "blob": "eea710b7b9efe6396d6be3d44bf2302f497fd4c2fb461f9023e145e31d46d069",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-after.json",
+      "bytes": 4423,
+      "sha256": "03acf38cb99394b844de1fc55a6d839d4b4d67f61290672dbc9808934e7f41ce",
+      "blob": "03acf38cb99394b844de1fc55a6d839d4b4d67f61290672dbc9808934e7f41ce",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-before.json",
+      "bytes": 4423,
+      "sha256": "03acf38cb99394b844de1fc55a6d839d4b4d67f61290672dbc9808934e7f41ce",
+      "blob": "03acf38cb99394b844de1fc55a6d839d4b4d67f61290672dbc9808934e7f41ce",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/stdout.tap",
+      "bytes": 5032,
+      "sha256": "a541df95ad03721625d8cd249f79d65a30de32e7837db1a3060b2e35f1cd16d6",
+      "blob": "a541df95ad03721625d8cd249f79d65a30de32e7837db1a3060b2e35f1cd16d6",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v5.json",
+      "bytes": 13252,
+      "sha256": "c355d4d0377ed068f379ffb213c28eb9923d1869a8f88eda35cc1651b9920945",
+      "blob": "c355d4d0377ed068f379ffb213c28eb9923d1869a8f88eda35cc1651b9920945",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v7.json",
+      "bytes": 13252,
+      "sha256": "e2bbdfdcae9d69b1c136a2a697f311ecbf6248bf7ae56a4872b2d353422d2d64",
+      "blob": "e2bbdfdcae9d69b1c136a2a697f311ecbf6248bf7ae56a4872b2d353422d2d64",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v7/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v7/stdout.tap",
+      "bytes": 5759,
+      "sha256": "48162a4a2da9e9a1cd88c6ae00c3e6b49aea00cf38978dfbefba49a958bf0413",
+      "blob": "48162a4a2da9e9a1cd88c6ae00c3e6b49aea00cf38978dfbefba49a958bf0413",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v8.json",
+      "bytes": 13252,
+      "sha256": "b110446cd239c7a1df398eae87419608c346e05cc271994b60cf4b6a3206a472",
+      "blob": "b110446cd239c7a1df398eae87419608c346e05cc271994b60cf4b6a3206a472",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v8/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v8/stdout.tap",
+      "bytes": 5755,
+      "sha256": "f821cb0dad1f4efd1cb0b9f697ce8a982b2cb728dc9ccc6059e04e4b891994cc",
+      "blob": "f821cb0dad1f4efd1cb0b9f697ce8a982b2cb728dc9ccc6059e04e4b891994cc",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-march-input-v1.mjs",
+      "bytes": 9126,
+      "sha256": "cac8e7bbb05c68c1c7710569428f5748425ec8e31284204c9cacce99d1f8af2b",
+      "blob": "cac8e7bbb05c68c1c7710569428f5748425ec8e31284204c9cacce99d1f8af2b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-march-input-v2.mjs",
+      "bytes": 9126,
+      "sha256": "9724ad7bb42deec699fc7c6723ad1dba37fe8b3773ad790d7f6b8fd0b0dd7fbe",
+      "blob": "9724ad7bb42deec699fc7c6723ad1dba37fe8b3773ad790d7f6b8fd0b0dd7fbe",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-march-report-source-fix-v1.json",
+      "bytes": 2137,
+      "sha256": "2e5727cd9f426a6da587b06df64dceaf9e838623ddc114199337909865ae60ad",
+      "blob": "2e5727cd9f426a6da587b06df64dceaf9e838623ddc114199337909865ae60ad",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-native-save-report-source-review-v1.json",
+      "bytes": 3461,
+      "sha256": "5fdf38204d380a0fc07844fcbd1573dc9c081994bfccfb8c70344dcf3e6c9030",
+      "blob": "5fdf38204d380a0fc07844fcbd1573dc9c081994bfccfb8c70344dcf3e6c9030",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-partial-phase-source-independent-v1.json",
+      "bytes": 7626,
+      "sha256": "ff04fbbea9b5945108b0a91fa9559bae7d0a9a2e0cc7a3f9772538240dec95a0",
+      "blob": "ff04fbbea9b5945108b0a91fa9559bae7d0a9a2e0cc7a3f9772538240dec95a0",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-input-v1.mjs",
+      "bytes": 8031,
+      "sha256": "3fa085b651c5f963b25350a42dd1244fd0398c7e89d58364036af48447cf8cb0",
+      "blob": "3fa085b651c5f963b25350a42dd1244fd0398c7e89d58364036af48447cf8cb0",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-save-native-source-reader-recovery-v1.json",
+      "bytes": 1273,
+      "sha256": "66a9feb5a0c6f9b36511bb9c116a96f2a557f65d98e5041c1f966ba5e63418a4",
+      "blob": "66a9feb5a0c6f9b36511bb9c116a96f2a557f65d98e5041c1f966ba5e63418a4",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-save-native-source-v2.json",
+      "bytes": 2512,
+      "sha256": "1ab7a2b06decbdf041c5164e5ab1b89360cb91bf62281350c605a34d704f1ed3",
+      "blob": "1ab7a2b06decbdf041c5164e5ab1b89360cb91bf62281350c605a34d704f1ed3",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-save-report-source-fix-v1.json",
+      "bytes": 1721,
+      "sha256": "a39932b10ff2b236c3969127b0f2d0a26b8363d95b8837dd8ab9dfbbc4358ea3",
+      "blob": "a39932b10ff2b236c3969127b0f2d0a26b8363d95b8837dd8ab9dfbbc4358ea3",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ticket-view-v1.mjs",
+      "bytes": 7133,
+      "sha256": "58cafa34bc373ad5f62a218877f7d385d20311fe0aec8c33288eef8d46bf0313",
+      "blob": "58cafa34bc373ad5f62a218877f7d385d20311fe0aec8c33288eef8d46bf0313",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ui-predicates-v1.mjs",
+      "bytes": 6051,
+      "sha256": "b48fad744f25077220263ceb4d8d75366c645a941f826473d506b65adf815c9c",
+      "blob": "b48fad744f25077220263ceb4d8d75366c645a941f826473d506b65adf815c9c",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/october-city4-distributions-v1.mjs",
+      "bytes": 26441,
+      "sha256": "f23817f999c64c575b97dd5177800e65157da233c33e98408ae415fb326669a6",
+      "blob": "f23817f999c64c575b97dd5177800e65157da233c33e98408ae415fb326669a6",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/run-october-city4-distributions-v1.mjs",
+      "bytes": 28195,
+      "sha256": "a2b46ec93bdf23a382c2a79173dcd4e3b3234306c07991c6335432b4198e66e4",
+      "blob": "a2b46ec93bdf23a382c2a79173dcd4e3b3234306c07991c6335432b4198e66e4",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/test-city4-distributions-source-v1.mjs",
+      "bytes": 12384,
+      "sha256": "e172ee717d8bb466ece8c1d4d040190c6fdf62a47d64f53c847cd33652a30ab2",
+      "blob": "e172ee717d8bb466ece8c1d4d040190c6fdf62a47d64f53c847cd33652a30ab2",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ticket-view-v1.mjs",
+      "bytes": 7133,
+      "sha256": "58cafa34bc373ad5f62a218877f7d385d20311fe0aec8c33288eef8d46bf0313",
+      "blob": "58cafa34bc373ad5f62a218877f7d385d20311fe0aec8c33288eef8d46bf0313",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ui-predicates-v1.mjs",
+      "bytes": 6341,
+      "sha256": "ed10dd7f31d5345323dace1b3b54849e68f8e1d8e00d27a46286041e046689d2",
+      "blob": "ed10dd7f31d5345323dace1b3b54849e68f8e1d8e00d27a46286041e046689d2",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/october-city4-distributions-v1.mjs",
+      "bytes": 27541,
+      "sha256": "57471438e112ab5d999ceaa677364f9f53dfebf0cb09bc137b5c931ef7ff4ffd",
+      "blob": "57471438e112ab5d999ceaa677364f9f53dfebf0cb09bc137b5c931ef7ff4ffd",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/run-october-city4-distributions-v1.mjs",
+      "bytes": 28216,
+      "sha256": "a989f1e2606aa3a3702517a1ee10e09f81100cf1576ef306f6c6c5391f14d26b",
+      "blob": "a989f1e2606aa3a3702517a1ee10e09f81100cf1576ef306f6c6c5391f14d26b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/test-city4-distributions-source-v1.mjs",
+      "bytes": 16731,
+      "sha256": "40ea2d4b3ac92d67e8520966a6ca8a1decc7172ea11939346931f5f4feb6e3c6",
+      "blob": "40ea2d4b3ac92d67e8520966a6ca8a1decc7172ea11939346931f5f4feb6e3c6",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-full-added-sources-v1.json",
+      "bytes": 9161,
+      "sha256": "3abc95ce25e082bfbd94a5e0974e4ac862a57e4c8475b258a1aed38a288b3182",
+      "blob": "3abc95ce25e082bfbd94a5e0974e4ac862a57e4c8475b258a1aed38a288b3182",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-repeat-phase-fix-independent-v1.json",
+      "bytes": 3472,
+      "sha256": "b15a3e9ef53defd1effbeb4336a65a70318ac273d83f8a131f09a69091f6c95b",
+      "blob": "b15a3e9ef53defd1effbeb4336a65a70318ac273d83f8a131f09a69091f6c95b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-saving-report-correction-evidence-v1.json",
+      "bytes": 6736,
+      "sha256": "ef9e5c73f56632c635b05132fbd141a149ee11a4314159aafaf47cb93a5aaae0",
+      "blob": "ef9e5c73f56632c635b05132fbd141a149ee11a4314159aafaf47cb93a5aaae0",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-ticket-view-extraction-v1.json",
+      "bytes": 631,
+      "sha256": "818b40a142869f636ac8d6c1165b754e85fff18096d8ae9ab72eeb383ce9fd6c",
+      "blob": "818b40a142869f636ac8d6c1165b754e85fff18096d8ae9ab72eeb383ce9fd6c",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/freeze-city4-full-added-sources-v1.mjs",
+      "bytes": 2447,
+      "sha256": "67cd6ca9db5eda6254775a7acead26982c445d2aae3dc2a2c0771c8c11790730",
+      "blob": "67cd6ca9db5eda6254775a7acead26982c445d2aae3dc2a2c0771c8c11790730",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+      "bytes": 6835,
+      "sha256": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5",
+      "blob": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+      "bytes": 7080,
+      "sha256": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0",
+      "blob": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-wood-v39-ticket-observer-v1.mjs",
+      "bytes": 1833,
+      "sha256": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d",
+      "blob": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-wood-v40-ticket-observer-v1.mjs",
+      "bytes": 893,
+      "sha256": "ce169b4fcde3770c1bda14e31ad34bee9cd707f85bc72b8036e5aa9ee38be71e",
+      "blob": "ce169b4fcde3770c1bda14e31ad34bee9cd707f85bc72b8036e5aa9ee38be71e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v54-system-layout-fix-v1.mjs",
+      "bytes": 4206,
+      "sha256": "f1d183289404faec268501835471e37a5eac7768ae521d66443fe836ff562778",
+      "blob": "f1d183289404faec268501835471e37a5eac7768ae521d66443fe836ff562778",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v55-system-ack-fix-v1.mjs",
+      "bytes": 2695,
+      "sha256": "afe01346ab29ba8000d0864f0720984512961b80996cf43b21cb2e8953b7d238",
+      "blob": "afe01346ab29ba8000d0864f0720984512961b80996cf43b21cb2e8953b7d238",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v55-system-ack-fix-v2.mjs",
+      "bytes": 3294,
+      "sha256": "7aca74b3e987a759b43051edc960a6bfe6b4f0410f063666824245ccdde9d972",
+      "blob": "7aca74b3e987a759b43051edc960a6bfe6b4f0410f063666824245ccdde9d972",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v55-system-ack-fix-v3.mjs",
+      "bytes": 3169,
+      "sha256": "508468c7031fa490780950b0a3363df9bbda94998316bca342e376f5b4fba8f0",
+      "blob": "508468c7031fa490780950b0a3363df9bbda94998316bca342e376f5b4fba8f0",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v56-king-preview-v2.mjs",
+      "bytes": 3374,
+      "sha256": "811a447cfe919600f2f65f2f04e9d879410e4bf826b8976751f842f3ba182707",
+      "blob": "811a447cfe919600f2f65f2f04e9d879410e4bf826b8976751f842f3ba182707",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-city4-ticket-view-v1.mjs",
+      "bytes": 4916,
+      "sha256": "6be20a6de490248519442702443b2c5b426c3bd0b823db3e16e14d44626771fb",
+      "blob": "6be20a6de490248519442702443b2c5b426c3bd0b823db3e16e14d44626771fb",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v54-system-css-candidate-v1.mjs",
+      "bytes": 1652,
+      "sha256": "44baa9931098912b1e98f7f61c5014efbb7d29cac48495034f22f3b89c2c2c7f",
+      "blob": "44baa9931098912b1e98f7f61c5014efbb7d29cac48495034f22f3b89c2c2c7f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/preserve-v54-system-before-v1.mjs",
+      "bytes": 1485,
+      "sha256": "535835e406c399d89c845182d9fe9896b7487cd3e97033a6d134ed4baf844647",
+      "blob": "535835e406c399d89c845182d9fe9896b7487cd3e97033a6d134ed4baf844647",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/preserve-v55-system-before-v1.mjs",
+      "bytes": 1247,
+      "sha256": "dcaecb74d45bc45bc667f19c050a8ab08f1cbe0e0c46b303c0d893384cccce5c",
+      "blob": "dcaecb74d45bc45bc667f19c050a8ab08f1cbe0e0c46b303c0d893384cccce5c",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/preserve-v56-king-before-v1.mjs",
+      "bytes": 1325,
+      "sha256": "121e85381d333121d59eb39010c6d54418e35de53ee039b0d2c48d2f2c367f16",
+      "blob": "121e85381d333121d59eb39010c6d54418e35de53ee039b0d2c48d2f2c367f16",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+      "bytes": 2662,
+      "sha256": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "blob": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+      "bytes": 32261,
+      "sha256": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "blob": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "blob": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+      "bytes": 3721,
+      "sha256": "33f7a0932e166466bf2b0e41726cbf8e56e136d46a926896ea2067e3b7676aba",
+      "blob": "33f7a0932e166466bf2b0e41726cbf8e56e136d46a926896ea2067e3b7676aba",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+      "bytes": 15224,
+      "sha256": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "blob": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/focus-predicates-v1.mjs",
+      "bytes": 3291,
+      "sha256": "85039dfd95b69daafddbde8bb7dc5a45230ae419fd90332b1d2eacf5118250f1",
+      "blob": "85039dfd95b69daafddbde8bb7dc5a45230ae419fd90332b1d2eacf5118250f1",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/october-quantity-focus-v1.mjs",
+      "bytes": 24379,
+      "sha256": "7923bcea1d2e47a1acdc49fa497d365c6df88d657558e253241ef4306f83ab4d",
+      "blob": "7923bcea1d2e47a1acdc49fa497d365c6df88d657558e253241ef4306f83ab4d",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-october-quantity-focus-v1.mjs",
+      "bytes": 32515,
+      "sha256": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "blob": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-quantity-focus-map111-full-v1.mjs",
+      "bytes": 3730,
+      "sha256": "71e2e5e46b9d8a9186c2249dac9197e413a2b8cb55923d2c551c05d4f830d8ed",
+      "blob": "71e2e5e46b9d8a9186c2249dac9197e413a2b8cb55923d2c551c05d4f830d8ed",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/test-october-quantity-focus-source-v1.mjs",
+      "bytes": 10703,
+      "sha256": "0a8f57d437224ac123db856486dada97c008833bdcec1457a1f05adf0eac35b8",
+      "blob": "0a8f57d437224ac123db856486dada97c008833bdcec1457a1f05adf0eac35b8",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+      "bytes": 39336,
+      "sha256": "e90a867297c7fa714d900124e31d3e9a5e37a06840743cc62292fa4078ffdbd8",
+      "blob": "e90a867297c7fa714d900124e31d3e9a5e37a06840743cc62292fa4078ffdbd8",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+      "bytes": 4823,
+      "sha256": "2b862f490d60f3451b1982355334c55531552a71c182478c21287542db877e57",
+      "blob": "2b862f490d60f3451b1982355334c55531552a71c182478c21287542db877e57",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+      "bytes": 3668,
+      "sha256": "71429c14a55bce6fe768a89e588fef80d49380ff943d7071cac4cd8a65bf656e",
+      "blob": "71429c14a55bce6fe768a89e588fef80d49380ff943d7071cac4cd8a65bf656e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+      "bytes": 28767,
+      "sha256": "67d246cf05c889b497d6dfe7b88f25d7648a1143bfb9bebeecea8431773d8459",
+      "blob": "67d246cf05c889b497d6dfe7b88f25d7648a1143bfb9bebeecea8431773d8459",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+      "bytes": 18209,
+      "sha256": "c05a113719a999e1fb4d5cfe399c3685645d1c16d9bc9f3a01aa27c5feed3c8a",
+      "blob": "c05a113719a999e1fb4d5cfe399c3685645d1c16d9bc9f3a01aa27c5feed3c8a",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+      "bytes": 11547,
+      "sha256": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "blob": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.json",
+      "bytes": 10646,
+      "sha256": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f",
+      "blob": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+      "bytes": 9878,
+      "sha256": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383",
+      "blob": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-city4-continuation-c-evidence-v1.mjs",
+      "bytes": 4417,
+      "sha256": "f8752b3e3b99edf734dcb0e290a5cb04f2a6b0cb77d1df2846bed85c902d9f6f",
+      "blob": "f8752b3e3b99edf734dcb0e290a5cb04f2a6b0cb77d1df2846bed85c902d9f6f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v5.mjs",
+      "bytes": 2768,
+      "sha256": "3dba1f9244e15362572f805a25e77bb55e503e53199bc07870180a37fa2013e8",
+      "blob": "3dba1f9244e15362572f805a25e77bb55e503e53199bc07870180a37fa2013e8",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v6.mjs",
+      "bytes": 2768,
+      "sha256": "44025b11fd40823d876bb8833ba313de277d80cf4bf6eb999c1aa35d4603fbbf",
+      "blob": "44025b11fd40823d876bb8833ba313de277d80cf4bf6eb999c1aa35d4603fbbf",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v7.mjs",
+      "bytes": 2878,
+      "sha256": "faafbd81322a85853f4752a9ca78bf717861a457f212ea1db01bd309d8cd3564",
+      "blob": "faafbd81322a85853f4752a9ca78bf717861a457f212ea1db01bd309d8cd3564",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v8.mjs",
+      "bytes": 3605,
+      "sha256": "03a42023425018c77786e547b6bc3258873ff443f517de1d5cc1d197de098545",
+      "blob": "03a42023425018c77786e547b6bc3258873ff443f517de1d5cc1d197de098545",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-distributions-source-controls-v4.mjs",
+      "bytes": 3641,
+      "sha256": "172e6a45b5d8be9206d2adfef0b26f18953028514d58de83b598df125f3d8fb7",
+      "blob": "172e6a45b5d8be9206d2adfef0b26f18953028514d58de83b598df125f3d8fb7",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-distributions-source-controls-v7.mjs",
+      "bytes": 4022,
+      "sha256": "5d05d1f48331b04f2c5868de8b4c1b7a9d60f1b2449e396f7a1b77d3a9b5fc61",
+      "blob": "5d05d1f48331b04f2c5868de8b4c1b7a9d60f1b2449e396f7a1b77d3a9b5fc61",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-distributions-source-controls-v8.mjs",
+      "bytes": 4022,
+      "sha256": "44bd0cee95dccf5e8d666a2bf3837d17e618dc0117d80929e29346d5de4213ad",
+      "blob": "44bd0cee95dccf5e8d666a2bf3837d17e618dc0117d80929e29346d5de4213ad",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-march-full-v1.mjs",
+      "bytes": 5965,
+      "sha256": "892d3b35d85bfc2171c45477beb22b884da0264627124e5324c03bfe7107b7a7",
+      "blob": "892d3b35d85bfc2171c45477beb22b884da0264627124e5324c03bfe7107b7a7",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-plunder-full-v1.mjs",
+      "bytes": 6075,
+      "sha256": "ad95ed7a93422f486e709fa4f914d82516a6f9a4e9bd295fb080dbb2ad5e5f1d",
+      "blob": "ad95ed7a93422f486e709fa4f914d82516a6f9a4e9bd295fb080dbb2ad5e5f1d",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-preparation-full-v1.mjs",
+      "bytes": 4270,
+      "sha256": "139d5c19f21c6bad5cbec15e139f91da8e2cbd4aff4becda0248a870a0962e0b",
+      "blob": "139d5c19f21c6bad5cbec15e139f91da8e2cbd4aff4becda0248a870a0962e0b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-preparation-full-v2.mjs",
+      "bytes": 4930,
+      "sha256": "83d2a9468230ad9c7312e671c040de0ea4f375ccecf25adc1edde43823080fa4",
+      "blob": "83d2a9468230ad9c7312e671c040de0ea4f375ccecf25adc1edde43823080fa4",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-preparation-full-v3.mjs",
+      "bytes": 5039,
+      "sha256": "9619aee8ff83c64a7d424b085873e00d0c42cc4dabb00636af7ccb80554bd53a",
+      "blob": "9619aee8ff83c64a7d424b085873e00d0c42cc4dabb00636af7ccb80554bd53a",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v53-focus-full-v1.mjs",
+      "bytes": 6157,
+      "sha256": "6d143ccfa8e4340cf83095e280cbdbe8a674523ff8e3d64c5b436bfe7f038314",
+      "blob": "6d143ccfa8e4340cf83095e280cbdbe8a674523ff8e3d64c5b436bfe7f038314",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v53-focus-target-v1.mjs",
+      "bytes": 2842,
+      "sha256": "0011a6fe291476f8610f59377b91232382136eaf6a544fffe042d45a60c975f8",
+      "blob": "0011a6fe291476f8610f59377b91232382136eaf6a544fffe042d45a60c975f8",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-full-v1.mjs",
+      "bytes": 5993,
+      "sha256": "a15ac47d3cae6f98d5537aede3a4a0e2d0cc54140d64bdf3bfb77d770a9b8394",
+      "blob": "a15ac47d3cae6f98d5537aede3a4a0e2d0cc54140d64bdf3bfb77d770a9b8394",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-layout-v1.mjs",
+      "bytes": 21047,
+      "sha256": "9c37086f99fc196883072430e1ba2f52b35b4551eedec8fca2d1890860860d90",
+      "blob": "9c37086f99fc196883072430e1ba2f52b35b4551eedec8fca2d1890860860d90",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-layout-v2.mjs",
+      "bytes": 21784,
+      "sha256": "8a599c2e24f7d0c17ff0024547671bc125a290cdbebace17b5ee6ab5e4ff9695",
+      "blob": "8a599c2e24f7d0c17ff0024547671bc125a290cdbebace17b5ee6ab5e4ff9695",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-target-v1.mjs",
+      "bytes": 4297,
+      "sha256": "510a78e3d1bf3d69cf4c00cd6cd51b94679bda38c04535a75b03ae6c2fe54a37",
+      "blob": "510a78e3d1bf3d69cf4c00cd6cd51b94679bda38c04535a75b03ae6c2fe54a37",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-full-v1.mjs",
+      "bytes": 5847,
+      "sha256": "1ee8ad6ab207aaa57d6fbd65dece16d87bd41669d4e6abfc808dec6f9427cb20",
+      "blob": "1ee8ad6ab207aaa57d6fbd65dece16d87bd41669d4e6abfc808dec6f9427cb20",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-full-v2.mjs",
+      "bytes": 6111,
+      "sha256": "12f634580f37f1c9925b2ef7d8b305310c052e192932935b58ea0d9776a2c161",
+      "blob": "12f634580f37f1c9925b2ef7d8b305310c052e192932935b58ea0d9776a2c161",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-target-v1.mjs",
+      "bytes": 4304,
+      "sha256": "bd454f8925ee99a9a41bb66ec4e782e1f24ccf1d3e6807bb16b2d8e34cd229e5",
+      "blob": "bd454f8925ee99a9a41bb66ec4e782e1f24ccf1d3e6807bb16b2d8e34cd229e5",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-target-v2.mjs",
+      "bytes": 4449,
+      "sha256": "7d63b76481a776eb7f69b87c3832db10ff9b3887a05b94936504994587282679",
+      "blob": "7d63b76481a776eb7f69b87c3832db10ff9b3887a05b94936504994587282679",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-target-v3.mjs",
+      "bytes": 5472,
+      "sha256": "b915c9ce458e5de47f362ded4107fd95fc5a2e7f6b6d4c24aa870acf5df7356b",
+      "blob": "b915c9ce458e5de47f362ded4107fd95fc5a2e7f6b6d4c24aa870acf5df7356b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v56-king-full-v2.mjs",
+      "bytes": 5230,
+      "sha256": "5f7a364c47dc8cc7c1bf2e21feb6f04960f25a53dd2988a90809e0340d2aa111",
+      "blob": "5f7a364c47dc8cc7c1bf2e21feb6f04960f25a53dd2988a90809e0340d2aa111",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v56-king-target-v2.mjs",
+      "bytes": 4072,
+      "sha256": "1e6d652a39d25fb5c6e22f9cfd8d8bdcfa348880ac494a1b34761a3a2529e1a7",
+      "blob": "1e6d652a39d25fb5c6e22f9cfd8d8bdcfa348880ac494a1b34761a3a2529e1a7",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v57-save-phase-full-v1.mjs",
+      "bytes": 3944,
+      "sha256": "d5dd0d4b113505222eb8ee1bfeb30d6e9f279bf66b3c1f46e5f74ebcfbd90c3e",
+      "blob": "d5dd0d4b113505222eb8ee1bfeb30d6e9f279bf66b3c1f46e5f74ebcfbd90c3e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v57-save-phase-target-v1.mjs",
+      "bytes": 3539,
+      "sha256": "754d33740e501edd0ca1a9104309293c8d77c7fcad2ac55a15e2873f5c721809",
+      "blob": "754d33740e501edd0ca1a9104309293c8d77c7fcad2ac55a15e2873f5c721809",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v58-end-target-v1.mjs",
+      "bytes": 4232,
+      "sha256": "bcb9eb60c494cb1ed99b5098139d2a52c35de12a34d818c9e4921700336cf639",
+      "blob": "bcb9eb60c494cb1ed99b5098139d2a52c35de12a34d818c9e4921700336cf639",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v51-city4-plunder-input-bind-v1.json",
+      "bytes": 6423,
+      "sha256": "8a17e09d590410e0e1f13f9338c7de34b4491635278e39c171753a3f2b2c0027",
+      "blob": "8a17e09d590410e0e1f13f9338c7de34b4491635278e39c171753a3f2b2c0027",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v52-city4-march-input-bind-v1.json",
+      "bytes": 7171,
+      "sha256": "803bf927fd5f70d750c37a3ac402ed47b63a815fa163ed8d1567b33a29de4daf",
+      "blob": "803bf927fd5f70d750c37a3ac402ed47b63a815fa163ed8d1567b33a29de4daf",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v52-city4-march-report-source-audit-v1.json",
+      "bytes": 5234,
+      "sha256": "84468f6724b9d958948570bb551a64f5969d9d7bfe0023b5aa29c621d04ac5a1",
+      "blob": "84468f6724b9d958948570bb551a64f5969d9d7bfe0023b5aa29c621d04ac5a1",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v52-saved-suite-baseline-v1.json",
+      "bytes": 68718,
+      "sha256": "e7e9dff11b6e563888d23fad98fb31f2a12973fd52d7a6c2b3dde5db4f05fb6f",
+      "blob": "e7e9dff11b6e563888d23fad98fb31f2a12973fd52d7a6c2b3dde5db4f05fb6f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/css/hd-graphics.css",
+      "bytes": 4107,
+      "sha256": "157385e2d4ed3fb2d36a3b6bc137e3c231bb8bfc83eda44250f1a4b782377a81",
+      "blob": "157385e2d4ed3fb2d36a3b6bc137e3c231bb8bfc83eda44250f1a4b782377a81",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/css/hd-overworld.css",
+      "bytes": 5226,
+      "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38",
+      "blob": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/js/hd-graphics.js",
+      "bytes": 11177,
+      "sha256": "f40858de52d530ecd272a346c345c38fe4f1573ce0ce0facf09f7caaa488f1b2",
+      "blob": "f40858de52d530ecd272a346c345c38fe4f1573ce0ce0facf09f7caaa488f1b2",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/pc.html",
+      "bytes": 27750,
+      "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "blob": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/receipt.json",
+      "bytes": 1171,
+      "sha256": "c22853ef3dd475c74b63dc2ecfb4c99f6c4f8daa0b52d6b8d92f7e6efac25fef",
+      "blob": "c22853ef3dd475c74b63dc2ecfb4c99f6c4f8daa0b52d6b8d92f7e6efac25fef",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/test-hd-display-settings.mjs",
+      "bytes": 10071,
+      "sha256": "97a9c8588653fb7b7159e91c3bb72a64d61c63c6bc513091573558f022039fe0",
+      "blob": "97a9c8588653fb7b7159e91c3bb72a64d61c63c6bc513091573558f022039fe0",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-source-fix-v1.json",
+      "bytes": 5288,
+      "sha256": "6b37172d823a4dfb535f59a591a9f53576ec97e3d62719cc2f38f824d5c3b6b7",
+      "blob": "6b37172d823a4dfb535f59a591a9f53576ec97e3d62719cc2f38f824d5c3b6b7",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-source-implementation-v1.json",
+      "bytes": 2438,
+      "sha256": "53e3b17ed07387dfd8cf60543ce384d635c24390054e5ebb26b33c529ef76733",
+      "blob": "53e3b17ed07387dfd8cf60543ce384d635c24390054e5ebb26b33c529ef76733",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-target-v1/receipt.json",
+      "bytes": 5416,
+      "sha256": "9e1ec9e97d8f9c92231691074ef8ae77dcd8127381c35b52f47a666270336bd6",
+      "blob": "9e1ec9e97d8f9c92231691074ef8ae77dcd8127381c35b52f47a666270336bd6",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-target-v1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-target-v1/stdout.tap",
+      "bytes": 2777,
+      "sha256": "87d059f03c87a46de5f3554bfd23115cea03b6b6d4d3f7628b1f7958cb702cd5",
+      "blob": "87d059f03c87a46de5f3554bfd23115cea03b6b6d4d3f7628b1f7958cb702cd5",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/css/hd-system-ui.css",
+      "bytes": 3417,
+      "sha256": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833",
+      "blob": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/js/hd-system-ui.js",
+      "bytes": 55988,
+      "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "blob": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/m.html",
+      "bytes": 18450,
+      "sha256": "079834a4286999ecc778af119b3436308f94ab1eac17f1e17de3ce17444f3542",
+      "blob": "079834a4286999ecc778af119b3436308f94ab1eac17f1e17de3ce17444f3542",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/pc.html",
+      "bytes": 28004,
+      "sha256": "04ff7412e818d0ff98cd2a4089225e0b56b9c9fead08804787b5f068c7a68a02",
+      "blob": "04ff7412e818d0ff98cd2a4089225e0b56b9c9fead08804787b5f068c7a68a02",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/receipt.json",
+      "bytes": 1209,
+      "sha256": "ee5da668b557094cd0b3385caab3d5e102f83883bbc3d67e6a0e0da5ad9076a3",
+      "blob": "ee5da668b557094cd0b3385caab3d5e102f83883bbc3d67e6a0e0da5ad9076a3",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 33802,
+      "sha256": "0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1",
+      "blob": "0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-layout-css-candidate-v1.css",
+      "bytes": 3712,
+      "sha256": "b31ad2ebc094c6c1f834ea3153017284d679365b2b7b74d7a80023f7f7f784ef",
+      "blob": "b31ad2ebc094c6c1f834ea3153017284d679365b2b7b74d7a80023f7f7f784ef",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-layout-scenario-v1.mjs",
+      "bytes": 18319,
+      "sha256": "0180f87a41a30651505e0bb3d576593e85b1a423123357f99d9f3e21d2aa99b8",
+      "blob": "0180f87a41a30651505e0bb3d576593e85b1a423123357f99d9f3e21d2aa99b8",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-list-candidate-v1/js/hd-system-ui.js",
+      "bytes": 59205,
+      "sha256": "6087c6fdc061866657ecd8c01e135815dabb18f900a0ca21bacbe00cb477f4ee",
+      "blob": "6087c6fdc061866657ecd8c01e135815dabb18f900a0ca21bacbe00cb477f4ee",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-list-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 43242,
+      "sha256": "fc8871894fab9f3c7931ed3ae885f66258e73a96e659c72a0126203aad2f68cf",
+      "blob": "fc8871894fab9f3c7931ed3ae885f66258e73a96e659c72a0126203aad2f68cf",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-source-fix-v1.json",
+      "bytes": 4176,
+      "sha256": "bbdbef2ab38c30faa6e7a213c1cee1ae1913881ad34bdf29fac36a443c6d1d68",
+      "blob": "bbdbef2ab38c30faa6e7a213c1cee1ae1913881ad34bdf29fac36a443c6d1d68",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stdout.tap",
+      "bytes": 54333,
+      "sha256": "e4eb6dee191cbeddfd7c575042b0b64847f659cfa35f107bb69d49e0e272a6ed",
+      "blob": "e4eb6dee191cbeddfd7c575042b0b64847f659cfa35f107bb69d49e0e272a6ed",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stdout.tap",
+      "bytes": 56082,
+      "sha256": "f3923688bcc81faaf15188010e9549f0f5092eb7245fafb33a7b8003c8cae757",
+      "blob": "f3923688bcc81faaf15188010e9549f0f5092eb7245fafb33a7b8003c8cae757",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/receipt.json",
+      "bytes": 8343,
+      "sha256": "e18db7f1381029d6da31e86e3d4e55aaf1189cd570ca67ea984f6ef82ec8b90b",
+      "blob": "e18db7f1381029d6da31e86e3d4e55aaf1189cd570ca67ea984f6ef82ec8b90b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-obsolete-full-stop-v1.json",
+      "bytes": 16233,
+      "sha256": "405fa96dcced8ea399f132483d0d3f99f671794817f7234937055c88d2d6d702",
+      "blob": "405fa96dcced8ea399f132483d0d3f99f671794817f7234937055c88d2d6d702",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v1/js/hd-system-ui.js",
+      "bytes": 63167,
+      "sha256": "aa2bd5b4d30e051a7db90e9ffb7e82f03aa37da9773246d1f4c527245f726b85",
+      "blob": "aa2bd5b4d30e051a7db90e9ffb7e82f03aa37da9773246d1f4c527245f726b85",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 51454,
+      "sha256": "c34d1ae155132e3c1e09c9554e9bc95a37bc4baf5cca8679cb41636f14d03a87",
+      "blob": "c34d1ae155132e3c1e09c9554e9bc95a37bc4baf5cca8679cb41636f14d03a87",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v2/js/hd-system-ui.js",
+      "bytes": 63262,
+      "sha256": "acebcc1998b1b1d96637a39700ba5050bc24447332206197d3caf41990a04909",
+      "blob": "acebcc1998b1b1d96637a39700ba5050bc24447332206197d3caf41990a04909",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 53109,
+      "sha256": "cc9cc942060a2c47953282622411b6f2620f457227ae734f19dda69a6a291f9e",
+      "blob": "cc9cc942060a2c47953282622411b6f2620f457227ae734f19dda69a6a291f9e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/.gitattributes",
+      "bytes": 32787,
+      "sha256": "02a9aac5a259c456c1e9dbc2791d55c50def8cf8acd11de9c46ca42dbda31bfc",
+      "blob": "02a9aac5a259c456c1e9dbc2791d55c50def8cf8acd11de9c46ca42dbda31bfc",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/js/hd-system-ui.js",
+      "bytes": 59205,
+      "sha256": "6087c6fdc061866657ecd8c01e135815dabb18f900a0ca21bacbe00cb477f4ee",
+      "blob": "6087c6fdc061866657ecd8c01e135815dabb18f900a0ca21bacbe00cb477f4ee",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/m.html",
+      "bytes": 18456,
+      "sha256": "ddc7a3cf046ca10eceddb560dd18574fce85af35b4d341d1e88fc39f2b98a909",
+      "blob": "ddc7a3cf046ca10eceddb560dd18574fce85af35b4d341d1e88fc39f2b98a909",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/pc.html",
+      "bytes": 28016,
+      "sha256": "47f337700d61dc192e754d26fd8e119acbfe86171ca6dfdc41b3c775c9b685ca",
+      "blob": "47f337700d61dc192e754d26fd8e119acbfe86171ca6dfdc41b3c775c9b685ca",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/receipt.json",
+      "bytes": 1392,
+      "sha256": "7fb42f4f12323a5b93c80d55a130295b8ee71bfde0ceada877db69da1747ba47",
+      "blob": "7fb42f4f12323a5b93c80d55a130295b8ee71bfde0ceada877db69da1747ba47",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 43242,
+      "sha256": "fc8871894fab9f3c7931ed3ae885f66258e73a96e659c72a0126203aad2f68cf",
+      "blob": "fc8871894fab9f3c7931ed3ae885f66258e73a96e659c72a0126203aad2f68cf",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-root-full-v1-before.json",
+      "bytes": 80732,
+      "sha256": "b6557359d9849957e3cd279f35a068d75646493f9745afa3622ab7048c653b98",
+      "blob": "b6557359d9849957e3cd279f35a068d75646493f9745afa3622ab7048c653b98",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-root-full-v1.stdout.log",
+      "bytes": 545545,
+      "sha256": "50c19779ce9e1c4ba51b3350caaf30965afcbf86674baa69df086473a22b6766",
+      "blob": "50c19779ce9e1c4ba51b3350caaf30965afcbf86674baa69df086473a22b6766",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-source-fix-v1.json",
+      "bytes": 2844,
+      "sha256": "3f2e7f06451f21d5beb6dc6a5740f20a50bfe1aa47f2af978b06baf3abc59281",
+      "blob": "3f2e7f06451f21d5beb6dc6a5740f20a50bfe1aa47f2af978b06baf3abc59281",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-source-fix-v2.json",
+      "bytes": 3882,
+      "sha256": "879c405d811dd2017eb881bca310ddee5683aa36b9052b36668f96dbb9b70ea1",
+      "blob": "879c405d811dd2017eb881bca310ddee5683aa36b9052b36668f96dbb9b70ea1",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v1.stderr.log",
+      "bytes": 797,
+      "sha256": "eec6a5babdf46d803d0cd4959b398ef15f86452faf3060b8dab3d01762a4720e",
+      "blob": "eec6a5babdf46d803d0cd4959b398ef15f86452faf3060b8dab3d01762a4720e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v1.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stdout.tap",
+      "bytes": 55154,
+      "sha256": "6ca64832ec65807f1819ecf840e17e183530d2204c29b810d461b231d3bf41c1",
+      "blob": "6ca64832ec65807f1819ecf840e17e183530d2204c29b810d461b231d3bf41c1",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stdout.tap",
+      "bytes": 6717,
+      "sha256": "311db3bab5b7b2cd6da16f3aa6ceead0795bafa5bc4274d4d5a5d96c10c5ae0e",
+      "blob": "311db3bab5b7b2cd6da16f3aa6ceead0795bafa5bc4274d4d5a5d96c10c5ae0e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stdout.tap",
+      "bytes": 6042,
+      "sha256": "0dcab49877acaac1fa21b56a334dd2a694ce178ad4570a06f6fb5aca224d095b",
+      "blob": "0dcab49877acaac1fa21b56a334dd2a694ce178ad4570a06f6fb5aca224d095b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/receipt.json",
+      "bytes": 13602,
+      "sha256": "a9fef5b08b7da6dec95a1d5c25bd2cafcb5ae27cfc564187fa7fde9355bc4da7",
+      "blob": "a9fef5b08b7da6dec95a1d5c25bd2cafcb5ae27cfc564187fa7fde9355bc4da7",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/css/hd-system-ui.css",
+      "bytes": 3712,
+      "sha256": "b31ad2ebc094c6c1f834ea3153017284d679365b2b7b74d7a80023f7f7f784ef",
+      "blob": "b31ad2ebc094c6c1f834ea3153017284d679365b2b7b74d7a80023f7f7f784ef",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/js/hd-system-ui.js",
+      "bytes": 63262,
+      "sha256": "acebcc1998b1b1d96637a39700ba5050bc24447332206197d3caf41990a04909",
+      "blob": "acebcc1998b1b1d96637a39700ba5050bc24447332206197d3caf41990a04909",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/m.html",
+      "bytes": 18456,
+      "sha256": "42e34d498482920c8968179cacd6cb8385753878b0228e9b9203def36faf5476",
+      "blob": "42e34d498482920c8968179cacd6cb8385753878b0228e9b9203def36faf5476",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/pc.html",
+      "bytes": 28016,
+      "sha256": "279e96bb0406885a8aae021ac417cf1652ffcb8169446ccb3c1a692fefbe43e3",
+      "blob": "279e96bb0406885a8aae021ac417cf1652ffcb8169446ccb3c1a692fefbe43e3",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/receipt.json",
+      "bytes": 2388,
+      "sha256": "68dd1539e59b874ad8219baf18f5c4e1ea18674d381cd8313fc4cf8696bc5b6b",
+      "blob": "68dd1539e59b874ad8219baf18f5c4e1ea18674d381cd8313fc4cf8696bc5b6b",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 53109,
+      "sha256": "cc9cc942060a2c47953282622411b6f2620f457227ae734f19dda69a6a291f9e",
+      "blob": "cc9cc942060a2c47953282622411b6f2620f457227ae734f19dda69a6a291f9e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v1/js/hd-system-ui.js",
+      "bytes": 76693,
+      "sha256": "b08c2021cf63f8128850ca9b60647b36a6c9e4dfa0a7f229bac54d914b7d0654",
+      "blob": "b08c2021cf63f8128850ca9b60647b36a6c9e4dfa0a7f229bac54d914b7d0654",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/css/hd-system-ui.css",
+      "bytes": 7088,
+      "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d",
+      "blob": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/js/hd-system-ui.js",
+      "bytes": 76775,
+      "sha256": "da6f0317ec8eeb9e7beeb49e5d5d94bd540953ccaf5f80f1e78bdb47222543a7",
+      "blob": "da6f0317ec8eeb9e7beeb49e5d5d94bd540953ccaf5f80f1e78bdb47222543a7",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/m.html",
+      "bytes": 18454,
+      "sha256": "54cab091cc80c7627ab6d2c37558a27bdd133385c8e97b2825cb4c0f2dbd2276",
+      "blob": "54cab091cc80c7627ab6d2c37558a27bdd133385c8e97b2825cb4c0f2dbd2276",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/pc.html",
+      "bytes": 28655,
+      "sha256": "427b37b33bc5ed60efc32cd5e18b874fa0d830d71e8c7775d4f27a677a11199e",
+      "blob": "427b37b33bc5ed60efc32cd5e18b874fa0d830d71e8c7775d4f27a677a11199e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 64179,
+      "sha256": "9d051011ae4e9cc035d61aefd51d89a00aefdad2e09da118027cb07ab3eca5ed",
+      "blob": "9d051011ae4e9cc035d61aefd51d89a00aefdad2e09da118027cb07ab3eca5ed",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-reviewed-candidate-v2.json",
+      "bytes": 1558,
+      "sha256": "e419ba8c85629c5545d3b1ed4a9172c8627b172715ebbba23bdbf4d5b8057bde",
+      "blob": "e419ba8c85629c5545d3b1ed4a9172c8627b172715ebbba23bdbf4d5b8057bde",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-source-fix-v1.json",
+      "bytes": 4509,
+      "sha256": "3fd808a395f5be1e66a7e967a615ce150bb6f2e02e763a545e22f90a097c4694",
+      "blob": "3fd808a395f5be1e66a7e967a615ce150bb6f2e02e763a545e22f90a097c4694",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-source-fix-v2.json",
+      "bytes": 5491,
+      "sha256": "e181e2199f9f8515331d567a8bd0c4c2c2135aaaaec518ac474b12b3899f0923",
+      "blob": "e181e2199f9f8515331d567a8bd0c4c2c2135aaaaec518ac474b12b3899f0923",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stdout.tap",
+      "bytes": 55830,
+      "sha256": "a26ed4efc1c1b894fa9ee2771c045553bdd40d369bd8d035a2925431025b50f3",
+      "blob": "a26ed4efc1c1b894fa9ee2771c045553bdd40d369bd8d035a2925431025b50f3",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stdout.tap",
+      "bytes": 7139,
+      "sha256": "96655e0b8c6300c8d6b136b81453b9ef98bba1a8a3a8f8754838c97700e39e89",
+      "blob": "96655e0b8c6300c8d6b136b81453b9ef98bba1a8a3a8f8754838c97700e39e89",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stdout.tap",
+      "bytes": 3421,
+      "sha256": "d1a8b12957876af8d3c373b5cfb4a28d5c595da264647a7831bbf5d9b8111acd",
+      "blob": "d1a8b12957876af8d3c373b5cfb4a28d5c595da264647a7831bbf5d9b8111acd",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/receipt.json",
+      "bytes": 12219,
+      "sha256": "281a307444cb7cf30b3bbc780b9886ac0862f6eb7fd65c76a2be7e0115c1e979",
+      "blob": "281a307444cb7cf30b3bbc780b9886ac0862f6eb7fd65c76a2be7e0115c1e979",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-baseline-v1/hd-wood-city4-continuation.mjs",
+      "bytes": 51788,
+      "sha256": "c998ce1f9f8cf4b3b181f5d037e06cac533ac9106d15c777b409607aef2d5338",
+      "blob": "c998ce1f9f8cf4b3b181f5d037e06cac533ac9106d15c777b409607aef2d5338",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-baseline-v1/test-hd-wood-city4-continuation.mjs",
+      "bytes": 46188,
+      "sha256": "21636267b7e79169da3d38e3a9cfd63dababe6136cbab2a07a1792c42892d4d3",
+      "blob": "21636267b7e79169da3d38e3a9cfd63dababe6136cbab2a07a1792c42892d4d3",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-peer-v1.json",
+      "bytes": 10026,
+      "sha256": "86e35a7ce3c8c76205e15421af2ec2b461680b803cf850e6d49b45ff4bb4d111",
+      "blob": "86e35a7ce3c8c76205e15421af2ec2b461680b803cf850e6d49b45ff4bb4d111",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-target-v1-old-formal.mjs",
+      "bytes": 52121,
+      "sha256": "376f25fd62de04ea0bcdb7b285c6f8efa84398e62a16a5671334a8aa2e85f854",
+      "blob": "376f25fd62de04ea0bcdb7b285c6f8efa84398e62a16a5671334a8aa2e85f854",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-target-v1-old-test.mjs",
+      "bytes": 50222,
+      "sha256": "b80c1c84f9d57be8cb36ab02cfcb0bd1e733ca12a47131d3007bcf20b2de5443",
+      "blob": "b80c1c84f9d57be8cb36ab02cfcb0bd1e733ca12a47131d3007bcf20b2de5443",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-target-v1.json",
+      "bytes": 174758,
+      "sha256": "4604a5b80b77a466841d9cdcc4b19ff2c0ce1685d1f59911db7cccfa9cb14285",
+      "blob": "4604a5b80b77a466841d9cdcc4b19ff2c0ce1685d1f59911db7cccfa9cb14285",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-saved-preparation-review-v2.json",
+      "bytes": 69648,
+      "sha256": "87346a00f8b4848c2110fe18d406e2df37e4f4ef4df2aed86f201af1510d4a61",
+      "blob": "87346a00f8b4848c2110fe18d406e2df37e4f4ef4df2aed86f201af1510d4a61",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v1-old-formal.mjs",
+      "bytes": 52518,
+      "sha256": "b40fa63679015c6ecbcd3a8bde6a8b781dc47ac7cf58ba420d2766c2e246edb2",
+      "blob": "b40fa63679015c6ecbcd3a8bde6a8b781dc47ac7cf58ba420d2766c2e246edb2",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v1-old-test.mjs",
+      "bytes": 55525,
+      "sha256": "2471a7f4a7ceefcd625dff112a65c8abc2a8c516d7200afbd8a1246a75ea7c09",
+      "blob": "2471a7f4a7ceefcd625dff112a65c8abc2a8c516d7200afbd8a1246a75ea7c09",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+      "bytes": 35256,
+      "sha256": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "blob": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+      "bytes": 3425,
+      "sha256": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "blob": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "blob": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+      "bytes": 27783,
+      "sha256": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "blob": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+      "bytes": 3730,
+      "sha256": "e06b47054d580509660bc27b08e51929d6b16030ecc97f71b553ccf80f729613",
+      "blob": "e06b47054d580509660bc27b08e51929d6b16030ecc97f71b553ccf80f729613",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt",
+      "bytes": 13517,
+      "sha256": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a",
+      "blob": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v58-end-target-v2.mjs",
+      "bytes": 4119,
+      "sha256": "aca280d69bbc9cb8a39f75fc6c6091380d57fe68efc78c70b725914576fbf43e",
+      "blob": "aca280d69bbc9cb8a39f75fc6c6091380d57fe68efc78c70b725914576fbf43e",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-old-formal.mjs",
+      "bytes": 52518,
+      "sha256": "b40fa63679015c6ecbcd3a8bde6a8b781dc47ac7cf58ba420d2766c2e246edb2",
+      "blob": "b40fa63679015c6ecbcd3a8bde6a8b781dc47ac7cf58ba420d2766c2e246edb2",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-old-test.mjs",
+      "bytes": 55525,
+      "sha256": "81f1014da524f87c10fd71fa5c0f826d420c47749facb9cefc01d7c3580caf56",
+      "blob": "81f1014da524f87c10fd71fa5c0f826d420c47749facb9cefc01d7c3580caf56",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v58-end-controller-controls-v1.mjs",
+      "bytes": 2573,
+      "sha256": "87ca2c336f3b8dfc1e31f1c474bab3e4dfa2b4e8f4a7a13b4b9a06604300ea3f",
+      "blob": "87ca2c336f3b8dfc1e31f1c474bab3e4dfa2b4e8f4a7a13b4b9a06604300ea3f",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v58-end-full-v1.mjs",
+      "bytes": 4581,
+      "sha256": "493495c1856e2311b0ab97ecee867d1838c6d9035f95ee4a994905b8bc027922",
+      "blob": "493495c1856e2311b0ab97ecee867d1838c6d9035f95ee4a994905b8bc027922",
+      "roles": [
+        "explicit literal ignored source; no wildcard or prior-archive fallback"
+      ]
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 35080,
+      "sha256": "f93168541e48a7648176326ca6b0271348b4a472aa9ec9715c5e8fd2c76f34cf",
+      "blob": "f93168541e48a7648176326ca6b0271348b4a472aa9ec9715c5e8fd2c76f34cf",
+      "roles": [
+        "current attributes including exact two-stage evolution"
+      ]
+    }
+  ],
+  "logicalFiles": 289,
+  "uniqueBlobs": 258,
+  "rawNamedBytes": 7379331,
+  "uniqueRawBytes": 7092727,
+  "uniqueGzipBytes": 2085900,
+  "serializedPartBytes": 2840588,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

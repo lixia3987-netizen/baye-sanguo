@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "generator": "Codex built-in imagegen",
+  "scope": "Native STACHG_SPE27, index0, kind4, units12..17, two alternated sword poses; only picture7 and8",
+  "baseRevision": "6d41e7103d9ce94847dbfed9b7e52413910e20a3",
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "nativeResource": {
+    "id": 27,
+    "index": 0,
+    "bytes": 735,
+    "fingerprint": "fnv1a32:ba494eea:735",
+    "count": 18,
+    "picmax": 9,
+    "startFrm": 12,
+    "endFrm": 17
+  },
+  "preservation": "Selected original generated PNG bytes are copied unchanged; no crop, resize, recolor, mirror or alpha postprocessing outside imagegen. Native reference inspection PNGs are separate and are not production artwork.",
+  "prompts": [
+    {
+      "picIndex": 7,
+      "type": "new",
+      "transparentBackground": true,
+      "prompt": "Use case: stylized-concept. Create ONE production-ready high-resolution 2D game sprite, a slim Chinese jian sword used as an AI target indicator in a Three Kingdoms strategy game. A single straight double-edged silver steel blade with restrained warm gold edging, a compact antique bronze crossguard and gold-bronze wrapped hilt, clear painted contours and restrained highlights suitable for a tiny animated icon. Square transparent canvas. Exact diagonal orientation: the sharp blade tip points to the UPPER LEFT, near (20%,20%); the narrow straight blade extends toward a compact crossguard near (65%,65%); the short grip and rounded pommel end in the LOWER RIGHT near (80%,80%). Keep the sword entirely within a 17% transparent border. Blade silhouette must be thin and straight, not a scimitar. Balanced readable game illustration, dark outlines, silver blade, muted gold and bronze hilt. Only one sword. Fully transparent background including all negative space. No environment, no floor, no backdrop, no colored rectangle, no decorative ring, no UI frame, no arrow, no target reticle, no text, no logo, no hands or character, no particles, no glow, no cast shadow. Preserve transparency and clean edges. This is sprite picture 7, first of two alternating mirrored sword orientations.",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-0f6a63c3-5ffd-4c82-89d3-2b23a7cb60da.png",
+      "output": "assets/hd-spe/ai-target-27/picture-7.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/ai-target-27/picture-7.png",
+        "bytes": 364783,
+        "sha256": "48eca04e873e875423e0b48c646251ee6eccf5cd29dbfa25ba8908589aa89eca",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 1465545,
+        "visible": 106971,
+        "opaque": 493,
+        "alphaBoundingBox": {
+          "minX": 121,
+          "minY": 41,
+          "maxX": 1189,
+          "maxY": 1227
+        }
+      },
+      "visualReview": {
+        "orientation": "blade tip upper-left, pommel lower-right",
+        "notes": "Selected generated originals inspected, same silver/gold/bronze jian style, single weapon, transparent canvas. Raw dimensions and exact alpha counts independently decoded; no postprocessing."
+      }
+    },
+    {
+      "picIndex": 8,
+      "type": "edit",
+      "transparentBackground": true,
+      "referenceOriginal": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-0f6a63c3-5ffd-4c82-89d3-2b23a7cb60da.png",
+      "output": "assets/hd-spe/ai-target-27/picture-8.png",
+      "original": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-b1c704ca-cfb6-48a8-9f5c-5d58467705c1.png",
+      "outputAudit": {
+        "file": "assets/hd-spe/ai-target-27/picture-8.png",
+        "bytes": 377678,
+        "sha256": "c13c2366833c22af938c276a7a4bc10f4e673bdd5fd14df8bafa115a1ea2d9cb",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 6,
+        "transparent": 1459831,
+        "visible": 112685,
+        "opaque": 331,
+        "alphaBoundingBox": {
+          "minX": 71,
+          "minY": 115,
+          "maxX": 1135,
+          "maxY": 1165
+        }
+      },
+      "visualReview": {
+        "orientation": "blade tip upper-right, pommel lower-left",
+        "notes": "Selected generated originals inspected, same silver/gold/bronze jian style, single weapon, transparent canvas. Raw dimensions and exact alpha counts independently decoded; no postprocessing."
+      }
+    }
+  ],
+  "notClaimed": "No other resource27 units, full HD battle-map placement, arbitrary Mod, or global HD completion."
+}

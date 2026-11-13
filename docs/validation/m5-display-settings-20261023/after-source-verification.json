@@ -1,0 +1,680 @@
+{
+  "js/base64.js": {
+    "source": "js/base64.js",
+    "bytes": 3334,
+    "sha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42",
+    "currentSha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42",
+    "match": true
+  },
+  "js/base64.min.js": {
+    "source": "js/base64.min.js",
+    "bytes": 3826,
+    "sha256": "4e4b133053d69f2cf1b9cf9201b76dcf64d33b3f0770a0ef17299ee55a17322e",
+    "currentSha256": "4e4b133053d69f2cf1b9cf9201b76dcf64d33b3f0770a0ef17299ee55a17322e",
+    "match": true
+  },
+  "js/baye.build.json": {
+    "source": "js/baye.build.json",
+    "bytes": 21284,
+    "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+    "currentSha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+    "match": true
+  },
+  "js/baye.js": {
+    "source": "js/baye.js",
+    "bytes": 193321,
+    "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2",
+    "currentSha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2",
+    "match": true
+  },
+  "js/baye.wasm": {
+    "source": "js/baye.wasm",
+    "bytes": 4561352,
+    "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5",
+    "currentSha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5",
+    "match": true
+  },
+  "js/baye.wasm.map": {
+    "source": "js/baye.wasm.map",
+    "bytes": 29983,
+    "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646",
+    "currentSha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646",
+    "match": true
+  },
+  "js/bridge.js": {
+    "source": "js/bridge.js",
+    "bytes": 160484,
+    "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+    "currentSha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+    "match": true
+  },
+  "js/demos.js": {
+    "source": "js/demos.js",
+    "bytes": 18466,
+    "sha256": "4ae8ef25df25c55abae92335dc65564aec3d3aab4a463687ea33a9afd08c7233",
+    "currentSha256": "4ae8ef25df25c55abae92335dc65564aec3d3aab4a463687ea33a9afd08c7233",
+    "match": true
+  },
+  "js/encoding-indexes.js": {
+    "source": "js/encoding-indexes.js",
+    "bytes": 145824,
+    "sha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738",
+    "currentSha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738",
+    "match": true
+  },
+  "js/encoding.js": {
+    "source": "js/encoding.js",
+    "bytes": 101260,
+    "sha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d",
+    "currentSha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d",
+    "match": true
+  },
+  "js/examples.js": {
+    "source": "js/examples.js",
+    "bytes": 19918,
+    "sha256": "3aa9501a211a80d3199a1c88589ef24af0f6d1f829f4ded1245eb9488bf6dc7b",
+    "currentSha256": "3aa9501a211a80d3199a1c88589ef24af0f6d1f829f4ded1245eb9488bf6dc7b",
+    "match": true
+  },
+  "js/hd-battle-feedback.js": {
+    "source": "js/hd-battle-feedback.js",
+    "bytes": 12212,
+    "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f",
+    "currentSha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f",
+    "match": true
+  },
+  "js/hd-battle-note.js": {
+    "source": "js/hd-battle-note.js",
+    "bytes": 8992,
+    "sha256": "e555083463b87e439bbc95bfafa834bdf3e9f145119c60abe6ca177fb12acf49",
+    "currentSha256": "e555083463b87e439bbc95bfafa834bdf3e9f145119c60abe6ca177fb12acf49",
+    "match": true
+  },
+  "js/hd-battle-scene.js": {
+    "source": "js/hd-battle-scene.js",
+    "bytes": 18188,
+    "sha256": "771ec3b6989417c06d768831261022e635b232a2c36f6150d649e734e1f09c79",
+    "currentSha256": "771ec3b6989417c06d768831261022e635b232a2c36f6150d649e734e1f09c79",
+    "match": true
+  },
+  "js/hd-battle-terrain.js": {
+    "source": "js/hd-battle-terrain.js",
+    "bytes": 12641,
+    "sha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467",
+    "currentSha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467",
+    "match": true
+  },
+  "js/hd-battle.js": {
+    "source": "js/hd-battle.js",
+    "bytes": 80899,
+    "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2",
+    "currentSha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2",
+    "match": true
+  },
+  "js/hd-city-menu.js": {
+    "source": "js/hd-city-menu.js",
+    "bytes": 428488,
+    "sha256": "69d85a0dda567673f141fe459056698362d3ebb4f6b318e07a4bc3bfe76b451c",
+    "currentSha256": "69d85a0dda567673f141fe459056698362d3ebb4f6b318e07a4bc3bfe76b451c",
+    "match": true
+  },
+  "js/hd-dialog.js": {
+    "source": "js/hd-dialog.js",
+    "bytes": 133841,
+    "sha256": "d5df932466662bdbfe20804ef8f129a231452f8776c903d543e626bf78b55692",
+    "currentSha256": "d5df932466662bdbfe20804ef8f129a231452f8776c903d543e626bf78b55692",
+    "match": true
+  },
+  "js/hd-graphics.js": {
+    "source": "js/hd-graphics.js",
+    "bytes": 11177,
+    "sha256": "f40858de52d530ecd272a346c345c38fe4f1573ce0ce0facf09f7caaa488f1b2",
+    "currentSha256": "f40858de52d530ecd272a346c345c38fe4f1573ce0ce0facf09f7caaa488f1b2",
+    "match": true
+  },
+  "js/hd-lib-identity.js": {
+    "source": "js/hd-lib-identity.js",
+    "bytes": 5822,
+    "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf",
+    "currentSha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf",
+    "match": true
+  },
+  "js/hd-minimap.js": {
+    "source": "js/hd-minimap.js",
+    "bytes": 24259,
+    "sha256": "50f66f0ff5e20c77755d998775d6604151e500bea17d1798dfd80040cbc00f3b",
+    "currentSha256": "50f66f0ff5e20c77755d998775d6604151e500bea17d1798dfd80040cbc00f3b",
+    "match": true
+  },
+  "js/hd-mobile-battle.js": {
+    "source": "js/hd-mobile-battle.js",
+    "bytes": 31770,
+    "sha256": "53a170898092662e5709d89c16fdd7195bdf94e0f174e0c2fbafad30415f9cfc",
+    "currentSha256": "53a170898092662e5709d89c16fdd7195bdf94e0f174e0c2fbafad30415f9cfc",
+    "match": true
+  },
+  "js/hd-mobile-city.js": {
+    "source": "js/hd-mobile-city.js",
+    "bytes": 34940,
+    "sha256": "d15792e14cec4f9157f96847c10baed04d75247123b8798ab9de611db1be1bf6",
+    "currentSha256": "d15792e14cec4f9157f96847c10baed04d75247123b8798ab9de611db1be1bf6",
+    "match": true
+  },
+  "js/hd-mobile-map.js": {
+    "source": "js/hd-mobile-map.js",
+    "bytes": 32130,
+    "sha256": "859e1fe32b8af72a3a19cea6bc6ec68ac07df04b038c69717f80d0262d6c27b9",
+    "currentSha256": "859e1fe32b8af72a3a19cea6bc6ec68ac07df04b038c69717f80d0262d6c27b9",
+    "match": true
+  },
+  "js/hd-mobile-minimap.js": {
+    "source": "js/hd-mobile-minimap.js",
+    "bytes": 11483,
+    "sha256": "9446be6d4a3fd8e456b2782be54c6c2c86b697ce047047e3cea8c6b2ec204861",
+    "currentSha256": "9446be6d4a3fd8e456b2782be54c6c2c86b697ce047047e3cea8c6b2ec204861",
+    "match": true
+  },
+  "js/hd-mobile-portraits.js": {
+    "source": "js/hd-mobile-portraits.js",
+    "bytes": 24241,
+    "sha256": "cd33628dd9e2a7c4436ed88d121727c8e539f46cabe35ff3ab5973d5b6206076",
+    "currentSha256": "cd33628dd9e2a7c4436ed88d121727c8e539f46cabe35ff3ab5973d5b6206076",
+    "match": true
+  },
+  "js/hd-mobile-system.js": {
+    "source": "js/hd-mobile-system.js",
+    "bytes": 32227,
+    "sha256": "88499b83ae043e434aea9dc4c8109a3bc9f69be3bbc1aee52305a6e700acd643",
+    "currentSha256": "88499b83ae043e434aea9dc4c8109a3bc9f69be3bbc1aee52305a6e700acd643",
+    "match": true
+  },
+  "js/hd-mobile.js": {
+    "source": "js/hd-mobile.js",
+    "bytes": 10279,
+    "sha256": "7534d3668dd3d6ab8349aae0bfc85977dca2f56e7104efa19b4acace92f05634",
+    "currentSha256": "7534d3668dd3d6ab8349aae0bfc85977dca2f56e7104efa19b4acace92f05634",
+    "match": true
+  },
+  "js/hd-overworld-layers.js": {
+    "source": "js/hd-overworld-layers.js",
+    "bytes": 5717,
+    "sha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a",
+    "currentSha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a",
+    "match": true
+  },
+  "js/hd-overworld-probe.js": {
+    "source": "js/hd-overworld-probe.js",
+    "bytes": 11956,
+    "sha256": "a11350d0b52118c41835d6d7dda8c1143efceffc386ba715c15822fa6fd20f31",
+    "currentSha256": "a11350d0b52118c41835d6d7dda8c1143efceffc386ba715c15822fa6fd20f31",
+    "match": true
+  },
+  "js/hd-overworld.js": {
+    "source": "js/hd-overworld.js",
+    "bytes": 172137,
+    "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+    "currentSha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+    "match": true
+  },
+  "js/hd-portrait-dump.js": {
+    "source": "js/hd-portrait-dump.js",
+    "bytes": 19519,
+    "sha256": "46090d861a92bb3357bf79bdcba9cc6f380985360ff03ae37083f003a53cab1e",
+    "currentSha256": "46090d861a92bb3357bf79bdcba9cc6f380985360ff03ae37083f003a53cab1e",
+    "match": true
+  },
+  "js/hd-portraits.js": {
+    "source": "js/hd-portraits.js",
+    "bytes": 30421,
+    "sha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c",
+    "currentSha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c",
+    "match": true
+  },
+  "js/hd-spe.js": {
+    "source": "js/hd-spe.js",
+    "bytes": 133919,
+    "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+    "currentSha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+    "match": true
+  },
+  "js/hd-system-ui.js": {
+    "source": "js/hd-system-ui.js",
+    "bytes": 55988,
+    "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+    "currentSha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+    "match": true
+  },
+  "js/idbkvstore.min.js": {
+    "source": "js/idbkvstore.min.js",
+    "bytes": 16578,
+    "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60",
+    "currentSha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60",
+    "match": true
+  },
+  "js/intro.min.js": {
+    "source": "js/intro.min.js",
+    "bytes": 22681,
+    "sha256": "79ebf487a19800b08bfa8c3625976f18d4cdcde3715a72494d5b60713aaf52a8",
+    "currentSha256": "79ebf487a19800b08bfa8c3625976f18d4cdcde3715a72494d5b60713aaf52a8",
+    "match": true
+  },
+  "js/jquery.min.js": {
+    "source": "js/jquery.min.js",
+    "bytes": 92629,
+    "sha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4",
+    "currentSha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4",
+    "match": true
+  },
+  "js/jquery.touchSwipe.min.js": {
+    "source": "js/jquery.touchSwipe.min.js",
+    "bytes": 20412,
+    "sha256": "a10d7edb8fd307f469beaaa75a725e4bdae24a1b867f5bc7960f01e25c99d8e1",
+    "currentSha256": "a10d7edb8fd307f469beaaa75a725e4bdae24a1b867f5bc7960f01e25c99d8e1",
+    "match": true
+  },
+  "js/jszip.min.js": {
+    "source": "js/jszip.min.js",
+    "bytes": 100723,
+    "sha256": "40f82e20e98cdef9fd312359ad50b4bac0b37b79e33d3c5fa85c129f87114bd9",
+    "currentSha256": "40f82e20e98cdef9fd312359ad50b4bac0b37b79e33d3c5fa85c129f87114bd9",
+    "match": true
+  },
+  "js/lcd.js": {
+    "source": "js/lcd.js",
+    "bytes": 35113,
+    "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+    "currentSha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+    "match": true
+  },
+  "js/lcd_mt.js": {
+    "source": "js/lcd_mt.js",
+    "bytes": 17002,
+    "sha256": "db30104258a2bdebad28b7412992d95c58495ba0cebbc78b7eaf49acd53824ad",
+    "currentSha256": "db30104258a2bdebad28b7412992d95c58495ba0cebbc78b7eaf49acd53824ad",
+    "match": true
+  },
+  "js/lzma_worker-min.js": {
+    "source": "js/lzma_worker-min.js",
+    "bytes": 23963,
+    "sha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523",
+    "currentSha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523",
+    "match": true
+  },
+  "js/mtower.js": {
+    "source": "js/mtower.js",
+    "bytes": 1051518,
+    "sha256": "a056d12a957e3671a8c14ef59dc807a0ca5c6ba94ccc9a2244e6d025177b77bc",
+    "currentSha256": "a056d12a957e3671a8c14ef59dc807a0ca5c6ba94ccc9a2244e6d025177b77bc",
+    "match": true
+  },
+  "js/original-game.js": {
+    "source": "js/original-game.js",
+    "bytes": 7437,
+    "sha256": "1ce5174f232eb007f92596ef4107f3e9ba23305e13eae621427f5fd72c545e34",
+    "currentSha256": "1ce5174f232eb007f92596ef4107f3e9ba23305e13eae621427f5fd72c545e34",
+    "match": true
+  },
+  "js/save-storage.js": {
+    "source": "js/save-storage.js",
+    "bytes": 11899,
+    "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+    "currentSha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+    "match": true
+  },
+  "js/spin.min.js": {
+    "source": "js/spin.min.js",
+    "bytes": 4277,
+    "sha256": "3e27aa13441d103329a705eb4f349942bead5855f75b92a4c91572175ccddde8",
+    "currentSha256": "3e27aa13441d103329a705eb4f349942bead5855f75b92a4c91572175ccddde8",
+    "match": true
+  },
+  "js/sprintf.js": {
+    "source": "js/sprintf.js",
+    "bytes": 9783,
+    "sha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c",
+    "currentSha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c",
+    "match": true
+  },
+  "js/tappy.js": {
+    "source": "js/tappy.js",
+    "bytes": 3014,
+    "sha256": "84eb82432b2b3eb18569196f9296501285d6aed025a2ee2b5c6bd649d329c7ce",
+    "currentSha256": "84eb82432b2b3eb18569196f9296501285d6aed025a2ee2b5c6bd649d329c7ce",
+    "match": true
+  },
+  "css/baye.css": {
+    "source": "css/baye.css",
+    "bytes": 2869,
+    "sha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83",
+    "currentSha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83",
+    "match": true
+  },
+  "css/flex.css": {
+    "source": "css/flex.css",
+    "bytes": 11011,
+    "sha256": "4c101c7dff025fcb2639aecd0a4b628239e0c22fc3ce521bb59eda341e3fd83b",
+    "currentSha256": "4c101c7dff025fcb2639aecd0a4b628239e0c22fc3ce521bb59eda341e3fd83b",
+    "match": true
+  },
+  "css/hd-battle-note.css": {
+    "source": "css/hd-battle-note.css",
+    "bytes": 1413,
+    "sha256": "ad4f8443ff64370141ee17da179672190f45efd7b1a993c876f0214815293585",
+    "currentSha256": "ad4f8443ff64370141ee17da179672190f45efd7b1a993c876f0214815293585",
+    "match": true
+  },
+  "css/hd-battle.css": {
+    "source": "css/hd-battle.css",
+    "bytes": 5985,
+    "sha256": "44f704d2fd74309cd9e6053f79e30f707b6252ea09f9bc6ef1c659855fc2c4b6",
+    "currentSha256": "44f704d2fd74309cd9e6053f79e30f707b6252ea09f9bc6ef1c659855fc2c4b6",
+    "match": true
+  },
+  "css/hd-city-menu.css": {
+    "source": "css/hd-city-menu.css",
+    "bytes": 14850,
+    "sha256": "7e49268a562e8965d6e6d8e5fc96507382af5100281755937ab230597103f728",
+    "currentSha256": "7e49268a562e8965d6e6d8e5fc96507382af5100281755937ab230597103f728",
+    "match": true
+  },
+  "css/hd-dialog.css": {
+    "source": "css/hd-dialog.css",
+    "bytes": 9772,
+    "sha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e",
+    "currentSha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e",
+    "match": true
+  },
+  "css/hd-graphics.css": {
+    "source": "css/hd-graphics.css",
+    "bytes": 4107,
+    "sha256": "157385e2d4ed3fb2d36a3b6bc137e3c231bb8bfc83eda44250f1a4b782377a81",
+    "currentSha256": "157385e2d4ed3fb2d36a3b6bc137e3c231bb8bfc83eda44250f1a4b782377a81",
+    "match": true
+  },
+  "css/hd-minimap.css": {
+    "source": "css/hd-minimap.css",
+    "bytes": 2911,
+    "sha256": "ab56c2fc9fa522c2d63de3b7beb3aef1ce43897de17666d0a83ef0e4e1f48a46",
+    "currentSha256": "ab56c2fc9fa522c2d63de3b7beb3aef1ce43897de17666d0a83ef0e4e1f48a46",
+    "match": true
+  },
+  "css/hd-mobile.css": {
+    "source": "css/hd-mobile.css",
+    "bytes": 31399,
+    "sha256": "b1028c56ba5b7f630f76de0850195dc332bd1935c105e74f72b9b6ee32a336e4",
+    "currentSha256": "b1028c56ba5b7f630f76de0850195dc332bd1935c105e74f72b9b6ee32a336e4",
+    "match": true
+  },
+  "css/hd-overworld.css": {
+    "source": "css/hd-overworld.css",
+    "bytes": 5226,
+    "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38",
+    "currentSha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38",
+    "match": true
+  },
+  "css/hd-portraits.css": {
+    "source": "css/hd-portraits.css",
+    "bytes": 1468,
+    "sha256": "0f81311067dade4d1e5515db40432d224cfe4071737794e89cd9bf7248b39799",
+    "currentSha256": "0f81311067dade4d1e5515db40432d224cfe4071737794e89cd9bf7248b39799",
+    "match": true
+  },
+  "css/hd-spe.css": {
+    "source": "css/hd-spe.css",
+    "bytes": 3015,
+    "sha256": "0419cfc1b20ce6acbb14a347c11322bd02a139bf2e65f7247ae5ef1f7caa2c8a",
+    "currentSha256": "0419cfc1b20ce6acbb14a347c11322bd02a139bf2e65f7247ae5ef1f7caa2c8a",
+    "match": true
+  },
+  "css/hd-system-ui.css": {
+    "source": "css/hd-system-ui.css",
+    "bytes": 3417,
+    "sha256": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833",
+    "currentSha256": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833",
+    "match": true
+  },
+  "pc.html": {
+    "source": "pc.html",
+    "bytes": 27750,
+    "sha256": "afaee3d921c629fe201eb614d88fb210f2d0635b3e20c19c3625da78c5021a42",
+    "currentSha256": "afaee3d921c629fe201eb614d88fb210f2d0635b3e20c19c3625da78c5021a42",
+    "match": true
+  },
+  "libs/dat-mod.lib": {
+    "source": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "currentSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "match": true
+  },
+  "assets/hd-overworld/china-lcc-cities.json": {
+    "source": "assets/hd-overworld/china-lcc-cities.json",
+    "bytes": 13172,
+    "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a",
+    "currentSha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a",
+    "match": true
+  },
+  "assets/hd-overworld/cities/fortified-city-v1.png": {
+    "source": "assets/hd-overworld/cities/fortified-city-v1.png",
+    "bytes": 972200,
+    "sha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db",
+    "currentSha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db",
+    "match": true
+  },
+  "assets/hd-overworld/cities/marker_empty.png": {
+    "source": "assets/hd-overworld/cities/marker_empty.png",
+    "bytes": 4286,
+    "sha256": "5ce998dc0225b0067664ea1208ecffc1ae3ae0fce96259a716157c848a707bff",
+    "currentSha256": "5ce998dc0225b0067664ea1208ecffc1ae3ae0fce96259a716157c848a707bff",
+    "match": true
+  },
+  "assets/hd-overworld/cities/marker_neutral.png": {
+    "source": "assets/hd-overworld/cities/marker_neutral.png",
+    "bytes": 4725,
+    "sha256": "93d9e81130daee0768f9ca8cb33fe377eaf3150de9d5e0366fc270837f4dd79b",
+    "currentSha256": "93d9e81130daee0768f9ca8cb33fe377eaf3150de9d5e0366fc270837f4dd79b",
+    "match": true
+  },
+  "assets/hd-overworld/cities/marker_owned.png": {
+    "source": "assets/hd-overworld/cities/marker_owned.png",
+    "bytes": 4589,
+    "sha256": "6bacd47b9bb9ea0099ff0f8702d3d3ffa8e6e7ba988d6285f074d40792c8a282",
+    "currentSha256": "6bacd47b9bb9ea0099ff0f8702d3d3ffa8e6e7ba988d6285f074d40792c8a282",
+    "match": true
+  },
+  "assets/hd-overworld/cities/marker_selected.png": {
+    "source": "assets/hd-overworld/cities/marker_selected.png",
+    "bytes": 7316,
+    "sha256": "d9dd764c18e3dfb7286a0456839375daadad5082e97d5f31ed7fdac482ca4785",
+    "currentSha256": "d9dd764c18e3dfb7286a0456839375daadad5082e97d5f31ed7fdac482ca4785",
+    "match": true
+  },
+  "assets/hd-overworld/GENERATED-ART.md": {
+    "source": "assets/hd-overworld/GENERATED-ART.md",
+    "bytes": 8991,
+    "sha256": "068a69d9979e73b19030d3d0b28749d2f901b97cc14b78dcccd3707bd0805e9f",
+    "currentSha256": "068a69d9979e73b19030d3d0b28749d2f901b97cc14b78dcccd3707bd0805e9f",
+    "match": true
+  },
+  "assets/hd-overworld/GENERATED-BRIDGE.json": {
+    "source": "assets/hd-overworld/GENERATED-BRIDGE.json",
+    "bytes": 3440,
+    "sha256": "55b08a002e38359ce18f90099bf0a25e1c7f1f5aac796c345618ea83efeb33b7",
+    "currentSha256": "55b08a002e38359ce18f90099bf0a25e1c7f1f5aac796c345618ea83efeb33b7",
+    "match": true
+  },
+  "assets/hd-overworld/GEOGRAPHY.md": {
+    "source": "assets/hd-overworld/GEOGRAPHY.md",
+    "bytes": 4984,
+    "sha256": "d20e27a1fedce04e69084b853e034f609647c1903a4883e09685e3ff92d90dbb",
+    "currentSha256": "d20e27a1fedce04e69084b853e034f609647c1903a4883e09685e3ff92d90dbb",
+    "match": true
+  },
+  "assets/hd-overworld/jianan-cities.json": {
+    "source": "assets/hd-overworld/jianan-cities.json",
+    "bytes": 12624,
+    "sha256": "be5032bb1f6f81137b18f990528f89124d80fc1d5f1d93dabac72896c3ed893e",
+    "currentSha256": "be5032bb1f6f81137b18f990528f89124d80fc1d5f1d93dabac72896c3ed893e",
+    "match": true
+  },
+  "assets/hd-overworld/manifest.json": {
+    "source": "assets/hd-overworld/manifest.json",
+    "bytes": 8120,
+    "sha256": "a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94",
+    "currentSha256": "a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94",
+    "match": true
+  },
+  "assets/hd-overworld/palette/factions.json": {
+    "source": "assets/hd-overworld/palette/factions.json",
+    "bytes": 479,
+    "sha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098",
+    "currentSha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098",
+    "match": true
+  },
+  "assets/hd-overworld/README.md": {
+    "source": "assets/hd-overworld/README.md",
+    "bytes": 3668,
+    "sha256": "77a8283a6af95f255600c9f755bef0bce431a96b0e3956a77f2d5ae95c48e507",
+    "currentSha256": "77a8283a6af95f255600c9f755bef0bce431a96b0e3956a77f2d5ae95c48e507",
+    "match": true
+  },
+  "assets/hd-overworld/roads/adjacency.json": {
+    "source": "assets/hd-overworld/roads/adjacency.json",
+    "bytes": 925,
+    "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad",
+    "currentSha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad",
+    "match": true
+  },
+  "assets/hd-overworld/roads/bridge-crossing-v1.png": {
+    "source": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+    "bytes": 1198185,
+    "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88",
+    "currentSha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88",
+    "match": true
+  },
+  "assets/hd-overworld/roads/pass.png": {
+    "source": "assets/hd-overworld/roads/pass.png",
+    "bytes": 490,
+    "sha256": "4594a8563568608329a2a19c7b4224247956d0249cb7ebc5aad5a27a366de64a",
+    "currentSha256": "4594a8563568608329a2a19c7b4224247956d0249cb7ebc5aad5a27a366de64a",
+    "match": true
+  },
+  "assets/hd-overworld/roads/stroke.png": {
+    "source": "assets/hd-overworld/roads/stroke.png",
+    "bytes": 108,
+    "sha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c",
+    "currentSha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c",
+    "match": true
+  },
+  "assets/hd-overworld/terrain/base_plains.jpg": {
+    "source": "assets/hd-overworld/terrain/base_plains.jpg",
+    "bytes": 2538377,
+    "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445",
+    "currentSha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445",
+    "match": true
+  },
+  "assets/hd-overworld/terrain/forest-cluster-v1.png": {
+    "source": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+    "bytes": 1540805,
+    "sha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f",
+    "currentSha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f",
+    "match": true
+  },
+  "assets/hd-overworld/terrain/mountain-cluster-v1.png": {
+    "source": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+    "bytes": 911013,
+    "sha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46",
+    "currentSha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46",
+    "match": true
+  },
+  "assets/hd-overworld/terrain/overlay_forest.png": {
+    "source": "assets/hd-overworld/terrain/overlay_forest.png",
+    "bytes": 72,
+    "sha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+    "currentSha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+    "match": true
+  },
+  "assets/hd-overworld/terrain/overlay_mountains.png": {
+    "source": "assets/hd-overworld/terrain/overlay_mountains.png",
+    "bytes": 72,
+    "sha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+    "currentSha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+    "match": true
+  },
+  "assets/hd-overworld/terrain/overlay_rivers.png": {
+    "source": "assets/hd-overworld/terrain/overlay_rivers.png",
+    "bytes": 93336,
+    "sha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7",
+    "currentSha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7",
+    "match": true
+  },
+  "assets/hd-overworld/ui/cursor.png": {
+    "source": "assets/hd-overworld/ui/cursor.png",
+    "bytes": 777,
+    "sha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994",
+    "currentSha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994",
+    "match": true
+  },
+  "assets/hd-overworld/ui/cursor_hover.png": {
+    "source": "assets/hd-overworld/ui/cursor_hover.png",
+    "bytes": 3060,
+    "sha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604",
+    "currentSha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604",
+    "match": true
+  },
+  "qr.png": {
+    "source": "qr.png",
+    "bytes": 19141,
+    "sha256": "2dcdbc804e603ce37be3f81b932291b5ff5ca7b70f6349f4cff32fcd64343c10",
+    "currentSha256": "2dcdbc804e603ce37be3f81b932291b5ff5ca7b70f6349f4cff32fcd64343c10",
+    "match": true
+  },
+  "fonts/HarmonyOS_Sans_SC_Regular.ttf": {
+    "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+    "bytes": 8261128,
+    "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1",
+    "currentSha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1",
+    "match": true
+  },
+  "assets/hd-spe/manifest.json": {
+    "source": "assets/hd-spe/manifest.json",
+    "bytes": 711999,
+    "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf",
+    "currentSha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf",
+    "match": true
+  },
+  "assets/hd-portraits/manifest.json": {
+    "source": "assets/hd-portraits/manifest.json",
+    "bytes": 8741,
+    "sha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894",
+    "currentSha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894",
+    "match": true
+  },
+  "assets/hd-portraits/refs/index.json": {
+    "source": "assets/hd-portraits/refs/index.json",
+    "bytes": 224423,
+    "sha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f",
+    "currentSha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f",
+    "match": true
+  },
+  "favicon.png": {
+    "source": "favicon.png",
+    "bytes": 7349,
+    "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22",
+    "currentSha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22",
+    "match": true
+  },
+  "assets/hd-portraits/hd/hd_p1_0001_曹操.png": {
+    "source": "assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+    "bytes": 1227801,
+    "sha256": "e75fdd2ebeec7464e85291c99cd48cd2602d96f52963205899fc16e40fd11895",
+    "currentSha256": "e75fdd2ebeec7464e85291c99cd48cd2602d96f52963205899fc16e40fd11895",
+    "match": true
+  },
+  "runner": {
+    "bytes": 68559,
+    "sha256": "d79eeb1bfc609d08f5a37f947076818f8846a41ad0bde19221162e04ded00f10",
+    "currentSha256": "d79eeb1bfc609d08f5a37f947076818f8846a41ad0bde19221162e04ded00f10",
+    "match": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-overworld-runtime-NPOtuC",
+  "httpPort": 1152,
+  "debugPort": 1153,
+  "chromePid": 53020,
+  "userServicePort": 8080,
+  "scope": "Only the server, Chrome child and fresh profile created by this runner are owned",
+  "chromeExitCode": null,
+  "chromeSignalCode": "SIGTERM",
+  "chromeExited": true,
+  "serverClosed": true,
+  "profileRemoved": true,
+  "profileError": null,
+  "httpPortClosed": true,
+  "debugPortClosed": true,
+  "cleaned": true
+}

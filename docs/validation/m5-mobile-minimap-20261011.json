@@ -1,0 +1,5349 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "accepted": true,
+  "scope": "Original era1 Dong Zhuo mobile SEARCH overview in Chrome touch emulation at 844x390 and667x375. Two real native51/40 cycles per viewport, all38 city names/allegiance/coordinates and readonly scroll.",
+  "globalHdComplete": false,
+  "realDeviceAccepted": false,
+  "wholeNativeAbiAccepted": false,
+  "newNativeBuild": false,
+  "defaultParallelSuiteAccepted": false,
+  "implementation": {
+    "originalLibrary": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "mapTicket": "Strict ordinary MAP double-read with opaque data reference, current original identity and no march/transfer target owner",
+    "returnTicket": "Native SEARCH seq/generation/inputSeq, all raw fields and blockers double-read, current data reference and complete original38-city assets",
+    "input": "Header trusted pointer or focused Enter/Space emits oneSEARCH51. Shared return trusted DOWN/UP/click emits oneEXIT40. Expired, multitouch, scroll and lifecycle gestures retire without keys.",
+    "fixes": [
+      "Initial hidden-layout drawing retries without caching an empty canvas",
+      "Page lock permits only current original mobile overview city-list pans",
+      "Normal post-UP implicit capture release retains current grant; lost capture before UP retires it",
+      "Fresh mobile native owner resets city-list scroll while same owner preserves user scroll"
+    ]
+  },
+  "tests": {
+    "fullList": {
+      "log": {
+        "path": "build/mobile-minimap-validation-20261011/final-suite/full-suite-serial-v3.log",
+        "bytes": 315382,
+        "sha256": "d26042d79a22adc28a5e970006e8cbecd391f2babcfbf7d259f1c0a994b2ec01"
+      },
+      "tests": 3354,
+      "pass": 3354,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 72096.6227,
+      "modules": 81,
+      "testConcurrency": 1,
+      "nodeVersion": "v24.14.0",
+      "sourceManifest": {
+        "path": "build/mobile-minimap-validation-20261011/final-suite/final-test-sources.json",
+        "bytes": 25001,
+        "sha256": "8738d56e69bd384463fd14c264e928615aa9ec7d90d3d8579fbc68ea7ba26b73"
+      }
+    },
+    "earlierFullLists": [
+      {
+        "log": {
+          "path": "build/mobile-minimap-validation-20261011/full-suite-serial-v1.log",
+          "bytes": 314801,
+          "sha256": "45213b027e85eee670a84312e8808080fb40567eb76d061984cea8042129d05b"
+        },
+        "tests": 3350,
+        "pass": 3350,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "duration_ms": 70191.681
+      },
+      {
+        "log": {
+          "path": "build/mobile-minimap-validation-20261011/full-suite-serial-v2.log",
+          "bytes": 314957,
+          "sha256": "671044b18f4001d62f47f87cb9948767ee177f67d9d5cfd5638ef78c5627e948"
+        },
+        "tests": 3351,
+        "pass": 3351,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "duration_ms": 71124.6566
+      }
+    ],
+    "note": "Earlier complete runs passed before final browser-driven fixes; only v3 certifies final frozen sources. Focused counts overlap default list."
+  },
+  "engine": {
+    "newBuild": false,
+    "sourceRevision": "5b8345b1adaf4d00467e69a867d97be6ad960d00",
+    "engineSourceModified": true,
+    "sourceTree": {
+      "verified": true,
+      "count": 128,
+      "sha256": "9db61759be19881d93e5b88661c7cd062b50a565d6eb212e365d44ee99a5e706"
+    },
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "8fce68b52564c0f481ead756dcd33882d3a6a47910032ca28b3dd12b8e02a5f7",
+        "frozenFile": "frozen-sources/8fce68b52564c0f481ead756dcd33882d3a6a47910032ca28b3dd12b8e02a5f7.js"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4544706,
+        "sha256": "7f20502ebbd2c7a81ae2b58eed1b3dfc85ed933b5dbc3c692ef71be45363536e",
+        "frozenFile": "frozen-sources/7f20502ebbd2c7a81ae2b58eed1b3dfc85ed933b5dbc3c692ef71be45363536e.wasm"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "43292f0c13dfc35bf49c6394a3f59a11f74ef9aefd2d42a9e68e51bae64e831d",
+        "frozenFile": "frozen-sources/43292f0c13dfc35bf49c6394a3f59a11f74ef9aefd2d42a9e68e51bae64e831d.map"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 18655,
+        "sha256": "fc6a8a7612fb90392e23e1167026f0d91fac36ce5371450268a7fd8f873c53d1",
+        "frozenFile": "frozen-sources/fc6a8a7612fb90392e23e1167026f0d91fac36ce5371450268a7fd8f873c53d1.json"
+      }
+    ]
+  },
+  "runtime": [
+    {
+      "directory": "build/mobile-minimap-installed-844-v1-20261011",
+      "ok": false,
+      "accepted": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 2,
+      "nativeKeys": 13,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "AssertionError [ERR_ASSERTION]: Actual minimap canvas is drawn beyond a flat fill\n    at runMobileMinimapChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-minimap-runtime-checks.mjs:128:12)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:557:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:825:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:866:86",
+      "result": {
+        "path": "build/mobile-minimap-installed-844-v1-20261011/result.json",
+        "bytes": 921403,
+        "sha256": "d1987b7274f19d91cb26ed1d49c40c2596d4581242e123e229d97c1ff60d1393"
+      },
+      "overview": {
+        "accepted": false,
+        "rounds": 0,
+        "negativeChecks": [],
+        "touchPans": 0,
+        "originalCities": {
+          "identity": {
+            "status": "ready",
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "generation": 2,
+            "current": true
+          },
+          "king": 0,
+          "cities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "engineX": 1,
+              "engineY": 0
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "engineX": 9,
+              "engineY": 0
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "engineX": 11,
+              "engineY": 0
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "engineX": 2,
+              "engineY": 1
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "engineX": 5,
+              "engineY": 1
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "engineX": 7,
+              "engineY": 1
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "engineX": 8,
+              "engineY": 1
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "engineX": 10,
+              "engineY": 1
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "engineX": 3,
+              "engineY": 2
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "engineX": 4,
+              "engineY": 2
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "engineX": 5,
+              "engineY": 2
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "engineX": 7,
+              "engineY": 2
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "engineX": 8,
+              "engineY": 2
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 2
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "engineX": 3,
+              "engineY": 3
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "engineX": 7,
+              "engineY": 3
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "engineX": 8,
+              "engineY": 3
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 3
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "engineX": 10,
+              "engineY": 3
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "engineX": 2,
+              "engineY": 4
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "engineX": 6,
+              "engineY": 4
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "engineX": 7,
+              "engineY": 4
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 4
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 4
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "engineX": 2,
+              "engineY": 5
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 5
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "engineX": 6,
+              "engineY": 5
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "engineX": 7,
+              "engineY": 5
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "engineX": 8,
+              "engineY": 5
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 5
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "engineX": 0,
+              "engineY": 6
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 6
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "engineX": 4,
+              "engineY": 6
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "engineX": 7,
+              "engineY": 6
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 6
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "engineX": 5,
+              "engineY": 7
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "engineX": 7,
+              "engineY": 7
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 7
+            }
+          ],
+          "mapCities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 1,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "kind": "neutral",
+              "engineX": 11,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "kind": "neutral",
+              "engineX": 5,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "kind": "neutral",
+              "engineX": 4,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 5,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 7,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 2,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 6,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 6,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 8,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 0,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 4,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 5,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 7,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 7,
+              "source": "engine"
+            }
+          ]
+        },
+        "cycles": []
+      }
+    },
+    {
+      "directory": "build/mobile-minimap-installed-844-v2-20261011",
+      "ok": false,
+      "accepted": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 2,
+      "nativeKeys": 13,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "AssertionError [ERR_ASSERTION]: Trusted pan advances actual list scroll\n    at runMobileMinimapChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-minimap-runtime-checks.mjs:138:70)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:557:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:825:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:866:86",
+      "result": {
+        "path": "build/mobile-minimap-installed-844-v2-20261011/result.json",
+        "bytes": 1701220,
+        "sha256": "261522816f272c5fd073e5a65e01c05d49586b108d2caa6f56d0c5916e5b1da8"
+      },
+      "overview": {
+        "accepted": false,
+        "rounds": 0,
+        "negativeChecks": [],
+        "touchPans": 1,
+        "originalCities": {
+          "identity": {
+            "status": "ready",
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "generation": 2,
+            "current": true
+          },
+          "king": 0,
+          "cities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "engineX": 1,
+              "engineY": 0
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "engineX": 9,
+              "engineY": 0
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "engineX": 11,
+              "engineY": 0
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "engineX": 2,
+              "engineY": 1
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "engineX": 5,
+              "engineY": 1
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "engineX": 7,
+              "engineY": 1
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "engineX": 8,
+              "engineY": 1
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "engineX": 10,
+              "engineY": 1
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "engineX": 3,
+              "engineY": 2
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "engineX": 4,
+              "engineY": 2
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "engineX": 5,
+              "engineY": 2
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "engineX": 7,
+              "engineY": 2
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "engineX": 8,
+              "engineY": 2
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 2
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "engineX": 3,
+              "engineY": 3
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "engineX": 7,
+              "engineY": 3
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "engineX": 8,
+              "engineY": 3
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 3
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "engineX": 10,
+              "engineY": 3
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "engineX": 2,
+              "engineY": 4
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "engineX": 6,
+              "engineY": 4
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "engineX": 7,
+              "engineY": 4
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 4
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 4
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "engineX": 2,
+              "engineY": 5
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 5
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "engineX": 6,
+              "engineY": 5
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "engineX": 7,
+              "engineY": 5
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "engineX": 8,
+              "engineY": 5
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 5
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "engineX": 0,
+              "engineY": 6
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 6
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "engineX": 4,
+              "engineY": 6
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "engineX": 7,
+              "engineY": 6
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 6
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "engineX": 5,
+              "engineY": 7
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "engineX": 7,
+              "engineY": 7
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 7
+            }
+          ],
+          "mapCities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 1,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "kind": "neutral",
+              "engineX": 11,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "kind": "neutral",
+              "engineX": 5,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "kind": "neutral",
+              "engineX": 4,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 5,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 7,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 2,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 6,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 6,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 8,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 0,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 4,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 5,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 7,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 7,
+              "source": "engine"
+            }
+          ]
+        },
+        "cycles": []
+      }
+    },
+    {
+      "directory": "build/mobile-minimap-installed-844-v3-20261011",
+      "ok": false,
+      "accepted": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 3,
+      "nativeKeys": 13,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [
+        {
+          "path": "scripts/test-hd-minimap.mjs",
+          "bytes": 20344,
+          "sha256": "cdac7902572b7ff59235e3f2f3b87f09d47e24764898aa57166a958955afb402",
+          "frozenFile": "frozen-sources/cdac7902572b7ff59235e3f2f3b87f09d47e24764898aa57166a958955afb402.mjs"
+        }
+      ],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "Error: Timed out single EXIT retires native overview and restores ordinary MAP\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:249:78)\n    at async runMobileMinimapChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-minimap-runtime-checks.mjs:156:5)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:557:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:825:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:866:86",
+      "result": {
+        "path": "build/mobile-minimap-installed-844-v3-20261011/result.json",
+        "bytes": 8017809,
+        "sha256": "956a0b616f08204e781602513ae90baec367bcfde56e3d1934cea465d11f740c"
+      },
+      "overview": {
+        "accepted": false,
+        "rounds": 0,
+        "negativeChecks": [
+          "touchcancel",
+          "multitouch",
+          "held-rotation"
+        ],
+        "touchPans": 6,
+        "originalCities": {
+          "identity": {
+            "status": "ready",
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "generation": 2,
+            "current": true
+          },
+          "king": 0,
+          "cities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "engineX": 1,
+              "engineY": 0
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "engineX": 9,
+              "engineY": 0
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "engineX": 11,
+              "engineY": 0
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "engineX": 2,
+              "engineY": 1
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "engineX": 5,
+              "engineY": 1
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "engineX": 7,
+              "engineY": 1
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "engineX": 8,
+              "engineY": 1
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "engineX": 10,
+              "engineY": 1
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "engineX": 3,
+              "engineY": 2
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "engineX": 4,
+              "engineY": 2
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "engineX": 5,
+              "engineY": 2
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "engineX": 7,
+              "engineY": 2
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "engineX": 8,
+              "engineY": 2
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 2
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "engineX": 3,
+              "engineY": 3
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "engineX": 7,
+              "engineY": 3
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "engineX": 8,
+              "engineY": 3
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 3
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "engineX": 10,
+              "engineY": 3
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "engineX": 2,
+              "engineY": 4
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "engineX": 6,
+              "engineY": 4
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "engineX": 7,
+              "engineY": 4
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 4
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 4
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "engineX": 2,
+              "engineY": 5
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 5
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "engineX": 6,
+              "engineY": 5
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "engineX": 7,
+              "engineY": 5
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "engineX": 8,
+              "engineY": 5
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 5
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "engineX": 0,
+              "engineY": 6
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 6
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "engineX": 4,
+              "engineY": 6
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "engineX": 7,
+              "engineY": 6
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 6
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "engineX": 5,
+              "engineY": 7
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "engineX": 7,
+              "engineY": 7
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 7
+            }
+          ],
+          "mapCities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 1,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "kind": "neutral",
+              "engineX": 11,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "kind": "neutral",
+              "engineX": 5,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "kind": "neutral",
+              "engineX": 4,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 5,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 7,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 2,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 6,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 6,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 8,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 0,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 4,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 5,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 7,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 7,
+              "source": "engine"
+            }
+          ]
+        },
+        "cycles": []
+      }
+    },
+    {
+      "directory": "build/mobile-minimap-installed-844-v4-20261011",
+      "ok": false,
+      "accepted": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 4,
+      "nativeKeys": 15,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "AssertionError [ERR_ASSERTION]: Trusted pan advances actual list scroll\n    at runMobileMinimapChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-minimap-runtime-checks.mjs:138:70)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:557:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:825:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:866:86",
+      "result": {
+        "path": "build/mobile-minimap-installed-844-v4-20261011/result.json",
+        "bytes": 15732948,
+        "sha256": "fd2af82d8758fb27fa0bc2b9a7491000193f6f541dfac82721dcf0056b48abf7"
+      },
+      "overview": {
+        "accepted": false,
+        "rounds": 1,
+        "negativeChecks": [
+          "touchcancel",
+          "multitouch",
+          "held-rotation"
+        ],
+        "touchPans": 7,
+        "originalCities": {
+          "identity": {
+            "status": "ready",
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "generation": 2,
+            "current": true
+          },
+          "king": 0,
+          "cities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "engineX": 1,
+              "engineY": 0
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "engineX": 9,
+              "engineY": 0
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "engineX": 11,
+              "engineY": 0
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "engineX": 2,
+              "engineY": 1
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "engineX": 5,
+              "engineY": 1
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "engineX": 7,
+              "engineY": 1
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "engineX": 8,
+              "engineY": 1
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "engineX": 10,
+              "engineY": 1
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "engineX": 3,
+              "engineY": 2
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "engineX": 4,
+              "engineY": 2
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "engineX": 5,
+              "engineY": 2
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "engineX": 7,
+              "engineY": 2
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "engineX": 8,
+              "engineY": 2
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 2
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "engineX": 3,
+              "engineY": 3
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "engineX": 7,
+              "engineY": 3
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "engineX": 8,
+              "engineY": 3
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 3
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "engineX": 10,
+              "engineY": 3
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "engineX": 2,
+              "engineY": 4
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "engineX": 6,
+              "engineY": 4
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "engineX": 7,
+              "engineY": 4
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 4
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 4
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "engineX": 2,
+              "engineY": 5
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 5
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "engineX": 6,
+              "engineY": 5
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "engineX": 7,
+              "engineY": 5
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "engineX": 8,
+              "engineY": 5
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 5
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "engineX": 0,
+              "engineY": 6
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 6
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "engineX": 4,
+              "engineY": 6
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "engineX": 7,
+              "engineY": 6
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 6
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "engineX": 5,
+              "engineY": 7
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "engineX": 7,
+              "engineY": 7
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 7
+            }
+          ],
+          "mapCities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 1,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "kind": "neutral",
+              "engineX": 11,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "kind": "neutral",
+              "engineX": 5,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "kind": "neutral",
+              "engineX": 4,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 5,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 7,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 2,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 6,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 6,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 8,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 0,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 4,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 5,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 7,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 7,
+              "source": "engine"
+            }
+          ]
+        },
+        "cycles": [
+          {
+            "round": 1,
+            "keys": [
+              51,
+              40
+            ],
+            "visibleCities": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37
+            ],
+            "bitmap": {
+              "width": 432,
+              "height": 224,
+              "differentPixels": 48160,
+              "opaquePixels": 96768
+            },
+            "scrolls": 6,
+            "returnedHud": {
+              "visible": true,
+              "status": "原版游戏",
+              "reason": "",
+              "cityIndex": 10,
+              "city": "长安",
+              "owner": "董卓",
+              "date": "190年1月",
+              "money": "576",
+              "food": "1097",
+              "arms": "0",
+              "ticket": {
+                "libraryGeneration": 2,
+                "generation": 3,
+                "speGeneration": 3,
+                "mapInputSeq": 1,
+                "mapCity": 11
+              }
+            },
+            "native": {
+              "protocolVersion": 1,
+              "active": 1,
+              "complete": 1,
+              "custom": 0,
+              "defaultDraw": 1,
+              "seq": 9,
+              "generation": 3,
+              "detailGeneration": 3,
+              "mapInputSeq": 1,
+              "resourceId": 75,
+              "imageIndex": 0,
+              "width": 84,
+              "height": 64,
+              "mask": 0,
+              "cursorX": 5,
+              "cursorY": 2,
+              "viewX": 1,
+              "viewY": 0,
+              "viewWidth": 8,
+              "viewHeight": 6,
+              "city1": 11
+            }
+          }
+        ]
+      }
+    },
+    {
+      "directory": "build/mobile-minimap-installed-844-v5-20261011",
+      "ok": true,
+      "accepted": true,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 6,
+      "nativeKeys": 16,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "result": {
+        "path": "build/mobile-minimap-installed-844-v5-20261011/result.json",
+        "bytes": 26489041,
+        "sha256": "3fb22d6f034c6a2456dec59e80c141e5e157fbf19310828450862127236cf681"
+      },
+      "overview": {
+        "accepted": true,
+        "rounds": 2,
+        "negativeChecks": [
+          "touchcancel",
+          "multitouch",
+          "held-rotation"
+        ],
+        "touchPans": 12,
+        "originalCities": {
+          "identity": {
+            "status": "ready",
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "generation": 2,
+            "current": true
+          },
+          "king": 0,
+          "cities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "engineX": 1,
+              "engineY": 0
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "engineX": 9,
+              "engineY": 0
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "engineX": 11,
+              "engineY": 0
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "engineX": 2,
+              "engineY": 1
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "engineX": 5,
+              "engineY": 1
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "engineX": 7,
+              "engineY": 1
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "engineX": 8,
+              "engineY": 1
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "engineX": 10,
+              "engineY": 1
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "engineX": 3,
+              "engineY": 2
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "engineX": 4,
+              "engineY": 2
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "engineX": 5,
+              "engineY": 2
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "engineX": 7,
+              "engineY": 2
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "engineX": 8,
+              "engineY": 2
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 2
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "engineX": 3,
+              "engineY": 3
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "engineX": 7,
+              "engineY": 3
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "engineX": 8,
+              "engineY": 3
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 3
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "engineX": 10,
+              "engineY": 3
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "engineX": 2,
+              "engineY": 4
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "engineX": 6,
+              "engineY": 4
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "engineX": 7,
+              "engineY": 4
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 4
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 4
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "engineX": 2,
+              "engineY": 5
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 5
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "engineX": 6,
+              "engineY": 5
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "engineX": 7,
+              "engineY": 5
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "engineX": 8,
+              "engineY": 5
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 5
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "engineX": 0,
+              "engineY": 6
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 6
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "engineX": 4,
+              "engineY": 6
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "engineX": 7,
+              "engineY": 6
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 6
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "engineX": 5,
+              "engineY": 7
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "engineX": 7,
+              "engineY": 7
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 7
+            }
+          ],
+          "mapCities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 1,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "kind": "neutral",
+              "engineX": 11,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "kind": "neutral",
+              "engineX": 5,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "kind": "neutral",
+              "engineX": 4,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 5,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 7,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 2,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 6,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 6,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 8,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 0,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 4,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 5,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 7,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 7,
+              "source": "engine"
+            }
+          ]
+        },
+        "cycles": [
+          {
+            "round": 1,
+            "keys": [
+              51,
+              40
+            ],
+            "visibleCities": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37
+            ],
+            "bitmap": {
+              "width": 432,
+              "height": 224,
+              "differentPixels": 48160,
+              "opaquePixels": 96768
+            },
+            "scrolls": 6,
+            "returnedHud": {
+              "visible": true,
+              "status": "原版游戏",
+              "reason": "",
+              "cityIndex": 10,
+              "city": "长安",
+              "owner": "董卓",
+              "date": "190年1月",
+              "money": "576",
+              "food": "1097",
+              "arms": "0",
+              "ticket": {
+                "libraryGeneration": 2,
+                "generation": 3,
+                "speGeneration": 3,
+                "mapInputSeq": 1,
+                "mapCity": 11
+              }
+            },
+            "native": {
+              "protocolVersion": 1,
+              "active": 1,
+              "complete": 1,
+              "custom": 0,
+              "defaultDraw": 1,
+              "seq": 9,
+              "generation": 3,
+              "detailGeneration": 3,
+              "mapInputSeq": 1,
+              "resourceId": 75,
+              "imageIndex": 0,
+              "width": 84,
+              "height": 64,
+              "mask": 0,
+              "cursorX": 5,
+              "cursorY": 2,
+              "viewX": 1,
+              "viewY": 0,
+              "viewWidth": 8,
+              "viewHeight": 6,
+              "city1": 11
+            }
+          },
+          {
+            "round": 2,
+            "keys": [
+              51,
+              40
+            ],
+            "visibleCities": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37
+            ],
+            "bitmap": {
+              "width": 432,
+              "height": 224,
+              "differentPixels": 48160,
+              "opaquePixels": 96768
+            },
+            "scrolls": 6,
+            "returnedHud": {
+              "visible": true,
+              "status": "原版游戏",
+              "reason": "",
+              "cityIndex": 10,
+              "city": "长安",
+              "owner": "董卓",
+              "date": "190年1月",
+              "money": "576",
+              "food": "1097",
+              "arms": "0",
+              "ticket": {
+                "libraryGeneration": 2,
+                "generation": 3,
+                "speGeneration": 3,
+                "mapInputSeq": 1,
+                "mapCity": 11
+              }
+            },
+            "native": {
+              "protocolVersion": 1,
+              "active": 1,
+              "complete": 1,
+              "custom": 0,
+              "defaultDraw": 1,
+              "seq": 11,
+              "generation": 3,
+              "detailGeneration": 3,
+              "mapInputSeq": 1,
+              "resourceId": 75,
+              "imageIndex": 0,
+              "width": 84,
+              "height": 64,
+              "mask": 0,
+              "cursorX": 5,
+              "cursorY": 2,
+              "viewX": 1,
+              "viewY": 0,
+              "viewWidth": 8,
+              "viewHeight": 6,
+              "city1": 11
+            }
+          }
+        ]
+      }
+    },
+    {
+      "directory": "build/mobile-minimap-installed-667-v1-20261011",
+      "ok": false,
+      "accepted": false,
+      "viewport": [
+        667,
+        375
+      ],
+      "phases": 4,
+      "nativeKeys": 15,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "AssertionError [ERR_ASSERTION]: Trusted pan advances actual list scroll\n    at runMobileMinimapChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-minimap-runtime-checks.mjs:138:70)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:557:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:825:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:866:86",
+      "result": {
+        "path": "build/mobile-minimap-installed-667-v1-20261011/result.json",
+        "bytes": 17359145,
+        "sha256": "754577fbca6856f501f664650b976c9194428da98cca72dad04401cdbb2c19f2"
+      },
+      "overview": {
+        "accepted": false,
+        "rounds": 1,
+        "negativeChecks": [
+          "touchcancel",
+          "multitouch",
+          "held-rotation"
+        ],
+        "touchPans": 8,
+        "originalCities": {
+          "identity": {
+            "status": "ready",
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "generation": 2,
+            "current": true
+          },
+          "king": 0,
+          "cities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "engineX": 1,
+              "engineY": 0
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "engineX": 9,
+              "engineY": 0
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "engineX": 11,
+              "engineY": 0
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "engineX": 2,
+              "engineY": 1
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "engineX": 5,
+              "engineY": 1
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "engineX": 7,
+              "engineY": 1
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "engineX": 8,
+              "engineY": 1
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "engineX": 10,
+              "engineY": 1
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "engineX": 3,
+              "engineY": 2
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "engineX": 4,
+              "engineY": 2
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "engineX": 5,
+              "engineY": 2
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "engineX": 7,
+              "engineY": 2
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "engineX": 8,
+              "engineY": 2
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 2
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "engineX": 3,
+              "engineY": 3
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "engineX": 7,
+              "engineY": 3
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "engineX": 8,
+              "engineY": 3
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 3
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "engineX": 10,
+              "engineY": 3
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "engineX": 2,
+              "engineY": 4
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "engineX": 6,
+              "engineY": 4
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "engineX": 7,
+              "engineY": 4
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 4
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 4
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "engineX": 2,
+              "engineY": 5
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 5
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "engineX": 6,
+              "engineY": 5
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "engineX": 7,
+              "engineY": 5
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "engineX": 8,
+              "engineY": 5
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 5
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "engineX": 0,
+              "engineY": 6
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 6
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "engineX": 4,
+              "engineY": 6
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "engineX": 7,
+              "engineY": 6
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 6
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "engineX": 5,
+              "engineY": 7
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "engineX": 7,
+              "engineY": 7
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 7
+            }
+          ],
+          "mapCities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 1,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "kind": "neutral",
+              "engineX": 11,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "kind": "neutral",
+              "engineX": 5,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "kind": "neutral",
+              "engineX": 4,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 5,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 7,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 2,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 6,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 6,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 8,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 0,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 4,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 5,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 7,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 7,
+              "source": "engine"
+            }
+          ]
+        },
+        "cycles": [
+          {
+            "round": 1,
+            "keys": [
+              51,
+              40
+            ],
+            "visibleCities": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37
+            ],
+            "bitmap": {
+              "width": 338,
+              "height": 209,
+              "differentPixels": 42218,
+              "opaquePixels": 70642
+            },
+            "scrolls": 7,
+            "returnedHud": {
+              "visible": true,
+              "status": "原版游戏",
+              "reason": "",
+              "cityIndex": 10,
+              "city": "长安",
+              "owner": "董卓",
+              "date": "190年1月",
+              "money": "576",
+              "food": "1097",
+              "arms": "0",
+              "ticket": {
+                "libraryGeneration": 2,
+                "generation": 3,
+                "speGeneration": 3,
+                "mapInputSeq": 1,
+                "mapCity": 11
+              }
+            },
+            "native": {
+              "protocolVersion": 1,
+              "active": 1,
+              "complete": 1,
+              "custom": 0,
+              "defaultDraw": 1,
+              "seq": 9,
+              "generation": 3,
+              "detailGeneration": 3,
+              "mapInputSeq": 1,
+              "resourceId": 75,
+              "imageIndex": 0,
+              "width": 84,
+              "height": 64,
+              "mask": 0,
+              "cursorX": 5,
+              "cursorY": 2,
+              "viewX": 1,
+              "viewY": 0,
+              "viewWidth": 8,
+              "viewHeight": 6,
+              "city1": 11
+            }
+          }
+        ]
+      }
+    },
+    {
+      "directory": "build/mobile-minimap-installed-667-v2-20261011",
+      "ok": true,
+      "accepted": true,
+      "viewport": [
+        667,
+        375
+      ],
+      "phases": 6,
+      "nativeKeys": 16,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "result": {
+        "path": "build/mobile-minimap-installed-667-v2-20261011/result.json",
+        "bytes": 29757225,
+        "sha256": "7c141646e55cdbd35df216ba232986e3a40b844cb98d717e46b33f85295f15d9"
+      },
+      "overview": {
+        "accepted": true,
+        "rounds": 2,
+        "negativeChecks": [
+          "touchcancel",
+          "multitouch",
+          "held-rotation"
+        ],
+        "touchPans": 14,
+        "originalCities": {
+          "identity": {
+            "status": "ready",
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "generation": 2,
+            "current": true
+          },
+          "king": 0,
+          "cities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "engineX": 1,
+              "engineY": 0
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "engineX": 9,
+              "engineY": 0
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "engineX": 11,
+              "engineY": 0
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "engineX": 2,
+              "engineY": 1
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "engineX": 5,
+              "engineY": 1
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "engineX": 7,
+              "engineY": 1
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "engineX": 8,
+              "engineY": 1
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "engineX": 10,
+              "engineY": 1
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "engineX": 3,
+              "engineY": 2
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "engineX": 4,
+              "engineY": 2
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "engineX": 5,
+              "engineY": 2
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "engineX": 7,
+              "engineY": 2
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "engineX": 8,
+              "engineY": 2
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 2
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "engineX": 3,
+              "engineY": 3
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "engineX": 7,
+              "engineY": 3
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "engineX": 8,
+              "engineY": 3
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "engineX": 9,
+              "engineY": 3
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "engineX": 10,
+              "engineY": 3
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "engineX": 2,
+              "engineY": 4
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "engineX": 6,
+              "engineY": 4
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "engineX": 7,
+              "engineY": 4
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 4
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 4
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "engineX": 2,
+              "engineY": 5
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 5
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "engineX": 6,
+              "engineY": 5
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "engineX": 7,
+              "engineY": 5
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "engineX": 8,
+              "engineY": 5
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "engineX": 10,
+              "engineY": 5
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "engineX": 0,
+              "engineY": 6
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "engineX": 3,
+              "engineY": 6
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "engineX": 4,
+              "engineY": 6
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "engineX": 7,
+              "engineY": 6
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 6
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "engineX": 5,
+              "engineY": 7
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "engineX": 7,
+              "engineY": 7
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "engineX": 9,
+              "engineY": 7
+            }
+          ],
+          "mapCities": [
+            {
+              "index": 0,
+              "name": "西凉",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 1,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 1,
+              "name": "北平",
+              "belong": 17,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 2,
+              "name": "襄平",
+              "belong": 18,
+              "kind": "neutral",
+              "engineX": 11,
+              "engineY": 0,
+              "source": "engine"
+            },
+            {
+              "index": 3,
+              "name": "安定",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "kind": "neutral",
+              "engineX": 5,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 5,
+              "name": "平原",
+              "belong": 14,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 6,
+              "name": "南皮",
+              "belong": 3,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 7,
+              "name": "北海",
+              "belong": 8,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 1,
+              "source": "engine"
+            },
+            {
+              "index": 8,
+              "name": "天水",
+              "belong": 6,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 9,
+              "name": "河内",
+              "belong": 12,
+              "kind": "neutral",
+              "engineX": 4,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 10,
+              "name": "长安",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 5,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 11,
+              "name": "邺",
+              "belong": 11,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 13,
+              "name": "徐州",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 2,
+              "source": "engine"
+            },
+            {
+              "index": 14,
+              "name": "汉中",
+              "belong": 19,
+              "kind": "neutral",
+              "engineX": 3,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 7,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 16,
+              "name": "许昌",
+              "belong": 9,
+              "kind": "neutral",
+              "engineX": 8,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 17,
+              "name": "小沛",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 9,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 18,
+              "name": "下邳",
+              "belong": 7,
+              "kind": "neutral",
+              "engineX": 10,
+              "engineY": 3,
+              "source": "engine"
+            },
+            {
+              "index": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 2,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 20,
+              "name": "宛城",
+              "belong": 1,
+              "kind": "owned",
+              "engineX": 6,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 21,
+              "name": "寿春",
+              "belong": 4,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 22,
+              "name": "建业",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 23,
+              "name": "吴",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 4,
+              "source": "engine"
+            },
+            {
+              "index": 24,
+              "name": "成都",
+              "belong": 16,
+              "kind": "neutral",
+              "engineX": 2,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 6,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 27,
+              "name": "江夏",
+              "belong": 15,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 28,
+              "name": "庐江",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 8,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 29,
+              "name": "会稽",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 10,
+              "engineY": 5,
+              "source": "engine"
+            },
+            {
+              "index": 30,
+              "name": "云南",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 0,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 3,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 32,
+              "name": "武陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 4,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 33,
+              "name": "长沙",
+              "belong": 5,
+              "kind": "neutral",
+              "engineX": 7,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 6,
+              "source": "engine"
+            },
+            {
+              "index": 35,
+              "name": "零陵",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 5,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 7,
+              "engineY": 7,
+              "source": "engine"
+            },
+            {
+              "index": 37,
+              "name": "建宁",
+              "belong": 0,
+              "kind": "empty",
+              "engineX": 9,
+              "engineY": 7,
+              "source": "engine"
+            }
+          ]
+        },
+        "cycles": [
+          {
+            "round": 1,
+            "keys": [
+              51,
+              40
+            ],
+            "visibleCities": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37
+            ],
+            "bitmap": {
+              "width": 338,
+              "height": 209,
+              "differentPixels": 42218,
+              "opaquePixels": 70642
+            },
+            "scrolls": 7,
+            "returnedHud": {
+              "visible": true,
+              "status": "原版游戏",
+              "reason": "",
+              "cityIndex": 10,
+              "city": "长安",
+              "owner": "董卓",
+              "date": "190年1月",
+              "money": "576",
+              "food": "1097",
+              "arms": "0",
+              "ticket": {
+                "libraryGeneration": 2,
+                "generation": 3,
+                "speGeneration": 3,
+                "mapInputSeq": 1,
+                "mapCity": 11
+              }
+            },
+            "native": {
+              "protocolVersion": 1,
+              "active": 1,
+              "complete": 1,
+              "custom": 0,
+              "defaultDraw": 1,
+              "seq": 9,
+              "generation": 3,
+              "detailGeneration": 3,
+              "mapInputSeq": 1,
+              "resourceId": 75,
+              "imageIndex": 0,
+              "width": 84,
+              "height": 64,
+              "mask": 0,
+              "cursorX": 5,
+              "cursorY": 2,
+              "viewX": 1,
+              "viewY": 0,
+              "viewWidth": 8,
+              "viewHeight": 6,
+              "city1": 11
+            }
+          },
+          {
+            "round": 2,
+            "keys": [
+              51,
+              40
+            ],
+            "visibleCities": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37
+            ],
+            "bitmap": {
+              "width": 338,
+              "height": 209,
+              "differentPixels": 42218,
+              "opaquePixels": 70642
+            },
+            "scrolls": 7,
+            "returnedHud": {
+              "visible": true,
+              "status": "原版游戏",
+              "reason": "",
+              "cityIndex": 10,
+              "city": "长安",
+              "owner": "董卓",
+              "date": "190年1月",
+              "money": "576",
+              "food": "1097",
+              "arms": "0",
+              "ticket": {
+                "libraryGeneration": 2,
+                "generation": 3,
+                "speGeneration": 3,
+                "mapInputSeq": 1,
+                "mapCity": 11
+              }
+            },
+            "native": {
+              "protocolVersion": 1,
+              "active": 1,
+              "complete": 1,
+              "custom": 0,
+              "defaultDraw": 1,
+              "seq": 11,
+              "generation": 3,
+              "detailGeneration": 3,
+              "mapInputSeq": 1,
+              "resourceId": 75,
+              "imageIndex": 0,
+              "width": 84,
+              "height": 64,
+              "mask": 0,
+              "cursorX": 5,
+              "cursorY": 2,
+              "viewX": 1,
+              "viewY": 0,
+              "viewWidth": 8,
+              "viewHeight": 6,
+              "city1": 11
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "acceptedSourcesByteEqual": true,
+  "visualInspection": {
+    "viewports": [
+      [
+        844,
+        390
+      ],
+      [
+        667,
+        375
+      ]
+    ],
+    "mapAndTextVisible": true,
+    "scope": "Local actual screenshots plus runtime clipping/hit tests; no real-phone or pixel-perfect claim"
+  },
+  "cleanup": {
+    "at": "2026-10-11T07:07:23.4322055+00:00",
+    "runs": [
+      "build/mobile-minimap-installed-844-v1-20261011",
+      "build/mobile-minimap-installed-844-v2-20261011",
+      "build/mobile-minimap-installed-844-v3-20261011",
+      "build/mobile-minimap-installed-844-v4-20261011",
+      "build/mobile-minimap-installed-844-v5-20261011",
+      "build/mobile-minimap-installed-667-v1-20261011",
+      "build/mobile-minimap-installed-667-v2-20261011"
+    ],
+    "recordedIdentities": 77,
+    "survivingRecorded": [],
+    "pidReusedByOtherProcess": [],
+    "privateListeners": [],
+    "allRuntimeCleanupPassed": true,
+    "user8080Before": {
+      "at": "2026-10-11T14:58:48.8908404+08:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.279718Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080After": {
+      "at": "2026-10-11T07:07:23.3370249+00:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080Unchanged": true
+  },
+  "archive": {
+    "manifest": "m5-mobile-minimap-20261011-archive.json",
+    "logicalFiles": 1635,
+    "uniqueGzipFiles": 363,
+    "gzipBytes": 35449499,
+    "roundTripExact": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Only original mobile38-city SEARCH overview accepted. Battle HELP9/VIEW10, diplomacy actor-target lineage and other pending command paths are not accepted by this batch.",
+    "Monthly arrival/return, all periods/cities, complete succession/save/RNG/cloud flows, real Android/iOS and fixed-device performance remain pending.",
+    "Historical failed runs preserve their actual scope and source drift. Full HD remains partial."
+  ]
+}

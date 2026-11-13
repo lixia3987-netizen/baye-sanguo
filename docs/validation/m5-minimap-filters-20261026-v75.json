@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V75",
+  "parentCommit": "360be69d9d4ec16770701a9c77abab1d9828f061",
+  "feature": "Local ownership-category filters in the existing authorized 38-city HD overview",
+  "accepted": true,
+  "started": "2026-10-26T07:35:28.924Z",
+  "finished": "2026-10-26T07:35:29.430Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 154,
+  "pass": 154,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 43927,
+      "sha256": "abd1baba7e11c21a408cd1e94476d82294befa2212160bec6add3c6d49b4dceb"
+    },
+    {
+      "path": "js/hd-minimap.js",
+      "bytes": 27428,
+      "sha256": "c3c88bd1fbc1f3294c87f2628e0ac5aad25e21e64f3fb5ca50758287880329f9"
+    },
+    {
+      "path": "js/hd-mobile-minimap.js",
+      "bytes": 11608,
+      "sha256": "43b5f10a381cccc908aaddaab508ade5772578f565388edc9afcee6cf6558d12"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "css/hd-minimap.css",
+      "bytes": 3519,
+      "sha256": "8b56abeb79528de063785c35334bb147cf1cd6b7cb774440f742ff33d46aae7c"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32211,
+      "sha256": "e8677806b2efea7d1f8037d61960adc5543e185f08fda0af7e5884616d202b5b"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 29321,
+      "sha256": "d7819ea24bce7aa6463388c917f9f4142fe72e90ea48e9662ff3b043ab07934d"
+    },
+    {
+      "path": "m.html",
+      "bytes": 19204,
+      "sha256": "40a2cebe1bc54aea6b66bb03cf87350ce4a7c120f807bcd7f307e45e99e400e4"
+    },
+    {
+      "path": "scripts/test-hd-minimap.mjs",
+      "bytes": 32140,
+      "sha256": "c3f368accbe65b6d661c53d869c9a7ca28ee40c80e50e518d527db8c46722995"
+    },
+    {
+      "path": "scripts/test-hd-mobile-minimap.mjs",
+      "bytes": 17999,
+      "sha256": "2bf6fff307639780ce62367ec60e46164695e106c1d9f2bc9a1927736ceffae6"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 4,
+  "registeredDefaultFilesChanged": false,
+  "fullSuiteRun": false,
+  "scope": "Minimap controller and mobile host unit modules; CSS/entry bytes recorded but not executed by these unit checks",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "targetedTool": {
+    "chunk": "1a280a",
+    "exitCode": 0
+  },
+  "rawTap": {
+    "path": "build/minimap-filters-20261026-v75/targeted-v1.stdout.tap",
+    "bytes": 31490,
+    "sha256": "74e6aff901826e6025ba8226ffc977e654403e23ed70f6477ce1568dac5c4b65"
+  },
+  "stderr": {
+    "path": "build/minimap-filters-20261026-v75/targeted-v1.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "peerControllerSubset": {
+    "tests": 90,
+    "includedIn154": true,
+    "newDistinctTests": 4,
+    "originalToolChunk": "afe358",
+    "exitCode": 0
+  },
+  "preview": {
+    "accepted": true,
+    "kind": "Controlled DOM layout smoke, not actual gameplay",
+    "chromeExitCode": 0,
+    "ownedProfileProcessesRemaining": 0,
+    "metrics": {
+      "viewport": {
+        "width": 651,
+        "height": 280
+      },
+      "filter": "owned",
+      "matchingCities": 13,
+      "keys": [],
+      "summary": "匹配 13 / 38 座城池 · 当前位置：长安",
+      "buttons": [
+        {
+          "x": 12,
+          "y": 56,
+          "width": 152.25,
+          "height": 44
+        },
+        {
+          "x": 170.25,
+          "y": 56,
+          "width": 152.25,
+          "height": 44
+        },
+        {
+          "x": 328.5,
+          "y": 56,
+          "width": 152.25,
+          "height": 44
+        },
+        {
+          "x": 486.75,
+          "y": 56,
+          "width": 152.25,
+          "height": 44
+        }
+      ],
+      "content": {
+        "x": 12,
+        "y": 106,
+        "width": 627,
+        "height": 116
+      },
+      "pageOverflow": false
+    },
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "screenshot": {
+      "path": "docs/validation/m5-minimap-filters-20261026-v75.png",
+      "bytes": 140028,
+      "sha256": "81301c5a084e8c0d3b6999cedb4b65afd54b16f31256844b68242bc9a8889b13"
+    },
+    "screenshotPixels": {
+      "width": 667,
+      "height": 375
+    },
+    "toolChunk": "62c681",
+    "sourceNote": "Layout smoke before the final keyboard-only guard adjustment; markup and styles unchanged.",
+    "viewportNote": "Initial DOM geometry and headless screenshot output dimensions are recorded separately."
+  },
+  "staticPeerReview": {
+    "verdict": "GO",
+    "newExecution": false
+  },
+  "nativeSelectionOrMovementAdded": false,
+  "additionalWorldReads": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "engineRebuilt": false,
+  "realDeviceAccepted": false,
+  "stablePerformanceAccepted": false,
+  "validationPolicy": "Targeted checks now; full validation and tuning deferred"
+}

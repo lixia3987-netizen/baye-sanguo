@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "kind": "Publication reader encoding-validator recovery; not a game or regression rerun",
+  "firstTerminal": {
+    "schemaVersion": 1,
+    "terminal": {
+      "chunk": "e11485",
+      "exitCode": 1,
+      "command": "node build/impact-skill-20261014/publish-v44-map-menu-boundaries-v1.mjs --publish-reviewed",
+      "provenance": "Captured parent exec_command closed output; not a second process"
+    },
+    "errorType": "RangeError",
+    "error": "Maximum call stack size exceeded",
+    "frames": [
+      "RegExp.exec (<anonymous>)",
+      "internalMatch (node:assert:861:7)",
+      "strict.match (node:assert:897:3)",
+      "decodeV44Archive (v44-map-menu-reader-v1.mjs:33:11)",
+      "verifyV44Publication (v44-map-menu-reader-v1.mjs:221:37)",
+      "publishV44 (publish-v44-map-menu-boundaries-v1.mjs:91:97)"
+    ],
+    "actualBrowserRunReplayed": false,
+    "rawGameResultModified": false,
+    "publicationReadbackAccepted": false
+  },
+  "firstPublication": {
+    "reader": {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-verify.mjs",
+      "bytes": 31867,
+      "sha256": "4d2bb8e52e45979d1949e7f9cbb492cb406e8b3e7c34d9e2c2c6953f5f2c5af1"
+    },
+    "canonical": {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44.json",
+      "bytes": 13232,
+      "sha256": "adc9ce2fc010711220fa6866b297da67e220f4deeca2a791eb052ee2c9eb569b"
+    },
+    "readme": {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44.md",
+      "bytes": 1751,
+      "sha256": "19b3654d883679365c642f4de0a78c8e5430f5ef0f6ce15f2fc5ff727fdf192d"
+    },
+    "writerAcceptedFlagNotAdopted": true,
+    "firstReadbackAccepted": false
+  },
+  "newReader": {
+    "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-verify.mjs",
+    "bytes": 31894,
+    "sha256": "f807c548ea7dab9204d52c2da01b16bb6903462fe1a14d02b458389ac2635510"
+  },
+  "newReadme": {
+    "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44.md",
+    "bytes": 2211,
+    "sha256": "6f27d0b76186d085f5afeeb92869bd7126e04a4f706309c6a2bdd6ea29778cab"
+  },
+  "preservedIndexAndParts": [
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive.json",
+      "bytes": 36532,
+      "sha256": "f200a3ccaaeb6fb92865ce359c4ca133f2000ecd4ec87b8b47e910a491aa74c9"
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part001.json",
+      "bytes": 6862061,
+      "sha256": "6725abcefecbb79e06b04a3099faef62b15a018200895fa4ac8b763e0735cea9"
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part002.json",
+      "bytes": 6137286,
+      "sha256": "7abe50ff8ab50dc1d0d0c611b1ae76691761bb90ca2a4ac0e5e1943d4ecaa8e8"
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part003.json",
+      "bytes": 8247852,
+      "sha256": "4f8ee592918d64e3fb6255255c1a760cb3987d66f5afb153bafc0606223d7cc8"
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part004.json",
+      "bytes": 8382905,
+      "sha256": "b7e610c2561f4ab4bee0573765f5aa8a9a58559578bd18a3b8a239aacb654d6e"
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part005.json",
+      "bytes": 286561,
+      "sha256": "bf9f0dc957ff6eb77d5282cb952b313545794a6003c591b6bf94cb327cb685f5"
+    }
+  ],
+  "change": {
+    "onlyCanonicalBase64Validation": true,
+    "repeatedGroupRegexRemoved": true,
+    "expectedLengthThenDecodeAndExactBase64Roundtrip": true,
+    "gzipAndRawShaAndByteLimitsUnchanged": true,
+    "originalReaderEmbeddedAt": "build/impact-skill-20261014/v44-map-menu-reader-v1.mjs",
+    "originalReaderArchivePin": {
+      "path": "build/impact-skill-20261014/v44-map-menu-reader-v1.mjs",
+      "bytes": 31867,
+      "sha256": "4d2bb8e52e45979d1949e7f9cbb492cb406e8b3e7c34d9e2c2c6953f5f2c5af1"
+    }
+  },
+  "repairedComponentReadback": {
+    "accepted": true,
+    "logicalFiles": 92,
+    "physicalBlobs": 88,
+    "executionSourcesBound": 1118,
+    "ordinaryPngs": 11,
+    "savedRegression": {
+      "savedTests": 7701,
+      "savedPass": 7701,
+      "savedStdoutBytes": 647561,
+      "savedStdoutSha256": "0c325b221bb6fa24193801fd1a80a12921f57053ff000a87b29c653294c4d0d4",
+      "newFullRun": false
+    }
+  },
+  "originalControllerFlagsChanged": false,
+  "archiveOrRawChanged": false,
+  "publisherRerun": false,
+  "newGameRun": false,
+  "newFullRun": false,
+  "firstEvidenceSnapshots": {
+    "path": "build/impact-skill-20261014/v44-reader-recovery-v1/first-publication-pins.json",
+    "bytes": 3267,
+    "sha256": "a3f733d61850f1d0fc8596394ffcecab04731420fe1decb42e0089d5d61b4284"
+  }
+}

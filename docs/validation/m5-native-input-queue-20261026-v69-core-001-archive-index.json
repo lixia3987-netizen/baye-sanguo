@@ -1,0 +1,1792 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-001-archive-part001.json",
+      "bytes": 7952087,
+      "sha256": "527839be44c217725976f3d931bf9494e3cd5175cc848249bf02738946dd9003",
+      "blobs": 104
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-001-archive-part002.json",
+      "bytes": 6931528,
+      "sha256": "6f7276ab6f63e0f9479809381af691b643ea478289426ab039d64dad3b3c503c",
+      "blobs": 32
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-001-archive-part003.json",
+      "bytes": 6010457,
+      "sha256": "3e2f8532e1b92dca4635112a9226c162c79e68faf29cfaa251e5a2a8caabb2b5",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-001-archive-part004.json",
+      "bytes": 5957257,
+      "sha256": "5418c8eff423c79cf20ca260ee67b557867cd44124a15a2a57627c6ad4d24a04",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-001-archive-part005.json",
+      "bytes": 5841037,
+      "sha256": "3691c33662649024c1f11df382fe0621ca39ac871aaa4d4fed19fa14b2e97261",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-001-archive-part006.json",
+      "bytes": 2990387,
+      "sha256": "41fa80d3aa3f6c169b2e1af5ecad557de9516343179993b071c549137fe9decb",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 42051,
+      "sha256": "8b7701bf128c6adfaf21b45fcaf37c8b18475a1bdd60550be30b7d5a2ce69e5c",
+      "blob": "8b7701bf128c6adfaf21b45fcaf37c8b18475a1bdd60550be30b7d5a2ce69e5c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "assets/hd-portraits/refs/period-1/19-李儒.png",
+      "bytes": 486,
+      "sha256": "d41813a0446a3a5ab4bfa15067543675eb204f9f9e7fa9e898de2490eca9524e",
+      "blob": "d41813a0446a3a5ab4bfa15067543675eb204f9f9e7fa9e898de2490eca9524e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/sem-diagnostics-candidate-v1/before/scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 124752,
+      "sha256": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "blob": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 124752,
+      "sha256": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "blob": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/sem-diagnostics-candidate-v1/mechanical-diff-v1.json",
+      "bytes": 5125,
+      "sha256": "4b734cce9c7bbd3750ee3b621cb609adca077b4265bc601e36a4dfcb6ec8a14e",
+      "blob": "4b734cce9c7bbd3750ee3b621cb609adca077b4265bc601e36a4dfcb6ec8a14e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/sem-diagnostics-candidate-v1/peer-v1.json",
+      "bytes": 4955,
+      "sha256": "d71ed17a161fa29a413d159dd16499fc312cfb00aca28dcec417990b80aeb7b3",
+      "blob": "d71ed17a161fa29a413d159dd16499fc312cfb00aca28dcec417990b80aeb7b3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/sem-diagnostics-candidate-v1/sources/scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 127263,
+      "sha256": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "blob": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/executed-tool.mjs",
+      "bytes": 127263,
+      "sha256": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "blob": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/executed-tool.mjs",
+      "bytes": 127263,
+      "sha256": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "blob": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 127263,
+      "sha256": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "blob": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/.gitattributes",
+      "bytes": 41444,
+      "sha256": "fc474b0ebbf4bcf5f0c2f9cd2b0634ceb7a124ae1fca9f91d7567557d5ad6eca",
+      "blob": "fc474b0ebbf4bcf5f0c2f9cd2b0634ceb7a124ae1fca9f91d7567557d5ad6eca",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/designer.html",
+      "bytes": 3223,
+      "sha256": "338c3c733db2137e7909806e359937eef25785e4687f79c68bd8702806d7fa89",
+      "blob": "338c3c733db2137e7909806e359937eef25785e4687f79c68bd8702806d7fa89",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/hd-portrait-dump.html",
+      "bytes": 3468,
+      "sha256": "2a5ed36e92a728d9b42d67c91c430b0a217175c4818470238fc0a0f231a7428f",
+      "blob": "2a5ed36e92a728d9b42d67c91c430b0a217175c4818470238fc0a0f231a7428f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "blob": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/js/baye.js",
+      "bytes": 193321,
+      "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2",
+      "blob": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/js/baye.wasm",
+      "bytes": 4561352,
+      "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5",
+      "blob": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/js/baye.wasm.map",
+      "bytes": 29983,
+      "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646",
+      "blob": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/m-ges.html",
+      "bytes": 7131,
+      "sha256": "b2ea59f575f98f98484ece71d9c1a6b9a84d77acf1aa3e2c05bc039052a03741",
+      "blob": "b2ea59f575f98f98484ece71d9c1a6b9a84d77acf1aa3e2c05bc039052a03741",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/m-ktouch.html",
+      "bytes": 6603,
+      "sha256": "3c70f0af2ae69e20874966177f6093920e22b579ac7c12cc56abd65ef5527ddd",
+      "blob": "3c70f0af2ae69e20874966177f6093920e22b579ac7c12cc56abd65ef5527ddd",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/m-old.html",
+      "bytes": 6655,
+      "sha256": "ad34a19baac5bf4372bfce76be9dbaf18ddb495af6b05a0a3d0f1c1eb92bc9ce",
+      "blob": "ad34a19baac5bf4372bfce76be9dbaf18ddb495af6b05a0a3d0f1c1eb92bc9ce",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/m.html",
+      "bytes": 18472,
+      "sha256": "d742e381ab06f3ed67996fe8bd84a8d1e157e34cf5ba23d9b09c2e96cba47f4c",
+      "blob": "d742e381ab06f3ed67996fe8bd84a8d1e157e34cf5ba23d9b09c2e96cba47f4c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/package.json",
+      "bytes": 21183,
+      "sha256": "809fd447dd1177d6af707c189c4a0408011c1bfe5a78816012a21a09bc7a140d",
+      "blob": "809fd447dd1177d6af707c189c4a0408011c1bfe5a78816012a21a09bc7a140d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/pc.html",
+      "bytes": 28673,
+      "sha256": "45295ba3abd35ada522cd134f61dbf934dcbd42aadf9fb59790f3078b1322947",
+      "blob": "45295ba3abd35ada522cd134f61dbf934dcbd42aadf9fb59790f3078b1322947",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/before/vendor/iBaye/src/platform/js/sem.c",
+      "bytes": 1173,
+      "sha256": "c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79",
+      "blob": "c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/before/vendor/iBaye/src/platform/js/sem.c",
+      "bytes": 1173,
+      "sha256": "c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79",
+      "blob": "c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/capture-shared-cache-v1.mjs",
+      "bytes": 1582,
+      "sha256": "42a280a877bd7e94d53e6b22aa8dc0ae34572dcad4e2ebaf481775a3f7c226a4",
+      "blob": "42a280a877bd7e94d53e6b22aa8dc0ae34572dcad4e2ebaf481775a3f7c226a4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/engine-build-v1.before.json",
+      "bytes": 20639,
+      "sha256": "fe5d17a8da11233a3ee174b02dfe9352445b5eb7bf12af47a7ea59a10d39ec52",
+      "blob": "fe5d17a8da11233a3ee174b02dfe9352445b5eb7bf12af47a7ea59a10d39ec52",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/engine-build-v1.json",
+      "bytes": 2210,
+      "sha256": "2d5bcb3afce36ad2e30472f0c071654d46b8ee385c9c45c8f91508d42ff731e9",
+      "blob": "2d5bcb3afce36ad2e30472f0c071654d46b8ee385c9c45c8f91508d42ff731e9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-publication-failed-v1/m5-native-input-queue-20261026-v69-maker-data-v1.mjs",
+      "bytes": 16226,
+      "sha256": "8fdbac7c95cf872c1ed17b6449e2c48d9b812ddcb66ee5d8f4915f08db5276b6",
+      "blob": "8fdbac7c95cf872c1ed17b6449e2c48d9b812ddcb66ee5d8f4915f08db5276b6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/maker-data-v1.mjs",
+      "bytes": 16226,
+      "sha256": "8fdbac7c95cf872c1ed17b6449e2c48d9b812ddcb66ee5d8f4915f08db5276b6",
+      "blob": "8fdbac7c95cf872c1ed17b6449e2c48d9b812ddcb66ee5d8f4915f08db5276b6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/maker-data-v1.mjs",
+      "bytes": 16226,
+      "sha256": "8fdbac7c95cf872c1ed17b6449e2c48d9b812ddcb66ee5d8f4915f08db5276b6",
+      "blob": "8fdbac7c95cf872c1ed17b6449e2c48d9b812ddcb66ee5d8f4915f08db5276b6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-publication-failed-v1/m5-native-input-queue-20261026-v69-v69-core-v1.mjs",
+      "bytes": 7136,
+      "sha256": "de4449957d97a9291c084d5f6a6a5dbb8946f88adfd771aa08109a0975b49931",
+      "blob": "de4449957d97a9291c084d5f6a6a5dbb8946f88adfd771aa08109a0975b49931",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-publication-failed-v1/m5-native-input-queue-20261026-v69-v69-facts-v1.mjs",
+      "bytes": 16231,
+      "sha256": "49e0985ba3dc5ea9963be5edc719b142d4206b15b32a5bbb61dd613ebb77dc3e",
+      "blob": "49e0985ba3dc5ea9963be5edc719b142d4206b15b32a5bbb61dd613ebb77dc3e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-publication-failed-v1/m5-native-input-queue-20261026-v69-v69-locks-v1.mjs",
+      "bytes": 64596,
+      "sha256": "bda269b939ef2feadd7afb8c3b239c702d11f7200c9bcc497b7ef1b5d8c6b3a3",
+      "blob": "bda269b939ef2feadd7afb8c3b239c702d11f7200c9bcc497b7ef1b5d8c6b3a3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/v69-locks-v1.mjs",
+      "bytes": 64596,
+      "sha256": "bda269b939ef2feadd7afb8c3b239c702d11f7200c9bcc497b7ef1b5d8c6b3a3",
+      "blob": "bda269b939ef2feadd7afb8c3b239c702d11f7200c9bcc497b7ef1b5d8c6b3a3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-publication-failed-v1/m5-native-input-queue-20261026-v69-v69-views-v1.mjs",
+      "bytes": 6405,
+      "sha256": "58c660e4190afcb97b635c5e3dbf729246d51ef49aaa79742c15b50d47100686",
+      "blob": "58c660e4190afcb97b635c5e3dbf729246d51ef49aaa79742c15b50d47100686",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-publication-failed-v1/m5-native-input-queue-20261026-v69-verify.mjs",
+      "bytes": 7326,
+      "sha256": "47c339b4d9baa0f88677869493a6a2f92139904d436fb8975d5ae1dba137c3ca",
+      "blob": "47c339b4d9baa0f88677869493a6a2f92139904d436fb8975d5ae1dba137c3ca",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-publication-failed-v1/m5-native-input-queue-20261026-v69.json",
+      "bytes": 212787,
+      "sha256": "d90a75fbd4435f7c010007ef219608cae96aca895a0fa64806af8b970faf1e53",
+      "blob": "d90a75fbd4435f7c010007ef219608cae96aca895a0fa64806af8b970faf1e53",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/fill-bindings-v1.mjs",
+      "bytes": 6230,
+      "sha256": "95546c950ffccbbe78f79c1835f6e6164e0083cd50fc2761cdc37cd9a53d44e5",
+      "blob": "95546c950ffccbbe78f79c1835f6e6164e0083cd50fc2761cdc37cd9a53d44e5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/prepare-mobile-chunks-v1.mjs",
+      "bytes": 3074,
+      "sha256": "aaf66e9972eb13f91e9a16a6702eaff0eb00b6a63dd407599c740c8873fdc7b1",
+      "blob": "aaf66e9972eb13f91e9a16a6702eaff0eb00b6a63dd407599c740c8873fdc7b1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/publication-receipt-v1.json",
+      "bytes": 36929,
+      "sha256": "596b0d0c13a21f5e509e6080c429f5495155240fd6f070881f324aa2440cbe51",
+      "blob": "596b0d0c13a21f5e509e6080c429f5495155240fd6f070881f324aa2440cbe51",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/publish-v1.mjs",
+      "bytes": 7574,
+      "sha256": "b13f566c795e2cd8da727375960e0ad55082187d077a08b721fd84d04ff312ad",
+      "blob": "b13f566c795e2cd8da727375960e0ad55082187d077a08b721fd84d04ff312ad",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/root-bindings-v1.json",
+      "bytes": 424455,
+      "sha256": "fd75b45e315fb7b41ae7a630f08e4f065ee53dd1b7629e1c6381b71137473b87",
+      "blob": "fd75b45e315fb7b41ae7a630f08e4f065ee53dd1b7629e1c6381b71137473b87",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/sdk-config-original-v1.raw",
+      "bytes": 335,
+      "sha256": "f3e2404ecb48a25c4a7fb58597bc98fe1d9a9c6b76c24f208a14dbb7c9809956",
+      "blob": "f3e2404ecb48a25c4a7fb58597bc98fe1d9a9c6b76c24f208a14dbb7c9809956",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/small-shapes-v1.json",
+      "bytes": 59877,
+      "sha256": "62e7fa348d228942262e9efff1c730b887b5912381ff1b2a19e0181da9a2f517",
+      "blob": "62e7fa348d228942262e9efff1c730b887b5912381ff1b2a19e0181da9a2f517",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/source-freeze-v1.json",
+      "bytes": 4566,
+      "sha256": "10eabbf897f8a13564a98f4a98e6715af0169e879505613c83fdf3531dba7ed1",
+      "blob": "10eabbf897f8a13564a98f4a98e6715af0169e879505613c83fdf3531dba7ed1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/v69-core-v1.mjs",
+      "bytes": 7124,
+      "sha256": "142a331e78ece25a821367c52f00569df6c6d5e384998c40b9e3a2759771f9a3",
+      "blob": "142a331e78ece25a821367c52f00569df6c6d5e384998c40b9e3a2759771f9a3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/v69-facts-v1.mjs",
+      "bytes": 16161,
+      "sha256": "c54d577026a2a723423d8903fcd2acbfa745344b835d47e61a29f1cee46fb820",
+      "blob": "c54d577026a2a723423d8903fcd2acbfa745344b835d47e61a29f1cee46fb820",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/v69-facts-v1.mjs",
+      "bytes": 16161,
+      "sha256": "c54d577026a2a723423d8903fcd2acbfa745344b835d47e61a29f1cee46fb820",
+      "blob": "c54d577026a2a723423d8903fcd2acbfa745344b835d47e61a29f1cee46fb820",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/v69-reader-v1.mjs",
+      "bytes": 7244,
+      "sha256": "32892ab3546812647d979b324e1a887b86d9e81c63bd8594fc13fb130e410487",
+      "blob": "32892ab3546812647d979b324e1a887b86d9e81c63bd8594fc13fb130e410487",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/v69-reader-v1.mjs",
+      "bytes": 7244,
+      "sha256": "32892ab3546812647d979b324e1a887b86d9e81c63bd8594fc13fb130e410487",
+      "blob": "32892ab3546812647d979b324e1a887b86d9e81c63bd8594fc13fb130e410487",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v1/v69-views-v1.mjs",
+      "bytes": 6370,
+      "sha256": "012322511a75cd90f0ec2e9e8e38f8973e09eb83b70afa37363875380c509cd6",
+      "blob": "012322511a75cd90f0ec2e9e8e38f8973e09eb83b70afa37363875380c509cd6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/v69-views-v1.mjs",
+      "bytes": 6370,
+      "sha256": "012322511a75cd90f0ec2e9e8e38f8973e09eb83b70afa37363875380c509cd6",
+      "blob": "012322511a75cd90f0ec2e9e8e38f8973e09eb83b70afa37363875380c509cd6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/README-root-publication-v2.md",
+      "bytes": 4445,
+      "sha256": "7f7ddd45b526d733f26ee92374d89d52a4f962c23885352737107adce8a615e4",
+      "blob": "7f7ddd45b526d733f26ee92374d89d52a4f962c23885352737107adce8a615e4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/fill-bindings-v1.mjs",
+      "bytes": 6159,
+      "sha256": "a51a4672daee774dd54ccfddb223283950994e963d1914295945804afe5bc2e1",
+      "blob": "a51a4672daee774dd54ccfddb223283950994e963d1914295945804afe5bc2e1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/mobileAfter-chunks-v1/manifest.json",
+      "bytes": 2134,
+      "sha256": "1446d1c873ab038f754d56004e23c8d76225e4ab34f03f73ee336e2157a0bc48",
+      "blob": "1446d1c873ab038f754d56004e23c8d76225e4ab34f03f73ee336e2157a0bc48",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/mobileAfter-input-v1.json",
+      "bytes": 368,
+      "sha256": "9b5188ddd8a46c9d9f160cafe92e3dbaec98b40cc134abe2fb9c4d2619cf737a",
+      "blob": "9b5188ddd8a46c9d9f160cafe92e3dbaec98b40cc134abe2fb9c4d2619cf737a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/mobileBefore-chunks-v1/manifest.json",
+      "bytes": 1232,
+      "sha256": "08caa8618256e099daa7a7658f545f7c80e7045445b9f8e0a3adb606766d9c32",
+      "blob": "08caa8618256e099daa7a7658f545f7c80e7045445b9f8e0a3adb606766d9c32",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/mobileBefore-input-v1.json",
+      "bytes": 365,
+      "sha256": "a0e2afb4bc7bd85200eff77142c0ca5ed48ccb49147a30ba1a9078741eaf9dce",
+      "blob": "a0e2afb4bc7bd85200eff77142c0ca5ed48ccb49147a30ba1a9078741eaf9dce",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/portable-source-diff-v2.json",
+      "bytes": 9300,
+      "sha256": "2ceeb83176992a0a23449950e07eada561d076a690d374845a093e9dc1fc0092",
+      "blob": "2ceeb83176992a0a23449950e07eada561d076a690d374845a093e9dc1fc0092",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/prepare-mobile-chunks-v1.mjs",
+      "bytes": 3074,
+      "sha256": "cc76bf654de798cde8670c427a4949e85235ae76104a668565ed670b5dcef6f7",
+      "blob": "cc76bf654de798cde8670c427a4949e85235ae76104a668565ed670b5dcef6f7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/prepare-portable-fix-v2.cjs",
+      "bytes": 5653,
+      "sha256": "b57c36335df9fd0063aedb346af43b17003ba7f3d507e919d4813ba9fbe3194b",
+      "blob": "b57c36335df9fd0063aedb346af43b17003ba7f3d507e919d4813ba9fbe3194b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/publish-v1.mjs",
+      "bytes": 8070,
+      "sha256": "30a095b73e9339f1d48d302a2e13ce0f0842eaac8ef3b5662cb31bcd664c93df",
+      "blob": "30a095b73e9339f1d48d302a2e13ce0f0842eaac8ef3b5662cb31bcd664c93df",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/root-bindings-v1.json",
+      "bytes": 429602,
+      "sha256": "9e297496f11e9b52861677b8692cbfc0913b1191e8e5cb5a1d7c3096ce2cc466",
+      "blob": "9e297496f11e9b52861677b8692cbfc0913b1191e8e5cb5a1d7c3096ce2cc466",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/root-review-bindings-v1.mjs",
+      "bytes": 1429,
+      "sha256": "64737e5d4b015f616bfeeceba70e9035c5dc2233ae05ae58cc5d20b9b9771c31",
+      "blob": "64737e5d4b015f616bfeeceba70e9035c5dc2233ae05ae58cc5d20b9b9771c31",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/source-freeze-v2.json",
+      "bytes": 3434,
+      "sha256": "ff84fc6c4699d7f54a78c28b03db6ae137777522586e4698d44168282fe9ad67",
+      "blob": "ff84fc6c4699d7f54a78c28b03db6ae137777522586e4698d44168282fe9ad67",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/source-static-peer-v1.json",
+      "bytes": 5349,
+      "sha256": "8f523974bff2560415eb997f4b0d5211efbf3331123e77205afe03791b357f42",
+      "blob": "8f523974bff2560415eb997f4b0d5211efbf3331123e77205afe03791b357f42",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/source-syntax-checks-v2.json",
+      "bytes": 1790,
+      "sha256": "cd78008b220b67093f938119b896163cd4e3e6517ae018dbaa8a494f2f8d0adc",
+      "blob": "cd78008b220b67093f938119b896163cd4e3e6517ae018dbaa8a494f2f8d0adc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/terminal-proof-v1.json",
+      "bytes": 3478,
+      "sha256": "074275a4c8e52bcfc615ba6d08424936cc5ce8fe07a261850e1533b1fcdeb69e",
+      "blob": "074275a4c8e52bcfc615ba6d08424936cc5ce8fe07a261850e1533b1fcdeb69e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/v69-core-v1.mjs",
+      "bytes": 7413,
+      "sha256": "88b5e6abf29ed7664e08f0c0c67f14b4ba9e1d688c2cdde5d30166d85fe9c516",
+      "blob": "88b5e6abf29ed7664e08f0c0c67f14b4ba9e1d688c2cdde5d30166d85fe9c516",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/v69-locks-v1.mjs",
+      "bytes": 70363,
+      "sha256": "25cf83ade5904c033bf18c0076572746e3054322e38fa8c05cb66e3b42ac7ef7",
+      "blob": "25cf83ade5904c033bf18c0076572746e3054322e38fa8c05cb66e3b42ac7ef7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/extract-maker-inline-sources-v1.mjs",
+      "bytes": 2040,
+      "sha256": "c01805d36ff425e3f31c214da5f2e6b881a1cf6e9f0b3b17069ae48bacc5ad11",
+      "blob": "c01805d36ff425e3f31c214da5f2e6b881a1cf6e9f0b3b17069ae48bacc5ad11",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/extract-native-tool-captures-v1.mjs",
+      "bytes": 2048,
+      "sha256": "0f669318bf6d350dc84122b67e945003afed26ec37bfe34dbb290f4693164e9e",
+      "blob": "0f669318bf6d350dc84122b67e945003afed26ec37bfe34dbb290f4693164e9e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/failed-publication-preservation-v1.json",
+      "bytes": 53544,
+      "sha256": "70b9d895749362af02025c7746b1c4938aefdb528156800d144cd78652fde37f",
+      "blob": "70b9d895749362af02025c7746b1c4938aefdb528156800d144cd78652fde37f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/final-native-source-peer-v1.json",
+      "bytes": 13232,
+      "sha256": "7c07ecfc131e2fc1eeb1d2dee2f2bdb0a99559d5f3e1b50614eed7fbc8137bf3",
+      "blob": "7c07ecfc131e2fc1eeb1d2dee2f2bdb0a99559d5f3e1b50614eed7fbc8137bf3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/fixed-observations-v1.json",
+      "bytes": 14603,
+      "sha256": "8b29a6bab40e8973f368e3391b7a6e80aa3033b0bdc9429fdd801e14d1c4dd50",
+      "blob": "8b29a6bab40e8973f368e3391b7a6e80aa3033b0bdc9429fdd801e14d1c4dd50",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/full-default-v1.before.json",
+      "bytes": 278123,
+      "sha256": "8e0ce8c0866d1a3fc421c39b0f0da575e422ca136a50a9de0a2b8464d05a4249",
+      "blob": "8e0ce8c0866d1a3fc421c39b0f0da575e422ca136a50a9de0a2b8464d05a4249",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/full-default-v1.json",
+      "bytes": 1770,
+      "sha256": "d756623618b74a52da9c9e8a9f81a74284096a730fa0e4422d0debbe44264fd6",
+      "blob": "d756623618b74a52da9c9e8a9f81a74284096a730fa0e4422d0debbe44264fd6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/full-default-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/native-sem-before-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/native-sem-candidate-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/public-cli-v1.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/run.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v1/compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/run.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/full-default-v1.stdout.tap",
+      "bytes": 1625809,
+      "sha256": "992f8be6ebc407202a94b8d5cd08732105424bfe8452c2f7fff1d587b5d810c3",
+      "blob": "992f8be6ebc407202a94b8d5cd08732105424bfe8452c2f7fff1d587b5d810c3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/inspect-fixed-result-v1.mjs",
+      "bytes": 2523,
+      "sha256": "9b262deb37a214a3512a67aa31bb54ccc43b352e02bb77e8f29a2e392b235ad8",
+      "blob": "9b262deb37a214a3512a67aa31bb54ccc43b352e02bb77e8f29a2e392b235ad8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/inspect-sem-result-v1.mjs",
+      "bytes": 3008,
+      "sha256": "759348536988fc23fec10d6078a07ea01c0e05d38fdacaaf5aa387f9da7b5556",
+      "blob": "759348536988fc23fec10d6078a07ea01c0e05d38fdacaaf5aa387f9da7b5556",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/install-engine-v1.mjs",
+      "bytes": 2272,
+      "sha256": "58dc3119c1d03aba707c94a9a865cdcb4422753cd58ed90c4f5ba74911759d9b",
+      "blob": "58dc3119c1d03aba707c94a9a865cdcb4422753cd58ed90c4f5ba74911759d9b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/installed-epoch-v1.json",
+      "bytes": 28257,
+      "sha256": "bbaa246ccaf4fc5159fb813e785d0a9c7597b459ffaba6506573d03383914e9c",
+      "blob": "bbaa246ccaf4fc5159fb813e785d0a9c7597b459ffaba6506573d03383914e9c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/integrate-native-fastpath-v1.mjs",
+      "bytes": 4769,
+      "sha256": "e1438b26811670d12078ed162791484de29095123832f231425e5bb85a443d38",
+      "blob": "e1438b26811670d12078ed162791484de29095123832f231425e5bb85a443d38",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/integrate-sem-diagnostics-v1.mjs",
+      "bytes": 2682,
+      "sha256": "e12fd6b405f1a139daa5c65bada5e3fb7cfc2411b871c70d700a97f39a3a8dce",
+      "blob": "e12fd6b405f1a139daa5c65bada5e3fb7cfc2411b871c70d700a97f39a3a8dce",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-executed-inline-v1/continued.exec-input.txt",
+      "bytes": 4479,
+      "sha256": "1f325aaed521bd95f69fc65113904e93b4b3087c79b8e96226c7a75fbf008b0e",
+      "blob": "1f325aaed521bd95f69fc65113904e93b4b3087c79b8e96226c7a75fbf008b0e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-executed-inline-v1/final.exec-input.txt",
+      "bytes": 6476,
+      "sha256": "b4949250e20f150fa6e65f3a62dcbb448c43c4c062a82d13bcab3f943f8bbbb7",
+      "blob": "b4949250e20f150fa6e65f3a62dcbb448c43c4c062a82d13bcab3f943f8bbbb7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-executed-inline-v1/receipt.json",
+      "bytes": 1902,
+      "sha256": "e92e748394bf3ec6336eb84f41a61f463f6af2d3f7497b59b33f21745a147961",
+      "blob": "e92e748394bf3ec6336eb84f41a61f463f6af2d3f7497b59b33f21745a147961",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-executed-inline-v1/sample.exec-input.txt",
+      "bytes": 3741,
+      "sha256": "5fd947dea94f48e42a8cf2d9e79dcd062afdb1fc5d430b4c21fc22658ff55d8c",
+      "blob": "5fd947dea94f48e42a8cf2d9e79dcd062afdb1fc5d430b4c21fc22658ff55d8c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-executed-inline-v1/watch.exec-input.txt",
+      "bytes": 4313,
+      "sha256": "b2f6cb0421a42f3edb3ad97f5b60db349fea0c2155bf95a68a3fa4ce784094f8",
+      "blob": "b2f6cb0421a42f3edb3ad97f5b60db349fea0c2155bf95a68a3fa4ce784094f8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "blob": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "blob": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/entry-for-内政-17.png",
+      "bytes": 48585,
+      "sha256": "ee582097d83d7af88e709b62c89beb082c4bfb2fbd3476bfa8e7688d040ab800",
+      "blob": "ee582097d83d7af88e709b62c89beb082c4bfb2fbd3476bfa8e7688d040ab800",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/entry-for-内政-6.png",
+      "bytes": 52910,
+      "sha256": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "blob": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/entry-for-状况-0.png",
+      "bytes": 52910,
+      "sha256": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "blob": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/entry-for-状况-0.png",
+      "bytes": 52910,
+      "sha256": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "blob": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/entry-for-状况-11.png",
+      "bytes": 48597,
+      "sha256": "2d88abeefbc7a6114f2c11a194c8ef6f2ad176606b8e746180656ff37445a564",
+      "blob": "2d88abeefbc7a6114f2c11a194c8ef6f2ad176606b8e746180656ff37445a564",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/executed-equipment-helper.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/executed-equipment-helper.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/executed-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/executed-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-equipment-runtime-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-preview-runtime-checks.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/hd-city-resource-runtime-checks.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/final-preview-HD-map-hd-overworld-canvas.png",
+      "bytes": 529016,
+      "sha256": "385ef5b6ead4badcc48b3bdabe38ac637fb17bc4974e3bcc377f31437e8a1257",
+      "blob": "385ef5b6ead4badcc48b3bdabe38ac637fb17bc4974e3bcc377f31437e8a1257",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/final-preview-HD-map.png",
+      "bytes": 422681,
+      "sha256": "ac9bfd66c8c0e47fe58a8cbf3f35479266133fee975bca756b22cc96db6682ff",
+      "blob": "ac9bfd66c8c0e47fe58a8cbf3f35479266133fee975bca756b22cc96db6682ff",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-01-city-resource-Money.png",
+      "bytes": 47479,
+      "sha256": "be54a6920cb46070e7bef6bbf3616c7b1e5239487f49a1ef1b6415d81c77a50d",
+      "blob": "be54a6920cb46070e7bef6bbf3616c7b1e5239487f49a1ef1b6415d81c77a50d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/status-13.png",
+      "bytes": 47479,
+      "sha256": "be54a6920cb46070e7bef6bbf3616c7b1e5239487f49a1ef1b6415d81c77a50d",
+      "blob": "be54a6920cb46070e7bef6bbf3616c7b1e5239487f49a1ef1b6415d81c77a50d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-02-city-resource-Tools.png",
+      "bytes": 47031,
+      "sha256": "c91fd6b81df7af1ea14a1c813d9f84cebb751565027bb7da830771da9492127d",
+      "blob": "c91fd6b81df7af1ea14a1c813d9f84cebb751565027bb7da830771da9492127d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-03-person-0-preview.png",
+      "bytes": 115006,
+      "sha256": "af172e93cb492def5da0bd1c98039e7a2ade538cd9056339fc4725bba48ccfc9",
+      "blob": "af172e93cb492def5da0bd1c98039e7a2ade538cd9056339fc4725bba48ccfc9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-12-person-0-preview.png",
+      "bytes": 115006,
+      "sha256": "af172e93cb492def5da0bd1c98039e7a2ade538cd9056339fc4725bba48ccfc9",
+      "blob": "af172e93cb492def5da0bd1c98039e7a2ade538cd9056339fc4725bba48ccfc9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-04-person-20-preview.png",
+      "bytes": 116809,
+      "sha256": "3a9887b8057e6a4bb0db87174857c9d8f46de1ab55014494305723808f698a02",
+      "blob": "3a9887b8057e6a4bb0db87174857c9d8f46de1ab55014494305723808f698a02",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-05-person-20-all-properties.png",
+      "bytes": 56328,
+      "sha256": "577ac4aeb49c438ab00a343e417ecf11a7593e627b5ea6269d294b77eca0816e",
+      "blob": "577ac4aeb49c438ab00a343e417ecf11a7593e627b5ea6269d294b77eca0816e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-06-equipment-person-20-slot-0.png",
+      "bytes": 58464,
+      "sha256": "22e0097eb371eb33ce311ad3e3af3f74349bad388e7d8cea85d3d278ab251a80",
+      "blob": "22e0097eb371eb33ce311ad3e3af3f74349bad388e7d8cea85d3d278ab251a80",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-07-equipment-person-20-slot-1.png",
+      "bytes": 59100,
+      "sha256": "7889ce25933bea19322d70c46d5c959aad76bb69107a7b3e04b91d6ab5fe43f4",
+      "blob": "7889ce25933bea19322d70c46d5c959aad76bb69107a7b3e04b91d6ab5fe43f4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-08-person-0-preview.png",
+      "bytes": 114160,
+      "sha256": "e279ffd729eaa9fadff63a5862d354f086e8a6eafed6abd296d4206df37b1dfc",
+      "blob": "e279ffd729eaa9fadff63a5862d354f086e8a6eafed6abd296d4206df37b1dfc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-09-equipment-person-0-slot-0.png",
+      "bytes": 64403,
+      "sha256": "d8e8f8853674b17e0c3fa27b504e8548330258d274ccd7d034d99eaaf8a9dc5d",
+      "blob": "d8e8f8853674b17e0c3fa27b504e8548330258d274ccd7d034d99eaaf8a9dc5d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-10-person-19-preview.png",
+      "bytes": 48115,
+      "sha256": "47f9fdbf68bfb88160e61670e78402c81ef92a2496f19577d2c044ab9695e079",
+      "blob": "47f9fdbf68bfb88160e61670e78402c81ef92a2496f19577d2c044ab9695e079",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-11-equipment-person-19-empty.png",
+      "bytes": 48115,
+      "sha256": "47f9fdbf68bfb88160e61670e78402c81ef92a2496f19577d2c044ab9695e079",
+      "blob": "47f9fdbf68bfb88160e61670e78402c81ef92a2496f19577d2c044ab9695e079",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-13-tool-0-preview.png",
+      "bytes": 50285,
+      "sha256": "eaf326335285d67fd35bd8a442938ac25f8bb0dad12927cf3adccf4eb0365aae",
+      "blob": "eaf326335285d67fd35bd8a442938ac25f8bb0dad12927cf3adccf4eb0365aae",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-14-tool-0-all-properties.png",
+      "bytes": 48993,
+      "sha256": "e9b194787c8ffbb25e479a2d9d2faf6a1f106bb4a6ff0692e3a5cd4918b62507",
+      "blob": "e9b194787c8ffbb25e479a2d9d2faf6a1f106bb4a6ff0692e3a5cd4918b62507",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-15-tool-22-preview.png",
+      "bytes": 49349,
+      "sha256": "c394be53dc51207445b3f464c6a0607922a535df10eaba0d6f64746865c57ce9",
+      "blob": "c394be53dc51207445b3f464c6a0607922a535df10eaba0d6f64746865c57ce9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-16-tool-22-all-properties.png",
+      "bytes": 46762,
+      "sha256": "739251646e9964d4a18f63466849dfea484a7de890d8c390a3a586a818fba053",
+      "blob": "739251646e9964d4a18f63466849dfea484a7de890d8c390a3a586a818fba053",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-17-map-hd-overworld-canvas.png",
+      "bytes": 528919,
+      "sha256": "30958d440945fddf278c911f0153478ca6b38cf4e1c552e310fa0d47b09fc3b1",
+      "blob": "30958d440945fddf278c911f0153478ca6b38cf4e1c552e310fa0d47b09fc3b1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-667x375-17-map.png",
+      "bytes": 422861,
+      "sha256": "0699e15b5b3f55af6bbcc35d023d7b0c50ab08c658030cd1017ced2aaa023512",
+      "blob": "0699e15b5b3f55af6bbcc35d023d7b0c50ab08c658030cd1017ced2aaa023512",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-01-city-resource-Money.png",
+      "bytes": 56531,
+      "sha256": "f9c712ccbaf9278d4fb367ef6c0b3535f1306ac3dbdab163553e60af01da30f1",
+      "blob": "f9c712ccbaf9278d4fb367ef6c0b3535f1306ac3dbdab163553e60af01da30f1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-02-city-resource-Tools.png",
+      "bytes": 52530,
+      "sha256": "2537a3859520f46c5e58ac2ca49540dc7bee95d4e462ed328148bd7ad68c71ff",
+      "blob": "2537a3859520f46c5e58ac2ca49540dc7bee95d4e462ed328148bd7ad68c71ff",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-03-person-0-preview.png",
+      "bytes": 118919,
+      "sha256": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "blob": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/preview-844x390-03-person-0-preview.png",
+      "bytes": 118919,
+      "sha256": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "blob": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-04-person-20-preview.png",
+      "bytes": 120972,
+      "sha256": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "blob": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/preview-844x390-04-person-20-preview.png",
+      "bytes": 120972,
+      "sha256": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "blob": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-05-person-20-all-properties.png",
+      "bytes": 60367,
+      "sha256": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "blob": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/preview-844x390-05-person-20-all-properties.png",
+      "bytes": 60367,
+      "sha256": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "blob": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-06-equipment-person-20-slot-0.png",
+      "bytes": 64686,
+      "sha256": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "blob": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/preview-844x390-06-equipment-person-20-slot-0.png",
+      "bytes": 64686,
+      "sha256": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "blob": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-07-equipment-person-20-slot-1.png",
+      "bytes": 70165,
+      "sha256": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "blob": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/preview-844x390-07-equipment-person-20-slot-1.png",
+      "bytes": 70165,
+      "sha256": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "blob": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-08-person-0-preview.png",
+      "bytes": 117955,
+      "sha256": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "blob": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-12-person-0-preview.png",
+      "bytes": 117955,
+      "sha256": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "blob": "fa8ed07de1a61db555ea9d3eb422f8b4baac4bc82c1ddb1215cff2de7fe82e91",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-09-equipment-person-0-slot-0.png",
+      "bytes": 69898,
+      "sha256": "3810565fab3fbce3865e4c48e2dd30386e181eb2a529933b1ff0d68df29b9aa8",
+      "blob": "3810565fab3fbce3865e4c48e2dd30386e181eb2a529933b1ff0d68df29b9aa8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-10-person-19-preview.png",
+      "bytes": 52284,
+      "sha256": "ffabfd88a7993dbdfd7d78b3bf37b487f7fbbc40fbddc1cdd47244371f0fd4e7",
+      "blob": "ffabfd88a7993dbdfd7d78b3bf37b487f7fbbc40fbddc1cdd47244371f0fd4e7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-11-equipment-person-19-empty.png",
+      "bytes": 52284,
+      "sha256": "ffabfd88a7993dbdfd7d78b3bf37b487f7fbbc40fbddc1cdd47244371f0fd4e7",
+      "blob": "ffabfd88a7993dbdfd7d78b3bf37b487f7fbbc40fbddc1cdd47244371f0fd4e7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-13-tool-0-preview.png",
+      "bytes": 55625,
+      "sha256": "23588898ee52bf28c9d439358c382cf88df946fa5a8d8679338771b066e07399",
+      "blob": "23588898ee52bf28c9d439358c382cf88df946fa5a8d8679338771b066e07399",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-14-tool-0-all-properties.png",
+      "bytes": 51727,
+      "sha256": "3a557449a695fce4b7491152d4fc2d9bc326fe132568b977ce1efbe3ec01e68e",
+      "blob": "3a557449a695fce4b7491152d4fc2d9bc326fe132568b977ce1efbe3ec01e68e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-15-tool-22-preview.png",
+      "bytes": 53390,
+      "sha256": "cd5f61d2dcadfe7e64272dceed54a455ff36a596710679bb73af7f7b1413de8b",
+      "blob": "cd5f61d2dcadfe7e64272dceed54a455ff36a596710679bb73af7f7b1413de8b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-16-tool-22-all-properties.png",
+      "bytes": 51685,
+      "sha256": "c92bf9883f6b29fe8c227bd41d4c860b9f57d80fcdeceb84ef20c20b2dbe30b7",
+      "blob": "c92bf9883f6b29fe8c227bd41d4c860b9f57d80fcdeceb84ef20c20b2dbe30b7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-17-map-hd-overworld-canvas.png",
+      "bytes": 681532,
+      "sha256": "8dcc26bdfe15a0b659e4aa69a7cea7fe477e8102b1ddb71b311735d66bdeddfe",
+      "blob": "8dcc26bdfe15a0b659e4aa69a7cea7fe477e8102b1ddb71b311735d66bdeddfe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/preview-844x390-17-map.png",
+      "bytes": 538966,
+      "sha256": "c98d5dc99f93d9e2740aceb45d243bf2b9138ae63569b01f19ee12d69b988d6a",
+      "blob": "c98d5dc99f93d9e2740aceb45d243bf2b9138ae63569b01f19ee12d69b988d6a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/source-verification.json",
+      "bytes": 11855,
+      "sha256": "776f2893ecf2176f6f350a404bf95d1ab706a914edf3ec16ef08a0138922bee8",
+      "blob": "776f2893ecf2176f6f350a404bf95d1ab706a914edf3ec16ef08a0138922bee8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-fixed-v1/status-2.png",
+      "bytes": 64302,
+      "sha256": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "blob": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/status-2.png",
+      "bytes": 64302,
+      "sha256": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "blob": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/failure.png",
+      "bytes": 70221,
+      "sha256": "290de1b1593db45d7193d5be75c4c46c4126ed4e15e90eb199ac0b487536b60d",
+      "blob": "290de1b1593db45d7193d5be75c4c46c4126ed4e15e90eb199ac0b487536b60d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/preview-844x390-01-city-resource-Money.png",
+      "bytes": 56652,
+      "sha256": "58fd08dfaf08ec05d7c7e32c810c6d3593178037cb0f00c56ed19355aaac8562",
+      "blob": "58fd08dfaf08ec05d7c7e32c810c6d3593178037cb0f00c56ed19355aaac8562",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/preview-844x390-02-city-resource-Tools.png",
+      "bytes": 52965,
+      "sha256": "d4a15a99685d39c1e13ea2e232a51878ed0f7a954e25578865297e5584cf792d",
+      "blob": "d4a15a99685d39c1e13ea2e232a51878ed0f7a954e25578865297e5584cf792d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/mobile-sem-v1/source-verification.json",
+      "bytes": 11674,
+      "sha256": "9cf0d725c2d48e3c3d34be83e3c05f30a2d82df3d1d1528454fd066997f5b1d6",
+      "blob": "9cf0d725c2d48e3c3d34be83e3c05f30a2d82df3d1d1528454fd066997f5b1d6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/native-integration-v1.json",
+      "bytes": 6910,
+      "sha256": "f386d5098f828e08ae90d317f7e7d669de157872ec77b2c90b30dcdb640e4188",
+      "blob": "f386d5098f828e08ae90d317f7e7d669de157872ec77b2c90b30dcdb640e4188",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/native-sem-before-v1.stdout.tap",
+      "bytes": 4158,
+      "sha256": "7326ad97722e2aba5f4fb0349c13845e85ecd86a29da9709ec0d229edbc805d0",
+      "blob": "7326ad97722e2aba5f4fb0349c13845e85ecd86a29da9709ec0d229edbc805d0",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/native-sem-candidate-v1.stdout.tap",
+      "bytes": 1085,
+      "sha256": "67377a718d06d1922c2c19b0fed2578f8ac0314952122ee0259241f6a6a16c36",
+      "blob": "67377a718d06d1922c2c19b0fed2578f8ac0314952122ee0259241f6a6a16c36",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/native-sem-contracts-v1.json",
+      "bytes": 3152,
+      "sha256": "9f52197d215d244449e75626a38d05e493f41b7582464f53979c0d2ef067fa64",
+      "blob": "9f52197d215d244449e75626a38d05e493f41b7582464f53979c0d2ef067fa64",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/browser-console.json",
+      "bytes": 16079,
+      "sha256": "b9343f2859a8e356fcfbb6f885d947bea4a88bc566dc9fa55a34d4e25e753cc1",
+      "blob": "b9343f2859a8e356fcfbb6f885d947bea4a88bc566dc9fa55a34d4e25e753cc1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/executed-tool.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/executed-tool.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-person-equipment-runtime.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-00-luoyang-root.png",
+      "bytes": 2295023,
+      "sha256": "fccc7b0ce7435d02a912962617dae7ca44ee49dbb3264f0bd27f325e8950ff89",
+      "blob": "fccc7b0ce7435d02a912962617dae7ca44ee49dbb3264f0bd27f325e8950ff89",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-01-city-resource-Money.png",
+      "bytes": 2256237,
+      "sha256": "8ac3a940bf6f8573541406ccf1bb7ad9f738f98ca84782d7ba02149b28e76c24",
+      "blob": "8ac3a940bf6f8573541406ccf1bb7ad9f738f98ca84782d7ba02149b28e76c24",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-02-city-resource-Tools.png",
+      "bytes": 2249783,
+      "sha256": "0c9a8cf16c55d58ccf12e68599ed7b9c30185e9cd1420ee8fe9314924f271cb7",
+      "blob": "0c9a8cf16c55d58ccf12e68599ed7b9c30185e9cd1420ee8fe9314924f271cb7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-03-search-person-list.png",
+      "bytes": 2265516,
+      "sha256": "ef92306da10b91e7d37d1bde354b17740a8b16a5f0218cbf0601205934ea275b",
+      "blob": "ef92306da10b91e7d37d1bde354b17740a8b16a5f0218cbf0601205934ea275b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-04-equipment-person-20-slot-0.png",
+      "bytes": 2200702,
+      "sha256": "2b584a5b7a9b7b6fdd3c1b511b654187a773024a8847e17c4c4c7d99ed699cb8",
+      "blob": "2b584a5b7a9b7b6fdd3c1b511b654187a773024a8847e17c4c4c7d99ed699cb8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-05-equipment-person-20-slot-1.png",
+      "bytes": 2200704,
+      "sha256": "4011503313d57e287c34da03efc489168c51559e5bd461e64e124cf2b89ed69b",
+      "blob": "4011503313d57e287c34da03efc489168c51559e5bd461e64e124cf2b89ed69b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-06-equipment-person-0-slot-0.png",
+      "bytes": 2178510,
+      "sha256": "238b04a0a20ad654be561387e761ba1b45046d95d1282d999737eb9632ef441d",
+      "blob": "238b04a0a20ad654be561387e761ba1b45046d95d1282d999737eb9632ef441d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/pc1080-equipment-07-equipment-person-19-empty.png",
+      "bytes": 2241855,
+      "sha256": "fceab5e394e546f1b6ea9b369f2f742f9849a5422b61d27be9c2cda934a0cf5f",
+      "blob": "fceab5e394e546f1b6ea9b369f2f742f9849a5422b61d27be9c2cda934a0cf5f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    }
+  ],
+  "logicalFiles": 192,
+  "uniqueBlobs": 143,
+  "rawNamedBytes": 34187582,
+  "uniqueRawBytes": 32310851,
+  "uniqueGzipBytes": 26736980,
+  "serializedPartBytes": 35682753,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

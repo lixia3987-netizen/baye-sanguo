@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-data-002-archive-part001.json",
+      "bytes": 118132,
+      "sha256": "db2dc4cbb20c1ab5857be37665f06fe8267e42dbcd4fcaed3b9091bec965ff1d",
+      "blobs": 4
+    }
+  ],
+  "files": [
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/scroll-skip-natural-720p/observations.json",
+      "bytes": 2602482,
+      "sha256": "ed7ce1d472f3f01f634ff192d51b0adcfd1dc12c19f24cb0261b767427c38b75",
+      "blob": "ed7ce1d472f3f01f634ff192d51b0adcfd1dc12c19f24cb0261b767427c38b75",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/source-verification.json",
+      "bytes": 293414,
+      "sha256": "3da83daaeeb5a63eb9aaa47eab5156be70d7452811bae7c17c60f326d852b074",
+      "blob": "3da83daaeeb5a63eb9aaa47eab5156be70d7452811bae7c17c60f326d852b074",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-maker-initial-tool-v1.json",
+      "bytes": 290,
+      "sha256": "3219e5bf2ce9436e10f8a3d9d3e6f33918744cccc3d12848a2f987fe842b835c",
+      "blob": "3219e5bf2ce9436e10f8a3d9d3e6f33918744cccc3d12848a2f987fe842b835c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-maker-terminal-tool-v1.json",
+      "bytes": 448,
+      "sha256": "6019217d59da0e3ee91cbdb52d2e850798934b2086d3ce95990b6ccf0e4629e2",
+      "blob": "6019217d59da0e3ee91cbdb52d2e850798934b2086d3ce95990b6ccf0e4629e2",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    }
+  ],
+  "logicalFiles": 4,
+  "uniqueBlobs": 4,
+  "rawNamedBytes": 2896634,
+  "uniqueRawBytes": 2896634,
+  "uniqueGzipBytes": 87854,
+  "serializedPartBytes": 118132,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

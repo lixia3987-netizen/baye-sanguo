@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "kind": "exact-byte-publication-index-not-a-new-browser-run",
+  "canonical": {
+    "path": "docs/validation/m5-spe-return-boundary-20261024-v43.json",
+    "bytes": 89063,
+    "sha256": "de9c11fabc6b80847e3c12a22afbd502cbfabf695354a141fbdddffe940a09c9"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-spe-return-boundary-20261024-v43.md",
+    "bytes": 2030,
+    "sha256": "ec3518529ac1fa8f08929702d597d0c50ff6b146b85d1d43c4c453abee104255"
+  },
+  "reader": {
+    "path": "docs/validation/m5-spe-return-boundary-20261024-v43-verify.mjs",
+    "bytes": 14652,
+    "sha256": "02f95c005af458180cb233ad7822cb861567f17580ec2cd992d3b0e2a2520e92"
+  },
+  "archive": {
+    "path": "docs/validation/m5-spe-return-boundary-20261024-v43-archive.json",
+    "bytes": 34684,
+    "sha256": "9ce99e867ac4b66c6a9c8df830310899c8616ce6d15181c21585ae3e66831b74"
+  }
+}

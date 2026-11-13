@@ -1,0 +1,705 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-canvass-packed-name-contract-fix-with-failed-actual",
+  "publicationDate": "2026-10-21",
+  "publicationTimezone": "Asia/Shanghai",
+  "status": "partial-one-real-unsaved-paid-dispatch-workflow-failed-packed-name-contract-repaired",
+  "originalOnly": true,
+  "noNewNativeBuild": true,
+  "noNewProductionCode": true,
+  "realPaidCanvassObserved": true,
+  "recordedRawCanvassRecomputedWithV2": true,
+  "actualCanvassWorkflowAccepted": false,
+  "canvassMonthAccepted": false,
+  "actualPreparationAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdAccepted": false,
+  "globalHdComplete": false,
+  "originalLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "dependencies": {
+    "baseCommit": "28df2277812a25957fb5044c841469128d6390b3",
+    "committedExternalReferences": [
+      {
+        "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/result.json",
+        "bytes": 12817277,
+        "sha256": "addbdd51ce810b12045dd6f452d8d17e5fd0c15f82eae5f487c3133efa22df83"
+      }
+    ],
+    "scope": "Prior food/January/November complete archives and original product/source/history stay committed dependencies. The12.8MB food result is rehashed/read for the actual saved input comparison, not duplicated. Old large archive parts and240 fullsuite frozen blobs are excluded."
+  },
+  "priorStaticBlocker": {
+    "source": {
+      "path": "build/impact-induce-candidate-v9.mjs",
+      "bytes": 475996,
+      "sha256": "69d92ac0c803af979f6f4d611ba62e928ad6d88d18b851fb6885408ced0fc417"
+    },
+    "receipt": {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v9-static-blocker-v1.json",
+      "bytes": 622,
+      "sha256": "f6906ade32d593e8640ac8ceb0a831e9fb0d67c661be4039360fbd78969d1751"
+    },
+    "blocked": true,
+    "cliOrGameExecuted": false
+  },
+  "actualExecution": {
+    "source": {
+      "path": "build/impact-induce-candidate-v10.mjs",
+      "bytes": 476629,
+      "sha256": "e54a5363eb4280c789e9b7c13404bdd5efe857b01d340ab52594ba2dad7c9feb"
+    },
+    "result": {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/result.json",
+      "bytes": 39830852,
+      "sha256": "aac81245f8093e7185a2da8066253bfe6f8c62d4397bc5536b8f4ca11b64e98b"
+    },
+    "terminal": {
+      "path": "build/impact-skill-20261014/canvass-v10-terminal-receipt-v1.json",
+      "bytes": 5139,
+      "sha256": "0e81100d276b2f72dd4fed3147b66435f3d74b7f1d349e9d404cd37fa9fe8d3b"
+    },
+    "startedAt": "2026-10-20T16:34:16.846Z",
+    "finishedAt": "2026-10-20T16:34:43.600Z",
+    "sessionId": 3498,
+    "terminalChunkId": "154d3a",
+    "exitCode": 1,
+    "ok": false,
+    "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    '王平',\n    '公孙渊',\n    '公孙恭',\n    '公孙康',\n...\n    '孟获',\n+   '带来洞�',\n-   '带来洞主',\n    '郭淮',\n    '邓艾',\n+   '金环三�',\n-   '金环三结',\n    '朱褒',\n    '蒋琬',\n    '陈式',\n    '张纮',\n    '凌统',\n\n    at menuTicket (file:///F:/project/baye-sanguo/build/impact-skill-20261014/impact-raw-canvass-oracle-v1.mjs:82:606)\n    at targetTicket (file:///F:/project/baye-sanguo/build/impact-skill-20261014/impact-raw-canvass-oracle-v1.mjs:90:236)\n    at verifyRawCanvassDispatch (file:///F:/project/baye-sanguo/build/impact-skill-20261014/impact-raw-canvass-oracle-v1.mjs:98:279)\n    at v37QueueCanvass (file:///F:/project/baye-sanguo/build/impact-induce-candidate-v10.mjs:416:510)\n    at async v37RunOneMonth (file:///F:/project/baye-sanguo/build/impact-induce-candidate-v10.mjs:423:629)\n    at async main (file:///F:/project/baye-sanguo/build/impact-induce-candidate-v10.mjs:2633:14)",
+    "reportedCanvassOrdersPropertyPresent": false,
+    "reportedCanvassOrders": 0,
+    "independentlyObservedPaidDispatches": 1,
+    "normalMonths": 0,
+    "postDispatchSaveCount": 0
+  },
+  "recordedDispatch": {
+    "cityIndex": 7,
+    "personId": 28,
+    "targetId": 129,
+    "orderId": 16,
+    "orderSlot": 2,
+    "moneyCost": 50,
+    "thewCost": 20,
+    "money": [
+      29950,
+      29900
+    ],
+    "actorThew": [
+      100,
+      80
+    ],
+    "opaqueNewOrder": {
+      "fields": [
+        "Arms",
+        "Food",
+        "Money",
+        "Consume"
+      ],
+      "values": {
+        "Arms": 48232,
+        "Food": 57,
+        "Money": 48216,
+        "Consume": 57
+      },
+      "semanticAcceptance": false
+    },
+    "rawDelPerson": {
+      "removedIndex": 23,
+      "lastShiftedIndex": 198,
+      "untouched199": true,
+      "untouched200to1999": true
+    },
+    "oldGov0Trade1AllRawFieldsRetained": true,
+    "wholeMeasuredRawDeltaAccepted": true,
+    "targetOwnershipUnchanged": true,
+    "observations": {
+      "actor": "/impactWorldObservations/13",
+      "target": "/impactWorldObservations/134",
+      "done": "/impactWorldObservations/135",
+      "failure": "/impactFailureWorld"
+    },
+    "actualNativeKeys": {
+      "actorConfirm": [
+        39
+      ],
+      "targetNavigation": [
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35,
+        35
+      ],
+      "targetConfirm": [
+        39
+      ],
+      "doneKeys": 79
+    },
+    "ordinaryNativeDoneObserved": true,
+    "paidDispatchSaved": false,
+    "rawV1ValidationAccepted": false
+  },
+  "nameContractFix": {
+    "source": {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v2.mjs",
+      "bytes": 23731,
+      "sha256": "fee745532b88252b22d29e677a92d9da5335aa695aa8aea3dd7e01b4a227a524"
+    },
+    "freeze": {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v2-freeze.json",
+      "bytes": 5868,
+      "sha256": "3024e6ddb896a0f0cd1ad3ca63d4749815ff3d98a7f369f294c2e5ae98726795"
+    },
+    "fixture": {
+      "path": "build/impact-skill-20261014/impact-canvass-v10-native-names-fixture-v1.json",
+      "bytes": 620972,
+      "sha256": "427ce7b77a6fb46602bb666830a7e9722a460d395ece955e6c07abed905a152a"
+    },
+    "allFixtureTicketsReopenedAgainstOriginalResult": true,
+    "activeNamesCompleteRom": true,
+    "packedNameSlotBytes": 8,
+    "copiedRawBytesMaximum": 7,
+    "decoder": "GBK nonfatal replacement, native NUL/space trim",
+    "observedDifferences": [
+      {
+        "index": 66,
+        "personId": 144,
+        "names": "带来洞主",
+        "packedNames": "带来洞�"
+      },
+      {
+        "index": 69,
+        "personId": 140,
+        "names": "金环三结",
+        "packedNames": "金环三�"
+      }
+    ],
+    "purePrecommitResult": {
+      "ok": true,
+      "accepted": true,
+      "precommitWorldAccepted": true,
+      "ownerSelectionAccepted": true,
+      "command": 16,
+      "cityIndex": 7,
+      "personId": 28,
+      "targetId": 129,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "scope": "Current complete ACTOR to final TARGET selection only, before the final Enter/cost/order. Exact full ROM names and native packed-byte names are independently required.",
+      "dispatchWorldAccepted": false,
+      "ownerReceiptAccepted": false,
+      "publicInputAccepted": false,
+      "sourceFreezeAccepted": false,
+      "monthEffectsAccepted": false,
+      "wholeNativeAbiAccepted": false,
+      "actualPreparationAccepted": false,
+      "acquisitionAccepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "limits": [
+        "Caller must independently prove fresh native/identity/reference double reads and trusted navigation; pure numeric tickets do not establish provenance.",
+        "This precommit call does not send final Enter, debit, create or accept an order; caller must freshly match the entire final TARGET ticket before the real single Enter."
+      ]
+    },
+    "pureRecordedDispatchResult": {
+      "ok": true,
+      "accepted": true,
+      "dispatchWorldAccepted": true,
+      "ownerReceiptAccepted": true,
+      "command": 16,
+      "cityIndex": 7,
+      "personId": 28,
+      "targetId": 129,
+      "orderIndex": 2,
+      "queueIndex": 23,
+      "selectedCurrent": {
+        "actorBelong": 1,
+        "targetBelong": 3,
+        "targetFirstRawCity": 29
+      },
+      "moneyCost": 50,
+      "thewCost": 20,
+      "order": {
+        "OrderId": 16,
+        "Person": 28,
+        "City": 7,
+        "Object": 129,
+        "TimeCount": 10
+      },
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      },
+      "rawDuplicateResidentsBefore": [
+        {
+          "personId": 65,
+          "positions": [
+            {
+              "cityIndex": 1,
+              "queueIndex": 8,
+              "cityBelong": 2,
+              "personBelong": 0,
+              "eligible": false
+            },
+            {
+              "cityIndex": 7,
+              "queueIndex": 24,
+              "cityBelong": 1,
+              "personBelong": 0,
+              "eligible": false
+            }
+          ]
+        },
+        {
+          "personId": 136,
+          "positions": [
+            {
+              "cityIndex": 12,
+              "queueIndex": 49,
+              "cityBelong": 2,
+              "personBelong": 2,
+              "eligible": true
+            },
+            {
+              "cityIndex": 21,
+              "queueIndex": 95,
+              "cityBelong": 3,
+              "personBelong": 2,
+              "eligible": false
+            }
+          ]
+        },
+        {
+          "personId": 138,
+          "positions": [
+            {
+              "cityIndex": 22,
+              "queueIndex": 96,
+              "cityBelong": 3,
+              "personBelong": 3,
+              "eligible": true
+            },
+            {
+              "cityIndex": 26,
+              "queueIndex": 116,
+              "cityBelong": 3,
+              "personBelong": 3,
+              "eligible": true
+            }
+          ]
+        }
+      ],
+      "rawDuplicateResidentsAfter": [
+        {
+          "personId": 65,
+          "positions": [
+            {
+              "cityIndex": 1,
+              "queueIndex": 8,
+              "cityBelong": 2,
+              "personBelong": 0,
+              "eligible": false
+            },
+            {
+              "cityIndex": 7,
+              "queueIndex": 23,
+              "cityBelong": 1,
+              "personBelong": 0,
+              "eligible": false
+            }
+          ]
+        },
+        {
+          "personId": 136,
+          "positions": [
+            {
+              "cityIndex": 12,
+              "queueIndex": 48,
+              "cityBelong": 2,
+              "personBelong": 2,
+              "eligible": true
+            },
+            {
+              "cityIndex": 21,
+              "queueIndex": 94,
+              "cityBelong": 3,
+              "personBelong": 2,
+              "eligible": false
+            }
+          ]
+        },
+        {
+          "personId": 138,
+          "positions": [
+            {
+              "cityIndex": 22,
+              "queueIndex": 95,
+              "cityBelong": 3,
+              "personBelong": 3,
+              "eligible": true
+            },
+            {
+              "cityIndex": 26,
+              "queueIndex": 115,
+              "cityBelong": 3,
+              "personBelong": 3,
+              "eligible": true
+            }
+          ]
+        }
+      ],
+      "checked": {
+        "people": 200,
+        "cities": 38,
+        "queue": 2000,
+        "goodsQueue": 2000,
+        "orders": 200,
+        "fighters": 600,
+        "fighterIndex": 30,
+        "shiftedQueueStart": 23,
+        "shiftedQueueLast": 198,
+        "untouchedQueue199": true,
+        "untouchedQueue200to1999": true,
+        "allOtherSampledFieldsExact": true
+      },
+      "publicInputAccepted": false,
+      "sourceFreezeAccepted": false,
+      "monthEffectsAccepted": false,
+      "wholeNativeAbiAccepted": false,
+      "actualPreparationAccepted": false,
+      "acquisitionAccepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "scope": "One successful original Canvass16 ACTOR/TARGET confirmation through DONE/MAP. Exact raw GetEnemyPersons menu includes repeats. Only explicit origin/actor/target planning allowlists apply; no month, acquisition, SAVE or cast acceptance.",
+      "limits": [
+        "Caller must independently prove all three tickets were freshly sampled with actual opaque data/ref/native+identity double reads and real trusted single Enter. Numeric tokens alone are not that provenance.",
+        "This pure verifier does not execute native/JS, CanvassDrv, a month or AddPerson; it makes no probability/acquisition/SAVE/RNG/HD claim.",
+        "Cross-city raw repeats are allowed and preserved; overlapping physical slices or duplicate chosen actor inside its origin are conservatively rejected.",
+        "Only successful AddOrderHead/commitResult1 is covered; no full-queue/hook rejection or swallowed failure branch.",
+        "Order Arms/Food/Money/Consume are actual uninitialized bytes, explicitly masked only at the one newly copied slot, with no semantic-zero assumption."
+      ]
+    },
+    "newNativeGameInputPerformed": false,
+    "failedV10WorkflowRemainsFailed": true
+  },
+  "sources": {
+    "actual": {
+      "sourceVerification": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/source-verification.json",
+        "bytes": 473316,
+        "sha256": "3a4429d016ede411b72abc3816fbf38e4ab457de752fb97c5d98c1b797eaa027"
+      },
+      "logical": 1316,
+      "normalizedPhysical": 1312,
+      "allRecordedTuplesCurrentExact": true,
+      "nativeFiles": 128,
+      "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+    },
+    "candidateDeltas": [
+      {
+        "version": 9,
+        "source": {
+          "path": "build/impact-induce-candidate-v9.mjs",
+          "bytes": 475996,
+          "sha256": "69d92ac0c803af979f6f4d611ba62e928ad6d88d18b851fb6885408ced0fc417"
+        },
+        "delta": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v9-delta.json",
+          "bytes": 54762,
+          "sha256": "bffabc2faa80125e26d04dd885db929c70f2cf7ccbdbab195d119f88fbf55ed5"
+        },
+        "hunks": 17,
+        "forwardByteExact": true,
+        "inverseByteExact": true
+      },
+      {
+        "version": 10,
+        "source": {
+          "path": "build/impact-induce-candidate-v10.mjs",
+          "bytes": 476629,
+          "sha256": "e54a5363eb4280c789e9b7c13404bdd5efe857b01d340ab52594ba2dad7c9feb"
+        },
+        "delta": {
+          "path": "build/impact-skill-20261014/impact-induce-candidate-v10-delta.json",
+          "bytes": 4623,
+          "sha256": "b956dca77648d26a7e1f72201ba45cabd0c56d6bb0e7ed5da878600e6079fd30"
+        },
+        "hunks": 4,
+        "forwardByteExact": true,
+        "inverseByteExact": true
+      }
+    ],
+    "priorFormalSuiteCurrentByteRecheck": {
+      "count": 241,
+      "allCurrentExact": true,
+      "testsRerun": false
+    }
+  },
+  "tests": {
+    "buildCanvassRecords": [
+      {
+        "version": 1,
+        "receipt": {
+          "path": "build/impact-skill-20261014/impact-raw-canvass-tests-root-proof-v1.json",
+          "bytes": 1600,
+          "sha256": "be0c50bdb406abc0f491e6d2b74c8f8fe9c9eb3b10425534595d6b73507202ed"
+        },
+        "tests": 188,
+        "pass": 188,
+        "exitCode": 0,
+        "terminalChunkId": "706ac1",
+        "scope": "Fresh root Node test CLI; separate draft188 controlled cases, not added to the saved formal5130 suite and not original gameplay acceptance."
+      },
+      {
+        "version": 2,
+        "receipt": {
+          "path": "build/impact-skill-20261014/impact-raw-canvass-tests-root-proof-v2.json",
+          "bytes": 2602,
+          "sha256": "7a6f535db6d0f9cbe52b05fcf997172d516120487b03fb1bcbe5f7e9b2fea478"
+        },
+        "tests": 208,
+        "pass": 208,
+        "exitCode": 0,
+        "terminalChunkId": "6faab2",
+        "scope": "Fresh root208 Node tests, including controlled mutation cases and immutable real v10 snapshot/key closure plus precommit/dispatch contract. This neither replays native game input nor converts failed/unpersisted v10 into a successful preparation; not added to the prior formal5130 suite."
+      }
+    ],
+    "countsMustNotBeSummed": true,
+    "registeredFormalSuiteUnchanged": {
+      "result": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/result.json",
+        "bytes": 69575,
+        "sha256": "712e535c1008d5d02024e5f09723329fcec244eb8b533fc89f151698d8b2d16f"
+      },
+      "terminal": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-terminal-v2.json",
+        "bytes": 1434,
+        "sha256": "c406242972104ab7f3d20a9ddd01c5c4c826f176443483d1a12441e158f686f2"
+      },
+      "sourceFreeze": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/source-freeze.json",
+        "bytes": 62084,
+        "sha256": "e7a6c7e98f7efa2a058ce525c09d37db6b8e652a4ffd65473b4c4c4990588658"
+      },
+      "modules": 91,
+      "executionConcurrency": 1,
+      "counts": {
+        "tests": 5130,
+        "suites": 0,
+        "pass": 5130,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "startedAt": "2026-10-20T15:16:33.377Z",
+      "finishedAt": "2026-10-20T15:18:07.931Z"
+    },
+    "testSuiteRerunForPublisher": false
+  },
+  "latestGenuineRecovery": {
+    "descriptor": {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-input-v6.json",
+      "bytes": 28396,
+      "sha256": "2d669ef64c9258bc5c6ba87e2b804cac0d2bf61f871af9b5abc8f093212bef39"
+    },
+    "rootProof": {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-root-proof-v6.json",
+      "bytes": 4304,
+      "sha256": "260f6be67ae66e1445b9f0fc2ba0c49b1f08f070c7639699c1c252abd8434963"
+    },
+    "tag": "impact-canvass-paid-input",
+    "slot": 0,
+    "date": [
+      237,
+      1
+    ],
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/native-impact-canvass-paid-input-sango0.sav",
+        "bytes": 8221,
+        "sha256": "ec9364bfcdb9ddd2680b2cd034a8d4eca04c1cebe63392452ea53c820db40d97"
+      },
+      {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/native-impact-canvass-paid-input-sango1.sav",
+        "bytes": 4840,
+        "sha256": "484127385b7c64e74619327cdff4043d04110672c756d59b5536f6cc2861b895"
+      }
+    ],
+    "worldSemanticSha256": "c8b91230177eabec63f441264b092b19dfd95930e639df6a96d4904acbb404f8",
+    "completeMeasuredPackedFieldsAccepted": true,
+    "beforeAndAfterSaveEqual": true,
+    "savedWorldEqualsPaidV8": true,
+    "savedWorldEqualsFailureWorld": false,
+    "postDispatchSaveCount": 0,
+    "savedCity7Money": 29950,
+    "savedActor28Thew": 100,
+    "capital": {
+      "money": 5319,
+      "food": 231,
+      "thew40": 88,
+      "residents": [
+        0
+      ]
+    },
+    "activeOrders": [
+      {
+        "orderIndex": 0,
+        "OrderId": 4,
+        "Person": 20,
+        "City": 16,
+        "Object": 65535,
+        "Arms": 0,
+        "Food": 0,
+        "Money": 48232,
+        "Consume": 57,
+        "TimeCount": 0
+      },
+      {
+        "orderIndex": 1,
+        "OrderId": 11,
+        "Person": 40,
+        "City": 16,
+        "Object": 51899,
+        "Arms": 725,
+        "Food": 0,
+        "Money": 57344,
+        "Consume": 187,
+        "TimeCount": 0
+      }
+    ],
+    "guard40ActuallyPending": true,
+    "guard40ReturnObserved": false,
+    "newIsolatedRetestRequired": true,
+    "restoreOnlyLastPersistedPreDispatchWorld": true,
+    "priorUnsavedCanvassOrderNotRestored": true,
+    "unsavedFailureWorldMustNotBeSerialized": true,
+    "sameCampaignContinuationAccepted": false,
+    "oldRunAccepted": false,
+    "rngContinuityAccepted": false,
+    "seedObservation": {
+      "new": 112,
+      "old": 175,
+      "differentBytes": [
+        4836
+      ],
+      "decodedOnly": true,
+      "restoredRandomSequenceAccepted": false
+    },
+    "futureAttemptExecuted": false
+  },
+  "isolation": {
+    "external": {
+      "path": "build/impact-skill-20261014/canvass-v10-external-cleanup-v1.json",
+      "bytes": 4357,
+      "sha256": "8028fc23dfcdd47f1d7e44648ac895133e4547ce227ff95927fa176d2f05df0d"
+    },
+    "exactHistoricalIdentityCount": 15,
+    "matchingIdentities": 0,
+    "privateListeners": 0,
+    "user8080Unchanged": true,
+    "profileRetained": true,
+    "directoriesDeleted": false,
+    "publisherPerformedOsQuery": false
+  },
+  "plannedDocumentation": {
+    "patch": {
+      "path": "build/impact-skill-20261014/canvass-names-planning-docs-patch-v1.json",
+      "bytes": 8917,
+      "sha256": "7e5ee27f11981ed1d2a5406164df9b4d8cbbbe38f547aff9fd47b8f77d654d7a"
+    },
+    "officialDocsWrittenByPublisher": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-names-20261021-archive.json",
+    "bytes": 19050,
+    "sha256": "da2c61cfa8d8ea9c5649dffdd07af123759dd813e05d68aa8f4b719d1dfa0168",
+    "namedFiles": 87,
+    "uniqueBlobs": 85,
+    "parts": 1,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Actualv10 workflow remains exit1/okfalse; the paid native first Canvass dispatch is observed and its raw structure recomputed posthoc, not a successful month/preparation/acquisition/cast/HD workflow.",
+    "report.canvassOrders is absent because the old business oracle threw before appending its report; reported0 is not observed0. Exactly1 real paid dispatch is proven directly from137 raw observations/engine keys/full raw delta.",
+    "Active TARGET names are complete ROM names; only packedNames carry7byte-copy split GBK replacement. Inactive DONE names may no longer be PID-supplemented. The fix changes pure expected contracts, not product strings or game state.",
+    "The new pure precommit contract accepts ACTOR→TARGET selection structure only, explicitly dispatchWorldAccepted=false. Its numeric tokens cannot establish fresh browser/source/controller provenance by themselves.",
+    "The v2 recheck reopens the actual v10 result, not fixture self-attestation: actor/target/done pointers13/134/135 and key slices18..78=[39]+59×35,78..79=[39]. No native game input is replayed.",
+    "Only newslot2 Arms/Food/Money/Consume are opaque observed values with semanticAcceptance=false. All initialized fields, oldGov0/Trade1 and every remaining measured world field/DelPerson endpoint are exact.",
+    "Only1 genuine publicSAVE exists before the paid Canvass. The later paid world has noSAVE,0normalmonths and0acquisition; it cannot be serialized, resumed as pending, credited as already paid or used as same-campaign/RNG continuation.",
+    "Recovery6 selects latest genuine impact-canvass-paid-input slot0: savedcity7Money29950/actor28Thew100, capital5319/Food231/40Thew88, fullGov0/Trade1; no additional capital payment, governance reissue or invented40 return.",
+    "Old/new sango1 differ only seed byte4836,175→112; all measured packed worlds are equal but this does not establish seed/RNG restoration. Seed is decoded only, disableSL0/no continuity test, no seed writes.",
+    "Real source-stage188 and208 are separate recorded test executions with overlapping cases. They are not summed or added to prior formal91modules/5130. This publisher reruns no test suite; it only rehashes current241source bytes. Formal scripts/package/attrs remain unchanged.",
+    "The archive closes only its explicit87 named files. Full prior product/source/history and old large archives depend on committed28df227/history; portableClosedArchive=false. Futurev11/newisolatedactual/formalization staging are excluded.",
+    "Root terminal/cleanup proof files are read-only evidence. Publisher does not query OS, stop processes, delete profiles, launch servers/browser, send game input or write the four existing planning docs."
+  ]
+}

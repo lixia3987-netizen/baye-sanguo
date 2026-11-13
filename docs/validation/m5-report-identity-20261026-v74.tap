@@ -1,0 +1,1756 @@
+TAP version 13
+# Subtest: quantity receipt DOM successful delayed City ACK refreshes body and range without interval or reopen
+ok 1 - quantity receipt DOM successful delayed City ACK refreshes body and range without interval or reopen
+  ---
+  duration_ms: 14.1504
+  type: 'test'
+  ...
+# Subtest: quantity receipt DOM rejects stale, mismatched and not-ready receipts without repaint or input
+ok 2 - quantity receipt DOM rejects stale, mismatched and not-ready receipts without repaint or input
+  ---
+  duration_ms: 31.4703
+  type: 'test'
+  ...
+# Subtest: quantity receipt DOM rejects closed, hidden, classic and retired owners and never reopens them
+ok 3 - quantity receipt DOM rejects closed, hidden, classic and retired owners and never reopens them
+  ---
+  duration_ms: 19.5342
+  type: 'test'
+  ...
+# Subtest: quantity receipt DOM rechecks the current native getter and data identity before rendering
+ok 4 - quantity receipt DOM rechecks the current native getter and data identity before rendering
+  ---
+  duration_ms: 6.234
+  type: 'test'
+  ...
+# Subtest: quantity receipt DOM successful FIFO edits keep every ACK and final rendered native value
+ok 5 - quantity receipt DOM successful FIFO edits keep every ACK and final rendered native value
+  ---
+  duration_ms: 3.4982
+  type: 'test'
+  ...
+# Subtest: quantity receipt DOM canceled queue cannot refresh or send a delayed confirmation after old ACK
+ok 6 - quantity receipt DOM canceled queue cannot refresh or send a delayed confirmation after old ACK
+  ---
+  duration_ms: 4.5668
+  type: 'test'
+  ...
+# Subtest: quantity receipt DOM City ACK cannot refresh an identical numeric owner from replaced native data
+ok 7 - quantity receipt DOM City ACK cannot refresh an identical numeric owner from replaced native data
+  ---
+  duration_ms: 4.6465
+  type: 'test'
+  ...
+# Subtest: report observers never send keys or change bridge text in any march phase
+ok 8 - report observers never send keys or change bridge text in any march phase
+  ---
+  duration_ms: 6.1422
+  type: 'test'
+  ...
+# Subtest: explicit departure confirmation delegates once and never falls back to raw Enter
+ok 9 - explicit departure confirmation delegates once and never falls back to raw Enter
+  ---
+  duration_ms: 3.8981
+  type: 'test'
+  ...
+# Subtest: old march sequence or old session cannot confirm a newer report
+ok 10 - old march sequence or old session cannot confirm a newer report
+  ---
+  duration_ms: 8.7121
+  type: 'test'
+  ...
+# Subtest: march confirmation keyboard and overlapping native handlers dispatch exactly once
+ok 11 - march confirmation keyboard and overlapping native handlers dispatch exactly once
+  ---
+  duration_ms: 3.2454
+  type: 'test'
+  ...
+# Subtest: acknowledging one march report preserves the synchronously opened next report
+ok 12 - acknowledging one march report preserves the synchronously opened next report
+  ---
+  duration_ms: 4.6453
+  type: 'test'
+  ...
+# Subtest: hiding a march report with Back never cancels or confirms its engine wait
+ok 13 - hiding a march report with Back never cancels or confirms its engine wait
+  ---
+  duration_ms: 3.0769
+  type: 'test'
+  ...
+# Subtest: actual native reports keep explicit Enter/Exit and observers stay passive
+ok 14 - actual native reports keep explicit Enter/Exit and observers stay passive
+  ---
+  duration_ms: 5.9062
+  type: 'test'
+  ...
+# Subtest: battle help buttons use the real 9 wait and cannot replay into its next menu
+ok 15 - battle help buttons use the real 9 wait and cannot replay into its next menu
+  ---
+  duration_ms: 7.4892
+  type: 'test'
+  ...
+# Subtest: a stale help button cannot close a new help wait or send into BUSY
+ok 16 - a stale help button cannot close a new help wait or send into BUSY
+  ---
+  duration_ms: 12.3915
+  type: 'test'
+  ...
+# Subtest: battle and dialog keyboard ownership emit one help return and ignore repeat
+ok 17 - battle and dialog keyboard ownership emit one help return and ignore repeat
+  ---
+  duration_ms: 3.1454
+  type: 'test'
+  ...
+# Subtest: help cleanup cannot close a synchronously opened quantity dialog
+ok 18 - help cleanup cannot close a synchronously opened quantity dialog
+  ---
+  duration_ms: 3.1287
+  type: 'test'
+  ...
+# Subtest: native form focus, composition and classic/HD switches do not submit stale reports
+ok 19 - native form focus, composition and classic/HD switches do not submit stale reports
+  ---
+  duration_ms: 3.4606
+  type: 'test'
+  ...
+# Subtest: native march reports with legacy async ID zero still route by their real wait token
+ok 20 - native march reports with legacy async ID zero still route by their real wait token
+  ---
+  duration_ms: 2.9221
+  type: 'test'
+  ...
+# Subtest: a pointer pressed on the old report cannot acknowledge the newly displayed one
+ok 21 - a pointer pressed on the old report cannot acknowledge the newly displayed one
+  ---
+  duration_ms: 5.0005
+  type: 'test'
+  ...
+# Subtest: march report presentation leaves the explicit city continue control accessible
+ok 22 - march report presentation leaves the explicit city continue control accessible
+  ---
+  duration_ms: 3.039
+  type: 'test'
+  ...
+# Subtest: a retained native report cannot submit into the newly active map or menu
+ok 23 - a retained native report cannot submit into the newly active map or menu
+  ---
+  duration_ms: 5.4998
+  type: 'test'
+  ...
+# Subtest: battle toolbar help/search use the guarded controller without creating fake dialogs
+ok 24 - battle toolbar help/search use the guarded controller without creating fake dialogs
+  ---
+  duration_ms: 12.6433
+  type: 'test'
+  ...
+# Subtest: native speech, departure, succession and stale policy observers stay passive
+ok 25 - native speech, departure, succession and stale policy observers stay passive
+  ---
+  duration_ms: 3.2204
+  type: 'test'
+  ...
+# Subtest: classic battle preference returns HELP9 keyboard ownership despite HD city preference
+ok 26 - classic battle preference returns HELP9 keyboard ownership despite HD city preference
+  ---
+  duration_ms: 2.9602
+  type: 'test'
+  ...
+# Subtest: HELP9 cannot consume Enter after C opens SYSTEM6, RETREAT7 or SETTINGS8
+ok 27 - HELP9 cannot consume Enter after C opens SYSTEM6, RETREAT7 or SETTINGS8
+  ---
+  duration_ms: 19.8264
+  type: 'test'
+  ...
+# Subtest: VIEW10 uses its page acknowledgement and never inherits HELP9 dialog ownership
+ok 28 - VIEW10 uses its page acknowledgement and never inherits HELP9 dialog ownership
+  ---
+  duration_ms: 3.3326
+  type: 'test'
+  ...
+# Subtest: an old HELP9 pointer press cannot dismiss the next displayed help wait
+ok 29 - an old HELP9 pointer press cannot dismiss the next displayed help wait
+  ---
+  duration_ms: 3.0085
+  type: 'test'
+  ...
+# Subtest: complete native help renders the captured identity and all real numeric fields, including zero
+ok 30 - complete native help renders the captured identity and all real numeric fields, including zero
+  ---
+  duration_ms: 3.5318
+  type: 'test'
+  ...
+# Subtest: native maximum level and custom GBK labels stay literal and never become HTML
+ok 31 - native maximum level and custom GBK labels stay literal and never become HTML
+  ---
+  duration_ms: 2.9727
+  type: 'test'
+  ...
+# Subtest: current battle HELP owns visible fields despite a retained departure phase and city shell
+ok 32 - current battle HELP owns visible fields despite a retained departure phase and city shell
+  ---
+  duration_ms: 3.3061
+  type: 'test'
+  ...
+# Subtest: an incomplete current battle HELP keeps its LCD and return control above retained march state
+ok 33 - an incomplete current battle HELP keeps its LCD and return control above retained march state
+  ---
+  duration_ms: 4.7354
+  type: 'test'
+  ...
+# Subtest: incomplete, stale and malformed native help keeps LCD and never invents structured fields
+ok 34 - incomplete, stale and malformed native help keeps LCD and never invents structured fields
+  ---
+  duration_ms: 43.6664
+  type: 'test'
+  ...
+# Subtest: actual terrain help displays its complete native description while custom help retains LCD
+ok 35 - actual terrain help displays its complete native description while custom help retains LCD
+  ---
+  duration_ms: 3.2099
+  type: 'test'
+  ...
+# Subtest: LCD choice survives polling but a new help publication retires its former fields
+ok 36 - LCD choice survives polling but a new help publication retires its former fields
+  ---
+  duration_ms: 3.5045
+  type: 'test'
+  ...
+# Subtest: old help publication and pointer tickets cannot acknowledge a newer native detail event
+ok 37 - old help publication and pointer tickets cannot acknowledge a newer native detail event
+  ---
+  duration_ms: 12.049
+  type: 'test'
+  ...
+# Subtest: hidden, unready, classic and ended help views retire fields without native writes or automatic input
+ok 38 - hidden, unready, classic and ended help views retire fields without native writes or automatic input
+  ---
+  duration_ms: 14.44
+  type: 'test'
+  ...
+# Subtest: a real native report outranks a retained help detail and help observation cannot acknowledge either
+ok 39 - a real native report outranks a retained help detail and help observation cannot acknowledge either
+  ---
+  duration_ms: 3.1215
+  type: 'test'
+  ...
+# Subtest: menu help/search page the actual native list without creating a speculative result dialog
+ok 40 - menu help/search page the actual native list without creating a speculative result dialog
+  ---
+  duration_ms: 5.7649
+  type: 'test'
+  ...
+# Subtest: hidden and unready help/search controls cannot queue keys before a native view exists
+ok 41 - hidden and unready help/search controls cannot queue keys before a native view exists
+  ---
+  duration_ms: 10.7871
+  type: 'test'
+  ...
+# Subtest: malformed native wait metadata cannot own an otherwise complete help page
+ok 42 - malformed native wait metadata cannot own an otherwise complete help page
+  ---
+  duration_ms: 17.8525
+  type: 'test'
+  ...
+# Subtest: native map help can return once, but its stale controls never acknowledge a newer list or report
+ok 43 - native map help can return once, but its stale controls never acknowledge a newer list or report
+  ---
+  duration_ms: 16.4965
+  type: 'test'
+  ...
+# Subtest: VIEW renders only the captured native page with slot zero, U16 identities and same names
+ok 44 - VIEW renders only the captured native page with slot zero, U16 identities and same names
+  ---
+  duration_ms: 3.913
+  type: 'test'
+  ...
+# Subtest: VIEW sends one guarded arrow then waits for the native page ACK without local page prediction
+ok 45 - VIEW sends one guarded arrow then waits for the native page ACK without local page prediction
+  ---
+  duration_ms: 4.1563
+  type: 'test'
+  ...
+# Subtest: VIEW footer returns once through the complete current native owner
+ok 46 - VIEW footer returns once through the complete current native owner
+  ---
+  duration_ms: 3.3096
+  type: 'test'
+  ...
+# Subtest: VIEW classic comparison changes no inputs and survives native page and force changes
+ok 47 - VIEW classic comparison changes no inputs and survives native page and force changes
+  ---
+  duration_ms: 3.474
+  type: 'test'
+  ...
+# Subtest: VIEW malformed, incomplete and custom snapshots retire HD presentation and preserve native fallback
+ok 48 - VIEW malformed, incomplete and custom snapshots retire HD presentation and preserve native fallback
+  ---
+  duration_ms: 84.0107
+  type: 'test'
+  ...
+# Subtest: VIEW stops owning controls on hidden, classic, reset, ended, report and competing native waits
+ok 49 - VIEW stops owning controls on hidden, classic, reset, ended, report and competing native waits
+  ---
+  duration_ms: 25.1693
+  type: 'test'
+  ...
+# Subtest: pressed VIEW page, LCD and footer controls cannot transfer into newer VIEW or HELP owners
+ok 50 - pressed VIEW page, LCD and footer controls cannot transfer into newer VIEW or HELP owners
+  ---
+  duration_ms: 32.2166
+  type: 'test'
+  ...
+# Subtest: a press on old VIEW control A cannot arm rebuilt control B or another current control
+ok 51 - a press on old VIEW control A cannot arm rebuilt control B or another current control
+  ---
+  duration_ms: 111.0935
+  type: 'test'
+  ...
+# Subtest: public VIEW action requires exact owner and rejects hot payload edits until a new native publication
+ok 52 - public VIEW action requires exact owner and rejects hot payload edits until a new native publication
+  ---
+  duration_ms: 3.6297
+  type: 'test'
+  ...
+# Subtest: the controller rechecks VIEW publication immediately before sending through an unchanged fight wait
+ok 53 - the controller rechecks VIEW publication immediately before sending through an unchanged fight wait
+  ---
+  duration_ms: 8.9065
+  type: 'test'
+  ...
+# Subtest: VIEW observes native empty pages and known enemy food zero without deriving a secret supply
+ok 54 - VIEW observes native empty pages and known enemy food zero without deriving a secret supply
+  ---
+  duration_ms: 3.1318
+  type: 'test'
+  ...
+# Subtest: person reports show the current speaker ownership without exposing other people
+ok 55 - person reports show the current speaker ownership without exposing other people
+  ---
+  duration_ms: 13.2169
+  type: 'test'
+  ...
+# Subtest: person report identity retires for non-person, incomplete and non-original reports
+ok 56 - person report identity retires for non-person, incomplete and non-original reports
+  ---
+  duration_ms: 47.1988
+  type: 'test'
+  ...
+# Subtest: person report identity refuses torn callbacks and recovers after getter reentry
+ok 57 - person report identity refuses torn callbacks and recovers after getter reentry
+  ---
+  duration_ms: 82.897
+  type: 'test'
+  ...
+# Subtest: person report identity observation is read-only and preserves the one-shot confirmation
+ok 58 - person report identity observation is read-only and preserves the one-shot confirmation
+  ---
+  duration_ms: 4.6388
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 binds native IDs including zero and confirms after exact Arrow ACK
+ok 59 - mobile campaign kind 1 binds native IDs including zero and confirms after exact Arrow ACK
+  ---
+  duration_ms: 6.414
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 polling preserves candidate nodes and input token
+ok 60 - mobile campaign kind 1 polling preserves candidate nodes and input token
+  ---
+  duration_ms: 4.4872
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects missing ID ticket without keys
+ok 61 - mobile campaign kind 1 rejects missing ID ticket without keys
+  ---
+  duration_ms: 8.2366
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects wrong context without keys
+ok 62 - mobile campaign kind 1 rejects wrong context without keys
+  ---
+  duration_ms: 3.8376
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects wrong ID generation without keys
+ok 63 - mobile campaign kind 1 rejects wrong ID generation without keys
+  ---
+  duration_ms: 3.6394
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects wrong ID seq without keys
+ok 64 - mobile campaign kind 1 rejects wrong ID seq without keys
+  ---
+  duration_ms: 3.6117
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects wrong ID kind without keys
+ok 65 - mobile campaign kind 1 rejects wrong ID kind without keys
+  ---
+  duration_ms: 3.4189
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects wrong ID count without keys
+ok 66 - mobile campaign kind 1 rejects wrong ID count without keys
+  ---
+  duration_ms: 3.6574
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects duplicate IDs without keys
+ok 67 - mobile campaign kind 1 rejects duplicate IDs without keys
+  ---
+  duration_ms: 3.7737
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects out of standard person range without keys
+ok 68 - mobile campaign kind 1 rejects out of standard person range without keys
+  ---
+  duration_ms: 3.6883
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects partial packed names without keys
+ok 69 - mobile campaign kind 1 rejects partial packed names without keys
+  ---
+  duration_ms: 3.5597
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects partial raw names without keys
+ok 70 - mobile campaign kind 1 rejects partial raw names without keys
+  ---
+  duration_ms: 3.4738
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects wrong raw ID without keys
+ok 71 - mobile campaign kind 1 rejects wrong raw ID without keys
+  ---
+  duration_ms: 3.9374
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects data replacement without keys
+ok 72 - mobile campaign kind 1 rejects data replacement without keys
+  ---
+  duration_ms: 3.7183
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects library rollover without keys
+ok 73 - mobile campaign kind 1 rejects library rollover without keys
+  ---
+  duration_ms: 3.4857
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects classic mode without keys
+ok 74 - mobile campaign kind 1 rejects classic mode without keys
+  ---
+  duration_ms: 3.2486
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects hidden without keys
+ok 75 - mobile campaign kind 1 rejects hidden without keys
+  ---
+  duration_ms: 3.3268
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects portrait without keys
+ok 76 - mobile campaign kind 1 rejects portrait without keys
+  ---
+  duration_ms: 3.6276
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects competing report without keys
+ok 77 - mobile campaign kind 1 rejects competing report without keys
+  ---
+  duration_ms: 3.5655
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects competing attack without keys
+ok 78 - mobile campaign kind 1 rejects competing attack without keys
+  ---
+  duration_ms: 3.504
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects competing transfer without keys
+ok 79 - mobile campaign kind 1 rejects competing transfer without keys
+  ---
+  duration_ms: 3.5253
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects active march without keys
+ok 80 - mobile campaign kind 1 rejects active march without keys
+  ---
+  duration_ms: 3.6645
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects a torn ID publication even if the primitive owner is unchanged
+ok 81 - mobile campaign kind 1 rejects a torn ID publication even if the primitive owner is unchanged
+  ---
+  duration_ms: 3.7193
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 retirement cancels an unacknowledged Arrow with no delayed Enter
+ok 82 - mobile campaign kind 1 retirement cancels an unacknowledged Arrow with no delayed Enter
+  ---
+  duration_ms: 4.592
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 1 rejects an unexpected Arrow ACK and cannot commit a new seq
+ok 83 - mobile campaign kind 1 rejects an unexpected Arrow ACK and cannot commit a new seq
+  ---
+  duration_ms: 4.5443
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 binds native IDs including zero and confirms after exact Arrow ACK
+ok 84 - mobile campaign kind 2 binds native IDs including zero and confirms after exact Arrow ACK
+  ---
+  duration_ms: 8.5419
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 polling preserves candidate nodes and input token
+ok 85 - mobile campaign kind 2 polling preserves candidate nodes and input token
+  ---
+  duration_ms: 6.4017
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects missing ID ticket without keys
+ok 86 - mobile campaign kind 2 rejects missing ID ticket without keys
+  ---
+  duration_ms: 4.0266
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects wrong context without keys
+ok 87 - mobile campaign kind 2 rejects wrong context without keys
+  ---
+  duration_ms: 4.5174
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects wrong ID generation without keys
+ok 88 - mobile campaign kind 2 rejects wrong ID generation without keys
+  ---
+  duration_ms: 4.4271
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects wrong ID seq without keys
+ok 89 - mobile campaign kind 2 rejects wrong ID seq without keys
+  ---
+  duration_ms: 4.1851
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects wrong ID kind without keys
+ok 90 - mobile campaign kind 2 rejects wrong ID kind without keys
+  ---
+  duration_ms: 9.4117
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects wrong ID count without keys
+ok 91 - mobile campaign kind 2 rejects wrong ID count without keys
+  ---
+  duration_ms: 4.3324
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects duplicate IDs without keys
+ok 92 - mobile campaign kind 2 rejects duplicate IDs without keys
+  ---
+  duration_ms: 9.3057
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects out of standard person range without keys
+ok 93 - mobile campaign kind 2 rejects out of standard person range without keys
+  ---
+  duration_ms: 5.1092
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects partial packed names without keys
+ok 94 - mobile campaign kind 2 rejects partial packed names without keys
+  ---
+  duration_ms: 3.9239
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects partial raw names without keys
+ok 95 - mobile campaign kind 2 rejects partial raw names without keys
+  ---
+  duration_ms: 4.0332
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects wrong raw ID without keys
+ok 96 - mobile campaign kind 2 rejects wrong raw ID without keys
+  ---
+  duration_ms: 4.1886
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects data replacement without keys
+ok 97 - mobile campaign kind 2 rejects data replacement without keys
+  ---
+  duration_ms: 4.1766
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects library rollover without keys
+ok 98 - mobile campaign kind 2 rejects library rollover without keys
+  ---
+  duration_ms: 4.0476
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects classic mode without keys
+ok 99 - mobile campaign kind 2 rejects classic mode without keys
+  ---
+  duration_ms: 4.0575
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects hidden without keys
+ok 100 - mobile campaign kind 2 rejects hidden without keys
+  ---
+  duration_ms: 4.1469
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects portrait without keys
+ok 101 - mobile campaign kind 2 rejects portrait without keys
+  ---
+  duration_ms: 4.0011
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects competing report without keys
+ok 102 - mobile campaign kind 2 rejects competing report without keys
+  ---
+  duration_ms: 3.9273
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects competing attack without keys
+ok 103 - mobile campaign kind 2 rejects competing attack without keys
+  ---
+  duration_ms: 4.2806
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects competing transfer without keys
+ok 104 - mobile campaign kind 2 rejects competing transfer without keys
+  ---
+  duration_ms: 4.5006
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects active march without keys
+ok 105 - mobile campaign kind 2 rejects active march without keys
+  ---
+  duration_ms: 4.1854
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects a torn ID publication even if the primitive owner is unchanged
+ok 106 - mobile campaign kind 2 rejects a torn ID publication even if the primitive owner is unchanged
+  ---
+  duration_ms: 4.1679
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 retirement cancels an unacknowledged Arrow with no delayed Enter
+ok 107 - mobile campaign kind 2 retirement cancels an unacknowledged Arrow with no delayed Enter
+  ---
+  duration_ms: 5.8579
+  type: 'test'
+  ...
+# Subtest: mobile campaign kind 2 rejects an unexpected Arrow ACK and cannot commit a new seq
+ok 108 - mobile campaign kind 2 rejects an unexpected Arrow ACK and cannot commit a new seq
+  ---
+  duration_ms: 7.0809
+  type: 'test'
+  ...
+# Subtest: mobile successor Back never emits EXIT and old candidate cannot select a new owner
+ok 109 - mobile successor Back never emits EXIT and old candidate cannot select a new owner
+  ---
+  duration_ms: 4.268
+  type: 'test'
+  ...
+# Subtest: mobile defenders immediately observe the shrinking real roster and finish exactly once
+ok 110 - mobile defenders immediately observe the shrinking real roster and finish exactly once
+  ---
+  duration_ms: 7.12
+  type: 'test'
+  ...
+# Subtest: mobile defenders may finish with no selection, but stale or torn selected units are rejected
+ok 111 - mobile defenders may finish with no selection, but stale or torn selected units are rejected
+  ---
+  duration_ms: 13.8887
+  type: 'test'
+  ...
+# Subtest: mobile defenders cannot continue queued movement after the native selected army changes without a new roster
+ok 112 - mobile defenders cannot continue queued movement after the native selected army changes without a new roster
+  ---
+  duration_ms: 5.5808
+  type: 'test'
+  ...
+# Subtest: real mobile host and campaign dialog kind 1 require trusted DOWN-UP before one native choice
+ok 113 - real mobile host and campaign dialog kind 1 require trusted DOWN-UP before one native choice
+  ---
+  duration_ms: 10.2665
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across pointercancel
+ok 114 - real mobile campaign kind 1 rejects stale release across pointercancel
+  ---
+  duration_ms: 6.8899
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across scroll
+ok 115 - real mobile campaign kind 1 rejects stale release across scroll
+  ---
+  duration_ms: 6.544
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across multitouch
+ok 116 - real mobile campaign kind 1 rejects stale release across multitouch
+  ---
+  duration_ms: 7.0825
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across hidden
+ok 117 - real mobile campaign kind 1 rejects stale release across hidden
+  ---
+  duration_ms: 6.7531
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across portrait
+ok 118 - real mobile campaign kind 1 rejects stale release across portrait
+  ---
+  duration_ms: 6.6742
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across identity
+ok 119 - real mobile campaign kind 1 rejects stale release across identity
+  ---
+  duration_ms: 11.7341
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across data
+ok 120 - real mobile campaign kind 1 rejects stale release across data
+  ---
+  duration_ms: 6.222
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 rejects stale release across new-seq
+ok 121 - real mobile campaign kind 1 rejects stale release across new-seq
+  ---
+  duration_ms: 6.9025
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 scroll preserves list position and a later fresh touch still works
+ok 122 - real mobile campaign kind 1 scroll preserves list position and a later fresh touch still works
+  ---
+  duration_ms: 9.1167
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 1 blank list scroll stops a consumed-click Arrow queue before its ACK
+ok 123 - real mobile campaign kind 1 blank list scroll stops a consumed-click Arrow queue before its ACK
+  ---
+  duration_ms: 8.5698
+  type: 'test'
+  ...
+# Subtest: real mobile host and campaign dialog kind 2 require trusted DOWN-UP before one native choice
+ok 124 - real mobile host and campaign dialog kind 2 require trusted DOWN-UP before one native choice
+  ---
+  duration_ms: 10.253
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across pointercancel
+ok 125 - real mobile campaign kind 2 rejects stale release across pointercancel
+  ---
+  duration_ms: 7.8497
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across scroll
+ok 126 - real mobile campaign kind 2 rejects stale release across scroll
+  ---
+  duration_ms: 8.0677
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across multitouch
+ok 127 - real mobile campaign kind 2 rejects stale release across multitouch
+  ---
+  duration_ms: 8.055
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across hidden
+ok 128 - real mobile campaign kind 2 rejects stale release across hidden
+  ---
+  duration_ms: 8.039
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across portrait
+ok 129 - real mobile campaign kind 2 rejects stale release across portrait
+  ---
+  duration_ms: 7.9281
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across identity
+ok 130 - real mobile campaign kind 2 rejects stale release across identity
+  ---
+  duration_ms: 8.0804
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across data
+ok 131 - real mobile campaign kind 2 rejects stale release across data
+  ---
+  duration_ms: 8.0008
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 rejects stale release across new-seq
+ok 132 - real mobile campaign kind 2 rejects stale release across new-seq
+  ---
+  duration_ms: 8.8563
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 scroll preserves list position and a later fresh touch still works
+ok 133 - real mobile campaign kind 2 scroll preserves list position and a later fresh touch still works
+  ---
+  duration_ms: 13.5889
+  type: 'test'
+  ...
+# Subtest: real mobile campaign kind 2 blank list scroll stops a consumed-click Arrow queue before its ACK
+ok 134 - real mobile campaign kind 2 blank list scroll stops a consumed-click Arrow queue before its ACK
+  ---
+  duration_ms: 12.3399
+  type: 'test'
+  ...
+# Subtest: mobile report requires a complete current original owner and confirms exactly once
+ok 135 - mobile report requires a complete current original owner and confirms exactly once
+  ---
+  duration_ms: 3.9831
+  type: 'test'
+  ...
+# Subtest: mobile report host lifecycle retires the pending view without acknowledging it
+ok 136 - mobile report host lifecycle retires the pending view without acknowledging it
+  ---
+  duration_ms: 13.4268
+  type: 'test'
+  ...
+# Subtest: mobile report rejects owner rollover, incomplete raw fields, stale text and replaced data
+ok 137 - mobile report rejects owner rollover, incomplete raw fields, stale text and replaced data
+  ---
+  duration_ms: 23.3545
+  type: 'test'
+  ...
+# Subtest: retiring mobile report then observing its still live native owner needs a fresh action
+ok 138 - retiring mobile report then observing its still live native owner needs a fresh action
+  ---
+  duration_ms: 3.5393
+  type: 'test'
+  ...
+# Subtest: mobile final send rechecks getters and a rejected acknowledgement does not poison the restored report
+ok 139 - mobile final send rechecks getters and a rejected acknowledgement does not poison the restored report
+  ---
+  duration_ms: 9.7145
+  type: 'test'
+  ...
+# Subtest: mobile initial native quantity input sequence zero is a current session
+ok 140 - mobile initial native quantity input sequence zero is a current session
+  ---
+  duration_ms: 3.3752
+  type: 'test'
+  ...
+# Subtest: a newly complete mobile CITY march owner retires an older generic report without acknowledging either
+ok 141 - a newly complete mobile CITY march owner retires an older generic report without acknowledging either
+  ---
+  duration_ms: 3.4881
+  type: 'test'
+  ...
+# Subtest: a torn or unrelated CITY handoff does not suppress the current ordinary mobile report
+ok 142 - a torn or unrelated CITY handoff does not suppress the current ordinary mobile report
+  ---
+  duration_ms: 15.5099
+  type: 'test'
+  ...
+# Subtest: mobile HELP keeps its battle owner across polls when the CITY host is unavailable
+ok 143 - mobile HELP keeps its battle owner across polls when the CITY host is unavailable
+  ---
+  duration_ms: 6.9975
+  type: 'test'
+  ...
+# Subtest: mobile HELP still retires at battle lifecycle boundaries with both hosts mounted
+ok 144 - mobile HELP still retires at battle lifecycle boundaries with both hosts mounted
+  ---
+  duration_ms: 11.6445
+  type: 'test'
+  ...
+# Subtest: mobile VIEW keeps its battle owner across polls when the CITY host is unavailable
+ok 145 - mobile VIEW keeps its battle owner across polls when the CITY host is unavailable
+  ---
+  duration_ms: 10.9359
+  type: 'test'
+  ...
+# Subtest: mobile VIEW still retires at battle lifecycle boundaries with both hosts mounted
+ok 146 - mobile VIEW still retires at battle lifecycle boundaries with both hosts mounted
+  ---
+  duration_ms: 12.5337
+  type: 'test'
+  ...
+# Subtest: mobile HELP has an independent complete person ticket with slot zero and all native fields
+ok 147 - mobile HELP has an independent complete person ticket with slot zero and all native fields
+  ---
+  duration_ms: 3.6801
+  type: 'test'
+  ...
+# Subtest: mobile terrain HELP reads only the current empty tile publication and never borrows person rows
+ok 148 - mobile terrain HELP reads only the current empty tile publication and never borrows person rows
+  ---
+  duration_ms: 3.9948
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses raw without acknowledging the native wait
+ok 149 - mobile battle detail refuses raw without acknowledging the native wait
+  ---
+  duration_ms: 3.602
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses partial without acknowledging the native wait
+ok 150 - mobile battle detail refuses partial without acknowledging the native wait
+  ---
+  duration_ms: 3.4712
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses slot without acknowledging the native wait
+ok 151 - mobile battle detail refuses slot without acknowledging the native wait
+  ---
+  duration_ms: 3.5225
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses hp without acknowledging the native wait
+ok 152 - mobile battle detail refuses hp without acknowledging the native wait
+  ---
+  duration_ms: 3.5534
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses person without acknowledging the native wait
+ok 153 - mobile battle detail refuses person without acknowledging the native wait
+  ---
+  duration_ms: 3.5046
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses focus without acknowledging the native wait
+ok 154 - mobile battle detail refuses focus without acknowledging the native wait
+  ---
+  duration_ms: 3.3507
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses blocker without acknowledging the native wait
+ok 155 - mobile battle detail refuses blocker without acknowledging the native wait
+  ---
+  duration_ms: 3.3072
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses menu without acknowledging the native wait
+ok 156 - mobile battle detail refuses menu without acknowledging the native wait
+  ---
+  duration_ms: 3.1787
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses hidden without acknowledging the native wait
+ok 157 - mobile battle detail refuses hidden without acknowledging the native wait
+  ---
+  duration_ms: 3.4216
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses identity without acknowledging the native wait
+ok 158 - mobile battle detail refuses identity without acknowledging the native wait
+  ---
+  duration_ms: 3.6096
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses library without acknowledging the native wait
+ok 159 - mobile battle detail refuses library without acknowledging the native wait
+  ---
+  duration_ms: 3.3846
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses data without acknowledging the native wait
+ok 160 - mobile battle detail refuses data without acknowledging the native wait
+  ---
+  duration_ms: 9.8485
+  type: 'test'
+  ...
+# Subtest: mobile battle detail refuses torn without acknowledging the native wait
+ok 161 - mobile battle detail refuses torn without acknowledging the native wait
+  ---
+  duration_ms: 3.4157
+  type: 'test'
+  ...
+# Subtest: mobile VIEW uses actual side slots, U16 arms, unknown enemy food and per-publication ACK
+ok 162 - mobile VIEW uses actual side slots, U16 arms, unknown enemy food and per-publication ACK
+  ---
+  duration_ms: 5.2049
+  type: 'test'
+  ...
+# Subtest: mobile VIEW rejects row
+ok 163 - mobile VIEW rejects row
+  ---
+  duration_ms: 3.6731
+  type: 'test'
+  ...
+# Subtest: mobile VIEW rejects point
+ok 164 - mobile VIEW rejects point
+  ---
+  duration_ms: 3.8564
+  type: 'test'
+  ...
+# Subtest: mobile VIEW rejects count
+ok 165 - mobile VIEW rejects count
+  ---
+  duration_ms: 3.4914
+  type: 'test'
+  ...
+# Subtest: mobile VIEW rejects raw-array
+ok 166 - mobile VIEW rejects raw-array
+  ---
+  duration_ms: 3.5189
+  type: 'test'
+  ...
+# Subtest: mobile VIEW rejects incomplete
+ok 167 - mobile VIEW rejects incomplete
+  ---
+  duration_ms: 3.3364
+  type: 'test'
+  ...
+# Subtest: mobile VIEW rejects custom
+ok 168 - mobile VIEW rejects custom
+  ---
+  duration_ms: 3.2562
+  type: 'test'
+  ...
+# Subtest: mobile VIEW rejects unknown-food
+ok 169 - mobile VIEW rejects unknown-food
+  ---
+  duration_ms: 3.6175
+  type: 'test'
+  ...
+# Subtest: mobile HELP portrait keeps manifest pending distinct from missing and paints only its actual person
+ok 170 - mobile HELP portrait keeps manifest pending distinct from missing and paints only its actual person
+  ---
+  duration_ms: 4.2703
+  type: 'test'
+  ...
+# Subtest: mobile HELP actual HD image failure uses the authenticated ref then real LCD if ref fails
+ok 171 - mobile HELP actual HD image failure uses the authenticated ref then real LCD if ref fails
+  ---
+  duration_ms: 4.1801
+  type: 'test'
+  ...
+# Subtest: mobile HELP missing portrait sources return the physical LCD without an automatic input
+ok 172 - mobile HELP missing portrait sources return the physical LCD without an automatic input
+  ---
+  duration_ms: 3.6209
+  type: 'test'
+  ...
+# Subtest: mobile HELP late portrait completion cannot repaint after owner retirement
+ok 173 - mobile HELP late portrait completion cannot repaint after owner retirement
+  ---
+  duration_ms: 3.8134
+  type: 'test'
+  ...
+# Subtest: mobile HELP portrait rejects a source for another period or a preview identity
+ok 174 - mobile HELP portrait rejects a source for another period or a preview identity
+  ---
+  duration_ms: 7.8981
+  type: 'test'
+  ...
+# Subtest: City quantity summary ACK fresh delayed receipt updates existing text without replacing nodes or focus
+ok 175 - City quantity summary ACK fresh delayed receipt updates existing text without replacing nodes or focus
+  ---
+  duration_ms: 3.3758
+  type: 'test'
+  ...
+# Subtest: City quantity summary ACK FIFO updates each current value and retires canceled old work
+ok 176 - City quantity summary ACK FIFO updates each current value and retires canceled old work
+  ---
+  duration_ms: 6.6799
+  type: 'test'
+  ...
+# Subtest: City quantity summary ACK rejects stale or mismatched complete receipt fields at the private helper
+ok 177 - City quantity summary ACK rejects stale or mismatched complete receipt fields at the private helper
+  ---
+  duration_ms: 48.1995
+  type: 'test'
+  ...
+# Subtest: City quantity summary ACK rejects persistent replaced data and stale queue or quantity epochs
+ok 178 - City quantity summary ACK rejects persistent replaced data and stale queue or quantity epochs
+  ---
+  duration_ms: 15.2092
+  type: 'test'
+  ...
+# Subtest: City quantity summary ACK rejects closed commit hidden classic and retired current owners
+ok 179 - City quantity summary ACK rejects closed commit hidden classic and retired current owners
+  ---
+  duration_ms: 26.429
+  type: 'test'
+  ...
+# Subtest: City quantity summary ACK rejects absent detached and mid-read replaced existing DOM nodes
+ok 180 - City quantity summary ACK rejects absent detached and mid-read replaced existing DOM nodes
+  ---
+  duration_ms: 14.1646
+  type: 'test'
+  ...
+# Subtest: City quantity summary ACK contains getter and text exceptions without blocking the independent Dialog refresh
+ok 181 - City quantity summary ACK contains getter and text exceptions without blocking the independent Dialog refresh
+  ---
+  duration_ms: 17.3779
+  type: 'test'
+  ...
+# Subtest: quantity cancel owner retires its current presentation immediately while active closed keys stay protected
+ok 182 - quantity cancel owner retires its current presentation immediately while active closed keys stay protected
+  ---
+  duration_ms: 3.2295
+  type: 'test'
+  ...
+# Subtest: quantity cancel owner gives a fresh post-ACK Escape to the actual new City picker before the old timer
+ok 183 - quantity cancel owner gives a fresh post-ACK Escape to the actual new City picker before the old timer
+  ---
+  duration_ms: 3.5514
+  type: 'test'
+  ...
+# Subtest: quantity cancel owner does not retire a quantity when its delegated input was not closed
+ok 184 - quantity cancel owner does not retire a quantity when its delegated input was not closed
+  ---
+  duration_ms: 2.9027
+  type: 'test'
+  ...
+# Subtest: quantity cancel owner cannot close replaced data views or a newly published quantity session
+ok 185 - quantity cancel owner cannot close replaced data views or a newly published quantity session
+  ---
+  duration_ms: 8.6438
+  type: 'test'
+  ...
+# Subtest: quantity cancel owner isolates new UI reads but preserves the original delegate call and throw
+ok 186 - quantity cancel owner isolates new UI reads but preserves the original delegate call and throw
+  ---
+  duration_ms: 11.7433
+  type: 'test'
+  ...
+# Subtest: quantity cancel owner leaves the later native session open across the original timer and ordinary poll
+ok 187 - quantity cancel owner leaves the later native session open across the original timer and ordinary poll
+  ---
+  duration_ms: 3.6001
+  type: 'test'
+  ...
+# Subtest: fixture verifies the complete real standard LIB and original zero-ID person
+ok 188 - fixture verifies the complete real standard LIB and original zero-ID person
+  ---
+  duration_ms: 1.1688
+  type: 'test'
+  ...
+# Subtest: explicit init is idempotent and never sends input or serializes native data
+ok 189 - explicit init is idempotent and never sends input or serializes native data
+  ---
+  duration_ms: 31.086
+  type: 'test'
+  ...
+# Subtest: current city person renders its actual HD entry only after image load
+ok 190 - current city person renders its actual HD entry only after image load
+  ---
+  duration_ms: 25.0137
+  type: 'test'
+  ...
+# Subtest: zero person ID is legal and a true reference attaches to the city slot
+ok 191 - zero person ID is legal and a true reference attaches to the city slot
+  ---
+  duration_ms: 24.1176
+  type: 'test'
+  ...
+# Subtest: last named original person retains its real index rather than a masked or off-by-one ID
+ok 192 - last named original person retains its real index rather than a masked or off-by-one ID
+  ---
+  duration_ms: 24.2373
+  type: 'test'
+  ...
+# Subtest: selected native order chooses the indexed ID rather than the first ID or name
+ok 193 - selected native order chooses the indexed ID rather than the first ID or name
+  ---
+  duration_ms: 25.7129
+  type: 'test'
+  ...
+# Subtest: kind-2 current report with zero person ID renders in the report slot
+ok 194 - kind-2 current report with zero person ID renders in the report slot
+  ---
+  duration_ms: 24.1958
+  type: 'test'
+  ...
+# Subtest: an actual later-period entry follows independently read g_PIdx rather than cached period one
+ok 195 - an actual later-period entry follows independently read g_PIdx rather than cached period one
+  ---
+  duration_ms: 24.0589
+  type: 'test'
+  ...
+# Subtest: manifest still pending is not an asset miss or a native LCD request
+ok 196 - manifest still pending is not an asset miss or a native LCD request
+  ---
+  duration_ms: 24.1988
+  type: 'test'
+  ...
+# Subtest: an authoritative LCD source requests the real host fallback with an opaque current owner
+ok 197 - an authoritative LCD source requests the real host fallback with an opaque current owner
+  ---
+  duration_ms: 24.0651
+  type: 'test'
+  ...
+# Subtest: engine not ready fails closed without image or LCD authority
+ok 198 - engine not ready fails closed without image or LCD authority
+  ---
+  duration_ms: 23.5364
+  type: 'test'
+  ...
+# Subtest: identity pending fails closed without image or LCD authority
+ok 199 - identity pending fails closed without image or LCD authority
+  ---
+  duration_ms: 23.0715
+  type: 'test'
+  ...
+# Subtest: identity error fails closed without image or LCD authority
+ok 200 - identity error fails closed without image or LCD authority
+  ---
+  duration_ms: 24.0173
+  type: 'test'
+  ...
+# Subtest: wrong standard SHA fails closed without image or LCD authority
+ok 201 - wrong standard SHA fails closed without image or LCD authority
+  ---
+  duration_ms: 24.432
+  type: 'test'
+  ...
+# Subtest: wrong standard byte length fails closed without image or LCD authority
+ok 202 - wrong standard byte length fails closed without image or LCD authority
+  ---
+  duration_ms: 23.0348
+  type: 'test'
+  ...
+# Subtest: missing original identity generation fails closed without image or LCD authority
+ok 203 - missing original identity generation fails closed without image or LCD authority
+  ---
+  duration_ms: 23.2906
+  type: 'test'
+  ...
+# Subtest: missing current host ticket fails closed without image or LCD authority
+ok 204 - missing current host ticket fails closed without image or LCD authority
+  ---
+  duration_ms: 23.2029
+  type: 'test'
+  ...
+# Subtest: city owner is not person picker fails closed without image or LCD authority
+ok 205 - city owner is not person picker fails closed without image or LCD authority
+  ---
+  duration_ms: 22.9068
+  type: 'test'
+  ...
+# Subtest: title owner cannot authorize a city portrait fails closed without image or LCD authority
+ok 206 - title owner cannot authorize a city portrait fails closed without image or LCD authority
+  ---
+  duration_ms: 23.4078
+  type: 'test'
+  ...
+# Subtest: inactive native city owner fails closed without image or LCD authority
+ok 207 - inactive native city owner fails closed without image or LCD authority
+  ---
+  duration_ms: 25.6897
+  type: 'test'
+  ...
+# Subtest: IDs not published fails closed without image or LCD authority
+ok 208 - IDs not published fails closed without image or LCD authority
+  ---
+  duration_ms: 22.6645
+  type: 'test'
+  ...
+# Subtest: person resource count is unavailable fails closed without image or LCD authority
+ok 209 - person resource count is unavailable fails closed without image or LCD authority
+  ---
+  duration_ms: 23.5308
+  type: 'test'
+  ...
+# Subtest: count disagrees with complete IDs fails closed without image or LCD authority
+ok 210 - count disagrees with complete IDs fails closed without image or LCD authority
+  ---
+  duration_ms: 23.2624
+  type: 'test'
+  ...
+# Subtest: negative current index fails closed without image or LCD authority
+ok 211 - negative current index fails closed without image or LCD authority
+  ---
+  duration_ms: 23.2618
+  type: 'test'
+  ...
+# Subtest: current index is outside native list fails closed without image or LCD authority
+ok 212 - current index is outside native list fails closed without image or LCD authority
+  ---
+  duration_ms: 26.8734
+  type: 'test'
+  ...
+# Subtest: full U16 256 is not silently truncated to person zero fails closed without image or LCD authority
+ok 213 - full U16 256 is not silently truncated to person zero fails closed without image or LCD authority
+  ---
+  duration_ms: 23.16
+  type: 'test'
+  ...
+# Subtest: U16 sentinel cannot authorize a portrait fails closed without image or LCD authority
+ok 214 - U16 sentinel cannot authorize a portrait fails closed without image or LCD authority
+  ---
+  duration_ms: 23.1337
+  type: 'test'
+  ...
+# Subtest: negative person ID fails closed without image or LCD authority
+ok 215 - negative person ID fails closed without image or LCD authority
+  ---
+  duration_ms: 23.663
+  type: 'test'
+  ...
+# Subtest: fractional person ID fails closed without image or LCD authority
+ok 216 - fractional person ID fails closed without image or LCD authority
+  ---
+  duration_ms: 23.0641
+  type: 'test'
+  ...
+# Subtest: unnamed original slot cannot impersonate a named person fails closed without image or LCD authority
+ok 217 - unnamed original slot cannot impersonate a named person fails closed without image or LCD authority
+  ---
+  duration_ms: 23.5611
+  type: 'test'
+  ...
+# Subtest: period zero fails closed without image or LCD authority
+ok 218 - period zero fails closed without image or LCD authority
+  ---
+  duration_ms: 24.0422
+  type: 'test'
+  ...
+# Subtest: period five fails closed without image or LCD authority
+ok 219 - period five fails closed without image or LCD authority
+  ---
+  duration_ms: 23.1614
+  type: 'test'
+  ...
+# Subtest: missing native data fails closed without image or LCD authority
+ok 220 - missing native data fails closed without image or LCD authority
+  ---
+  duration_ms: 22.5133
+  type: 'test'
+  ...
+# Subtest: wrong shared owner metadata fails closed without image or LCD authority
+ok 221 - wrong shared owner metadata fails closed without image or LCD authority
+  ---
+  duration_ms: 23.6436
+  type: 'test'
+  ...
+# Subtest: raw and public menu sequence disagree fails closed without image or LCD authority
+ok 222 - raw and public menu sequence disagree fails closed without image or LCD authority
+  ---
+  duration_ms: 23.4912
+  type: 'test'
+  ...
+# Subtest: city shared metadata key must match current native publication
+ok 223 - city shared metadata key must match current native publication
+  ---
+  duration_ms: 24.0586
+  type: 'test'
+  ...
+# Subtest: city shared metadata libraryGeneration must match current native publication
+ok 224 - city shared metadata libraryGeneration must match current native publication
+  ---
+  duration_ms: 22.7649
+  type: 'test'
+  ...
+# Subtest: city shared metadata cityIndex must match current native publication
+ok 225 - city shared metadata cityIndex must match current native publication
+  ---
+  duration_ms: 22.7906
+  type: 'test'
+  ...
+# Subtest: city shared metadata menuContext must match current native publication
+ok 226 - city shared metadata menuContext must match current native publication
+  ---
+  duration_ms: 23.3393
+  type: 'test'
+  ...
+# Subtest: city shared metadata menuKind must match current native publication
+ok 227 - city shared metadata menuKind must match current native publication
+  ---
+  duration_ms: 22.978
+  type: 'test'
+  ...
+# Subtest: city shared metadata menuSeq must match current native publication
+ok 228 - city shared metadata menuSeq must match current native publication
+  ---
+  duration_ms: 22.9387
+  type: 'test'
+  ...
+# Subtest: city shared metadata detailGeneration must match current native publication
+ok 229 - city shared metadata detailGeneration must match current native publication
+  ---
+  duration_ms: 23.6408
+  type: 'test'
+  ...
+# Subtest: city shared metadata session must match current native publication
+ok 230 - city shared metadata session must match current native publication
+  ---
+  duration_ms: 22.9358
+  type: 'test'
+  ...
+# Subtest: city shared metadata inputSeq must match current native publication
+ok 231 - city shared metadata inputSeq must match current native publication
+  ---
+  duration_ms: 22.9289
+  type: 'test'
+  ...
+# Subtest: a changed opaque shared key between two reads invalidates an otherwise unchanged native owner
+ok 232 - a changed opaque shared key between two reads invalidates an otherwise unchanged native owner
+  ---
+  duration_ms: 23.5471
+  type: 'test'
+  ...
+# Subtest: inactive report never invents a report portrait
+ok 233 - inactive report never invents a report portrait
+  ---
+  duration_ms: 22.9247
+  type: 'test'
+  ...
+# Subtest: non-person report kind never invents a report portrait
+ok 234 - non-person report kind never invents a report portrait
+  ---
+  duration_ms: 23.0737
+  type: 'test'
+  ...
+# Subtest: missing report sequence never invents a report portrait
+ok 235 - missing report sequence never invents a report portrait
+  ---
+  duration_ms: 23.3169
+  type: 'test'
+  ...
+# Subtest: missing report input sequence never invents a report portrait
+ok 236 - missing report input sequence never invents a report portrait
+  ---
+  duration_ms: 23.2557
+  type: 'test'
+  ...
+# Subtest: invalid report person never invents a report portrait
+ok 237 - invalid report person never invents a report portrait
+  ---
+  duration_ms: 25.2851
+  type: 'test'
+  ...
+# Subtest: torn report sequence never invents a report portrait
+ok 238 - torn report sequence never invents a report portrait
+  ---
+  duration_ms: 23.0498
+  type: 'test'
+  ...
+# Subtest: torn report input sequence never invents a report portrait
+ok 239 - torn report input sequence never invents a report portrait
+  ---
+  duration_ms: 22.9205
+  type: 'test'
+  ...
+# Subtest: torn report person never invents a report portrait
+ok 240 - torn report person never invents a report portrait
+  ---
+  duration_ms: 23.5336
+  type: 'test'
+  ...
+# Subtest: g_hdFightActive takeover retires an already painted person without native input
+ok 241 - g_hdFightActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.6461
+  type: 'test'
+  ...
+# Subtest: g_hdRecordActive takeover retires an already painted person without native input
+ok 242 - g_hdRecordActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.4858
+  type: 'test'
+  ...
+# Subtest: g_hdMovieActive takeover retires an already painted person without native input
+ok 243 - g_hdMovieActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 24.6333
+  type: 'test'
+  ...
+# Subtest: g_hdSpeActive takeover retires an already painted person without native input
+ok 244 - g_hdSpeActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 24.933
+  type: 'test'
+  ...
+# Subtest: g_hdSkillActive takeover retires an already painted person without native input
+ok 245 - g_hdSkillActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.4223
+  type: 'test'
+  ...
+# Subtest: g_hdAttackActive takeover retires an already painted person without native input
+ok 246 - g_hdAttackActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.1958
+  type: 'test'
+  ...
+# Subtest: g_hdSkillResultActive takeover retires an already painted person without native input
+ok 247 - g_hdSkillResultActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.2829
+  type: 'test'
+  ...
+# Subtest: g_hdMakerActive takeover retires an already painted person without native input
+ok 248 - g_hdMakerActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.7245
+  type: 'test'
+  ...
+# Subtest: g_hdMiniMapActive takeover retires an already painted person without native input
+ok 249 - g_hdMiniMapActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 25.5392
+  type: 'test'
+  ...
+# Subtest: g_hdViewActive takeover retires an already painted person without native input
+ok 250 - g_hdViewActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.2792
+  type: 'test'
+  ...
+# Subtest: g_hdResultOwnerKind takeover retires an already painted person without native input
+ok 251 - g_hdResultOwnerKind takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.2323
+  type: 'test'
+  ...
+# Subtest: g_hdResultOwnerValid takeover retires an already painted person without native input
+ok 252 - g_hdResultOwnerValid takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.4957
+  type: 'test'
+  ...
+# Subtest: g_hdQtyActive takeover retires an already painted person without native input
+ok 253 - g_hdQtyActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 23.8827
+  type: 'test'
+  ...
+# Subtest: g_hdHelpActive takeover retires an already painted person without native input
+ok 254 - g_hdHelpActive takeover retires an already painted person without native input
+  ---
+  duration_ms: 24.5371
+  type: 'test'
+  ...
+# Subtest: g_hdBattlePick takeover retires an already painted person without native input
+ok 255 - g_hdBattlePick takeover retires an already painted person without native input
+  ---
+  duration_ms: 24.6057
+  type: 'test'
+  ...
+# Subtest: period changes during independent reads reject rather than publishing a different period
+ok 256 - period changes during independent reads reject rather than publishing a different period
+  ---
+  duration_ms: 23.2068
+  type: 'test'
+  ...
+# Subtest: person-count getter changes current native owner is caught by the final fence
+ok 257 - person-count getter changes current native owner is caught by the final fence
+  ---
+  duration_ms: 22.794
+  type: 'test'
+  ...
+# Subtest: person-name getter changes current native owner is caught by the final fence
+ok 258 - person-name getter changes current native owner is caught by the final fence
+  ---
+  duration_ms: 22.9646
+  type: 'test'
+  ...
+# Subtest: person-name getter rebinds native data is caught by the final fence
+ok 259 - person-name getter rebinds native data is caught by the final fence
+  ---
+  duration_ms: 22.8541
+  type: 'test'
+  ...
+# Subtest: person-name getter changes verified LIB generation is caught by the final fence
+ok 260 - person-name getter changes verified LIB generation is caught by the final fence
+  ---
+  duration_ms: 23.1595
+  type: 'test'
+  ...
+# Subtest: a failed DOM HD image tries the actual manifest reference before requesting LCD
+ok 261 - a failed DOM HD image tries the actual manifest reference before requesting LCD
+  ---
+  duration_ms: 24.0832
+  type: 'test'
+  ...
+# Subtest: only failure of both actual DOM HD and manifest reference requests current-owner LCD
+ok 262 - only failure of both actual DOM HD and manifest reference requests current-owner LCD
+  ---
+  duration_ms: 23.5218
+  type: 'test'
+  ...
+# Subtest: an external portrait URL cannot become a loaded mobile portrait
+ok 263 - an external portrait URL cannot become a loaded mobile portrait
+  ---
+  duration_ms: 22.98
+  type: 'test'
+  ...
+# Subtest: wrong source person cannot paint or bypass the true LCD handoff
+ok 264 - wrong source person cannot paint or bypass the true LCD handoff
+  ---
+  duration_ms: 23.107
+  type: 'test'
+  ...
+# Subtest: wrong source period cannot paint or bypass the true LCD handoff
+ok 265 - wrong source period cannot paint or bypass the true LCD handoff
+  ---
+  duration_ms: 23.2309
+  type: 'test'
+  ...
+# Subtest: preview image is not runtime authority cannot paint or bypass the true LCD handoff
+ok 266 - preview image is not runtime authority cannot paint or bypass the true LCD handoff
+  ---
+  duration_ms: 24.0819
+  type: 'test'
+  ...
+# Subtest: parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff
+ok 267 - parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff
+  ---
+  duration_ms: 28.2071
+  type: 'test'
+  ...
+# Subtest: an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected
+ok 268 - an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected
+  ---
+  duration_ms: 24.0747
+  type: 'test'
+  ...
+# Subtest: invalid loaded dimensions cannot make an opaque empty portrait visible
+ok 269 - invalid loaded dimensions cannot make an opaque empty portrait visible
+  ---
+  duration_ms: 23.4362
+  type: 'test'
+  ...
+# Subtest: a delayed old source cannot overwrite a new indexed owner
+ok 270 - a delayed old source cannot overwrite a new indexed owner
+  ---
+  duration_ms: 23.2836
+  type: 'test'
+  ...
+# Subtest: a delayed old image cannot replace a new report owner
+ok 271 - a delayed old image cannot replace a new report owner
+  ---
+  duration_ms: 23.4816
+  type: 'test'
+  ...
+# Subtest: an old image error cannot request LCD or clear the newer fallback handle
+ok 272 - an old image error cannot request LCD or clear the newer fallback handle
+  ---
+  duration_ms: 23.8995
+  type: 'test'
+  ...
+# Subtest: retiring a current fallback passes its exact opaque handle and never a new owner handle
+ok 273 - retiring a current fallback passes its exact opaque handle and never a new owner handle
+  ---
+  duration_ms: 23.7638
+  type: 'test'
+  ...
+# Subtest: adapter retirement passes only its old handle and cannot clear a newer host grant
+ok 274 - adapter retirement passes only its old handle and cannot clear a newer host grant
+  ---
+  duration_ms: 23.596
+  type: 'test'
+  ...
+# Subtest: hidden retires an in-flight image without keys or stale resurrection
+ok 275 - hidden retires an in-flight image without keys or stale resurrection
+  ---
+  duration_ms: 23.2794
+  type: 'test'
+  ...
+# Subtest: portrait retires an in-flight image without keys or stale resurrection
+ok 276 - portrait retires an in-flight image without keys or stale resurrection
+  ---
+  duration_ms: 23.1772
+  type: 'test'
+  ...
+# Subtest: blur retires an in-flight image without keys or stale resurrection
+ok 277 - blur retires an in-flight image without keys or stale resurrection
+  ---
+  duration_ms: 23.5661
+  type: 'test'
+  ...
+# Subtest: pagehide retires an in-flight image without keys or stale resurrection
+ok 278 - pagehide retires an in-flight image without keys or stale resurrection
+  ---
+  duration_ms: 23.552
+  type: 'test'
+  ...
+# Subtest: classic retires an in-flight image without keys or stale resurrection
+ok 279 - classic retires an in-flight image without keys or stale resurrection
+  ---
+  duration_ms: 23.0797
+  type: 'test'
+  ...
+# Subtest: native contract is U16 and only Person.Belong uses 0xffff for captive
+ok 280 - native contract is U16 and only Person.Belong uses 0xffff for captive
+  ---
+  duration_ms: 2.8394
+  type: 'test'
+  ...
+# Subtest: person zero is free; person 65535 is captive; city zero alone is unowned
+ok 281 - person zero is free; person 65535 is captive; city zero alone is unowned
+  ---
+  duration_ms: 2.743
+  type: 'test'
+  ...
+# Subtest: real U16 lord ID 255 resolves zero-based index without wrapping
+ok 282 - real U16 lord ID 255 resolves zero-based index without wrapping
+  ---
+  duration_ms: 1.3087
+  type: 'test'
+  ...
+# Subtest: real U16 lord ID 256 resolves zero-based index without wrapping
+ok 283 - real U16 lord ID 256 resolves zero-based index without wrapping
+  ---
+  duration_ms: 0.6926
+  type: 'test'
+  ...
+# Subtest: real U16 lord ID 600 resolves zero-based index without wrapping
+ok 284 - real U16 lord ID 600 resolves zero-based index without wrapping
+  ---
+  duration_ms: 0.6637
+  type: 'test'
+  ...
+# Subtest: real U16 lord ID 786 resolves zero-based index without wrapping
+ok 285 - real U16 lord ID 786 resolves zero-based index without wrapping
+  ---
+  duration_ms: 0.6371
+  type: 'test'
+  ...
+# Subtest: real U16 lord ID 2000 resolves zero-based index without wrapping
+ok 286 - real U16 lord ID 2000 resolves zero-based index without wrapping
+  ---
+  duration_ms: 0.6048
+  type: 'test'
+  ...
+# Subtest: self plus one means lord only for a person, including high person index
+ok 287 - self plus one means lord only for a person, including high person index
+  ---
+  duration_ms: 0.6573
+  type: 'test'
+  ...
+# Subtest: missing or invalid ownership stays unknown and never calls a name getter
+ok 288 - missing or invalid ownership stays unknown and never calls a name getter
+  ---
+  duration_ms: 0.7944
+  type: 'test'
+  ...
+# Subtest: unavailable actual person list and missing names do not guess a lord
+ok 289 - unavailable actual person list and missing names do not guess a lord
+  ---
+  duration_ms: 0.734
+  type: 'test'
+  ...
+# Subtest: bridge value wrappers preserve exact U16 ownership
+ok 290 - bridge value wrappers preserve exact U16 ownership
+  ---
+  duration_ms: 0.6255
+  type: 'test'
+  ...
+# Subtest: realm separates valid owner 255, no owner, and missing ownership without writes
+ok 291 - realm separates valid owner 255, no owner, and missing ownership without writes
+  ---
+  duration_ms: 0.7575
+  type: 'test'
+  ...
+1..291
+# tests 291
+# suites 0
+# pass 291
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4000.23

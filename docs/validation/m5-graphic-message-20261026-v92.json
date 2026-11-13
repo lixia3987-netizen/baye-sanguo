@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V92",
+  "parentCommit": "fa2ccd2a06edbc2d689d0b4208118a5d20bf1adc",
+  "feature": "HD publication for actual PlcGraMsgBox and mobile battle report ownership",
+  "accepted": true,
+  "acceptanceScope": "Actual selected C functions, controlled bridge/UI/input contracts, no-main linked initialization and one final isolated mobile layout",
+  "targeted": {
+    "accepted": true,
+    "started": "2026-10-26T13:40:12.294Z",
+    "finished": "2026-10-26T13:40:22.556Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 493,
+    "pass": 493,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-graphic-message-engine.mjs",
+      "scripts/test-hd-graphic-message-ui.mjs",
+      "scripts/test-hd-mobile-battle.mjs",
+      "scripts/test-hd-dialog-routing.mjs",
+      "scripts/test-hd-battle-mobile-host.mjs",
+      "scripts/test-hd-engine-protocol.mjs",
+      "scripts/test-hd-skill-engine.mjs",
+      "scripts/test-hd-aid-engine.mjs",
+      "scripts/test-hd-input.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 46581,
+        "sha256": "828f0fb3a799a76326ca155b76fd744325c9ec81f689c1ab006c538a85f8f4cd"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 1453,
+        "sha256": "fb28c4062acd68e7ba705e5554851c39e2d61860dd3ed9b1d7331c61b33594bf"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 15762,
+        "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 32773,
+        "sha256": "17f9ed7318684b0cbd8c16e9926312f22ca59d31a6a92db6afe6e72e20c1f85c"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 22679,
+        "sha256": "0c9ff563214f376d9a7e09c8f9e3be619a0cfcc1f6db5a267a452cdb8e51e6a7"
+      },
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4575025,
+        "sha256": "a65f0dc0fbe11143939a145b75378bab654abbedf50860fbca4056550a0c689b"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "756938c063a193d45a4c2350c36ba5e02cc5b62e0049338f27553c96dd08641c"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 164600,
+        "sha256": "90bcc5d299882b632608e33486b3e3664f5c6caac56470fcc1eac243a943ff24"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 93860,
+        "sha256": "d0886c293267f5c5b4e684709e0a372ae11b4a975f7104ac446568420151e59c"
+      },
+      {
+        "path": "js/hd-dialog.js",
+        "bytes": 154728,
+        "sha256": "aadfa2db68c1942c7fe994f637ba3e515201062c73a5c011276cffb000fc5231"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-mobile-battle.js",
+        "bytes": 32972,
+        "sha256": "d3e1531a3d29e9301b179fa4b2cf6cfeba4af2c28aed7c6d28ab49d7ecb546dd"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 35200,
+        "sha256": "d59a000918942ab1489f1a69627916a14aee2c7551c7dc0113093b011bf48899"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 21530,
+        "sha256": "f5e07d6366510360fd3ca20d3427c244a5f02b58e51e9d64df1367d8dfc4936f"
+      },
+      {
+        "path": "package.json",
+        "bytes": 22517,
+        "sha256": "91f9e2e9e8145aead6224b37fa0b68ebd93b678f8ec02404d8abb4ff9035d7be"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 31749,
+        "sha256": "c7ad8c668eb63c2b012812b0127ffc6ab66093b0e277b736c72ef8f00a2e66b6"
+      },
+      {
+        "path": "scripts/test-hd-aid-engine.mjs",
+        "bytes": 31638,
+        "sha256": "30da19547031e843573e6c149fc94310a89aa61e3e1dd8791701d66a9e6f5e4f"
+      },
+      {
+        "path": "scripts/test-hd-battle-mobile-host.mjs",
+        "bytes": 18771,
+        "sha256": "2296166ffe576cba6053d1dd0b8b4fa352570900654869e11bfd5745ca8a19a4"
+      },
+      {
+        "path": "scripts/test-hd-dialog-routing.mjs",
+        "bytes": 125353,
+        "sha256": "dc4fadb0b93fd733e9a25a3ef1af7592fc6bf52307ae9b4d811b5d90c88731c4"
+      },
+      {
+        "path": "scripts/test-hd-engine-protocol.mjs",
+        "bytes": 57449,
+        "sha256": "b3af31fcb2fd0771f8a0f771a6afa468bcc80e86fc00bc0d919157bde49b9404"
+      },
+      {
+        "path": "scripts/test-hd-graphic-message-engine.mjs",
+        "bytes": 13985,
+        "sha256": "d8162364e5ae3c1f812ba5204b0171c7fae61ac111c74c1af17d809426fde5fa"
+      },
+      {
+        "path": "scripts/test-hd-graphic-message-ui.mjs",
+        "bytes": 10438,
+        "sha256": "bddce450924561b834d917949d20bcf4d2991a7dfd0f22ff3c60969f5a0fbc70"
+      },
+      {
+        "path": "scripts/test-hd-input.mjs",
+        "bytes": 31944,
+        "sha256": "2a9a23d8a423a83e56b9ba081fc41fbca0e6be5bd2126a1a17f61a85c61f44d4"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle.mjs",
+        "bytes": 55154,
+        "sha256": "1f194d387f5fa45a08b5d15eb97e06bf0c0da3ccd04e6b12be96d354a1500df5"
+      },
+      {
+        "path": "scripts/test-hd-skill-engine.mjs",
+        "bytes": 62223,
+        "sha256": "aa042f3b35fa3773bea5e3b30e13dd07ca16baedf6672195b5b49951475a184e"
+      },
+      {
+        "path": "vendor/iBaye/src/Fight.c",
+        "bytes": 58254,
+        "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33917,
+        "sha256": "86e5966d22c05e09d6f6cbcc4804b30b8befcc6f52d6c303758719e1c12e3acf"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 205797,
+        "sha256": "1083b8a5119d079e5aba4de5104d5cb8acf76e3ea3373ea7e94dfae7751f9e72"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21136,
+        "sha256": "926a4e2d2f473fe7798b870fbfe300cba651ceffaac52e7f40fa138e8ebfb19b"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 19,
+    "newDefaultModules": 2,
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+    "actualCCompiled": true,
+    "nativeSourceCount": 128,
+    "nativeSourcesStable": true,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "newDefaultModules": 2,
+  "newDefaultNodeTests": 19,
+  "negativeControl": {
+    "accepted": true,
+    "expectedNegativeControl": true,
+    "started": "2026-10-26T13:33:21.437Z",
+    "finished": "2026-10-26T13:33:22.598Z",
+    "processExitCode": 1,
+    "signal": null,
+    "tests": 10,
+    "pass": 0,
+    "fail": 10,
+    "skipped": 0,
+    "compileFailure": false,
+    "actualCAssertionObserved": true,
+    "oldSource": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\graphic-message-20261026-v92\\negative-v1-PublicFun.c",
+    "productSourceMutated": false,
+    "actualGameplayAccepted": false
+  },
+  "native": {
+    "changedFiles": [
+      "vendor/iBaye/src/PublicFun.c"
+    ],
+    "semanticChange": "Three observer calls after original text draw and around the original delay",
+    "sourceCount": 128,
+    "previousEngineSourceSha256": "9fadee559357f8552b355c690e0006ec6d1c49cd7e1798db3f2d90b0c763a9ec",
+    "engineSourceSha256": "2251979174a889346026a1da4756d7772fa1a94115b2848e7629d46819c1b4d8",
+    "otherSourcesUnchanged": true,
+    "sourcesStableDuringBuild": true,
+    "sourceRevision": "fa2ccd2a06edbc2d689d0b4208118a5d20bf1adc",
+    "sourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "sourceDateEpoch": 1793021022
+  },
+  "runtime": {
+    "accepted": true,
+    "stageAndInstalledBytesExact": true,
+    "method": "Atomic replacement of the four explicitly checked runtime paths; previous runtime retained",
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4575025,
+        "sha256": "a65f0dc0fbe11143939a145b75378bab654abbedf50860fbca4056550a0c689b"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "756938c063a193d45a4c2350c36ba5e02cc5b62e0049338f27553c96dd08641c"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 22679,
+        "sha256": "0c9ff563214f376d9a7e09c8f9e3be619a0cfcc1f6db5a267a452cdb8e51e6a7"
+      }
+    ],
+    "engineSourceSha256": "2251979174a889346026a1da4756d7772fa1a94115b2848e7629d46819c1b4d8",
+    "sourceRevision": "fa2ccd2a06edbc2d689d0b4208118a5d20bf1adc",
+    "engineSourceModified": true,
+    "linkedNoMainSmoke": {
+      "accepted": true,
+      "noInitialRun": true,
+      "shouldRunNow": false,
+      "moduleExportFunctions": 83,
+      "gameMainRun": false,
+      "nativeInputs": 0
+    }
+  },
+  "layout": {
+    "accepted": true,
+    "browserRuns": 1,
+    "productionMobileDomCssBridgeDialogAndHost": true,
+    "controlledNativeSnapshot": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "chromeExitCode": 0,
+    "metrics": {
+      "viewport": {
+        "width": 828,
+        "height": 295
+      },
+      "bodyDetail": "hd",
+      "reportKind": "report",
+      "text": "杨秋获得经验！",
+      "display": "flex",
+      "visibility": "visible",
+      "pointerEvents": "auto",
+      "stage": {
+        "x": 0,
+        "y": 52,
+        "right": 828,
+        "bottom": 295,
+        "width": 828,
+        "height": 243
+      },
+      "buttons": [
+        {
+          "text": "确认",
+          "rect": {
+            "x": 12,
+            "y": 243,
+            "right": 92,
+            "bottom": 287,
+            "width": 80,
+            "height": 44
+          },
+          "display": "block"
+        },
+        {
+          "text": "返回",
+          "rect": {
+            "x": 100,
+            "y": 243,
+            "right": 180,
+            "bottom": 287,
+            "width": 80,
+            "height": 44
+          },
+          "display": "block"
+        }
+      ],
+      "horizontalOverflow": false,
+      "keys": [],
+      "errors": [],
+      "rawUnchanged": true
+    },
+    "screenshot": "build/graphic-message-20261026-v92/mobile-report-layout-v2.png",
+    "totalBrowserAttempts": 2,
+    "retainedFirstAttempt": {
+      "accepted": false,
+      "chromeExitCode": 0,
+      "kind": "Fixture omitted the production inline body margin/overflow stylesheet; native report was visible but the incomplete fixture overflowed by the default 8px body margin",
+      "productChangeRequired": false,
+      "retainedMetricRecord": "build/graphic-message-20261026-v92/preview-layout-v1.json",
+      "noGameRuntime": true
+    }
+  },
+  "evidence": [
+    {
+      "path": "build/graphic-message-20261026-v92/targeted-v1.json",
+      "bytes": 7131,
+      "sha256": "d312fc184fbfe56dde305482edbd236c3f11297e206f2d53fcebf9ee275e1d94"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/targeted-v1.stdout.tap",
+      "bytes": 113594,
+      "sha256": "7fd130ce54312b1c3aae74504b591e3c3900fc94e3b4848d0c1f49f6f8270e68"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/negative-v1.json",
+      "bytes": 521,
+      "sha256": "0425a566571e79ce1b05408a1952ac155c98c8d03bb381844898b0560c100073"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/negative-v1.stdout.tap",
+      "bytes": 10696,
+      "sha256": "a5ce517fabfd43e0007528c1668f958cc7499b64bfaf2e16f458312b7f03a2b1"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/negative-v1-PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/source-baseline-v1.json",
+      "bytes": 21870,
+      "sha256": "868fcc4954f3d519b99c286a9e91df9eac132f6fcd4e2a22eb6a8dd86814aae0"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/build-v1.json",
+      "bytes": 24277,
+      "sha256": "5cebacca2fafce0ea95b9e2d591fbcc0d7913db8320d8492f05cd05b6bc6f20d"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/build-v1.stdout.log",
+      "bytes": 1730,
+      "sha256": "818a0c9b3778f79fcf96c5dcf4d50f38adcb050bdca8dd71b5fe8f4c22c7686a"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/build-v1.stderr.log",
+      "bytes": 1393,
+      "sha256": "e85937636e98298c355b7ba88092a0a8bb3ae1bbe08eeab4b4b2565226ee9822"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/linked-smoke-v1.json",
+      "bytes": 2446,
+      "sha256": "db640fa2efa2abb25d99fd789a12bd47dec04e04114dbeebff02f9f9e49da626"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/install-v1.json",
+      "bytes": 976,
+      "sha256": "ad0fdbbdafbe0561ac61c772e6b5b3d85a9e8a39902d46ada11504f9d945c005"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/audit-v1.md",
+      "bytes": 5552,
+      "sha256": "7c4e3a952f3f051aa15249cbed51190b9a431a9bef5db848f2d04d6a2ed6a28e"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/native-subagent-checks-v1.json",
+      "bytes": 1053,
+      "sha256": "e6451b4a6e653cfeeee023d3f3ac3cc18ba7a531464e574a971de70e21d4003d"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/ui-agent-initial-harness-error.json",
+      "bytes": 491,
+      "sha256": "cabc7ebb5da6a7c208d9df1e0b2161f517fd7e6e15ef58ed69c07b152444ea21"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/ui-agent-final.tap",
+      "bytes": 87488,
+      "sha256": "f3ffa52f5ce07777d73a988cf0a6eab33237343c5cde2600b4401997edee31fa"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/ui-agent-final-v2.tap",
+      "bytes": 87745,
+      "sha256": "bdfe27afe0155417b544848757016ec6933f3acd2d2983dd4db2a163f056a392"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/preview-layout-v1.json",
+      "bytes": 1272,
+      "sha256": "df9130ac4521890ff38b19044727ff89daf4f7cc78e4c51f15af2475d4c424aa"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/preview-attempt-v1.json",
+      "bytes": 372,
+      "sha256": "52b00daa13e0e725609726ab6215e7a7ba9df463859852f727a19ccd63d070ed"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/preview-layout-v2.json",
+      "bytes": 1271,
+      "sha256": "0290da94acb427c56a7b77bdf4a6c37ecbae8a31a545063520edd1db32bf2520"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/mobile-report-layout-v2.dom.html",
+      "bytes": 20877,
+      "sha256": "51f045f3953d434344918e28511f7ab62058f92321c5868698cdb0b3c620d833"
+    },
+    {
+      "path": "build/graphic-message-20261026-v92/mobile-report-layout-v2.png",
+      "bytes": 38318,
+      "sha256": "41f3a5bd301ce8eb38df875c41143866caec5935854fc94b8176dc608ab28990"
+    }
+  ],
+  "semantics": {
+    "nativeReportKind": 1,
+    "newNativeAbi": false,
+    "originalCallers": 3,
+    "originalCallerDelays": [
+      1
+    ],
+    "originalContractZeroDelayPreserved": true,
+    "zeroDelayEndsOn": "First non-VM_TIMER message, including touch down or ASCII",
+    "finiteDelayEndsOn": "Original timer1 expiry, function character or TOUCH_UP with keyflag2",
+    "maxDelayTicks": 25500,
+    "addsGameWrites": false,
+    "changesMpExperienceOrRng": false,
+    "mobileInput": "Only explicit ENTER39/EXIT40 once per actual native report owner; old press, natural end and mode/source changes reject",
+    "arbitraryResetCrossStackGuaranteeAdded": false
+  },
+  "fullSuiteRun": false,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "globalHdComplete": false,
+  "held": {
+    "privateInterfaceInspected": false,
+    "inputs": 0,
+    "closed": false,
+    "restarted": false
+  },
+  "remaining": [
+    "Natural original experience and skill-message acceptance",
+    "Real mobile touch and full layout matrix",
+    "Pre-battle attack and confrontation notices",
+    "Passive AI tactic preview",
+    "Full regression and tuning later"
+  ]
+}

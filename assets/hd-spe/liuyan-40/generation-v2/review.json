@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "scope": "Static original LIUYAN40 two-frame artwork revision only; no game/rendering acceptance.",
+  "tool": {
+    "name": "image_gen.imagegen",
+    "mode": "built-in edit",
+    "version": 2,
+    "calls": 2,
+    "oneCallPerRequestedAsset": true,
+    "automaticRetries": false,
+    "cliUsed": false,
+    "externalPaidGenerator": false,
+    "postprocessing": "None; originals copied byte-for-byte"
+  },
+  "textAuthority": {
+    "kind": "Root actual visual transcription of original native 4x references",
+    "frames": [
+      "在那?",
+      "河北"
+    ],
+    "fontMatchProven": false,
+    "exactFontComparison": "../r25-liuyan-40-art-v1/native-font-exact-comparison.json"
+  },
+  "frames": [
+    {
+      "frame": 0,
+      "image": {
+        "path": "build/r25-liuyan-40-art-v2/picture-0.png",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\picture-0.png",
+        "bytes": 2737107,
+        "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 2,
+        "opaque": true,
+        "originalToolPath": "C:/Users/75112/.codex/generated_images/01a116ec-089f-7872-8df1-b03c949b16d2/exec-bae830f3-6bb1-4336-95e6-faf984f80075.png",
+        "originalToolBytesEqual": true
+      },
+      "request": {
+        "path": "build/r25-liuyan-40-art-v2/frame-0-request.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-0-request.json",
+        "bytes": 3256,
+        "sha256": "d79f9a82befe5905b86b60cdc92191af722ff3d9669b0cb32d0bc968f7a92bbf"
+      },
+      "prompt": {
+        "path": "build/r25-liuyan-40-art-v2/frame-0-prompt.txt",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-0-prompt.txt",
+        "bytes": 1629,
+        "sha256": "c08841e9aa9e0ee1e95b9cb945d272d4681453154d1d45ee9b0b59af3d2b3c2a"
+      },
+      "toolMetadata": {
+        "path": "build/r25-liuyan-40-art-v2/frame-0-tool-result-and-review.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-0-tool-result-and-review.json",
+        "bytes": 1728,
+        "sha256": "d0737f0a854decfc560946b1fdd9629171bfc8338366108aecd3658f7c09079f"
+      },
+      "qa": {
+        "actualViewed": true,
+        "textSeen": "在那?",
+        "textMatchesAuthorizedVisualTranscription": true,
+        "fontMatchProven": false,
+        "composition": "Two opposing helmeted spearmen, stance, mountains, bubble placement and framing visually preserved.",
+        "runtimeAccepted": false
+      }
+    },
+    {
+      "frame": 1,
+      "image": {
+        "path": "build/r25-liuyan-40-art-v2/picture-1.png",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\picture-1.png",
+        "bytes": 2664650,
+        "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 2,
+        "opaque": true,
+        "originalToolPath": "C:/Users/75112/.codex/generated_images/01a116ec-089f-7872-8df1-b03c949b16d2/exec-3a1cbc97-3fb6-4427-88b3-02ca06fd943e.png",
+        "originalToolBytesEqual": true
+      },
+      "request": {
+        "path": "build/r25-liuyan-40-art-v2/frame-1-request.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-1-request.json",
+        "bytes": 3243,
+        "sha256": "ea55e4d79e75c72adee42c163f2daeb2002848dbbca97d1caeeafcccbfb76698"
+      },
+      "prompt": {
+        "path": "build/r25-liuyan-40-art-v2/frame-1-prompt.txt",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-1-prompt.txt",
+        "bytes": 1617,
+        "sha256": "a962c8dac0b6da2b3dd0c4499e49f320a1cd40677cd7b69e43f6208358299110"
+      },
+      "toolMetadata": {
+        "path": "build/r25-liuyan-40-art-v2/frame-1-tool-result-and-review.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-1-tool-result-and-review.json",
+        "bytes": 1805,
+        "sha256": "4fe84e633e6c30408f6354a951f875fcddef94700e53fd881a63eed78a3fb32e"
+      },
+      "qa": {
+        "actualViewed": true,
+        "textSeen": "河北",
+        "textMatchesAuthorizedVisualTranscription": true,
+        "noAddedPunctuation": true,
+        "fontMatchProven": false,
+        "composition": "Two opposing helmeted spearmen, stance, mountains, bubble placement and square framing visually preserved; no extra people or attack/step motion.",
+        "runtimeAccepted": false
+      }
+    }
+  ],
+  "actualViews": {
+    "primary": "battle_audit",
+    "independent": "inspect_hd_path",
+    "root": "Root confirmed both v2 images by actual view"
+  },
+  "independentObservations": [
+    "picture0 visibly reads 在那? with one question mark; picture1 visibly reads 河北 without punctuation.",
+    "Exactly two opposed helmeted armoured soldiers, the same standing poses, two spears and mountain backdrop; no extra subject or attack/step motion.",
+    "Spear tips and ends and both pairs of boots remain within the square.",
+    "Character faces, helmets, armour, weapons, main mountain forms and speech-bubble framing remain visually continuous. This is not a pixel-identical outside-bubble assertion."
+  ],
+  "staticArtworkAccepted": true,
+  "approvedAsIntegrationInput": true,
+  "productionIntegratedAtReview": false,
+  "actualGameAccepted": false,
+  "actualHdAccepted": false,
+  "previousVersion": {
+    "path": "../r25-liuyan-40-art-v1",
+    "disposition": "Both rejected original outputs and all generation records retained; frame0 blank, frame1 !!"
+  },
+  "limits": [
+    "Text follows explicitly approved visual transcription, not a zero-difference 12x12 font match.",
+    "Painted HD strokes are not native bitmap pixel equivalence.",
+    "No browser, input, game-world write, actual movie, callback, source-window or full-LCD oracle has run for40."
+  ]
+}

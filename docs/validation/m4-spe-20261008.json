@@ -1,0 +1,943 @@
+{
+  "date": "2026-10-08",
+  "scope": "PC native SPE v2 and first FIRE35 picture slots; Windows native C/WASM build closure",
+  "branch": "feature/hd-graphics",
+  "goalComplete": false,
+  "tests": {
+    "fullSuite": {
+      "passed": 235,
+      "failed": 0,
+      "skipped": 0,
+      "log": "build/m4-spe-validation/full-tests.log"
+    },
+    "speFrontend": 14,
+    "speCompiledC": 7,
+    "cRegressionFiles": [
+      "test-hd-battle-mode.mjs",
+      "test-hd-engine-protocol.mjs",
+      "test-hd-campaign-engine.mjs",
+      "test-hd-save-transaction.mjs",
+      "test-hd-spe-engine.mjs"
+    ]
+  },
+  "toolchain": {
+    "host": "Windows PowerShell",
+    "emscripten": "3.1.51",
+    "cmake": "3.31.6",
+    "ninja": "1.11.1.4",
+    "python": "3.10.6",
+    "nativeCompiler": "Emscripten LLVM Clang 18 with Visual Studio runtime",
+    "compiledFixtureAbi": "packed-one; PictureHeadType=7 bytes"
+  },
+  "engineManifest": {
+    "schemaVersion": 1,
+    "sourceRevision": "2542a65b7990ea8d11400b0cbcb1cde52b739ae6",
+    "engineSourceSha256": "701e3af5275eb50026cd4ba2782a385a24d1f10f28f705912d4a371a22b6592e",
+    "engineSourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "sourceDateEpoch": 1791414721,
+    "hdMenuProtocol": {
+      "nativeFallback": 254,
+      "controlField": "g_hdFightMenuControl"
+    },
+    "hdInputProtocol": {
+      "version": 3,
+      "fight": [
+        "g_hdFightInputKind",
+        "g_hdFightInputSeq",
+        "g_hdFightActor"
+      ],
+      "menu": [
+        "g_hdMenuActive",
+        "g_hdMenuContext",
+        "g_hdMenuKind",
+        "g_hdMenuSeq"
+      ],
+      "march": [
+        "g_hdMarchPhase",
+        "g_hdMarchSession",
+        "g_hdMarchOrigin",
+        "g_hdMarchSelected",
+        "g_hdMarchInputSeq",
+        "g_hdMapInputSeq"
+      ],
+      "report": [
+        "g_hdReportActive",
+        "g_hdReportInputSeq"
+      ],
+      "record": [
+        "g_hdRecordActive",
+        "g_hdRecordMode",
+        "g_hdRecordIndex",
+        "g_hdRecordCount",
+        "g_hdRecordSeq"
+      ],
+      "qty": [
+        "g_hdQtyActive",
+        "g_hdQtySession",
+        "g_hdQtyInputSeq",
+        "g_hdQtyLastKey",
+        "g_hdQtyCursor",
+        "g_hdQtyStep",
+        "g_hdQtyReady"
+      ]
+    },
+    "hdSpeProtocol": {
+      "version": 2,
+      "event": [
+        "g_hdSpeGeneration",
+        "g_hdSpeEventId",
+        "g_hdSpeParentEventId",
+        "g_hdSpeDepth"
+      ],
+      "frames": [
+        "g_hdSpeFrameIndex",
+        "g_hdSpeFrameValid",
+        "g_hdSpeCommitSeq",
+        "g_hdSpeVisibleFrames"
+      ],
+      "resourceFingerprint": "fnv1a32:payload:resourceLength",
+      "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+      "skipEligible": "keyflag === 1"
+    },
+    "saveProtocol": {
+      "version": 149,
+      "legacyVersions": [
+        144,
+        145,
+        146,
+        147,
+        148
+      ],
+      "filesPerSlot": 2,
+      "fightersBytes": 600,
+      "goodsQueueBytes": 4000
+    },
+    "artifacts": {
+      "baye.js": {
+        "bytes": 191800,
+        "sha256": "8bcba943e2f64be196386386ca7208f19fc5c7cffe03981bd2f4364067167ef7"
+      },
+      "baye.wasm": {
+        "bytes": 4237373,
+        "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
+      },
+      "baye.wasm.map": {
+        "bytes": 29805,
+        "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
+      }
+    }
+  },
+  "entryVersion": "20261008h",
+  "actualLib": {
+    "preferred": "libs/dat-mod.lib",
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "finalInstalledAcceptance": {
+    "corePhases": 14,
+    "battlePhases": 45,
+    "coreOk": true,
+    "battleOk": true,
+    "speOk": true,
+    "opening": {
+      "eventId": 1,
+      "generation": 2,
+      "displayedCommits": 3,
+      "skip": [
+        {
+          "code": 39,
+          "at": 1148.9000000059605,
+          "phase": "opening",
+          "generation": 2,
+          "eventId": 1,
+          "kind": 1,
+          "speActive": 1,
+          "fightKind": 0,
+          "fightSeq": 1
+        }
+      ]
+    },
+    "attack": {
+      "eventId": 5,
+      "actorIndex": 1,
+      "targetIndex": 11,
+      "actorSide": "player",
+      "playerTroopCostVerified": true,
+      "displayedCommits": 9,
+      "source": [
+        "lcd"
+      ]
+    },
+    "fireCoverage": {
+      "observed": false,
+      "hdAssetsObserved": false,
+      "displayedCommits": 0,
+      "events": [],
+      "hdVisibleFrames": [],
+      "reason": "no-legally-observed-fire-in-bounded-player-flow"
+    },
+    "sources": {
+      "baye.js": {
+        "source": "js\\baye.js",
+        "bytes": 191800,
+        "sha256": "8bcba943e2f64be196386386ca7208f19fc5c7cffe03981bd2f4364067167ef7"
+      },
+      "baye.wasm": {
+        "source": "js\\baye.wasm",
+        "bytes": 4237373,
+        "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
+      },
+      "baye.wasm.map": {
+        "source": "js\\baye.wasm.map",
+        "bytes": 29805,
+        "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
+      },
+      "baye.build.json": {
+        "source": "js\\baye.build.json",
+        "bytes": 2375,
+        "sha256": "44504d563a18bbe5dc7de180bdef1dbaf6b1bf0805a9825786dbe142c1f8b6c8"
+      },
+      "base64.js": {
+        "source": "js\\base64.js",
+        "bytes": 3446,
+        "sha256": "da89fc922bf9f5df0105c9ccf9d5353cc7b74dbf1ae7ce8a2c2e3f4dd6f3def8"
+      },
+      "base64.min.js": {
+        "source": "js\\base64.min.js",
+        "bytes": 3826,
+        "sha256": "4e4b133053d69f2cf1b9cf9201b76dcf64d33b3f0770a0ef17299ee55a17322e"
+      },
+      "bridge.js": {
+        "source": "js\\bridge.js",
+        "bytes": 55722,
+        "sha256": "95011bf23a883d94b909d39a41075724b8f8e9a279c26b0d0593200b05cb8fdf"
+      },
+      "demos.js": {
+        "source": "js\\demos.js",
+        "bytes": 19111,
+        "sha256": "5a8aa0ae3eca48e5a190950543a80c53462040c873a4581d80054f996def39c7"
+      },
+      "encoding-indexes.js": {
+        "source": "js\\encoding-indexes.js",
+        "bytes": 145832,
+        "sha256": "c349045c6aaaf3bffa4912d86f9d016badffa5cfad7bc66c6ef638c18b868de6"
+      },
+      "encoding.js": {
+        "source": "js\\encoding.js",
+        "bytes": 104567,
+        "sha256": "1a023e479f6f911833baa0107ceee8e6b22b3fcea8b2b56d29071c232db436c1"
+      },
+      "examples.js": {
+        "source": "js\\examples.js",
+        "bytes": 20690,
+        "sha256": "a9fba494abc6d0b03fda2f0ea14a849a59be523a39e1f55e1470c957a7b5457d"
+      },
+      "hd-battle-feedback.js": {
+        "source": "js\\hd-battle-feedback.js",
+        "bytes": 12212,
+        "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f"
+      },
+      "hd-battle-terrain.js": {
+        "source": "js\\hd-battle-terrain.js",
+        "bytes": 15066,
+        "sha256": "6b834b4dab0e5949fd2e4113a5cebfe779b8b74162eb73cfa97bbecab571de52"
+      },
+      "hd-battle.js": {
+        "source": "js\\hd-battle.js",
+        "bytes": 66858,
+        "sha256": "24924218c2c2ca971a73f665fe5b894eca191193f326625defdc11a68f6ccd1a"
+      },
+      "hd-city-menu.js": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 232953,
+        "sha256": "7a7f89740f650718df256c2376fe7ce539fef09d66ad70886fac35acf2fee11c"
+      },
+      "hd-dialog.js": {
+        "source": "js\\hd-dialog.js",
+        "bytes": 72572,
+        "sha256": "bc5b95b3fdad75d111646ba922f7805c8e0263a57b4bd4f6366363ed281a3911"
+      },
+      "hd-graphics.js": {
+        "source": "js\\hd-graphics.js",
+        "bytes": 6766,
+        "sha256": "f57fe390cb132b62c8cde35d648d43da3c5488231ab637a77a11909ee7e10891"
+      },
+      "hd-overworld-probe.js": {
+        "source": "js\\hd-overworld-probe.js",
+        "bytes": 12264,
+        "sha256": "5ff6140e8c849930f553a2a86c0bd6e3350d35337a2ecab42954a674b966a9c6"
+      },
+      "hd-overworld.js": {
+        "source": "js\\hd-overworld.js",
+        "bytes": 145280,
+        "sha256": "0ec4f8180ce1984c902e66557091a8a426154d3da74e4d8f9e87b98d8d7ff6fb"
+      },
+      "hd-portrait-dump.js": {
+        "source": "js\\hd-portrait-dump.js",
+        "bytes": 20070,
+        "sha256": "6f50a7779d723b1ac350778708d7095c9858e515745406ec41c5ef97402feedf"
+      },
+      "hd-portraits.js": {
+        "source": "js\\hd-portraits.js",
+        "bytes": 20891,
+        "sha256": "f6e7c3bb863eb98e5e7b68f628d3b9a9f2f4373424fdc6c82b463eba6c352075"
+      },
+      "hd-spe.js": {
+        "source": "js\\hd-spe.js",
+        "bytes": 20465,
+        "sha256": "31e09d2d7b2599dccb46091e77214967890981a0ecd8128280067deefec4603f"
+      },
+      "hd-system-ui.js": {
+        "source": "js\\hd-system-ui.js",
+        "bytes": 45880,
+        "sha256": "c79b8a27f7d13af41c1bd52bff9c6fa9865afff5d959e7238280bfe0b529fe23"
+      },
+      "idbkvstore.min.js": {
+        "source": "js\\idbkvstore.min.js",
+        "bytes": 16477,
+        "sha256": "5513b44030b51cfa97ea4b572aa367e464ffa0cad007e66d449c7017a50d37c8"
+      },
+      "intro.min.js": {
+        "source": "js\\intro.min.js",
+        "bytes": 22726,
+        "sha256": "9863c15dfaadb6d2134832924c25344c7ea264af73d43550fedfa40f682d2f08"
+      },
+      "jquery.min.js": {
+        "source": "js\\jquery.min.js",
+        "bytes": 92633,
+        "sha256": "20638e363fcc5152155f24b281303e17da62da62d24ef5dcf863b184d9a25734"
+      },
+      "jquery.touchSwipe.min.js": {
+        "source": "js\\jquery.touchSwipe.min.js",
+        "bytes": 20425,
+        "sha256": "750019df4d78574dfa27d50d0bc62e6dae871a289016ecca49ce84c742650e5a"
+      },
+      "jszip.min.js": {
+        "source": "js\\jszip.min.js",
+        "bytes": 100737,
+        "sha256": "f6275d2b747dcbb04eb06a4895e8de7060ddd64e46819d3688ba7618c3b73aa0"
+      },
+      "lcd.js": {
+        "source": "js\\lcd.js",
+        "bytes": 29879,
+        "sha256": "469c4af7d1eaa31406be573edbf92f1329a0c96ef57640a04a731e349aaf929a"
+      },
+      "lcd_mt.js": {
+        "source": "js\\lcd_mt.js",
+        "bytes": 17701,
+        "sha256": "a689cec38b32115915e8c95d6f48c1c46e62044a2bfcb24a9b3ae639eb094165"
+      },
+      "lzma_worker-min.js": {
+        "source": "js\\lzma_worker-min.js",
+        "bytes": 23964,
+        "sha256": "c2a416ee775424fdad07e94a227b076202bca41ca52cdfdf8dd5f741e18282dd"
+      },
+      "mtower.js": {
+        "source": "js\\mtower.js",
+        "bytes": 1051534,
+        "sha256": "f7753278b4705180e4fdb2b0689925a8ad3e6cd66f859760dfaedc345b2f3cef"
+      },
+      "save-storage.js": {
+        "source": "js\\save-storage.js",
+        "bytes": 12109,
+        "sha256": "b6b4db42adc8a6e1c0c75e5eac790ceaf0d170cfddf749f8b91392f07409f974"
+      },
+      "spin.min.js": {
+        "source": "js\\spin.min.js",
+        "bytes": 4278,
+        "sha256": "b9f9a432b70cb46ac75cd0c112ef9b2e81fbb1a18c4a17fcbd459436bab3a2a7"
+      },
+      "sprintf.js": {
+        "source": "js\\sprintf.js",
+        "bytes": 10035,
+        "sha256": "61407edb29ce4cb326fa8a17650dac4df33aa226c50630956c450f6acbbd187d"
+      },
+      "tappy.js": {
+        "source": "js\\tappy.js",
+        "bytes": 3140,
+        "sha256": "a367079f90f8e31ac6713c385f09d94b4321a3ea4010b196796407e659e2163d"
+      },
+      "pc.html": {
+        "source": "pc.html",
+        "bytes": 24852,
+        "sha256": "248637c52a89552dee66ca5c53996fe6bf480fb932302c3dff626bab1385ca0b"
+      },
+      "css/hd-spe.css": {
+        "source": "css/hd-spe.css",
+        "bytes": 2819,
+        "sha256": "d8104ac792fa0f35ef05304c8c2dcab8e6071ec9a152b0d2c34df280dc3521bf"
+      },
+      "assets/hd-spe/manifest.json": {
+        "source": "assets/hd-spe/manifest.json",
+        "bytes": 1933,
+        "sha256": "d9a7a75377ac5344376849587519290206644d595b3cb8cf40195b79b0a77e71"
+      },
+      "assets/hd-spe/fire-35/picture-0.png": {
+        "source": "assets/hd-spe/fire-35/picture-0.png",
+        "bytes": 1505512,
+        "sha256": "477a2a5d07c9e58de37c22939d0941fb2497c41170ccf9be7a0f11f25303f7ef"
+      },
+      "assets/hd-spe/fire-35/picture-1.png": {
+        "source": "assets/hd-spe/fire-35/picture-1.png",
+        "bytes": 1699430,
+        "sha256": "0580b6a9f856e5bc502aaab378ba3a4321a2d4214c172aba88d5f1acfd253be4"
+      }
+    },
+    "uncaughtExceptions": 0,
+    "unexpectedDialogs": 0,
+    "artifacts": [
+      "build/m4-spe-validation/core-installed-final",
+      "build/m4-spe-validation/battle-installed-final",
+      "build/m4-spe-runtime-installed-final"
+    ]
+  },
+  "realFireAcceptance": {
+    "artifacts": "build/m4-spe-runtime-staged-v4",
+    "staged": true,
+    "sources": {
+      "baye.js": {
+        "source": "build\\wasm\\src\\baye.js",
+        "bytes": 196712,
+        "sha256": "f9bf86257b50c888c7e26e41b38caefe70e2d8a92a768db58028f8edc80d6fce"
+      },
+      "baye.wasm": {
+        "source": "build\\wasm\\src\\baye.wasm",
+        "bytes": 4237373,
+        "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
+      },
+      "baye.wasm.map": {
+        "source": "build\\wasm\\src\\baye.wasm.map",
+        "bytes": 29805,
+        "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
+      },
+      "baye.build.json": {
+        "source": "build\\wasm\\src\\baye.build.json",
+        "bytes": 2375,
+        "sha256": "4146d482c076d77e197f3ddb52dc054d5dd842a377d3ac5ec144bc442ece981c"
+      },
+      "base64.js": {
+        "source": "js\\base64.js",
+        "bytes": 3446,
+        "sha256": "da89fc922bf9f5df0105c9ccf9d5353cc7b74dbf1ae7ce8a2c2e3f4dd6f3def8"
+      },
+      "base64.min.js": {
+        "source": "js\\base64.min.js",
+        "bytes": 3826,
+        "sha256": "4e4b133053d69f2cf1b9cf9201b76dcf64d33b3f0770a0ef17299ee55a17322e"
+      },
+      "bridge.js": {
+        "source": "js\\bridge.js",
+        "bytes": 55722,
+        "sha256": "95011bf23a883d94b909d39a41075724b8f8e9a279c26b0d0593200b05cb8fdf"
+      },
+      "demos.js": {
+        "source": "js\\demos.js",
+        "bytes": 19111,
+        "sha256": "5a8aa0ae3eca48e5a190950543a80c53462040c873a4581d80054f996def39c7"
+      },
+      "encoding-indexes.js": {
+        "source": "js\\encoding-indexes.js",
+        "bytes": 145832,
+        "sha256": "c349045c6aaaf3bffa4912d86f9d016badffa5cfad7bc66c6ef638c18b868de6"
+      },
+      "encoding.js": {
+        "source": "js\\encoding.js",
+        "bytes": 104567,
+        "sha256": "1a023e479f6f911833baa0107ceee8e6b22b3fcea8b2b56d29071c232db436c1"
+      },
+      "examples.js": {
+        "source": "js\\examples.js",
+        "bytes": 20690,
+        "sha256": "a9fba494abc6d0b03fda2f0ea14a849a59be523a39e1f55e1470c957a7b5457d"
+      },
+      "hd-battle-feedback.js": {
+        "source": "js\\hd-battle-feedback.js",
+        "bytes": 12212,
+        "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f"
+      },
+      "hd-battle-terrain.js": {
+        "source": "js\\hd-battle-terrain.js",
+        "bytes": 15066,
+        "sha256": "6b834b4dab0e5949fd2e4113a5cebfe779b8b74162eb73cfa97bbecab571de52"
+      },
+      "hd-battle.js": {
+        "source": "js\\hd-battle.js",
+        "bytes": 66858,
+        "sha256": "24924218c2c2ca971a73f665fe5b894eca191193f326625defdc11a68f6ccd1a"
+      },
+      "hd-city-menu.js": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 232953,
+        "sha256": "7a7f89740f650718df256c2376fe7ce539fef09d66ad70886fac35acf2fee11c"
+      },
+      "hd-dialog.js": {
+        "source": "js\\hd-dialog.js",
+        "bytes": 72572,
+        "sha256": "bc5b95b3fdad75d111646ba922f7805c8e0263a57b4bd4f6366363ed281a3911"
+      },
+      "hd-graphics.js": {
+        "source": "js\\hd-graphics.js",
+        "bytes": 6766,
+        "sha256": "f57fe390cb132b62c8cde35d648d43da3c5488231ab637a77a11909ee7e10891"
+      },
+      "hd-overworld-probe.js": {
+        "source": "js\\hd-overworld-probe.js",
+        "bytes": 12264,
+        "sha256": "5ff6140e8c849930f553a2a86c0bd6e3350d35337a2ecab42954a674b966a9c6"
+      },
+      "hd-overworld.js": {
+        "source": "js\\hd-overworld.js",
+        "bytes": 145280,
+        "sha256": "0ec4f8180ce1984c902e66557091a8a426154d3da74e4d8f9e87b98d8d7ff6fb"
+      },
+      "hd-portrait-dump.js": {
+        "source": "js\\hd-portrait-dump.js",
+        "bytes": 20070,
+        "sha256": "6f50a7779d723b1ac350778708d7095c9858e515745406ec41c5ef97402feedf"
+      },
+      "hd-portraits.js": {
+        "source": "js\\hd-portraits.js",
+        "bytes": 20891,
+        "sha256": "f6e7c3bb863eb98e5e7b68f628d3b9a9f2f4373424fdc6c82b463eba6c352075"
+      },
+      "hd-spe.js": {
+        "source": "js\\hd-spe.js",
+        "bytes": 20465,
+        "sha256": "31e09d2d7b2599dccb46091e77214967890981a0ecd8128280067deefec4603f"
+      },
+      "hd-system-ui.js": {
+        "source": "js\\hd-system-ui.js",
+        "bytes": 45880,
+        "sha256": "c79b8a27f7d13af41c1bd52bff9c6fa9865afff5d959e7238280bfe0b529fe23"
+      },
+      "idbkvstore.min.js": {
+        "source": "js\\idbkvstore.min.js",
+        "bytes": 16477,
+        "sha256": "5513b44030b51cfa97ea4b572aa367e464ffa0cad007e66d449c7017a50d37c8"
+      },
+      "intro.min.js": {
+        "source": "js\\intro.min.js",
+        "bytes": 22726,
+        "sha256": "9863c15dfaadb6d2134832924c25344c7ea264af73d43550fedfa40f682d2f08"
+      },
+      "jquery.min.js": {
+        "source": "js\\jquery.min.js",
+        "bytes": 92633,
+        "sha256": "20638e363fcc5152155f24b281303e17da62da62d24ef5dcf863b184d9a25734"
+      },
+      "jquery.touchSwipe.min.js": {
+        "source": "js\\jquery.touchSwipe.min.js",
+        "bytes": 20425,
+        "sha256": "750019df4d78574dfa27d50d0bc62e6dae871a289016ecca49ce84c742650e5a"
+      },
+      "jszip.min.js": {
+        "source": "js\\jszip.min.js",
+        "bytes": 100737,
+        "sha256": "f6275d2b747dcbb04eb06a4895e8de7060ddd64e46819d3688ba7618c3b73aa0"
+      },
+      "lcd.js": {
+        "source": "js\\lcd.js",
+        "bytes": 29879,
+        "sha256": "469c4af7d1eaa31406be573edbf92f1329a0c96ef57640a04a731e349aaf929a"
+      },
+      "lcd_mt.js": {
+        "source": "js\\lcd_mt.js",
+        "bytes": 17701,
+        "sha256": "a689cec38b32115915e8c95d6f48c1c46e62044a2bfcb24a9b3ae639eb094165"
+      },
+      "lzma_worker-min.js": {
+        "source": "js\\lzma_worker-min.js",
+        "bytes": 23964,
+        "sha256": "c2a416ee775424fdad07e94a227b076202bca41ca52cdfdf8dd5f741e18282dd"
+      },
+      "mtower.js": {
+        "source": "js\\mtower.js",
+        "bytes": 1051534,
+        "sha256": "f7753278b4705180e4fdb2b0689925a8ad3e6cd66f859760dfaedc345b2f3cef"
+      },
+      "save-storage.js": {
+        "source": "js\\save-storage.js",
+        "bytes": 12109,
+        "sha256": "b6b4db42adc8a6e1c0c75e5eac790ceaf0d170cfddf749f8b91392f07409f974"
+      },
+      "spin.min.js": {
+        "source": "js\\spin.min.js",
+        "bytes": 4278,
+        "sha256": "b9f9a432b70cb46ac75cd0c112ef9b2e81fbb1a18c4a17fcbd459436bab3a2a7"
+      },
+      "sprintf.js": {
+        "source": "js\\sprintf.js",
+        "bytes": 10035,
+        "sha256": "61407edb29ce4cb326fa8a17650dac4df33aa226c50630956c450f6acbbd187d"
+      },
+      "tappy.js": {
+        "source": "js\\tappy.js",
+        "bytes": 3140,
+        "sha256": "a367079f90f8e31ac6713c385f09d94b4321a3ea4010b196796407e659e2163d"
+      },
+      "pc.html": {
+        "source": "pc.html",
+        "bytes": 24852,
+        "sha256": "248637c52a89552dee66ca5c53996fe6bf480fb932302c3dff626bab1385ca0b"
+      },
+      "css/hd-spe.css": {
+        "source": "css/hd-spe.css",
+        "bytes": 2819,
+        "sha256": "d8104ac792fa0f35ef05304c8c2dcab8e6071ec9a152b0d2c34df280dc3521bf"
+      },
+      "assets/hd-spe/manifest.json": {
+        "source": "assets/hd-spe/manifest.json",
+        "bytes": 1933,
+        "sha256": "d9a7a75377ac5344376849587519290206644d595b3cb8cf40195b79b0a77e71"
+      },
+      "assets/hd-spe/fire-35/picture-0.png": {
+        "source": "assets/hd-spe/fire-35/picture-0.png",
+        "bytes": 1505512,
+        "sha256": "477a2a5d07c9e58de37c22939d0941fb2497c41170ccf9be7a0f11f25303f7ef"
+      },
+      "assets/hd-spe/fire-35/picture-1.png": {
+        "source": "assets/hd-spe/fire-35/picture-1.png",
+        "bytes": 1699430,
+        "sha256": "0580b6a9f856e5bc502aaab378ba3a4321a2d4214c172aba88d5f1acfd253be4"
+      }
+    },
+    "opening": {
+      "eventId": 1,
+      "generation": 2,
+      "displayedCommits": 3,
+      "skip": [
+        {
+          "code": 39,
+          "at": 1153.6000000089407,
+          "phase": "opening",
+          "generation": 2,
+          "eventId": 1,
+          "kind": 1,
+          "speActive": 1,
+          "fightKind": 0,
+          "fightSeq": 1
+        }
+      ]
+    },
+    "attack": {
+      "eventId": 5,
+      "actorIndex": 1,
+      "targetIndex": 11,
+      "actorSide": "player",
+      "playerTroopCostVerified": true,
+      "displayedCommits": 9,
+      "source": [
+        "lcd"
+      ]
+    },
+    "fire": {
+      "observed": true,
+      "hdAssetsObserved": true,
+      "displayedCommits": 8,
+      "events": [
+        15
+      ],
+      "hdVisibleFrames": [
+        {
+          "eventId": 15,
+          "commitSeq": 2,
+          "frames": [
+            1
+          ]
+        },
+        {
+          "eventId": 15,
+          "commitSeq": 3,
+          "frames": [
+            2
+          ]
+        },
+        {
+          "eventId": 15,
+          "commitSeq": 4,
+          "frames": [
+            3
+          ]
+        },
+        {
+          "eventId": 15,
+          "commitSeq": 5,
+          "frames": [
+            4
+          ]
+        },
+        {
+          "eventId": 15,
+          "commitSeq": 6,
+          "frames": [
+            5
+          ]
+        },
+        {
+          "eventId": 15,
+          "commitSeq": 7,
+          "frames": [
+            6
+          ]
+        },
+        {
+          "eventId": 15,
+          "commitSeq": 8,
+          "frames": [
+            7
+          ]
+        }
+      ],
+      "reason": "actual-native-fire-displays"
+    },
+    "actor": {
+      "slot": 4,
+      "name": "张横",
+      "mpBefore": 23,
+      "mpAfter": 8
+    },
+    "target": {
+      "slot": 11,
+      "name": "方悦"
+    },
+    "nativeEvent": {
+      "id": 35,
+      "kind": 2,
+      "skillId": 5,
+      "generation": 3,
+      "eventId": 15,
+      "resourceFingerprint": "fnv1a32:0bf53f74:1212"
+    },
+    "canvasFrames": [
+      {
+        "file": "m4-spe-20261008/fire-35-native-frame-1-0.png",
+        "sha256": "72f54253774cbe3c92c28e3370f55c77b019c9bc6878c9d01896a80cf00a48b8",
+        "before": {
+          "generation": 3,
+          "eventId": 15,
+          "commitSeq": 2,
+          "frameIndex": 1,
+          "frameValid": true,
+          "visibleFrames": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "generation": 3,
+          "eventId": 15,
+          "commitSeq": 2,
+          "frameIndex": 1,
+          "frameValid": true,
+          "visibleFrames": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "baselineArena": {
+          "x": 15,
+          "y": 16,
+          "width": 130,
+          "height": 64
+        },
+        "expectedNativeOriginOnCanvas": {
+          "x": 462,
+          "y": 0
+        }
+      },
+      {
+        "file": "m4-spe-20261008/fire-35-native-frame-2-1.png",
+        "sha256": "d537ce0a03413a091f82bf0794e741d224e69c468dd18472e1ac6313340c276b",
+        "before": {
+          "generation": 3,
+          "eventId": 15,
+          "commitSeq": 3,
+          "frameIndex": 2,
+          "frameValid": true,
+          "visibleFrames": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "generation": 3,
+          "eventId": 15,
+          "commitSeq": 3,
+          "frameIndex": 2,
+          "frameValid": true,
+          "visibleFrames": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "baselineArena": {
+          "x": 15,
+          "y": 16,
+          "width": 130,
+          "height": 64
+        },
+        "expectedNativeOriginOnCanvas": {
+          "x": 462,
+          "y": 0
+        }
+      }
+    ],
+    "exceptions": 0,
+    "dialogs": 0,
+    "combatAnimationKeys": 0,
+    "attemptIndex": 4
+  },
+  "loaderNormalization": {
+    "reason": "Windows CRLF must be normalized before hashing to match Git LF artifacts",
+    "realFireLoaderBytes": 196712,
+    "finalLoaderBytes": 191800,
+    "onlyCrLfToLf": true,
+    "identicalNativeWasm": true,
+    "identicalSpeFrontend": true,
+    "finalArtifactHashesCheckedAgainstFinalBrowserRun": true
+  },
+  "fixesFoundDuringAcceptance": [
+    "SPE kind must be assigned to native scope after classification",
+    "FIRE origin48 is offset33 inside fixed battle arena15; origin is not the crop origin",
+    "normalize Windows generated loader LF before build manifest hashing"
+  ],
+  "fallbacksVerified": [
+    "uncovered attack stays actual LCD",
+    "native failed fire consumes MP and emits no SPE or fake HD effect",
+    "unknown/unverified LIB and missing/mismatched images retain LCD",
+    "special masks/background/flip/paint and non-baseline screen retain native display"
+  ],
+  "notCovered": [
+    "opening/maker/other attacks and skills/status HD art",
+    "remaining25 portrait pilot combinations",
+    "city/person HUD and item/help/search refinements",
+    "shared actual-LIB identity for portraits and world map",
+    "four-period and real playable Mod flow matrix",
+    "terrain mountain/forest/city art",
+    "fixed-device presented FPS and p95 acceptance",
+    "Android/iOS real devices",
+    "real account cloud save acceptance",
+    "complete hostile LIB directory/header parser hardening"
+  ]
+}

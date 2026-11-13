@@ -1,0 +1,700 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood-city4-march-20261024-v52.json",
+    "bytes": 313421,
+    "sha256": "a29177986451d5841af478c03956431e1d75ae88f388b11be990adb55e239b54"
+  },
+  "published": [
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v52-archive-part001.json",
+      "bytes": 5686571,
+      "sha256": "8a4429c7dcd1936e0fd8623650aaebbc58ae6c5e211b3c3f45db40dc934f3e4d"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v52-archive-part002.json",
+      "bytes": 6218787,
+      "sha256": "6d0cd0b75cadcb4d58d652347578e5fd24f8f9965dd6b5ed17d3c7285e4a072f"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v52-archive.json",
+      "bytes": 106183,
+      "sha256": "593132f900bb8fc3ea8080951b5d9f46a00b86fecc27bf790396851f504935a0"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v52-verify.mjs",
+      "bytes": 98922,
+      "sha256": "caf42325654edb3153f37d161a00051f34183f245536f046e39ceafd02b2ab55"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v52.json",
+      "bytes": 313421,
+      "sha256": "a29177986451d5841af478c03956431e1d75ae88f388b11be990adb55e239b54"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-march-20261024-v52.md",
+      "bytes": 2169,
+      "sha256": "cd082bb83efaa3e8e0452fd8a3bf02bd399294027232056ca5120e3deab1a9de"
+    }
+  ],
+  "stats": {
+    "logicalFiles": 280,
+    "uniqueBlobs": 239,
+    "parts": 2,
+    "serializedPartBytes": 11905358,
+    "rawNamedBytes": 23891635,
+    "uniqueRawBytes": 22913838,
+    "currentSources": 1447,
+    "exactIgnored": 116,
+    "ordinaryPngsDecoded": 2
+  },
+  "privateVerified": {
+    "accepted": true,
+    "logicalFiles": 280,
+    "uniqueBlobs": 239,
+    "ordinaryPngsDecoded": 2,
+    "sourceBinding": {
+      "presentStrict": 1447,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "full": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-march-root-full-v1.json",
+          "bytes": 68950,
+          "sha256": "b569092ca70403b522fe91ca2898920168b7e2bd22992561aac4185befcbe184"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/city4-march-root-full-v1.stdout.log",
+          "bytes": 659499,
+          "sha256": "f29aac24cffbae01196b788d17a1e1efd6d9be5a026d16c06de0b8540b5cc88b"
+        },
+        "tests": 7828,
+        "pass": 7828,
+        "previousTests": 7824,
+        "newDefaultCases": 4,
+        "registeredFiles": 143,
+        "sourceCount": 340,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "Fresh V52 complete default regression; reader does not rerun tests",
+        "newTestExecutionsByReader": 0
+      },
+      "target": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-continuation-target-v8/receipt.json",
+          "bytes": 15628,
+          "sha256": "b2ebceaa1b3e5ec2cc7ae5eb6bfee746ef3677a09daf9ca8c96af94bdeadad3d"
+        },
+        "tests": 69,
+        "pass": 69,
+        "oldCaseNamesAndBodiesRetained": 65,
+        "sharedMarchFixtureCorrected": true,
+        "oldWholeFilePrefixClaimed": false,
+        "newCases": 4,
+        "countedAgainInDefault": false
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-march-source-controls-v2.json",
+          "bytes": 16967,
+          "sha256": "9f98368e326f66564d234a982a9c21a13a7fb54372db4087a91182ffd06430f1"
+        },
+        "tests": 21,
+        "pass": 21,
+        "sourceCount": 36,
+        "defaultCasesAdded": 0,
+        "originalFailure": {
+          "receipt": {
+            "path": "build/impact-skill-20261014/city4-march-source-controls-v1.json",
+            "bytes": 16968,
+            "sha256": "19a28b2909d77cc431e9f534501e518dd8ab144811ac51890bd40b5686c198a9"
+          },
+          "tests": 21,
+          "pass": 19,
+          "fail": 2,
+          "accepted": false,
+          "status": 1,
+          "rawStdout": {
+            "path": "build/impact-skill-20261014/city4-march-source-controls-v1/stdout.tap",
+            "bytes": 8835,
+            "sha256": "1006c9e1de84bd2962f1b064d49dd69012f6dead4c4b1a3a55cb915f883758bd"
+          },
+          "failureKind": "Controlled source-fixture expectations; no game execution",
+          "currentSourceClaim": false
+        }
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 30076,
+        "initialChunk": "f2456f",
+        "terminalChunk": "debc86",
+        "exitCode": 1
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "CLOSED failed zero-native map presentation preflight before any resume SAVE or actor selection; P51 remains the only main input",
+        "sourceCount": 1149,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 36,
+        "historicalCompletedRepairs": 2,
+        "historicalPlunders": 1,
+        "completedRepairs": 2,
+        "newDistributions": 0,
+        "newPlunders": 0,
+        "newMarches": 0,
+        "newBuy": 0,
+        "newPayments": 0,
+        "newRecruitments": 0,
+        "newEnd": 0,
+        "newBattle": 0,
+        "newNativeSave": 0,
+        "newPublicSaves": 0,
+        "publicSaves": [],
+        "qualifiedSavedMarch": false,
+        "newPreparationAccepted": false,
+        "resumeEpochEstablished": false,
+        "mayRepeatCompletedAction": false,
+        "existingAuthoritativeInputUnmodified": true,
+        "publishedNewMainInput": false,
+        "retainedPriorMain": true,
+        "retainedPriorMainInput": true,
+        "loadedWorldEqualsP51": true,
+        "completePreparationProof": false,
+        "historicalPreparationProof": true,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "carryFoodActuallyDeducted": 0,
+        "moneySpent": 0,
+        "thewSpent": 0,
+        "actualIncomeObserved": false,
+        "actualIncomeAccepted": false,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "ordinaryEndAccepted": false,
+        "conditionalEndAuthorizedByThisController": false,
+        "bootstrapNativeKeysTotal": 4,
+        "sceneNativeKeys": 3,
+        "additionalStartupNativeKeys": 1,
+        "quantityConfirmations": 0,
+        "person131Confirmations": 0,
+        "independentPairCount": 8,
+        "actualTicketReads": 16,
+        "contentAddressedFullTickets": 2,
+        "completeWorldCheckpoints": 1,
+        "extraFinalWorld": true,
+        "finalPairMatchesActualWorld": true,
+        "seedFingerprint": "58fe84a618740ef5d08082ebf87a239fd36f1f39331ad404b0431798833daa53",
+        "ownProcessSeedStable": true,
+        "historicalSeedCompared": false,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "preflightPassed": false,
+        "classicMapFocusObserved": true,
+        "hdMapChoiceObserved": true,
+        "hdReturnFocusQualified": false,
+        "zeroNativeModeWorldRoundtripObserved": true,
+        "physicalPublicPointerEvents": 15,
+        "failureRecoveryNativeInputs": 0,
+        "failedBeforeResumeSaveStarted": true,
+        "originalFlags": {
+          "resultOk": false,
+          "scenarioOk": false,
+          "acceptedForPreparationClosure": false,
+          "actualPreparationAccepted": false,
+          "scenarioActualPreparationAccepted": false,
+          "scenarioActualMarchAccepted": false,
+          "cleanupTreeExited": true,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": true,
+        "supplementalReadOnlyClosureAccepted": null,
+        "rawFlagsRewritten": false,
+        "latestSavedPrefixTag": "wood67-131-v49-unused-plunder",
+        "latestPairPins": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "lastVerifiedWorldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+        "pendingPlunderOrder": {
+          "slot": 0,
+          "order": {
+            "OrderId": 26,
+            "Person": 44,
+            "City": 20,
+            "Object": 0,
+            "Arms": 29496,
+            "Food": 51,
+            "Money": 29496,
+            "Consume": 51,
+            "TimeCount": 0
+          }
+        },
+        "city20": {
+          "food": 1,
+          "money": 886,
+          "forecastFoodCredited": false
+        },
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1447,
+        "ignoredAllowed": 116,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 30805,
+            "sha256": "649857800fd66b55047b52d58383fbcacd4445e261145f0be48937958520a335"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 31590,
+            "sha256": "867c4e25ae5652543f8d4a3bcf69dc0ebe16ea228a59598ba8063d720079a936"
+          },
+          "change": "Only exact P52 archive byte attributes and four tested city4 LF rules appended after actual closure"
+        }
+      },
+      "main": {
+        "kind": "retained-prior",
+        "publishedNewMainInput": false,
+        "inputPins": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51.json",
+            "bytes": 302409,
+            "sha256": "c16f3969ee7fc4f9d9af5ecfa6942c075442e0d9a98aaa5e390cf84ccb210d79"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+            "bytes": 148009,
+            "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "lastSaveTag": "wood67-131-v49-unused-plunder",
+        "world": {
+          "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+          "bytes": 148009,
+          "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+        },
+        "pair": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "historicalCompletedRepairs": 2,
+        "historicalPlunders": 1,
+        "newDistributions": 0,
+        "newPlunders": 0,
+        "newMarches": 0,
+        "newPublicSaves": 0,
+        "qualifiedSavedMarch": false,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "city4Food": 6785,
+        "city20Food": 1,
+        "city20Money": 886,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "actualSupplyIncomeAccepted": false,
+        "ordinaryEndAccepted": false
+      },
+      "supplementalClosure": null,
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": true,
+        "sourceBudgetIsActualIncome": false,
+        "originalPreflightFailed": true,
+        "newPlunder": 0,
+        "newMarch": 0,
+        "newSAVE": 0,
+        "newEND": 0,
+        "newBattle": 0,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousEightTrackedInputsRequired": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "diskVerified": {
+    "accepted": true,
+    "logicalFiles": 280,
+    "uniqueBlobs": 239,
+    "ordinaryPngsDecoded": 2,
+    "sourceBinding": {
+      "presentStrict": 1447,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "full": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-march-root-full-v1.json",
+          "bytes": 68950,
+          "sha256": "b569092ca70403b522fe91ca2898920168b7e2bd22992561aac4185befcbe184"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/city4-march-root-full-v1.stdout.log",
+          "bytes": 659499,
+          "sha256": "f29aac24cffbae01196b788d17a1e1efd6d9be5a026d16c06de0b8540b5cc88b"
+        },
+        "tests": 7828,
+        "pass": 7828,
+        "previousTests": 7824,
+        "newDefaultCases": 4,
+        "registeredFiles": 143,
+        "sourceCount": 340,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "Fresh V52 complete default regression; reader does not rerun tests",
+        "newTestExecutionsByReader": 0
+      },
+      "target": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-continuation-target-v8/receipt.json",
+          "bytes": 15628,
+          "sha256": "b2ebceaa1b3e5ec2cc7ae5eb6bfee746ef3677a09daf9ca8c96af94bdeadad3d"
+        },
+        "tests": 69,
+        "pass": 69,
+        "oldCaseNamesAndBodiesRetained": 65,
+        "sharedMarchFixtureCorrected": true,
+        "oldWholeFilePrefixClaimed": false,
+        "newCases": 4,
+        "countedAgainInDefault": false
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-march-source-controls-v2.json",
+          "bytes": 16967,
+          "sha256": "9f98368e326f66564d234a982a9c21a13a7fb54372db4087a91182ffd06430f1"
+        },
+        "tests": 21,
+        "pass": 21,
+        "sourceCount": 36,
+        "defaultCasesAdded": 0,
+        "originalFailure": {
+          "receipt": {
+            "path": "build/impact-skill-20261014/city4-march-source-controls-v1.json",
+            "bytes": 16968,
+            "sha256": "19a28b2909d77cc431e9f534501e518dd8ab144811ac51890bd40b5686c198a9"
+          },
+          "tests": 21,
+          "pass": 19,
+          "fail": 2,
+          "accepted": false,
+          "status": 1,
+          "rawStdout": {
+            "path": "build/impact-skill-20261014/city4-march-source-controls-v1/stdout.tap",
+            "bytes": 8835,
+            "sha256": "1006c9e1de84bd2962f1b064d49dd69012f6dead4c4b1a3a55cb915f883758bd"
+          },
+          "failureKind": "Controlled source-fixture expectations; no game execution",
+          "currentSourceClaim": false
+        }
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 30076,
+        "initialChunk": "f2456f",
+        "terminalChunk": "debc86",
+        "exitCode": 1
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "CLOSED failed zero-native map presentation preflight before any resume SAVE or actor selection; P51 remains the only main input",
+        "sourceCount": 1149,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 36,
+        "historicalCompletedRepairs": 2,
+        "historicalPlunders": 1,
+        "completedRepairs": 2,
+        "newDistributions": 0,
+        "newPlunders": 0,
+        "newMarches": 0,
+        "newBuy": 0,
+        "newPayments": 0,
+        "newRecruitments": 0,
+        "newEnd": 0,
+        "newBattle": 0,
+        "newNativeSave": 0,
+        "newPublicSaves": 0,
+        "publicSaves": [],
+        "qualifiedSavedMarch": false,
+        "newPreparationAccepted": false,
+        "resumeEpochEstablished": false,
+        "mayRepeatCompletedAction": false,
+        "existingAuthoritativeInputUnmodified": true,
+        "publishedNewMainInput": false,
+        "retainedPriorMain": true,
+        "retainedPriorMainInput": true,
+        "loadedWorldEqualsP51": true,
+        "completePreparationProof": false,
+        "historicalPreparationProof": true,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "carryFoodActuallyDeducted": 0,
+        "moneySpent": 0,
+        "thewSpent": 0,
+        "actualIncomeObserved": false,
+        "actualIncomeAccepted": false,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "ordinaryEndAccepted": false,
+        "conditionalEndAuthorizedByThisController": false,
+        "bootstrapNativeKeysTotal": 4,
+        "sceneNativeKeys": 3,
+        "additionalStartupNativeKeys": 1,
+        "quantityConfirmations": 0,
+        "person131Confirmations": 0,
+        "independentPairCount": 8,
+        "actualTicketReads": 16,
+        "contentAddressedFullTickets": 2,
+        "completeWorldCheckpoints": 1,
+        "extraFinalWorld": true,
+        "finalPairMatchesActualWorld": true,
+        "seedFingerprint": "58fe84a618740ef5d08082ebf87a239fd36f1f39331ad404b0431798833daa53",
+        "ownProcessSeedStable": true,
+        "historicalSeedCompared": false,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "preflightPassed": false,
+        "classicMapFocusObserved": true,
+        "hdMapChoiceObserved": true,
+        "hdReturnFocusQualified": false,
+        "zeroNativeModeWorldRoundtripObserved": true,
+        "physicalPublicPointerEvents": 15,
+        "failureRecoveryNativeInputs": 0,
+        "failedBeforeResumeSaveStarted": true,
+        "originalFlags": {
+          "resultOk": false,
+          "scenarioOk": false,
+          "acceptedForPreparationClosure": false,
+          "actualPreparationAccepted": false,
+          "scenarioActualPreparationAccepted": false,
+          "scenarioActualMarchAccepted": false,
+          "cleanupTreeExited": true,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": true,
+        "supplementalReadOnlyClosureAccepted": null,
+        "rawFlagsRewritten": false,
+        "latestSavedPrefixTag": "wood67-131-v49-unused-plunder",
+        "latestPairPins": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "lastVerifiedWorldSha256": "5173b32033bd7bef64e377c377b1cfae9164a423c3c88beda35b6cab86311731",
+        "pendingPlunderOrder": {
+          "slot": 0,
+          "order": {
+            "OrderId": 26,
+            "Person": 44,
+            "City": 20,
+            "Object": 0,
+            "Arms": 29496,
+            "Food": 51,
+            "Money": 29496,
+            "Consume": 51,
+            "TimeCount": 0
+          }
+        },
+        "city20": {
+          "food": 1,
+          "money": 886,
+          "forecastFoodCredited": false
+        },
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1447,
+        "ignoredAllowed": 116,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 30805,
+            "sha256": "649857800fd66b55047b52d58383fbcacd4445e261145f0be48937958520a335"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 31590,
+            "sha256": "867c4e25ae5652543f8d4a3bcf69dc0ebe16ea228a59598ba8063d720079a936"
+          },
+          "change": "Only exact P52 archive byte attributes and four tested city4 LF rules appended after actual closure"
+        }
+      },
+      "main": {
+        "kind": "retained-prior",
+        "publishedNewMainInput": false,
+        "inputPins": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51.json",
+            "bytes": 302409,
+            "sha256": "c16f3969ee7fc4f9d9af5ecfa6942c075442e0d9a98aaa5e390cf84ccb210d79"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+            "bytes": 148009,
+            "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "lastSaveTag": "wood67-131-v49-unused-plunder",
+        "world": {
+          "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+          "bytes": 148009,
+          "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+        },
+        "pair": [
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+            "bytes": 4840,
+            "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+          }
+        ],
+        "historicalCompletedRepairs": 2,
+        "historicalPlunders": 1,
+        "newDistributions": 0,
+        "newPlunders": 0,
+        "newMarches": 0,
+        "newPublicSaves": 0,
+        "qualifiedSavedMarch": false,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "city4Food": 6785,
+        "city20Food": 1,
+        "city20Money": 886,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266,
+        "nextAction": {
+          "kind": "March",
+          "origin": 4,
+          "destination": 10,
+          "cargo": 451,
+          "orderIndex": 170
+        },
+        "actualSupplyIncomeAccepted": false,
+        "ordinaryEndAccepted": false
+      },
+      "supplementalClosure": null,
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": true,
+        "sourceBudgetIsActualIncome": false,
+        "originalPreflightFailed": true,
+        "newPlunder": 0,
+        "newMarch": 0,
+        "newSAVE": 0,
+        "newEND": 0,
+        "newBattle": 0,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousEightTrackedInputsRequired": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "sourceFilesModified": false,
+  "newBrowserRuns": 0,
+  "newNativeInputs": 0,
+  "newTargetExecutions": 0,
+  "newFullExecutions": 0,
+  "originalFlagsRewritten": false
+}

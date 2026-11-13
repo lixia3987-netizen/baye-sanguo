@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "kind": "V39 bounded original selected-classic attempts: protocol and checkpoint complete, WOOD movie target incomplete",
+  "terminal": {
+    "sessionId": 31188,
+    "chunkId": "d1acb9",
+    "exitCode": 0
+  },
+  "conclusion": {
+    "protocolAndCheckpointAccepted": true,
+    "allOriginalAttemptsRetained": true,
+    "freshNonPixelContracts": 15,
+    "deferredFullMovieOracle": 1,
+    "fullMovieOracleStatus": "not-run-incomplete-families",
+    "actualCastAccepted": false,
+    "actualClassicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "missingFamilies": [
+      6,
+      7
+    ]
+  },
+  "originalResultWrapper": {
+    "accepted": true,
+    "sourceRunAccepted": true,
+    "actualCastAccepted": false,
+    "hdAccepted": false
+  },
+  "originalControllerInline": {
+    "exitCode": 0,
+    "ok": true,
+    "accepted": true,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "hd720VisualAccepted": false,
+    "hd1080VisualAccepted": false,
+    "error": null
+  },
+  "originalFlags": {
+    "retainedUnchanged": true,
+    "rawCaptureFieldsChanged": false,
+    "scopeNote": "The original 16-stage receipt has an inherited pixel-stage title; that stage explicitly records strictOracleNotRun:true with missing families6/7. Passing the incomplete branch proves retention and classification only. It grants no movie/NUM/HOLD/classic/HD acceptance."
+  },
+  "actualFacts": {
+    "initialBattleMp": 84,
+    "totalAttempts": 4,
+    "successfulAttempts": 0,
+    "wood6NaturalFailures": 4,
+    "wood7Attempts": 0,
+    "totalMpPaid": 80,
+    "mpRecoveryBetweenAttemptsObserved": true,
+    "attempts": [
+      {
+        "skillId": 6,
+        "succeeded": false,
+        "generation": 3,
+        "eventId": null,
+        "actorId": 132,
+        "targetId": 4,
+        "mpBefore": 84,
+        "mpAfter": 64,
+        "mpDebited": 20,
+        "targetArmsBefore": 330,
+        "targetArmsAfter": 330,
+        "damage": 0,
+        "proofOnlyPollutionRejected": true,
+        "beforeOnlyPollutionRejected": true,
+        "afterOnlyPollutionRejected": true
+      },
+      {
+        "skillId": 6,
+        "succeeded": false,
+        "generation": 3,
+        "eventId": null,
+        "actorId": 132,
+        "targetId": 4,
+        "mpBefore": 65,
+        "mpAfter": 45,
+        "mpDebited": 20,
+        "targetArmsBefore": 330,
+        "targetArmsAfter": 330,
+        "damage": 0,
+        "proofOnlyPollutionRejected": true,
+        "beforeOnlyPollutionRejected": true,
+        "afterOnlyPollutionRejected": true
+      },
+      {
+        "skillId": 6,
+        "succeeded": false,
+        "generation": 3,
+        "eventId": null,
+        "actorId": 132,
+        "targetId": 170,
+        "mpBefore": 46,
+        "mpAfter": 26,
+        "mpDebited": 20,
+        "targetArmsBefore": 1620,
+        "targetArmsAfter": 1620,
+        "damage": 0,
+        "proofOnlyPollutionRejected": true,
+        "beforeOnlyPollutionRejected": true,
+        "afterOnlyPollutionRejected": true
+      },
+      {
+        "skillId": 6,
+        "succeeded": false,
+        "generation": 3,
+        "eventId": null,
+        "actorId": 132,
+        "targetId": 4,
+        "mpBefore": 26,
+        "mpAfter": 6,
+        "mpDebited": 20,
+        "targetArmsBefore": 330,
+        "targetArmsAfter": 330,
+        "damage": 0,
+        "proofOnlyPollutionRejected": true,
+        "beforeOnlyPollutionRejected": true,
+        "afterOnlyPollutionRejected": true
+      }
+    ],
+    "newPlunders": 1,
+    "newBuys": 0,
+    "newMoneyPaid": 0,
+    "plunderPerson": 44,
+    "plunderOrderSlot": 0,
+    "actualFoodGain": 645,
+    "actualMoneyGain": 258,
+    "marches": 1,
+    "marchOrderSlot": 170,
+    "marchFood": 481,
+    "naturalMonths": 1,
+    "publicDualSaves": 4,
+    "publicDisplaySwitches": 8,
+    "publicDisplaySwitchesArePixelAcceptance": false,
+    "capturedRows": 0,
+    "capturedPngFiles": 0,
+    "strictSelectedReadbacks": 0,
+    "completeMovieNumHoldFamilies": [],
+    "ordinaryPngScreenshots": 45
+  },
+  "pngScope": {
+    "auditComplete": true,
+    "ordinaryOriginalPngsDecoded": 45,
+    "allCrcDeflateFiltersValidated": true,
+    "capturedPngProofAvailable": false,
+    "captureSetEmpty": true,
+    "nativeLcdHdReadbackComparisons": 0,
+    "normalization": "Only RGB channels behind exactly alpha0 become0 on both compared buffers. Alpha and every RGB channel with nonzero alpha remain byte-exact. Counts and original/normalized hashes are retained per named PNG.",
+    "ordinaryScreenshotsHaveNoNativeReadbackMapping": true,
+    "emptySetDoesNotGrantPixelAcceptance": true,
+    "representativeRootVisualInspectionImages": 2
+  },
+  "latestSavedCheckpoint": {
+    "tag": "wood67-131-v39-wood-route-settled",
+    "date": [
+      239,
+      8
+    ],
+    "world": {
+      "original": {
+        "path": "build/impact-skill-20261014/wood67-v39-independent-v1/latest-world.json",
+        "bytes": 147947,
+        "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+      },
+      "published": {
+        "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+        "bytes": 147947,
+        "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+      }
+    },
+    "pair": [
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-wood-route-settled-sango0.sav",
+          "bytes": 8221,
+          "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+          "bytes": 8221,
+          "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+        }
+      },
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v39/native-wood67-131-v39-wood-route-settled-sango1.sav",
+          "bytes": 4840,
+          "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+          "bytes": 4840,
+          "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+        }
+      }
+    ],
+    "caster131": {
+      "belong": 1,
+      "city": 7,
+      "arms": 0,
+      "experience": 8,
+      "level": 17,
+      "thew": 100
+    },
+    "casterArmsLost": 2334,
+    "original2334ArmsNotRestored": true,
+    "anotherCastQualified": false,
+    "worker44Thew": 16,
+    "city20": {
+      "food": 493,
+      "money": 1086,
+      "strictCurrentRequired": 267
+    },
+    "currentOwnedSupplyAssessment": {
+      "accepted": true,
+      "rows": [
+        {
+          "city": 4,
+          "residentIds": [
+            33,
+            29
+          ],
+          "returningArmy": [],
+          "pendingIds": [],
+          "totalArms": 500,
+          "monthlyRatio": 50,
+          "requiredFood": 11,
+          "food": 6560,
+          "money": 30000,
+          "actualSafe": true
+        },
+        {
+          "city": 5,
+          "residentIds": [
+            7,
+            59,
+            62
+          ],
+          "returningArmy": [],
+          "pendingIds": [],
+          "totalArms": 300,
+          "monthlyRatio": 50,
+          "requiredFood": 7,
+          "food": 2940,
+          "money": 18597,
+          "actualSafe": true
+        },
+        {
+          "city": 6,
+          "residentIds": [
+            51,
+            36,
+            5,
+            21
+          ],
+          "returningArmy": [],
+          "pendingIds": [],
+          "totalArms": 400,
+          "monthlyRatio": 50,
+          "requiredFood": 9,
+          "food": 10092,
+          "money": 30000,
+          "actualSafe": true
+        },
+        {
+          "city": 7,
+          "residentIds": [
+            131,
+            68,
+            48,
+            28,
+            6,
+            27,
+            25,
+            12
+          ],
+          "returningArmy": [],
+          "pendingIds": [],
+          "totalArms": 600,
+          "monthlyRatio": 50,
+          "requiredFood": 13,
+          "food": 17527,
+          "money": 30000,
+          "actualSafe": true
+        },
+        {
+          "city": 13,
+          "residentIds": [
+            60,
+            43,
+            37,
+            39,
+            23
+          ],
+          "returningArmy": [],
+          "pendingIds": [],
+          "totalArms": 500,
+          "monthlyRatio": 50,
+          "requiredFood": 11,
+          "food": 8134,
+          "money": 30000,
+          "actualSafe": true
+        },
+        {
+          "city": 16,
+          "residentIds": [
+            40,
+            20,
+            0
+          ],
+          "returningArmy": [],
+          "pendingIds": [],
+          "totalArms": 4377,
+          "monthlyRatio": 50,
+          "requiredFood": 88,
+          "food": 907,
+          "money": 12429,
+          "actualSafe": true
+        },
+        {
+          "city": 20,
+          "residentIds": [
+            44,
+            50,
+            52,
+            38,
+            10,
+            11,
+            70,
+            69,
+            17,
+            8,
+            30,
+            45
+          ],
+          "returningArmy": [],
+          "pendingIds": [],
+          "totalArms": 13339,
+          "monthlyRatio": 50,
+          "requiredFood": 267,
+          "food": 493,
+          "money": 1086,
+          "actualSafe": true
+        }
+      ],
+      "ignoredPendingAlreadyResident": [],
+      "globalResidentDeduplication": true,
+      "includeReturningArmy": true,
+      "futureIncomeCredited": false,
+      "referenceArmyReinserted": false,
+      "sourceOnly": true,
+      "publicInputAccepted": false,
+      "publicSaveAccepted": false,
+      "nativeExecutionAccepted": false,
+      "actualSupplyIncomeAccepted": false,
+      "actualMarchAccepted": false,
+      "actualPreparationAccepted": false,
+      "actualMonthAccepted": false,
+      "actualBattleMpObserved": false,
+      "actualCastAccepted": false,
+      "classicNativePixelAccepted": false,
+      "hdAccepted": false,
+      "globalHdComplete": false,
+      "rngContinuityAccepted": false
+    },
+    "anotherENDAuthorized": false
+  },
+  "source": {
+    "logicalRecords": 581,
+    "explicitFiles": 570,
+    "native128Aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+    "executedTool": {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/executed-tool.mjs",
+      "bytes": 647992,
+      "sha256": "efd7953c63eae92fff6f8bf5a15a46d041e3fe0bd2c8c64d69cf45a46d427721"
+    },
+    "vector": {
+      "path": "build/impact-skill-20261014/wood67-battle-actual-v39/source-verification.json",
+      "bytes": 206160,
+      "sha256": "719f3b5afa9da1144adcfc24b3efb44d39afc334c38a2a1acd42c2c44d288c7d"
+    },
+    "closedLock": {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-source-lock-v1/receipt.json",
+      "bytes": 109841,
+      "sha256": "e19a8c06a3c48b797b7134e1422c6de92bf99ee2051d001fa8a9af900418aa3c"
+    },
+    "criticalOriginalCopies": 8,
+    "fullSourceCheckoutRequired": true
+  },
+  "independentVerification": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-v39-independent-v1/independent-receipt.json",
+      "bytes": 613355,
+      "sha256": "103c630ea21f73da761efb54f974001416a8c8f89869120b4a90c6529cab9882"
+    },
+    "scopeProjection": {
+      "path": "build/impact-skill-20261014/wood67-v39-closed-scope-v2.json",
+      "bytes": 8925,
+      "sha256": "ca46365915bbcb4abd0282f004c48b2bf2e9c769171016015911124a6c49ef49"
+    },
+    "pngReceipt": {
+      "path": "build/impact-skill-20261014/wood67-v39-original-png-independent-v2.json",
+      "bytes": 29921,
+      "sha256": "ca5fbcd757c622c9776cd675a4e7867d6deb316743398ba39297faf87ed0b588"
+    },
+    "pngClosedInput": {
+      "path": "build/impact-skill-20261014/wood67-v39-png-closed-input-v1.json",
+      "bytes": 12257,
+      "sha256": "757d1ddce18331270b3145f10f0c78290f7c4df4a9864630895845dbfa5bd132"
+    },
+    "economyReceipt": {
+      "path": "build/impact-skill-20261014/wood67-v39-economy-latest-save-independent-v1.json",
+      "bytes": 25458,
+      "sha256": "124e54a39df6b20a0b5e1a2ac29e34e052366d97994c7d2a6578ca004e9490c2"
+    },
+    "rootTerminal": {
+      "path": "build/impact-skill-20261014/wood67-v39-root-closed-tool-record-v1.json",
+      "bytes": 1105,
+      "sha256": "affdbbb224452a182a023a5b5906f8a3a317c21cefa6f242a068f4759ec13a97"
+    },
+    "rootVisual": {
+      "path": "build/impact-skill-20261014/wood67-v39-root-visual-review-v1.json",
+      "bytes": 1480,
+      "sha256": "3fb767d355719f42d16b56a6effa94c5874f4556805b53792127bd15003db52f"
+    }
+  },
+  "cleanup": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-battle-v39-external-cleanup-v1.json",
+      "bytes": 3267,
+      "sha256": "7ab0696b37c290c6e6bc48163207741933ef0b52d658eec2812fb979e554b003"
+    },
+    "ownedUnion": {
+      "path": "build/impact-skill-20261014/wood67-battle-v39-owned-union-v1.json",
+      "bytes": 3337,
+      "sha256": "da7687ef9f020832c2950dc90c734f0c81e6f286387fff492f30ca90fb304b40"
+    },
+    "exactRecordedIdentities": 11,
+    "matchingOwnedIdentities": 0,
+    "privateListeners": 0,
+    "user8080Unchanged": true,
+    "profilePreserved": true,
+    "directoriesDeleted": false
+  },
+  "regression": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-v39-root-full-regression-v1.json",
+      "bytes": 2031,
+      "sha256": "1c8073be2a89f9558bced70ef241ef7505aa28ddbb6aa2ac0154b3a9c377c602"
+    },
+    "log": {
+      "path": "build/hd-full-suite-20261024-v39.log",
+      "bytes": 613378,
+      "sha256": "52fdd2e6f46c710e4b33c64b76bacf2ab88ec32948854ea58d9b92ffece67708"
+    },
+    "registeredFiles": 133,
+    "pass": 7177,
+    "newDifferentTests": 125,
+    "components": {
+      "suppliedContinuation": 90,
+      "classicPresentation": 35
+    },
+    "runBeforeThisActualSession": true,
+    "rerunByPublication": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v39-archive.json",
+    "bytes": 106603,
+    "sha256": "3b2e96379df50d075fcfc65c0ea6b8dc37f562f68ec00a61f062c706a15367a3"
+  },
+  "archiveTransport": {
+    "serializedPartBytes": 64545024,
+    "parts": 9,
+    "maximumPartBytes": 8338309,
+    "chunkedFiles": 0,
+    "wholeOriginalFileShaPreserved": true,
+    "limits": {
+      "singleRawFileBytes": 268435456,
+      "totalRawNamedBytes": 536870912,
+      "totalCompressedAndSerializedPartBytes": 201326592,
+      "partBytes": 8388608,
+      "rawChunkBytes": 4194304
+    }
+  },
+  "screenshots": [
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/wood67-battle-actual-v39/WOOD6-natural-failure-1.png",
+        "bytes": 3125355,
+        "sha256": "968622f62dc28cd132fc5373db94f029f2fcef410a2d56266b78a1a5f4545483"
+      },
+      "published": {
+        "path": "docs/validation/m5-wood67-classic-20261024-v39-failure-1.png",
+        "bytes": 3125355,
+        "sha256": "968622f62dc28cd132fc5373db94f029f2fcef410a2d56266b78a1a5f4545483"
+      },
+      "caption": "原始整页截图：第一次滚木自然失败；右下经典窗口不是成功电影像素验收。",
+      "nativeReadbackCompared": false
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/wood67-battle-actual-v39/wood67-131-v39-wood-route-settled-public-SAVE.png",
+        "bytes": 3130268,
+        "sha256": "42882609981f24b04acfbeb283d0e288a0f3c61f13d84b1c9aa1a3330931a03a"
+      },
+      "published": {
+        "path": "docs/validation/m5-wood67-classic-20261024-v39-settled-save.png",
+        "bytes": 3130268,
+        "sha256": "42882609981f24b04acfbeb283d0e288a0f3c61f13d84b1c9aa1a3330931a03a"
+      },
+      "caption": "原始整页截图：239年8月公共SAVE后的地图；不授电影或NUM/HOLD验收。",
+      "nativeReadbackCompared": false
+    }
+  ],
+  "boundary": {
+    "portableClosedSourceArchive": false,
+    "fullRuntimeSourceTreeCopied": false,
+    "matchingCheckoutNeededForFullSourceReplay": true,
+    "oldArchivesTraversed": false,
+    "priorInputScope": "Only exact four V38 July published files; old archive parts/history not traversed.",
+    "privateProfileArchived": false,
+    "newGameInputsByPublication": 0,
+    "newBrowserRunsByPublication": 0,
+    "originalRawExitAndFlagsRewritten": false,
+    "nextStrategyENDNotAuthorized": true,
+    "rngContinuityAccepted": false,
+    "fullClassicControlsAccepted": false,
+    "selectedClassicMovieAcceptance": false,
+    "globalHdComplete": false
+  }
+}

@@ -1,0 +1,1966 @@
+{
+  "schemaVersion": 1,
+  "id": "m4-qimen20-matrix-20261011",
+  "status": "accepted-limited-three-scenarios",
+  "accepted": true,
+  "actualCastAccepted": true,
+  "matrixAccepted": true,
+  "skillId": 20,
+  "speId": 39,
+  "scope": "Three fresh original-game public-load/march/cast runs at the frozen240874 product source:720p HD, exact picture0 missing1080p LCD fallback, classic1080p LCD fallback. Earlier1080p pilot remains a distinct historical record.",
+  "scenarios": [
+    {
+      "scenario": "installed720",
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "result": {
+        "path": "build/r37-qimen20-actual-v1-installed720/result.json",
+        "bytes": 13407488,
+        "sha256": "fd9db49db31a4a749572b95189e1c3755dfd1a065dd3385218df69cae86c0ba3"
+      },
+      "terminal": {
+        "path": "build/r37-qimen20-actual-v1-installed720-execution.json",
+        "bytes": 2517,
+        "sha256": "30bccff443180b51f03290ebee3bfc820e32b1f32e6d25183ff5c667cbc806f0"
+      },
+      "console": {
+        "path": "build/r37-qimen20-actual-v1-installed720-console.log",
+        "bytes": 598,
+        "sha256": "6b758d8b32a537ee6a7e4f04dd4139e90b00ba6ac9f348bb45f2eb947a187766"
+      },
+      "preflight": {
+        "result": {
+          "path": "build/r37-qimen20-preflight-v1-installed720/result.json",
+          "bytes": 878980,
+          "sha256": "2b60e06b5b5989aaade4cb2bfe413204bf9319f8b646f8ff9986aba792c2f42f"
+        },
+        "terminal": {
+          "path": "build/r37-qimen20-preflight-v1-installed720-execution.json",
+          "bytes": 2362,
+          "sha256": "6a1ffde630d5c85636365aa6b3214d2d3ba99331bd9afcdcce926b65ee028c0e"
+        },
+        "gameplayAccepted": false
+      },
+      "family": {
+        "skillId": 20,
+        "eventId": 4,
+        "actorIndex": 0,
+        "targetIndex": 1,
+        "nativeCallbacks": 8,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "hdReadbacks": 8,
+        "mpCost": 20,
+        "targetStateBefore": 0,
+        "targetStateAfter": 4,
+        "targetMoveBefore": 4,
+        "targetMoveAfter": 4,
+        "reportedText": "吴兰 陷入了 奇门 状态",
+        "statusReports": 1,
+        "reportAcknowledgements": 1,
+        "numericReadbacks": 0,
+        "holdReadbacks": 0
+      },
+      "actor": {
+        "id": 189,
+        "personIndex": 188,
+        "name": "南方小鬼",
+        "mpBefore": 146,
+        "mpAfter": 126
+      },
+      "target": {
+        "id": 145,
+        "personIndex": 144,
+        "name": "吴兰",
+        "hpBefore": 81,
+        "hpAfter": 81,
+        "armsBefore": 100,
+        "armsAfter": 100,
+        "stateBefore": 0,
+        "stateAfter": 4,
+        "moveBefore": 4,
+        "moveAfter": 4
+      },
+      "originalSpeSampleBoundary": {
+        "rawSamples": 150,
+        "finalSamples": 163,
+        "exactPrefix": true,
+        "additionalLateInactiveSamples": 13
+      },
+      "independentEvidence": {
+        "scenario": "installed720",
+        "issues": [],
+        "result": {
+          "path": "build/r37-qimen20-actual-v1-installed720/result.json",
+          "bytes": 13407488,
+          "sha256": "fd9db49db31a4a749572b95189e1c3755dfd1a065dd3385218df69cae86c0ba3"
+        },
+        "execution": {
+          "path": "build/r37-qimen20-actual-v1-installed720-execution.json",
+          "bytes": 2517,
+          "sha256": "30bccff443180b51f03290ebee3bfc820e32b1f32e6d25183ff5c667cbc806f0"
+        },
+        "accepted": true,
+        "actualCastAccepted": true,
+        "hdAccepted": true,
+        "fallbackAccepted": false,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "sourceClosure": {
+          "logical": 1223,
+          "physical": 1219,
+          "currentBytesShaRecomputed": 1223
+        },
+        "copies": {
+          "count": 8,
+          "snapshots": 32,
+          "commits": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "nativeRomChecked": 8,
+          "physical": [
+            {
+              "frame": 0,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "outside64window",
+              "mismatches": 0
+            },
+            {
+              "frame": 1,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "outside64window",
+              "mismatches": 0
+            }
+          ],
+          "pngRefs": [
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0000-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0000-movie-hd.png",
+              "bytes": 1169569,
+              "sha256": "ceb92a59a9288e976dff3645b4f07870cd0ab24baa556e2e6db8c3804de254f4"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0000-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0001-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0001-movie-hd.png",
+              "bytes": 1191352,
+              "sha256": "d3bd78918d696d8ce27f6c948301060fcbe64f8fb32dabb138520fa75dd0ce96"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0001-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0002-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0002-movie-hd.png",
+              "bytes": 1169569,
+              "sha256": "ceb92a59a9288e976dff3645b4f07870cd0ab24baa556e2e6db8c3804de254f4"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0002-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0003-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0003-movie-hd.png",
+              "bytes": 1191352,
+              "sha256": "d3bd78918d696d8ce27f6c948301060fcbe64f8fb32dabb138520fa75dd0ce96"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0003-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0004-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0004-movie-hd.png",
+              "bytes": 1169569,
+              "sha256": "ceb92a59a9288e976dff3645b4f07870cd0ab24baa556e2e6db8c3804de254f4"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0004-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0005-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0005-movie-hd.png",
+              "bytes": 1191352,
+              "sha256": "d3bd78918d696d8ce27f6c948301060fcbe64f8fb32dabb138520fa75dd0ce96"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0005-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0006-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0006-movie-hd.png",
+              "bytes": 1169569,
+              "sha256": "ceb92a59a9288e976dff3645b4f07870cd0ab24baa556e2e6db8c3804de254f4"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0006-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0007-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0007-movie-hd.png",
+              "bytes": 1191352,
+              "sha256": "d3bd78918d696d8ce27f6c948301060fcbe64f8fb32dabb138520fa75dd0ce96"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0007-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            }
+          ]
+        },
+        "attempt": {
+          "skill20": true,
+          "spe39": true,
+          "aimFriendly": true,
+          "actor188": true,
+          "target144": true,
+          "mp": [
+            146,
+            126
+          ],
+          "state": [
+            0,
+            4
+          ],
+          "move": [
+            4,
+            4
+          ],
+          "hp": [
+            81,
+            81
+          ],
+          "arms": [
+            100,
+            100
+          ],
+          "confirmationKeys": [
+            35,
+            39
+          ],
+          "fullActionKeys": [
+            35,
+            39,
+            39
+          ],
+          "movieOrResultKeys": 0
+        },
+        "report": {
+          "count": 1,
+          "acks": 1,
+          "text": "吴兰 陷入了 奇门 状态",
+          "retiredAt": 35942,
+          "lastMovieAt": 34277.20000000298,
+          "nativeCallbackForwardSnapshotBound": true
+        },
+        "sampleBoundary": {
+          "stored": 150,
+          "result": 163,
+          "exactPrefix": true,
+          "neutralRetiredSuffix": 13
+        },
+        "rawSidecars": [
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/native-liuyan-captures.json",
+            "bytes": 5521167,
+            "sha256": "bbf75667c991fe933f16402ef326938310cd6aecaba01e5c6f273d4e34f4af2d"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/native-report-observations.json",
+            "bytes": 304114,
+            "sha256": "c1a124296f4f6476e1bd7aa7f1ad1b9f55df7396611f5da675bdbfb53b8f05c8"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/observer-errors.json",
+            "bytes": 3,
+            "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/engine-inputs.json",
+            "bytes": 16523,
+            "sha256": "8d83cfcecacfde7d6c377269ab7f2427d7c3629a5f9a2e4ed03b35e7720c95ac"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/source-verification.json",
+            "bytes": 435681,
+            "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/spe-observations.json",
+            "bytes": 3228967,
+            "sha256": "6589ae93e83f5635e578e1caf0def64bfe1cb5f8718708485c6fba59c17d054c"
+          }
+        ],
+        "rootIsolationPending": false,
+        "naturalReleaseAccepted": false,
+        "isolation": {
+          "jsonl": {
+            "path": "build/r37-qimen20-actual-v1-installed720/owned-process-samples.jsonl",
+            "bytes": 37181,
+            "sha256": "17a9b9db83ea0df1bb674c18b38ec8073ae01769dc233e07217395851df26cd1"
+          },
+          "rows": 4,
+          "ownedPidBirthUnion": 11,
+          "finalCleanupIdentityCount": 8,
+          "earlyHistoricalIdentities": 3,
+          "exactHistoricalSets": true,
+          "ownedAncestryVerified": true,
+          "unrelatedFullCommandLines": 0,
+          "allHistoricalGone": true,
+          "privatePortsGone": true,
+          "userService": {
+            "pid": 57860,
+            "birth": "2026-10-10T11:26:04.2797180Z",
+            "httpStatus": 200,
+            "preserved": true
+          },
+          "profileRetained": true,
+          "rootProofs": [
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720-after-execution.json",
+              "bytes": 4533,
+              "sha256": "c65906610d7f562e7f1384aab15155e270c41f6bfd4acafadc2579b76b1efd35"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720-verified-historical-owned-union-v1.json",
+              "bytes": 6733,
+              "sha256": "5f9290d3cc0e7de10e9fb88dddbfaa577d4a57a7f8ea18277b888990837df9ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720-root-historical-exit-v1.json",
+              "bytes": 3711,
+              "sha256": "9bbbbd6bd1b141b1ac624a5a27e8cfb44fb43c8deb72d2c98b1948d6749d1ede"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-installed720-root-after-isolation-v1.json",
+              "bytes": 3090,
+              "sha256": "93c9d9e6c581f872166cce4d3d64b6e2e5cb29271090363a9f63081c73bbdcde"
+            }
+          ],
+          "boundary": "Pure file review of root terminal OS proofs; this auditor did not query OS."
+        },
+        "publicLoad": {
+          "sourceProfile": "approved-v5",
+          "tag": "caster188-owned",
+          "pair": [
+            {
+              "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+              "bytes": 8221,
+              "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+            },
+            {
+              "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+              "bytes": 4840,
+              "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+            }
+          ],
+          "fullAbiPeople": 200,
+          "fullAbiCities": 38,
+          "readBeforeAfterWorldEqual": true,
+          "dispatchOrder": {
+            "orderId": 27,
+            "from": 31,
+            "to": 32,
+            "army": [
+              189,
+              145,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "actualContextAndClearChecked": true,
+        "terminal": {
+          "path": "build/r37-qimen20-actual-v1-installed720-execution.json",
+          "bytes": 2517,
+          "sha256": "30bccff443180b51f03290ebee3bfc820e32b1f32e6d25183ff5c667cbc806f0"
+        }
+      },
+      "visualInspection": {
+        "scenario": "installed720",
+        "result": {
+          "path": "build/r37-qimen20-actual-v1-installed720/result.json",
+          "bytes": 13407488,
+          "sha256": "fd9db49db31a4a749572b95189e1c3755dfd1a065dd3385218df69cae86c0ba3"
+        },
+        "execution": {
+          "path": "build/r37-qimen20-actual-v1-installed720-execution.json",
+          "bytes": 2517,
+          "sha256": "30bccff443180b51f03290ebee3bfc820e32b1f32e6d25183ff5c667cbc806f0"
+        },
+        "viewedOriginalFiles": [
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/liuyan-0000-movie-hd.png",
+            "bytes": 1169569,
+            "sha256": "ceb92a59a9288e976dff3645b4f07870cd0ab24baa556e2e6db8c3804de254f4"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-installed720/actual-report-1.png",
+            "bytes": 172504,
+            "sha256": "00c6fbdb8fa08ef10bcac5b0a1cc7950482ebccf30d1a262b2780aa526f7a9d7"
+          }
+        ],
+        "observation": "Viewed the original HD canvas: native map remains around the centered artwork. The 1280x720 report screenshot reads Wu Lan entered QIMEN and is inside the viewport."
+      },
+      "cleanup": {
+        "after": {
+          "path": "build/r37-qimen20-actual-v1-installed720-after-execution.json",
+          "bytes": 4533,
+          "sha256": "c65906610d7f562e7f1384aab15155e270c41f6bfd4acafadc2579b76b1efd35"
+        },
+        "historicalUnion": {
+          "path": "build/r37-qimen20-actual-v1-installed720-verified-historical-owned-union-v1.json",
+          "bytes": 6733,
+          "sha256": "5f9290d3cc0e7de10e9fb88dddbfaa577d4a57a7f8ea18277b888990837df9ce"
+        },
+        "historicalExit": {
+          "path": "build/r37-qimen20-actual-v1-installed720-root-historical-exit-v1.json",
+          "bytes": 3711,
+          "sha256": "9bbbbd6bd1b141b1ac624a5a27e8cfb44fb43c8deb72d2c98b1948d6749d1ede"
+        },
+        "isolation": {
+          "path": "build/r37-qimen20-actual-v1-installed720-root-after-isolation-v1.json",
+          "bytes": 3090,
+          "sha256": "93c9d9e6c581f872166cce4d3d64b6e2e5cb29271090363a9f63081c73bbdcde"
+        },
+        "historicalIdentityCount": 11,
+        "allRecordedHistoricalOwnedGone": true,
+        "userServicePreserved": true,
+        "privatePortsGone": true,
+        "profileArchived": false,
+        "profileIntentionallyRetained": true,
+        "directoriesDeleted": false
+      },
+      "source": {
+        "revision": {
+          "revision": "240874cb1ab96ab30bc24b02b420c759fb22c7dd",
+          "modified": false,
+          "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+        },
+        "logicalCount": 1223,
+        "physicalCount": 1219,
+        "sourceList": {
+          "path": "build/r37-qimen20-actual-v1-installed720/source-verification.json",
+          "bytes": 435681,
+          "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+        },
+        "externalPhysicalSourceFiles": true,
+        "nativeCount": 128,
+        "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+        "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+        "engineSourceModified": true,
+        "engineQuartet": [
+          {
+            "path": "js/baye.js",
+            "bytes": 192446,
+            "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+            "archived": false
+          },
+          {
+            "path": "js/baye.wasm",
+            "bytes": 4535346,
+            "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+            "archived": false
+          },
+          {
+            "path": "js/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+            "archived": false
+          },
+          {
+            "path": "js/baye.build.json",
+            "bytes": 16650,
+            "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+            "archived": false
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "missing1080",
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "result": {
+        "path": "build/r37-qimen20-actual-v1-missing1080/result.json",
+        "bytes": 14005891,
+        "sha256": "624bbb01f21f99242ad9522c45078d3685db89bd3859e5f6f5ebb1aa0b6b4058"
+      },
+      "terminal": {
+        "path": "build/r37-qimen20-actual-v1-missing1080-execution.json",
+        "bytes": 2528,
+        "sha256": "54d64b749a18983e5724dc46d5925244a80e156680808ff4a75cf068fe39b02a"
+      },
+      "console": {
+        "path": "build/r37-qimen20-actual-v1-missing1080-console.log",
+        "bytes": 597,
+        "sha256": "1ac697eaa0a4900ea772a8dff92108fde5a3930cef6f1a0a70c4205e97ac7320"
+      },
+      "preflight": {
+        "result": {
+          "path": "build/r37-qimen20-preflight-v1-missing1080/result.json",
+          "bytes": 879058,
+          "sha256": "aae51d9d832029e3056622fcc3e902f7f52322dc130762a6ca6e3309f79b2e4c"
+        },
+        "terminal": {
+          "path": "build/r37-qimen20-preflight-v1-missing1080-execution.json",
+          "bytes": 2374,
+          "sha256": "0c944fb085a72ab1440f263bb2375526070916763946fef735a54a2af9d6d173"
+        },
+        "gameplayAccepted": false
+      },
+      "family": {
+        "skillId": 20,
+        "eventId": 4,
+        "actorIndex": 0,
+        "targetIndex": 1,
+        "nativeCallbacks": 8,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "hdReadbacks": 0,
+        "mpCost": 20,
+        "targetStateBefore": 0,
+        "targetStateAfter": 4,
+        "targetMoveBefore": 4,
+        "targetMoveAfter": 4,
+        "reportedText": "吴兰 陷入了 奇门 状态",
+        "statusReports": 1,
+        "reportAcknowledgements": 1,
+        "numericReadbacks": 0,
+        "holdReadbacks": 0
+      },
+      "actor": {
+        "id": 189,
+        "personIndex": 188,
+        "name": "南方小鬼",
+        "mpBefore": 146,
+        "mpAfter": 126
+      },
+      "target": {
+        "id": 145,
+        "personIndex": 144,
+        "name": "吴兰",
+        "hpBefore": 81,
+        "hpAfter": 81,
+        "armsBefore": 100,
+        "armsAfter": 100,
+        "stateBefore": 0,
+        "stateAfter": 4,
+        "moveBefore": 4,
+        "moveAfter": 4
+      },
+      "originalSpeSampleBoundary": {
+        "rawSamples": 152,
+        "finalSamples": 181,
+        "exactPrefix": true,
+        "additionalLateInactiveSamples": 29
+      },
+      "independentEvidence": {
+        "scenario": "missing1080",
+        "issues": [],
+        "result": {
+          "path": "build/r37-qimen20-actual-v1-missing1080/result.json",
+          "bytes": 14005891,
+          "sha256": "624bbb01f21f99242ad9522c45078d3685db89bd3859e5f6f5ebb1aa0b6b4058"
+        },
+        "execution": {
+          "path": "build/r37-qimen20-actual-v1-missing1080-execution.json",
+          "bytes": 2528,
+          "sha256": "54d64b749a18983e5724dc46d5925244a80e156680808ff4a75cf068fe39b02a"
+        },
+        "accepted": true,
+        "actualCastAccepted": true,
+        "hdAccepted": false,
+        "fallbackAccepted": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "sourceClosure": {
+          "logical": 1223,
+          "physical": 1219,
+          "currentBytesShaRecomputed": 1223
+        },
+        "copies": {
+          "count": 8,
+          "snapshots": 32,
+          "commits": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "nativeRomChecked": 8,
+          "physical": [
+            {
+              "frame": 0,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            },
+            {
+              "frame": 1,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            },
+            {
+              "frame": 2,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            },
+            {
+              "frame": 3,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            },
+            {
+              "frame": 4,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            },
+            {
+              "frame": 5,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            },
+            {
+              "frame": 6,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            },
+            {
+              "frame": 7,
+              "width": 1760,
+              "height": 1056,
+              "comparison": "full-canvas",
+              "mismatches": 0
+            }
+          ],
+          "pngRefs": [
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0000-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0000-movie-hd.png",
+              "bytes": 53945,
+              "sha256": "f2e92dd1d06123b376fa62b0c583f7c2bca6433cf4919e55fc78fee49fbeebea"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0000-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0001-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0001-movie-hd.png",
+              "bytes": 53900,
+              "sha256": "a668f4e9d2a8e960c88fe12b9f37f268a08b02ed57e65b5b6722a5e79db07173"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0001-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0002-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0002-movie-hd.png",
+              "bytes": 53945,
+              "sha256": "f2e92dd1d06123b376fa62b0c583f7c2bca6433cf4919e55fc78fee49fbeebea"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0002-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0003-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0003-movie-hd.png",
+              "bytes": 53900,
+              "sha256": "a668f4e9d2a8e960c88fe12b9f37f268a08b02ed57e65b5b6722a5e79db07173"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0003-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0004-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0004-movie-hd.png",
+              "bytes": 53945,
+              "sha256": "f2e92dd1d06123b376fa62b0c583f7c2bca6433cf4919e55fc78fee49fbeebea"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0004-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0005-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0005-movie-hd.png",
+              "bytes": 53900,
+              "sha256": "a668f4e9d2a8e960c88fe12b9f37f268a08b02ed57e65b5b6722a5e79db07173"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0005-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0006-movie-native.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0006-movie-hd.png",
+              "bytes": 53945,
+              "sha256": "f2e92dd1d06123b376fa62b0c583f7c2bca6433cf4919e55fc78fee49fbeebea"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0006-movie-lcd.png",
+              "bytes": 5395,
+              "sha256": "56b5696f6b4d6fe67c6e17cc2f840063b0e74c7773d61ad25fd15ef76a6fd606"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0007-movie-native.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0007-movie-hd.png",
+              "bytes": 53900,
+              "sha256": "a668f4e9d2a8e960c88fe12b9f37f268a08b02ed57e65b5b6722a5e79db07173"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0007-movie-lcd.png",
+              "bytes": 5344,
+              "sha256": "b98fd26bcbd9e2ff9e00bf7fa3cb682571e0dcb3775e78f8f1bfa1cbdbc523ce"
+            }
+          ]
+        },
+        "attempt": {
+          "skill20": true,
+          "spe39": true,
+          "aimFriendly": true,
+          "actor188": true,
+          "target144": true,
+          "mp": [
+            146,
+            126
+          ],
+          "state": [
+            0,
+            4
+          ],
+          "move": [
+            4,
+            4
+          ],
+          "hp": [
+            81,
+            81
+          ],
+          "arms": [
+            100,
+            100
+          ],
+          "confirmationKeys": [
+            35,
+            39
+          ],
+          "fullActionKeys": [
+            35,
+            39,
+            39
+          ],
+          "movieOrResultKeys": 0
+        },
+        "report": {
+          "count": 1,
+          "acks": 1,
+          "text": "吴兰 陷入了 奇门 状态",
+          "retiredAt": 43317.29999999702,
+          "lastMovieAt": 41561.60000000149,
+          "nativeCallbackForwardSnapshotBound": true
+        },
+        "sampleBoundary": {
+          "stored": 152,
+          "result": 181,
+          "exactPrefix": true,
+          "neutralRetiredSuffix": 29
+        },
+        "rawSidecars": [
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/native-liuyan-captures.json",
+            "bytes": 5504437,
+            "sha256": "b22fe67b78f45199364f00def715918c9134e99f10f67670ab9c75f75651699e"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/native-report-observations.json",
+            "bytes": 470540,
+            "sha256": "8e8e719be367c46329d05e58951a0307e9849dd4f5de8c05bbc8a4930fa7d80a"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/observer-errors.json",
+            "bytes": 3,
+            "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/engine-inputs.json",
+            "bytes": 16505,
+            "sha256": "790448893f4534dbd257f5066b8673912f1f71252652759720b5ecadc323305a"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/source-verification.json",
+            "bytes": 435681,
+            "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/spe-observations.json",
+            "bytes": 3272533,
+            "sha256": "6238b8151b804d4cc3b594f11f8192ef4c5e3f038d5d50ba02494e3d8fb30983"
+          }
+        ],
+        "rootIsolationPending": false,
+        "naturalReleaseAccepted": false,
+        "isolation": {
+          "jsonl": {
+            "path": "build/r37-qimen20-actual-v1-missing1080/owned-process-samples.jsonl",
+            "bytes": 39262,
+            "sha256": "7aae04251a42c5fdc20a755169379e2b65e316772e6695cb86bfe563906578ce"
+          },
+          "rows": 4,
+          "ownedPidBirthUnion": 15,
+          "finalCleanupIdentityCount": 8,
+          "earlyHistoricalIdentities": 7,
+          "exactHistoricalSets": true,
+          "ownedAncestryVerified": true,
+          "unrelatedFullCommandLines": 0,
+          "allHistoricalGone": true,
+          "privatePortsGone": true,
+          "userService": {
+            "pid": 57860,
+            "birth": "2026-10-10T11:26:04.2797180Z",
+            "httpStatus": 200,
+            "preserved": true
+          },
+          "profileRetained": true,
+          "rootProofs": [
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080-after-execution.json",
+              "bytes": 4522,
+              "sha256": "c3766550dbf62d551b22b4999433cdbb4c5bbf6686d24e6ec7dc1cd47628669b"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080-verified-historical-owned-union-v1.json",
+              "bytes": 8908,
+              "sha256": "f46ff2c763453ffeb27b945273fe24b2ccfdc583feb0ee32fa3858c33097e10f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080-root-historical-exit-v1.json",
+              "bytes": 4443,
+              "sha256": "ba02fcc2eed9b6299a01f043d32cfa3b6c505287e71b6f0b7101c106a1d24227"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-missing1080-root-after-isolation-v1.json",
+              "bytes": 3088,
+              "sha256": "29e6e45dc374581d9a4d72223878013e84a8e9592f46724fe795afaef9f3eb5c"
+            }
+          ],
+          "boundary": "Pure file review of root terminal OS proofs; this auditor did not query OS.",
+          "auxiliaryOwnedDescendants": [
+            {
+              "pid": 84836,
+              "birth": "2026-10-10T18:10:52.3913230Z",
+              "parent": 87432,
+              "executable": "C:\\Program Files (x86)\\Google\\GoogleUpdater\\156.0.8067.0\\updater.exe"
+            },
+            {
+              "pid": 50648,
+              "birth": "2026-10-10T18:10:52.4076640Z",
+              "parent": 84836,
+              "executable": "C:\\Program Files (x86)\\Google\\GoogleUpdater\\156.0.8067.0\\updater.exe"
+            },
+            {
+              "pid": 70452,
+              "birth": "2026-10-10T18:10:52.4249150Z",
+              "parent": 84836,
+              "executable": "C:\\Program Files (x86)\\Google\\GoogleUpdater\\156.0.8067.0\\updater.exe"
+            },
+            {
+              "pid": 79324,
+              "birth": "2026-10-10T18:10:52.4391930Z",
+              "parent": 70452,
+              "executable": "C:\\Program Files (x86)\\Google\\GoogleUpdater\\156.0.8067.0\\updater.exe"
+            }
+          ],
+          "rootChromeAndAllDescendantParentBirthChecked": true
+        },
+        "missingAsset": {
+          "exactPath": "assets/hd-spe/qimen-39/picture-0.png",
+          "requests": [
+            {
+              "url": "/assets/hd-spe/qimen-39/picture-0.png",
+              "status": 404,
+              "scenario": "exact selected QIMEN39 picture0 intentionally unavailable"
+            }
+          ],
+          "allEightFullLcd": true
+        },
+        "publicLoad": {
+          "sourceProfile": "approved-v5",
+          "tag": "caster188-owned",
+          "pair": [
+            {
+              "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+              "bytes": 8221,
+              "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+            },
+            {
+              "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+              "bytes": 4840,
+              "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+            }
+          ],
+          "fullAbiPeople": 200,
+          "fullAbiCities": 38,
+          "readBeforeAfterWorldEqual": true,
+          "dispatchOrder": {
+            "orderId": 27,
+            "from": 31,
+            "to": 32,
+            "army": [
+              189,
+              145,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "actualContextAndClearChecked": true,
+        "terminal": {
+          "path": "build/r37-qimen20-actual-v1-missing1080-execution.json",
+          "bytes": 2528,
+          "sha256": "54d64b749a18983e5724dc46d5925244a80e156680808ff4a75cf068fe39b02a"
+        }
+      },
+      "visualInspection": {
+        "scenario": "missing1080",
+        "result": {
+          "path": "build/r37-qimen20-actual-v1-missing1080/result.json",
+          "bytes": 14005891,
+          "sha256": "624bbb01f21f99242ad9522c45078d3685db89bd3859e5f6f5ebb1aa0b6b4058"
+        },
+        "execution": {
+          "path": "build/r37-qimen20-actual-v1-missing1080-execution.json",
+          "bytes": 2528,
+          "sha256": "54d64b749a18983e5724dc46d5925244a80e156680808ff4a75cf068fe39b02a"
+        },
+        "viewedOriginalFiles": [
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0000-movie-hd.png",
+            "bytes": 53945,
+            "sha256": "f2e92dd1d06123b376fa62b0c583f7c2bca6433cf4919e55fc78fee49fbeebea"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/liuyan-0001-movie-hd.png",
+            "bytes": 53900,
+            "sha256": "a668f4e9d2a8e960c88fe12b9f37f268a08b02ed57e65b5b6722a5e79db07173"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-missing1080/actual-report-1.png",
+            "bytes": 254474,
+            "sha256": "d40c7a313b0a059f7c5455414afa6ac75ce64cd6d74dbcc6767c01a78d29e02f"
+          }
+        ],
+        "observation": "Viewed the original fallback canvas in two actual frames: native LCD map, with no HD artwork. The report screenshot visibly names Wu Lan and QIMEN."
+      },
+      "cleanup": {
+        "after": {
+          "path": "build/r37-qimen20-actual-v1-missing1080-after-execution.json",
+          "bytes": 4522,
+          "sha256": "c3766550dbf62d551b22b4999433cdbb4c5bbf6686d24e6ec7dc1cd47628669b"
+        },
+        "historicalUnion": {
+          "path": "build/r37-qimen20-actual-v1-missing1080-verified-historical-owned-union-v1.json",
+          "bytes": 8908,
+          "sha256": "f46ff2c763453ffeb27b945273fe24b2ccfdc583feb0ee32fa3858c33097e10f"
+        },
+        "historicalExit": {
+          "path": "build/r37-qimen20-actual-v1-missing1080-root-historical-exit-v1.json",
+          "bytes": 4443,
+          "sha256": "ba02fcc2eed9b6299a01f043d32cfa3b6c505287e71b6f0b7101c106a1d24227"
+        },
+        "isolation": {
+          "path": "build/r37-qimen20-actual-v1-missing1080-root-after-isolation-v1.json",
+          "bytes": 3088,
+          "sha256": "29e6e45dc374581d9a4d72223878013e84a8e9592f46724fe795afaef9f3eb5c"
+        },
+        "historicalIdentityCount": 15,
+        "allRecordedHistoricalOwnedGone": true,
+        "userServicePreserved": true,
+        "privatePortsGone": true,
+        "profileArchived": false,
+        "profileIntentionallyRetained": true,
+        "directoriesDeleted": false
+      },
+      "source": {
+        "revision": {
+          "revision": "240874cb1ab96ab30bc24b02b420c759fb22c7dd",
+          "modified": false,
+          "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+        },
+        "logicalCount": 1223,
+        "physicalCount": 1219,
+        "sourceList": {
+          "path": "build/r37-qimen20-actual-v1-missing1080/source-verification.json",
+          "bytes": 435681,
+          "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+        },
+        "externalPhysicalSourceFiles": true,
+        "nativeCount": 128,
+        "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+        "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+        "engineSourceModified": true,
+        "engineQuartet": [
+          {
+            "path": "js/baye.js",
+            "bytes": 192446,
+            "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+            "archived": false
+          },
+          {
+            "path": "js/baye.wasm",
+            "bytes": 4535346,
+            "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+            "archived": false
+          },
+          {
+            "path": "js/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+            "archived": false
+          },
+          {
+            "path": "js/baye.build.json",
+            "bytes": 16650,
+            "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+            "archived": false
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "classic1080",
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "result": {
+        "path": "build/r37-qimen20-actual-v1-classic1080/result.json",
+        "bytes": 12477164,
+        "sha256": "c049ea0c10b450a817340c4c393e92e37f9f3d3333f96c6aa814ce28ce9e1b9b"
+      },
+      "terminal": {
+        "path": "build/r37-qimen20-actual-v1-classic1080-execution.json",
+        "bytes": 2516,
+        "sha256": "5dcb3fe030d8f9f7b33c86413ae1149766eaa97fa167a81162bddf15fc11145d"
+      },
+      "console": {
+        "path": "build/r37-qimen20-actual-v1-classic1080-console.log",
+        "bytes": 576,
+        "sha256": "dad5f47403291f248751c10ce4e5966e7aa04ac0e50eff40820f5ba56e4d42d0"
+      },
+      "preflight": {
+        "result": {
+          "path": "build/r37-qimen20-preflight-v1-classic1080/result.json",
+          "bytes": 878984,
+          "sha256": "e7936435c1ca14f7b9ca146956746e6b1084cff507c154826168bfc1765b5ae7"
+        },
+        "terminal": {
+          "path": "build/r37-qimen20-preflight-v1-classic1080-execution.json",
+          "bytes": 2362,
+          "sha256": "b516c317d1a9bf95182aac1f35a67b987a03271d3beb1e25a68008f8a7579f3e"
+        },
+        "gameplayAccepted": false
+      },
+      "family": {
+        "skillId": 20,
+        "eventId": 4,
+        "actorIndex": 0,
+        "targetIndex": 1,
+        "nativeCallbacks": 8,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "hdReadbacks": 0,
+        "mpCost": 20,
+        "targetStateBefore": 0,
+        "targetStateAfter": 4,
+        "targetMoveBefore": 4,
+        "targetMoveAfter": 4,
+        "reportedText": "吴兰 陷入了 奇门 状态",
+        "statusReports": 1,
+        "reportAcknowledgements": 0,
+        "numericReadbacks": 0,
+        "holdReadbacks": 0
+      },
+      "actor": {
+        "id": 189,
+        "personIndex": 188,
+        "name": "南方小鬼",
+        "mpBefore": 146,
+        "mpAfter": 126
+      },
+      "target": {
+        "id": 145,
+        "personIndex": 144,
+        "name": "吴兰",
+        "hpBefore": 81,
+        "hpAfter": 81,
+        "armsBefore": 100,
+        "armsAfter": 100,
+        "stateBefore": 0,
+        "stateAfter": 4,
+        "moveBefore": 4,
+        "moveAfter": 4
+      },
+      "originalSpeSampleBoundary": {
+        "rawSamples": 148,
+        "finalSamples": 149,
+        "exactPrefix": true,
+        "additionalLateInactiveSamples": 1
+      },
+      "independentEvidence": {
+        "scenario": "classic1080",
+        "issues": [],
+        "result": {
+          "path": "build/r37-qimen20-actual-v1-classic1080/result.json",
+          "bytes": 12477164,
+          "sha256": "c049ea0c10b450a817340c4c393e92e37f9f3d3333f96c6aa814ce28ce9e1b9b"
+        },
+        "execution": {
+          "path": "build/r37-qimen20-actual-v1-classic1080-execution.json",
+          "bytes": 2516,
+          "sha256": "5dcb3fe030d8f9f7b33c86413ae1149766eaa97fa167a81162bddf15fc11145d"
+        },
+        "accepted": true,
+        "actualCastAccepted": true,
+        "hdAccepted": false,
+        "fallbackAccepted": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "sourceClosure": {
+          "logical": 1223,
+          "physical": 1219,
+          "currentBytesShaRecomputed": 1223
+        },
+        "copies": {
+          "count": 8,
+          "snapshots": 32,
+          "commits": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "nativeRomChecked": 8,
+          "physical": [
+            {
+              "frame": 0,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            },
+            {
+              "frame": 1,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            },
+            {
+              "frame": 2,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            },
+            {
+              "frame": 3,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            },
+            {
+              "frame": 4,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            },
+            {
+              "frame": 5,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            },
+            {
+              "frame": 6,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            },
+            {
+              "frame": 7,
+              "width": 160,
+              "height": 96,
+              "comparison": "actual-visible-LCD-canvas-and-PNG",
+              "mismatches": 0
+            }
+          ],
+          "pngRefs": [
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0000-movie-native.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0000-movie-lcd.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0001-movie-native.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0001-movie-lcd.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0002-movie-native.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0002-movie-lcd.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0003-movie-native.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0003-movie-lcd.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0004-movie-native.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0004-movie-lcd.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0005-movie-native.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0005-movie-lcd.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0006-movie-native.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0006-movie-lcd.png",
+              "bytes": 5380,
+              "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0007-movie-native.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0007-movie-lcd.png",
+              "bytes": 5329,
+              "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+            }
+          ],
+          "hdCanvasHidden": true,
+          "uiSourceRect": null,
+          "actualLcdDimensions": {
+            "width": 160,
+            "height": 96
+          }
+        },
+        "attempt": {
+          "skill20": true,
+          "spe39": true,
+          "aimFriendly": true,
+          "actor188": true,
+          "target144": true,
+          "mp": [
+            146,
+            126
+          ],
+          "state": [
+            0,
+            4
+          ],
+          "move": [
+            4,
+            4
+          ],
+          "hp": [
+            81,
+            81
+          ],
+          "arms": [
+            100,
+            100
+          ],
+          "confirmationKeys": [
+            35,
+            39
+          ],
+          "fullActionKeys": [
+            35,
+            39
+          ],
+          "movieOrResultKeys": 0
+        },
+        "report": {
+          "count": 1,
+          "acks": 0,
+          "text": "吴兰 陷入了 奇门 状态",
+          "observedNativeActiveAt": 36052.69999999553,
+          "retiredAt": 39579.69999999553,
+          "lastMovieAt": 35697.89999999851,
+          "source": "native-report-callback",
+          "attemptAckRecords": 0,
+          "nativeReportInputSeq": [
+            7,
+            8
+          ],
+          "naturalTimedRetirement": true,
+          "nativeCallbackForwardSnapshotBound": true
+        },
+        "sampleBoundary": {
+          "stored": 148,
+          "result": 149,
+          "exactPrefix": true,
+          "neutralRetiredSuffix": 1
+        },
+        "rawSidecars": [
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/native-liuyan-captures.json",
+            "bytes": 4843117,
+            "sha256": "1ea4c0035a3dc4c2f0af739c02d9d86c044fc7f5992bad818c48a7de3b155609"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/native-report-observations.json",
+            "bytes": 304140,
+            "sha256": "633002c4ac5a9fb92a1b1139f9270a55d2de9735db7143158dbb55366396f108"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/observer-errors.json",
+            "bytes": 3,
+            "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/engine-inputs.json",
+            "bytes": 16277,
+            "sha256": "3489f12168764818ea15e603bcc25e0daeb9c7790d8f52857f9daf227b5f5fbe"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/source-verification.json",
+            "bytes": 435681,
+            "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/spe-observations.json",
+            "bytes": 3184037,
+            "sha256": "9679e7f399977ed8be494d3f338371f91b14199010e66d4895d435b8db512315"
+          }
+        ],
+        "classicPublicMode": {
+          "switchAndRestoreWorldEqual": true,
+          "switchAndRestoreKeys": 0,
+          "targetKeys": [
+            35,
+            39
+          ],
+          "actualArrowOwnerMaskFocusChecked": true,
+          "oneEnter": true
+        },
+        "rootIsolationPending": false,
+        "naturalReleaseAccepted": false,
+        "isolation": {
+          "jsonl": {
+            "path": "build/r37-qimen20-actual-v1-classic1080/owned-process-samples.jsonl",
+            "bytes": 37161,
+            "sha256": "b49aeba62084f9bad76d7ae78021a1f32373dda59215ebfa84e36cfc517fc0bc"
+          },
+          "rows": 4,
+          "ownedPidBirthUnion": 11,
+          "finalCleanupIdentityCount": 8,
+          "earlyHistoricalIdentities": 3,
+          "exactHistoricalSets": true,
+          "ownedAncestryVerified": true,
+          "unrelatedFullCommandLines": 0,
+          "allHistoricalGone": true,
+          "privatePortsGone": true,
+          "userService": {
+            "pid": 57860,
+            "birth": "2026-10-10T11:26:04.2797180Z",
+            "httpStatus": 200,
+            "preserved": true
+          },
+          "profileRetained": true,
+          "rootProofs": [
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080-after-execution.json",
+              "bytes": 4522,
+              "sha256": "8bf7b76f795d0b7a5acf3e0445d6d540c8abe6c448b2d5e07f2481ea59617f0d"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080-verified-historical-owned-union-v1.json",
+              "bytes": 6728,
+              "sha256": "c6d7fbd38244a6f54bc09b9306872a75ef7ff0bf341cde7eb631712366b30940"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080-root-historical-exit-v1.json",
+              "bytes": 3707,
+              "sha256": "5643aeb93a3cab92c13eac5fdaa229a8878dd362c49705dea351822c626d663c"
+            },
+            {
+              "path": "build/r37-qimen20-actual-v1-classic1080-root-after-isolation-v1.json",
+              "bytes": 3086,
+              "sha256": "0f09c28f883ad4bf0253933a3a78570c7289345da17a3e71a0701d99141965d4"
+            }
+          ],
+          "boundary": "Pure file review of root terminal OS proofs; this auditor did not query OS."
+        },
+        "publicLoad": {
+          "sourceProfile": "approved-v5",
+          "tag": "caster188-owned",
+          "pair": [
+            {
+              "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+              "bytes": 8221,
+              "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+            },
+            {
+              "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+              "bytes": 4840,
+              "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+            }
+          ],
+          "fullAbiPeople": 200,
+          "fullAbiCities": 38,
+          "readBeforeAfterWorldEqual": true,
+          "dispatchOrder": {
+            "orderId": 27,
+            "from": 31,
+            "to": 32,
+            "army": [
+              189,
+              145,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "actualContextAndClearChecked": true,
+        "terminal": {
+          "path": "build/r37-qimen20-actual-v1-classic1080-execution.json",
+          "bytes": 2516,
+          "sha256": "5dcb3fe030d8f9f7b33c86413ae1149766eaa97fa167a81162bddf15fc11145d"
+        }
+      },
+      "visualInspection": {
+        "scenario": "classic1080",
+        "result": {
+          "path": "build/r37-qimen20-actual-v1-classic1080/result.json",
+          "bytes": 12477164,
+          "sha256": "c049ea0c10b450a817340c4c393e92e37f9f3d3333f96c6aa814ce28ce9e1b9b"
+        },
+        "execution": {
+          "path": "build/r37-qimen20-actual-v1-classic1080-execution.json",
+          "bytes": 2516,
+          "sha256": "5dcb3fe030d8f9f7b33c86413ae1149766eaa97fa167a81162bddf15fc11145d"
+        },
+        "viewedOriginalFiles": [
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0000-movie-lcd.png",
+            "bytes": 5380,
+            "sha256": "63d056a88392b6ed5594b2b0de11fc3730040797d3d86f7e0aec84bfa4d29bfd"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/liuyan-0001-movie-lcd.png",
+            "bytes": 5329,
+            "sha256": "0c964b3ba72c22449f01bdbd55f5c5b35dea90554ccd9dda112482abc1493a1f"
+          },
+          {
+            "path": "build/r37-qimen20-actual-v1-classic1080/skill20-actual-qimen-1.png",
+            "bytes": 276604,
+            "sha256": "94e5637b6ef978c7b094db395bb55b711448e11adae328920b13ed55ce1d25ee"
+          }
+        ],
+        "observation": "Viewed both actual 160x96 LCD frames and the after-cast screenshot showing MP126 and the returned battle interface. There is no report screenshot for this run; the observed native report and retirement are supported separately by raw records."
+      },
+      "cleanup": {
+        "after": {
+          "path": "build/r37-qimen20-actual-v1-classic1080-after-execution.json",
+          "bytes": 4522,
+          "sha256": "8bf7b76f795d0b7a5acf3e0445d6d540c8abe6c448b2d5e07f2481ea59617f0d"
+        },
+        "historicalUnion": {
+          "path": "build/r37-qimen20-actual-v1-classic1080-verified-historical-owned-union-v1.json",
+          "bytes": 6728,
+          "sha256": "c6d7fbd38244a6f54bc09b9306872a75ef7ff0bf341cde7eb631712366b30940"
+        },
+        "historicalExit": {
+          "path": "build/r37-qimen20-actual-v1-classic1080-root-historical-exit-v1.json",
+          "bytes": 3707,
+          "sha256": "5643aeb93a3cab92c13eac5fdaa229a8878dd362c49705dea351822c626d663c"
+        },
+        "isolation": {
+          "path": "build/r37-qimen20-actual-v1-classic1080-root-after-isolation-v1.json",
+          "bytes": 3086,
+          "sha256": "0f09c28f883ad4bf0253933a3a78570c7289345da17a3e71a0701d99141965d4"
+        },
+        "historicalIdentityCount": 11,
+        "allRecordedHistoricalOwnedGone": true,
+        "userServicePreserved": true,
+        "privatePortsGone": true,
+        "profileArchived": false,
+        "profileIntentionallyRetained": true,
+        "directoriesDeleted": false
+      },
+      "source": {
+        "revision": {
+          "revision": "240874cb1ab96ab30bc24b02b420c759fb22c7dd",
+          "modified": false,
+          "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+        },
+        "logicalCount": 1223,
+        "physicalCount": 1219,
+        "sourceList": {
+          "path": "build/r37-qimen20-actual-v1-classic1080/source-verification.json",
+          "bytes": 435681,
+          "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+        },
+        "externalPhysicalSourceFiles": true,
+        "nativeCount": 128,
+        "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+        "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+        "engineSourceModified": true,
+        "engineQuartet": [
+          {
+            "path": "js/baye.js",
+            "bytes": 192446,
+            "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+            "archived": false
+          },
+          {
+            "path": "js/baye.wasm",
+            "bytes": 4535346,
+            "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+            "archived": false
+          },
+          {
+            "path": "js/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+            "archived": false
+          },
+          {
+            "path": "js/baye.build.json",
+            "bytes": 16650,
+            "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+            "archived": false
+          }
+        ]
+      }
+    }
+  ],
+  "nativeContract": {
+    "skillId": 20,
+    "aim": 1,
+    "mp": 20,
+    "state": 4,
+    "moveUnchanged": true,
+    "resultKind": 2,
+    "value": 0,
+    "speId": 39,
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "fingerprint": "fnv1a32:6b0ebc5a:1084",
+    "window": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "clearTicks": 25,
+    "nextTicks": 25,
+    "numericResult": false,
+    "numericHold": false
+  },
+  "totals": {
+    "acceptedScenarios": 3,
+    "nativeCallbacks": 24,
+    "hdCallbacks": 8,
+    "lcdFallbackCallbacks": 16,
+    "statusReports": 3,
+    "reportAcknowledgements": 2
+  },
+  "independentAudit": {
+    "path": "build/r37-qimen20-remaining-three-terminal-independent-audit-v1.json",
+    "bytes": 45061,
+    "sha256": "50068e5fdb43c2973c2a1cbfaefa99827e5b7702a47b5de9a783f321d3e7ec57"
+  },
+  "visualInspection": {
+    "path": "build/r37-qimen20-matrix-visual-inspection-root-v1.json",
+    "bytes": 4436,
+    "sha256": "6f5dbc1de5bd119c4e67ce76ae3a7f9fcc43e515cf829a0f6997bab3a504beb3"
+  },
+  "executedFreeze": {
+    "path": "build/r34-qimen20-runtime-final-freeze-v2.json",
+    "bytes": 6251,
+    "sha256": "ad47b2cb0c1c9b75dbeff9ed725540073fb13bf0305557685608ac1eab77ec03"
+  },
+  "executedSources": [
+    {
+      "path": "build/r34-test-hd-qimen20-runtime-candidate-v2.mjs",
+      "bytes": 121984,
+      "sha256": "16589808ca398a1280f5280e282cb23cfe5f4f2632c6c555e8b1ce5ff3906415"
+    },
+    {
+      "path": "build/r34-qimen20-runtime-oracle-v1.mjs",
+      "bytes": 24304,
+      "sha256": "22797ecbb4107723a930b02da049be2d2441ad656586226d7c0067440d530a85"
+    },
+    {
+      "path": "build/r34-qimen20-observer-v1.mjs",
+      "bytes": 15277,
+      "sha256": "14d345bd06d345caad73cda30ee2dc75239d80b1df4d912b067b153f21bdb5d6"
+    },
+    {
+      "path": "build/r34-qimen20-pixels-v1.mjs",
+      "bytes": 10740,
+      "sha256": "8e57f3bc8aafe58d7e66d6276e90a11593b82438545714c47873c32b7fed947a"
+    }
+  ],
+  "specification": {
+    "path": "scripts/specs/hd-spe-qimen20.json",
+    "bytes": 1922,
+    "sha256": "2a5b54cf4e6fa9b50f74d6dbc70873dd08945b1a18ad035d988202b0c011cd43"
+  },
+  "inputOriginalPair": [
+    {
+      "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+    },
+    {
+      "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+    }
+  ],
+  "newPublicSaveCreated": false,
+  "inputPairReencoded": false,
+  "naturalReleaseAccepted": false,
+  "fullHdAccepted": false,
+  "wholeHdAccepted": false,
+  "performanceAccepted": false,
+  "mobileAccepted": false,
+  "portableClosedArchive": false,
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-qimen20-matrix-20261011/runtime-index.json",
+      "bytes": 89062,
+      "sha256": "bfef4e1be9afaded694b36de38af1251c50124fe4675711110e7594d292154ff"
+    },
+    "logicalRawFiles": 175,
+    "uniqueGzipFiles": 106,
+    "rawLogicalBytes": 101537380,
+    "gzipBytes": 23517886,
+    "originalBytesPreserved": true,
+    "aliasesPreserved": true,
+    "gzipRoundtripVerified": true,
+    "portableClosedArchive": false,
+    "limits": [
+      "Full1219 production/native source files and parent phase2 result remain external",
+      "No profile, user storage or unrelated process inventory is included",
+      "Original SPE samples are exact prefixes with separately counted late inactive additions, not asserted equal-length",
+      "Only listed original images were visually viewed; complete pixels are separately independently audited",
+      "No natural state release, duration, performance, mobile or whole-game-HD acceptance"
+    ]
+  },
+  "externalReferences": {
+    "priorInstalled1080Canonical": {
+      "path": "docs/validation/m4-qimen20-runtime-20261011.json",
+      "bytes": 10130,
+      "sha256": "825f75c0f433b2adc4ca29b3833542318fdba688d7e312181e1d5547593d607c",
+      "archived": false,
+      "scope": "Earlier cf12500 installed1080 pilot; not relabelled as this 240874 matrix"
+    },
+    "phase2Result": {
+      "path": "build/r22-aid-phase2-actual-v5/result.json",
+      "bytes": 48322439,
+      "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782",
+      "archived": false,
+      "portable": false
+    },
+    "physicalSourceFiles": {
+      "count": 1219,
+      "archived": false,
+      "sourceLists": [
+        {
+          "path": "build/r37-qimen20-actual-v1-installed720/source-verification.json",
+          "bytes": 435681,
+          "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+        },
+        {
+          "path": "build/r37-qimen20-actual-v1-missing1080/source-verification.json",
+          "bytes": 435681,
+          "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+        },
+        {
+          "path": "build/r37-qimen20-actual-v1-classic1080/source-verification.json",
+          "bytes": 435681,
+          "sha256": "c814374a0c941166a3f12c74c3464a5317a8f0236f1321799304d06c31faef72"
+        }
+      ]
+    },
+    "nativeFiles": {
+      "count": 128,
+      "aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+      "archived": false
+    }
+  },
+  "publisher": {
+    "path": "build/r37-publish-qimen20-matrix-candidate-v1.mjs",
+    "bytes": 26263,
+    "sha256": "485ecf25fdff8c2738b71734b1d6c965f0f3ec7cc1c92a7c86894b12ff0428b8"
+  }
+}

@@ -1,0 +1,556 @@
+{
+  "capturedAt": "2026-10-08T17:53:44.967Z",
+  "rootActualViewCount": 16,
+  "art": [
+    {
+      "groupOrdinal": 32,
+      "original": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+      "sha256": "43ac13927ced4412d0c448b0c8fbb31474108df36086036f57f399e505a6cef2",
+      "bytes": 664801,
+      "note": "Viewed original: one right-facing low forward foot soldier, short up-right implement, full head/feet and implement within transparent margins."
+    },
+    {
+      "groupOrdinal": 44,
+      "original": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+      "sha256": "4d7fd163c56a67f559efbf6bb60087d6c81a66d2abacb9a74d63e0f0d758aa5a",
+      "bytes": 451132,
+      "note": "Viewed original: one right-facing compact walking figure in simple robe/headwrap, short bent implement with up-right top; ordinary figure retained."
+    },
+    {
+      "groupOrdinal": 49,
+      "original": "assets/hd-spe/attacks/shared/6515bbedb4dbc4717c2beda2a1b3e93962a2c22ab4c9146130ad648ce29fe45e.png",
+      "sha256": "7752a8e85e07016a7ac607ea316ae7ef65b7cea589702a4486e1b277ca23f398",
+      "bytes": 2096215,
+      "note": "Viewed original: opaque wide composition with two separated sailboats left/right and water between; no UI or text."
+    },
+    {
+      "groupOrdinal": 50,
+      "original": "assets/hd-spe/attacks/shared/d54e1f602bf2c28318129062de7056367fc4643f2d64a760489e69499dbb91fe.png",
+      "sha256": "65ffa9613a86d121ecf239623624eacfecb002770d46f67371f043b890023630",
+      "bytes": 1560312,
+      "note": "Viewed original: opaque short up-right arrow; complete shaft, feathers and head within margins; no UI or text."
+    }
+  ],
+  "runtime": [
+    {
+      "original": "build/r12-infantry-target2-installed-v1/attack-0035-event7-spe-frame-hd.png",
+      "sha256": "cd7a0eb4f85fc5550c87779e29b97152954108d16ff2b1deff293a915b35a612",
+      "bytes": 1707914,
+      "note": "Actual selected player first movie HD frame: right-facing infantry at left, left-facing bow defender at right; full figures and no premature number."
+    },
+    {
+      "original": "build/r12-infantry-target2-installed-v1/attack-0042-event7-spe-frame-hd.png",
+      "sha256": "e83395b097a9989b19d027ff42c77002b31efa2fb4c6c7a78a4f15673ccbf1be",
+      "bytes": 1331466,
+      "note": "Actual selected last movie HD frame: infantry attack action and falling bow defender; original native composition retained."
+    },
+    {
+      "original": "build/r12-infantry-target2-installed-v1/attack-0053-event7-after-spe-hd.png",
+      "sha256": "1d739f7fd0a2a15894fa80eec22b5cd95aac0a689a71c5ac9b9e06f869a13100",
+      "bytes": 1301563,
+      "note": "Actual selected last numeric phase: actual hurt94 readable; native opaque clears erase part of the nearby leg and leave lower digit trails, retained rather than repainted."
+    },
+    {
+      "original": "build/r12-infantry-target2-installed-v1/attack-0054-event7-held-lcd-readback-hd.png",
+      "sha256": "1d739f7fd0a2a15894fa80eec22b5cd95aac0a689a71c5ac9b9e06f869a13100",
+      "bytes": 1301563,
+      "note": "Actual held canvas readback: displayed numeric composition retained; equal-byte image to the last numeric frame, no claim of a separately captured timed-flush hold."
+    },
+    {
+      "original": "build/r12-cavalry-target2-installed-v2/attack-0043-event7-spe-frame-hd.png",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "paintSeq": 0,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 1,
+        "target": 14,
+        "hurt": 100,
+        "session": 2
+      },
+      "sha256": "a9bb80de36b665d5e952a0bc84381d643ecaf9b331ce66c6d37095de8cbede31",
+      "bytes": 1748882,
+      "note": "Actually viewed selected player HD movie frame; rider/bow or bow/bow actions and original native composition retained."
+    },
+    {
+      "original": "build/r12-cavalry-target2-installed-v2/attack-0051-event7-spe-frame-hd.png",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "paintSeq": 0,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 1,
+        "target": 14,
+        "hurt": 100,
+        "session": 2
+      },
+      "sha256": "0cdf15b9e2ab57170b1dcebb5ac242b17df1e65a7fae85cd9c77606a6cfcc1ee",
+      "bytes": 1272223,
+      "note": "Actually viewed selected player HD movie frame; rider/bow or bow/bow actions and original native composition retained."
+    },
+    {
+      "original": "build/r12-cavalry-target2-installed-v2/attack-0069-event7-after-spe-hd.png",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "paintSeq": 24,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 1,
+        "target": 14,
+        "hurt": 100,
+        "session": 2
+      },
+      "sha256": "bfbd40c06d64600b29c9d98434cca6f620c528b325080d4d3e4d62becbca755e",
+      "bytes": 1234764,
+      "note": "Actually viewed selected final native-number HD composition; actual hurt100 readable, native clearing/trails retained."
+    },
+    {
+      "original": "build/r12-cavalry-target2-installed-v2/attack-0070-event7-held-lcd-readback-hd.png",
+      "stage": "held-lcd-readback",
+      "phase": "hold",
+      "paintSeq": 24,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 1,
+        "target": 14,
+        "hurt": 100,
+        "session": 2
+      },
+      "sha256": "bfbd40c06d64600b29c9d98434cca6f620c528b325080d4d3e4d62becbca755e",
+      "bytes": 1234764,
+      "note": "Actually viewed selected held canvas readback; byte-equal to displayed final numeric image. No separate timed-flush frame inferred."
+    },
+    {
+      "original": "build/r12-bow-target2-installed-v1/attack-0000-event5-spe-frame-hd.png",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "paintSeq": 0,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 14,
+        "hurt": 63,
+        "session": 1
+      },
+      "sha256": "7ffe3625e2a120dc47c9d0cc302c619048a68afb7a398ff2625212d54f5032e9",
+      "bytes": 1709312,
+      "note": "Actually viewed selected player HD movie frame; rider/bow or bow/bow actions and original native composition retained."
+    },
+    {
+      "original": "build/r12-bow-target2-installed-v1/attack-0004-event5-spe-frame-hd.png",
+      "stage": "spe-frame",
+      "phase": "movie",
+      "paintSeq": 0,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 14,
+        "hurt": 63,
+        "session": 1
+      },
+      "sha256": "9d28cdd5af12c088d18466350393da36453795c40bb849913d34e52491f9e051",
+      "bytes": 1464625,
+      "note": "Actually viewed selected player HD movie frame; rider/bow or bow/bow actions and original native composition retained."
+    },
+    {
+      "original": "build/r12-bow-target2-installed-v1/attack-0015-event5-after-spe-hd.png",
+      "stage": "after-spe",
+      "phase": "numbers",
+      "paintSeq": 16,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 14,
+        "hurt": 63,
+        "session": 1
+      },
+      "sha256": "f365514c859b30a4a0b8d7f47924fdcec47cd4a941f44393ead975e5ca4e152a",
+      "bytes": 1418137,
+      "note": "Actually viewed selected final native-number HD composition; actual hurt63 readable, native clearing/trails retained."
+    },
+    {
+      "original": "build/r12-bow-target2-installed-v1/attack-0016-event5-held-lcd-readback-hd.png",
+      "stage": "held-lcd-readback",
+      "phase": "hold",
+      "paintSeq": 16,
+      "hurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 14,
+        "hurt": 63,
+        "session": 1
+      },
+      "sha256": "f365514c859b30a4a0b8d7f47924fdcec47cd4a941f44393ead975e5ca4e152a",
+      "bytes": 1418137,
+      "note": "Actually viewed selected held canvas readback; byte-equal to displayed final numeric image. No separate timed-flush frame inferred."
+    }
+  ],
+  "scope": "Exactly four root art and twelve root runtime original views; no assertion all683 captures viewed. Full raw native fidelity comes from independent actual LIB pixel-oracle verification, not transparency visibility in a black viewer.",
+  "notes": "Numeric and held readback views preserve native opaque erasure and digit trails. Same-byte held images are actual observations, not a separately captured timed-flush frame.",
+  "executionAgentActualViewCount": 18,
+  "executionAgentViewList": [
+    {
+      "dir": "build/r12-infantry-target2-installed-v1",
+      "method": "tools.view_image on original paths; no image editing/re-encoding/cropping",
+      "observations": "Complete infantry sword tips/feet and bow defender bow/string/plume/feet. Held94 readable. Native opaque12x16 number history removes part of the rear foot; no reconstruction of intact scene is claimed.",
+      "selected": [
+        {
+          "file": "build/r12-infantry-target2-installed-v1/attack-0035-event7-spe-frame-hd.png",
+          "bytes": 1707914,
+          "sha256": "cd7a0eb4f85fc5550c87779e29b97152954108d16ff2b1deff293a915b35a612",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-infantry-target2-installed-v1/attack-0035-event7-spe-frame-native.png",
+          "bytes": 2855,
+          "sha256": "a193d04ed89d8d3a45af28e78dab69363eaf3e57b7d9b0ad372750b535205031",
+          "role": "native",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-infantry-target2-installed-v1/attack-0042-event7-spe-frame-hd.png",
+          "bytes": 1331466,
+          "sha256": "e83395b097a9989b19d027ff42c77002b31efa2fb4c6c7a78a4f15673ccbf1be",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-infantry-target2-installed-v1/attack-0042-event7-spe-frame-native.png",
+          "bytes": 3005,
+          "sha256": "4ccf9219ad4f6f3386315813b2de4e254fa817c7588456fc0abb0270364031e5",
+          "role": "native",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-infantry-target2-installed-v1/attack-0054-event7-held-lcd-readback-hd.png",
+          "bytes": 1301563,
+          "sha256": "1d739f7fd0a2a15894fa80eec22b5cd95aac0a689a71c5ac9b9e06f869a13100",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-infantry-target2-installed-v1/attack-0054-event7-held-lcd-readback-native.png",
+          "bytes": 3069,
+          "sha256": "147044751c45522fc2b1fe7268839e881ff7df1e3ce4d829a680f0495db109fe",
+          "role": "native",
+          "viewed": true
+        }
+      ]
+    },
+    {
+      "dir": "build/r12-bow-target2-installed-v1",
+      "method": "tools.view_image on original paths; no image editing/re-encoding/cropping",
+      "observations": "Both facing archers retain complete bow/string/arrow tips/plumes/feet. Held63 readable. Gold tail under3 and unequal final digit heights preserve the native per-digit upward draw history.",
+      "selected": [
+        {
+          "file": "build/r12-bow-target2-installed-v1/attack-0000-event5-spe-frame-hd.png",
+          "bytes": 1709312,
+          "sha256": "7ffe3625e2a120dc47c9d0cc302c619048a68afb7a398ff2625212d54f5032e9",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-bow-target2-installed-v1/attack-0000-event5-spe-frame-native.png",
+          "bytes": 3281,
+          "sha256": "a6c56c17cf9c0b8bdde91c6b972c3534144cb5885fa3a5494eb3f28991543906",
+          "role": "native",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-bow-target2-installed-v1/attack-0004-event5-spe-frame-hd.png",
+          "bytes": 1464625,
+          "sha256": "9d28cdd5af12c088d18466350393da36453795c40bb849913d34e52491f9e051",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-bow-target2-installed-v1/attack-0004-event5-spe-frame-native.png",
+          "bytes": 3453,
+          "sha256": "128a6b396809e21c856b079b029f7273377121f8e39e7c7d0e3102f49f2fe17d",
+          "role": "native",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-bow-target2-installed-v1/attack-0016-event5-held-lcd-readback-hd.png",
+          "bytes": 1418137,
+          "sha256": "f365514c859b30a4a0b8d7f47924fdcec47cd4a941f44393ead975e5ca4e152a",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-bow-target2-installed-v1/attack-0016-event5-held-lcd-readback-native.png",
+          "bytes": 3556,
+          "sha256": "713ac2dd09be586b166c6a8d9d356e729510bfacfdfe7b6d77c2fd82366b4724",
+          "role": "native",
+          "viewed": true
+        }
+      ]
+    },
+    {
+      "dir": "build/r12-cavalry-target2-installed-v2",
+      "method": "tools.view_image on original paths; no image editing/re-encoding/cropping",
+      "observations": "Complete horse/rider sword tips/plume/hooves and bow defender bow/string/plume/feet, including final rearing horse/recoiling defender. Held100 clearly readable with actual6px native advance; no zero overlap or artwork blocking the number.",
+      "selected": [
+        {
+          "file": "build/r12-cavalry-target2-installed-v2/attack-0043-event7-spe-frame-hd.png",
+          "bytes": 1748882,
+          "sha256": "a9bb80de36b665d5e952a0bc84381d643ecaf9b331ce66c6d37095de8cbede31",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-cavalry-target2-installed-v2/attack-0043-event7-spe-frame-native.png",
+          "bytes": 3065,
+          "sha256": "93935395386e28d7dda641404866e7369cc5b7559a6359e4c4531ccef8f82ed6",
+          "role": "native",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-cavalry-target2-installed-v2/attack-0051-event7-spe-frame-hd.png",
+          "bytes": 1272223,
+          "sha256": "0cdf15b9e2ab57170b1dcebb5ac242b17df1e65a7fae85cd9c77606a6cfcc1ee",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-cavalry-target2-installed-v2/attack-0051-event7-spe-frame-native.png",
+          "bytes": 3175,
+          "sha256": "79f4e45f3c6fcafa902e9185bb5303ece40939679b06e5ea9159dac3a3e663bb",
+          "role": "native",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-cavalry-target2-installed-v2/attack-0070-event7-held-lcd-readback-hd.png",
+          "bytes": 1234764,
+          "sha256": "bfbd40c06d64600b29c9d98434cca6f620c528b325080d4d3e4d62becbca755e",
+          "role": "hd",
+          "viewed": true
+        },
+        {
+          "file": "build/r12-cavalry-target2-installed-v2/attack-0070-event7-held-lcd-readback-native.png",
+          "bytes": 3225,
+          "sha256": "7d17b813f1ca3032b070eba8f06a61df986818b50bdd847d0b2f4629ddc9d829",
+          "role": "native",
+          "viewed": true
+        }
+      ]
+    }
+  ],
+  "executionAgentViewListSource": {
+    "original": "build/r12-runtime-execution-audit-final.json",
+    "archived": "docs/validation/m4-attack-completion-20261009/raw/817273a0206d8f02a3f5366286eeff54df3d1d83a68de509e7b6be26b0205bc6.json.gz",
+    "bytes": 264951,
+    "sha256": "817273a0206d8f02a3f5366286eeff54df3d1d83a68de509e7b6be26b0205bc6",
+    "gzipBytes": 37882,
+    "gzipSha256": "abd6a94b1fff1795e58e6d7ef42fe816c799a4bcae00e521b4385fc00089c875",
+    "decompressedByteEqual": true
+  },
+  "independentAgentActualViewCount": 13,
+  "independentAgentViewListSource": {
+    "original": "build/r12-independent-attack-validation-audit-final.json",
+    "archived": "docs/validation/m4-attack-completion-20261009/raw/4d9a1e52a659ecb85d7b759d61f0d5be088c58be93776132feb6a766288daf0f.json.gz",
+    "bytes": 335398,
+    "sha256": "4d9a1e52a659ecb85d7b759d61f0d5be088c58be93776132feb6a766288daf0f",
+    "gzipBytes": 49443,
+    "gzipSha256": "d005654c9d3e4888edd3bba770133679730c274054c5cf8e28441d1d62ce5894",
+    "decompressedByteEqual": true
+  },
+  "independentAgentViewList": [
+    {
+      "run": "r12-infantry-target2-installed-v1",
+      "phase": "movie",
+      "file": "attack-0039-event7-spe-frame-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-infantry-target2-installed-v1\\attack-0039-event7-spe-frame-hd.png",
+      "bytes": 1483238,
+      "sha256": "b32e9074d756cf88d039e5654dc71fc16c6fec954c4104b7b8910b74a61d6b49",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Walking infantry vs bow defender, then damage94 and hit stance. Repeated number trails remain actual cumulative numeric history; no gameplay damage inferred from art."
+    },
+    {
+      "run": "r12-infantry-target2-installed-v1",
+      "phase": "numbers",
+      "file": "attack-0048-event7-after-spe-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-infantry-target2-installed-v1\\attack-0048-event7-after-spe-hd.png",
+      "bytes": 1301875,
+      "sha256": "c2636da53c3db2f5896a2290f6dbea2ff4b1582183a2deca4d765d85cb5b4984",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Walking infantry vs bow defender, then damage94 and hit stance. Repeated number trails remain actual cumulative numeric history; no gameplay damage inferred from art."
+    },
+    {
+      "run": "r12-infantry-target2-installed-v1",
+      "phase": "hold",
+      "file": "attack-0054-event7-held-lcd-readback-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-infantry-target2-installed-v1\\attack-0054-event7-held-lcd-readback-hd.png",
+      "bytes": 1301563,
+      "sha256": "1d739f7fd0a2a15894fa80eec22b5cd95aac0a689a71c5ac9b9e06f869a13100",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Walking infantry vs bow defender, then damage94 and hit stance. Repeated number trails remain actual cumulative numeric history; no gameplay damage inferred from art."
+    },
+    {
+      "run": "r12-infantry-target2-installed-v1",
+      "phase": "hold-native",
+      "file": "attack-0054-event7-held-lcd-readback-native.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-infantry-target2-installed-v1\\attack-0054-event7-held-lcd-readback-native.png",
+      "bytes": 3069,
+      "sha256": "147044751c45522fc2b1fe7268839e881ff7df1e3ce4d829a680f0495db109fe",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        160,
+        96
+      ],
+      "mode": "RGBA",
+      "observations": "Actual native160x96 transparent-white LCD PNG; tiny native marks observed. Numeric meaning independently decoded, not inferred by OCR."
+    },
+    {
+      "run": "r12-bow-target2-installed-v1",
+      "phase": "movie",
+      "file": "attack-0002-event5-spe-frame-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-bow-target2-installed-v1\\attack-0002-event5-spe-frame-hd.png",
+      "bytes": 1599993,
+      "sha256": "387dde355e1e8336067836ca593abda1db5e8311a65ab562a0c62a71a9c2c22f",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Bow attacker aims right/up vs bow defender; hit stance then native damage63. Complete bow/feet visible in selected movie. No additional story/UI."
+    },
+    {
+      "run": "r12-bow-target2-installed-v1",
+      "phase": "numbers",
+      "file": "attack-0010-event5-after-spe-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-bow-target2-installed-v1\\attack-0010-event5-after-spe-hd.png",
+      "bytes": 1421860,
+      "sha256": "ac5acb4f0b82e8935a16735315a37fa53e589d2a82421a58066258ce0fb78625",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Bow attacker aims right/up vs bow defender; hit stance then native damage63. Complete bow/feet visible in selected movie. No additional story/UI."
+    },
+    {
+      "run": "r12-bow-target2-installed-v1",
+      "phase": "hold",
+      "file": "attack-0016-event5-held-lcd-readback-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-bow-target2-installed-v1\\attack-0016-event5-held-lcd-readback-hd.png",
+      "bytes": 1418137,
+      "sha256": "f365514c859b30a4a0b8d7f47924fdcec47cd4a941f44393ead975e5ca4e152a",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Bow attacker aims right/up vs bow defender; hit stance then native damage63. Complete bow/feet visible in selected movie. No additional story/UI."
+    },
+    {
+      "run": "r12-bow-target2-installed-v1",
+      "phase": "hold-native",
+      "file": "attack-0016-event5-held-lcd-readback-native.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-bow-target2-installed-v1\\attack-0016-event5-held-lcd-readback-native.png",
+      "bytes": 3556,
+      "sha256": "713ac2dd09be586b166c6a8d9d356e729510bfacfdfe7b6d77c2fd82366b4724",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        160,
+        96
+      ],
+      "mode": "RGBA",
+      "observations": "Actual native160x96 transparent-white LCD PNG; tiny native marks observed. Numeric meaning independently decoded, not inferred by OCR."
+    },
+    {
+      "run": "r12-cavalry-target2-installed-v2",
+      "phase": "movie",
+      "file": "attack-0047-event7-spe-frame-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-cavalry-target2-installed-v2\\attack-0047-event7-spe-frame-hd.png",
+      "bytes": 1500193,
+      "sha256": "438229ba2e98fca8ccfa4c89ddec7681fea2dc4d09d920b6aee85dbf2f02b102",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Mounted attacker vs bow defender; rider/horse intact in selected movie; numeric stages build actual100. No target range inferred from pictures alone."
+    },
+    {
+      "run": "r12-cavalry-target2-installed-v2",
+      "phase": "numbers",
+      "file": "attack-0061-event7-after-spe-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-cavalry-target2-installed-v2\\attack-0061-event7-after-spe-hd.png",
+      "bytes": 1251289,
+      "sha256": "bd9fc78385d1f1dadc59117628ca847d0d66bf9cfa5c084513505cbecbed12bb",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Mounted attacker vs bow defender; rider/horse intact in selected movie; numeric stages build actual100. No target range inferred from pictures alone."
+    },
+    {
+      "run": "r12-cavalry-target2-installed-v2",
+      "phase": "hold",
+      "file": "attack-0070-event7-held-lcd-readback-hd.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-cavalry-target2-installed-v2\\attack-0070-event7-held-lcd-readback-hd.png",
+      "bytes": 1234764,
+      "sha256": "bfbd40c06d64600b29c9d98434cca6f620c528b325080d4d3e4d62becbca755e",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1820,
+        896
+      ],
+      "mode": "RGBA",
+      "observations": "Mounted attacker vs bow defender; rider/horse intact in selected movie; numeric stages build actual100. No target range inferred from pictures alone."
+    },
+    {
+      "run": "r12-cavalry-target2-installed-v2",
+      "phase": "hold-native",
+      "file": "attack-0070-event7-held-lcd-readback-native.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-cavalry-target2-installed-v2\\attack-0070-event7-held-lcd-readback-native.png",
+      "bytes": 3225,
+      "sha256": "7d17b813f1ca3032b070eba8f06a61df986818b50bdd847d0b2f4629ddc9d829",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        160,
+        96
+      ],
+      "mode": "RGBA",
+      "observations": "Actual native160x96 transparent-white LCD PNG; tiny native marks observed. Numeric meaning independently decoded, not inferred by OCR."
+    },
+    {
+      "run": "r12-cavalry-target2-installed-v1",
+      "phase": "failure",
+      "file": "failure.png",
+      "path": "F:\\project\\baye-sanguo\\build\\r12-cavalry-target2-installed-v1\\failure.png",
+      "bytes": 117614,
+      "sha256": "1b3313da9a5afffcf73498609503cd8c2c2ad3f8e855d61b6e585c7cd3356885",
+      "actualViewImageCalled": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB",
+      "observations": "Native battle screenshot after actual actor death; no target interval success inferred."
+    }
+  ]
+}

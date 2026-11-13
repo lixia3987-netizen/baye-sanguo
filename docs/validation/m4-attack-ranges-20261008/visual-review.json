@@ -1,0 +1,207 @@
+{
+  "capturedAt": "2026-10-08T16:49:29.519Z",
+  "rootActualViewCount": 20,
+  "runtime": [
+    {
+      "original": "build/r11-infantry-target0-installed/attack-0000-event5-spe-frame-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/f84992866e64dfe9479c2d608e080c2d15afcff21cdd2298c726bc83efebc21e.png",
+      "bytes": 1765384,
+      "sha256": "f84992866e64dfe9479c2d608e080c2d15afcff21cdd2298c726bc83efebc21e",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-infantry-target0-installed/attack-0007-event5-spe-frame-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/a3acbd55c8b4db6aea9a49e5c8c3c0bd095cb0f7177d9bab15bd18e929043e20.png",
+      "bytes": 1357204,
+      "sha256": "a3acbd55c8b4db6aea9a49e5c8c3c0bd095cb0f7177d9bab15bd18e929043e20",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-infantry-target0-installed/attack-0031-event5-held-lcd-readback-hd.png",
+      "bytes": 1299059,
+      "sha256": "e9c989f72bc624ba056235af68c8dc0a965b5e5e9538935724b04a64367e7861",
+      "retained": true,
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/e9c989f72bc624ba056235af68c8dc0a965b5e5e9538935724b04a64367e7861.png",
+      "originalBytesPreserved": true,
+      "selection": "Root actually viewed original PNG; retained as an explicit additional keyframe.",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-infantry-target0-installed/attack-0031-event5-held-lcd-readback-native.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/7c8c84bc5843a2d02681aa16ad39716eb1cc304fb3321eb6ac70c2013767afab.png",
+      "bytes": 4314,
+      "sha256": "7c8c84bc5843a2d02681aa16ad39716eb1cc304fb3321eb6ac70c2013767afab",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-bow-target0-installed-v2/attack-0000-event5-spe-frame-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/debe3b4a3e1322454aa2b1c6a94acff4e98b4d26003cbc9c6b048144eb26492b.png",
+      "bytes": 1768267,
+      "sha256": "debe3b4a3e1322454aa2b1c6a94acff4e98b4d26003cbc9c6b048144eb26492b",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-bow-target0-installed-v2/attack-0024-event5-held-lcd-readback-hd.png",
+      "bytes": 1420422,
+      "sha256": "091d699601db33115ef1927c6916ef24152742b614dcba0532996c8db3667af0",
+      "retained": true,
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/091d699601db33115ef1927c6916ef24152742b614dcba0532996c8db3667af0.png",
+      "originalBytesPreserved": true,
+      "selection": "Root actually viewed original PNG; retained as an explicit additional keyframe.",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-infantry-target0-installed-v2/attack-0027-event5-held-lcd-readback-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/e9c989f72bc624ba056235af68c8dc0a965b5e5e9538935724b04a64367e7861.png",
+      "bytes": 1299059,
+      "sha256": "e9c989f72bc624ba056235af68c8dc0a965b5e5e9538935724b04a64367e7861",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v7/attack-0000-event5-spe-frame-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/366bcccec285001075378c83d26762e5eb629286fd43a96fd18482642d479c57.png",
+      "bytes": 1801421,
+      "sha256": "366bcccec285001075378c83d26762e5eb629286fd43a96fd18482642d479c57",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v7/attack-0008-event5-spe-frame-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/dc88f13cbc6898868b570214b40b55cbe5438194c439800b578facb460022c03.png",
+      "bytes": 1295742,
+      "sha256": "dc88f13cbc6898868b570214b40b55cbe5438194c439800b578facb460022c03",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v7/attack-0026-event5-held-lcd-readback-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/70b08d3a283af904d0f5e29a31b1e6baf6eaa4fc6433574ff64d028d5f88c3a3.png",
+      "bytes": 1270295,
+      "sha256": "70b08d3a283af904d0f5e29a31b1e6baf6eaa4fc6433574ff64d028d5f88c3a3",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-infantry-target0-installed-final/attack-0079-event9-held-lcd-readback-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/bb5158a25391e5c19a6a70a43f1074b05c35a81460e44c9fb97130ac7b1e5459.png",
+      "bytes": 1291438,
+      "sha256": "bb5158a25391e5c19a6a70a43f1074b05c35a81460e44c9fb97130ac7b1e5459",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-bow-target0-installed-final/attack-0107-event11-held-lcd-readback-hd.png",
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/41aee9ef823b923b0491f026eb737c30f2a50a9d26742a26280c7039e36ff416.png",
+      "bytes": 1419220,
+      "sha256": "41aee9ef823b923b0491f026eb737c30f2a50a9d26742a26280c7039e36ff416",
+      "originalBytesPreserved": true,
+      "retained": true,
+      "reusedProduction": false,
+      "reusedPrior": false,
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-bow-target0-installed-final/attack-0106-event11-after-spe-hd.png",
+      "bytes": 1419220,
+      "sha256": "41aee9ef823b923b0491f026eb737c30f2a50a9d26742a26280c7039e36ff416",
+      "retained": true,
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/41aee9ef823b923b0491f026eb737c30f2a50a9d26742a26280c7039e36ff416.png",
+      "originalBytesPreserved": true,
+      "selection": "Actual last active numeric or actual timed-flush hold HD; owner-retired after-spe file cannot substitute.",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-infantry-target0-installed-final/attack-0078-event9-after-spe-hd.png",
+      "bytes": 1291438,
+      "sha256": "bb5158a25391e5c19a6a70a43f1074b05c35a81460e44c9fb97130ac7b1e5459",
+      "retained": true,
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/bb5158a25391e5c19a6a70a43f1074b05c35a81460e44c9fb97130ac7b1e5459.png",
+      "originalBytesPreserved": true,
+      "selection": "Actual last active numeric or actual timed-flush hold HD; owner-retired after-spe file cannot substitute.",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v7/attack-0025-event5-after-spe-hd.png",
+      "bytes": 1270295,
+      "sha256": "70b08d3a283af904d0f5e29a31b1e6baf6eaa4fc6433574ff64d028d5f88c3a3",
+      "retained": true,
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/70b08d3a283af904d0f5e29a31b1e6baf6eaa4fc6433574ff64d028d5f88c3a3.png",
+      "originalBytesPreserved": true,
+      "selection": "Actual last active numeric or actual timed-flush hold HD; owner-retired after-spe file cannot substitute.",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "original": "build/r11-cavalry-target0-installed-v7/attack-0027-event5-after-spe-hd.png",
+      "bytes": 1269525,
+      "sha256": "8f4d5b52ad60103e222753750d305f958b6c8a6c2e4a67e829711b8ce9fe8cec",
+      "retained": true,
+      "archived": "docs/validation/m4-attack-ranges-20261008/png/8f4d5b52ad60103e222753750d305f958b6c8a6c2e4a67e829711b8ce9fe8cec.png",
+      "originalBytesPreserved": true,
+      "selection": "Actual last active numeric or actual timed-flush hold HD; owner-retired after-spe file cannot substitute.",
+      "actuallyViewedByRoot": true
+    }
+  ],
+  "art": [
+    {
+      "groupOrdinal": 16,
+      "path": "assets/hd-spe/attacks/shared/738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9.png",
+      "sha256": "281500aeba297792e0199475bc5748c5ae0b23b1fdf786fafcc3941dde7f9a8a",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "groupOrdinal": 31,
+      "path": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+      "sha256": "c622bfc3c09a50c0701bca8428bd49fc8c3808f3cb1cb3011f1eae3c3f6c2405",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "groupOrdinal": 38,
+      "path": "assets/hd-spe/attacks/shared/5604b155f09dbfb3bf5771e6b835144a165a9aafa004a8f21a5d4a7e468df86d.png",
+      "sha256": "a0f358e38d44d25c91b7f36927cac535515e7031ef45c1c46220ac4226465753",
+      "actuallyViewedByRoot": true
+    },
+    {
+      "groupOrdinal": 43,
+      "path": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+      "sha256": "202b8cedb98f63ab8cad4f940fb91b1a8831ee31121562811682441e6d96c5be",
+      "actuallyViewedByRoot": true
+    }
+  ],
+  "rootNotes": "Complete weapons/crowns/feet/horse figures within displayed movie; final587/122/100 readable. Native opaque clear can remove parts of nearby legs and preserve numeric trails; not repainted. Actual native transparent black ink weak on black viewer, pixel fidelity verified by raw native oracle, not visual inference.",
+  "independentAgentActualViewCount": 36,
+  "independentAgentViewList": "Archived build/r11-attack-validation-audit-final.json",
+  "scope": "Explicit actual view list only; no claim all retained images manually viewed.",
+  "additionalActualFinalPhaseFrames": "Active final numeric frames and actual timed-flush hold paint24 reviewed, separate from an earlier held readback display23/current24. All587/122/100 values readable."
+}

@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "scope": "Two built-in imagegen raw candidates only. No production assets, source, browser, server, game state, integration or runtime acceptance changed.",
+  "tool": {
+    "name": "image_gen.imagegen",
+    "mode": "built-in",
+    "calls": 2,
+    "oneCallPerRequestedAsset": true,
+    "cliUsed": false,
+    "externalPaidToolUsed": false,
+    "postprocessing": false,
+    "toolOriginalsPreserved": true
+  },
+  "skill": "C:/Users/75112/.codex/skills/.system/imagegen/SKILL.md",
+  "frames": [
+    {
+      "frame": 0,
+      "image": {
+        "path": "build/r25-liuyan-40-art-v1/picture-0.png",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-0.png",
+        "bytes": 3113150,
+        "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 2,
+        "opaque": true,
+        "originalToolPath": "C:/Users/75112/.codex/generated_images/01a116ec-089f-7872-8df1-b03c949b16d2/exec-2c8234be-8dc7-416b-9966-d14d20068413.png",
+        "originalToolBytesEqual": true
+      },
+      "request": {
+        "path": "build/r25-liuyan-40-art-v1/frame-0-request.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-0-request.json",
+        "bytes": 3928,
+        "sha256": "422326e32491df0f1d5b9916f2ea684332fd641ebf42c12ceb106d508c66fbf4"
+      },
+      "prompt": {
+        "path": "build/r25-liuyan-40-art-v1/frame-0-prompt.txt",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-0-prompt.txt",
+        "bytes": 2230,
+        "sha256": "c211122f1827491edb65dee35bbeeb7c8b9a40026661fd92c72b0dab1b03175b"
+      },
+      "toolMetadata": {
+        "path": "build/r25-liuyan-40-art-v1/frame-0-tool-result-and-review.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-0-tool-result-and-review.json",
+        "bytes": 1736,
+        "sha256": "d8ebb231ea2c8ff3c279c50be97f50a317a0ef66d6d97b7cb497b143cc5d58d7"
+      },
+      "nativeReference": {
+        "path": "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-0-nearest-4x.png",
+        "bytes": 3404,
+        "sha256": "f2085396f6421e0e8def150534286cec4b8d93b661d3b9708e6c2b42cb8cc1d9"
+      },
+      "qa": {
+        "actualViewed": true,
+        "composition": "Two helmeted opposing infantry soldiers with long spears and mountain backdrop; square opaque painted scene.",
+        "nativeGlyphs": "FAIL: upper speech bubble is entirely blank. No native lettering or punctuation rendered.",
+        "accepted": false,
+        "runtimeAccepted": false
+      }
+    },
+    {
+      "frame": 1,
+      "image": {
+        "path": "build/r25-liuyan-40-art-v1/picture-1.png",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-1.png",
+        "bytes": 2793104,
+        "sha256": "add4e62a629b6b89aeb2fd69f124414b0f85f94fe8582388687551c70f7f8674",
+        "width": 1254,
+        "height": 1254,
+        "colorType": 2,
+        "opaque": true,
+        "originalToolPath": "C:/Users/75112/.codex/generated_images/01a116ec-089f-7872-8df1-b03c949b16d2/exec-7d21f8c7-7a2e-4ce0-88a1-85c2c415c11e.png",
+        "originalToolBytesEqual": true
+      },
+      "request": {
+        "path": "build/r25-liuyan-40-art-v1/frame-1-request.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-1-request.json",
+        "bytes": 2930,
+        "sha256": "ba33b12b6b38a2975c29d690735ffe4841de727782d4f97e0a30e07144482b67"
+      },
+      "prompt": {
+        "path": "build/r25-liuyan-40-art-v1/frame-1-prompt.txt",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-1-prompt.txt",
+        "bytes": 1631,
+        "sha256": "4bebdcc8652cc333bb2abc813c2b72b6051b8ecbb86ad0bd9f4d6e1890231772"
+      },
+      "toolMetadata": {
+        "path": "build/r25-liuyan-40-art-v1/frame-1-tool-result-and-review.json",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-1-tool-result-and-review.json",
+        "bytes": 1780,
+        "sha256": "ad34cd4c3ecabb18b55789f6d670a46535cabea461f6655ef16bf7de61b19921"
+      },
+      "nativeReference": {
+        "path": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+        "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-1-nearest-4x.png",
+        "bytes": 3430,
+        "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726"
+      },
+      "qa": {
+        "actualViewed": true,
+        "composition": "Both opposing helmeted spearmen, stance, mountain backdrop and bubble are visually preserved relative to generated frame0. No extra people.",
+        "nativeGlyphs": "FAIL: two large exclamation marks were rendered instead of the native reference character shapes.",
+        "accepted": false,
+        "runtimeAccepted": false
+      }
+    }
+  ],
+  "actualViews": {
+    "native": [
+      "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+      "build/r25-native-liuyan-40/picture-1-nearest-4x.png"
+    ],
+    "styles": [
+      "assets/hd-spe/qimen-39/picture-0.png",
+      "assets/hd-spe/aid-41/picture-0.png"
+    ],
+    "generated": [
+      "build/r25-liuyan-40-art-v1/picture-0.png",
+      "build/r25-liuyan-40-art-v1/picture-1.png"
+    ],
+    "primaryReviewer": "battle_audit"
+  },
+  "independentReview": {
+    "reviewer": "inspect_hd_path",
+    "evidence": "Direct peer message after actual view of four images (native0/1 and generated0/1)",
+    "scope": "Static visible composition only; no engine or pixel equivalence claim",
+    "observations": [
+      "Exactly two opposed helmeted soldiers and two outward-angled polearms; helmet, armour, boots and spear tips inside all edges.",
+      "Mountain background and upper bubble legible; positions, main terrain, spear directions and standing poses remain consistent between frames, with slight facial variation.",
+      "No new stepping or attack poses needed because native frames differ mainly in dialogue."
+    ],
+    "disposition": "Rejected as a complete asset pair: frame0 blank bubble and frame1 !! do not match native lettering."
+  },
+  "nativeGlyphComparison": {
+    "proof": {
+      "path": "build/r25-liuyan-40-art-v1/native-font-exact-comparison.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\native-font-exact-comparison.json",
+      "bytes": 8751,
+      "sha256": "bfa49bb5bab22a1710da928ef127d19932740e14e9fa6a44fd89002ff6fa7199"
+    },
+    "font": {
+      "bytes": 163840,
+      "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "glyphDataBytes": 18,
+      "grid": [
+        12,
+        12
+      ],
+      "addressFormula": "(94*(high-0xa1)+(low-0xa1))*18",
+      "source": "vendor/iBaye/src/comOut.c:535..592"
+    },
+    "directZeroDifferenceMatches": [
+      {
+        "frame": 0,
+        "glyph": 0,
+        "matches": 0
+      },
+      {
+        "frame": 0,
+        "glyph": 1,
+        "matches": 0
+      },
+      {
+        "frame": 0,
+        "glyph": 2,
+        "matches": 0
+      },
+      {
+        "frame": 1,
+        "glyph": 0,
+        "matches": 0
+      },
+      {
+        "frame": 1,
+        "glyph": 1,
+        "matches": 0
+      },
+      {
+        "frame": 1,
+        "glyph": 2,
+        "matches": 0
+      }
+    ],
+    "conclusion": "No direct font identity established. Small SPE40 glyphs are 7–8px wide and 8px high, whereas the current native font uses 12x12. No guessed Chinese transcription is accepted; hypothetical resampling results are not historical proof."
+  },
+  "accepted": false,
+  "hdAccepted": false,
+  "textQaPassed": false,
+  "pending": "Exact native text must be resolved before another authorized revision or production integration. No additional generation performed."
+}

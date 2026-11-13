@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "kind": "V40 original WOOD6/7 shared-picture0 HTTP404 fallback, independently accepted after immutable closed-run schema correction",
+  "closedTerminal": {
+    "sessionId": 35785,
+    "chunkId": "17ab73",
+    "exitCode": 1
+  },
+  "executedSource": {
+    "candidate": {
+      "path": "build/wood67-runtime-candidate-v40.mjs",
+      "bytes": 700111,
+      "sha256": "508bdb931f9f944ee4067915dd2b1bf807e7035f2c57fdbd0d1e6fd33d056c71"
+    },
+    "explicitSources": 579,
+    "logicalSources": 590,
+    "oldMissingGateSha256": "2325dcbb643fb01af1039d526341e686c919cb4b92e72c892cf2160b9656ad71",
+    "sourceLock": {
+      "path": "build/impact-skill-20261014/v40-actual-runtime-independent-v1/source-lock.json",
+      "bytes": 172558,
+      "sha256": "ca81b620a56691733bb65b036d0fbf326daee7c80efb800cb78c17d80367838a"
+    },
+    "originalCopies": 8,
+    "sourceVectorPreserved": true
+  },
+  "originalController": {
+    "wrapper": {
+      "evidenceComplete": true,
+      "originalWorkflowOk": false,
+      "accepted": false,
+      "sourceRunAccepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false
+    },
+    "inlineFalseFields": {
+      "accepted": false,
+      "actualPreparationAccepted": false,
+      "actualCastAccepted": false,
+      "actualWood6Accepted": false,
+      "actualWood7Accepted": false,
+      "actualWoodMissingAccepted": false,
+      "actualFallbackAccepted": false,
+      "fallbackAccepted": false,
+      "hdAccepted": false,
+      "globalHdComplete": false
+    },
+    "error": "AssertionError [ERR_ASSERTION]: Selected fallback belongs to HD mode and a real completed asset failure, never loading/classic/another reason\n+ actual - expected\n\n  [\n    'hd',\n    'lcd',\n+   undefined\n-   'asset-load-failed'\n  ]\n\n    at eq (file:///F:/project/baye-sanguo/scripts/hd-wood-missing-picture.mjs:7:122)\n    at selectedFailureOwners (file:///F:/project/baye-sanguo/scripts/hd-wood-missing-picture.mjs:36:393)\n    at verifyV40WoodMissingEvidence (file:///F:/project/baye-sanguo/scripts/hd-wood-missing-picture.mjs:41:186)\n    at v40Workflow (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v40.mjs:3075:2889)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async smoke (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v40.mjs:941:5)\n    at async main (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v40.mjs:1569:9)"
+  },
+  "originalControllerPreserved": {
+    "wrapper": {
+      "evidenceComplete": true,
+      "originalWorkflowOk": false,
+      "accepted": false,
+      "sourceRunAccepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false
+    },
+    "inlineFalseFields": {
+      "accepted": false,
+      "actualPreparationAccepted": false,
+      "actualCastAccepted": false,
+      "actualWood6Accepted": false,
+      "actualWood7Accepted": false,
+      "actualWoodMissingAccepted": false,
+      "actualFallbackAccepted": false,
+      "fallbackAccepted": false,
+      "hdAccepted": false,
+      "globalHdComplete": false
+    },
+    "error": "AssertionError [ERR_ASSERTION]: Selected fallback belongs to HD mode and a real completed asset failure, never loading/classic/another reason\n+ actual - expected\n\n  [\n    'hd',\n    'lcd',\n+   undefined\n-   'asset-load-failed'\n  ]\n\n    at eq (file:///F:/project/baye-sanguo/scripts/hd-wood-missing-picture.mjs:7:122)\n    at selectedFailureOwners (file:///F:/project/baye-sanguo/scripts/hd-wood-missing-picture.mjs:36:393)\n    at verifyV40WoodMissingEvidence (file:///F:/project/baye-sanguo/scripts/hd-wood-missing-picture.mjs:41:186)\n    at v40Workflow (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v40.mjs:3075:2889)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async smoke (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v40.mjs:941:5)\n    at async main (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v40.mjs:1569:9)"
+  },
+  "rawFieldsRewritten": false,
+  "posthocScope": {
+    "reason": "Original producer exposes ui.fallbackReason; old maintained gate read ui.reason. Consumer and real-public-getter tests were corrected after old590 source-lock; no raw capture or original flag was patched.",
+    "correctedGate": {
+      "path": "scripts/hd-wood-missing-picture.mjs",
+      "bytes": 7879,
+      "sha256": "9e80491b46295b5fe9ef274de8136049937743fd17e58420ac88b7b04324adc8"
+    },
+    "originalSourceBoundaryRewritten": false,
+    "independentReceipt": {
+      "path": "build/impact-skill-20261014/wood67-v40-missing-offline-revalidation-v1.json",
+      "bytes": 61177,
+      "sha256": "6dd45fa2eadc60076fd3ffc632beef4e934a1ed9cf2061795347f156712e27c3"
+    },
+    "gameReplayed": false,
+    "newGameInputs": 0,
+    "sourceOnlyGateFlagsPreserved": true,
+    "independentActualFallbackAccepted": true
+  },
+  "conclusion": {
+    "originalControllerAccepted": false,
+    "independentActualFallbackAccepted": true,
+    "selectedOriginalWoodFamiliesAccepted": [
+      6,
+      7
+    ],
+    "strictSelectedReadbacks": 44,
+    "classicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "gameReplayed": false,
+    "rawFlagsChanged": false
+  },
+  "attempts": [
+    {
+      "attemptOrdinal": 1,
+      "skillId": 6,
+      "generation": 3,
+      "succeeded": false,
+      "start": 0,
+      "endExclusive": 0,
+      "captureRows": 0,
+      "native": 0,
+      "lcd": 0,
+      "hd": 0,
+      "namedPngReferences": 0,
+      "mpBefore": 84,
+      "mpAfter": 64,
+      "mpDebited": 20,
+      "targetArmsBefore": 330,
+      "targetArmsAfter": 330,
+      "damage": 0,
+      "movieEvents": [],
+      "scope": "Exact actual captureStart interval includes transitional/retired rows; failed and empty intervals are retained without invented movie/NUM pixels."
+    },
+    {
+      "attemptOrdinal": 2,
+      "skillId": 6,
+      "generation": 3,
+      "succeeded": false,
+      "start": 0,
+      "endExclusive": 0,
+      "captureRows": 0,
+      "native": 0,
+      "lcd": 0,
+      "hd": 0,
+      "namedPngReferences": 0,
+      "mpBefore": 64,
+      "mpAfter": 44,
+      "mpDebited": 20,
+      "targetArmsBefore": 330,
+      "targetArmsAfter": 330,
+      "damage": 0,
+      "movieEvents": [],
+      "scope": "Exact actual captureStart interval includes transitional/retired rows; failed and empty intervals are retained without invented movie/NUM pixels."
+    },
+    {
+      "attemptOrdinal": 3,
+      "skillId": 6,
+      "generation": 3,
+      "succeeded": true,
+      "start": 0,
+      "endExclusive": 240,
+      "captureRows": 240,
+      "native": 240,
+      "lcd": 240,
+      "hd": 161,
+      "namedPngReferences": 641,
+      "mpBefore": 44,
+      "mpAfter": 24,
+      "mpDebited": 20,
+      "targetArmsBefore": 330,
+      "targetArmsAfter": 0,
+      "damage": 330,
+      "movieEvents": [
+        12
+      ],
+      "scope": "Exact actual captureStart interval includes transitional/retired rows; failed and empty intervals are retained without invented movie/NUM pixels."
+    },
+    {
+      "attemptOrdinal": 4,
+      "skillId": 7,
+      "generation": 3,
+      "succeeded": true,
+      "start": 240,
+      "endExclusive": 277,
+      "captureRows": 37,
+      "native": 37,
+      "lcd": 37,
+      "hd": 19,
+      "namedPngReferences": 93,
+      "mpBefore": 26,
+      "mpAfter": 1,
+      "mpDebited": 25,
+      "targetArmsBefore": 1620,
+      "targetArmsAfter": 620,
+      "damage": 1000,
+      "movieEvents": [
+        27
+      ],
+      "scope": "Exact actual captureStart interval includes transitional/retired rows; failed and empty intervals are retained without invented movie/NUM pixels."
+    }
+  ],
+  "pixelScope": {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "mode": "hd",
+    "exactMissingUrl": "/assets/hd-spe/wood-37/picture-0.png",
+    "successfulOriginalSkillIds": [
+      6,
+      7
+    ],
+    "strictFamilies": [
+      {
+        "skillId": 6,
+        "completeCopies": {
+          "skillId": 6,
+          "generation": 3,
+          "eventId": 12,
+          "distinctCopies": 8,
+          "commits": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "widths": [
+            64,
+            66,
+            66,
+            66,
+            66,
+            66,
+            66,
+            66
+          ],
+          "callbackCount": 8
+        },
+        "movieReadbacks": 8,
+        "postReadbacks": 17,
+        "labels": 17,
+        "numbers": 16,
+        "holds": 1,
+        "hdReadbacks": 0,
+        "observedWidths": [
+          64,
+          66
+        ],
+        "actualLcdCallbacks": 24
+      },
+      {
+        "skillId": 7,
+        "completeCopies": {
+          "skillId": 7,
+          "generation": 3,
+          "eventId": 27,
+          "distinctCopies": 1,
+          "commits": [
+            1
+          ],
+          "frames": [
+            0
+          ],
+          "widths": [
+            64
+          ],
+          "callbackCount": 1
+        },
+        "movieReadbacks": 1,
+        "postReadbacks": 18,
+        "labels": 18,
+        "numbers": 17,
+        "holds": 1,
+        "hdReadbacks": 0,
+        "observedWidths": [
+          64
+        ],
+        "actualLcdCallbacks": 18
+      }
+    ],
+    "strictSelectedReadbacks": 44,
+    "allRetainedReadbacks": 277,
+    "allOriginalCapturePngs": 734,
+    "allOrdinaryScreenshots": 34,
+    "allOriginalFlatPngs": 768,
+    "transparentNormalization": "Only RGB behind exactly alpha0 normalized; all nonzero-alpha channels stay byte-exact.",
+    "nativeLcdFallbackAccepted": true,
+    "newHdArtAccepted": false,
+    "classicControlAcceptance": false
+  },
+  "actualEconomy": {
+    "recruitments": 6,
+    "distributions": 2,
+    "moneyPaid": 354,
+    "thewPaid": 72,
+    "sourceRecruitArms": 3540,
+    "actualDispatchedCasterArms": 2920,
+    "nativeAdjacentReturnSlots": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "marchSlot": 170,
+    "marchCarryFood": 541,
+    "oneNaturalMonth": true,
+    "publicDualSaves": 11,
+    "newPlunders": 0,
+    "newBuys": 0,
+    "futureIncomeCredited": false,
+    "referenceArmyReinserted": false
+  },
+  "latest": {
+    "tag": "wood67-131-v40-wood-route-settled",
+    "sources": {
+      "world": {
+        "original": {
+          "path": "build/impact-skill-20261014/v40-actual-route-latest-world-v1.json",
+          "bytes": 148035,
+          "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-missing-20261024-v40-latest-world.json",
+          "bytes": 148035,
+          "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+        }
+      },
+      "pair": [
+        {
+          "original": {
+            "path": "build/impact-skill-20261014/wood67-battle-actual-v40/native-wood67-131-v40-wood-route-settled-sango0.sav",
+            "bytes": 8221,
+            "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+          },
+          "published": {
+            "path": "docs/validation/m5-wood67-missing-20261024-v40-sango0.sav",
+            "bytes": 8221,
+            "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+          }
+        },
+        {
+          "original": {
+            "path": "build/impact-skill-20261014/wood67-battle-actual-v40/native-wood67-131-v40-wood-route-settled-sango1.sav",
+            "bytes": 4840,
+            "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+          },
+          "published": {
+            "path": "docs/validation/m5-wood67-missing-20261024-v40-sango1.sav",
+            "bytes": 4840,
+            "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+          }
+        }
+      ]
+    },
+    "current": {
+      "casterCity": 16,
+      "casterArms": 2431,
+      "casterExperience": 12,
+      "actualArmsLost": 489,
+      "city20Food": 227,
+      "city20Money": 1086,
+      "city20StrictFood": 267,
+      "city20Gap": 40,
+      "anotherENDAuthorized": false
+    },
+    "allOrdersRetired": true,
+    "allThirtyArmyFlagsClear": true,
+    "anotherENDAuthorized": false,
+    "anotherCastOrRouteGuaranteed": false
+  },
+  "regression": {
+    "registeredFiles": 137,
+    "pass": 7456,
+    "newDifferentTests": 3,
+    "previous7453Historical": true,
+    "sourcePinsBeforeAfter": 48,
+    "targetCases": 51,
+    "targetSourcePinsAfterOnly": true,
+    "caller19AndCLIControlsNotAddedToRegisteredCount": true,
+    "fullReceipt": {
+      "path": "build/impact-skill-20261014/wood-missing-schema-root-full-regression-v1.json",
+      "bytes": 10071,
+      "sha256": "f42019cf7860ba1c24edf54e212ad363680356d46b98311f9256a81eb72707e8"
+    },
+    "originalFullLog": {
+      "path": "build/hd-full-suite-20261024-wood-missing-schema-v40.log",
+      "bytes": 635568,
+      "sha256": "a3cfcc4ba30328153c136e38b258c8d24af3ea98fa3edc0261670555c698802d"
+    },
+    "fullLogGzip": {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-full-suite.log.gz",
+      "bytes": 162366,
+      "sha256": "2d83584d6860fe307b46d45b6b0948e15806c6f356b5f91cd3fef1f40c191052"
+    }
+  },
+  "proofs": {
+    "executedSourceLock": {
+      "path": "build/impact-skill-20261014/v40-actual-runtime-independent-v1/source-lock.json",
+      "bytes": 172558,
+      "sha256": "ca81b620a56691733bb65b036d0fbf326daee7c80efb800cb78c17d80367838a"
+    },
+    "cleanup": {
+      "path": "build/impact-skill-20261014/wood67-battle-v40-external-cleanup-v1.json",
+      "bytes": 3286,
+      "sha256": "df8cb09011780eeb587128e150e637b2d0401711606db7ff023f68d8561547d9"
+    },
+    "ownedUnion": {
+      "path": "build/impact-skill-20261014/wood67-battle-v40-owned-union-v1.json",
+      "bytes": 3356,
+      "sha256": "6ba87b8000180a6720dce9cfda3dc64a58c63ac0672e8d3465829638a4b2f50c"
+    },
+    "reportTransport": {
+      "path": "build/impact-skill-20261014/v40-actual-runtime-independent-v1/report-audit.json",
+      "bytes": 57677,
+      "sha256": "e264b813b2688a714a59cc30add7508c1bf0f7cfa9d72f1e053af135ddf1b3a2"
+    },
+    "runtimeSupport": {
+      "path": "build/impact-skill-20261014/v40-actual-runtime-independent-support-v1.json",
+      "bytes": 8172,
+      "sha256": "6b2a642f09492ad88c145e09240415b3d2ad22e11df512d3760ec686d308732c"
+    },
+    "png": {
+      "path": "build/impact-skill-20261014/wood67-v40-original-png-independent-v2.json",
+      "bytes": 849702,
+      "sha256": "9f3b45a1f678d49d07d86ff3c0f9ae7dd437c8ded169807c7999d7f43e821f35"
+    },
+    "attemptCaptureProvenance": {
+      "path": "build/impact-skill-20261014/wood67-v40-all-attempt-capture-provenance-v1.json",
+      "bytes": 5131,
+      "sha256": "bdaf889a471f39aaca5bad6116419cd52c7b4f1588714ecded60670ba0a78a37"
+    },
+    "pngClosedMarker": {
+      "path": "build/impact-skill-20261014/wood67-v40-png-closed-input-v1.json",
+      "bytes": 168418,
+      "sha256": "33155bff208767fe1e759907f0a66d22bc4369b4c5e4c9186746ea2ac78ff3ab"
+    },
+    "economy": {
+      "path": "build/impact-skill-20261014/v40-actual-route-economy-receipt-v1.json",
+      "bytes": 44966,
+      "sha256": "69d6d27a0e7bea297c5d812cc856081db2e9e459d61593372cbb1f6c8f38f673"
+    },
+    "currentWorldSummary": {
+      "path": "build/impact-skill-20261014/v40-actual-route-current-world-summary-v1.json",
+      "bytes": 11209,
+      "sha256": "8ed52fd69425e6c727f3429ed2792cb9ed11a26404ed0eb9ae81c6f18ac6d2c9"
+    },
+    "independentFallback": {
+      "path": "build/impact-skill-20261014/wood67-v40-missing-offline-revalidation-v1.json",
+      "bytes": 61177,
+      "sha256": "6dd45fa2eadc60076fd3ffc632beef4e934a1ed9cf2061795347f156712e27c3"
+    },
+    "schemaChange": {
+      "path": "build/impact-skill-20261014/wood-missing-public-reason-schema-change-v1.json",
+      "bytes": 2703,
+      "sha256": "2f6f62ba055b390552b10c853783e3e496dea1eea22b1411305ed4c67abafc91"
+    },
+    "schema51Target": {
+      "path": "build/impact-skill-20261014/wood-missing-public-reason-schema-target-receipt-v1.json",
+      "bytes": 1577,
+      "sha256": "c7a17fd745f117e35a7378c06dc24b53175f9dfada98969f90a37b93366fe8eb"
+    },
+    "schemaIndependent": {
+      "path": "build/impact-skill-20261014/v40-actual-runtime-independent-schema-change-review-v2.json",
+      "bytes": 6344,
+      "sha256": "b561d2d20b28bcc1b0cfbcd3c344b0e8da5754c6170f24cf8fe6b8f1779ce807"
+    },
+    "fullRegression": {
+      "path": "build/impact-skill-20261014/wood-missing-schema-root-full-regression-v1.json",
+      "bytes": 10071,
+      "sha256": "f42019cf7860ba1c24edf54e212ad363680356d46b98311f9256a81eb72707e8"
+    },
+    "latestPairCopies": {
+      "path": "build/impact-skill-20261014/wood67-v40-latest-published-pair-v1.json",
+      "bytes": 2171,
+      "sha256": "9c7e6251e7f8549347e9dc24bb35396b80198740a6daf3452b7e33573e01df1b"
+    }
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-missing-20261024-v40-archive.json",
+    "bytes": 430362,
+    "sha256": "10eaef311010ef428312a9c714cd863112c5de755d265ca265c0e51f5cdce808"
+  },
+  "archiveStats": {
+    "files": 1113,
+    "blobs": 762,
+    "parts": 29,
+    "rawNamedBytes": 816816652,
+    "serializedPartBytes": 207824103,
+    "chunkedFiles": 1
+  },
+  "boundary": {
+    "all957ImmediateOriginalsArchived": true,
+    "all768OriginalPngsArchived": true,
+    "allFourActualAttemptsRetained": true,
+    "failedCaptureIntervalsInvented": false,
+    "oldArchivesTraversed": false,
+    "privateProfileArchived": false,
+    "portableClosedArchive": false,
+    "matchingCheckoutRequired": true,
+    "sourceControlsCountedAsActual": false,
+    "currentSourceDifferentFromExecutedOnlyByDocumentedPostCloseFix": true,
+    "physicalDevicesAccepted": false,
+    "rngContinuityAccepted": false,
+    "fullHdCompletion": false
+  }
+}

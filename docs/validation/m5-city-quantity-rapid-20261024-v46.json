@@ -1,0 +1,784 @@
+{
+  "schemaVersion": 1,
+  "prefix": "docs/validation/m5-city-quantity-rapid-20261024-v46",
+  "schemaFinal": true,
+  "kind": "Current October original quantity rapid FIFO/cancel and current City summary text refresh",
+  "runs": [
+    {
+      "role": "before",
+      "dir": "build/impact-skill-20261014/r12-city-quantity-rapid-before-v1",
+      "terminal": {
+        "session": 63902,
+        "finalChunk": "8d4faf",
+        "originalExitCode": 0,
+        "closed": true
+      },
+      "immediateFiles": 52,
+      "pngs": 6,
+      "namedRawBytes": 18399187,
+      "result": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-v1/result.json",
+        "bytes": 930790,
+        "sha256": "2492bb36df297d301111cc65ae1d805bce711a7428d0344c4aa42d702485260d"
+      },
+      "cleanup": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-v1/cleanup.json",
+        "bytes": 16336,
+        "sha256": "6dd361e3ef4f13d488f70cab4883ef3176ae4bc6406c42c11ddcf223fe0d335e"
+      },
+      "sourceBefore": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-v1/source-before.json",
+        "bytes": 205134,
+        "sha256": "c004e08c98f6d23bda0e73a15e79019bdc1d42052a01c19aa2e61c03611cc85e"
+      },
+      "sourceAfter": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-v1/source-after.json",
+        "bytes": 360280,
+        "sha256": "2b9a1792acd75ab9555e14071763d70f09c5059001e10325844b5e9b8c13cb31"
+      },
+      "servedBefore": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-v1/served-source-before.json",
+        "bytes": 11813,
+        "sha256": "9691b4401cc7b0069083cea1195b4a955522cdc8ebd1e6970a7eee0df800b03b"
+      },
+      "servedAfter": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-v1/served-source-after.json",
+        "bytes": 21967,
+        "sha256": "bf93686734cb661a0a77cd2c1d653b31bc0c919d72444d6696d9517ca97b4e3c"
+      }
+    },
+    {
+      "role": "after",
+      "dir": "build/impact-skill-20261014/r12-city-quantity-rapid-after-v1",
+      "terminal": {
+        "session": 88831,
+        "finalChunk": "5a35b0",
+        "originalExitCode": 0,
+        "closed": true
+      },
+      "immediateFiles": 52,
+      "pngs": 6,
+      "namedRawBytes": 19151066,
+      "result": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-v1/result.json",
+        "bytes": 932804,
+        "sha256": "1769691b6c5e1985534a445ac75d9bacb0318da2630be44f863cc6a57854b47f"
+      },
+      "cleanup": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-v1/cleanup.json",
+        "bytes": 16322,
+        "sha256": "ffcc028c4f20e7731fb1a67e916b3bebb737c3c49b99cb45cec55f1dec6eec4b"
+      },
+      "sourceBefore": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-v1/source-before.json",
+        "bytes": 205134,
+        "sha256": "3fe2b02f89709478097fd4207e9d2d2358db4e188508a28359f9df0b192bb956"
+      },
+      "sourceAfter": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-v1/source-after.json",
+        "bytes": 360280,
+        "sha256": "24c0e7fd2086a6589e45972c66655a68be63cd1445b57cb0ed2c4616a44893ef"
+      },
+      "servedBefore": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-v1/served-source-before.json",
+        "bytes": 11632,
+        "sha256": "936d059da98517bd9c649f5c5d0dac4c7ebc493f3868ccd74deef03c13d182ad"
+      },
+      "servedAfter": {
+        "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-v1/served-source-after.json",
+        "bytes": 21649,
+        "sha256": "7a6b31681408c57953745ffd49c7637597f542d149e947b84dbd942ae4a816b4"
+      }
+    }
+  ],
+  "noCampaignMutation": true,
+  "newMainInputProduced": false,
+  "currentMainUnchanged": true,
+  "currentMainPins": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+    }
+  ],
+  "eachRunOwnSeedOnly": true,
+  "crossRunSeedEqualityClaimed": false,
+  "backgroundCityIsDimmed": true,
+  "backgroundCityInteractiveOwnerAccepted": false,
+  "physicalPresentationAccepted": false,
+  "stablePerformanceAccepted": false,
+  "activeWoodAidAccepted": false,
+  "cssVisualLayoutAccepted": false,
+  "globalHdComplete": false,
+  "observations": {
+    "before": {
+      "originalOk": true,
+      "originalAcceptedForObservationClosure": true,
+      "sourceCount": 1126,
+      "servedCount": 73,
+      "executedCopies": 23,
+      "seedFingerprint": "201d4a8d3abdf6ad1ec652abf8bcf45482e46445dfa79f733388242c6e45e323",
+      "wholeCheckpointWorlds": 6,
+      "additionalFinalWorld": 1,
+      "currentMainUnchanged": true,
+      "newBuy": 0,
+      "newMake": 0,
+      "newEnd": 0,
+      "newSave": 0,
+      "totalIncludingOpening": 53,
+      "quantityConfirmations": 0,
+      "trustedStepClicks": 32,
+      "trustedBackCaptures": 2,
+      "successfulFifoAcks": 24,
+      "nullBarrierCallbacks": 24,
+      "rapidOverlap": [
+        true,
+        true
+      ],
+      "pendingCancel": {
+        "cancelContractSatisfied": true,
+        "pendingCancelObserved": true,
+        "status": "observed",
+        "dispatchedEditPrefix": 1,
+        "discardedUnsentSteps": 7
+      },
+      "afterDoneForegroundMismatches": 0,
+      "afterDoneCityMismatches": 24,
+      "endpoints": [
+        {
+          "label": "s1-minus12",
+          "value": 165,
+          "immediateForeground": 165,
+          "immediateCity": 167,
+          "backgroundConverged": true,
+          "backgroundObservedAfterQuiescenceMs": 125,
+          "frontObservedAfterQuiescenceMs": 0.10000000894069672,
+          "physicalPresentation": false
+        },
+        {
+          "label": "s1-plus12",
+          "value": 177,
+          "immediateForeground": 177,
+          "immediateCity": 173,
+          "backgroundConverged": true,
+          "backgroundObservedAfterQuiescenceMs": 74.90000000596046,
+          "frontObservedAfterQuiescenceMs": 0.4000000059604645,
+          "physicalPresentation": false
+        }
+      ],
+      "cancelOwnerObservationWindows": [
+        {
+          "nativeExitToDialogObservationMs": 45.70000000298023,
+          "nativeExitToBackHitObservationMs": 45.70000000298023,
+          "noExtraEscape": true,
+          "timestampsAreObservationUpperBounds": true
+        },
+        {
+          "nativeExitToDialogObservationMs": 76.20000000298023,
+          "nativeExitToBackHitObservationMs": 76.20000000298023,
+          "noExtraEscape": true,
+          "timestampsAreObservationUpperBounds": true
+        }
+      ],
+      "cleanupOriginalTreeExited": true,
+      "backgroundIsDimmed": true,
+      "physicalPresentationAccepted": false,
+      "stablePerformanceAccepted": false
+    },
+    "after": {
+      "originalOk": true,
+      "originalAcceptedForObservationClosure": true,
+      "sourceCount": 1126,
+      "servedCount": 72,
+      "executedCopies": 23,
+      "seedFingerprint": "010764a782f821603c70178eb372ae00ebdecca1b184f087ff919ac0bc5876cf",
+      "wholeCheckpointWorlds": 6,
+      "additionalFinalWorld": 1,
+      "currentMainUnchanged": true,
+      "newBuy": 0,
+      "newMake": 0,
+      "newEnd": 0,
+      "newSave": 0,
+      "totalIncludingOpening": 53,
+      "quantityConfirmations": 0,
+      "trustedStepClicks": 32,
+      "trustedBackCaptures": 2,
+      "successfulFifoAcks": 24,
+      "nullBarrierCallbacks": 24,
+      "rapidOverlap": [
+        true,
+        true
+      ],
+      "pendingCancel": {
+        "cancelContractSatisfied": true,
+        "pendingCancelObserved": true,
+        "status": "observed",
+        "dispatchedEditPrefix": 1,
+        "discardedUnsentSteps": 7
+      },
+      "afterDoneForegroundMismatches": 0,
+      "afterDoneCityMismatches": 0,
+      "endpoints": [
+        {
+          "label": "s1-minus12",
+          "value": 165,
+          "immediateForeground": 165,
+          "immediateCity": 165,
+          "backgroundConverged": true,
+          "backgroundObservedAfterQuiescenceMs": 0.09999999403953552,
+          "frontObservedAfterQuiescenceMs": 0.09999999403953552,
+          "physicalPresentation": false
+        },
+        {
+          "label": "s1-plus12",
+          "value": 177,
+          "immediateForeground": 177,
+          "immediateCity": 177,
+          "backgroundConverged": true,
+          "backgroundObservedAfterQuiescenceMs": 0.09999999403953552,
+          "frontObservedAfterQuiescenceMs": 0.09999999403953552,
+          "physicalPresentation": false
+        }
+      ],
+      "cancelOwnerObservationWindows": [
+        {
+          "nativeExitToDialogObservationMs": 112.09999999403954,
+          "nativeExitToBackHitObservationMs": 112.09999999403954,
+          "noExtraEscape": true,
+          "timestampsAreObservationUpperBounds": true
+        },
+        {
+          "nativeExitToDialogObservationMs": 51.79999999701977,
+          "nativeExitToBackHitObservationMs": 51.79999999701977,
+          "noExtraEscape": true,
+          "timestampsAreObservationUpperBounds": true
+        }
+      ],
+      "cleanupOriginalTreeExited": true,
+      "backgroundIsDimmed": true,
+      "physicalPresentationAccepted": false,
+      "stablePerformanceAccepted": false
+    },
+    "sourceChanges": [
+      {
+        "before": {
+          "path": "js/hd-city-menu.js",
+          "bytes": 429190,
+          "sha256": "fc962400da101aba777e03ad40eba53c9761295bc3be032bf713516a2c2c4a65"
+        },
+        "after": {
+          "path": "js/hd-city-menu.js",
+          "bytes": 431117,
+          "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f"
+        }
+      },
+      {
+        "before": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "3395a55a43b4f4f9ad079765c60091527e8e411079900f54e802255a5bb64ad8"
+        },
+        "after": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "56eac4795219ad6e9ce7b0140dc02d6f2d8029a4ae2899e458ea3bdc2d672969"
+        }
+      }
+    ],
+    "unchangedStartupSources": 1124,
+    "servedOnlyBefore": [
+      "assets/hd-portraits/refs/period-4/50-王粲.png"
+    ],
+    "servedOnlyAfter": [],
+    "eachRunOwnSeedUnchanged": true,
+    "crossRunSameSeedClaimed": false,
+    "backgroundCityNowCurrentAfterDone": true,
+    "backgroundIsDimmed": true,
+    "performanceBaselineAccepted": false,
+    "physicalPresentationAccepted": false,
+    "activeWoodAidAccepted": false,
+    "globalHdComplete": false
+  },
+  "originalControllers": {
+    "beforeOk": true,
+    "beforeExitCode": 0,
+    "afterOk": true,
+    "afterExitCode": 0,
+    "previousV45AfterFalseChanged": false
+  },
+  "regression": {
+    "previousClosedTests": 7708,
+    "tests": 7715,
+    "registeredFiles": 141,
+    "newDifferentTests": 7,
+    "oldBehaviorContrastExpectedFailures": 2,
+    "newAndExistingQuantityTarget": 14,
+    "formalRoutingAndInputTarget": 178,
+    "pureRapidControls": 20,
+    "oldContrastAndRepeatedTargetsNotAddedAgain": true
+  },
+  "full": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1.json",
+      "bytes": 40336,
+      "sha256": "40e4085219e96a3f033779a6ca84946c83b2051721256299b85284d3d49090fe"
+    },
+    "before": {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1-before.json",
+      "bytes": 39416,
+      "sha256": "8e5d36eb42667dd009588ff8b51713244efa56f40ba1b5263251ac079b2b1157"
+    },
+    "stdout": {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1.stdout.log",
+      "bytes": 649095,
+      "sha256": "820da1679fd2dd855c4ce4f5e8209fe6d3d1011072a1b6c1a49b9ebc6aad2cde"
+    },
+    "stderr": {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdoutGzip": {
+      "path": "docs/validation/m5-city-quantity-rapid-20261024-v46-full-test.log.gz",
+      "bytes": 168830,
+      "sha256": "7db3dde169f78c5505475621bfa7329f41fabe194507fa1aa3cd8dfd857fb867"
+    },
+    "terminal": {
+      "session": 99225,
+      "initial": "fc14fc",
+      "final": "c6115a",
+      "exitCode": 0
+    },
+    "CC": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "duration_ms": 443350.3022
+  },
+  "archive": {
+    "path": "docs/validation/m5-city-quantity-rapid-20261024-v46-archive.json",
+    "bytes": 76891,
+    "sha256": "b421668113794e56e457a4ea1425f3c7e573963c75e0cb63afd802eb94d675b0"
+  },
+  "reader": {
+    "path": "docs/validation/m5-city-quantity-rapid-20261024-v46-verify.mjs",
+    "bytes": 31853,
+    "sha256": "081cf76d39d5c2003b0b2ee97da70a7576f5b5faf520d7156c248ed2c3a64390"
+  },
+  "readerDependency": {
+    "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+    "bytes": 32262,
+    "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca"
+  },
+  "supportPins": [
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-candidate-independent-review-v1.mjs",
+      "bytes": 6374,
+      "sha256": "dd508ade767c42472938235e6adc97d24fa4c6d78ec1bc84bdadd7cb8e46f89d"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-candidate-independent-review-v1.json",
+      "bytes": 3620,
+      "sha256": "c5be711684abd9aa6b6440a4456f3b360fed8b7d6f77cd62e0ba13bdc7c3fabd"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-final-source-test-review-v1.mjs",
+      "bytes": 7570,
+      "sha256": "49491a3402be012476786bbb174a3076146d8ef9b0f39efd6801b016734ee086"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-final-source-test-review-v1.json",
+      "bytes": 4997,
+      "sha256": "79374a50deae72267a5eea3681718105d9715485dbd6b9a2d4c6ad32fc9fd256"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-apply-v1.json",
+      "bytes": 1455,
+      "sha256": "0ea7a193431bf084cbcd4b75876453bc2d8887a1a36b2e305088a2652876bd9d"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-fullrunner-independent-v1.mjs",
+      "bytes": 4389,
+      "sha256": "aeb1ed93ebf4b50e9c00acb346f44f14c7da185deb22cf92e2d4a5b21d2be475"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-fullrunner-independent-v1.json",
+      "bytes": 4451,
+      "sha256": "52d30703e5ec11c44039280db6c9413e6b819d1e9b5729d1fa96d08bc08a9ad6"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-full-independent-v1.mjs",
+      "bytes": 7452,
+      "sha256": "df14f348a90559c971a669a70ef97fcaec6ac5687d98959d1982fbdd71244fcd"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-full-independent-v1.json",
+      "bytes": 8450,
+      "sha256": "d87dcec94a94275b443dcd97c929c09f8a9b6e6772f5078754556b08a8007892"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-independent-support-v1.json",
+      "bytes": 3888,
+      "sha256": "51abdf6dc61937662fd5a0b423853e2eccf973549aed807673b6470e1cf51595"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+      "bytes": 9878,
+      "sha256": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1.json",
+      "bytes": 40336,
+      "sha256": "40e4085219e96a3f033779a6ca84946c83b2051721256299b85284d3d49090fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1-before.json",
+      "bytes": 39416,
+      "sha256": "8e5d36eb42667dd009588ff8b51713244efa56f40ba1b5263251ac079b2b1157"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1.stdout.log",
+      "bytes": 649095,
+      "sha256": "820da1679fd2dd855c4ce4f5e8209fe6d3d1011072a1b6c1a49b9ebc6aad2cde"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-root-full-v1.json",
+      "bytes": 38972,
+      "sha256": "851d1a04081f1c7226bf20bab93db78ef52ffc451e3fc6fda2ae1ca5cc71f08d"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-root-full-v1.stdout.log",
+      "bytes": 648344,
+      "sha256": "5cf4eaacac4724101726110db66e743a83088f198d1ed270c4e0f7f0b149dd3a"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v46-city-quantity-reader-draft-v1.mjs",
+      "bytes": 6621,
+      "sha256": "9a807e10b1275d80a106a40fcb8633d149d2f4b154a2c2ced6adecca250f8d0c"
+    },
+    {
+      "path": "build/impact-skill-20261014/v46-city-quantity-semantics-v1.mjs",
+      "bytes": 14423,
+      "sha256": "8a9c91977285817e2368639938201ffac04852c663f26031f20369448dcb6ae9"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v46-city-quantity-reader-final-v1.mjs",
+      "bytes": 9024,
+      "sha256": "c5921a7788b22c67e0ea06500a542c5b7931326b92bddd1f4a3935527f7abfac"
+    },
+    {
+      "path": "build/impact-skill-20261014/v46-city-quantity-reader-final-v1.mjs",
+      "bytes": 31853,
+      "sha256": "081cf76d39d5c2003b0b2ee97da70a7576f5b5faf520d7156c248ed2c3a64390"
+    },
+    {
+      "path": "build/impact-skill-20261014/v46-city-quantity-reader-execution-projection-v1.mjs",
+      "bytes": 31873,
+      "sha256": "13a3784db1f7b274fae2f5b6f71c910ead5043480500ebb2a3a255eaec364fc3"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v46-city-quantity-draft-v1.mjs",
+      "bytes": 4271,
+      "sha256": "313a3ee309055bf8215839d6cd415c34fe9816c91b426304cdeb2df1c7d8e163"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v46-city-quantity-final-v1.mjs",
+      "bytes": 12546,
+      "sha256": "dd211847196cd50e5d90c94d2629cd1661d04677e7525bdc6cd575ef613a3e65"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v46-city-quantity-publication-v1.mjs",
+      "bytes": 2861,
+      "sha256": "b861217c7d35d5a97037d8df50c5dbff96a2afb448cd2e6406813c76a10e93cd"
+    },
+    {
+      "path": "build/impact-skill-20261014/v46-city-quantity-publication-preparation-v1.json",
+      "bytes": 10457,
+      "sha256": "6bf3f82ffdaaaa0eef8e2e059b1349256f31387a27fa1f75261972c0759ad74c"
+    },
+    {
+      "path": "build/impact-skill-20261014/v46-city-quantity-publication-input-template-v1.json",
+      "bytes": 6662,
+      "sha256": "bb11bceb8380aabdd95f438b6427c968cab66afd87e88bd8810bfe0ac3911caf"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-candidate-v1.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-candidate-v1.mjs",
+      "bytes": 3359,
+      "sha256": "a30ca4976d9a8bbbc618e2a846b413946c4447be0462b23896b421656b1fe187"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-candidate-v1.mjs",
+      "bytes": 101302,
+      "sha256": "1f04676c63569b6b5f22d7bcaea76e9dde67227cb608b9d3076fc1d17787d947"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-r12-city-quantity-test-candidate-v1.mjs",
+      "bytes": 2401,
+      "sha256": "a7bc4c35fcee00e4306d55f830856298cf72cd5e80d39543a644c9c5575a503d"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-additions-v1.js.txt",
+      "bytes": 11596,
+      "sha256": "f28904d0a77d9324d198aeb354460a6644765d46a2c093407bcd4f5ef96ac318"
+    },
+    {
+      "path": "build/impact-skill-20261014/record-r12-city-quantity-test-candidate-v1.mjs",
+      "bytes": 3164,
+      "sha256": "a00eb0a404109f698ab8bcad70ad3fdda413d8704615178d62cc9d57b5868b62"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/receipt.json",
+      "bytes": 5283,
+      "sha256": "a8318b2660d290c4881cc293658a62d5527d600b8949eabe4e8905b42b24e2f1"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/old-two-behavior-stdout.txt",
+      "bytes": 2250,
+      "sha256": "5af08466066cc9aa39d6d4f4c51d08f4c3bebe0f048e52d5b4df6f3382c9ee6c"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/old-two-behavior-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/candidate-fourteen-stdout.txt",
+      "bytes": 3755,
+      "sha256": "38d162c93c78b904c64940283fed97a41f1d5b9a8cc6814f981f0318f3a14397"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/candidate-fourteen-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/formal-before-test.mjs",
+      "bytes": 88890,
+      "sha256": "e9cd89d6548fd95df957ede8d93768ce350f0d651a399283b618b5e1c16ebf99"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/old-city.js",
+      "bytes": 429190,
+      "sha256": "fc962400da101aba777e03ad40eba53c9761295bc3be032bf713516a2c2c4a65"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/dialog.js",
+      "bytes": 135589,
+      "sha256": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/candidate-city.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-controlled-v1/candidate-test.mjs",
+      "bytes": 101302,
+      "sha256": "1f04676c63569b6b5f22d7bcaea76e9dde67227cb608b9d3076fc1d17787d947"
+    },
+    {
+      "path": "build/impact-skill-20261014/project-r12-city-quantity-test-formal-v1.mjs",
+      "bytes": 2532,
+      "sha256": "3e28c3f5a76a4357dea1839d4a503d757fab9427bd73280c5c1ea00d442422a2"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-formal-v1.mjs",
+      "bytes": 101296,
+      "sha256": "52f5be18e08688dc3b70cde0c4de1706eefd824d3d215c798c649e31892a36dc"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-formal-projection-v1/receipt.json",
+      "bytes": 1809,
+      "sha256": "7efd7484dcd05bf25a7ef9f1b43025e7d63e507326319e41b1c25989a5a43daf"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-formal-projection-v1/nodecheck-stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-test-formal-projection-v1/nodecheck-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-source-lock-v1.mjs",
+      "bytes": 5138,
+      "sha256": "8459b05a459a6e8341f315766b6bfb11f1d1c72f4a8b198247978c9dcb89abca"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-source-lock-v1.json",
+      "bytes": 13044,
+      "sha256": "0876b8b5c82343e300daf8ad36dc1cdc04a9f98001ced8af2ddde12d97104d94"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-source-lock-v1.mjs",
+      "bytes": 5135,
+      "sha256": "eb93c28bdb009c81ac0985db57e47f4440766af2e5af40c5b580538748343f2d"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-source-lock-v1.json",
+      "bytes": 13014,
+      "sha256": "316e9a7c94b5a9c7c1407ac1167241e13d4620f30b442c9caa51dcaaa96e8f71"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-independent-v1.mjs",
+      "bytes": 15086,
+      "sha256": "b352d519ea2b80b13e9d5e6a8c86761d098cb4bbea540e96d9f0d790b5e18316"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-r12-rapid-closed-audits-v2.mjs",
+      "bytes": 1946,
+      "sha256": "e6d913cfafc70d4a98cc5fa99e289d26a552544f5975bdfb72c8e58a07f4fc56"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-independent-v2.mjs",
+      "bytes": 15328,
+      "sha256": "9b60d69ed3c3353cd35b38d8970e710a36249b85e0b9802d6ef77104d7654544"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-r12-rapid-closed-audit-v3.mjs",
+      "bytes": 1916,
+      "sha256": "1088b263c11e889eaf44b5dc06ca6d27e2be3075a3ea9ca8c77a47e6571cf7e0"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-independent-v3.mjs",
+      "bytes": 15567,
+      "sha256": "b3232b3ea7d2f5c58d738b09d0fdc880632a20dd421e2a7371b1b6b220a2c002"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-audit-development-v1.json",
+      "bytes": 1001,
+      "sha256": "290cde7a6ec7ac4ff0d9fe873714c3a0b69506a94f307df0dbbeebd71912371a"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-independent-v3/receipt.json",
+      "bytes": 24686,
+      "sha256": "4e09224da3049f537ae2fb59c854285cb80ebafd048f487d69d83adf5b4835e4"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-before-independent-v3/per-ack-dom.json",
+      "bytes": 20606,
+      "sha256": "e7b58aabde9fb16e5e93f08fc09ed1a22c8c49c01466bf4a47d084c6c82d7495"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-independent-v3/receipt.json",
+      "bytes": 24656,
+      "sha256": "b09b378aa75fbe98486c61a31d38ac916de6ec692f5672a5be5f634403c59e03"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-after-independent-v3/per-ack-dom.json",
+      "bytes": 20642,
+      "sha256": "8fb030d0de28a2b0b46bd3a81cdd4c80ed774fdd49ec585788b566170589a804"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-paired-independent-v1.mjs",
+      "bytes": 5821,
+      "sha256": "c5981d082ca81917e99b9646f20874b4a98502bbb8e4858a5cfcfe2ae09eadfd"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-city-quantity-rapid-paired-independent-v1.json",
+      "bytes": 22173,
+      "sha256": "79b4ceef6b05b5cec2361ae53d61c74c6a69133164b0e5602f5f160aa498072f"
+    }
+  ],
+  "exactIgnoredSources": [
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/test-october-quantity-latency-source-v4.mjs",
+    "build/impact-skill-20261014/r12-quantity-latency-source-controls-v4.json",
+    "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+    "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+    "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt",
+    "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs"
+  ],
+  "sourceBoundary": {
+    "startupEach": 1126,
+    "exactChangedPublicSources": [
+      {
+        "before": {
+          "path": "js/hd-city-menu.js",
+          "bytes": 429190,
+          "sha256": "fc962400da101aba777e03ad40eba53c9761295bc3be032bf713516a2c2c4a65"
+        },
+        "after": {
+          "path": "js/hd-city-menu.js",
+          "bytes": 431117,
+          "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f"
+        }
+      },
+      {
+        "before": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "3395a55a43b4f4f9ad079765c60091527e8e411079900f54e802255a5bb64ad8"
+        },
+        "after": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "56eac4795219ad6e9ce7b0140dc02d6f2d8029a4ae2899e458ea3bdc2d672969"
+        }
+      }
+    ],
+    "unchangedStartupSources": 1124,
+    "servedEach": [
+      73,
+      72
+    ],
+    "servedOnlyBefore": [
+      "assets/hd-portraits/refs/period-4/50-王粲.png"
+    ],
+    "executedCopiesEach": 23,
+    "fullSelectedCurrentSources": 215,
+    "matchingGitCheckoutRequired": true,
+    "portableClosedSourceArchive": false,
+    "fullSourceTreeCopied": false,
+    "profileArchived": false,
+    "oldArchivesTraversed": false
+  },
+  "limits": [
+    "Two real32-step-click runs with two12step FIFO segments and actual pending cancel; local instrumented observations, not stable device performance.",
+    "Each run preserves its own complete world, original SAVpair and seed fingerprint. Seed fingerprints differ between the runs; no cross-run seed continuity is claimed.",
+    "The foreground Dialog body/range and partially visible dimmed City strong are separate endpoints; no acceptance of City background interactivity or all other quantity owners.",
+    "after-original-done-return DOM values are JS read/microtask observations. Endpoint0.1ms is neither physical display nor true screen-paint latency.",
+    "Existing City summary text updates only; VM nodes are pre-seeded and do not accept initial City HTML construction or real focus/layout. Browser evidence is separately retained.",
+    "Main Oct239-10 input remains unchanged: city20Food1/Money886/strict267gap266. No payment, QtyENTER39, MAKE, END or nativeSAVE occurred; nextEND remains disallowed."
+  ]
+}

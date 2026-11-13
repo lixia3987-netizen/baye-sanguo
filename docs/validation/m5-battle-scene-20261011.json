@@ -1,0 +1,2358 @@
+{
+  "at": "2026-10-11T11:00:40.296Z",
+  "productChanged": true,
+  "nativeBuildChanged": false,
+  "globalHdComplete": false,
+  "realDeviceAccepted": false,
+  "scope": "Original STACHG27 read-only full HD effect scene on authenticated native 10x6 viewport. Actual AI only; upgrade/departure product paths have pure tests but no new natural runtime acceptance.",
+  "runs": [
+    {
+      "directory": "mobile-667-v1",
+      "ok": true,
+      "accepted": true,
+      "hdSceneAccepted": true,
+      "fallbackAccepted": false,
+      "viewport": [
+        667,
+        375
+      ],
+      "error": null,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "battle-scene-retired-667"
+      ],
+      "nativeKeys": 38,
+      "publicActions": null,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceCount": 143,
+      "sourceDrift": [],
+      "currentMismatches": [],
+      "cleanup": true,
+      "httpClosed": true,
+      "profileRetained": true,
+      "scene": {
+        "accepted": true,
+        "projectedCommits": 5,
+        "events": [
+          "3:5"
+        ],
+        "viewports": [
+          [
+            667,
+            375
+          ]
+        ],
+        "scope": "Actual original AI target scene identity, native viewport and unit projection, observed colored HD pixels, display-only ownership, camera unchanged and zero automatic inputs. Exact PNG pixel composition and natural upgrade/departure are not claimed."
+      },
+      "turns": 3
+    },
+    {
+      "directory": "mobile-844-v2",
+      "ok": true,
+      "accepted": true,
+      "hdSceneAccepted": true,
+      "fallbackAccepted": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "error": null,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "battle-scene-retired-844"
+      ],
+      "nativeKeys": 38,
+      "publicActions": null,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceCount": 143,
+      "sourceDrift": [],
+      "currentMismatches": [],
+      "cleanup": true,
+      "httpClosed": true,
+      "profileRetained": true,
+      "scene": {
+        "accepted": true,
+        "projectedCommits": 5,
+        "events": [
+          "3:5"
+        ],
+        "viewports": [
+          [
+            844,
+            390
+          ]
+        ],
+        "scope": "Actual original AI target scene identity, native viewport and unit projection, observed colored HD pixels, display-only ownership, camera unchanged and zero automatic inputs. Exact PNG pixel composition and natural upgrade/departure are not claimed."
+      },
+      "turns": 3
+    },
+    {
+      "directory": "mobile-v1",
+      "ok": false,
+      "accepted": false,
+      "hdSceneAccepted": false,
+      "fallbackAccepted": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "error": "Error: Timed out Natural AI returns to next native player bout",
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "failure"
+      ],
+      "publicActions": null,
+      "exceptions": 0,
+      "sourceCount": 143,
+      "sourceDrift": [],
+      "currentMismatches": [
+        "scripts/test-hd-mobile-city-runtime.mjs",
+        "scripts/hd-mobile-battle-scene-runtime-checks.mjs"
+      ],
+      "cleanup": true,
+      "httpClosed": true,
+      "profileRetained": true,
+      "turns": 3
+    },
+    {
+      "directory": "pc-1080-v1",
+      "ok": false,
+      "accepted": false,
+      "hdSceneAccepted": false,
+      "fallbackAccepted": false,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "error": "AssertionError [ERR_ASSERTION]: Scene final source-over composite premultiplied byte 3045148",
+      "checkpoints": [
+        "01-engine-ready",
+        "02-classic-title",
+        "03-period",
+        "04-lord",
+        "05-classic-map",
+        "06-hd-city",
+        "07-march-persons",
+        "08-march-persons-picked",
+        "09-march-food",
+        "10-march-target-instruction",
+        "11-march-target",
+        "12-march-departure-report",
+        "13-march-order-ack",
+        "14-battle-ready",
+        "15-ai-target-retired-real-player-input"
+      ],
+      "nativeKeys": 40,
+      "publicActions": 29,
+      "nativeTouches": null,
+      "exceptions": 0,
+      "sourceCount": 1219,
+      "sourceDrift": [],
+      "currentMismatches": [
+        "scripts/hd-battle-scene-runtime-oracle.mjs",
+        "scripts/test-hd-battle-scene-runtime-oracle.mjs"
+      ],
+      "cleanup": true,
+      "httpClosed": true,
+      "profileRetained": true,
+      "scene": {
+        "sceneReadbacks": [
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 1,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                12
+              ],
+              "clears": [],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "76e08af36ceb959c8afa715ffd5a29f8fa4a3f0673594719782a4a240a1208b1",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "b98bfb65b0b9e2fbd6107f38e3996dbefb9afb0af70555dafb0b69d83cc161c2",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; one U8 premultiplied rounding tolerance, exact outside; no independent terrain/font rasterization"
+            }
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 2,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                13
+              ],
+              "clears": [
+                12
+              ],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "58fdf480711a55f2b1e98b4aba80f82cf18f679f33b25f3c8e06bdc1afcd3939",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "caff0e47bc06424613e40fe46388a783c1166872e2e73bfcd82373c890b94fda",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; one U8 premultiplied rounding tolerance, exact outside; no independent terrain/font rasterization"
+            }
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 3,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                14
+              ],
+              "clears": [
+                12,
+                13
+              ],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "76e08af36ceb959c8afa715ffd5a29f8fa4a3f0673594719782a4a240a1208b1",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "b98bfb65b0b9e2fbd6107f38e3996dbefb9afb0af70555dafb0b69d83cc161c2",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; one U8 premultiplied rounding tolerance, exact outside; no independent terrain/font rasterization"
+            }
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 4,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                15
+              ],
+              "clears": [
+                12,
+                13,
+                14
+              ],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "58fdf480711a55f2b1e98b4aba80f82cf18f679f33b25f3c8e06bdc1afcd3939",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "caff0e47bc06424613e40fe46388a783c1166872e2e73bfcd82373c890b94fda",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; one U8 premultiplied rounding tolerance, exact outside; no independent terrain/font rasterization"
+            }
+          }
+        ]
+      },
+      "turns": 5
+    },
+    {
+      "directory": "pc-1080-v2",
+      "ok": true,
+      "accepted": true,
+      "hdSceneAccepted": true,
+      "fallbackAccepted": false,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "error": null,
+      "checkpoints": [
+        "01-engine-ready",
+        "02-classic-title",
+        "03-period",
+        "04-lord",
+        "05-classic-map",
+        "06-hd-city",
+        "07-march-persons",
+        "08-march-persons-picked",
+        "09-march-food",
+        "10-march-target-instruction",
+        "11-march-target",
+        "12-march-departure-report",
+        "13-march-order-ack",
+        "14-battle-ready",
+        "15-ai-target-retired-real-player-input"
+      ],
+      "nativeKeys": 40,
+      "publicActions": 29,
+      "nativeTouches": null,
+      "exceptions": 0,
+      "sourceCount": 1219,
+      "sourceDrift": [],
+      "currentMismatches": [],
+      "cleanup": true,
+      "httpClosed": true,
+      "profileRetained": true,
+      "scene": {
+        "nativePixelOracle": {
+          "events": 1,
+          "actualLcdCallbacks": 5,
+          "hdReadbacks": 5,
+          "verified": [
+            {
+              "generation": 3,
+              "eventId": 6,
+              "commitSeq": 1,
+              "frameIndex": 12,
+              "visible": [
+                12
+              ],
+              "cleared": [],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 85,
+                "x": 7,
+                "y": 14,
+                "name": "方悦"
+              },
+              "target": {
+                "i": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14,
+                "name": "梁兴"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "hd-assets",
+              "baseIndices": [
+                0,
+                255
+              ],
+              "baseRgbaSha256": "2b96e8bd98e7438fc72f45c12564bf644c60b535c9f55c3a79adf8fea6b78d50",
+              "nativeRgbaSha256": "07c4a1be1cccbe8d5ada7d723ad5ebc70908919951b605dff19d372d8e846dff",
+              "independentExpectedSha256": "07c4a1be1cccbe8d5ada7d723ad5ebc70908919951b605dff19d372d8e846dff",
+              "nativeFile": {
+                "file": "ai-target-000-lcd.png",
+                "bytes": 6385,
+                "sha256": "63d093b8f87d4dc58f78b27b93e5fab921153dc2c7545d14f37385d58c5aee2b"
+              },
+              "hdFile": {
+                "file": "ai-target-000-hd.png",
+                "bytes": 249292,
+                "sha256": "a4c953912d5b0925ea92cb19f6cc258c85f0bedefcefd5ab751c219497de737e"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 6,
+              "commitSeq": 2,
+              "frameIndex": 13,
+              "visible": [
+                13
+              ],
+              "cleared": [
+                12
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 85,
+                "x": 7,
+                "y": 14,
+                "name": "方悦"
+              },
+              "target": {
+                "i": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14,
+                "name": "梁兴"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "hd-assets",
+              "baseIndices": [
+                0,
+                255
+              ],
+              "baseRgbaSha256": "2b96e8bd98e7438fc72f45c12564bf644c60b535c9f55c3a79adf8fea6b78d50",
+              "nativeRgbaSha256": "7cecfbf1ed054649305ca7c2f04e9577fe69c0c72afc2699a08d52626252ae09",
+              "independentExpectedSha256": "7cecfbf1ed054649305ca7c2f04e9577fe69c0c72afc2699a08d52626252ae09",
+              "nativeFile": {
+                "file": "ai-target-001-lcd.png",
+                "bytes": 6317,
+                "sha256": "0e4f2a3fde8756c0d1ca3e0fcb75566494924b7fd5f1bfb2b68d91aa6507ecaa"
+              },
+              "hdFile": {
+                "file": "ai-target-001-hd.png",
+                "bytes": 250125,
+                "sha256": "8b2f2c2bc18824b3a07289a3e55ff905246e74ffaa10804008b62b93634ae313"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 6,
+              "commitSeq": 3,
+              "frameIndex": 14,
+              "visible": [
+                14
+              ],
+              "cleared": [
+                12,
+                13
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 85,
+                "x": 7,
+                "y": 14,
+                "name": "方悦"
+              },
+              "target": {
+                "i": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14,
+                "name": "梁兴"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "hd-assets",
+              "baseIndices": [
+                0,
+                255
+              ],
+              "baseRgbaSha256": "2b96e8bd98e7438fc72f45c12564bf644c60b535c9f55c3a79adf8fea6b78d50",
+              "nativeRgbaSha256": "7308d423094505106065400e5cd724f21147d859ccf6deba8a5febe67eb011eb",
+              "independentExpectedSha256": "7308d423094505106065400e5cd724f21147d859ccf6deba8a5febe67eb011eb",
+              "nativeFile": {
+                "file": "ai-target-002-lcd.png",
+                "bytes": 6320,
+                "sha256": "5afed21aa7ee32539d204a50b53143c5359462ceb4d2c034c2c7242ec75817dc"
+              },
+              "hdFile": {
+                "file": "ai-target-002-hd.png",
+                "bytes": 249292,
+                "sha256": "a4c953912d5b0925ea92cb19f6cc258c85f0bedefcefd5ab751c219497de737e"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 6,
+              "commitSeq": 4,
+              "frameIndex": 15,
+              "visible": [
+                15
+              ],
+              "cleared": [
+                12,
+                13,
+                14
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 85,
+                "x": 7,
+                "y": 14,
+                "name": "方悦"
+              },
+              "target": {
+                "i": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14,
+                "name": "梁兴"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "hd-assets",
+              "baseIndices": [
+                0,
+                255
+              ],
+              "baseRgbaSha256": "2b96e8bd98e7438fc72f45c12564bf644c60b535c9f55c3a79adf8fea6b78d50",
+              "nativeRgbaSha256": "7cecfbf1ed054649305ca7c2f04e9577fe69c0c72afc2699a08d52626252ae09",
+              "independentExpectedSha256": "7cecfbf1ed054649305ca7c2f04e9577fe69c0c72afc2699a08d52626252ae09",
+              "nativeFile": {
+                "file": "ai-target-003-lcd.png",
+                "bytes": 6317,
+                "sha256": "0e4f2a3fde8756c0d1ca3e0fcb75566494924b7fd5f1bfb2b68d91aa6507ecaa"
+              },
+              "hdFile": {
+                "file": "ai-target-003-hd.png",
+                "bytes": 250125,
+                "sha256": "8b2f2c2bc18824b3a07289a3e55ff905246e74ffaa10804008b62b93634ae313"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 6,
+              "commitSeq": 5,
+              "frameIndex": 17,
+              "visible": [
+                16,
+                17
+              ],
+              "cleared": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 85,
+                "x": 7,
+                "y": 14,
+                "name": "方悦"
+              },
+              "target": {
+                "i": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14,
+                "name": "梁兴"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "hd-assets",
+              "baseIndices": [
+                0,
+                255
+              ],
+              "baseRgbaSha256": "2b96e8bd98e7438fc72f45c12564bf644c60b535c9f55c3a79adf8fea6b78d50",
+              "nativeRgbaSha256": "a558349975712ce5416d3cf85760c8da0dcfc3e4872911ad852c66ddc39f78a5",
+              "independentExpectedSha256": "a558349975712ce5416d3cf85760c8da0dcfc3e4872911ad852c66ddc39f78a5",
+              "nativeFile": {
+                "file": "ai-target-004-lcd.png",
+                "bytes": 6343,
+                "sha256": "f93b47c62d3873b56946eb1245656db26d3091eb759bced414daa61d4838684b"
+              },
+              "hdFile": {
+                "file": "ai-target-004-hd.png",
+                "bytes": 256743,
+                "sha256": "d01d51c72a83d977b4bb06f7ba1007a38edbbfa5adef1fa75a1d23f1f0badafd"
+              }
+            }
+          ]
+        },
+        "sceneReadbacks": [
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 1,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                12
+              ],
+              "clears": [],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "76e08af36ceb959c8afa715ffd5a29f8fa4a3f0673594719782a4a240a1208b1",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "b98bfb65b0b9e2fbd6107f38e3996dbefb9afb0af70555dafb0b69d83cc161c2",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+            }
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 2,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                13
+              ],
+              "clears": [
+                12
+              ],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "58fdf480711a55f2b1e98b4aba80f82cf18f679f33b25f3c8e06bdc1afcd3939",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "caff0e47bc06424613e40fe46388a783c1166872e2e73bfcd82373c890b94fda",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+            }
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 3,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                14
+              ],
+              "clears": [
+                12,
+                13
+              ],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "76e08af36ceb959c8afa715ffd5a29f8fa4a3f0673594719782a4a240a1208b1",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "b98bfb65b0b9e2fbd6107f38e3996dbefb9afb0af70555dafb0b69d83cc161c2",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+            }
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 4,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                15
+              ],
+              "clears": [
+                12,
+                13,
+                14
+              ],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "58fdf480711a55f2b1e98b4aba80f82cf18f679f33b25f3c8e06bdc1afcd3939",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "caff0e47bc06424613e40fe46388a783c1166872e2e73bfcd82373c890b94fda",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+            }
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 5,
+            "scene": {
+              "accepted": true,
+              "family": "ai-target",
+              "view": {
+                "x": 1,
+                "y": 12,
+                "cols": 10,
+                "rows": 6
+              },
+              "subject": {
+                "index": 5,
+                "person": 63,
+                "x": 6,
+                "y": 14
+              },
+              "region": {
+                "x": 880,
+                "y": 352,
+                "width": 176,
+                "height": 176
+              },
+              "frames": [
+                16,
+                17
+              ],
+              "clears": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "renderedUnits": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                11
+              ],
+              "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+              "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+            },
+            "pixels": {
+              "accepted": true,
+              "outsidePixels": 1827584,
+              "actualSha256": "c6e488fef6e654fbf0e69c3a6f8d2adbf7ad833b4fee05423b0d7292ca6356b2",
+              "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+              "effectSha256": "2da7f08db0ae28dd2c3fe1962fc1b2574558a3a2d3492959d09502a711810eb5",
+              "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+            }
+          }
+        ],
+        "scope": {
+          "accepted": "Genuine native AI target27 units12..17; unchanged complete native160x96 AND/OR/timer oracle; current native10x6 HD scene and subject projection, exact observed scene baseline/outside and decoded transparent-asset/nativeWhitePixels composition",
+          "notRun": "Independent terrain/font rasterizer, experience/death units0..11, action-camera positioning, arbitrary Mods, other skills, touch/mobile, performance, global HD completion"
+        }
+      },
+      "turns": 5
+    },
+    {
+      "directory": "pc-720-missing-v1",
+      "ok": true,
+      "accepted": true,
+      "hdSceneAccepted": false,
+      "fallbackAccepted": true,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "error": null,
+      "checkpoints": [
+        "01-engine-ready",
+        "02-classic-title",
+        "03-period",
+        "04-lord",
+        "05-classic-map",
+        "06-hd-city",
+        "07-march-persons",
+        "08-march-persons-picked",
+        "09-march-food",
+        "10-march-target-instruction",
+        "11-march-target",
+        "12-march-departure-report",
+        "13-march-order-ack",
+        "14-battle-ready",
+        "15-ai-target-retired-real-player-input"
+      ],
+      "nativeKeys": 36,
+      "publicActions": 25,
+      "nativeTouches": null,
+      "exceptions": 0,
+      "sourceCount": 1219,
+      "sourceDrift": [],
+      "currentMismatches": [],
+      "cleanup": true,
+      "httpClosed": true,
+      "profileRetained": true,
+      "scene": {
+        "nativePixelOracle": {
+          "events": 1,
+          "actualLcdCallbacks": 5,
+          "hdReadbacks": 0,
+          "verified": [
+            {
+              "generation": 3,
+              "eventId": 7,
+              "commitSeq": 1,
+              "frameIndex": 12,
+              "visible": [
+                12
+              ],
+              "cleared": [],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 11,
+                "x": 6,
+                "y": 17,
+                "name": "王匡"
+              },
+              "target": {
+                "i": 3,
+                "person": 61,
+                "x": 5,
+                "y": 16,
+                "name": "李堪"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "lcd",
+              "baseIndices": [
+                0,
+                207,
+                255
+              ],
+              "baseRgbaSha256": "560f213658a15a7a9384dc5afff6da259945a307f733c2d850a792c4ceebd105",
+              "nativeRgbaSha256": "0f6b5ba327d32f4397ce9f557e2f124b09734cca2c6b903d472b4a800f75530d",
+              "independentExpectedSha256": "0f6b5ba327d32f4397ce9f557e2f124b09734cca2c6b903d472b4a800f75530d",
+              "nativeFile": {
+                "file": "ai-target-000-lcd.png",
+                "bytes": 5781,
+                "sha256": "3fbd5b944f6f2e55c92e098fbd9ab946aff95e6bcf25c1c2e09c4ae32d484962"
+              },
+              "hdFile": {
+                "file": "ai-target-000-hd.png",
+                "bytes": 52332,
+                "sha256": "5842158a3172b5c474d4dd274907b329490523c993bc41fd123c0c417705f7ae"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 7,
+              "commitSeq": 2,
+              "frameIndex": 13,
+              "visible": [
+                13
+              ],
+              "cleared": [
+                12
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 11,
+                "x": 6,
+                "y": 17,
+                "name": "王匡"
+              },
+              "target": {
+                "i": 3,
+                "person": 61,
+                "x": 5,
+                "y": 16,
+                "name": "李堪"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "lcd",
+              "baseIndices": [
+                0,
+                207,
+                255
+              ],
+              "baseRgbaSha256": "560f213658a15a7a9384dc5afff6da259945a307f733c2d850a792c4ceebd105",
+              "nativeRgbaSha256": "a546cde8765d6447b59e638c2ef4120626f7d843f6a149aa6012cb1d2a77baf6",
+              "independentExpectedSha256": "a546cde8765d6447b59e638c2ef4120626f7d843f6a149aa6012cb1d2a77baf6",
+              "nativeFile": {
+                "file": "ai-target-001-lcd.png",
+                "bytes": 5665,
+                "sha256": "9a257cb41f9f5a77d57764291dcbec52fc3066ea04a48e3d7c2c96290863e18c"
+              },
+              "hdFile": {
+                "file": "ai-target-001-hd.png",
+                "bytes": 52079,
+                "sha256": "d5602e7c58c2ab94c7234cc962bab0920a4250a7b3a8f76f395811abad3e6764"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 7,
+              "commitSeq": 3,
+              "frameIndex": 14,
+              "visible": [
+                14
+              ],
+              "cleared": [
+                12,
+                13
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 11,
+                "x": 6,
+                "y": 17,
+                "name": "王匡"
+              },
+              "target": {
+                "i": 3,
+                "person": 61,
+                "x": 5,
+                "y": 16,
+                "name": "李堪"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "lcd",
+              "baseIndices": [
+                0,
+                207,
+                255
+              ],
+              "baseRgbaSha256": "560f213658a15a7a9384dc5afff6da259945a307f733c2d850a792c4ceebd105",
+              "nativeRgbaSha256": "5e298c1d7069bca534e859bb57719ef649dc7f4ee9660622dffdc04ab5699e72",
+              "independentExpectedSha256": "5e298c1d7069bca534e859bb57719ef649dc7f4ee9660622dffdc04ab5699e72",
+              "nativeFile": {
+                "file": "ai-target-002-lcd.png",
+                "bytes": 5656,
+                "sha256": "ce06d7b69a2bf830862c181cdf90a3999e6e40543ae2548cb7a3051638878076"
+              },
+              "hdFile": {
+                "file": "ai-target-002-hd.png",
+                "bytes": 52074,
+                "sha256": "9e24f2cfd05975b8bc0532029d123cf7453c2aa6619b440b218611be7a85a1bc"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 7,
+              "commitSeq": 4,
+              "frameIndex": 15,
+              "visible": [
+                15
+              ],
+              "cleared": [
+                12,
+                13,
+                14
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 11,
+                "x": 6,
+                "y": 17,
+                "name": "王匡"
+              },
+              "target": {
+                "i": 3,
+                "person": 61,
+                "x": 5,
+                "y": 16,
+                "name": "李堪"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "lcd",
+              "baseIndices": [
+                0,
+                207,
+                255
+              ],
+              "baseRgbaSha256": "560f213658a15a7a9384dc5afff6da259945a307f733c2d850a792c4ceebd105",
+              "nativeRgbaSha256": "a546cde8765d6447b59e638c2ef4120626f7d843f6a149aa6012cb1d2a77baf6",
+              "independentExpectedSha256": "a546cde8765d6447b59e638c2ef4120626f7d843f6a149aa6012cb1d2a77baf6",
+              "nativeFile": {
+                "file": "ai-target-003-lcd.png",
+                "bytes": 5665,
+                "sha256": "9a257cb41f9f5a77d57764291dcbec52fc3066ea04a48e3d7c2c96290863e18c"
+              },
+              "hdFile": {
+                "file": "ai-target-003-hd.png",
+                "bytes": 52079,
+                "sha256": "d5602e7c58c2ab94c7234cc962bab0920a4250a7b3a8f76f395811abad3e6764"
+              }
+            },
+            {
+              "generation": 3,
+              "eventId": 7,
+              "commitSeq": 5,
+              "frameIndex": 17,
+              "visible": [
+                16,
+                17
+              ],
+              "cleared": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "region": {
+                "x": 80,
+                "y": 32,
+                "width": 16,
+                "height": 16
+              },
+              "actor": {
+                "i": 11,
+                "person": 11,
+                "x": 6,
+                "y": 17,
+                "name": "王匡"
+              },
+              "target": {
+                "i": 3,
+                "person": 61,
+                "x": 5,
+                "y": 16,
+                "name": "李堪"
+              },
+              "commandType": 0,
+              "commandParam": 0,
+              "source": "lcd",
+              "baseIndices": [
+                0,
+                207,
+                255
+              ],
+              "baseRgbaSha256": "560f213658a15a7a9384dc5afff6da259945a307f733c2d850a792c4ceebd105",
+              "nativeRgbaSha256": "38bf008a058a22ed55a182d920dc4c15b78afccf910e62401327d7d0ba024e59",
+              "independentExpectedSha256": "38bf008a058a22ed55a182d920dc4c15b78afccf910e62401327d7d0ba024e59",
+              "nativeFile": {
+                "file": "ai-target-004-lcd.png",
+                "bytes": 5686,
+                "sha256": "483b5bde6852c62970ffda3159742278c2cc7a80dbdeb92b2a94c7f3416b418e"
+              },
+              "hdFile": {
+                "file": "ai-target-004-hd.png",
+                "bytes": 52138,
+                "sha256": "12b3d82a142c919ccc57c2ab8a0560e135dfd2a77361d59c01996f2d5cac38ae"
+              }
+            }
+          ]
+        },
+        "scope": {
+          "accepted": "Genuine native AI target27 units12..17; unchanged complete native160x96 AND/OR/timer oracle; current native10x6 HD scene and subject projection, exact observed scene baseline/outside and decoded transparent-asset/nativeWhitePixels composition",
+          "notRun": "Independent terrain/font rasterizer, experience/death units0..11, action-camera positioning, arbitrary Mods, other skills, touch/mobile, performance, global HD completion"
+        }
+      },
+      "turns": 3
+    }
+  ],
+  "suites": [
+    {
+      "startedAt": "2026-10-11T10:49:37.379Z",
+      "finishedAt": "2026-10-11T10:50:57.794Z",
+      "node": "v24.14.0",
+      "executionConcurrency": 1,
+      "modules": 89,
+      "exitCode": 0,
+      "counts": {
+        "tests": 4203,
+        "suites": 0,
+        "pass": 4203,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "sourceDrift": [],
+      "sources": 230,
+      "directory": "suite-v1"
+    },
+    {
+      "startedAt": "2026-10-11T10:54:15.407Z",
+      "finishedAt": "2026-10-11T10:55:37.511Z",
+      "node": "v24.14.0",
+      "executionConcurrency": 1,
+      "modules": 89,
+      "exitCode": 0,
+      "counts": {
+        "tests": 4207,
+        "suites": 0,
+        "pass": 4207,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "sourceDrift": [],
+      "sources": 230,
+      "directory": "suite-v2"
+    }
+  ],
+  "cleanup": {
+    "at": "2026-10-11T10:57:04.0641817Z",
+    "runs": 6,
+    "historicalIdentities": 74,
+    "aliveIdentities": [],
+    "privatePorts": [
+      13901,
+      13902,
+      1910,
+      1911,
+      14317,
+      14318,
+      11210,
+      11211,
+      6190,
+      6191,
+      5442,
+      5443
+    ],
+    "listeners": [],
+    "user8080Unchanged": true,
+    "user8080HttpStatus": 200,
+    "user8080": {
+      "pid": 57860,
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "created": "2026-10-10T11:26:04.2797180Z"
+    },
+    "processesStoppedByThisAudit": false,
+    "directoriesDeleted": false
+  },
+  "independentMobileReview": {
+    "schemaVersion": 1,
+    "auditOk": true,
+    "accepted": true,
+    "mobileAiSceneAccepted": true,
+    "reviewType": "Independent pure-file review of completed stored actual reports; no repeated browser run",
+    "reviewedAt": "2026-10-11T10:56:33.721Z",
+    "blockers": [],
+    "runtimeChecks": {
+      "path": "scripts/hd-mobile-battle-scene-runtime-checks.mjs",
+      "bytes": 8665,
+      "sha256": "2d70f36c42bc7a32ea37f4d6fd3bfc903be8985d4b49affb43819e8f2bfd03d9"
+    },
+    "sceneSource": {
+      "path": "js/hd-battle-scene.js",
+      "bytes": 18188,
+      "sha256": "771ec3b6989417c06d768831261022e635b232a2c36f6150d649e734e1f09c79"
+    },
+    "ownedHelper": {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+    },
+    "sameRecordedSourceSet": true,
+    "current143RefsEachByteExact": true,
+    "scenarios": [
+      {
+        "run": "build/hd-battle-scene-20261011/mobile-844-v2",
+        "result": {
+          "path": "build/hd-battle-scene-20261011/mobile-844-v2/result.json",
+          "bytes": 2049935,
+          "sha256": "446f3162a9a08cc5feb5a7ccf13bc3724567f13228c4a9844d584ef61bdd26c2"
+        },
+        "sourceVerification": {
+          "path": "build/hd-battle-scene-20261011/mobile-844-v2/source-verification.json",
+          "bytes": 27175,
+          "sha256": "010c3e258567b640cc87bd047104ad92f4a31681e8e868bc6f5417ef0da38197"
+        },
+        "ownershipJsonl": {
+          "path": "build/hd-battle-scene-20261011/mobile-844-v2/owned-process-samples.jsonl",
+          "bytes": 51358,
+          "sha256": "106c111267e5ce27d86249cd525311c99ed5293ffa059869de7dae4e2caf838a"
+        },
+        "viewport": [
+          844,
+          390
+        ],
+        "sourceFiles": 143,
+        "sourceDrift": [],
+        "events": [
+          "3:5"
+        ],
+        "commits": [
+          {
+            "commitSeq": 1,
+            "frameIndex": 12,
+            "frames": [
+              12
+            ],
+            "clears": [],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 2,
+            "frameIndex": 13,
+            "frames": [
+              13
+            ],
+            "clears": [
+              12
+            ],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 3,
+            "frameIndex": 14,
+            "frames": [
+              14
+            ],
+            "clears": [
+              12,
+              13
+            ],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 4,
+            "frameIndex": 15,
+            "frames": [
+              15
+            ],
+            "clears": [
+              12,
+              13,
+              14
+            ],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 5,
+            "frameIndex": 17,
+            "frames": [
+              16,
+              17
+            ],
+            "clears": [
+              12,
+              13,
+              14,
+              15
+            ],
+            "colorCount": 143
+          }
+        ],
+        "subject": {
+          "index": 3,
+          "person": 61,
+          "x": 5,
+          "y": 16
+        },
+        "view": {
+          "x": 0,
+          "y": 14,
+          "cols": 10,
+          "rows": 6
+        },
+        "region": {
+          "x": 880,
+          "y": 352,
+          "width": 176,
+          "height": 176
+        },
+        "renderedUnits": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          11
+        ],
+        "turns": 3,
+        "explicitEndTurnNativeKeys": [
+          40,
+          39
+        ],
+        "nativeKeyTotal": 38,
+        "nativeTouchTotal": 0,
+        "cameraUnchanged": true,
+        "noActionTicketDuringScene": true,
+        "retiredToHdPick": true,
+        "cleanup": {
+          "ownedJsonlRows": 5,
+          "historicalIdentityCount": 11,
+          "terminalRecordedCount": 8,
+          "recordedAbsentCount": 8,
+          "treeExited": true,
+          "serverClosed": true,
+          "profileRetained": true,
+          "directoriesDeleted": false,
+          "user8080Accessed": false,
+          "scope": "Recomputed recorded PID+birth ownership union from every JSONL row and checked stored final cleanup evidence. No new OS query; three earlier identities were no longer in the terminal snapshot."
+        },
+        "actualScenePng": {
+          "path": "build/hd-battle-scene-20261011/mobile-844-v2/scene-0.png",
+          "bytes": 238260,
+          "sha256": "605f50adaf0b518ab53c64e38838724833c22e5f1418536add81cf3270a2248e",
+          "width": 1760,
+          "height": 1056,
+          "nonGrayPixels": 1858487,
+          "nonGrayPixelsOutsideEffectCell": 1827584,
+          "scope": "PNG decode confirms actual colored pixels including outside the target cell; no native or asset pixel-composition equality claim."
+        },
+        "phasePngs": [
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-844-v2/00-title-844.png",
+            "bytes": 33878,
+            "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-844-v2/battle-01-fresh-pick-844.png",
+            "bytes": 72638,
+            "sha256": "b006817c38d867d64d484056b782b7963e5c454504801fbb92ec45f4c8b1ba56"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-844-v2/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+            "bytes": 56534,
+            "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-844-v2/battle-scene-retired-844.png",
+            "bytes": 74075,
+            "sha256": "aca479917213f6ed1f738a859bfaf7e1758e4932acbdb70944972e532d29fc8a"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-844-v2/battle-scene-retired-844-hd-mobile-battle-canvas.png",
+            "bytes": 58811,
+            "sha256": "c1a3641d8ca86d290e2bbd6678bbd8c56ae564f4e00c8398f53cacf01df43f67"
+          }
+        ],
+        "executedTool": {
+          "path": "build/hd-battle-scene-20261011/mobile-844-v2/executed-tool.mjs",
+          "bytes": 116357,
+          "sha256": "ae0efb38d3db5b1bed8916c7e76811bce2e6fda016b3863c106eeeba523e6f82"
+        },
+        "finishedAt": "2026-10-11T10:47:44.416Z",
+        "sceneRect": {
+          "x": 165.328125,
+          "y": 78,
+          "width": 513.328125,
+          "height": 308,
+          "stageX": 0,
+          "stageY": 52,
+          "stageW": 844,
+          "stageH": 338
+        }
+      },
+      {
+        "run": "build/hd-battle-scene-20261011/mobile-667-v1",
+        "result": {
+          "path": "build/hd-battle-scene-20261011/mobile-667-v1/result.json",
+          "bytes": 2046728,
+          "sha256": "af805f96f403747439d9b99c9fd36fc6fceeba97d4bce999b913779c2c010c9d"
+        },
+        "sourceVerification": {
+          "path": "build/hd-battle-scene-20261011/mobile-667-v1/source-verification.json",
+          "bytes": 27175,
+          "sha256": "9b005e928d6aac78466ba69129654d6900677e192025472febaa2c7300c10fb3"
+        },
+        "ownershipJsonl": {
+          "path": "build/hd-battle-scene-20261011/mobile-667-v1/owned-process-samples.jsonl",
+          "bytes": 51425,
+          "sha256": "03b02e5559885bb631a90a08553a9e7b67b9f1ee9d8f65c839c3775f613a7006"
+        },
+        "viewport": [
+          667,
+          375
+        ],
+        "sourceFiles": 143,
+        "sourceDrift": [],
+        "events": [
+          "3:5"
+        ],
+        "commits": [
+          {
+            "commitSeq": 1,
+            "frameIndex": 12,
+            "frames": [
+              12
+            ],
+            "clears": [],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 2,
+            "frameIndex": 13,
+            "frames": [
+              13
+            ],
+            "clears": [
+              12
+            ],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 3,
+            "frameIndex": 14,
+            "frames": [
+              14
+            ],
+            "clears": [
+              12,
+              13
+            ],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 4,
+            "frameIndex": 15,
+            "frames": [
+              15
+            ],
+            "clears": [
+              12,
+              13,
+              14
+            ],
+            "colorCount": 131
+          },
+          {
+            "commitSeq": 5,
+            "frameIndex": 17,
+            "frames": [
+              16,
+              17
+            ],
+            "clears": [
+              12,
+              13,
+              14,
+              15
+            ],
+            "colorCount": 143
+          }
+        ],
+        "subject": {
+          "index": 3,
+          "person": 61,
+          "x": 5,
+          "y": 16
+        },
+        "view": {
+          "x": 0,
+          "y": 14,
+          "cols": 10,
+          "rows": 6
+        },
+        "region": {
+          "x": 880,
+          "y": 352,
+          "width": 176,
+          "height": 176
+        },
+        "renderedUnits": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          11
+        ],
+        "turns": 3,
+        "explicitEndTurnNativeKeys": [
+          40,
+          39
+        ],
+        "nativeKeyTotal": 38,
+        "nativeTouchTotal": 0,
+        "cameraUnchanged": true,
+        "noActionTicketDuringScene": true,
+        "retiredToHdPick": true,
+        "cleanup": {
+          "ownedJsonlRows": 5,
+          "historicalIdentityCount": 11,
+          "terminalRecordedCount": 8,
+          "recordedAbsentCount": 8,
+          "treeExited": true,
+          "serverClosed": true,
+          "profileRetained": true,
+          "directoriesDeleted": false,
+          "user8080Accessed": false,
+          "scope": "Recomputed recorded PID+birth ownership union from every JSONL row and checked stored final cleanup evidence. No new OS query; three earlier identities were no longer in the terminal snapshot."
+        },
+        "actualScenePng": {
+          "path": "build/hd-battle-scene-20261011/mobile-667-v1/scene-0.png",
+          "bytes": 238260,
+          "sha256": "605f50adaf0b518ab53c64e38838724833c22e5f1418536add81cf3270a2248e",
+          "width": 1760,
+          "height": 1056,
+          "nonGrayPixels": 1858487,
+          "nonGrayPixelsOutsideEffectCell": 1827584,
+          "scope": "PNG decode confirms actual colored pixels including outside the target cell; no native or asset pixel-composition equality claim."
+        },
+        "phasePngs": [
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-667-v1/00-title-844.png",
+            "bytes": 33878,
+            "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-667-v1/battle-01-fresh-pick-844.png",
+            "bytes": 72638,
+            "sha256": "b006817c38d867d64d484056b782b7963e5c454504801fbb92ec45f4c8b1ba56"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-667-v1/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+            "bytes": 56534,
+            "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-667-v1/battle-scene-retired-667.png",
+            "bytes": 64865,
+            "sha256": "cb9d1be4b4b819e5e69aa1f0250e1e5afc99ed2f27533074b3c3f764c400c5e8"
+          },
+          {
+            "path": "build/hd-battle-scene-20261011/mobile-667-v1/battle-scene-retired-667-hd-mobile-battle-canvas.png",
+            "bytes": 50317,
+            "sha256": "085abc33f92f03cb99dc710f11825addc7796bf4bae5a710455424ed11c2de53"
+          }
+        ],
+        "executedTool": {
+          "path": "build/hd-battle-scene-20261011/mobile-667-v1/executed-tool.mjs",
+          "bytes": 116357,
+          "sha256": "ae0efb38d3db5b1bed8916c7e76811bce2e6fda016b3863c106eeeba523e6f82"
+        },
+        "finishedAt": "2026-10-11T10:48:39.939Z",
+        "sceneRect": {
+          "x": 89.328125,
+          "y": 78,
+          "width": 488.328125,
+          "height": 293,
+          "stageX": 0,
+          "stageY": 52,
+          "stageW": 667,
+          "stageH": 323
+        }
+      }
+    ],
+    "checks": [
+      "Recomputed native current/display AI source actor/target identity, map origin/dimensions, 20-unit token/position projection and actual rendered-unit set.",
+      "Recomputed full visible and clear bitsets for all five copied commits; frame16 is visible together with17 in the final commit, not a missing required callback.",
+      "Verified generation/event/display commit, flush key, original LIB identity and projected view/subject/region.",
+      "Verified three native bout transitions per scenario, only [40,39] explicit army-end inputs per turn, constant38 key count during projected observations, zero native LCD touches, no action ticket/skip and unchanged operative camera.",
+      "Verified actual scene viewport fits the recorded mobile stage, retired overlay/fresh HD PICK, saved PNG references and decoded non-gray pixels outside the effect cell.",
+      "Verified all143 recorded source byte/SHA references against current files and source-verification originals; both scenarios use the same source set.",
+      "Recomputed all five JSONL ownership rows from owned PID/birth/profile records, exact11-identity historical union and terminal8-identity cleanup absence records; inspected sanitized cleanup and retained profile/server-close evidence."
+    ],
+    "scope": {
+      "accepted": "Original mobile AI target event27, kind4, frames12..17 at844x390 and667x375; read-only HD map/unit projection, actual colored canvas evidence, recorded input and cleanup boundaries.",
+      "exactPngCompositionAccepted": false,
+      "nativePixelEqualityAccepted": false,
+      "naturalUpgradeAccepted": false,
+      "naturalDepartureAccepted": false,
+      "realDeviceAccepted": false,
+      "fullHdAccepted": false,
+      "newOsVerificationPerformed": false,
+      "limitations": [
+        "Raw observer captures selected native unit fields and map footprint, not a new independent complete native-ABI/world oracle.",
+        "No exact source-over PNG/native pixel equality was tested by this mobile checks module or this review.",
+        "Both runs contain AI target events only; upgrade and departure remain pure/source coverage and are not natural actual coverage.",
+        "The667 run bootstraps at844 then records actual scene and retirement at667; initial screenshot filenames do not represent scene viewport.",
+        "Cleanup review relies on stored verified ownership/OS evidence; no fresh process query was made, and the three early historical identities are separately retained from the eight terminal cleanup identities."
+      ]
+    }
+  },
+  "pixelFailureReview": {
+    "schemaVersion": 1,
+    "kind": "read-only-pixel-failure-diagnosis",
+    "originalRunAccepted": false,
+    "originalFailureRetained": true,
+    "refs": [
+      {
+        "path": "build/hd-battle-scene-20261011/pc-1080-v1/native-target-captures.json",
+        "bytes": 103677008,
+        "sha256": "a09cefae50476c6b5f4d4f85888f6885b3836f13aaafae960bc4738706ceea97"
+      },
+      {
+        "path": "build/hd-battle-scene-20261011/pc-1080-v1/failure-observations.json",
+        "bytes": 106988710,
+        "sha256": "cb1ad359f2ba6b34fb0a49ad8f54efc885e0d49efeac9bccea9d299616c55ef5"
+      },
+      {
+        "path": "scripts/hd-battle-scene-runtime-oracle.mjs",
+        "bytes": 11107,
+        "sha256": "492724478f1b9f5f979d3254e2b5ed1f33fab09f311c62f949b2f1e6e0c459d6"
+      }
+    ],
+    "failingByte": 3045148,
+    "failingCapture": 4,
+    "originalModel": "Floating straight-alpha source-over, rounding to U8 after every layer",
+    "observedPixel": {
+      "index": 4,
+      "commit": 5,
+      "frame": 17,
+      "x": 967,
+      "y": 432,
+      "localX": 87,
+      "localY": 80,
+      "actual": [
+        159,
+        147,
+        100,
+        255
+      ],
+      "baseline": [
+        36,
+        91,
+        131,
+        255
+      ],
+      "effect": [
+        162,
+        148,
+        99,
+        250
+      ],
+      "overObserved": [
+        160,
+        147,
+        100,
+        255
+      ],
+      "src": [
+        {
+          "src": "assets/hd-spe/ai-target-27/picture-7.png",
+          "rgba": [
+            181,
+            163,
+            109,
+            250
+          ]
+        },
+        {
+          "src": "assets/hd-spe/ai-target-27/picture-8.png",
+          "rgba": [
+            51,
+            51,
+            36,
+            35
+          ]
+        }
+      ]
+    },
+    "recomputedOriginal": {
+      "index": 4,
+      "trace": [
+        {
+          "clear": [
+            0,
+            0,
+            176,
+            176
+          ],
+          "fx": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "clear": [
+            77,
+            77,
+            11,
+            11
+          ],
+          "fx": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "src": "assets/hd-spe/ai-target-27/picture-7.png",
+          "s": [
+            181,
+            163,
+            109,
+            250
+          ],
+          "fx": [
+            181,
+            163,
+            109,
+            250
+          ]
+        },
+        {
+          "src": "assets/hd-spe/ai-target-27/picture-8.png",
+          "s": [
+            51,
+            51,
+            36,
+            35
+          ],
+          "fx": [
+            163,
+            147,
+            99,
+            251
+          ]
+        }
+      ],
+      "fx": [
+        163,
+        147,
+        99,
+        251
+      ],
+      "expected": [
+        161,
+        146,
+        100,
+        255
+      ],
+      "actual": [
+        159,
+        147,
+        100,
+        255
+      ]
+    },
+    "candidateIntegerModel": "Premultiply round(channel*alpha/255); resultPM=srcPM+((dstPM*(256-srcAlpha))>>8); resultAlpha=srcAlpha+((dstAlpha*(256-srcAlpha))>>8); readback RGB=round(resultPM*255/resultAlpha)",
+    "checks": [
+      {
+        "capture": 0,
+        "commit": 1,
+        "frame": 12,
+        "effectMismatch": 17,
+        "effectMax": 1,
+        "finalMismatch": 0,
+        "finalMax": 0,
+        "outsideMismatch": 0,
+        "examples": [],
+        "effectPremultipliedMismatch": 0,
+        "effectAlphaMismatch": 0
+      },
+      {
+        "capture": 1,
+        "commit": 2,
+        "frame": 13,
+        "effectMismatch": 41,
+        "effectMax": 1,
+        "finalMismatch": 0,
+        "finalMax": 0,
+        "outsideMismatch": 0,
+        "examples": [],
+        "effectPremultipliedMismatch": 0,
+        "effectAlphaMismatch": 0
+      },
+      {
+        "capture": 2,
+        "commit": 3,
+        "frame": 14,
+        "effectMismatch": 17,
+        "effectMax": 1,
+        "finalMismatch": 0,
+        "finalMax": 0,
+        "outsideMismatch": 0,
+        "examples": [],
+        "effectPremultipliedMismatch": 0,
+        "effectAlphaMismatch": 0
+      },
+      {
+        "capture": 3,
+        "commit": 4,
+        "frame": 15,
+        "effectMismatch": 41,
+        "effectMax": 1,
+        "finalMismatch": 0,
+        "finalMax": 0,
+        "outsideMismatch": 0,
+        "examples": [],
+        "effectPremultipliedMismatch": 0,
+        "effectAlphaMismatch": 0
+      },
+      {
+        "capture": 4,
+        "commit": 5,
+        "frame": 17,
+        "effectMismatch": 54,
+        "effectMax": 1,
+        "finalMismatch": 0,
+        "finalMax": 0,
+        "outsideMismatch": 0,
+        "examples": [],
+        "effectPremultipliedMismatch": 0,
+        "effectAlphaMismatch": 0
+      }
+    ],
+    "conclusion": "Tool-model error: all five actual full outputs match the derived U8 premultiplied integer source-over model exactly, outside subject unchanged exactly; actual effect premultiplied bytes and alpha also match exactly. No evidence of a product drawing defect in these five captures.",
+    "recommendation": "After root authorization, replace floating compositing with integer premultiplied arithmetic, add measured semitransparent overlap regression; retain or strengthen exact final output/outside checks, do not increase tolerance. Keep this failed actual unchanged and execute a fresh actual for final acceptance.",
+    "scopeLimit": "Model derived and checked against this frozen Chromium run. Not independent terrain/font rasterization, not an assertion of overall runtime acceptance, no process/OS/browser sampling performed."
+  },
+  "pixelFixReview": {
+    "schemaVersion": 1,
+    "kind": "scene-integer-composite-source-and-recorded-pixel-review",
+    "sourceRefs": [
+      {
+        "path": "scripts/hd-battle-scene-runtime-oracle.mjs",
+        "bytes": 11331,
+        "sha256": "bc6fec5bc61dc6f57d1871162ae86d7b00455fc3fafe0b7e5fed551c02cafe4a"
+      },
+      {
+        "path": "scripts/test-hd-battle-scene-runtime-oracle.mjs",
+        "bytes": 13781,
+        "sha256": "2ff5f4da9af912aaacca0363daf83b9b839349d778fa995a1ca26b237ef8598b"
+      },
+      {
+        "path": "scripts/test-hd-ai-target-runtime.mjs",
+        "bytes": 61406,
+        "sha256": "ac611555fdf83496551dab32ab99c7cbff5a004cb245c2a54ca692d4f14d7eb9"
+      }
+    ],
+    "diagnosis": {
+      "path": "build/hd-battle-scene-20261011/pixel-failure-review.json",
+      "bytes": 5263,
+      "sha256": "dad06d85d354f409a6424576f78d8bc957eccbfb292c8c7b78d997720ba29218"
+    },
+    "pureVm": {
+      "count": 52,
+      "passed": 52,
+      "failed": [],
+      "execution": "Pure VM of exact source with Node assert/crypto and original LIB; no CLI/browser/OS run"
+    },
+    "recordedActualRefs": [
+      {
+        "path": "build/hd-battle-scene-20261011/pc-1080-v1/native-target-captures.json",
+        "bytes": 103677008,
+        "sha256": "a09cefae50476c6b5f4d4f85888f6885b3836f13aaafae960bc4738706ceea97"
+      },
+      {
+        "path": "build/hd-battle-scene-20261011/pc-1080-v1/failure-observations.json",
+        "bytes": 106988710,
+        "sha256": "cb1ad359f2ba6b34fb0a49ad8f54efc885e0d49efeac9bccea9d299616c55ef5"
+      }
+    ],
+    "recordedRecomputation": [
+      {
+        "capture": 0,
+        "commit": 1,
+        "frame": 12,
+        "scene": {
+          "accepted": true,
+          "family": "ai-target",
+          "view": {
+            "x": 1,
+            "y": 12,
+            "cols": 10,
+            "rows": 6
+          },
+          "subject": {
+            "index": 5,
+            "person": 63,
+            "x": 6,
+            "y": 14
+          },
+          "region": {
+            "x": 880,
+            "y": 352,
+            "width": 176,
+            "height": 176
+          },
+          "frames": [
+            12
+          ],
+          "clears": [],
+          "renderedUnits": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            11
+          ],
+          "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+          "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+        },
+        "pixels": {
+          "accepted": true,
+          "outsidePixels": 1827584,
+          "actualSha256": "76e08af36ceb959c8afa715ffd5a29f8fa4a3f0673594719782a4a240a1208b1",
+          "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+          "effectSha256": "b98bfb65b0b9e2fbd6107f38e3996dbefb9afb0af70555dafb0b69d83cc161c2",
+          "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+        }
+      },
+      {
+        "capture": 1,
+        "commit": 2,
+        "frame": 13,
+        "scene": {
+          "accepted": true,
+          "family": "ai-target",
+          "view": {
+            "x": 1,
+            "y": 12,
+            "cols": 10,
+            "rows": 6
+          },
+          "subject": {
+            "index": 5,
+            "person": 63,
+            "x": 6,
+            "y": 14
+          },
+          "region": {
+            "x": 880,
+            "y": 352,
+            "width": 176,
+            "height": 176
+          },
+          "frames": [
+            13
+          ],
+          "clears": [
+            12
+          ],
+          "renderedUnits": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            11
+          ],
+          "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+          "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+        },
+        "pixels": {
+          "accepted": true,
+          "outsidePixels": 1827584,
+          "actualSha256": "58fdf480711a55f2b1e98b4aba80f82cf18f679f33b25f3c8e06bdc1afcd3939",
+          "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+          "effectSha256": "caff0e47bc06424613e40fe46388a783c1166872e2e73bfcd82373c890b94fda",
+          "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+        }
+      },
+      {
+        "capture": 2,
+        "commit": 3,
+        "frame": 14,
+        "scene": {
+          "accepted": true,
+          "family": "ai-target",
+          "view": {
+            "x": 1,
+            "y": 12,
+            "cols": 10,
+            "rows": 6
+          },
+          "subject": {
+            "index": 5,
+            "person": 63,
+            "x": 6,
+            "y": 14
+          },
+          "region": {
+            "x": 880,
+            "y": 352,
+            "width": 176,
+            "height": 176
+          },
+          "frames": [
+            14
+          ],
+          "clears": [
+            12,
+            13
+          ],
+          "renderedUnits": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            11
+          ],
+          "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+          "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+        },
+        "pixels": {
+          "accepted": true,
+          "outsidePixels": 1827584,
+          "actualSha256": "76e08af36ceb959c8afa715ffd5a29f8fa4a3f0673594719782a4a240a1208b1",
+          "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+          "effectSha256": "b98bfb65b0b9e2fbd6107f38e3996dbefb9afb0af70555dafb0b69d83cc161c2",
+          "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+        }
+      },
+      {
+        "capture": 3,
+        "commit": 4,
+        "frame": 15,
+        "scene": {
+          "accepted": true,
+          "family": "ai-target",
+          "view": {
+            "x": 1,
+            "y": 12,
+            "cols": 10,
+            "rows": 6
+          },
+          "subject": {
+            "index": 5,
+            "person": 63,
+            "x": 6,
+            "y": 14
+          },
+          "region": {
+            "x": 880,
+            "y": 352,
+            "width": 176,
+            "height": 176
+          },
+          "frames": [
+            15
+          ],
+          "clears": [
+            12,
+            13,
+            14
+          ],
+          "renderedUnits": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            11
+          ],
+          "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+          "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+        },
+        "pixels": {
+          "accepted": true,
+          "outsidePixels": 1827584,
+          "actualSha256": "58fdf480711a55f2b1e98b4aba80f82cf18f679f33b25f3c8e06bdc1afcd3939",
+          "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+          "effectSha256": "caff0e47bc06424613e40fe46388a783c1166872e2e73bfcd82373c890b94fda",
+          "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+        }
+      },
+      {
+        "capture": 4,
+        "commit": 5,
+        "frame": 17,
+        "scene": {
+          "accepted": true,
+          "family": "ai-target",
+          "view": {
+            "x": 1,
+            "y": 12,
+            "cols": 10,
+            "rows": 6
+          },
+          "subject": {
+            "index": 5,
+            "person": 63,
+            "x": 6,
+            "y": 14
+          },
+          "region": {
+            "x": 880,
+            "y": 352,
+            "width": 176,
+            "height": 176
+          },
+          "frames": [
+            16,
+            17
+          ],
+          "clears": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "renderedUnits": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            11
+          ],
+          "mapSha256": "d2cb807b56133075e6074d07e944f97e0bc3f189057bd89d2667541f71666c17",
+          "pixelScope": "Native identity/projection and actual baseline/composite; terrain/font rasterizer is not independently reimplemented"
+        },
+        "pixels": {
+          "accepted": true,
+          "outsidePixels": 1827584,
+          "actualSha256": "c6e488fef6e654fbf0e69c3a6f8d2adbf7ad833b4fee05423b0d7292ca6356b2",
+          "baselineSha256": "4c3f1250f49c155b39d5d93ef197a67805f747998cf3af2b6ce56fbc4b5c060e",
+          "effectSha256": "2da7f08db0ae28dd2c3fe1962fc1b2574558a3a2d3492959d09502a711810eb5",
+          "coverage": "All output pixels against observed scene baseline + decoded assets/nativeWhitePixels; exact U8 premultiplied source-over and outside; no independent terrain/font rasterization"
+        }
+      }
+    ],
+    "comparison": "Exact U8 premultiplied source-over; exact all outside pixels; no larger tolerance",
+    "originalRunAccepted": false,
+    "originalArtifactsUnchanged": true,
+    "freshActualRequired": true,
+    "limitations": [
+      "No independent terrain/font rasterization",
+      "These are rechecks of the saved failed run, not a new browser acceptance",
+      "No process/service or OS sampling performed"
+    ]
+  },
+  "archive": "./m5-battle-scene-20261011-archive.json",
+  "notes": [
+    "All attempted runs are listed, including sampling-tool and oracle failures. No forced native world, RNG or results.",
+    "PC exact original LCD AND/OR/timer/palette oracle is preserved. HD composite uses observed real baseline/decoded image pixels and explicit native clear masks; terrain/font rasterization is not independently reimplemented.",
+    "Mobile proof checks authentic native viewport and subject projection, colored HD readback, display-only ownership, camera preservation and zero automatic inputs; it does not claim exact PNG pixels.",
+    "Original-only entry and suspended version switching are preserved. Full-HD, other effects, natural status events, devices and performance remain pending.",
+    "Raw ignored run folders retain bootstrap screenshots and private profiles; only listed proof files are compressed here. Profiles are never archived."
+  ]
+}

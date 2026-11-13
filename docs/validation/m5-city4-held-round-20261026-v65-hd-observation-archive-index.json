@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city4-held-round-20261026-v65-hd-observation-archive-part001.json",
+      "bytes": 8157012,
+      "sha256": "8ce8e40c3729d27100776d7408e002a38d23d0e343d7c8362610d6d5e3f0192b",
+      "blobs": 11
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0011.json",
+      "bytes": 7193974,
+      "sha256": "6f5b4302a3d9553e9eb888de7f35e391a0c1c6c914ce585be7559e01e2b96447",
+      "blob": "6f5b4302a3d9553e9eb888de7f35e391a0c1c6c914ce585be7559e01e2b96447",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0012.json",
+      "bytes": 7193975,
+      "sha256": "500bc91bd0e5eac2a0d27ee06e66d94206852c4f848d59de545b87979178a503",
+      "blob": "500bc91bd0e5eac2a0d27ee06e66d94206852c4f848d59de545b87979178a503",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0013.json",
+      "bytes": 7193970,
+      "sha256": "3703df6021b2739fe09dc77eb0377a036aaac3d60b32716d8ae4749ec2caddca",
+      "blob": "3703df6021b2739fe09dc77eb0377a036aaac3d60b32716d8ae4749ec2caddca",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0014.json",
+      "bytes": 7193970,
+      "sha256": "aaaa78a01c99ea47d12e82664108c1e61382dce6d0db227cc66b9c563f02566f",
+      "blob": "aaaa78a01c99ea47d12e82664108c1e61382dce6d0db227cc66b9c563f02566f",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0015.json",
+      "bytes": 7193969,
+      "sha256": "6880c008e031e6703902708fc6811529e810eaa50d3263a18adf09821255e236",
+      "blob": "6880c008e031e6703902708fc6811529e810eaa50d3263a18adf09821255e236",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0016.json",
+      "bytes": 7193969,
+      "sha256": "458c647ad30da73f1f08a73f685107e95c936b74ce62204e3476b58183b4ba92",
+      "blob": "458c647ad30da73f1f08a73f685107e95c936b74ce62204e3476b58183b4ba92",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0017.json",
+      "bytes": 7193968,
+      "sha256": "826b4f4fdb4a70e9baa8e7c0353f1aefb0775002a376116372190aee9f2a0979",
+      "blob": "826b4f4fdb4a70e9baa8e7c0353f1aefb0775002a376116372190aee9f2a0979",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0018.json",
+      "bytes": 7193968,
+      "sha256": "295fbc706e54028a50916768ce04efbc0f5a9be54e1ad54beba07b3dd7f73605",
+      "blob": "295fbc706e54028a50916768ce04efbc0f5a9be54e1ad54beba07b3dd7f73605",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0019.json",
+      "bytes": 7193965,
+      "sha256": "78fd2a3d3e64c582e70a5d8f0dcb15657cf7c9d19d27fa664778f707537173f3",
+      "blob": "78fd2a3d3e64c582e70a5d8f0dcb15657cf7c9d19d27fa664778f707537173f3",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0020.json",
+      "bytes": 7193966,
+      "sha256": "44c56b5384c147dc03b633ed703c70c1a44ba8bb45d2c2ce0d83a459e959159e",
+      "blob": "44c56b5384c147dc03b633ed703c70c1a44ba8bb45d2c2ce0d83a459e959159e",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/observer-stage/transition-protected-0021.json",
+      "bytes": 7193965,
+      "sha256": "2beb38a15c5913406b7be2c2ec7f437df5e7299faf2a11542f7709c2a0d5c799",
+      "blob": "2beb38a15c5913406b7be2c2ec7f437df5e7299faf2a11542f7709c2a0d5c799",
+      "roles": [
+        "Whole original actual Held hd-observation contract; supplied bytes only"
+      ]
+    }
+  ],
+  "logicalFiles": 11,
+  "uniqueBlobs": 11,
+  "rawNamedBytes": 79133659,
+  "uniqueRawBytes": 79133659,
+  "uniqueGzipBytes": 6115771,
+  "serializedPartBytes": 8157012,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

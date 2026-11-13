@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 1,
+  "kind": "V36 stopped before any paid original action; genuine unchanged May checkpoint",
+  "publishedAt": "2026-10-23T15:46:45.238Z",
+  "terminal": {
+    "sessionId": 67107,
+    "chunkId": "63bcb5",
+    "exitCode": 1
+  },
+  "sourceControllerFlags": {
+    "ok": false,
+    "accepted": false,
+    "v36ContinuationAccepted": false,
+    "actualCastOccurred": false,
+    "actualCastAccepted": false,
+    "actualWood6Accepted": false,
+    "actualWood7Accepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false
+  },
+  "independentFlags": {
+    "allImplementedChecksPassed": true,
+    "checkpointAccepted": true,
+    "sourceRunAccepted": false,
+    "zeroNewCostAccepted": true,
+    "actualPlunderAccepted": false,
+    "actualMarchAccepted": false,
+    "actualMonthAccepted": false,
+    "actualBattleMpObserved": false,
+    "actualCastAccepted": false,
+    "actualWood6Accepted": false,
+    "actualWood7Accepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false
+  },
+  "latestSavedCheckpoint": {
+    "tag": "wood67-131-v36-may-input",
+    "date": [
+      239,
+      5
+    ],
+    "slot": 0,
+    "world": {
+      "original": {
+        "path": "build/impact-skill-20261014/wood67-v36-stopped-independent-v3/latest-world.json",
+        "bytes": 147927,
+        "sha256": "042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a"
+      },
+      "published": {
+        "path": "docs/validation/m5-wood67-v36-stopped-20261023-latest-world.json",
+        "bytes": 147927,
+        "sha256": "042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a"
+      }
+    },
+    "pair": [
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v36/native-wood67-131-v36-may-input-sango0.sav",
+          "bytes": 8221,
+          "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-v36-stopped-20261023-sango0.sav",
+          "bytes": 8221,
+          "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+        }
+      },
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v36/native-wood67-131-v36-may-input-sango1.sav",
+          "bytes": 4840,
+          "sha256": "124a845b8a5ead99432b3945b1aa1471b803af378785236dea12293a9b59baa0"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-v36-stopped-20261023-sango1.sav",
+          "bytes": 4840,
+          "sha256": "124a845b8a5ead99432b3945b1aa1471b803af378785236dea12293a9b59baa0"
+        }
+      }
+    ],
+    "pendingOrders": [],
+    "newPayments": 0,
+    "newThewCost": 0,
+    "newFoodCost": 0,
+    "newNaturalMonths": 0,
+    "actor44": {
+      "personId": 44,
+      "thew": 28
+    },
+    "caster131": {
+      "personId": 131,
+      "cityIndex": 7,
+      "OldBelong": 132,
+      "Belong": 1,
+      "Level": 17,
+      "Force": 42,
+      "IQ": 80,
+      "Devotion": 63,
+      "Character": 3,
+      "Experience": 0,
+      "Thew": 100,
+      "ArmsType": 1,
+      "Arms": 2920,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 35
+    },
+    "captured129": {
+      "personId": 129,
+      "OldBelong": 1,
+      "Belong": 65535,
+      "Level": 8,
+      "Force": 39,
+      "IQ": 72,
+      "Devotion": 54,
+      "Character": 2,
+      "Experience": 8,
+      "Thew": 100,
+      "ArmsType": 3,
+      "Arms": 0,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 65
+    },
+    "city20": {
+      "food": 1,
+      "money": 570
+    }
+  },
+  "failure": {
+    "phase": "First public city20 walk reached the original city root menu; the readonly key schema lacked fight.inputKind/actorIndex/focusX/focusY/report required by the existing strict entry oracle. The complete measured world stayed identical to the initial May SAVE.",
+    "message": "AssertionError [ERR_ASSERTION]: No battle input owner during city walk\n+ actual - expected\n\n  [\n+   undefined,\n+   undefined,\n+   undefined,\n+   undefined\n-   0,\n-   255,\n-   0,\n-   0\n  ]\n\n    at v13AssertCityEntry (file:///F:/project/baye-sanguo/scripts/hd-impact-city-entry.mjs:50:12)\n    at v13EnterOwnedCity (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:429:15)\n    at async v3OpenPicker (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:434:14)\n    at async v36QueuePlunder (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:2978:381)\n    at async v36Workflow (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:2988:682)\n    at async smoke (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:934:5)\n    at async main (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:1562:9)",
+    "cityEntryAccepted": false,
+    "plunderDispatchReached": false,
+    "marchDispatchReached": false,
+    "endReached": false,
+    "actualBattleReached": false,
+    "oldMissingKeyFieldsReconstructed": false,
+    "rawRecordsUnmodified": true
+  },
+  "resume": {
+    "latestCheckpointRequired": true,
+    "replayOldPaidActions": false,
+    "maximumNewBuys": 0,
+    "maximumNewPayments": 0,
+    "maximumNewPlunders": 1,
+    "plunder": {
+      "command": 26,
+      "cityIndex": 20,
+      "personId": 44,
+      "orderIndex": 0,
+      "thewCost": 12,
+      "moneyCost": 0,
+      "forecastOnlyUntilNativeReturn": true
+    },
+    "march": {
+      "command": 27,
+      "origin": 7,
+      "destination": 1,
+      "personId": 131,
+      "nativeId": 132,
+      "food": 541,
+      "timeCount": 2,
+      "orderIndex": 170,
+      "mapId": 110,
+      "nativeWay": 3
+    },
+    "maximumNaturalMonths": 1,
+    "maximumPlayerBouts": 30,
+    "requiredViewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "requiredPresentation": "strict-HD",
+    "requiredFix": "New candidate must capture actual fight/report before the same original sendKey, retaining one original call; no old key record may be patched."
+  },
+  "independentVerification": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-v36-stopped-independent-v3/independent-receipt.json",
+      "bytes": 9425,
+      "sha256": "98843035b0ad6b456bb48cb531164bb8e5f71b05ac255188f3dfc9b9e3424c82"
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "kind": "V36 failed original city-entry instrumentation; independently preserved unchanged May checkpoint",
+      "terminal": {
+        "sessionId": 67107,
+        "chunkId": "63bcb5",
+        "exitCode": 1
+      },
+      "allImplementedChecksPassed": true,
+      "checkpointAccepted": true,
+      "sourceRunAccepted": false,
+      "actualNewPaymentAccepted": false,
+      "actualPlunderAccepted": false,
+      "actualMarchAccepted": false,
+      "actualMonthAccepted": false,
+      "actualBattleMpObserved": false,
+      "actualCastAccepted": false,
+      "actualWood6Accepted": false,
+      "actualWood7Accepted": false,
+      "hdAccepted": false,
+      "globalHdComplete": false,
+      "rngContinuityAccepted": false,
+      "stages": [
+        {
+          "name": "exact closed failed terminal and original false flags retained",
+          "accepted": true,
+          "facts": {
+            "result": {
+              "path": "build/impact-skill-20261014/wood67-battle-actual-v36/result.json",
+              "bytes": 77046,
+              "sha256": "e6029c937b1c4384b56df761bb678c44e5fdf9edb965ab5a66a37cddd38cd185"
+            },
+            "minimal": {
+              "path": "build/impact-skill-20261014/wood67-battle-actual-v36/terminal-minimal.json",
+              "bytes": 209878,
+              "sha256": "c2835ac67d5b1dfa67e937dfb00591fd255d0f9926e6a56e20a7502be1782712"
+            },
+            "failure": "AssertionError [ERR_ASSERTION]: No battle input owner during city walk\n+ actual - expected\n\n  [\n+   undefined,\n+   undefined,\n+   undefined,\n+   undefined\n-   0,\n-   255,\n-   0,\n-   0\n  ]\n\n    at v13AssertCityEntry (file:///F:/project/baye-sanguo/scripts/hd-impact-city-entry.mjs:50:12)\n    at v13EnterOwnedCity (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:429:15)\n    at async v3OpenPicker (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:434:14)\n    at async v36QueuePlunder (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:2978:381)\n    at async v36Workflow (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:2988:682)\n    at async smoke (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:934:5)\n    at async main (file:///F:/project/baye-sanguo/build/wood67-runtime-candidate-v36.mjs:1562:9)",
+            "sourceFlagsRemainFalse": true
+          }
+        },
+        {
+          "name": "all571 frozen sources and128 native inputs unchanged",
+          "accepted": true,
+          "facts": {
+            "currentSourceCount": 571,
+            "candidate": {
+              "path": "build/wood67-runtime-candidate-v36.mjs",
+              "bytes": 588292,
+              "sha256": "eb6de3bb914238a0e6346803ed114a38f6732cc43aa0f323d52f89eaca555747"
+            },
+            "allowlist": {
+              "path": "build/impact-skill-20261014/wood67-v36-source-allowlist-v1.json",
+              "bytes": 100667,
+              "sha256": "6d528df5fa30ff4f941e8fc02abaa8bbf6fd574611c517659d0e539460de722c"
+            },
+            "inputPins": [
+              {
+                "path": "docs/validation/m5-impact13-classic-north-20261023-v35.json",
+                "bytes": 277160,
+                "sha256": "b665bbcc23ac74fb4b3bf44e520e23f093092734912c6a1b235aebcf4a161b3f"
+              },
+              {
+                "path": "docs/validation/m5-impact13-classic-north-20261023-v35-latest-world.json",
+                "bytes": 147927,
+                "sha256": "042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a"
+              },
+              {
+                "path": "docs/validation/m5-impact13-classic-north-20261023-v35-sango0.sav",
+                "bytes": 8221,
+                "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+              },
+              {
+                "path": "docs/validation/m5-impact13-classic-north-20261023-v35-sango1.sav",
+                "bytes": 4840,
+                "sha256": "c47540f42c36db6aa7d20566ab127fb5988f4f2089808e4d8aa722c217b77877"
+              }
+            ],
+            "historicalBinderExecuted": false,
+            "oldArchivesDecoded": false
+          }
+        },
+        {
+          "name": "all logical report fields and every bounded row complete",
+          "accepted": true,
+          "facts": {
+            "fields": 44,
+            "rows": 261,
+            "allLogicalDigestsRecomputed": true
+          }
+        },
+        {
+          "name": "all offloaded observations and actual native source manifest",
+          "accepted": true,
+          "facts": {
+            "offloadedFiles": 2,
+            "offloadedRows": 28,
+            "nativeCount": 128,
+            "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+          }
+        },
+        {
+          "name": "genuine latest May public LOAD and sole original SAVE full packed pair",
+          "accepted": true,
+          "facts": {
+            "saveTag": "wood67-131-v36-may-input",
+            "date": [
+              239,
+              5
+            ],
+            "pair": [
+              {
+                "path": "build/impact-skill-20261014/wood67-battle-actual-v36/native-wood67-131-v36-may-input-sango0.sav",
+                "bytes": 8221,
+                "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+              },
+              {
+                "path": "build/impact-skill-20261014/wood67-battle-actual-v36/native-wood67-131-v36-may-input-sango1.sav",
+                "bytes": 4840,
+                "sha256": "124a845b8a5ead99432b3945b1aa1471b803af378785236dea12293a9b59baa0"
+              }
+            ],
+            "people": 200,
+            "cities": 38,
+            "orders": 200,
+            "rawQueuePrefix": 200,
+            "fighterBytes": 600,
+            "packedFieldsVerified": true
+          }
+        },
+        {
+          "name": "original city-entry gate really rejects incomplete contemporaneous key schema",
+          "accepted": true,
+          "facts": {
+            "raw": {
+              "path": "build/impact-skill-20261014/wood67-battle-actual-v36/raw-v13-city-entry-01.json",
+              "bytes": 102703,
+              "sha256": "dea30be66b7cd3bb8d4673c11a7798731d4b67f60e6c167f378edf8a0dd9698e"
+            },
+            "failureRaw": {
+              "path": "build/impact-skill-20261014/wood67-battle-actual-v36/raw-v36-failure-prefix.json",
+              "bytes": 90507,
+              "sha256": "52ae3aa1fbe1da02bedac318b89379cf7cab3fdf216ac816b99d8cd3184847a5"
+            },
+            "walkKeyCodes": [
+              35,
+              35,
+              36,
+              36,
+              39
+            ],
+            "walkWorldUnchanged": true,
+            "cityEntryAccepted": false,
+            "unobservedMissingFieldsNotReconstructed": true
+          }
+        },
+        {
+          "name": "whole measured world proves zero costs and no Plunder or March or END",
+          "accepted": true,
+          "facts": {
+            "completeWorldEqualsInput": true,
+            "totalNativeKeys": 16,
+            "newMoneyPaid": 0,
+            "newThewPaid": 0,
+            "newFoodPaid": 0,
+            "newPlunderOrders": 0,
+            "newMarchOrders": 0,
+            "newMonths": 0,
+            "pendingOrders": [],
+            "actor44Thew": 28,
+            "food20": 1,
+            "money20": 570,
+            "caster131Arms": 2920,
+            "captured129Preserved": true
+          }
+        },
+        {
+          "name": "no callback or battle or WOOD or MP or pixel acceptance invented",
+          "accepted": true,
+          "facts": {
+            "actualNativeOrderCallbacks": 0,
+            "actualBattleObserved": false,
+            "actualMPObserved": false,
+            "woodAttempts": 0,
+            "woodCaptures": 0,
+            "source84FormulaNotBattleMp": true
+          }
+        },
+        {
+          "name": "latest minimal receipt points only to actual unmodified initial May SAVE",
+          "accepted": true,
+          "facts": {
+            "latestTag": "wood67-131-v36-may-input",
+            "date": [
+              239,
+              5
+            ],
+            "initialMaySaveIsLatest": true,
+            "partialCityMenuNeverSerializedAsLaterWorld": true
+          }
+        },
+        {
+          "name": "exact closed union cleanup and zero private/user8080 listeners preserved",
+          "accepted": true,
+          "facts": {
+            "proof": {
+              "path": "build/impact-skill-20261014/wood67-battle-v36-external-cleanup-v1.json",
+              "bytes": 3267,
+              "sha256": "004f2cd0e8b0976f48ab4b086ce4863d22cc337c300387ec1d2cb5c600d7df55"
+            },
+            "ownedUnion": {
+              "path": "build/impact-skill-20261014/wood67-battle-v36-owned-union-v1.json",
+              "sha256": "33bde48070fbbc2227c2d32e81262e477dbccac28b7642c49adc10438ec31e51"
+            },
+            "exactIdentities": 11,
+            "privatePorts": [
+              4343,
+              4344
+            ],
+            "privateListeners": 0,
+            "user8080Untouched": true,
+            "profileRetained": true
+          }
+        }
+      ],
+      "latestTag": "wood67-131-v36-may-input",
+      "latestDate": [
+        239,
+        5
+      ],
+      "latestPair": [
+        {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v36/native-wood67-131-v36-may-input-sango0.sav",
+          "bytes": 8221,
+          "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+        },
+        {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v36/native-wood67-131-v36-may-input-sango1.sav",
+          "bytes": 4840,
+          "sha256": "124a845b8a5ead99432b3945b1aa1471b803af378785236dea12293a9b59baa0"
+        }
+      ],
+      "cleanup": {
+        "path": "build/impact-skill-20261014/wood67-battle-v36-external-cleanup-v1.json",
+        "bytes": 3267,
+        "sha256": "004f2cd0e8b0976f48ab4b086ce4863d22cc337c300387ec1d2cb5c600d7df55"
+      },
+      "latestWorldFile": {
+        "path": "build/impact-skill-20261014/wood67-v36-stopped-independent-v3/latest-world.json",
+        "bytes": 147927,
+        "sha256": "042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a"
+      },
+      "finishedAt": "2026-10-23T15:44:49.669Z"
+    }
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-v36-stopped-20261023-archive.json",
+    "bytes": 33222,
+    "sha256": "afeabcfe8a7a0467aa539c04188c8a0aa382f2e502f9d110f72db667712b6de8"
+  },
+  "archiveBoundary": {
+    "bounded": true,
+    "sourceDigests": 571,
+    "all70ImmediateFilesAndRowsEmbedded": true,
+    "privateProfileExcluded": true,
+    "oldArchiveRecursion": false,
+    "matchingCheckoutRequiredForFullSourceReplay": true,
+    "portableClosedArchive": false
+  }
+}

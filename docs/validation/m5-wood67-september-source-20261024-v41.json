@@ -1,0 +1,2356 @@
+{
+  "schemaVersion": 1,
+  "kind": "September current original WOOD source preparation; no execution",
+  "sourceOnly": true,
+  "sourcePreparationAccepted": true,
+  "productionChanged": false,
+  "formalSourcePins": [
+    {
+      "path": "scripts/hd-wood-native-route.mjs",
+      "bytes": 6169,
+      "sha256": "61f3856bda25da0b77957330287b598842163a219f0c4a78d53702a4870de586"
+    },
+    {
+      "path": "scripts/test-hd-wood-native-route.mjs",
+      "bytes": 6543,
+      "sha256": "39353c0b11daa41e1ee0e3eed8ad91678542c44209233142e45de3936b1863cb"
+    },
+    {
+      "path": "scripts/hd-wood-native-action.mjs",
+      "bytes": 12494,
+      "sha256": "681064d68f35be8f01937168593c44a696b6df0ceeafd033b6c7b094ba3841a5"
+    },
+    {
+      "path": "scripts/test-hd-wood-native-action.mjs",
+      "bytes": 17143,
+      "sha256": "475fd7ae0fcd477735a52674c69e63785b330d71c25fd0446ba0176cf9a4e9ff"
+    },
+    {
+      "path": "scripts/hd-wood-buy-continuation.mjs",
+      "bytes": 27085,
+      "sha256": "8c0d80ecc593401ca0edf3a1a63a8cfe089a4b23c2ce3f32c15cb261f4c9ed79"
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-continuation.mjs",
+      "bytes": 18860,
+      "sha256": "ef0d12f259689748c0224f58e08a10a3a8b69623db983beb9a9350ee48f9e221"
+    },
+    {
+      "path": "scripts/hd-wood-buy-runtime.mjs",
+      "bytes": 19242,
+      "sha256": "5d6352318f25c56b7054fb6e32745377babb4ebf73f24e99eae57cd263436f80"
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-runtime.mjs",
+      "bytes": 14214,
+      "sha256": "59fc8ac8146318bd9ef7ae5ad77d271c39520b5253bad15ee4d3f9aed52e08bb"
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-buy-continuation.mjs",
+      "bytes": 15744,
+      "sha256": "6b2819874c531c7e0c86d7c1dbd5efdc1b96e1414073be424f1e573cd54ac0a9"
+    }
+  ],
+  "counts": {
+    "previousPass": 7456,
+    "differentNewRegisteredCases": 212,
+    "components": {
+      "nativeRoute": 30,
+      "nativeAction": 34,
+      "buyContinuation": 94,
+      "buyRuntime": 54
+    },
+    "registeredFiles": 141,
+    "fullPass": 7668
+  },
+  "fullRegression": {
+    "accepted": true,
+    "checkedAt": "2026-10-23T21:47:51.721Z",
+    "sameClosedRun": true,
+    "newTestExecutions": 0,
+    "originalControllerReceipt": {
+      "path": "build/impact-skill-20261014/wood67-v41-root-full-regression-v1.json",
+      "bytes": 36128,
+      "sha256": "e91a98d659dd3503c52630345950852f55e85189fc576002ba0925378aa8cf89"
+    },
+    "originalReceiptAccepted": false,
+    "metadataCorrection": "Original npm uses the Node spec reporter ℹ summary. The first harness matched TAP # only, preserving null counts and accepted=false. This independent reader accepts the existing exit0 log and exact before/after source vector without rerunning tests.",
+    "processExitCode": 0,
+    "command": "npm.cmd test",
+    "CC": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "registeredFiles": 141,
+    "tests": 7668,
+    "pass": 7668,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 542511.144,
+    "previousPass": 7456,
+    "newDifferentTests": 212,
+    "newGroupCases": {
+      "nativeRoute": 30,
+      "nativeAction": 34,
+      "buyContinuation": 94,
+      "buyRuntime": 54
+    },
+    "sourceBytesStable": true,
+    "before": {
+      "path": "build/impact-skill-20261014/wood67-v41-root-full-regression-v1-before.json",
+      "bytes": 35270,
+      "sha256": "68e61d09b5cef6e2604f5d2accd59515284668db8099553c71b1e0ca4ccc0818"
+    },
+    "stdout": {
+      "path": "build/impact-skill-20261014/wood67-v41-root-full-regression-v1.stdout.log",
+      "bytes": 644431,
+      "sha256": "fa103d6fe46197b6d47c9bdf5ef776303566dbc504c00c28ba9db4be4258907a"
+    },
+    "stderr": {
+      "path": "build/impact-skill-20261014/wood67-v41-root-full-regression-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 24690,
+        "sha256": "e35bc65e9a753d52dbd0bac5a4638139075b95600ca4b90c910d36921ade57fd"
+      },
+      {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 711999,
+        "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+      },
+      {
+        "path": "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+        "bytes": 6835,
+        "sha256": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5"
+      },
+      {
+        "path": "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt",
+        "bytes": 13517,
+        "sha256": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a"
+      },
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40-latest-world.json",
+        "bytes": 148035,
+        "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+      },
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40-sango0.sav",
+        "bytes": 8221,
+        "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+      },
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40-sango1.sav",
+        "bytes": 4840,
+        "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+      },
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40.json",
+        "bytes": 18055,
+        "sha256": "51b846af0ed22966bc389599da4c28e8d17894a1923acb5de9a938a32998e14b"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 80899,
+        "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 428488,
+        "sha256": "69d85a0dda567673f141fe459056698362d3ebb4f6b318e07a4bc3bfe76b451c"
+      },
+      {
+        "path": "js/hd-overworld.js",
+        "bytes": 172137,
+        "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+      },
+      {
+        "path": "js/hd-spe.js",
+        "bytes": 133919,
+        "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 35113,
+        "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "package.json",
+        "bytes": 20744,
+        "sha256": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e"
+      },
+      {
+        "path": "scripts/fixtures/hd-wood-buy-continuation.mjs",
+        "bytes": 15744,
+        "sha256": "6b2819874c531c7e0c86d7c1dbd5efdc1b96e1414073be424f1e573cd54ac0a9"
+      },
+      {
+        "path": "scripts/hd-impact-v32-conditional-plunder-prefix.mjs",
+        "bytes": 26243,
+        "sha256": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013"
+      },
+      {
+        "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+        "bytes": 10021,
+        "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+      },
+      {
+        "path": "scripts/hd-wood-buy-continuation.mjs",
+        "bytes": 27085,
+        "sha256": "8c0d80ecc593401ca0edf3a1a63a8cfe089a4b23c2ce3f32c15cb261f4c9ed79"
+      },
+      {
+        "path": "scripts/hd-wood-buy-runtime.mjs",
+        "bytes": 19242,
+        "sha256": "5d6352318f25c56b7054fb6e32745377babb4ebf73f24e99eae57cd263436f80"
+      },
+      {
+        "path": "scripts/hd-wood-classic-presentation.mjs",
+        "bytes": 1965,
+        "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+      },
+      {
+        "path": "scripts/hd-wood-evidence-contract.mjs",
+        "bytes": 10750,
+        "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+      },
+      {
+        "path": "scripts/hd-wood-missing-picture.mjs",
+        "bytes": 7879,
+        "sha256": "9e80491b46295b5fe9ef274de8136049937743fd17e58420ac88b7b04324adc8"
+      },
+      {
+        "path": "scripts/hd-wood-native-action.mjs",
+        "bytes": 12494,
+        "sha256": "681064d68f35be8f01937168593c44a696b6df0ceeafd033b6c7b094ba3841a5"
+      },
+      {
+        "path": "scripts/hd-wood-native-route.mjs",
+        "bytes": 6169,
+        "sha256": "61f3856bda25da0b77957330287b598842163a219f0c4a78d53702a4870de586"
+      },
+      {
+        "path": "scripts/hd-wood-recruitment-hooks.mjs",
+        "bytes": 5591,
+        "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc"
+      },
+      {
+        "path": "scripts/hd-wood-recruitment-preparation.mjs",
+        "bytes": 30306,
+        "sha256": "8fd0e641949d4c1ebef99507695fe0b4249aeaae6526a49972b05d658277b183"
+      },
+      {
+        "path": "scripts/hd-wood-recruitment-runtime.mjs",
+        "bytes": 16527,
+        "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6"
+      },
+      {
+        "path": "scripts/hd-wood-runtime-oracle.mjs",
+        "bytes": 49408,
+        "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+      },
+      {
+        "path": "scripts/hd-wood-supplied-continuation.mjs",
+        "bytes": 26600,
+        "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+      },
+      {
+        "path": "scripts/test-hd-ai-target-bridge.mjs",
+        "bytes": 21975,
+        "sha256": "9c7b4b6265fd3c633c476546053019528e6d6ed535dae44bf47b23f01b9f0e9a"
+      },
+      {
+        "path": "scripts/test-hd-ai-target-engine.mjs",
+        "bytes": 25243,
+        "sha256": "201fba2943add0ffc673246456b06d4aa0daa3ad302aaa19e0ca887c95a14849"
+      },
+      {
+        "path": "scripts/test-hd-aid-bridge.mjs",
+        "bytes": 5926,
+        "sha256": "eac5b3323f325bb03865302018c9985262539efcea66646802ab06f585771086"
+      },
+      {
+        "path": "scripts/test-hd-aid-engine.mjs",
+        "bytes": 31366,
+        "sha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b"
+      },
+      {
+        "path": "scripts/test-hd-aid-runtime-oracle.mjs",
+        "bytes": 9648,
+        "sha256": "15a1cceb0e9d2c69f6b783f369d1d7c1efde818b7a43d2ee67eaaead27f533a3"
+      },
+      {
+        "path": "scripts/test-hd-aid.mjs",
+        "bytes": 30351,
+        "sha256": "b293ee07257764ad735a057481b8a5af0a5fb41096faecb19f3326a14ba8c0b3"
+      },
+      {
+        "path": "scripts/test-hd-attack-bridge.mjs",
+        "bytes": 19755,
+        "sha256": "0c1e3bd9ccdb0e5aa2e07877e73a26e14f674391c5d8c8af6ff47f6f38b7f55a"
+      },
+      {
+        "path": "scripts/test-hd-attack-engine.mjs",
+        "bytes": 35770,
+        "sha256": "204c7d23fdcb44ad170498101f6629ffbcacec8b9d7a16d63b57cfc1aefb0411"
+      },
+      {
+        "path": "scripts/test-hd-battle-commands.mjs",
+        "bytes": 27304,
+        "sha256": "5e5dca6cfa1a04f9582d01800a5c0db471204df70578b159fe6ed1d8864c1209"
+      },
+      {
+        "path": "scripts/test-hd-battle-feedback.mjs",
+        "bytes": 23274,
+        "sha256": "ca7c56aa0f7d41f94f19588182dad68950b3a5ec2a0e49bdffb341fdf71a27b9"
+      },
+      {
+        "path": "scripts/test-hd-battle-mobile-host.mjs",
+        "bytes": 17036,
+        "sha256": "a30159e164ed7fbb15ff374fbcbd2dc17988ad9a7a94a14df9fb24e60c1574bc"
+      },
+      {
+        "path": "scripts/test-hd-battle-mode.mjs",
+        "bytes": 20759,
+        "sha256": "6c14c8e1d6abab815f8f9ea3d367d4e27b3d210ba8ddeeec0bbd5d82e062c415"
+      },
+      {
+        "path": "scripts/test-hd-battle-note.mjs",
+        "bytes": 15532,
+        "sha256": "52b6a65d7031487e024c0ef6ec6a0addab58243bf6a574a0fedb599b5825fbf3"
+      },
+      {
+        "path": "scripts/test-hd-battle-scene-runtime-oracle.mjs",
+        "bytes": 13781,
+        "sha256": "2ff5f4da9af912aaacca0363daf83b9b839349d778fa995a1ca26b237ef8598b"
+      },
+      {
+        "path": "scripts/test-hd-battle-scene.mjs",
+        "bytes": 15035,
+        "sha256": "85a7b2e3dd2aec8697063930a5154e5f15a7939bc01bbc9276a9490c8ca59c96"
+      },
+      {
+        "path": "scripts/test-hd-battle-terrain.mjs",
+        "bytes": 19450,
+        "sha256": "fff214f761e76957647a5a9231529cc88e8ced682b71c04e47ddc56710883266"
+      },
+      {
+        "path": "scripts/test-hd-campaign-engine.mjs",
+        "bytes": 52950,
+        "sha256": "4a0f8e947f20754629026cf4438a5301f781c1b95195a687bec03e0a0e04f55b"
+      },
+      {
+        "path": "scripts/test-hd-campaign-flow.mjs",
+        "bytes": 46239,
+        "sha256": "e6f84bd3c3f790b537d8fdad7f026a427a4749de8d4168cb0382f25a2ef09f7d"
+      },
+      {
+        "path": "scripts/test-hd-campaign-telemetry.mjs",
+        "bytes": 10276,
+        "sha256": "456ea7b29a6f56adb3c19a4faa6384b2c8289bd425d9ce43d7fd5321c8f89a19"
+      },
+      {
+        "path": "scripts/test-hd-city-entry.mjs",
+        "bytes": 9738,
+        "sha256": "79eb2555ccd8d28a5d50bbe0f2d295a2201a743a67ec5db755d09e7309b50c26"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 123784,
+        "sha256": "87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f"
+      },
+      {
+        "path": "scripts/test-hd-city-mobile-host.mjs",
+        "bytes": 177204,
+        "sha256": "6d7f52c66bd3c229f271b81a257f8795400a434771caed9ba89eba1e868cc3d7"
+      },
+      {
+        "path": "scripts/test-hd-details-bridge.mjs",
+        "bytes": 29952,
+        "sha256": "63f05c704fe44a7717e7899046c57cc663737bdf3280039adf5ef68ae77daea4"
+      },
+      {
+        "path": "scripts/test-hd-details-engine.mjs",
+        "bytes": 36778,
+        "sha256": "3b4f07c0560056f0f8d6105635f141d2951804101ac1e58bda957bccc18fbd96"
+      },
+      {
+        "path": "scripts/test-hd-dialog-routing.mjs",
+        "bytes": 79747,
+        "sha256": "06b353156743a17c5a66d87eab8da0a61e872ea83c779d5110d9909a8903d846"
+      },
+      {
+        "path": "scripts/test-hd-dingshen-bridge.mjs",
+        "bytes": 12851,
+        "sha256": "d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8"
+      },
+      {
+        "path": "scripts/test-hd-display-settings.mjs",
+        "bytes": 10071,
+        "sha256": "97a9c8588653fb7b7159e91c3bb72a64d61c63c6bc513091573558f022039fe0"
+      },
+      {
+        "path": "scripts/test-hd-engine-protocol.mjs",
+        "bytes": 57400,
+        "sha256": "ea7856cd928a54a00e2d293e88f51bcb3e723c65179cefef91af7c74ca03f1f5"
+      },
+      {
+        "path": "scripts/test-hd-idb-mod-compat.mjs",
+        "bytes": 13312,
+        "sha256": "f1556dd2ad61317ad003ea0fa97a3b05fc95bd8c0d1eaec7dc87b24777da422e"
+      },
+      {
+        "path": "scripts/test-hd-impact-canvass-runtime-oracle.mjs",
+        "bytes": 37685,
+        "sha256": "07b87fcc96d937c2c8b51996995953cae2639d9e825ade2fa2c72180d211634c"
+      },
+      {
+        "path": "scripts/test-hd-impact-diplomacy-runtime-oracle.mjs",
+        "bytes": 21875,
+        "sha256": "f9aeb51992aa977c7a8eccecc5d93ed6d28ecfc6339132c3e534a9b92adcddc5"
+      },
+      {
+        "path": "scripts/test-hd-impact-plunder-runtime-oracle.mjs",
+        "bytes": 12976,
+        "sha256": "0d68ea0c4248baf4b7ed45a8b4f77dddd3f6c3f03aa105b95098d77b922bfb8c"
+      },
+      {
+        "path": "scripts/test-hd-impact-v23-acquisition-plan.mjs",
+        "bytes": 3786,
+        "sha256": "1968cce9a5bb13b24ef93834124b2f33cd0c545592896966494f690fd2242bfb"
+      },
+      {
+        "path": "scripts/test-hd-impact-v23-canvass16-make-oracle.mjs",
+        "bytes": 17727,
+        "sha256": "ae47b37d2819a30235c8767e27d77163eeea73ef8c67191f01c7bdc1540a935c"
+      },
+      {
+        "path": "scripts/test-hd-impact-v23-canvass16-natural-return.mjs",
+        "bytes": 11308,
+        "sha256": "4e9a9cbc22d677f905b49e30301f2036f6150cabf43d3dac34cca794d501864b"
+      },
+      {
+        "path": "scripts/test-hd-impact-v23-json-normalize.mjs",
+        "bytes": 4719,
+        "sha256": "21b99a2c0797607e0094c231f2b2607fbbff1578664827e3a66ad4119af2178a"
+      },
+      {
+        "path": "scripts/test-hd-impact-v23-world-dictionary.mjs",
+        "bytes": 12463,
+        "sha256": "72540765bacafb03ddd2781b6c8839475176a058f987d4501a0d0b387e79cae5"
+      },
+      {
+        "path": "scripts/test-hd-impact-v24-final-report-storage.mjs",
+        "bytes": 5340,
+        "sha256": "7c2dd19b3b4fbd9c01044e97988a36482d76f4f9d0183fb9fa6fc242fd42b795"
+      },
+      {
+        "path": "scripts/test-hd-impact-v24-month-window.mjs",
+        "bytes": 4772,
+        "sha256": "168660046bc3a509b3186b5624565e60216c368698059d28051664583a92ce9b"
+      },
+      {
+        "path": "scripts/test-hd-impact-v24-observation-row-stream.mjs",
+        "bytes": 12512,
+        "sha256": "a1a8362ac0868ea1dc4108da585e3eda6a57ec11149b175d036ea278e3d8eb4b"
+      },
+      {
+        "path": "scripts/test-hd-impact-v24-selected-row-terminal-integrity.mjs",
+        "bytes": 2159,
+        "sha256": "74a742822acc14bd1b70b621691fdd003073f76b1c2404b24d64d69ac8a2c4f0"
+      },
+      {
+        "path": "scripts/test-hd-impact-v25-pending-resume.mjs",
+        "bytes": 7806,
+        "sha256": "5fd04637390b1eed077d85d5bef9e3955fafe3586a4c528956041d83acf54599"
+      },
+      {
+        "path": "scripts/test-hd-impact-v26-raw-buy11-oracle.mjs",
+        "bytes": 12730,
+        "sha256": "ab37a3fefff90a1f9aa400c1228a7a1828f0cdffdaad780cf11fb12f37d7c5c0"
+      },
+      {
+        "path": "scripts/test-hd-impact-v27-acquisition-plan.mjs",
+        "bytes": 9045,
+        "sha256": "f0238b6a769e83bf143d7e2fb05082117a9bedaf9dec635be44b9315d80020d6"
+      },
+      {
+        "path": "scripts/test-hd-impact-v27-canvass16-make-oracle.mjs",
+        "bytes": 12535,
+        "sha256": "10c278cab7788f72c575c69b1b3e75c8623670c1828acf1a2d7f8bc3ab8da7f1"
+      },
+      {
+        "path": "scripts/test-hd-impact-v27-canvass16-natural-return.mjs",
+        "bytes": 12663,
+        "sha256": "4aab99fd0c747823c99fdaedf144c7ed679c4dcb0e0763b13aff420405ea977e"
+      },
+      {
+        "path": "scripts/test-hd-impact-v28-acquisition-plan.mjs",
+        "bytes": 12511,
+        "sha256": "9a53356da1a3a9ca3a4123773348f68cde9bb91e12d6a6738513beb03cff36f4"
+      },
+      {
+        "path": "scripts/test-hd-impact-v29-acquisition-policy.mjs",
+        "bytes": 5963,
+        "sha256": "b3a2e0fd14096378255fd70d20f8207914792b970ed805e190297627c49b09d1"
+      },
+      {
+        "path": "scripts/test-hd-impact-v29-november-recovery-plan.mjs",
+        "bytes": 11911,
+        "sha256": "d120434ad2ebd3b24406727e364274d939cb05980a1e7a927a8c26d4f5e6ce3e"
+      },
+      {
+        "path": "scripts/test-hd-impact-v29-treat12-world-oracle.mjs",
+        "bytes": 18089,
+        "sha256": "1d71da631c11b2d2288285eca53bdb99fb304d3b00d1c9d86097788afbe54b25"
+      },
+      {
+        "path": "scripts/test-hd-impact-v30-search3-natural-return.mjs",
+        "bytes": 16042,
+        "sha256": "148266e1da11b61617ec88988fdb9039e001a727862543be7c0dbdfc7954b290"
+      },
+      {
+        "path": "scripts/test-hd-impact-v30-search3-world-oracle.mjs",
+        "bytes": 13116,
+        "sha256": "d109b3be704f5f7b25996ba957c874660c40e81f1e5117816dbc0a9ca15c392a"
+      },
+      {
+        "path": "scripts/test-hd-impact-v31-acquisition-policy.mjs",
+        "bytes": 10226,
+        "sha256": "2be201d22e4756db25c57d56c32f61adeac7155f233f003d7057907b1546c0e0"
+      },
+      {
+        "path": "scripts/test-hd-impact-v31-canvass16-make-oracle.mjs",
+        "bytes": 15044,
+        "sha256": "28524b94c19cc856f51fdd572861e768c93a7d94db7d0a7a52bf7ecbce9df4a8"
+      },
+      {
+        "path": "scripts/test-hd-impact-v31-canvass16-natural-return.mjs",
+        "bytes": 15223,
+        "sha256": "e82391868c1ba52216e93078ac8597e635626c9946b895ef50b70087ec80ce55"
+      },
+      {
+        "path": "scripts/test-hd-impact-v31-water-token-give-oracle.mjs",
+        "bytes": 6152,
+        "sha256": "36b1bb6a14af62ed5cbd3d3934a8351afcb792ea299f579ffa7712a79cfbd7d2"
+      },
+      {
+        "path": "scripts/test-hd-impact-v32-acquisition-policy.mjs",
+        "bytes": 5963,
+        "sha256": "96870f1560feccc2e1fb24320c3ad851b58049d6ee27c25a430c9c37edbb65d9"
+      },
+      {
+        "path": "scripts/test-hd-impact-v32-canvass16-make-oracle.mjs",
+        "bytes": 15058,
+        "sha256": "6bd6d2ca6516d6724384ddcabf9fa801c25e52d57a1cffa6c6edd4e6bd6c2a48"
+      },
+      {
+        "path": "scripts/test-hd-impact-v32-canvass16-natural-return.mjs",
+        "bytes": 15225,
+        "sha256": "f3df81dd7c713184c9e6e1ccea6b160a5575ea20a74d080d1b2ac5438836d5fb"
+      },
+      {
+        "path": "scripts/test-hd-impact-v32-conditional-plunder-prefix.mjs",
+        "bytes": 24037,
+        "sha256": "97b8dab5f275f44db2b167819960b609c38bd40a614994998bc6f8a338822fc9"
+      },
+      {
+        "path": "scripts/test-hd-impact-v32-water-token-give-oracle.mjs",
+        "bytes": 11508,
+        "sha256": "223b5e968477f6082bbb8a1002338292065880dde23e942c1fd5677c30366000"
+      },
+      {
+        "path": "scripts/test-hd-impact-v33-city6-readiness.mjs",
+        "bytes": 18401,
+        "sha256": "cacb18fcc86bcc70ff8b36afeeb1d8df7a3791c77f20f486afb1df3188c4a12d"
+      },
+      {
+        "path": "scripts/test-hd-impact-v33-water-token-give-oracle.mjs",
+        "bytes": 8519,
+        "sha256": "022bf13875d0ff7cd757fbf416b82038ba035259cf7819bb71ba073b27e54a83"
+      },
+      {
+        "path": "scripts/test-hd-impact-v34-north-route.mjs",
+        "bytes": 14565,
+        "sha256": "e2f9ea89799caa85bbcfe00061b2d240d8dc1e93253c19ab7fc75578d4ccedc2"
+      },
+      {
+        "path": "scripts/test-hd-impact-v34-preparation.mjs",
+        "bytes": 12616,
+        "sha256": "ca9ce18265898a6e556237ee73e4e90ff1ad1addb2bb414612e6a5d6accb57df"
+      },
+      {
+        "path": "scripts/test-hd-impact-v36-conditional-plunder-prefix.mjs",
+        "bytes": 16326,
+        "sha256": "e5e4ad062b99f0a6a06935b413b24dff8de8dca20fc7d5a5a83f23fdd81c9075"
+      },
+      {
+        "path": "scripts/test-hd-impact-v36-wood-march.mjs",
+        "bytes": 4962,
+        "sha256": "b37c9d8a0ad196cc5ef918b478fc091137aa9d7c66d2e1e5045698b00a3a2909"
+      },
+      {
+        "path": "scripts/test-hd-impact-v36-wood-route.mjs",
+        "bytes": 16668,
+        "sha256": "759ade7ea9cb8eb8c97254566d5cb5b7d64753613ce49f92ff51bdf19eb67cdd"
+      },
+      {
+        "path": "scripts/test-hd-input.mjs",
+        "bytes": 31206,
+        "sha256": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0"
+      },
+      {
+        "path": "scripts/test-hd-lib-identity.mjs",
+        "bytes": 7909,
+        "sha256": "7f5a358f15c1a8b9ea45b08e7110011e473086a86d24c3308e8e99ff1c7be68a"
+      },
+      {
+        "path": "scripts/test-hd-liuyan-bridge.mjs",
+        "bytes": 11518,
+        "sha256": "9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4"
+      },
+      {
+        "path": "scripts/test-hd-maker-bridge.mjs",
+        "bytes": 16562,
+        "sha256": "7c39262d2d237df3dae6e2d6eb87022e700967d79b7efd517bd9149ea7d59130"
+      },
+      {
+        "path": "scripts/test-hd-maker-engine.mjs",
+        "bytes": 22045,
+        "sha256": "5d49e39740e49feda1846c70e951412405e8984aaaf6642239d5a647a947396d"
+      },
+      {
+        "path": "scripts/test-hd-march.mjs",
+        "bytes": 20618,
+        "sha256": "062a9bec31e03689818522deefde2fd3737833307e6fce26bcd250362df225d7"
+      },
+      {
+        "path": "scripts/test-hd-minimap.mjs",
+        "bytes": 23773,
+        "sha256": "bd5841c8dae6ea35954945c5f775891e0e6ae2837bd57dda2fb4bbefdb9b4b71"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle-overviews-runtime-oracle.mjs",
+        "bytes": 9065,
+        "sha256": "4e11919a57b579554c7dc94e0913b6b43112054cdb8189524877e14e0c7eb7b3"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle-runtime-oracle.mjs",
+        "bytes": 4501,
+        "sha256": "dac040e50d0ec1f13cb53eda977360a2f448b2c0d2ba790a5e297e0a32999625"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle.mjs",
+        "bytes": 51589,
+        "sha256": "ae57080f597f4d8393718e515de836098908a9f4dc5535a6342b589448858ed4"
+      },
+      {
+        "path": "scripts/test-hd-mobile-city.mjs",
+        "bytes": 41507,
+        "sha256": "0c488978e4d9c1916f34f6e0570a67f34fe2c003adca90a2dc80d2494b7c82c7"
+      },
+      {
+        "path": "scripts/test-hd-mobile-defender-runtime-oracle.mjs",
+        "bytes": 15880,
+        "sha256": "18737d61f28a04d01ec1716bff468f6c9207e79942b38f275db6e4df1af724a9"
+      },
+      {
+        "path": "scripts/test-hd-mobile-defender-settlement-runtime-oracle.mjs",
+        "bytes": 15883,
+        "sha256": "8d9a52477e8944474db5360d059f5a511b2ba99410087cfa92ec259c5308b7a3"
+      },
+      {
+        "path": "scripts/test-hd-mobile-detail-runtime-checks.mjs",
+        "bytes": 5067,
+        "sha256": "71554a62e0dd111a25b36356649209f15deef66ec06999e39db66842b4368bca"
+      },
+      {
+        "path": "scripts/test-hd-mobile-diplomacy-engine.mjs",
+        "bytes": 21932,
+        "sha256": "0f626b93d1bd3ac58d697009334884cae570ff89b65f8af17e4ad7e149a5eb0f"
+      },
+      {
+        "path": "scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs",
+        "bytes": 10599,
+        "sha256": "df3528d0a30710b67e7f41e6c1e2371f5d876a3e2c522f8b28f6affecbd590e2"
+      },
+      {
+        "path": "scripts/test-hd-mobile-distribution-runtime-oracle.mjs",
+        "bytes": 7887,
+        "sha256": "f9b6e675d704caa312ed96fe0c648fbc051e2b5c87175271bfbcec19573dcd7b"
+      },
+      {
+        "path": "scripts/test-hd-mobile-equipment-runtime-oracle.mjs",
+        "bytes": 14199,
+        "sha256": "f70be0b45d3320dcbd5f9fe7b99fa1d2b81023bf3ea85968729cfb2aa1bccba8"
+      },
+      {
+        "path": "scripts/test-hd-mobile-map.mjs",
+        "bytes": 43315,
+        "sha256": "f466aadae5111556065dcd8104785dcec1e7c3f4f958b1eef14f32cd220d4453"
+      },
+      {
+        "path": "scripts/test-hd-mobile-march-runtime-oracle.mjs",
+        "bytes": 15815,
+        "sha256": "a6ed8bccf3035badb446d973220d74a7f8c90fd3cedf1eda157c3689c19607ea"
+      },
+      {
+        "path": "scripts/test-hd-mobile-minimap.mjs",
+        "bytes": 17770,
+        "sha256": "a607f0505cf3ffcee54e70617c3261ecc4e7b03e06460fab20d858a02e96e57d"
+      },
+      {
+        "path": "scripts/test-hd-mobile-portraits.mjs",
+        "bytes": 30861,
+        "sha256": "38b3b3f6d92dc6bccf7d4246861f1cb3608896a50c7c43407d2b031cd4f17f21"
+      },
+      {
+        "path": "scripts/test-hd-mobile-recruitment-runtime-oracle.mjs",
+        "bytes": 12889,
+        "sha256": "fb14d448aeab44571c24ef8129f8c39918909764509c1f96cbbc42d53ec168aa"
+      },
+      {
+        "path": "scripts/test-hd-mobile-spe.mjs",
+        "bytes": 47866,
+        "sha256": "64cdeb51f0f39f07f3b4ac0198dddb66e72bb49a0fe4fbcef3f2964c9bcf8799"
+      },
+      {
+        "path": "scripts/test-hd-mobile-successor-runtime-oracle.mjs",
+        "bytes": 14977,
+        "sha256": "83cfd042523cd26be58703710e62bcf3df21890ef9c24de25368b87c01ee814f"
+      },
+      {
+        "path": "scripts/test-hd-mobile-system-runtime-oracle.mjs",
+        "bytes": 9974,
+        "sha256": "a5a18405000819ea05998a72834562f61ee2768ac84f2346942be013c0bdeac0"
+      },
+      {
+        "path": "scripts/test-hd-mobile-system.mjs",
+        "bytes": 51020,
+        "sha256": "6de44861ab96e969b564322cfe757f9fb63e49125244bc0219e53d07c1a57cbb"
+      },
+      {
+        "path": "scripts/test-hd-mobile-trade-engine.mjs",
+        "bytes": 18225,
+        "sha256": "52722555428d52f7e13baba00a8d2d1716417bdd59d031fbf02af831bb295220"
+      },
+      {
+        "path": "scripts/test-hd-mobile-trade-runtime-oracle.mjs",
+        "bytes": 13258,
+        "sha256": "8aeb78829ca8d587999e8749c102d5ff4f458113c1c6ab95dfad730385dc180d"
+      },
+      {
+        "path": "scripts/test-hd-mobile-transfer-engine.mjs",
+        "bytes": 25507,
+        "sha256": "4b27eac7a7b6c6241961ed95c9ddf6ee4057762f0e49617fd1df9ba3c252756c"
+      },
+      {
+        "path": "scripts/test-hd-mobile-transfer-runtime-oracle.mjs",
+        "bytes": 15937,
+        "sha256": "df5dfd21eae3dd40bf50511d6bd584752dbeec16bb5fbc310822240b0e6df388"
+      },
+      {
+        "path": "scripts/test-hd-mobile.mjs",
+        "bytes": 16397,
+        "sha256": "7c6a3ec836ed381d794b9075edeefba876abcd343600feabde0473a80ccd94ef"
+      },
+      {
+        "path": "scripts/test-hd-overviews-bridge.mjs",
+        "bytes": 14174,
+        "sha256": "bf7e3a21dd9bc909035969a9cd192cbe5b47b8337494f11d13b66d05696042cc"
+      },
+      {
+        "path": "scripts/test-hd-overviews-engine.mjs",
+        "bytes": 35459,
+        "sha256": "e15195ed60983a3d7da88c7239a83656df5b776defee46b09d24347d23af2c7f"
+      },
+      {
+        "path": "scripts/test-hd-overworld-environment.mjs",
+        "bytes": 22014,
+        "sha256": "50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4"
+      },
+      {
+        "path": "scripts/test-hd-overworld-identity.mjs",
+        "bytes": 22278,
+        "sha256": "f6adef043c8e8ce941afb80743f3abbd43946c532875b1b89ea53461f09085b1"
+      },
+      {
+        "path": "scripts/test-hd-overworld-layers.mjs",
+        "bytes": 11652,
+        "sha256": "238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7"
+      },
+      {
+        "path": "scripts/test-hd-overworld-touch.mjs",
+        "bytes": 28588,
+        "sha256": "cdba0aae82e2cf05b88e5b5386250943fd525f8865e26b4be79613acb4537b86"
+      },
+      {
+        "path": "scripts/test-hd-ownership.mjs",
+        "bytes": 5863,
+        "sha256": "32219fd08fa41fbf12dac5c2d0e4d7c933828bfa582183b366214bd429152e30"
+      },
+      {
+        "path": "scripts/test-hd-performance-metrics.mjs",
+        "bytes": 1228,
+        "sha256": "0f51df6f9b7eaca9f1fdc4ca88b250d3407f737fffdb6827024eb9b1e3bd6da4"
+      },
+      {
+        "path": "scripts/test-hd-person-properties-engine.mjs",
+        "bytes": 25396,
+        "sha256": "2098538af65f1839c8d7d29a70b4d526975ae88273194569cd111d334e392545"
+      },
+      {
+        "path": "scripts/test-hd-portraits.mjs",
+        "bytes": 54641,
+        "sha256": "56516f62f4100805f8aed656e5e936b27b83148437d58459f04b9da054a44cfc"
+      },
+      {
+        "path": "scripts/test-hd-qimen20-bridge.mjs",
+        "bytes": 12411,
+        "sha256": "2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f"
+      },
+      {
+        "path": "scripts/test-hd-render-visibility.mjs",
+        "bytes": 50865,
+        "sha256": "b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f"
+      },
+      {
+        "path": "scripts/test-hd-road-presentation.mjs",
+        "bytes": 8294,
+        "sha256": "44cdf69d84384258d9501bc8833a16fd97c190de53c9008d368537dcfc4bcda7"
+      },
+      {
+        "path": "scripts/test-hd-runtime-json.mjs",
+        "bytes": 9752,
+        "sha256": "8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636"
+      },
+      {
+        "path": "scripts/test-hd-runtime-owned-chrome.mjs",
+        "bytes": 8131,
+        "sha256": "9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3"
+      },
+      {
+        "path": "scripts/test-hd-save-pages.mjs",
+        "bytes": 28079,
+        "sha256": "370d329e255095ad18c115cc26229c2b5a51f008bc9b02f6b88e6fa4b862705c"
+      },
+      {
+        "path": "scripts/test-hd-save-transaction.mjs",
+        "bytes": 33151,
+        "sha256": "09f1a089c859044a0729dac52427476c71f0ed6ffdbe50548013160c071ef922"
+      },
+      {
+        "path": "scripts/test-hd-saveload-ui.mjs",
+        "bytes": 33802,
+        "sha256": "0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1"
+      },
+      {
+        "path": "scripts/test-hd-skill-bridge.mjs",
+        "bytes": 50437,
+        "sha256": "3fac0b2b42a8347658f0fd6185f72f8734b6efac90230a821f0eda309bfce522"
+      },
+      {
+        "path": "scripts/test-hd-skill-engine.mjs",
+        "bytes": 61780,
+        "sha256": "bb4df539508e7e2bc8adf022f21ac5b967189465d4d9826235677633defe2bef"
+      },
+      {
+        "path": "scripts/test-hd-spe-engine.mjs",
+        "bytes": 20173,
+        "sha256": "814a920369df4645908f526251e0f2b8d4303971fbeb5bcc2c4a360e6036c045"
+      },
+      {
+        "path": "scripts/test-hd-spe.mjs",
+        "bytes": 303084,
+        "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b"
+      },
+      {
+        "path": "scripts/test-hd-status-effect-bridge.mjs",
+        "bytes": 25997,
+        "sha256": "3dae2a152d084bd9c2d5c90bc0021e90543476169c7ba98d00c943d3cc762e7d"
+      },
+      {
+        "path": "scripts/test-hd-status-effect-engine.mjs",
+        "bytes": 27081,
+        "sha256": "ae7e4e98a9f842ca7d162b7310c7fc470ec0d775b3e92daa7d7deb2d38bdf2eb"
+      },
+      {
+        "path": "scripts/test-hd-wood-bridge.mjs",
+        "bytes": 10545,
+        "sha256": "2213b5e8eb7b91bb9735efecf9dccc279557284a26a9e60734148eb08e40c142"
+      },
+      {
+        "path": "scripts/test-hd-wood-buy-continuation.mjs",
+        "bytes": 18860,
+        "sha256": "ef0d12f259689748c0224f58e08a10a3a8b69623db983beb9a9350ee48f9e221"
+      },
+      {
+        "path": "scripts/test-hd-wood-buy-runtime.mjs",
+        "bytes": 14214,
+        "sha256": "59fc8ac8146318bd9ef7ae5ad77d271c39520b5253bad15ee4d3f9aed52e08bb"
+      },
+      {
+        "path": "scripts/test-hd-wood-classic-presentation.mjs",
+        "bytes": 6847,
+        "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+      },
+      {
+        "path": "scripts/test-hd-wood-engine.mjs",
+        "bytes": 15152,
+        "sha256": "b4126b3517ea9087113511177cb3ab8f5a8a8bbaf1521f63d357800690f007a5"
+      },
+      {
+        "path": "scripts/test-hd-wood-missing-picture.mjs",
+        "bytes": 16385,
+        "sha256": "98938d006f2c206ca649e685828c56e47e3ba2b94e946daf6368031851ffe768"
+      },
+      {
+        "path": "scripts/test-hd-wood-native-action.mjs",
+        "bytes": 17143,
+        "sha256": "475fd7ae0fcd477735a52674c69e63785b330d71c25fd0446ba0176cf9a4e9ff"
+      },
+      {
+        "path": "scripts/test-hd-wood-native-route.mjs",
+        "bytes": 6543,
+        "sha256": "39353c0b11daa41e1ee0e3eed8ad91678542c44209233142e45de3936b1863cb"
+      },
+      {
+        "path": "scripts/test-hd-wood-original-continuation.mjs",
+        "bytes": 20346,
+        "sha256": "16eeca6e9a11f99dd20561bd69f30d053e10fe84e34c0264fd3579c8f7cffca6"
+      },
+      {
+        "path": "scripts/test-hd-wood-recruitment-hooks.mjs",
+        "bytes": 8160,
+        "sha256": "612539477d0bf9404aabde4e517e0801a24443fea075e32d771e7a8db33cef88"
+      },
+      {
+        "path": "scripts/test-hd-wood-recruitment-preparation.mjs",
+        "bytes": 32373,
+        "sha256": "bb295da89030378028a2dca99e78dc1b2a3fefc1f139904246f611f4c054f1ef"
+      },
+      {
+        "path": "scripts/test-hd-wood-recruitment-runtime.mjs",
+        "bytes": 28940,
+        "sha256": "f0d4b79350fcd958ba839d29e2aa4f0e1ff09c392336acc1bbfe150766937dbf"
+      },
+      {
+        "path": "scripts/test-hd-wood-runtime-oracle.mjs",
+        "bytes": 28222,
+        "sha256": "b5b0224b9d383a3baf2279fc888b913b012154a2a7832173e2bf84a0d5b9ee61"
+      },
+      {
+        "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+        "bytes": 22834,
+        "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+      },
+      {
+        "path": "scripts/test-hd-zhoufeng-bridge.mjs",
+        "bytes": 11712,
+        "sha256": "c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2"
+      },
+      {
+        "path": "scripts/test-lcd-touch.mjs",
+        "bytes": 12886,
+        "sha256": "31caee3c0fc611679e3afe9519c630cb3eeb4badc3807ad768e6e4489e8d913b"
+      },
+      {
+        "path": "scripts/test-original-game-entry.mjs",
+        "bytes": 13399,
+        "sha256": "e10f848e6b700eb7a4074b44c20e9812c6a0388c745b8ff3729df07a61a3e398"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtCount.c",
+        "bytes": 27302,
+        "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33782,
+        "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/order.h",
+        "bytes": 2916,
+        "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/paccount.h",
+        "bytes": 2251,
+        "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 17734,
+        "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmd.c",
+        "bytes": 39212,
+        "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdc.c",
+        "bytes": 39495,
+        "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmde.c",
+        "bytes": 15921,
+        "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/config.c",
+        "bytes": 179,
+        "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pconst.h",
+        "bytes": 1761,
+        "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+      },
+      {
+        "path": "vendor/iBaye/src/datman.c",
+        "bytes": 9424,
+        "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+      },
+      {
+        "path": "vendor/iBaye/src/gamEng.c",
+        "bytes": 47517,
+        "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 199154,
+        "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/exportjs.c",
+        "bytes": 9789,
+        "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font.bin.c",
+        "bytes": 1003524,
+        "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 45067,
+        "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+      }
+    ],
+    "september": [
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40.json",
+        "bytes": 18055,
+        "sha256": "51b846af0ed22966bc389599da4c28e8d17894a1923acb5de9a938a32998e14b"
+      },
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40-latest-world.json",
+        "bytes": 148035,
+        "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+      },
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40-sango0.sav",
+        "bytes": 8221,
+        "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+      },
+      {
+        "path": "docs/validation/m5-wood67-missing-20261024-v40-sango1.sav",
+        "bytes": 4840,
+        "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+      }
+    ],
+    "sourceOnly": true,
+    "actualGameExecuted": false,
+    "newGameInputs": 0,
+    "actualBuyAccepted": false,
+    "actualMarchAccepted": false,
+    "actualMonthAccepted": false,
+    "actualClassicAccepted": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-v41-root-full-regression-v2.json",
+      "bytes": 36510,
+      "sha256": "38aaccf495e46fe9aade2272cc04d0e9d5bf4deb45579e89ab1dfc85177e6171"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/wood67-v41-root-full-regression-v1.stdout.log",
+      "bytes": 644431,
+      "sha256": "fa103d6fe46197b6d47c9bdf5ef776303566dbc504c00c28ba9db4be4258907a"
+    },
+    "rootToolTerminal": {
+      "provenance": "Parent tool terminal facts, not a reconstruction of the complete console",
+      "harness": {
+        "sessionId": 5315,
+        "finalChunk": "95e88d",
+        "exitCode": 1
+      },
+      "childNpm": {
+        "exitCode": 0
+      },
+      "metadataReader": {
+        "chunk": "6d61ed",
+        "exitCode": 0,
+        "newTestExecutions": 0
+      }
+    }
+  },
+  "targeted": {
+    "native64": {
+      "tests": 64,
+      "receipt": {
+        "path": "build/impact-skill-20261014/v41-route-native-final-controlled-v1/receipt.json",
+        "bytes": 6233,
+        "sha256": "9e650aff57623fb4e46f9a1031425b5b8d044719a3b526692fe1d6b4090754e9"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/v41-route-native-final-controlled-v1/stdout.txt",
+        "bytes": 12970,
+        "sha256": "317b00cad217c726155a73079e8a4b099532c67a76153a6dbadfa51b5e00d8aa"
+      },
+      "sourceBeforeAfterExact": true
+    },
+    "core94": {
+      "tests": 94,
+      "receipt": {
+        "path": "build/impact-skill-20261014/v41-food-core-controlled-v2.receipt.json",
+        "bytes": 3856,
+        "sha256": "d7dc32ba660c3ecbc14e06c8a375f5f088146da7ba763375655cb5841023e631"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/v41-food-core-controlled-v2.stdout.log",
+        "bytes": 17697,
+        "sha256": "02abf144b912777265b9fc0d1ddd03bb1ee111be978bae4c9f98074dbed44ead"
+      },
+      "sourceBeforeAfterExact": true
+    },
+    "runtime54": {
+      "tests": 54,
+      "receipt": {
+        "path": "build/impact-skill-20261014/v41-runtime-contract-controlled-v4/receipt.json",
+        "bytes": 4418,
+        "sha256": "06f4c9289d31fd92e640ef27149bb63fbbc262c4edf8d2d135a9d809b21f76c9"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/v41-runtime-contract-controlled-v4/stdout.txt",
+        "bytes": 10117,
+        "sha256": "d69b4e4266a39ef4c79f5e686b8471b365cba90a55ea51c49fd4458c738e4c37"
+      },
+      "processExitCode": 0,
+      "harnessAccepted": false,
+      "wholeDependencyBeforeAfterExact": false,
+      "ownRuntimeAndTestBeforeAfterExact": true
+    }
+  },
+  "independentReview": {
+    "path": "build/impact-skill-20261014/v41-route-native-buy-chain-independent-v2.json",
+    "bytes": 7031,
+    "sha256": "f5fbb6d7754847e62d4486cef14bdffe1f6e53f3fa87b291c549356d42e5c2bb"
+  },
+  "nativeAudit": {
+    "path": "build/impact-skill-20261014/v41-route-native-map112-audit-v1.json",
+    "bytes": 13387,
+    "sha256": "7d60cea678287e1ad9b846e26b14e9e503b4dd5242bdb42dfca3808fdd4fa3c2"
+  },
+  "earlierNativeAuditWithGuardLabelCorrection": {
+    "path": "build/impact-skill-20261014/v41-route-native-audit-v1.json",
+    "bytes": 17861,
+    "sha256": "9ac48abce4ad5f3d02dfacb9351fc005ea7100d890359d97e1d94a7094efe6c1"
+  },
+  "currentSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 24690,
+      "sha256": "e35bc65e9a753d52dbd0bac5a4638139075b95600ca4b90c910d36921ade57fd"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 711999,
+      "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+      "bytes": 6835,
+      "sha256": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt",
+      "bytes": 13517,
+      "sha256": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-latest-world.json",
+      "bytes": 148035,
+      "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango0.sav",
+      "bytes": 8221,
+      "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango1.sav",
+      "bytes": 4840,
+      "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40.json",
+      "bytes": 18055,
+      "sha256": "51b846af0ed22966bc389599da4c28e8d17894a1923acb5de9a938a32998e14b"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 428488,
+      "sha256": "69d85a0dda567673f141fe459056698362d3ebb4f6b318e07a4bc3bfe76b451c"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "package.json",
+      "bytes": 20744,
+      "sha256": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e"
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-buy-continuation.mjs",
+      "bytes": 15744,
+      "sha256": "6b2819874c531c7e0c86d7c1dbd5efdc1b96e1414073be424f1e573cd54ac0a9"
+    },
+    {
+      "path": "scripts/hd-impact-v32-conditional-plunder-prefix.mjs",
+      "bytes": 26243,
+      "sha256": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013"
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+    },
+    {
+      "path": "scripts/hd-wood-buy-continuation.mjs",
+      "bytes": 27085,
+      "sha256": "8c0d80ecc593401ca0edf3a1a63a8cfe089a4b23c2ce3f32c15cb261f4c9ed79"
+    },
+    {
+      "path": "scripts/hd-wood-buy-runtime.mjs",
+      "bytes": 19242,
+      "sha256": "5d6352318f25c56b7054fb6e32745377babb4ebf73f24e99eae57cd263436f80"
+    },
+    {
+      "path": "scripts/hd-wood-classic-presentation.mjs",
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+    },
+    {
+      "path": "scripts/hd-wood-missing-picture.mjs",
+      "bytes": 7879,
+      "sha256": "9e80491b46295b5fe9ef274de8136049937743fd17e58420ac88b7b04324adc8"
+    },
+    {
+      "path": "scripts/hd-wood-native-action.mjs",
+      "bytes": 12494,
+      "sha256": "681064d68f35be8f01937168593c44a696b6df0ceeafd033b6c7b094ba3841a5"
+    },
+    {
+      "path": "scripts/hd-wood-native-route.mjs",
+      "bytes": 6169,
+      "sha256": "61f3856bda25da0b77957330287b598842163a219f0c4a78d53702a4870de586"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-preparation.mjs",
+      "bytes": 30306,
+      "sha256": "8fd0e641949d4c1ebef99507695fe0b4249aeaae6526a49972b05d658277b183"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-runtime.mjs",
+      "bytes": 16527,
+      "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6"
+    },
+    {
+      "path": "scripts/hd-wood-runtime-oracle.mjs",
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+    },
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+    },
+    {
+      "path": "scripts/test-hd-ai-target-bridge.mjs",
+      "bytes": 21975,
+      "sha256": "9c7b4b6265fd3c633c476546053019528e6d6ed535dae44bf47b23f01b9f0e9a"
+    },
+    {
+      "path": "scripts/test-hd-ai-target-engine.mjs",
+      "bytes": 25243,
+      "sha256": "201fba2943add0ffc673246456b06d4aa0daa3ad302aaa19e0ca887c95a14849"
+    },
+    {
+      "path": "scripts/test-hd-aid-bridge.mjs",
+      "bytes": 5926,
+      "sha256": "eac5b3323f325bb03865302018c9985262539efcea66646802ab06f585771086"
+    },
+    {
+      "path": "scripts/test-hd-aid-engine.mjs",
+      "bytes": 31366,
+      "sha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b"
+    },
+    {
+      "path": "scripts/test-hd-aid-runtime-oracle.mjs",
+      "bytes": 9648,
+      "sha256": "15a1cceb0e9d2c69f6b783f369d1d7c1efde818b7a43d2ee67eaaead27f533a3"
+    },
+    {
+      "path": "scripts/test-hd-aid.mjs",
+      "bytes": 30351,
+      "sha256": "b293ee07257764ad735a057481b8a5af0a5fb41096faecb19f3326a14ba8c0b3"
+    },
+    {
+      "path": "scripts/test-hd-attack-bridge.mjs",
+      "bytes": 19755,
+      "sha256": "0c1e3bd9ccdb0e5aa2e07877e73a26e14f674391c5d8c8af6ff47f6f38b7f55a"
+    },
+    {
+      "path": "scripts/test-hd-attack-engine.mjs",
+      "bytes": 35770,
+      "sha256": "204c7d23fdcb44ad170498101f6629ffbcacec8b9d7a16d63b57cfc1aefb0411"
+    },
+    {
+      "path": "scripts/test-hd-battle-commands.mjs",
+      "bytes": 27304,
+      "sha256": "5e5dca6cfa1a04f9582d01800a5c0db471204df70578b159fe6ed1d8864c1209"
+    },
+    {
+      "path": "scripts/test-hd-battle-feedback.mjs",
+      "bytes": 23274,
+      "sha256": "ca7c56aa0f7d41f94f19588182dad68950b3a5ec2a0e49bdffb341fdf71a27b9"
+    },
+    {
+      "path": "scripts/test-hd-battle-mobile-host.mjs",
+      "bytes": 17036,
+      "sha256": "a30159e164ed7fbb15ff374fbcbd2dc17988ad9a7a94a14df9fb24e60c1574bc"
+    },
+    {
+      "path": "scripts/test-hd-battle-mode.mjs",
+      "bytes": 20759,
+      "sha256": "6c14c8e1d6abab815f8f9ea3d367d4e27b3d210ba8ddeeec0bbd5d82e062c415"
+    },
+    {
+      "path": "scripts/test-hd-battle-note.mjs",
+      "bytes": 15532,
+      "sha256": "52b6a65d7031487e024c0ef6ec6a0addab58243bf6a574a0fedb599b5825fbf3"
+    },
+    {
+      "path": "scripts/test-hd-battle-scene-runtime-oracle.mjs",
+      "bytes": 13781,
+      "sha256": "2ff5f4da9af912aaacca0363daf83b9b839349d778fa995a1ca26b237ef8598b"
+    },
+    {
+      "path": "scripts/test-hd-battle-scene.mjs",
+      "bytes": 15035,
+      "sha256": "85a7b2e3dd2aec8697063930a5154e5f15a7939bc01bbc9276a9490c8ca59c96"
+    },
+    {
+      "path": "scripts/test-hd-battle-terrain.mjs",
+      "bytes": 19450,
+      "sha256": "fff214f761e76957647a5a9231529cc88e8ced682b71c04e47ddc56710883266"
+    },
+    {
+      "path": "scripts/test-hd-campaign-engine.mjs",
+      "bytes": 52950,
+      "sha256": "4a0f8e947f20754629026cf4438a5301f781c1b95195a687bec03e0a0e04f55b"
+    },
+    {
+      "path": "scripts/test-hd-campaign-flow.mjs",
+      "bytes": 46239,
+      "sha256": "e6f84bd3c3f790b537d8fdad7f026a427a4749de8d4168cb0382f25a2ef09f7d"
+    },
+    {
+      "path": "scripts/test-hd-campaign-telemetry.mjs",
+      "bytes": 10276,
+      "sha256": "456ea7b29a6f56adb3c19a4faa6384b2c8289bd425d9ce43d7fd5321c8f89a19"
+    },
+    {
+      "path": "scripts/test-hd-city-entry.mjs",
+      "bytes": 9738,
+      "sha256": "79eb2555ccd8d28a5d50bbe0f2d295a2201a743a67ec5db755d09e7309b50c26"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 123784,
+      "sha256": "87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 177204,
+      "sha256": "6d7f52c66bd3c229f271b81a257f8795400a434771caed9ba89eba1e868cc3d7"
+    },
+    {
+      "path": "scripts/test-hd-details-bridge.mjs",
+      "bytes": 29952,
+      "sha256": "63f05c704fe44a7717e7899046c57cc663737bdf3280039adf5ef68ae77daea4"
+    },
+    {
+      "path": "scripts/test-hd-details-engine.mjs",
+      "bytes": 36778,
+      "sha256": "3b4f07c0560056f0f8d6105635f141d2951804101ac1e58bda957bccc18fbd96"
+    },
+    {
+      "path": "scripts/test-hd-dialog-routing.mjs",
+      "bytes": 79747,
+      "sha256": "06b353156743a17c5a66d87eab8da0a61e872ea83c779d5110d9909a8903d846"
+    },
+    {
+      "path": "scripts/test-hd-dingshen-bridge.mjs",
+      "bytes": 12851,
+      "sha256": "d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8"
+    },
+    {
+      "path": "scripts/test-hd-display-settings.mjs",
+      "bytes": 10071,
+      "sha256": "97a9c8588653fb7b7159e91c3bb72a64d61c63c6bc513091573558f022039fe0"
+    },
+    {
+      "path": "scripts/test-hd-engine-protocol.mjs",
+      "bytes": 57400,
+      "sha256": "ea7856cd928a54a00e2d293e88f51bcb3e723c65179cefef91af7c74ca03f1f5"
+    },
+    {
+      "path": "scripts/test-hd-idb-mod-compat.mjs",
+      "bytes": 13312,
+      "sha256": "f1556dd2ad61317ad003ea0fa97a3b05fc95bd8c0d1eaec7dc87b24777da422e"
+    },
+    {
+      "path": "scripts/test-hd-impact-canvass-runtime-oracle.mjs",
+      "bytes": 37685,
+      "sha256": "07b87fcc96d937c2c8b51996995953cae2639d9e825ade2fa2c72180d211634c"
+    },
+    {
+      "path": "scripts/test-hd-impact-diplomacy-runtime-oracle.mjs",
+      "bytes": 21875,
+      "sha256": "f9aeb51992aa977c7a8eccecc5d93ed6d28ecfc6339132c3e534a9b92adcddc5"
+    },
+    {
+      "path": "scripts/test-hd-impact-plunder-runtime-oracle.mjs",
+      "bytes": 12976,
+      "sha256": "0d68ea0c4248baf4b7ed45a8b4f77dddd3f6c3f03aa105b95098d77b922bfb8c"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-acquisition-plan.mjs",
+      "bytes": 3786,
+      "sha256": "1968cce9a5bb13b24ef93834124b2f33cd0c545592896966494f690fd2242bfb"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-canvass16-make-oracle.mjs",
+      "bytes": 17727,
+      "sha256": "ae47b37d2819a30235c8767e27d77163eeea73ef8c67191f01c7bdc1540a935c"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-canvass16-natural-return.mjs",
+      "bytes": 11308,
+      "sha256": "4e9a9cbc22d677f905b49e30301f2036f6150cabf43d3dac34cca794d501864b"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-json-normalize.mjs",
+      "bytes": 4719,
+      "sha256": "21b99a2c0797607e0094c231f2b2607fbbff1578664827e3a66ad4119af2178a"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-world-dictionary.mjs",
+      "bytes": 12463,
+      "sha256": "72540765bacafb03ddd2781b6c8839475176a058f987d4501a0d0b387e79cae5"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-final-report-storage.mjs",
+      "bytes": 5340,
+      "sha256": "7c2dd19b3b4fbd9c01044e97988a36482d76f4f9d0183fb9fa6fc242fd42b795"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-month-window.mjs",
+      "bytes": 4772,
+      "sha256": "168660046bc3a509b3186b5624565e60216c368698059d28051664583a92ce9b"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-observation-row-stream.mjs",
+      "bytes": 12512,
+      "sha256": "a1a8362ac0868ea1dc4108da585e3eda6a57ec11149b175d036ea278e3d8eb4b"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-selected-row-terminal-integrity.mjs",
+      "bytes": 2159,
+      "sha256": "74a742822acc14bd1b70b621691fdd003073f76b1c2404b24d64d69ac8a2c4f0"
+    },
+    {
+      "path": "scripts/test-hd-impact-v25-pending-resume.mjs",
+      "bytes": 7806,
+      "sha256": "5fd04637390b1eed077d85d5bef9e3955fafe3586a4c528956041d83acf54599"
+    },
+    {
+      "path": "scripts/test-hd-impact-v26-raw-buy11-oracle.mjs",
+      "bytes": 12730,
+      "sha256": "ab37a3fefff90a1f9aa400c1228a7a1828f0cdffdaad780cf11fb12f37d7c5c0"
+    },
+    {
+      "path": "scripts/test-hd-impact-v27-acquisition-plan.mjs",
+      "bytes": 9045,
+      "sha256": "f0238b6a769e83bf143d7e2fb05082117a9bedaf9dec635be44b9315d80020d6"
+    },
+    {
+      "path": "scripts/test-hd-impact-v27-canvass16-make-oracle.mjs",
+      "bytes": 12535,
+      "sha256": "10c278cab7788f72c575c69b1b3e75c8623670c1828acf1a2d7f8bc3ab8da7f1"
+    },
+    {
+      "path": "scripts/test-hd-impact-v27-canvass16-natural-return.mjs",
+      "bytes": 12663,
+      "sha256": "4aab99fd0c747823c99fdaedf144c7ed679c4dcb0e0763b13aff420405ea977e"
+    },
+    {
+      "path": "scripts/test-hd-impact-v28-acquisition-plan.mjs",
+      "bytes": 12511,
+      "sha256": "9a53356da1a3a9ca3a4123773348f68cde9bb91e12d6a6738513beb03cff36f4"
+    },
+    {
+      "path": "scripts/test-hd-impact-v29-acquisition-policy.mjs",
+      "bytes": 5963,
+      "sha256": "b3a2e0fd14096378255fd70d20f8207914792b970ed805e190297627c49b09d1"
+    },
+    {
+      "path": "scripts/test-hd-impact-v29-november-recovery-plan.mjs",
+      "bytes": 11911,
+      "sha256": "d120434ad2ebd3b24406727e364274d939cb05980a1e7a927a8c26d4f5e6ce3e"
+    },
+    {
+      "path": "scripts/test-hd-impact-v29-treat12-world-oracle.mjs",
+      "bytes": 18089,
+      "sha256": "1d71da631c11b2d2288285eca53bdb99fb304d3b00d1c9d86097788afbe54b25"
+    },
+    {
+      "path": "scripts/test-hd-impact-v30-search3-natural-return.mjs",
+      "bytes": 16042,
+      "sha256": "148266e1da11b61617ec88988fdb9039e001a727862543be7c0dbdfc7954b290"
+    },
+    {
+      "path": "scripts/test-hd-impact-v30-search3-world-oracle.mjs",
+      "bytes": 13116,
+      "sha256": "d109b3be704f5f7b25996ba957c874660c40e81f1e5117816dbc0a9ca15c392a"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-acquisition-policy.mjs",
+      "bytes": 10226,
+      "sha256": "2be201d22e4756db25c57d56c32f61adeac7155f233f003d7057907b1546c0e0"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-canvass16-make-oracle.mjs",
+      "bytes": 15044,
+      "sha256": "28524b94c19cc856f51fdd572861e768c93a7d94db7d0a7a52bf7ecbce9df4a8"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-canvass16-natural-return.mjs",
+      "bytes": 15223,
+      "sha256": "e82391868c1ba52216e93078ac8597e635626c9946b895ef50b70087ec80ce55"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-water-token-give-oracle.mjs",
+      "bytes": 6152,
+      "sha256": "36b1bb6a14af62ed5cbd3d3934a8351afcb792ea299f579ffa7712a79cfbd7d2"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-acquisition-policy.mjs",
+      "bytes": 5963,
+      "sha256": "96870f1560feccc2e1fb24320c3ad851b58049d6ee27c25a430c9c37edbb65d9"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-canvass16-make-oracle.mjs",
+      "bytes": 15058,
+      "sha256": "6bd6d2ca6516d6724384ddcabf9fa801c25e52d57a1cffa6c6edd4e6bd6c2a48"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-canvass16-natural-return.mjs",
+      "bytes": 15225,
+      "sha256": "f3df81dd7c713184c9e6e1ccea6b160a5575ea20a74d080d1b2ac5438836d5fb"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-conditional-plunder-prefix.mjs",
+      "bytes": 24037,
+      "sha256": "97b8dab5f275f44db2b167819960b609c38bd40a614994998bc6f8a338822fc9"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-water-token-give-oracle.mjs",
+      "bytes": 11508,
+      "sha256": "223b5e968477f6082bbb8a1002338292065880dde23e942c1fd5677c30366000"
+    },
+    {
+      "path": "scripts/test-hd-impact-v33-city6-readiness.mjs",
+      "bytes": 18401,
+      "sha256": "cacb18fcc86bcc70ff8b36afeeb1d8df7a3791c77f20f486afb1df3188c4a12d"
+    },
+    {
+      "path": "scripts/test-hd-impact-v33-water-token-give-oracle.mjs",
+      "bytes": 8519,
+      "sha256": "022bf13875d0ff7cd757fbf416b82038ba035259cf7819bb71ba073b27e54a83"
+    },
+    {
+      "path": "scripts/test-hd-impact-v34-north-route.mjs",
+      "bytes": 14565,
+      "sha256": "e2f9ea89799caa85bbcfe00061b2d240d8dc1e93253c19ab7fc75578d4ccedc2"
+    },
+    {
+      "path": "scripts/test-hd-impact-v34-preparation.mjs",
+      "bytes": 12616,
+      "sha256": "ca9ce18265898a6e556237ee73e4e90ff1ad1addb2bb414612e6a5d6accb57df"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-conditional-plunder-prefix.mjs",
+      "bytes": 16326,
+      "sha256": "e5e4ad062b99f0a6a06935b413b24dff8de8dca20fc7d5a5a83f23fdd81c9075"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-wood-march.mjs",
+      "bytes": 4962,
+      "sha256": "b37c9d8a0ad196cc5ef918b478fc091137aa9d7c66d2e1e5045698b00a3a2909"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-wood-route.mjs",
+      "bytes": 16668,
+      "sha256": "759ade7ea9cb8eb8c97254566d5cb5b7d64753613ce49f92ff51bdf19eb67cdd"
+    },
+    {
+      "path": "scripts/test-hd-input.mjs",
+      "bytes": 31206,
+      "sha256": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0"
+    },
+    {
+      "path": "scripts/test-hd-lib-identity.mjs",
+      "bytes": 7909,
+      "sha256": "7f5a358f15c1a8b9ea45b08e7110011e473086a86d24c3308e8e99ff1c7be68a"
+    },
+    {
+      "path": "scripts/test-hd-liuyan-bridge.mjs",
+      "bytes": 11518,
+      "sha256": "9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4"
+    },
+    {
+      "path": "scripts/test-hd-maker-bridge.mjs",
+      "bytes": 16562,
+      "sha256": "7c39262d2d237df3dae6e2d6eb87022e700967d79b7efd517bd9149ea7d59130"
+    },
+    {
+      "path": "scripts/test-hd-maker-engine.mjs",
+      "bytes": 22045,
+      "sha256": "5d49e39740e49feda1846c70e951412405e8984aaaf6642239d5a647a947396d"
+    },
+    {
+      "path": "scripts/test-hd-march.mjs",
+      "bytes": 20618,
+      "sha256": "062a9bec31e03689818522deefde2fd3737833307e6fce26bcd250362df225d7"
+    },
+    {
+      "path": "scripts/test-hd-minimap.mjs",
+      "bytes": 23773,
+      "sha256": "bd5841c8dae6ea35954945c5f775891e0e6ae2837bd57dda2fb4bbefdb9b4b71"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle-overviews-runtime-oracle.mjs",
+      "bytes": 9065,
+      "sha256": "4e11919a57b579554c7dc94e0913b6b43112054cdb8189524877e14e0c7eb7b3"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle-runtime-oracle.mjs",
+      "bytes": 4501,
+      "sha256": "dac040e50d0ec1f13cb53eda977360a2f448b2c0d2ba790a5e297e0a32999625"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 51589,
+      "sha256": "ae57080f597f4d8393718e515de836098908a9f4dc5535a6342b589448858ed4"
+    },
+    {
+      "path": "scripts/test-hd-mobile-city.mjs",
+      "bytes": 41507,
+      "sha256": "0c488978e4d9c1916f34f6e0570a67f34fe2c003adca90a2dc80d2494b7c82c7"
+    },
+    {
+      "path": "scripts/test-hd-mobile-defender-runtime-oracle.mjs",
+      "bytes": 15880,
+      "sha256": "18737d61f28a04d01ec1716bff468f6c9207e79942b38f275db6e4df1af724a9"
+    },
+    {
+      "path": "scripts/test-hd-mobile-defender-settlement-runtime-oracle.mjs",
+      "bytes": 15883,
+      "sha256": "8d9a52477e8944474db5360d059f5a511b2ba99410087cfa92ec259c5308b7a3"
+    },
+    {
+      "path": "scripts/test-hd-mobile-detail-runtime-checks.mjs",
+      "bytes": 5067,
+      "sha256": "71554a62e0dd111a25b36356649209f15deef66ec06999e39db66842b4368bca"
+    },
+    {
+      "path": "scripts/test-hd-mobile-diplomacy-engine.mjs",
+      "bytes": 21932,
+      "sha256": "0f626b93d1bd3ac58d697009334884cae570ff89b65f8af17e4ad7e149a5eb0f"
+    },
+    {
+      "path": "scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs",
+      "bytes": 10599,
+      "sha256": "df3528d0a30710b67e7f41e6c1e2371f5d876a3e2c522f8b28f6affecbd590e2"
+    },
+    {
+      "path": "scripts/test-hd-mobile-distribution-runtime-oracle.mjs",
+      "bytes": 7887,
+      "sha256": "f9b6e675d704caa312ed96fe0c648fbc051e2b5c87175271bfbcec19573dcd7b"
+    },
+    {
+      "path": "scripts/test-hd-mobile-equipment-runtime-oracle.mjs",
+      "bytes": 14199,
+      "sha256": "f70be0b45d3320dcbd5f9fe7b99fa1d2b81023bf3ea85968729cfb2aa1bccba8"
+    },
+    {
+      "path": "scripts/test-hd-mobile-map.mjs",
+      "bytes": 43315,
+      "sha256": "f466aadae5111556065dcd8104785dcec1e7c3f4f958b1eef14f32cd220d4453"
+    },
+    {
+      "path": "scripts/test-hd-mobile-march-runtime-oracle.mjs",
+      "bytes": 15815,
+      "sha256": "a6ed8bccf3035badb446d973220d74a7f8c90fd3cedf1eda157c3689c19607ea"
+    },
+    {
+      "path": "scripts/test-hd-mobile-minimap.mjs",
+      "bytes": 17770,
+      "sha256": "a607f0505cf3ffcee54e70617c3261ecc4e7b03e06460fab20d858a02e96e57d"
+    },
+    {
+      "path": "scripts/test-hd-mobile-portraits.mjs",
+      "bytes": 30861,
+      "sha256": "38b3b3f6d92dc6bccf7d4246861f1cb3608896a50c7c43407d2b031cd4f17f21"
+    },
+    {
+      "path": "scripts/test-hd-mobile-recruitment-runtime-oracle.mjs",
+      "bytes": 12889,
+      "sha256": "fb14d448aeab44571c24ef8129f8c39918909764509c1f96cbbc42d53ec168aa"
+    },
+    {
+      "path": "scripts/test-hd-mobile-spe.mjs",
+      "bytes": 47866,
+      "sha256": "64cdeb51f0f39f07f3b4ac0198dddb66e72bb49a0fe4fbcef3f2964c9bcf8799"
+    },
+    {
+      "path": "scripts/test-hd-mobile-successor-runtime-oracle.mjs",
+      "bytes": 14977,
+      "sha256": "83cfd042523cd26be58703710e62bcf3df21890ef9c24de25368b87c01ee814f"
+    },
+    {
+      "path": "scripts/test-hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 9974,
+      "sha256": "a5a18405000819ea05998a72834562f61ee2768ac84f2346942be013c0bdeac0"
+    },
+    {
+      "path": "scripts/test-hd-mobile-system.mjs",
+      "bytes": 51020,
+      "sha256": "6de44861ab96e969b564322cfe757f9fb63e49125244bc0219e53d07c1a57cbb"
+    },
+    {
+      "path": "scripts/test-hd-mobile-trade-engine.mjs",
+      "bytes": 18225,
+      "sha256": "52722555428d52f7e13baba00a8d2d1716417bdd59d031fbf02af831bb295220"
+    },
+    {
+      "path": "scripts/test-hd-mobile-trade-runtime-oracle.mjs",
+      "bytes": 13258,
+      "sha256": "8aeb78829ca8d587999e8749c102d5ff4f458113c1c6ab95dfad730385dc180d"
+    },
+    {
+      "path": "scripts/test-hd-mobile-transfer-engine.mjs",
+      "bytes": 25507,
+      "sha256": "4b27eac7a7b6c6241961ed95c9ddf6ee4057762f0e49617fd1df9ba3c252756c"
+    },
+    {
+      "path": "scripts/test-hd-mobile-transfer-runtime-oracle.mjs",
+      "bytes": 15937,
+      "sha256": "df5dfd21eae3dd40bf50511d6bd584752dbeec16bb5fbc310822240b0e6df388"
+    },
+    {
+      "path": "scripts/test-hd-mobile.mjs",
+      "bytes": 16397,
+      "sha256": "7c6a3ec836ed381d794b9075edeefba876abcd343600feabde0473a80ccd94ef"
+    },
+    {
+      "path": "scripts/test-hd-overviews-bridge.mjs",
+      "bytes": 14174,
+      "sha256": "bf7e3a21dd9bc909035969a9cd192cbe5b47b8337494f11d13b66d05696042cc"
+    },
+    {
+      "path": "scripts/test-hd-overviews-engine.mjs",
+      "bytes": 35459,
+      "sha256": "e15195ed60983a3d7da88c7239a83656df5b776defee46b09d24347d23af2c7f"
+    },
+    {
+      "path": "scripts/test-hd-overworld-environment.mjs",
+      "bytes": 22014,
+      "sha256": "50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4"
+    },
+    {
+      "path": "scripts/test-hd-overworld-identity.mjs",
+      "bytes": 22278,
+      "sha256": "f6adef043c8e8ce941afb80743f3abbd43946c532875b1b89ea53461f09085b1"
+    },
+    {
+      "path": "scripts/test-hd-overworld-layers.mjs",
+      "bytes": 11652,
+      "sha256": "238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7"
+    },
+    {
+      "path": "scripts/test-hd-overworld-touch.mjs",
+      "bytes": 28588,
+      "sha256": "cdba0aae82e2cf05b88e5b5386250943fd525f8865e26b4be79613acb4537b86"
+    },
+    {
+      "path": "scripts/test-hd-ownership.mjs",
+      "bytes": 5863,
+      "sha256": "32219fd08fa41fbf12dac5c2d0e4d7c933828bfa582183b366214bd429152e30"
+    },
+    {
+      "path": "scripts/test-hd-performance-metrics.mjs",
+      "bytes": 1228,
+      "sha256": "0f51df6f9b7eaca9f1fdc4ca88b250d3407f737fffdb6827024eb9b1e3bd6da4"
+    },
+    {
+      "path": "scripts/test-hd-person-properties-engine.mjs",
+      "bytes": 25396,
+      "sha256": "2098538af65f1839c8d7d29a70b4d526975ae88273194569cd111d334e392545"
+    },
+    {
+      "path": "scripts/test-hd-portraits.mjs",
+      "bytes": 54641,
+      "sha256": "56516f62f4100805f8aed656e5e936b27b83148437d58459f04b9da054a44cfc"
+    },
+    {
+      "path": "scripts/test-hd-qimen20-bridge.mjs",
+      "bytes": 12411,
+      "sha256": "2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f"
+    },
+    {
+      "path": "scripts/test-hd-render-visibility.mjs",
+      "bytes": 50865,
+      "sha256": "b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f"
+    },
+    {
+      "path": "scripts/test-hd-road-presentation.mjs",
+      "bytes": 8294,
+      "sha256": "44cdf69d84384258d9501bc8833a16fd97c190de53c9008d368537dcfc4bcda7"
+    },
+    {
+      "path": "scripts/test-hd-runtime-json.mjs",
+      "bytes": 9752,
+      "sha256": "8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636"
+    },
+    {
+      "path": "scripts/test-hd-runtime-owned-chrome.mjs",
+      "bytes": 8131,
+      "sha256": "9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3"
+    },
+    {
+      "path": "scripts/test-hd-save-pages.mjs",
+      "bytes": 28079,
+      "sha256": "370d329e255095ad18c115cc26229c2b5a51f008bc9b02f6b88e6fa4b862705c"
+    },
+    {
+      "path": "scripts/test-hd-save-transaction.mjs",
+      "bytes": 33151,
+      "sha256": "09f1a089c859044a0729dac52427476c71f0ed6ffdbe50548013160c071ef922"
+    },
+    {
+      "path": "scripts/test-hd-saveload-ui.mjs",
+      "bytes": 33802,
+      "sha256": "0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1"
+    },
+    {
+      "path": "scripts/test-hd-skill-bridge.mjs",
+      "bytes": 50437,
+      "sha256": "3fac0b2b42a8347658f0fd6185f72f8734b6efac90230a821f0eda309bfce522"
+    },
+    {
+      "path": "scripts/test-hd-skill-engine.mjs",
+      "bytes": 61780,
+      "sha256": "bb4df539508e7e2bc8adf022f21ac5b967189465d4d9826235677633defe2bef"
+    },
+    {
+      "path": "scripts/test-hd-spe-engine.mjs",
+      "bytes": 20173,
+      "sha256": "814a920369df4645908f526251e0f2b8d4303971fbeb5bcc2c4a360e6036c045"
+    },
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 303084,
+      "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b"
+    },
+    {
+      "path": "scripts/test-hd-status-effect-bridge.mjs",
+      "bytes": 25997,
+      "sha256": "3dae2a152d084bd9c2d5c90bc0021e90543476169c7ba98d00c943d3cc762e7d"
+    },
+    {
+      "path": "scripts/test-hd-status-effect-engine.mjs",
+      "bytes": 27081,
+      "sha256": "ae7e4e98a9f842ca7d162b7310c7fc470ec0d775b3e92daa7d7deb2d38bdf2eb"
+    },
+    {
+      "path": "scripts/test-hd-wood-bridge.mjs",
+      "bytes": 10545,
+      "sha256": "2213b5e8eb7b91bb9735efecf9dccc279557284a26a9e60734148eb08e40c142"
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-continuation.mjs",
+      "bytes": 18860,
+      "sha256": "ef0d12f259689748c0224f58e08a10a3a8b69623db983beb9a9350ee48f9e221"
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-runtime.mjs",
+      "bytes": 14214,
+      "sha256": "59fc8ac8146318bd9ef7ae5ad77d271c39520b5253bad15ee4d3f9aed52e08bb"
+    },
+    {
+      "path": "scripts/test-hd-wood-classic-presentation.mjs",
+      "bytes": 6847,
+      "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+    },
+    {
+      "path": "scripts/test-hd-wood-engine.mjs",
+      "bytes": 15152,
+      "sha256": "b4126b3517ea9087113511177cb3ab8f5a8a8bbaf1521f63d357800690f007a5"
+    },
+    {
+      "path": "scripts/test-hd-wood-missing-picture.mjs",
+      "bytes": 16385,
+      "sha256": "98938d006f2c206ca649e685828c56e47e3ba2b94e946daf6368031851ffe768"
+    },
+    {
+      "path": "scripts/test-hd-wood-native-action.mjs",
+      "bytes": 17143,
+      "sha256": "475fd7ae0fcd477735a52674c69e63785b330d71c25fd0446ba0176cf9a4e9ff"
+    },
+    {
+      "path": "scripts/test-hd-wood-native-route.mjs",
+      "bytes": 6543,
+      "sha256": "39353c0b11daa41e1ee0e3eed8ad91678542c44209233142e45de3936b1863cb"
+    },
+    {
+      "path": "scripts/test-hd-wood-original-continuation.mjs",
+      "bytes": 20346,
+      "sha256": "16eeca6e9a11f99dd20561bd69f30d053e10fe84e34c0264fd3579c8f7cffca6"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-hooks.mjs",
+      "bytes": 8160,
+      "sha256": "612539477d0bf9404aabde4e517e0801a24443fea075e32d771e7a8db33cef88"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-preparation.mjs",
+      "bytes": 32373,
+      "sha256": "bb295da89030378028a2dca99e78dc1b2a3fefc1f139904246f611f4c054f1ef"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-runtime.mjs",
+      "bytes": 28940,
+      "sha256": "f0d4b79350fcd958ba839d29e2aa4f0e1ff09c392336acc1bbfe150766937dbf"
+    },
+    {
+      "path": "scripts/test-hd-wood-runtime-oracle.mjs",
+      "bytes": 28222,
+      "sha256": "b5b0224b9d383a3baf2279fc888b913b012154a2a7832173e2bf84a0d5b9ee61"
+    },
+    {
+      "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+      "bytes": 22834,
+      "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+    },
+    {
+      "path": "scripts/test-hd-zhoufeng-bridge.mjs",
+      "bytes": 11712,
+      "sha256": "c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2"
+    },
+    {
+      "path": "scripts/test-lcd-touch.mjs",
+      "bytes": 12886,
+      "sha256": "31caee3c0fc611679e3afe9519c630cb3eeb4badc3807ad768e6e4489e8d913b"
+    },
+    {
+      "path": "scripts/test-original-game-entry.mjs",
+      "bytes": 13399,
+      "sha256": "e10f848e6b700eb7a4074b44c20e9812c6a0388c745b8ff3729df07a61a3e398"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/paccount.h",
+      "bytes": 2251,
+      "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/config.c",
+      "bytes": 179,
+      "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/exportjs.c",
+      "bytes": 9789,
+      "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/font.bin.c",
+      "bytes": 1003524,
+      "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    }
+  ],
+  "currentSeptemberInput": [
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40.json",
+      "bytes": 18055,
+      "sha256": "51b846af0ed22966bc389599da4c28e8d17894a1923acb5de9a938a32998e14b"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-latest-world.json",
+      "bytes": 148035,
+      "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango0.sav",
+      "bytes": 8221,
+      "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango1.sav",
+      "bytes": 4840,
+      "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+    }
+  ],
+  "package": {
+    "path": "package.json",
+    "bytes": 20744,
+    "sha256": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e"
+  },
+  "routeOpportunity": {
+    "route": {
+      "origin": 16,
+      "destination": 12,
+      "mapId": 112,
+      "nativeWay": 4,
+      "timeCount": 1
+    },
+    "supportedOriginalRoutes": [
+      {
+        "origin": 7,
+        "destination": 1,
+        "mapId": 110,
+        "nativeWay": 3
+      },
+      {
+        "origin": 16,
+        "destination": 15,
+        "mapId": 110,
+        "nativeWay": 2
+      },
+      {
+        "origin": 16,
+        "destination": 12,
+        "mapId": 112,
+        "nativeWay": 4
+      }
+    ],
+    "sourcePlayerSpawn": {
+      "x": 16,
+      "y": 29,
+      "terrain": 3
+    },
+    "sourceCurrentDefenderIds": [
+      136,
+      117,
+      134,
+      145,
+      16
+    ],
+    "sourceForestTargets": [
+      117,
+      134,
+      145,
+      16
+    ],
+    "sourceNearestHillHint": {
+      "x": 14,
+      "y": 28,
+      "terrain": 2,
+      "staticSteps": 3
+    },
+    "actualInitialAimQualified": false,
+    "futureEnemyMovementGuaranteed": false,
+    "currentNativeMoveMenuMpWeatherFull20AndFinalAimRequired": true,
+    "city15KeeperCanBeLured": false,
+    "city15Blocker": "Original FgtCmpMove returns on CITY before chase; current sole positive defender118 is the city keeper and is not an eligible WOOD target.",
+    "residentGuard": {
+      "residentArms": 1410,
+      "reserveArms": 2967,
+      "minimumResidentGuards": 600,
+      "fullReturningArms": 6808,
+      "fullReturningStrictFood": 137
+    }
+  },
+  "sourceRecipe": {
+    "buyQuantity": 40,
+    "buyCost": 200,
+    "buyCity": 20,
+    "buyPerson": 50,
+    "buySlot": 0,
+    "paidSourceFood": 267,
+    "paidSourceMoney": 886,
+    "marchOrigin": 16,
+    "marchDestination": 12,
+    "marchSlot": 170,
+    "armyIndex": 0,
+    "army": 2431,
+    "cargo": 481,
+    "originFoodAfterDispatch": 290,
+    "maximumNaturalMonths": 1,
+    "notPaidOrExecuted": true
+  },
+  "currentActualState": {
+    "date": [
+      239,
+      9
+    ],
+    "caster131": {
+      "belong": 1,
+      "city": 16,
+      "arms": 2431,
+      "experience": 12
+    },
+    "captured129": {
+      "belong": 65535,
+      "city": 12,
+      "arms": 0
+    },
+    "worker44Thew": 20,
+    "city20": {
+      "food": 227,
+      "money": 1086,
+      "strictCurrentRequired": 267
+    },
+    "city20FoodShortage": 40,
+    "ordersPending": 0,
+    "anotherEndCurrentlySafe": false
+  },
+  "evidenceBoundaries": {
+    "firstNativeAuditGuardLabelWasWrong": "Its retainedResidentArms4377 included reserve; corrected in separately retained map112 audit to resident1410 plus reserve2967. Original v1 remains unchanged.",
+    "route27HistoricalNotAddedAgain": true,
+    "route27AuthorizedMap112RejectionReplacedByPositive": true,
+    "native64EightSourcesBeforeAfterExact": true,
+    "core94EightSourcesBeforeAfterExact": true,
+    "runtime54TargetExited0ButHarnessAcceptedFalse": true,
+    "runtime54ConcurrentCoreFixtureDriftPreserved": true,
+    "rootFull193SourcesBeforeAfterExact": true,
+    "rootFirstFullHarnessExpectedTapButActualWasSpec": true,
+    "correctedFullSummaryFromSameClosedProcessNoRerun": true,
+    "rootMetadataRevisionPreservesOriginalFirstReceipt": true,
+    "developmentFailuresRetained": true,
+    "toolOnlyFirstRuntime27of52LogUnavailable": true,
+    "sourceChecksAreNotActualGameplay": true,
+    "driverOrCandidateNotAccepted": true,
+    "partialPaidBuyCannotAuthorizeRetryOrMarch": true
+  },
+  "boundaries": {
+    "matchingCheckoutRequired": true,
+    "portableClosedRuntimeArchive": false,
+    "oldArchivesTraversed": false,
+    "newBrowserRuns": 0,
+    "newServers": 0,
+    "newGameInputs": 0,
+    "newPayments": 0,
+    "newFood": 0,
+    "newEND": 0,
+    "newPublicSave": 0,
+    "actualInputAccepted": false,
+    "actualBuyAccepted": false,
+    "actualCostAccepted": false,
+    "actualMonthAccepted": false,
+    "actualCastAccepted": false,
+    "actualClassicAccepted": false,
+    "classicNativePixelAccepted": false,
+    "actual404Observed": false,
+    "actualFallbackAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "candidateOrDriverAccepted": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-september-source-20261024-v41-archive.json",
+    "bytes": 43109,
+    "sha256": "d685fc23b6076bcc104dab71b217cea1e42c2b543e043c351d19db8145dfd713"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-september-source-20261024-v41-verify.mjs",
+    "bytes": 8647,
+    "sha256": "8e71680f703ef908ac7b3d32c3bc04a6e326267e2f15e73c24c3765cc325db65"
+  }
+}

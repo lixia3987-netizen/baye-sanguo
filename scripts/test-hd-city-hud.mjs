@@ -1,0 +1,4629 @@
+#!/usr/bin/env node
+/** Read-only city/person/tool HUD rendered from real native menu contracts. */
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+import vm from 'node:vm';
+
+const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
+const standardHash = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+const plain = value => JSON.parse(JSON.stringify(value));
+function element(tagName = 'div') {
+    const attrs = new Map(), classes = new Set(), listeners = new Map();
+    let ownText = '';
+    const item = { tagName: tagName.toUpperCase(), attrs, listeners, children: [], style: {}, hidden: false,
+        parentElement: null, parentNode: null, scrollCalls: 0, value: '',
+        focus() { if (this.ownerDocument) this.ownerDocument.activeElement = this; },
+        blur() { if (this.ownerDocument?.activeElement === this) this.ownerDocument.activeElement = this.ownerDocument.body; },
+        setAttribute(key, value) { attrs.set(key, String(value)); },
+        getAttribute(key) { return attrs.get(key) ?? null; },
+        appendChild(child) {
+            if (child.parentElement) child.parentElement.removeChild(child);
+            this.children.push(child); child.parentElement = child.parentNode = this; return child;
+        },
+        removeChild(child) { this.children.splice(this.children.indexOf(child), 1); child.parentElement = child.parentNode = null; },
+        insertBefore(child, other) {
+            if (child.parentElement) child.parentElement.removeChild(child);
+            this.children.splice(this.children.indexOf(other), 0, child); child.parentElement = child.parentNode = this;
+        },
+        scrollIntoView() { this.scrollCalls++; },
+        addEventListener(type, listener) { if (!listeners.has(type)) listeners.set(type, []); listeners.get(type).push(listener); },
+        querySelector(selector) { return this.querySelectorAll(selector)[0] ?? null; },
+        querySelectorAll(selector) { return walk(this).filter(node => matches(node, selector)); },
+        classList: { add(...names) { names.forEach(name => classes.add(name)); },
+            remove(...names) { names.forEach(name => classes.delete(name)); },
+            contains(name) { return classes.has(name); },
+            toggle(name, on) { on ??= !classes.has(name); on ? classes.add(name) : classes.delete(name); } }
+    };
+    Object.defineProperties(item, {
+        className: { get: () => [...classes].join(' '), set(value) { classes.clear(); value.split(/\s+/).filter(Boolean).forEach(v => classes.add(v)); } },
+        textContent: { get: () => ownText + item.children.map(child => child.textContent).join(''),
+            set(value) { ownText = String(value); item.children.forEach(child => { child.parentElement = child.parentNode = null; }); item.children = []; } },
+        innerHTML: { get: () => '', set(value) {
+            assert.equal(value, '', 'HUD fixture does not silently parse untested HTML'); item.textContent = '';
+        } }
+    });
+    return item;
+}
+function walk(node) { return node.children.flatMap(child => [child, ...walk(child)]); }
+function matches(node, selector) {
+    if (selector.startsWith('[')) return node.attrs.has(selector.slice(1, -1).split('=')[0]);
+    if (selector.startsWith('.')) return node.classList.contains(selector.slice(1));
+    if (selector.startsWith('#')) return node.id === selector.slice(1);
+    return node.tagName.toLowerCase() === selector.toLowerCase();
+}
+
+function harness({sourceText} = {}) {
+    const html = element('html'), body = element('body'); html.appendChild(body);
+    const root = element(); root.id = 'hd-city-menu'; body.appendChild(root);
+    const stage = element(); stage.className = 'hd-city-menu-stage'; root.appendChild(stage);
+    const nodes = {};
+    for (const id of ['hd-city-menu-title', 'hd-city-menu-sub', 'hd-city-menu-root',
+        'hd-city-menu-sublist', 'hd-city-menu-status', 'hd-city-menu-deep']) {
+        const node = element(); node.id = id; nodes[id] = node; stage.appendChild(node);
+    }
+    const listTools = element(); listTools.id = 'hd-city-menu-list-tools'; listTools.hidden = true;
+    const listControls = element(); listControls.id = 'hd-city-menu-list-controls'; listControls.hidden = true;
+    for (const [id, tag, parent] of [
+        ['hd-city-menu-list-toggle', 'button', listTools],
+        ['hd-city-menu-list-query', 'input', listControls],
+        ['hd-city-menu-list-sort', 'select', listControls],
+        ['hd-city-menu-list-clear', 'button', listControls],
+        ['hd-city-menu-list-count', 'span', listControls]]) {
+        const node = element(tag); node.id = id; nodes[id] = node; parent.appendChild(node);
+    }
+    nodes['hd-city-menu-list-tools'] = listTools; nodes['hd-city-menu-list-controls'] = listControls;
+    listTools.appendChild(listControls); stage.insertBefore(listTools, nodes['hd-city-menu-deep']);
+    const lcdButton = element('button'); lcdButton.setAttribute('data-hd-menu-lcd', ''); stage.appendChild(lcdButton);
+    const documentListeners = new Map();
+    const document = { documentElement: html, body, hidden: false,
+        getElementById: id => [html, ...walk(html)].find(node => node.id === id) ?? null,
+        querySelectorAll: selector => walk(html).filter(node => matches(node, selector)),
+        querySelector(selector) { return this.querySelectorAll(selector)[0] ?? null; },
+        activeElement: body, createElement(tag) { const node = element(tag); node.ownerDocument = document; return node; }, addEventListener(type, listener) {
+            if (!documentListeners.has(type)) documentListeners.set(type, []);
+            documentListeners.get(type).push(listener);
+        } };
+    for (const node of [html, ...walk(html)]) node.ownerDocument = document;
+    const keys = [], writes = [], timers = [], intervals = [], names = new Map([[0, '君主甲'], [254, '主人二五四'], [599, '主人五九九'],
+        [600, '很长的人物姓名甲乙丙丁戊己庚辛壬癸测试'], [601, '人物乙']]);
+    const windowListeners = new Map();
+    const context = vm.createContext({ document, TextDecoder, TextEncoder,
+        console: { log() {}, warn() {}, error() {} }, alert() {}, lcdBlur() {},
+        Module: { HEAPU8: new Uint8Array(8192) }, addEventListener(type, listener) {
+            if (!windowListeners.has(type)) windowListeners.set(type, []); windowListeners.get(type).push(listener);
+        },
+        setTimeout(fn) { timers.push(fn); return timers.length; }, clearTimeout() {}, setInterval(fn) { intervals.push(fn); }, clearInterval() {},
+        localStorage: { getItem: key => key === 'baye/cityMenuMode' ? 'hd' : 'hd-map' },
+        navigator: { userAgent: 'Node fixture' } });
+    context.window = context;
+    const bridge = read('js/bridge.js');
+    for (const name of new Set(bridge.match(/\b_baye\w+/g))) context[name] = () => 0;
+    context._bayeHdReady = () => 1; context._bayeGetPersonCount = () => 786;
+    context._bayeSendKey = key => keys.push(key);
+    vm.runInContext(bridge, context); context.baye_bridge_init();
+    const city = { State: 0, Belong: 255, SatrapId: 600, FarmingLimit: 900, Farming: 300,
+        CommerceLimit: 700, Commerce: 0, PeopleDevotion: 78, AvoidCalamity: 62,
+        PopulationLimit: 500000, Population: 400000, Money: 532, Food: 1790,
+        MothballArms: 975, Persons: 2, Tools: 3, PersonQueue: 7, ToolQueue: 11 };
+    const person = { OldBelong: 0, Belong: 255, Level: 7, Force: 91, IQ: 88, Devotion: 67,
+        Character: 4, Experience: 99, Thew: 0, ArmsType: 2, Arms: 1234,
+        Equip: [0, 600], Tool1: 0, Tool2: 600, Age: 34 };
+    const people = []; people.length = 786; people[600] = person;
+    people[601] = { ...person, Equip: [1, 0], Belong: 255 };
+    const queue = Array(7).fill(0).concat([600, 601]);
+    const raw = { g_Cities: [city], g_Persons: people, g_PersonsQueue: queue,
+        g_PlayerKing: 254, g_PIdx: 1, g_hdQtyActive: 0, g_asyncActionID: 0 };
+    function readonly(value, path = '') {
+        if (!value || typeof value !== 'object') return value;
+        return new Proxy(value, { get(target, key) { return readonly(target[key], path + '.' + String(key)); },
+            set(target, key) { writes.push(path + '.' + String(key)); throw new Error('engine write'); } });
+    }
+    context.baye.data = readonly(raw); context.baye.ensureData = () => context.baye.data;
+    context.baye.getPersonName = index => names.get(index) ?? '';
+    context.baye.getCityName = () => '长安'; context.baye.hdCityLimit = () => 1;
+    const toolCalls = [];
+    context.baye.getToolCount = () => 512;
+    context.baye.getToolName = index => { toolCalls.push(index); return index === 0 ? '很长的装备名称甲乙丙丁' : ''; };
+    const armCalls = [];
+    context.baye.getArmType = index => { armCalls.push(index); throw new Error('U8 derived getter must not be used'); };
+    const derivedCalls = [];
+    const menu = { active: 1, context: 1, kind: 3, seq: 9, count: 2, index: 0,
+        names: [names.get(600), names.get(601)] };
+    const report = { active: 0 }, help = { active: 0 }, qty = { active: 0 };
+    const goods = { active: 0 };
+    Object.assign(context.baye.hd, { ready: () => true, menuItems: () => menu, report: () => report,
+        help: () => help, qty: () => qty, march: () => null, fight: () => null, goods: () => goods,
+        toolDetails: () => null, personArmType: id => { derivedCalls.push(id); return null; } });
+    let identity = { status: 'ready', generation: 1, sha256: standardHash }, current = true;
+    context.BayeHdLibIdentity = { read: () => identity, isCurrent: value => current && value === identity };
+    const selectedHudSource = process.env.BAYE_HD_CITY_HUD_SOURCE;
+    let source = sourceText !== undefined ? sourceText : selectedHudSource ? readFileSync(selectedHudSource, 'utf8') : read('js/hd-city-menu.js');
+    source = source.replace(/\}\)\(window\);\s*$/, `
+        global.__hud = { state: state, cityDetails: cityDetails, personDetails: personDetails,
+            renderStatus: renderStatus, renderCityGarrison: typeof renderCityGarrison === 'function' ? renderCityGarrison : null,
+            renderPersonDetails: renderPersonDetails,
+            renderToolDetails: renderToolDetails, renderPersonProperties: renderPersonProperties,
+            deepMenuOwner: deepMenuOwner, fillDeepList: fillDeepList, applyHighlight: applyHighlight,
+            chooseRoot: chooseRoot, chooseSub: chooseSub, back: back, bind: bindUi,
+            applyDocAttr: applyDocAttr, lcdPresentation: cityLcdPresentation, render: render };
+    })(window);`);
+    vm.runInContext(source, context, { filename: 'js/hd-city-menu.js' });
+    const hud = context.__hud;
+    Object.assign(hud.state, { open: true, cityIndex: 0, cityName: '长安', layer: 'deep',
+        deepKind: 'person', wizardStep: 'none', idleIndex: 0 });
+    hud.state.deepMenuOwner = hud.deepMenuOwner(menu);
+    return { context, hud, nodes, root, lcdButton, document, city, person, people, queue, menu, names, report, help, qty, goods,
+        documentListeners, windowListeners, raw, keys, writes, timers, intervals, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
+}
+
+function goodsHarness({custom = true} = {}) {
+    const h = harness();
+    Object.assign(h.hud.state, { deepKind: 'goods', deepStep: 0 });
+    Object.assign(h.menu, { kind: 4, generation: 3, detailGeneration: 3, idsValid: true, ids: [2, 17],
+        names: ['同名道具', '同名道具'], count: 2, index: 0 });
+    Object.assign(h.goods, { active: 1, complete: 0, custom: custom ? 1 : 0, generation: 3, detailGeneration: 3,
+        menuSeq: h.menu.seq, index: 0, tool: 2, name: '很长的真实道具名称甲乙丙丁戊己',
+        propertyCount: 5, pageStart: 0, pageEnd: 3, properties: Array.from({length: 5}, (_, i) => ({
+            index: i, title: i < 3 ? '实际属性' + i : '', value: i < 3 ? String(i) : '', captured: i < 3 })) });
+    h.hud.fillDeepList(); h.hud.bind();
+    return h;
+}
+
+function personPropertyHarness({count = 5, end = 3, custom = true} = {}) {
+    const h = harness();
+    Object.assign(h.menu, {generation: 3, detailGeneration: 3, idsValid: true, ids: [600, 601]});
+    const props = {protocolVersion: 1, active: 1, complete: count === end ? 1 : 0,
+        pageComplete: count > 0 && end > 0 ? 1 : 0, custom: custom ? 1 : 0, generation: 3, detailGeneration: 3,
+        context: 1, kind: 3, menuSeq: h.menu.seq, paintSeq: 40, index: 0, person: 600,
+        propertyCount: count, pageIndex: 0, pageStart: 0, pageEnd: end, name: h.names.get(600),
+        properties: Array.from({length: count}, (_, index) => ({index,
+            title: index < end ? '实际原生标题' + index : '', value: index < end ? '原生值' + index : '',
+            captured: index < end, titleCaptured: index < end, valueCaptured: index < end,
+            titlePaintSeq: index < end ? 40 : 0, valuePaintSeq: index < end ? 40 : 0}))};
+    h.personProps = props; h.context.baye.hd.personProperties = () => plain(props);
+    h.hud.fillDeepList(); h.hud.bind();
+    return h;
+}
+function personPageButton(h, direction) {
+    return h.document.querySelectorAll('[data-hd-person-page]').find(button => button.getAttribute('data-hd-person-page') === direction);
+}
+function paintPersonPage(h, {start = 3, end = 5, pageIndex = 1, paintSeq = 41} = {}) {
+    Object.assign(h.personProps, {pageStart: start, pageEnd: end, pageIndex, paintSeq, pageComplete: 1});
+    for (let i = start; i < end; i++) Object.assign(h.personProps.properties[i], {
+        title: '实际原生标题' + i, value: '原生值' + i, captured: true, titleCaptured: true, valueCaptured: true,
+        titlePaintSeq: paintSeq, valuePaintSeq: paintSeq});
+    h.personProps.complete = h.personProps.properties.every(p => p.captured) ? 1 : 0;
+    h.hud.fillDeepList();
+}
+
+function dispatch(h, type, target, options = {}) {
+    h.root.listeners.get(type).forEach(listener => listener({target, preventDefault() {}, stopPropagation() {}, ...options}));
+}
+function pageButton(h, direction) {
+    return h.document.querySelectorAll('[data-hd-tool-page]').find(button => button.getAttribute('data-hd-tool-page') === direction);
+}
+
+function rows(details) { return Object.fromEntries(details.groups.flatMap(group => group.rows)); }
+test('city groups preserve all native attributes, zero values and actual limits; queue offsets stay out', () => {
+    const h = harness(); h.hud.renderStatus();
+    const details = plain(h.hud.state.cityDetails), values = rows(details);
+    assert.deepEqual(details.groups.map(group => group.title), ['归属与城况', '民生与发展', '资源与军备']);
+    assert.equal(values.归属, '主人二五四'); assert.equal(values.太守, '主人五九九');
+    assert.equal(values['农业 / 上限'], '300 / 900'); assert.equal(values['商业 / 上限'], '0 / 700');
+    assert.equal(values['人口 / 上限'], '400000 / 500000'); assert.equal(values.民忠, '78');
+    assert.equal(values.防灾, '62'); assert.equal(values.金钱, '532'); assert.equal(values.粮食, '1790');
+    assert.equal(values.预备兵, '975'); assert.equal(values.城内人物, '2'); assert.equal(values.城内道具, '3');
+    assert.doesNotMatch(h.nodes['hd-city-menu-status'].textContent, /PersonQueue|ToolQueue|队列|偏移/);
+    assert.equal(Object.keys(values).length, 13);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('missing, null or invalid city fields stay unread, while unowned and zero limits remain explicit', () => {
+    const h = harness();
+    delete h.city.Belong; delete h.city.SatrapId; h.city.Money = null; h.city.Food = false;
+    h.city.Population = ''; h.city.FarmingLimit = 0; delete h.city.CommerceLimit;
+    let values = rows(h.hud.cityDetails(h.city));
+    assert.equal(values.归属, '归属未知'); assert.equal(values.太守, '未读取');
+    assert.equal(values.金钱, '未读取'); assert.equal(values.粮食, '未读取');
+    assert.equal(values['人口 / 上限'], '未读取 / 500000');
+    assert.equal(values['农业 / 上限'], '300 / 0'); assert.equal(values['商业 / 上限'], '0 / 上限未读取');
+    h.city.Belong = 0; h.city.SatrapId = 0; values = rows(h.hud.cityDetails(h.city));
+    assert.equal(values.归属, '无主城'); assert.equal(values.太守, '未设');
+});
+
+test('unknown numeric city attributes are retained, without exposing queues', () => {
+    const h = harness(); h.city.Arms = 98; h.city.CustomMetric = 42; h.city._internal = 8;
+    const values = rows(h.hud.cityDetails(h.city));
+    assert.equal(values.兵力, '98'); assert.equal(values.CustomMetric, '42');
+    assert.equal(values._internal, undefined); assert.equal(values.PersonQueue, undefined);
+});
+
+test('person detail preserves all real attributes, long name, zero thew and high equipment ID', () => {
+    const h = harness(); h.hud.renderPersonDetails();
+    const detail = plain(h.hud.state.personDetail), values = rows(detail);
+    assert.equal(detail.nativeIndex, 0); assert.equal(detail.personIndex, 600);
+    assert.equal(detail.name, h.names.get(600));
+    assert.equal(h.document.getElementById('hd-city-menu-person-name')?.textContent, h.names.get(600));
+    assert.equal(values.归属, '主人二五四'); assert.equal(values.原归属, '未记录（0）');
+    assert.equal(values.年龄, '34'); assert.equal(values.性格码, '4（武将：忠义）');
+    for (const [label, value] of Object.entries({ 等级: '7', 武力: '91', 智力: '88', 忠诚值: '67', 经验: '99', 体力: '0', 兵力: '1234' }))
+        assert.equal(values[label], value);
+    assert.equal(values.基础兵种, '弓箭兵（码 2）'); assert.equal(values.装备一, '无');
+    assert.equal(values.装备二, '道具编号 600（名称未读取）');
+    assert.deepEqual(h.toolCalls, []); assert.deepEqual(h.armCalls, []);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('current captive, previous unknown allegiance and lord character are separate contracts', () => {
+    const h = harness(); h.person.Belong = 65535; h.person.OldBelong = 65535;
+    let values = rows(h.hud.personDetails(600, h.names.get(600)));
+    assert.equal(values.归属, '俘虏'); assert.equal(values.原归属, '原归属未知（码 65535）');
+    h.person.Belong = 601; values = rows(h.hud.personDetails(600, h.names.get(600)));
+    assert.equal(values.归属, '君主 · ' + h.names.get(600));
+    assert.equal(values.性格码, '4（君主：和平）');
+    delete h.person.Belong; delete h.person.Thew; delete h.person.Character;
+    delete h.person.Equip; delete h.person.Tool1; delete h.person.Tool2;
+    values = rows(h.hud.personDetails(600, h.names.get(600)));
+    assert.equal(values.归属, '归属未知'); assert.equal(values.体力, '未读取');
+    assert.equal(values.性格码, '未读取'); assert.equal(values.装备一, '未读取'); assert.equal(values.装备二, '未读取');
+});
+
+test('known equipment is named through its actual ID and missing names retain the number', () => {
+    const h = harness(); h.person.Equip = [1, 512];
+    const values = rows(h.hud.personDetails(600, '人物'));
+    assert.equal(values.装备一, '很长的装备名称甲乙丙丁（编号 1）');
+    assert.equal(values.装备二, '道具编号 512（名称未读取）');
+    assert.deepEqual(h.toolCalls, [0, 511]); assert.deepEqual(h.armCalls, []);
+});
+
+test('equipment names use the validated actual tool count for high IDs and never query invalid resources', () => {
+    const h = harness(); h.person.Equip = [600, 601];
+    h.context.baye.getToolCount = () => 600;
+    h.context.baye.getToolName = id => { h.toolCalls.push(id); return id === 599 ? '真实高编号装备' : ''; };
+    let values = rows(h.hud.personDetails(600, '人物'));
+    assert.equal(values.装备一, '真实高编号装备（编号 600）'); assert.equal(values.装备二, '道具编号 601（名称未读取）');
+    assert.deepEqual(h.toolCalls, [599]);
+    for (const count of [0, null, false, '600', 1.5, NaN, -1, 2001]) {
+        h.context.baye.getToolCount = () => count; h.toolCalls.length = 0;
+        values = rows(h.hud.personDetails(600, '人物'));
+        assert.equal(values.装备一, '道具编号 600（名称未读取）'); assert.deepEqual(h.toolCalls, []);
+    }
+    h.context.baye.getToolCount = () => { throw new Error('resource is unreadable'); };
+    h.toolCalls.length = 0; h.hud.personDetails(600, '人物'); assert.deepEqual(h.toolCalls, []);
+    delete h.context.baye.getToolCount; h.person.Equip = [512, 600]; h.toolCalls.length = 0;
+    h.hud.personDetails(600, '人物'); assert.deepEqual(h.toolCalls, [511]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('untrusted/pending/stale loaded LIB or Mod property hooks only expose raw enum codes', () => {
+    const h = harness();
+    for (const [identity, current] of [[{ status: 'pending', sha256: null }, true],
+        [{ status: 'ready', sha256: 'mod' }, true], [{ status: 'ready', sha256: standardHash }, false]]) {
+        h.setIdentity(identity, current);
+        const values = rows(h.hud.personDetails(600, '人物'));
+        assert.equal(values.性格码, '4'); assert.equal(values.基础兵种, '原始码 2');
+        assert.equal(rows(h.hud.cityDetails(h.city)).城况, '原始码 0');
+    }
+    h.setIdentity({ status: 'ready', sha256: standardHash });
+    let hookCalls = 0; h.context.baye.hooks = { getPersonPropertyValue() { hookCalls++; }, getCityPropertyDisplay() { hookCalls++; } };
+    assert.equal(rows(h.hud.personDetails(600, '人物')).基础兵种, '原始码 2');
+    assert.equal(rows(h.hud.personDetails(600, '人物')).性格码, '4');
+    assert.equal(rows(h.hud.cityDetails(h.city)).城况, '原始码 0'); assert.equal(hookCalls, 0);
+});
+
+test('native person index and owner attributes survive the read-only detail layout', () => {
+    const h = harness(); h.hud.fillDeepList();
+    const buttons = h.document.querySelectorAll('[data-hd-deep]');
+    assert.equal(buttons.length, 2);
+    for (let i = 0; i < 2; i++) {
+        assert.equal(buttons[i].getAttribute('data-hd-deep'), String(i));
+        assert.equal(buttons[i].getAttribute('data-hd-deep-owner'), h.hud.state.deepMenuOwner.key);
+        assert.equal(buttons[i].getAttribute('data-hd-menu-context'), '1');
+        assert.equal(buttons[i].getAttribute('data-hd-menu-kind'), '3');
+        assert.equal(buttons[i].getAttribute('data-hd-menu-seq'), '9');
+        assert.equal(buttons[i].getAttribute('data-hd-deep-pind'), String(600 + i));
+    }
+    assert.equal(h.nodes['hd-city-menu-deep'].parentElement.id, 'hd-city-menu-person-layout');
+    h.menu.index = 1; h.hud.state.idleIndex = 1; h.hud.applyHighlight();
+    assert.equal(h.hud.state.personDetail.personIndex, 601);
+    assert.equal(h.hud.state.personDetail.nativeIndex, 1);
+    assert.equal(h.keys.length, 0); assert.equal(h.writes.length, 0);
+});
+
+test('stable native selection does not repeatedly scroll away manual inspection', () => {
+    const h = harness(); h.hud.fillDeepList();
+    const buttons = h.document.querySelectorAll('[data-hd-deep]');
+    assert.equal(buttons[0].scrollCalls, 1);
+    for (let i = 0; i < 4; i++) h.hud.fillDeepList();
+    assert.equal(buttons[0].scrollCalls, 1);
+    h.menu.index = 1; h.hud.state.idleIndex = 1; h.hud.applyHighlight();
+    assert.equal(buttons[1].scrollCalls, 1);
+});
+
+test('native GetCityPersons filters an eleven-entry city queue to seven actors in its original order', () => {
+    const h = harness();
+    const native = read('vendor/iBaye/src/cityedit.c').match(/FAR U32 GetCityPersons\(U8 city, PersonID \*pqueue\)[\s\S]*?return\(count\);/)[0];
+    assert.match(native, /p = g_PersonsQueue\[g_Cities\[city\]\.PersonQueue \+ i\];/);
+    assert.match(native, /g_Persons\[p\]\.Belong == g_Cities\[city\]\.Belong[\s\S]*?pqueue\[count\] = p;[\s\S]*?count \+= 1;/);
+    const expected = [600, 602, 603, 605, 606, 608, 610];
+    h.city.Persons = 11;
+    for (let i = 0; i < 11; i++) {
+        const id = 600 + i;
+        h.people[id] = { ...h.person, Belong: expected.includes(id) ? 255 : i === 4 ? 65535 : i === 7 ? 600 : 0 };
+        h.names.set(id, '真实人物' + id);
+        h.queue[7 + i] = id;
+    }
+    Object.assign(h.menu, { count: 7, index: 2, names: expected.map(id => h.names.get(id)) });
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    h.hud.state.idleIndex = 1; // Retained previous menu's cursor must not win.
+    h.hud.fillDeepList();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, item => item.pind), expected);
+    assert.equal(h.hud.state.idleIndex, 2);
+    assert.equal(h.hud.state.personDetail.personIndex, 603);
+    assert.equal(h.hud.state.personDetail.nativeIndex, 2);
+    assert.equal(h.document.getElementById('hd-city-menu-person-name').textContent, '真实人物603');
+    const buttons = h.document.querySelectorAll('[data-hd-deep]');
+    assert.deepEqual(buttons.map((button, i) => button.classList.contains('is-idle') ? i : -1).filter(i => i >= 0), [2]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    h.menu.names.reverse(); h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu); h.hud.fillDeepList();
+    assert.ok(Array.from(h.hud.state.deepItems).every(item => item.pind === undefined));
+    assert.equal(h.hud.state.personDetail, null);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('matched native owner index determines both highlighted actor and detail, including direct refresh', () => {
+    const h = harness(); h.hud.state.idleIndex = 1; h.hud.fillDeepList();
+    const buttons = h.document.querySelectorAll('[data-hd-deep]');
+    assert.equal(h.hud.state.idleIndex, 0); assert.equal(h.hud.state.personDetail.nativeIndex, 0);
+    assert.equal(buttons[0].classList.contains('is-idle'), true); assert.equal(buttons[1].classList.contains('is-idle'), false);
+    h.menu.index = 1; // No onMenuIdle observer is needed to correct an old cursor.
+    h.hud.applyHighlight();
+    assert.equal(h.hud.state.idleIndex, 1); assert.equal(h.hud.state.personDetail.nativeIndex, 1);
+    assert.equal(h.hud.state.personDetail.personIndex, 601);
+    assert.equal(buttons[0].classList.contains('is-idle'), false); assert.equal(buttons[1].classList.contains('is-idle'), true);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('filtered/reordered/duplicate native names never infer a person by name', () => {
+    for (const change of ['filtered', 'reordered', 'duplicate']) {
+        const h = harness();
+        if (change === 'filtered') { h.menu.names = [h.names.get(600)]; h.menu.count = 1; }
+        if (change === 'reordered') h.menu.names.reverse();
+        if (change === 'duplicate') { h.names.set(601, h.names.get(600)); h.menu.names[1] = h.menu.names[0]; }
+        h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu); h.hud.renderPersonDetails();
+        assert.equal(h.hud.state.personDetail, null, change);
+        assert.match(h.document.getElementById('hd-city-menu-person-details').textContent, /尚未关联/);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('report/help/quantity/owner change/pending input/hidden view retire person details', () => {
+    for (const change of ['report', 'help', 'qty', 'owner', 'pending', 'hidden', 'closed', 'layer', 'goods']) {
+        const h = harness(); h.hud.renderPersonDetails(); assert.ok(h.hud.state.personDetail);
+        if (change === 'report') h.report.active = 1;
+        if (change === 'help') h.help.active = 1;
+        if (change === 'qty') h.qty.active = 1;
+        if (change === 'owner') h.menu.seq++;
+        if (change === 'pending') h.hud.state.deepSelectionPending = { seq: 9 };
+        if (change === 'hidden') h.document.hidden = true;
+        if (change === 'closed') h.hud.state.open = false;
+        if (change === 'layer') h.hud.state.layer = 'status';
+        if (change === 'goods') h.hud.state.deepKind = 'goods';
+        h.hud.renderPersonDetails();
+        assert.equal(h.hud.state.personDetail, null, change);
+        assert.equal(h.document.getElementById('hd-city-menu-person-details').hidden, true, change);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('live attributes update under the same owner without changing the native queue', () => {
+    const h = harness(); h.hud.renderPersonDetails();
+    h.person.Thew = 55; h.person.Arms = 2345; h.hud.renderPersonDetails();
+    assert.equal(rows(h.hud.state.personDetail).体力, '55'); assert.equal(rows(h.hud.state.personDetail).兵力, '2345');
+    assert.equal(h.hud.state.personDetail.seq, 9); assert.equal(h.hud.state.personDetail.personIndex, 600);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('persistent portrait slot stays outside rebuilt fields and survives native highlight/attribute refresh', () => {
+    const h = harness(); h.hud.fillDeepList();
+    const pane = h.document.getElementById('hd-city-menu-person-details');
+    const slot = h.document.getElementById('hd-city-menu-person-portrait');
+    const fields = h.document.getElementById('hd-city-menu-person-fields');
+    assert.deepEqual(pane.children.map(child => child.id), ['hd-city-menu-person-portrait', 'hd-city-menu-person-fields']);
+    const portrait = element('figure'); portrait.id = 'hd-portrait'; slot.appendChild(portrait);
+    h.menu.index = 1; h.hud.applyHighlight();
+    assert.equal(h.hud.state.personDetail.personIndex, 601);
+    assert.equal(h.document.getElementById('hd-city-menu-person-fields'), fields);
+    assert.equal(h.document.getElementById('hd-city-menu-person-portrait'), slot);
+    assert.equal(portrait.parentElement, slot);
+    h.people[601].Thew = 42; h.hud.fillDeepList();
+    assert.equal(rows(h.hud.state.personDetail).体力, '42'); assert.equal(portrait.parentElement, slot);
+    assert.equal(fields.querySelector('h2').textContent, h.names.get(601));
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('known native list defaults LCD off despite stale map/dialog classes, and explicit inspection persists', () => {
+    const h = personPropertyHarness({count: 2, end: 2}); h.document.body.classList.add('baye-hd-overworld-menu', 'baye-hd-dialog-lcd');
+    h.context.BayeHdDialog = { debugSnapshot: () => ({ open: false, kind: 'help' }) };
+    h.hud.fillDeepList();
+    assert.equal(h.document.documentElement.getAttribute('data-baye-city-lcd'), 'off');
+    assert.equal(h.document.body.classList.contains('baye-hd-city-menu-lcd'), false);
+    h.hud.bind();
+    const click = () => h.root.listeners.get('click').forEach(listener => listener({
+        target: h.lcdButton, preventDefault() {}, stopPropagation() {} }));
+    click();
+    assert.equal(h.hud.state.showLcd, true); assert.equal(h.lcdButton.getAttribute('aria-pressed'), 'true');
+    assert.equal(h.document.documentElement.getAttribute('data-baye-city-lcd'), 'on');
+    for (let i = 0; i < 4; i++) { h.hud.fillDeepList(); h.hud.render(); }
+    assert.equal(h.hud.state.showLcd, true); assert.equal(h.hud.lcdPresentation(), 'on');
+    click(); h.hud.fillDeepList();
+    assert.equal(h.hud.state.showLcd, false); assert.equal(h.lcdButton.textContent, '经典 LCD');
+    assert.equal(h.hud.lcdPresentation(), 'off'); assert.equal(h.lcdButton.getAttribute('aria-pressed'), 'false');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('unknown native lists retain automatic LCD fallback without setting explicit inspection preference', () => {
+    const h = personPropertyHarness({count: 2, end: 2}); h.hud.fillDeepList();
+    h.menu.active = 0; h.menu.names = []; h.menu.count = 0; h.hud.fillDeepList();
+    assert.equal(h.hud.lcdPresentation(), 'on'); assert.equal(h.hud.state.showLcd, false);
+    assert.equal(h.document.body.classList.contains('baye-hd-city-menu-deep-empty'), true);
+    assert.equal(h.hud.state.personDetail, null);
+    assert.equal(h.document.getElementById('hd-city-menu-person-details').hidden, true);
+    h.menu.active = 1; h.menu.names = [h.names.get(600), h.names.get(601)]; h.menu.count = 2;
+    h.hud.fillDeepList(); assert.equal(h.hud.lcdPresentation(), 'off'); assert.equal(h.hud.state.showLcd, false);
+    assert.equal(h.document.body.classList.contains('baye-hd-city-menu-deep-empty'), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('native report/help ownership passes LCD control through and retires correctly when it ends', () => {
+    const h = personPropertyHarness({count: 2, end: 2}); h.hud.fillDeepList();
+    for (const owner of [h.report, h.help]) {
+        owner.active = 1; h.hud.fillDeepList();
+        assert.equal(h.hud.lcdPresentation(), 'passthrough');
+        assert.equal(h.document.documentElement.getAttribute('data-baye-city-lcd'), 'passthrough');
+        owner.active = 0; h.hud.fillDeepList();
+        assert.equal(h.hud.lcdPresentation(), 'off');
+    }
+    let dialog = { open: true, kind: 'report', pass: false };
+    h.context.BayeHdDialog = { debugSnapshot: () => dialog };
+    h.hud.applyDocAttr(); assert.equal(h.hud.lcdPresentation(), 'passthrough');
+    dialog = { open: false, kind: 'report' }; h.document.body.classList.add('baye-hd-dialog-lcd');
+    h.hud.applyDocAttr(); assert.equal(h.hud.lcdPresentation(), 'off');
+    h.hud.state.layer = 'status'; h.hud.applyDocAttr(); assert.equal(h.hud.lcdPresentation(), 'off');
+    h.hud.state.open = false; h.hud.applyDocAttr(); assert.equal(h.hud.lcdPresentation(), 'passthrough');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('read-only status entry and return preserve the real root owner and can open its next submenu', () => {
+    const h = harness();
+    const march = { phase: 0, mapCity: 1, pick: 0 };
+    h.context.baye.hd.march = () => march;
+    Object.assign(h.hud.state, { layer: 'root', deepKind: '', idleIndex: 2 });
+    Object.assign(h.menu, { active: 1, context: 1, kind: 1, seq: 77, index: 2,
+        count: 4, names: ['内政', '外交', '军备', '状况'] });
+    const ownerBefore = structuredClone(h.menu);
+    h.hud.chooseRoot(3);
+    assert.equal(h.hud.state.layer, 'status');
+    assert.deepEqual(h.menu, ownerBefore); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    h.hud.back();
+    assert.equal(h.hud.state.layer, 'root'); assert.equal(h.hud.state.idleIndex, 2);
+    assert.equal(h.hud.state.closingSub, false); assert.equal(h.hud.state.subKind, '');
+    assert.deepEqual(h.menu, ownerBefore); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    assert.equal(h.hud.state.queue.length, 0); assert.equal(h.hud.state.lastExit, '');
+    // Model the real C acknowledgement of Enter: it opens a new menu owner,
+    // never a fabricated local submenu and never an EXIT back to map input.
+    h.context.sendKey = key => {
+        h.keys.push(key);
+        assert.equal(key, 0x27);
+        Object.assign(h.menu, { kind: 2, seq: 78, index: 0, count: 5,
+            names: ['侦察', '征兵', '分配', '掠夺', '出征'] });
+    };
+    h.hud.chooseRoot(2);
+    assert.equal(h.hud.state.layer, 'sub'); assert.equal(h.hud.state.subKind, 'junbei');
+    assert.equal(h.menu.active, 1); assert.equal(h.menu.context, 1); assert.equal(h.menu.kind, 2);
+    assert.equal(h.menu.seq, 78); assert.deepEqual(h.keys, [0x27]); assert.deepEqual(h.writes, []);
+});
+
+test('real U16 menu IDs identify reordered and duplicate-name persons without guessing names', () => {
+    const h = harness(); h.people[601].Force = 33;
+    Object.assign(h.menu, { generation: 8, detailGeneration: 8, idsValid: true, ids: [601, 600],
+        names: ['同名人物', '同名人物'] });
+    h.hud.fillDeepList();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, item => item.pind), [601, 600]);
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.equal(rows(h.hud.state.personDetail).武力, '33');
+    assert.equal(h.document.querySelectorAll('[data-hd-deep]')[0].getAttribute('data-hd-deep-pind'), '601');
+    h.menu.index = 1; h.hud.applyHighlight();
+    assert.equal(h.hud.state.personDetail.personIndex, 600); assert.equal(rows(h.hud.state.personDetail).武力, '91');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('malformed claimed native IDs never fall back to a matching person name list', () => {
+    for (const ids of [[600], [600, 65535], [600, '601'], [600, true]]) {
+        const h = harness(); Object.assign(h.menu, { idsValid: true, ids, generation: 1, detailGeneration: 1 });
+        h.hud.fillDeepList();
+        assert.equal(h.hud.state.personDetail, null);
+        assert.ok(Array.from(h.hud.state.deepItems).every(item => item.pind === undefined));
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('derived equipment arm passes the whole U16 person ID and retains the basic arm separately', () => {
+    const h = harness(); h.context.baye.hd.personArmType = id => { h.derivedCalls.push(id); return 5; };
+    let detail = h.hud.personDetails(600, '人物');
+    assert.equal(rows(detail).基础兵种, '弓箭兵（码 2）'); assert.equal(rows(detail).装备后兵种, '玄兵（码 5）');
+    assert.deepEqual(h.derivedCalls, [600]); assert.deepEqual(h.armCalls, []);
+    h.setIdentity({status: 'ready', sha256: 'actual-mod'});
+    assert.equal(rows(h.hud.personDetails(600, '人物')).装备后兵种, '原始码 5');
+    for (const value of [null, 65535, '5', false, -1]) {
+        h.context.baye.hd.personArmType = () => value;
+        assert.equal(rows(h.hud.personDetails(600, '人物')).装备后兵种, '未读取');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('same-name goods use actual selected tool ID and preserve native captured values and unread pages', () => {
+    const h = goodsHarness();
+    const detail = plain(h.hud.state.toolDetail), buttons = h.document.querySelectorAll('[data-hd-deep]');
+    assert.deepEqual(Array.from(h.hud.state.deepItems, item => item.toolIndex), [2, 17]);
+    assert.equal(buttons[0].getAttribute('data-hd-deep-tool'), '2'); assert.equal(buttons[1].getAttribute('data-hd-deep-tool'), '17');
+    assert.equal(detail.toolIndex, 2); assert.equal(detail.nativeIndex, 0); assert.equal(detail.generation, 3);
+    assert.equal(detail.complete, false); assert.equal(detail.custom, true); assert.equal(detail.source, 'native-capture');
+    assert.equal(rows(detail).实际属性0, '0'); assert.equal(rows(detail)['属性 4'], '未读取');
+    assert.match(h.document.getElementById('hd-city-menu-tool-details').textContent, /原生已显示 3 \/ 5 项/);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-name').textContent, h.goods.name);
+    assert.equal(h.document.getElementById('hd-city-menu-person-details').hidden, true);
+    assert.equal(h.hud.lcdPresentation(), 'off');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('standard current raw tool fields supplement unread default properties, preserving real zero values', () => {
+    const h = goodsHarness({custom: false}), calls = []; let arm = 2;
+    h.context.baye.hd.toolDetails = id => {
+        calls.push(id); return {index: id, standard: true, generation: 3, name: '道具',
+            attack: 0, iq: 0, move: 0, arm, useFlag: 0, changeAttackRange: 1};
+    };
+    h.goods.properties.forEach(property => { property.captured = false; property.title = property.value = ''; });
+    h.hud.renderToolDetails();
+    const detail = plain(h.hud.state.toolDetail), values = rows(detail);
+    assert.equal(detail.complete, true); assert.equal(detail.nativeComplete, false); assert.equal(detail.source, 'standard-raw');
+    assert.equal(values.用法, '装备'); assert.equal(values.武力加成, '0'); assert.equal(values.智力加成, '0');
+    assert.equal(values.移动加成, '0'); assert.equal(values.兵种变化, '玄兵'); assert.deepEqual(calls, [2]);
+    assert.equal(values.改变攻击范围标志, '改变（码 1）');
+    h.goods.complete = 1; h.goods.properties.forEach(property => { property.captured = true; }); h.hud.renderToolDetails();
+    assert.equal(rows(h.hud.state.toolDetail).改变攻击范围标志, '改变（码 1）');
+    h.goods.complete = 0; h.goods.properties.forEach(property => { property.captured = false; });
+    for (const [code, expected] of [[0, '无'], [1, '水军'], [2, '玄兵'], [3, '极兵'], [4, '骑兵'], [5, '步兵'],
+        [6, '弓箭兵'], [7, '水军'], [8, '极兵'], [9, '玄兵'], [10, '原始码 10'], [255, '原始码 255']]) {
+        arm = code; h.hud.renderToolDetails();
+        assert.deepEqual(rows(h.hud.state.toolDetail), {用法: '装备', 武力加成: '0', 智力加成: '0', 移动加成: '0',
+            兵种变化: expected, 改变攻击范围标志: '改变（码 1）'}, 'default detail keeps its existing semantics for arm ' + code);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('custom properties, unknown libraries and live property hooks never substitute standard raw semantics', () => {
+    for (const mode of ['custom', 'mod', 'hook', 'pending', 'stale']) {
+        const h = goodsHarness({custom: mode === 'custom'}); let rawCalls = 0, hookCalls = 0;
+        h.context.baye.hd.toolDetails = () => { rawCalls++; return {index: 2, standard: true, attack: 99, iq: 88, move: 1, arm: 2, useFlag: 0}; };
+        if (mode === 'mod') h.setIdentity({status: 'ready', sha256: 'real-mod'});
+        if (mode === 'pending') h.setIdentity({status: 'pending', sha256: null});
+        if (mode === 'stale') h.setIdentity({status: 'ready', sha256: standardHash}, false);
+        if (mode === 'hook') h.context.baye.hooks = {getToolPropertyValue() { hookCalls++; throw new Error('must not execute hook'); }};
+        h.hud.renderToolDetails();
+        assert.equal(h.hud.state.toolDetail.complete, false, mode); assert.equal(h.hud.state.toolDetail.source, 'native-capture', mode);
+        assert.equal(rows(h.hud.state.toolDetail)['属性 4'], '未读取', mode);
+        assert.equal(rawCalls, 0, mode); assert.equal(hookCalls, 0, mode); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('genuine captured blank and literal markup stay distinct from unread values', () => {
+    const h = goodsHarness();
+    h.goods.properties[0] = {index: 0, title: '<img src=x>', value: '<script>actual Mod text</script>', captured: true};
+    h.goods.properties[1] = {index: 1, title: '', value: '', captured: true};
+    h.hud.renderToolDetails();
+    const values = rows(h.hud.state.toolDetail);
+    assert.equal(values['<img src=x>'], '<script>actual Mod text</script>');
+    assert.equal(values['属性 2（标题为空）'], '（空）'); assert.equal(values['属性 4'], '未读取');
+    const pane = h.document.getElementById('hd-city-menu-tool-details');
+    assert.equal(pane.querySelectorAll('img').length, 0); assert.equal(pane.querySelectorAll('script').length, 0);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('tool fields and controls persist when actual highlighted ID changes, without automatic pagination', () => {
+    const h = goodsHarness(), pane = h.document.getElementById('hd-city-menu-tool-details');
+    const fields = h.document.getElementById('hd-city-menu-tool-fields'), controls = h.document.getElementById('hd-city-menu-tool-controls');
+    h.menu.index = 1; Object.assign(h.goods, {index: 1, tool: 17, name: '第二个同名道具的真实标题'});
+    h.hud.fillDeepList();
+    assert.equal(h.hud.state.toolDetail.toolIndex, 17); assert.equal(h.hud.state.idleIndex, 1);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-details'), pane);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-fields'), fields);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-controls'), controls);
+    assert.equal(pane.parentElement.id, 'hd-city-menu-person-layout');
+    assert.equal(pane.parentElement.classList.contains('has-tool-details'), true);
+    for (let i = 0; i < 4; i++) h.hud.fillDeepList();
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback', () => {
+    for (const mode of ['report', 'help', 'qty', 'seq', 'index', 'tool', 'generation', 'current-generation', 'ids',
+        'ids-invalid', 'pending', 'request', 'queue', 'hidden', 'closed', 'layer', 'person']) {
+        const h = goodsHarness(); assert.ok(h.hud.state.toolDetail, mode);
+        if (mode === 'report') h.report.active = 1;
+        if (mode === 'help') h.help.active = 1;
+        if (mode === 'qty') h.qty.active = 1;
+        if (mode === 'seq') h.menu.seq++;
+        if (mode === 'index') h.menu.index = 1;
+        if (mode === 'tool') h.goods.tool = 17;
+        if (mode === 'generation') h.goods.generation++;
+        if (mode === 'current-generation') h.goods.detailGeneration++;
+        if (mode === 'ids') h.menu.ids.reverse();
+        if (mode === 'ids-invalid') h.menu.idsValid = false;
+        if (mode === 'pending') h.hud.state.deepSelectionPending = {};
+        if (mode === 'request') h.hud.state.nativeMenuRequest = {};
+        if (mode === 'queue') h.hud.state.queue = [0x27];
+        if (mode === 'hidden') h.document.hidden = true;
+        if (mode === 'closed') h.hud.state.open = false;
+        if (mode === 'layer') h.hud.state.layer = 'status';
+        if (mode === 'person') h.hud.state.deepKind = 'person';
+        h.hud.renderToolDetails();
+        assert.equal(h.hud.state.toolDetail, null, mode); assert.equal(h.document.getElementById('hd-city-menu-tool-details').hidden, true, mode);
+        assert.equal(h.hud.state.toolPagePending, null, mode);
+        if (['seq', 'index', 'tool', 'generation', 'current-generation', 'ids', 'ids-invalid'].includes(mode)) assert.equal(h.hud.lcdPresentation(), 'on', mode);
+        if (['report', 'help'].includes(mode)) assert.equal(h.hud.lcdPresentation(), 'passthrough', mode);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('property page clicks send one native arrow and wait for the real page acknowledgement', () => {
+    const h = goodsHarness(), next = pageButton(h, 'next'), previous = pageButton(h, 'prev');
+    assert.equal(previous.disabled, true); assert.equal(next.disabled, false);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]); assert.ok(h.hud.state.toolPagePending);
+    dispatch(h, 'click', next); h.hud.fillDeepList(); assert.deepEqual(h.keys, [0x25]);
+    Object.assign(h.goods, {pageStart: 3, pageEnd: 5, complete: 1});
+    h.goods.properties.forEach((property, index) => Object.assign(property, {title: '实际属性' + index, value: String(index), captured: true}));
+    h.hud.fillDeepList(); assert.equal(h.hud.state.toolPagePending, null); assert.equal(next.disabled, true);
+    assert.equal(previous.disabled, false); assert.equal(h.hud.state.toolDetail.nativeComplete, true);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+    dispatch(h, 'click', previous); assert.deepEqual(h.keys, [0x25, 0x24]);
+    assert.equal(h.keys.includes(0x27), false); assert.deepEqual(h.writes, []);
+});
+
+test('pointer-owned stale page controls never send keys to another native selection or generation', () => {
+    for (const mode of ['index', 'seq', 'generation', 'page', 'report']) {
+        const h = goodsHarness(), next = pageButton(h, 'next');
+        dispatch(h, 'pointerdown', next);
+        if (mode === 'index') { h.menu.index = 1; Object.assign(h.goods, {index: 1, tool: 17}); }
+        if (mode === 'seq') { h.menu.seq++; h.goods.menuSeq++; }
+        if (mode === 'generation') { h.menu.generation++; h.menu.detailGeneration++; h.goods.generation++; h.goods.detailGeneration++; }
+        if (mode === 'page') { h.goods.pageStart = 3; h.goods.pageEnd = 5; }
+        if (mode === 'report') h.report.active = 1;
+        h.hud.fillDeepList(); dispatch(h, 'click', next);
+        assert.deepEqual(h.keys, [], mode); assert.deepEqual(h.writes, [], mode);
+    }
+});
+
+test('reentrant read-only default or final input getters cannot publish or page a retired tool', () => {
+    const h = goodsHarness({custom: false});
+    h.context.baye.hd.toolDetails = () => {
+        h.menu.detailGeneration = h.menu.generation = 4;
+        return {index: 2, standard: true, attack: 1, iq: 2, move: 3, arm: 0, useFlag: 0};
+    };
+    h.hud.renderToolDetails(); assert.equal(h.hud.state.toolDetail, null);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-details').hidden, true);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    const input = goodsHarness(), next = pageButton(input, 'next');
+    input.context.baye.hd.fight = () => { input.menu.seq++; return null; };
+    dispatch(input, 'click', next); assert.deepEqual(input.keys, []); assert.deepEqual(input.writes, []);
+});
+
+test('same-name native menu ID changes retire an armed item click instead of confirming another tool', () => {
+    const h = goodsHarness(), first = h.document.querySelectorAll('[data-hd-deep]')[0];
+    dispatch(h, 'pointerdown', first); h.menu.ids.reverse(); h.goods.tool = 17; h.hud.fillDeepList();
+    dispatch(h, 'click', h.document.querySelectorAll('[data-hd-deep]')[0]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('a report that restores the same native menu and page still retires an older pressed page button', () => {
+    const h = goodsHarness(), next = pageButton(h, 'next');
+    const oldOwner = next.getAttribute('data-hd-tool-page-owner');
+    dispatch(h, 'pointerdown', next); h.report.active = 1; h.hud.fillDeepList();
+    h.report.active = 0; h.hud.fillDeepList();
+    assert.notEqual(next.getAttribute('data-hd-tool-page-owner'), oldOwner);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+});
+
+test('cancelling a goods menu hides its side panel and retains the existing single native Exit', () => {
+    const h = goodsHarness(); h.hud.state.subKind = 'neizheng';
+    h.hud.back();
+    assert.equal(h.hud.state.toolDetail, null); assert.equal(h.document.getElementById('hd-city-menu-tool-details').hidden, true);
+    h.timers.shift()(); // Execute the existing queue delay, without advancing or mutating C state.
+    assert.equal(h.hud.state.layer, 'sub'); assert.deepEqual(h.keys, [0x28]); assert.deepEqual(h.writes, []);
+});
+
+function backHarness({retired = false} = {}) {
+    const h = harness();
+    Object.assign(h.raw, {g_hdDetailGeneration: 3, g_hdMapInputSeq: 2, g_hdMapCity: 0,
+        g_hdMenuSeq: 9, g_hdMenuActive: retired ? 0 : 1, g_hdQtyActive: 0,
+        g_hdReportActive: 0, g_hdHelpActive: 0, g_hdFightActive: 0,
+        g_hdMapPick: retired ? 1 : 0, g_hdBattlePick: 0, g_hdMarchPhase: 0,
+        g_hdMarchSession: 0, g_hdMarchInputSeq: 0});
+    Object.assign(h.menu, {active: retired ? 0 : 1, detailGeneration: 3,
+        idsValid: true, ids: [600, 601]});
+    h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', '');
+    h.root.appendChild(h.backButton); h.hud.bind();
+    return h;
+}
+function runBackQueue(h) {
+    for (let i = 0; h.timers.length && i < 30; i++) h.timers.shift()();
+    assert.equal(h.timers.length, 0, 'Back must not leave a repeating input task');
+}
+
+test('the real Back button closes a retired recruit pane on ordinary map input without any native key or world write', () => {
+    const h = backHarness({retired: true}), world = structuredClone(h.raw);
+    Object.assign(h.hud.state, {deepKind: 'person-qty', deepLabel: '征兵', campaignPick: false});
+    h.context.BayeHdOverworld = {leaveMenu() { throw new Error('retired map cannot receive Exit'); }};
+    dispatch(h, 'pointerdown', h.backButton); dispatch(h, 'click', h.backButton, {detail: 1});
+    runBackQueue(h);
+    assert.equal(h.hud.state.open, false); assert.deepEqual(h.keys, []);
+    assert.deepEqual(h.raw, world); assert.deepEqual(h.writes, []);
+});
+
+test('same-owner person and submenu Back still deliver exactly one Exit despite a changed highlight', () => {
+    for (const layer of ['deep', 'sub']) {
+        const h = backHarness(); h.hud.state.layer = layer;
+        if (layer === 'sub') Object.assign(h.menu, {kind: 2, idsValid: false});
+        dispatch(h, 'pointerdown', h.backButton); h.menu.index = 1;
+        dispatch(h, 'click', h.backButton, {detail: 1}); runBackQueue(h);
+        assert.deepEqual(h.keys, [0x28], layer); assert.deepEqual(h.writes, []);
+        assert.equal(h.hud.state.layer, layer === 'deep' ? 'sub' : 'root');
+    }
+});
+
+test('the real poll retires a cancelled picker only after native map ACK and the Back queue has drained', () => {
+    const h = backHarness(); h.context.BayeHdCityMenu.start();
+    const poll = h.intervals.at(-1); let nativeAck = false;
+    h.context.sendKey = key => {
+        h.keys.push(key); nativeAck = true;
+        Object.assign(h.raw, {g_hdMenuActive: 0, g_hdMapPick: 1}); h.raw.g_hdMapInputSeq++;
+        h.menu.active = 0;
+    };
+    dispatch(h, 'click', h.backButton, {detail: 0});
+    poll(); assert.equal(h.hud.state.open, true); assert.equal(nativeAck, false);
+    h.timers.shift()(); // Original EXIT delivered; native command acknowledges map input.
+    poll(); assert.equal(h.hud.state.open, true, 'Original queue still owns its ACK delay');
+    runBackQueue(h); poll();
+    assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.closingSub, false);
+    assert.deepEqual(h.keys, [0x28]); assert.deepEqual(h.writes, []);
+
+    const initial = backHarness({retired: true}); initial.context.BayeHdCityMenu.start();
+    initial.intervals.at(-1)();
+    assert.equal(initial.hud.state.open, true, 'An untouched stale pane still waits for the player Back');
+    assert.deepEqual(initial.keys, []); assert.deepEqual(initial.writes, []);
+
+    const sub = backHarness(); sub.hud.state.layer = 'sub'; sub.menu.kind = 2;
+    sub.context.BayeHdCityMenu.start();
+    sub.context.sendKey = key => {sub.keys.push(key); sub.menu.kind = 1; sub.menu.seq++;};
+    sub.hud.back(); runBackQueue(sub); sub.intervals.at(-1)();
+    assert.equal(sub.hud.state.open, true); assert.equal(sub.hud.state.layer, 'root');
+    assert.deepEqual(sub.keys, [0x28]); assert.deepEqual(sub.writes, []);
+});
+
+test('queued Back cannot send Exit after its native menu retires or its sequence, generation, context or IDs change', () => {
+    for (const change of [h => {h.menu.active = 0; h.raw.g_hdMapPick = 1; h.raw.g_hdMenuActive = 0;},
+        h => {h.menu.seq++;}, h => {h.menu.detailGeneration++;}, h => {h.menu.context = 2;},
+        h => {h.menu.ids.reverse();}]) {
+        const h = backHarness(); h.hud.back(); change(h); runBackQueue(h);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('menu Back refuses reports and HELP, and a queued Exit refuses quantity takeover of an unchanged submenu', () => {
+    for (const queued of [false, true]) {
+        const changes = [h => {h.report.active = 1;}, h => {h.help.active = 1;},
+            h => {h.context.BayeHdMiniMap = {isOpen: () => true};}, h => {h.context.baye.hd.report = () => null;}];
+        if (queued) changes.push(h => {h.qty.active = 1;});
+        for (const change of changes) {
+            const h = backHarness(); h.hud.state.layer = 'sub';
+            Object.assign(h.menu, {kind: 2, idsValid: false});
+            if (queued) h.hud.back(); change(h);
+            if (!queued) h.hud.back();
+            runBackQueue(h); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+        }
+    }
+    const h = backHarness(); h.hud.back();
+    h.context.baye.hd.report = () => {h.menu.seq++; return {active: 0};};
+    runBackQueue(h); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('a held Back button cannot act on a replacement menu or a different map wait', () => {
+    for (const change of [h => {h.menu.seq++;}, h => {h.menu.detailGeneration++;},
+        h => {h.menu.ids.reverse();}, h => {h.raw.g_hdDetailGeneration++;}]) {
+        const h = backHarness(); dispatch(h, 'pointerdown', h.backButton); change(h);
+        dispatch(h, 'click', h.backButton, {detail: 1}); runBackQueue(h);
+        assert.equal(h.hud.state.layer, 'deep'); assert.equal(h.hud.state.open, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const h = backHarness({retired: true});
+    h.context.baye.hd.march = () => ({phase: 0, session: 0, mapInputSeq: h.raw.g_hdMapInputSeq});
+    dispatch(h, 'pointerdown', h.backButton); h.raw.g_hdMapInputSeq++;
+    dispatch(h, 'click', h.backButton, {detail: 1});
+    assert.equal(h.hud.state.open, true); assert.deepEqual(h.keys, []);
+});
+
+test('a cancelled Back pointer stays inert, while a fresh pointer or keyboard action can return normally', () => {
+    for (const action of ['pointer', 'keyboard']) {
+        const h = backHarness(); dispatch(h, 'pointerdown', h.backButton);
+        dispatch(h, 'pointercancel', h.backButton); dispatch(h, 'click', h.backButton, {detail: 1});
+        assert.equal(h.hud.state.layer, 'deep'); assert.deepEqual(h.keys, []);
+        if (action === 'pointer') dispatch(h, 'pointerdown', h.backButton);
+        dispatch(h, 'click', h.backButton, {detail: action === 'keyboard' ? 0 : 1}); runBackQueue(h);
+        assert.deepEqual(h.keys, [0x28], action); assert.deepEqual(h.writes, []);
+    }
+    const h = backHarness(); dispatch(h, 'pointerdown', h.backButton);
+    dispatch(h, 'click', h.root, {detail: 1});
+    assert.equal(h.hud.state.layer, 'deep'); assert.deepEqual(h.keys, []);
+});
+
+test('missing or invalid native map flags and another active overlay cannot certify retirement', () => {
+    for (const change of [h => {delete h.raw.g_hdDetailGeneration;}, h => {delete h.raw.g_hdMapInputSeq;},
+        h => {delete h.raw.g_hdMenuActive;}, h => {h.raw.g_hdMenuActive = '0';},
+        h => {h.raw.g_hdMapInputSeq = NaN;}, h => {h.raw.g_hdBattlePick = 1;},
+        h => {h.raw.g_hdMarchPhase = 4;}, h => {h.raw.g_hdReportActive = 1;},
+        h => {h.raw.g_hdHelpActive = 1;}, h => {h.raw.g_asyncActionID = 7;},
+        h => {h.context.BayeHdMiniMap = {isOpen: () => true};},
+        h => {h.context.BayeHdSystemUi = {isOpen() {throw new Error('unreadable');}};}]) {
+        const h = backHarness({retired: true}); change(h); h.hud.back(); runBackQueue(h);
+        assert.equal(h.hud.state.open, true); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('reentrant overlay reads cannot close a replacement map wait or native menu', () => {
+    for (const change of [h => {h.raw.g_hdMapInputSeq++;}, h => {h.raw.g_hdDetailGeneration++;},
+        h => {h.raw.g_hdMenuActive = 1;}]) {
+        const h = backHarness({retired: true});
+        h.context.BayeHdMiniMap = {isOpen() {change(h); return false;}};
+        h.hud.back(); runBackQueue(h);
+        assert.equal(h.hud.state.open, true); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const publicMenu of [false, true]) {
+        const h = backHarness({retired: true}); let reads = 0;
+        Object.defineProperty(h.raw, 'g_asyncActionID', {get() {
+            if (++reads === 2) {
+                h.raw.g_hdMenuActive = 1; h.raw.g_hdMenuSeq++;
+                if (publicMenu) {
+                    h.raw.g_hdMapPick = 0;
+                    Object.assign(h.menu, {active: 1, kind: 1, seq: h.raw.g_hdMenuSeq});
+                }
+            }
+            return 0;
+        }});
+        h.hud.back(); runBackQueue(h);
+        assert.equal(h.raw.g_hdMenuActive, 1); assert.equal(h.raw.g_hdMenuSeq, 10);
+        assert.equal(h.hud.state.open, true); assert.equal(h.hud.state.layer, 'deep');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+// BEGIN R17 SEARCH INCREMENT: insert after existing backHarness/runBackQueue helpers.
+// This drives the real production chooseSub/start poll/DOM input chain, not a copied controller.
+const searchSubNames = ['开垦', '招商', '搜寻', '治理', '出巡', '招降', '处斩', '流放', '赏赐', '没收', '交易', '宴请', '输送', '移动'];
+function searchHarness({ delayed = false } = {}) {
+    const h = backHarness();
+    h.context.baye.hd.march = () => ({phase: 0, session: 0, mapCity: 1, pick: h.raw.g_hdMapPick, mapInputSeq: h.raw.g_hdMapInputSeq});
+    Object.assign(h.hud.state, { layer: 'sub', subKind: 'neizheng', deepKind: '', deepLabel: '', deepMenuOwner: null, idleIndex: 2 });
+    Object.assign(h.menu, { active: 1, context: 1, kind: 2, seq: 30, generation: 3, detailGeneration: 3,
+        count: searchSubNames.length, index: 2, names: [...searchSubNames], idsValid: false, ids: [] });
+    Object.assign(h.raw, { g_hdMenuSeq: 30, g_hdMenuActive: 1 });
+    h.context.sendKey = key => h.keys.push(key);
+    h.hud.chooseSub(2);
+    assert.equal(h.hud.state.deepKind, 'person', 'SEARCH must enter the production person route');
+    assert.equal(h.hud.state.deepLabel, '搜寻'); assert.equal(h.hud.state.wizardStep, 'none');
+    assert.deepEqual(h.keys, [0x27], 'The player command issues only the existing native Enter');
+    h.keys.length = 0; h.timers.length = 0;
+    h.context.BayeHdCityMenu.start(); h.poll = h.intervals.at(-1);
+    h.publishPeople = ({ seq = 31, ids = [600, 601], names = ids.map(id => h.names.get(id)), index = 0 } = {}) => {
+        Object.assign(h.menu, { active: 1, context: 1, kind: 3, seq, generation: 3, detailGeneration: 3,
+            count: ids.length, index, names, idsValid: true, ids: [...ids] });
+        Object.assign(h.raw, {g_hdMenuSeq: seq, g_hdMenuActive: 1});
+    };
+    if (!delayed) { h.publishPeople(); h.poll(); }
+    return h;
+}
+function searchRow(h, index = 0) { return h.document.querySelectorAll('[data-hd-deep]')[index]; }
+function armSearch(h, index = 0) {
+    const target = searchRow(h, index); assert.ok(target, 'An actual native row must exist before arming');
+    dispatch(h, 'pointerdown', target); return target;
+}
+
+test('SEARCH real poll waits for a delayed native person menu, then reads the full owned U16 IDs without another input', () => {
+    const h = searchHarness({delayed: true});
+    for (let i = 0; i < 4; i++) h.poll();
+    assert.equal(h.hud.state.deepItems.length, 0); assert.equal(h.hud.state.personDetail, null);
+    assert.equal(h.document.querySelectorAll('[data-hd-deep]').length, 0);
+    assert.deepEqual(h.keys, []);
+    h.people[700] = {...h.person, Belong: 0}; h.people[701] = {...h.person, Belong: 65535};
+    h.people[777] = {...h.person, Force: 77}; h.names.set(777, '真实高ID人物');
+    h.queue.splice(7, 2, 600, 700, 701, 777); h.city.Persons = 4;
+    h.publishPeople({ids: [600, 777]}); h.poll();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, row => row.pind), [600, 777]);
+    assert.equal(h.hud.state.personDetail.personIndex, 600);
+    assert.equal(searchRow(h, 1).getAttribute('data-hd-deep-pind'), '777');
+    assert.ok(h.hud.state.deepItems.every(row => ![700, 701].includes(row.pind)));
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH exact native IDs survive reordered duplicate names and use current native index for the person fields', () => {
+    const h = searchHarness(); h.people[601].Force = 33;
+    h.publishPeople({ids: [601, 600], names: ['同名人物', '同名人物'], index: 1}); h.poll();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, row => [row.i, row.pind]), [[0, 601], [1, 600]]);
+    assert.equal(h.hud.state.personDetail.personIndex, 600); assert.equal(rows(h.hud.state.personDetail).武力, '91');
+    h.menu.index = 0; h.poll();
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.equal(rows(h.hud.state.personDetail).武力, '33');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH malformed claimed full-ID lists never attach a person by matching names', () => {
+    for (const ids of [[600], [600, 65535], [600, '601'], [600, true]]) {
+        const h = searchHarness(); h.menu.ids = ids; h.poll();
+        assert.equal(h.hud.state.personDetail, null);
+        assert.ok(h.hud.state.deepItems.every(row => row.pind === undefined));
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SEARCH old held rows cannot confirm after a new native sequence, detail generation or same-name ID reorder', () => {
+    for (const change of [h => { h.menu.seq++; h.raw.g_hdMenuSeq++; },
+        h => { h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; },
+        h => { h.menu.ids.reverse(); h.menu.names.reverse(); }, h => { h.menu.context = 2; }]) {
+        const h = searchHarness(), target = armSearch(h);
+        change(h); dispatch(h, 'click', target, {detail: 1});
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SEARCH genuine inactive picker on native report takeover cannot confirm its old row', () => {
+    const h = searchHarness(), target = armSearch(h);
+    h.menu.active = 0; h.raw.g_hdMenuActive = 0; h.report.active = 1; h.raw.g_hdReportActive = 1;
+    h.poll(); dispatch(h, 'click', target, {detail: 1});
+    assert.equal(h.hud.state.personDetail, null); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const field of ['report', 'help']) {
+    test('SEARCH active underlying picker retained by ' + field + ' cannot receive an old pressed Enter', () => {
+        const h = searchHarness(), target = armSearch(h);
+        h[field].active = 1; h.raw[field === 'report' ? 'g_hdReportActive' : 'g_hdHelpActive'] = 1;
+        h.poll(); assert.equal(h.hud.state.personDetail, null);
+        dispatch(h, 'click', target, {detail: 1});
+        assert.deepEqual(h.keys, [], field + ' owns input even if the old native menu remains active');
+        assert.deepEqual(h.writes, []);
+    });
+}
+
+test('SEARCH a delayed native Down ACK followed by report takeover must never send pending Enter', () => {
+    const h = searchHarness(), target = armSearch(h, 1);
+    dispatch(h, 'click', target, {detail: 1});
+    assert.deepEqual(h.keys, [0x23], 'Only one native Down, waiting for the actual highlighted index ACK');
+    assert.ok(h.hud.state.nativeMenuRequest); assert.equal(h.hud.state.personDetail, null);
+    h.menu.index = 1; h.report.active = 1; h.raw.g_hdReportActive = 1;
+    runBackQueue(h);
+    assert.deepEqual(h.keys, [0x23], 'No Enter may be sent to the report after its takeover');
+    assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH a normal current row selection follows the actual native Down ACK and sends exactly one Enter', () => {
+    const h = searchHarness(), target = armSearch(h, 1);
+    dispatch(h, 'click', target, {detail: 1});
+    assert.deepEqual(h.keys, [0x23]); assert.ok(h.hud.state.nativeMenuRequest);
+    h.menu.index = 1; runBackQueue(h);
+    assert.deepEqual(h.keys, [0x23, 0x27]); assert.equal(h.hud.state.nativeMenuRequest, null);
+    assert.ok(h.hud.state.deepSelectionPending, 'Retain the existing pending selection until native menu transition');
+    assert.equal(h.hud.state.personDetail, null); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH Back delivers exactly one Exit, waits for native map ACK/queue drain and does not alter the world', () => {
+    const h = searchHarness();
+    h.context.sendKey = key => {
+        h.keys.push(key);
+        if (key === 0x28) { h.menu.active = 0; h.raw.g_hdMenuActive = 0; h.raw.g_hdMapPick = 1; h.raw.g_hdMapInputSeq++; }
+    };
+    const target = h.backButton; dispatch(h, 'pointerdown', target); dispatch(h, 'click', target, {detail: 1});
+    assert.equal(h.hud.state.personDetail, null); assert.equal(h.hud.state.open, true);
+    h.poll(); assert.equal(h.hud.state.open, true, 'No map ACK before the queued native Exit');
+    runBackQueue(h); h.poll();
+    assert.deepEqual(h.keys, [0x28]); assert.equal(h.hud.state.open, false); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH Back refuses a report-held picker and a queued Exit retires on seq/generation/ID changes', () => {
+    for (const change of [h => { h.menu.seq++; h.raw.g_hdMenuSeq++; },
+        h => { h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; }, h => { h.menu.ids.reverse(); },
+        h => { h.report.active = 1; h.raw.g_hdReportActive = 1; }]) {
+        const h = searchHarness(); h.hud.back(); change(h); runBackQueue(h);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const h = searchHarness(); h.report.active = 1; h.raw.g_hdReportActive = 1;
+    h.hud.back(); assert.equal(h.hud.state.layer, 'deep'); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+// END R17 SEARCH INCREMENT
+// BEGIN R17 SEARCH EXTRA: append after the candidate's BEGIN/END increment.
+// All tests use its actual production harness, native owner fixtures and public DOM handlers.
+test('SEARCH quantity takeover retains its own input and cannot confirm a held person row', () => {
+    const h = searchHarness(), target = armSearch(h);
+    // Actual NumOperate owns input only after its person menu closes.
+    h.menu.active = 0; h.raw.g_hdMenuActive = 0;
+    Object.assign(h.qty, {active: 1, min: 0, max: 800, value: 100}); h.raw.g_hdQtyActive = 1;
+    h.hud.renderPersonDetails(); assert.equal(h.hud.state.personDetail, null);
+    // The inherited HUD mock deliberately rejects nonempty HTML. Capture only
+    // the real quantity summary/control markup here; do not simulate its controls.
+    const create = h.document.createElement; let qtyMarkup = '';
+    h.document.createElement = tag => new Proxy(create(tag), {set(node, key, value) {
+        if (key === 'innerHTML' && value !== '' && /^<p class="hd-city-menu-qty-summary">数量 /.test(value)) {
+            assert.match(value, /^<p class="hd-city-menu-qty-summary">数量 <strong id="hd-city-qty-val">100<\/strong>/);
+            assert.match(value, /<\/p><div class="hd-city-menu-qty-controls"><button/);
+            assert.match(value, /data-hd-qty-ok/); qtyMarkup = value; node.textContent = ''; return true;
+        }
+        return Reflect.set(node, key, value);
+    }});
+    dispatch(h, 'click', target, {detail: 1});
+    assert.ok(qtyMarkup, 'The real quantity owner is rendered instead of confirming the old person');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH pending native selection cannot send Enter after quantity takes over before its Down ACK', () => {
+    const h = searchHarness(), target = armSearch(h, 1);
+    dispatch(h, 'click', target, {detail: 1}); assert.deepEqual(h.keys, [0x23]);
+    h.menu.index = 1; h.menu.active = 0; h.raw.g_hdMenuActive = 0;
+    Object.assign(h.qty, {active: 1, min: 0, max: 800, value: 100}); h.raw.g_hdQtyActive = 1;
+    runBackQueue(h);
+    assert.deepEqual(h.keys, [0x23]); assert.deepEqual(h.writes, []);
+});
+
+for (const change of ['seq', 'generation', 'report']) {
+    test('SEARCH final engineSendKey read-only fight getter reentry into ' + change + ' retires the pending native Enter', () => {
+        const h = searchHarness(), target = armSearch(h); let triggered = false;
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, get() {
+            // Target the actual final engineSendKey read after its earlier controller checks.
+            // No copied gate logic: the VM's real stack identifies this boundary.
+            if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+                triggered = true;
+                if (change === 'seq') { h.menu.seq++; h.raw.g_hdMenuSeq++; }
+                if (change === 'generation') { h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; }
+                if (change === 'report') { h.report.active = 1; h.raw.g_hdReportActive = 1; }
+            }
+            return 0;
+        }});
+        dispatch(h, 'click', target, {detail: 1});
+        assert.equal(triggered, true, 'The production final send boundary must actually be exercised');
+        assert.deepEqual(h.keys, [], 'A getter retirement must be checked again immediately before native send');
+        assert.deepEqual(h.writes, []);
+        // The failed final send must not leave a committed key blocking a later real action.
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, writable: true, value: 0});
+        h.report.active = 0; h.raw.g_hdReportActive = 0;
+        h.poll(); const fresh = armSearch(h);
+        dispatch(h, 'click', fresh, {detail: 1});
+        assert.deepEqual(h.keys, [0x27], 'A fresh current-owner player action remains usable after the refused final send');
+        assert.deepEqual(h.writes, []);
+    });
+}
+
+test('SEARCH confirmed person stays retired until a fresh complete native owner arrives and an old held pointer cannot confirm it', () => {
+    const h = searchHarness(), first = armSearch(h);
+    dispatch(h, 'click', first, {detail: 1}); assert.deepEqual(h.keys, [0x27]);
+    assert.ok(h.hud.state.deepSelectionPending); assert.equal(h.hud.state.personDetail, null);
+    const oldHeld = armSearch(h, 1);
+    h.poll();
+    assert.equal(h.hud.state.deepItems.length, 0); assert.equal(h.hud.state.deepMenuOwner, null);
+    assert.equal(h.hud.state.personDetail, null); assert.deepEqual(h.keys, [0x27]);
+    // Model the real C menu close/report and then reopening; no JS auto confirmation.
+    h.menu.active = 0; h.raw.g_hdMenuActive = 0; h.report.active = 1; h.raw.g_hdReportActive = 1;
+    h.poll(); assert.equal(h.hud.state.personDetail, null);
+    h.report.active = 0; h.raw.g_hdReportActive = 0; h.menu.active = 1; h.raw.g_hdMenuActive = 1;
+    h.poll(); assert.equal(h.hud.state.deepItems.length, 0, 'The old seq is not a fresh native list');
+    h.publishPeople({seq: 32, ids: [601]}); h.poll();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, row => row.pind), [601]);
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.equal(h.hud.state.deepSelectionPending, null);
+    const fresh = searchRow(h); assert.notEqual(fresh, oldHeld);
+    dispatch(h, 'click', fresh, {detail: 1}); assert.deepEqual(h.keys, [0x27], 'Old press cannot confirm a different native owner');
+    dispatch(h, 'pointerdown', fresh); dispatch(h, 'click', fresh, {detail: 1});
+    assert.deepEqual(h.keys, [0x27, 0x27], 'Only a fresh player action can confirm the new owner');
+    assert.deepEqual(h.writes, []);
+});
+// END R17 SEARCH EXTRA
+
+// BEGIN R17 SEARCH EXTRA2: append after extra1; plain fresh snapshots expose reentry ordering.
+for (const action of ['Enter', 'Arrow']) {
+    for (const change of ['seq', 'ids']) {
+        test('SEARCH final inactive report getter returning plain menu clones retires ' + action + ' on changed ' + change + ', then allows a fresh click', () => {
+            const h = searchHarness();
+            h.publishPeople({names: ['同名人物', '同名人物']}); h.poll();
+            // Every public menu read is a distinct snapshot, as the real bridge returns.
+            h.context.baye.hd.menuItems = () => plain(h.menu);
+            const target = armSearch(h, action === 'Enter' ? 0 : 1); let triggered = false;
+            h.context.baye.hd.report = () => {
+                if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+                    triggered = true;
+                    if (change === 'seq') { h.menu.seq++; h.raw.g_hdMenuSeq++; }
+                    else { h.menu.ids.reverse(); }
+                }
+                return {active: 0}; // The read reenters a new owner without exposing an active report.
+            };
+            dispatch(h, 'click', target, {detail: 1});
+            assert.equal(triggered, true, 'Exercise the actual final-send currentOwner check');
+            assert.deepEqual(h.keys, [], 'Neither the old Arrow nor Enter may reach the replacement menu');
+            assert.equal(h.hud.state.nativeMenuRequest, null);
+            h.context.baye.hd.report = () => h.report;
+            h.poll(); const fresh = armSearch(h);
+            dispatch(h, 'click', fresh, {detail: 1});
+            assert.deepEqual(h.keys, [0x27], 'Refusing the final send must not leave a false committed selection');
+            assert.deepEqual(h.writes, []);
+        });
+    }
+}
+// END R17 SEARCH EXTRA2
+
+// R18: exercise actual production native-property DOM and final key sending.
+test('person native properties remain separate from all fifteen default core fields and the persistent portrait slot', () => {
+    const h = personPropertyHarness({count: 13, custom: false}), pane = h.document.getElementById('hd-city-menu-person-properties');
+    const core = h.document.getElementById('hd-city-menu-person-fields'), slot = h.document.getElementById('hd-city-menu-person-portrait');
+    const figure = element('figure'); slot.appendChild(figure);
+    assert.equal(core.querySelectorAll('.hd-city-menu-stat').length, 15);
+    assert.equal(pane.querySelectorAll('.hd-city-menu-stat').length, 0);
+    assert.equal(h.document.querySelectorAll('[data-hd-person-property]').length, 13);
+    assert.equal(pane.parentElement, core.parentElement); assert.equal(pane.parentElement, slot.parentElement);
+    assert.equal(h.hud.state.personProperties.personIndex, 600); assert.equal(h.hud.lcdPresentation(), 'off');
+    h.person.Thew = 47; h.hud.fillDeepList();
+    assert.equal(h.document.getElementById('hd-city-menu-person-properties'), pane);
+    assert.equal(figure.parentElement, slot); assert.equal(rows(h.hud.state.personDetail).体力, '47');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    assert.match(read('css/hd-city-menu.css'), /person-property-controls button[^}]*min-height:\s*44px/);
+});
+
+test('unknown LIB and custom native twelve-property text is authoritative without extra property hooks or inferred labels', () => {
+    const h = personPropertyHarness({count: 12}); h.setIdentity({status: 'ready', generation: 6, sha256: 'unknown'});
+    let calls = 0; h.context.baye.hooks = {getPersonPropertyValue() { calls++; throw new Error('extra hook'); },
+        getPersonPropertyTitle() { calls++; throw new Error('extra hook'); }};
+    Object.assign(h.personProps.properties[0], {title: '<img onerror=evil>Mod实际标题', value: '真实原生中文\n0'});
+    h.hud.fillDeepList();
+    const text = h.document.getElementById('hd-city-menu-person-properties').textContent;
+    assert.match(text, /<img onerror=evil>Mod实际标题/); assert.match(text, /真实原生中文/);
+    assert.equal(h.hud.state.personProperties.custom, true); assert.equal(h.hud.state.personProperties.propertyCount, 12);
+    assert.equal(h.hud.lcdPresentation(), 'off'); assert.equal(calls, 0); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('captured empty values differ from unread columns, and prior paint observations are labeled honestly', () => {
+    const h = personPropertyHarness(); Object.assign(h.personProps.properties[0], {title: '原生空值属性', value: ''});
+    h.hud.fillDeepList();
+    const row = h.document.querySelectorAll('[data-hd-person-property]')[0];
+    assert.match(row.textContent, /原生空值属性.*（空）.*当前页/);
+    assert.equal(row.getAttribute('data-hd-person-property-title-paint-seq'), '40');
+    assert.equal(row.getAttribute('data-hd-person-property-value-paint-seq'), '40');
+    assert.match(h.document.querySelectorAll('[data-hd-person-property]')[4].textContent, /未读取/);
+    paintPersonPage(h);
+    assert.equal(h.hud.state.personProperties.complete, true); assert.equal(h.hud.state.personProperties.pageComplete, true);
+    assert.equal(h.hud.state.personProperties.properties[0].current, false);
+    assert.match(h.document.querySelectorAll('[data-hd-person-property]')[0].textContent, /此前读取/);
+    assert.match(h.document.querySelectorAll('[data-hd-person-property]')[4].textContent, /当前页/);
+    assert.equal(h.document.querySelectorAll('[data-hd-person-property]')[4].getAttribute('data-hd-person-property-value-paint-seq'), '41');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('actual duplicate-name U16 rows and current selected ID control native property identity', () => {
+    const h = personPropertyHarness(); h.menu.names = ['同名人物', '同名人物']; h.menu.ids = [601, 600];
+    h.menu.index = 1; h.personProps.index = 1; h.personProps.person = 600; h.personProps.name = '同名人物';
+    h.hud.fillDeepList(); assert.equal(h.hud.state.personProperties.personIndex, 600);
+    h.menu.index = 0; h.personProps.index = 0; h.personProps.person = 601; h.personProps.paintSeq = 42;
+    for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = 42;
+    h.hud.fillDeepList(); assert.equal(h.hud.state.personProperties.personIndex, 601);
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('manual person paging sends one native key and requires a fresh paint and actual page ACK', () => {
+    const h = personPropertyHarness(), next = personPageButton(h, 'next'), prev = personPageButton(h, 'prev');
+    assert.equal(prev.disabled, true); dispatch(h, 'click', prev); assert.deepEqual(h.keys, []);
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+    assert.ok(h.hud.state.personPagePending); assert.equal(next.disabled, true);
+    for (let i = 0; i < 3; i++) { h.hud.fillDeepList(); dispatch(h, 'click', next); }
+    assert.deepEqual(h.keys, [0x25]); assert.equal(h.hud.state.personProperties.pageIndex, 0);
+    // A native repaint of the same page is not a page ACK.
+    h.personProps.paintSeq = 41; for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = 41;
+    h.hud.fillDeepList(); assert.ok(h.hud.state.personPagePending); assert.equal(next.disabled, true);
+    paintPersonPage(h, {paintSeq: 42}); assert.equal(h.hud.state.personPagePending, null);
+    assert.equal(next.disabled, true); assert.equal(prev.disabled, false);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+    dispatch(h, 'pointerdown', prev); dispatch(h, 'click', prev); assert.deepEqual(h.keys, [0x25, 0x24]);
+    paintPersonPage(h, {start: 0, end: 3, pageIndex: 0, paintSeq: 43});
+    assert.equal(h.hud.state.personPagePending, null); assert.equal(prev.disabled, true); assert.deepEqual(h.writes, []);
+});
+
+test('zero columns, incomplete current paint and unsupported bridge retain LCD without inventing page inputs', () => {
+    for (const change of [h => { h.personProps.pageComplete = 0; }, h => { delete h.context.baye.hd.personProperties; },
+        h => { h.personProps.active = 0; }, h => { h.personProps.protocolVersion = 2; }]) {
+        const h = personPropertyHarness(); change(h); h.hud.fillDeepList();
+        assert.equal(h.hud.lcdPresentation(), 'on'); const next = personPageButton(h, 'next');
+        if (next) dispatch(h, 'click', next); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const zero = personPropertyHarness({count: 0, end: 0});
+    assert.equal(zero.hud.state.personProperties.pageComplete, false); assert.equal(zero.hud.lcdPresentation(), 'on');
+    assert.equal(personPageButton(zero, 'next').disabled, true); assert.equal(personPageButton(zero, 'prev').disabled, true);
+    assert.deepEqual(zero.keys, []);
+});
+
+test('person property protocol rejects stale owner, malformed revisions and false complete pages conservatively', () => {
+    for (const change of [h => { h.personProps.context = 2; }, h => { h.personProps.kind = 4; },
+        h => { h.personProps.menuSeq++; }, h => { h.personProps.generation++; }, h => { h.personProps.detailGeneration++; },
+        h => { h.personProps.index = 1; }, h => { h.personProps.person = 601; }, h => { h.menu.ids = [600]; },
+        h => { h.personProps.person = 65535; }, h => { h.personProps.paintSeq = 0; },
+        h => { h.personProps.properties[0].titlePaintSeq = 39; }, h => { h.personProps.properties[0].captured = false; },
+        h => { h.personProps.complete = 1; }, h => { h.personProps.properties[0].valuePaintSeq = '40'; },
+        h => { h.personProps.properties[0].value = {}; }, h => { h.personProps.properties[0].title = ''; },
+        h => { h.personProps.name = ''; }]) {
+        const h = personPropertyHarness(); change(h); h.hud.fillDeepList();
+        assert.equal(h.hud.state.personProperties, null); assert.equal(h.hud.lcdPresentation(), 'on');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+for (const change of ['report', 'help', 'qty', 'hidden', 'classic', 'pending', 'queue', 'closed']) {
+    test('person property '+change+' takeover retires an old held page and a fresh click stays usable', () => {
+        const h = personPropertyHarness(), next = personPageButton(h, 'next'); dispatch(h, 'pointerdown', next);
+        const old = next.getAttribute('data-hd-person-page-owner');
+        if (change === 'report') h.report.active = 1;
+        if (change === 'help') h.help.active = 1;
+        if (change === 'qty') h.qty.active = 1;
+        if (change === 'hidden') { h.document.hidden = true; h.documentListeners.get('visibilitychange').forEach(fn => fn()); }
+        if (change === 'classic') h.context.localStorage.getItem = () => 'classic';
+        if (change === 'pending') h.hud.state.deepSelectionPending = {seq: 9};
+        if (change === 'queue') h.hud.state.queue.push({code: 0x23});
+        if (change === 'closed') h.hud.state.open = false;
+        h.hud.renderPersonDetails(); assert.equal(h.hud.state.personProperties, null);
+        assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+        h.report.active = h.help.active = h.qty.active = 0; h.document.hidden = false;
+        h.context.localStorage.getItem = key => key === 'baye/cityMenuMode' ? 'hd' : 'hd-map';
+        h.hud.state.deepSelectionPending = null; h.hud.state.queue.length = 0; h.hud.state.open = true;
+        h.hud.fillDeepList(); assert.notEqual(next.getAttribute('data-hd-person-page-owner'), old);
+        dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, []);
+        dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, [0x25]);
+        assert.deepEqual(h.writes, []);
+    });
+}
+
+test('a cancelled person page press and a page-to-person cross-control click cannot confirm anyone', () => {
+    const h = personPropertyHarness(), next = personPageButton(h, 'next');
+    dispatch(h, 'pointerdown', next); dispatch(h, 'pointercancel', next); dispatch(h, 'click', next, {detail: 1});
+    assert.deepEqual(h.keys, []);
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', h.document.querySelectorAll('[data-hd-deep]')[0], {detail: 1});
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    dispatch(h, 'click', next, {detail: 0}); assert.deepEqual(h.keys, [0x25], 'Fresh keyboard activation is independent of a stale press');
+});
+
+for (const change of ['seq', 'generation', 'paint', 'report']) {
+    test('person property final native send getter reentry into '+change+' sends zero keys, then permits a fresh click', () => {
+        const h = personPropertyHarness(), next = personPageButton(h, 'next'); let triggered = false;
+        h.context.baye.hd.menuItems = () => plain(h.menu);
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, get() {
+            if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+                triggered = true;
+                if (change === 'seq') { h.menu.seq++; h.personProps.menuSeq++; }
+                if (change === 'generation') { h.menu.generation++; h.menu.detailGeneration++; h.personProps.generation++; h.personProps.detailGeneration++; }
+                if (change === 'paint') { h.personProps.paintSeq++; for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = h.personProps.paintSeq; }
+                if (change === 'report') h.report.active = 1;
+            } return 0;
+        }});
+        dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1});
+        assert.equal(triggered, true); assert.deepEqual(h.keys, []); assert.equal(h.hud.state.personPagePending, null);
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, writable: true, value: 0}); h.report.active = 0;
+        h.hud.fillDeepList(); dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1});
+        assert.deepEqual(h.keys, [0x25]); assert.deepEqual(h.writes, []);
+    });
+}
+
+test('an inactive overlay getter replacing a cloned menu cannot page the former owner', () => {
+    const h = personPropertyHarness(), next = personPageButton(h, 'next'); let triggered = false;
+    h.context.baye.hd.menuItems = () => plain(h.menu);
+    h.context.baye.hd.report = () => {
+        if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+            triggered = true; h.menu.seq++; h.personProps.menuSeq++;
+        } return {active: 0};
+    };
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1});
+    assert.equal(triggered, true); assert.deepEqual(h.keys, []); assert.equal(h.hud.state.personPagePending, null);
+    h.context.baye.hd.report = () => h.report; h.hud.fillDeepList();
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, [0x25]);
+    assert.deepEqual(h.writes, []);
+});
+
+test('cancelling the person property menu keeps the original single Exit and hides the persistent section', () => {
+    const h = personPropertyHarness(); h.hud.state.subKind = 'neizheng'; h.hud.back();
+    assert.equal(h.hud.state.personProperties, null); assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+    h.timers.shift()(); assert.deepEqual(h.keys, [0x28]); assert.deepEqual(h.writes, []);
+});
+
+
+test('the actual maximum property page never wraps right, and 255 columns remain explicit', () => {
+    const h = personPropertyHarness({count: 255, end: 0});
+    Object.assign(h.personProps, {paintSeq: 70, pageIndex: 254, pageStart: 254, pageEnd: 255, pageComplete: 1});
+    Object.assign(h.personProps.properties[254], {title: '原生最后一列', value: '255列的真实值',
+        captured: true, titleCaptured: true, valueCaptured: true, titlePaintSeq: 70, valuePaintSeq: 70});
+    h.hud.fillDeepList(); assert.equal(h.hud.state.personProperties.propertyCount, 255);
+    const next = personPageButton(h, 'next'); assert.equal(next.disabled, true);
+    for (let i = 0; i < 3; i++) dispatch(h, 'click', next); assert.deepEqual(h.keys, []);
+    dispatch(h, 'click', personPageButton(h, 'prev')); assert.deepEqual(h.keys, [0x24]); assert.deepEqual(h.writes, []);
+});
+
+test('read-only native property snapshot reentry cannot publish a mixed paint or changed menu', () => {
+    for (const change of ['paint', 'seq']) {
+        const h = personPropertyHarness(); let reads = 0;
+        h.context.baye.hd.personProperties = () => {
+            const captured = plain(h.personProps);
+            if (++reads === 1) {
+                if (change === 'paint') { h.personProps.paintSeq++; for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = h.personProps.paintSeq; }
+                if (change === 'seq') { h.menu.seq++; h.personProps.menuSeq++; }
+            }
+            return captured;
+        };
+        h.hud.renderPersonProperties(); assert.equal(h.hud.state.personProperties, null);
+        assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('native property configuration and same-name ID replacement retire an armed page button', () => {
+    for (const change of ['propertyCount', 'ids']) {
+        const h = personPropertyHarness(), next = personPageButton(h, 'next'); dispatch(h, 'pointerdown', next);
+        if (change === 'propertyCount') {
+            h.personProps.propertyCount = 6;
+            h.personProps.properties.push({index: 5, title: '', value: '', captured: false,
+                titleCaptured: false, valueCaptured: false, titlePaintSeq: 0, valuePaintSeq: 0});
+        } else { h.menu.ids.reverse(); h.menu.names = ['同名', '同名']; h.personProps.person = 601; h.personProps.name = '同名'; }
+        h.hud.fillDeepList(); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, []);
+        dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, [0x25]);
+        assert.deepEqual(h.writes, []);
+    }
+});
+
+
+function personModeHarness() {
+    const h = personPropertyHarness();
+    const storage = new Map([['baye/cityMenuMode', 'hd'], ['baye/overworldMode', 'hd-map']]);
+    h.context.localStorage = {getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, String(value))};
+    Object.assign(h.hud.state, {subKind: 'neizheng', deepLabel: '搜寻'});
+    Object.assign(h.report, {seq: 0}); Object.assign(h.help, {seq: 0}); Object.assign(h.qty, {session: 2});
+    const fight = {active: 0}, march = {phase: 0, session: 0, inputSeq: 0, origin: 255, selected: 0,
+        mapCity: 1, mapInputSeq: 2, pick: 0, battlePick: 0};
+    h.context.baye.hd.fight = () => fight; h.context.baye.hd.march = () => march;
+    Object.assign(h.raw, {g_hdDetailGeneration: 3, g_hdMenuSeq: 9, g_hdMenuActive: 1,
+        g_hdMenuContext: 1, g_hdMenuKind: 3, g_hdMapCity: 1, g_hdMapInputSeq: 2,
+        g_hdMapPick: 0, g_hdBattlePick: 0, g_hdMarchPhase: 0, g_hdMarchSession: 0, g_hdMarchInputSeq: 0,
+        g_hdReportActive: 0, g_hdHelpActive: 0, g_hdQtyActive: 0, g_hdFightActive: 0});
+    h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', ''); h.root.appendChild(h.backButton);
+    h.context.BayeHdCityMenu.start();
+    return Object.assign(h, {storage, fight, march, poll: h.intervals.at(-1)});
+}
+
+test('real public classic-to-HD restores only the previously open same-owner PERSON menu with no engine writes or keys', () => {
+    const h = personModeHarness(), initial = plain(h.raw);
+    h.context.BayeHdCityMenu.setMode('classic');
+    assert.equal(h.storage.get('baye/cityMenuMode'), 'classic'); assert.equal(h.hud.state.open, false);
+    assert.equal(h.hud.state.personProperties, null); assert.ok(h.hud.state.personModeResume);
+    h.context.BayeHdCityMenu.setMode('hd');
+    assert.equal(h.hud.state.open, true); assert.equal(h.hud.state.deepKind, 'person'); assert.equal(h.hud.state.deepLabel, '搜寻');
+    assert.equal(h.hud.state.personDetail.personIndex, 600); assert.equal(h.hud.state.personProperties.paintSeq, 40);
+    assert.equal(h.hud.state.personModeResume, null); assert.equal(h.hud.lcdPresentation(), 'off');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(plain(h.raw), initial);
+});
+
+test('real mode restoration samples the native current highlight and page rather than restoring the old person or paint', () => {
+    const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic');
+    h.menu.index = 1; Object.assign(h.personProps, {index: 1, person: 601, name: h.names.get(601)});
+    paintPersonPage(h, {start: 3, end: 5, pageIndex: 1, paintSeq: 44});
+    // The engine's native redraw occurred during classic mode; no local open is changed here.
+    assert.equal(h.hud.state.open, false);
+    h.context.BayeHdCityMenu.setMode('hd');
+    assert.equal(h.hud.state.open, true); assert.equal(h.hud.state.personDetail.personIndex, 601);
+    assert.equal(h.hud.state.idleIndex, 1); assert.equal(h.hud.state.personProperties.pageIndex, 1);
+    assert.equal(h.hud.state.personProperties.paintSeq, 44); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const change of ['seq', 'generation', 'ids', 'names', 'city', 'context', 'kind', 'inactive', 'missing-ids',
+    'report', 'help', 'qty', 'fight', 'march', 'map-pick', 'missing-raw', 'report-ended', 'help-ended', 'qty-ended']) {
+    test('real classic-to-HD refuses a retired PERSON owner after '+change, () => {
+        const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic');
+        if (change === 'seq') { h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++; }
+        if (change === 'generation') { h.menu.generation++; h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; h.personProps.generation++; h.personProps.detailGeneration++; }
+        if (change === 'ids') h.menu.ids.reverse();
+        if (change === 'names') h.menu.names.reverse();
+        if (change === 'city') { h.march.mapCity = 2; h.raw.g_hdMapCity = 2; }
+        if (change === 'context') { h.menu.context = 2; h.raw.g_hdMenuContext = 2; }
+        if (change === 'kind') { h.menu.kind = 2; h.raw.g_hdMenuKind = 2; }
+        if (change === 'inactive') { h.menu.active = 0; h.raw.g_hdMenuActive = 0; }
+        if (change === 'missing-ids') h.menu.idsValid = false;
+        if (change === 'report') { h.report.active = h.raw.g_hdReportActive = 1; }
+        if (change === 'help') { h.help.active = h.raw.g_hdHelpActive = 1; }
+        if (change === 'qty') { h.qty.active = h.raw.g_hdQtyActive = 1; }
+        if (change === 'fight') { h.fight.active = h.raw.g_hdFightActive = 1; }
+        if (change === 'march') { h.march.phase = h.raw.g_hdMarchPhase = 1; }
+        if (change === 'map-pick') { h.march.pick = h.raw.g_hdMapPick = 1; }
+        if (change === 'missing-raw') delete h.raw.g_hdMenuContext;
+        // Actual observers advance these tokens even if a report/help/quantity has ended before mode returns.
+        if (change === 'report-ended') h.report.seq++;
+        if (change === 'help-ended') h.help.seq++;
+        if (change === 'qty-ended') h.qty.session++;
+        h.context.BayeHdCityMenu.setMode('hd');
+        assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.personProperties, null);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    });
+}
+
+test('a report seen by the real classic poll permanently retires its previous restore ticket even after it closes', () => {
+    const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic');
+    h.report.active = h.raw.g_hdReportActive = 1; h.poll(); assert.equal(h.hud.state.personModeResume, null);
+    h.report.active = h.raw.g_hdReportActive = 0; h.context.BayeHdCityMenu.setMode('hd');
+    assert.equal(h.hud.state.open, false); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const control of ['property', 'person', 'back']) {
+    for (const fresh of ['pointer', 'keyboard']) {
+        test('real mode boundary retires an old '+control+' press and accepts a fresh '+fresh+' action', () => {
+            const h = personModeHarness();
+            const target = () => control === 'property' ? personPageButton(h, 'next') :
+                control === 'person' ? h.document.querySelectorAll('[data-hd-deep]')[0] : h.backButton;
+            dispatch(h, 'pointerdown', target());
+            h.context.BayeHdCityMenu.setMode('classic'); h.context.BayeHdCityMenu.setMode('hd');
+            assert.equal(h.hud.state.open, true);
+            dispatch(h, 'click', target(), {detail: 1}); runBackQueue(h); assert.deepEqual(h.keys, []);
+            if (fresh === 'pointer') dispatch(h, 'pointerdown', target());
+            dispatch(h, 'click', target(), {detail: fresh === 'keyboard' ? 0 : 1}); runBackQueue(h);
+            assert.deepEqual(h.keys, [control === 'property' ? 0x25 : control === 'person' ? 0x27 : 0x28]);
+            assert.deepEqual(h.writes, []);
+        });
+    }
+}
+
+test('an initially closed HD menu or an unsupported workflow never manufactures a PERSON restore ticket', () => {
+    for (const setup of [h => {h.hud.state.open = false;}, h => {h.hud.state.deepKind = 'person-qty';},
+        h => {h.hud.state.layer = 'sub';}, h => {h.hud.state.nativeMenuRequest = {pending: true};},
+        h => {h.hud.state.cityIndex = -1; h.march.mapCity = h.raw.g_hdMapCity = 0;}]) {
+        const h = personModeHarness(); setup(h); h.context.BayeHdCityMenu.setMode('classic');
+        assert.equal(h.hud.state.personModeResume, null); h.context.BayeHdCityMenu.setMode('hd');
+        assert.equal(h.hud.state.open, false); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('fresh keyboard activation works with an old property, person or Back press still held across real mode restoration', () => {
+    for (const control of ['property', 'person', 'back']) {
+        const h = personModeHarness();
+        const target = () => control === 'property' ? personPageButton(h, 'next') :
+            control === 'person' ? h.document.querySelectorAll('[data-hd-deep]')[0] : h.backButton;
+        dispatch(h, 'pointerdown', target());
+        h.context.BayeHdCityMenu.setMode('classic'); h.context.BayeHdCityMenu.setMode('hd');
+        assert.equal(h.hud.state.open, true);
+        dispatch(h, 'click', target(), {detail: 0}); runBackQueue(h);
+        assert.deepEqual(h.keys, [control === 'property' ? 0x25 : control === 'person' ? 0x27 : 0x28]);
+        assert.deepEqual(h.writes, []);
+    }
+});
+
+test('actual march mode restoration keeps its existing PERSONS path instead of using ordinary PERSON recovery', () => {
+    const h = personModeHarness(); Object.assign(h.hud.state, {marchSession: 7, marchOriginIndex: 0, battleMake: true});
+    Object.assign(h.march, {phase: 1, session: 7, origin: 0}); h.raw.g_hdMarchPhase = 1;
+    h.context.BayeHdCityMenu.setMode('classic'); assert.equal(h.hud.state.personModeResume, null);
+    h.context.BayeHdCityMenu.setMode('hd'); assert.equal(h.hud.state.open, true);
+    assert.equal(h.hud.state.deepKind, 'person-city'); assert.equal(h.hud.state.deepLabel, '出征');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const moment of ['owner-read', 'render']) {
+    test('temporary getter reentry during actual mode '+moment+' cannot resurrect its previous PERSON pane', () => {
+        const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic'); let changed = false;
+        h.context.baye.hd.menuItems = () => plain(h.menu);
+        if (moment === 'owner-read') h.context.baye.hd.report = () => {
+            if (!changed && h.storage.get('baye/cityMenuMode') === 'hd') {
+                changed = true; h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++;
+            } return {...h.report};
+        };
+        else h.context.baye.getCityName = () => {
+            if (!changed && h.storage.get('baye/cityMenuMode') === 'hd' && h.hud.state.open) {
+                changed = true; h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++;
+            } return '长安';
+        };
+        h.context.BayeHdCityMenu.setMode('hd'); assert.equal(changed, true);
+        assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.personProperties, null);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    });
+}
+
+test('getter reentry in the final public setMode render retires the resumed PERSON pane with no native input', () => {
+    const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic'); let changed = false;
+    h.context.baye.hd.menuItems = () => plain(h.menu);
+    h.context.baye.getCityName = () => {
+        const stack = new Error().stack;
+        if (!changed && h.storage.get('baye/cityMenuMode') === 'hd' && h.hud.state.open &&
+            /\bsetMenuMode\b/.test(stack) && !/\b(?:syncMode|resumePersonMode)\b/.test(stack)) {
+            changed = true; h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++;
+        }
+        return '长安';
+    };
+    h.context.BayeHdCityMenu.setMode('hd'); assert.equal(changed, true);
+    assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.personProperties, null);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('person property user labels stay readable while exact paint revisions remain in debug and DOM data', () => {
+    const h = personModeHarness(); h.personProps.custom = 0; paintPersonPage(h);
+    const text = h.document.getElementById('hd-city-menu-person-properties').textContent;
+    assert.match(text, /当前页 2；累计已查看 5 \/ 5 项/); assert.match(text, /此前读取/);
+    assert.doesNotMatch(text, /绘制代次|本次绘制|旧观察：标题/);
+    assert.equal(h.context.BayeHdCityMenu.debugSnapshot().personProperties.paintSeq, 41);
+    assert.equal(h.document.getElementById('hd-city-menu-person-properties-fields').getAttribute('data-hd-person-paint-seq'), '41');
+    const row = h.document.querySelectorAll('[data-hd-person-property]')[0];
+    assert.equal(row.getAttribute('data-hd-person-property-title-paint-seq'), '40');
+    assert.equal(row.getAttribute('data-hd-person-property-value-paint-seq'), '40');
+    assert.equal(h.document.getElementById('hd-city-menu-person-fields').querySelectorAll('.hd-city-menu-stat').length, 15);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('validated current custom properties replace fixed meanings while all fifteen raw fields remain diagnostic and portraits persist', () => {
+    const h = personPropertyHarness({count: 12}); h.person.Age = 7;
+    Object.assign(h.personProps.properties[0], {title: '兵种', value: '盾兵'});
+    Object.assign(h.personProps.properties[1], {title: '武力', value: String(h.person.Force)});
+    const slot = h.document.getElementById('hd-city-menu-person-portrait'), figure = element('figure');
+    slot.appendChild(figure); h.hud.fillDeepList();
+    const fields = h.document.getElementById('hd-city-menu-person-fields');
+    assert.equal(fields.getAttribute('data-hd-person-core-presentation'), 'custom-native');
+    assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, 0);
+    assert.match(fields.textContent, /此版本使用自定义人物属性，请以原生人物属性为准/);
+    assert.doesNotMatch(fields.textContent, /年龄|基础兵种/);
+    const native = h.document.getElementById('hd-city-menu-person-properties');
+    assert.match(native.textContent, /兵种盾兵/); assert.match(native.textContent, /武力91/);
+    const detail = h.context.BayeHdCityMenu.debugSnapshot().personDetail;
+    assert.equal(detail.groups.flatMap(group => group.rows).length, 15);
+    assert.equal(rows(detail).年龄, '7'); assert.equal(rows(detail).武力, '91');
+    assert.equal(detail.corePresentation, 'custom-native'); assert.equal(figure.parentElement, slot);
+    assert.equal(h.hud.lcdPresentation(), 'off'); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('same-owner custom/default changes invalidate the fixed-field render cache without altering person identity or raw fields', () => {
+    const h = personPropertyHarness({custom: false}), fields = h.document.getElementById('hd-city-menu-person-fields');
+    const initial = plain(h.hud.state.personDetail), owner = h.hud.state.deepMenuOwner.key;
+    assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, 15);
+    for (const custom of [1, 0, 1]) {
+        h.personProps.custom = custom; h.hud.fillDeepList();
+        assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, custom ? 0 : 15);
+        assert.equal(fields.getAttribute('data-hd-person-core-presentation'), custom ? 'custom-native' : 'default');
+        assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.equal(h.hud.state.personDetail.personIndex, initial.personIndex);
+        assert.deepEqual(plain(h.hud.state.personDetail.groups), initial.groups);
+        assert.equal(h.document.getElementById('hd-city-menu-person-fields'), fields);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('valid custom empty values and an unread current page never re-expose fixed semantic fields and keep LCD fallback', () => {
+    const h = personPropertyHarness({count: 12});
+    Object.assign(h.personProps.properties[0], {title: '实际空值', value: ''});
+    h.personProps.pageComplete = 0; h.hud.fillDeepList();
+    const fields = h.document.getElementById('hd-city-menu-person-fields');
+    assert.equal(fields.getAttribute('data-hd-person-core-presentation'), 'custom-native');
+    assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, 0);
+    const native = h.document.getElementById('hd-city-menu-person-properties');
+    assert.match(native.textContent, /实际空值（空）/); assert.match(native.textContent, /未读取/);
+    assert.match(native.textContent, /当前页未完整读取，请查看经典 LCD/);
+    assert.equal(h.hud.state.personProperties.properties[0].valueCaptured, true);
+    assert.equal(h.hud.state.personProperties.properties[7].valueCaptured, false);
+    assert.equal(h.hud.lcdPresentation(), 'on'); assert.equal(personPageButton(h, 'next').disabled, true);
+    assert.equal(h.hud.state.personDetail.groups.flatMap(group => group.rows).length, 15);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('a retired custom person owner or report takeover hides both property and fixed-field presentations', () => {
+    for (const change of ['seq', 'generation', 'report']) {
+        const h = personPropertyHarness();
+        if (change === 'seq') h.menu.seq++;
+        if (change === 'generation') { h.menu.generation++; h.menu.detailGeneration++; }
+        if (change === 'report') h.report.active = 1;
+        h.hud.renderPersonDetails();
+        assert.equal(h.hud.state.personDetail, null); assert.equal(h.hud.state.personProperties, null);
+        assert.equal(h.document.getElementById('hd-city-menu-person-details').hidden, true);
+        assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+// Equipment-card fixtures use the original packed GOODS table and current
+// full PERSON IDs. Legacy large-library/name-only fixtures above stay intact.
+function originalEquipmentFixture() {
+    const bytes = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
+    assert.equal(bytes.length, 207195);
+    function name(resource, index) {
+        const base = bytes.readUInt32LE((resource - 1) * 4), row = base + 14 + index * 8;
+        const offset = bytes.readUInt32LE(row), length = bytes.readUInt32LE(row + 4);
+        return new TextDecoder('gbk').decode(bytes.subarray(base + offset, base + offset + length)).replace(/\0.*$/s, '');
+    }
+    const base = bytes.readUInt32LE((66 - 1) * 4);
+    assert.equal(bytes.readUInt16LE(base + 4), 66);
+    assert.equal(bytes.readUInt32LE(base + 8), 33 * 66);
+    return { personName: id => name(62, id), tools: Array.from({length: 33}, (_, index) => {
+        const p = base + 14 + index * 66;
+        return {index, name: name(73, index), standard: true, generation: 3,
+            useFlag: bytes[p + 1], changeAttackRange: bytes[p + 32], attack: bytes[p + 62],
+            iq: bytes[p + 63], move: bytes[p + 64], arm: bytes[p + 65]};
+    }) };
+}
+function equipmentHarness(slots = [1, 23]) {
+    const h = harness(), original = originalEquipmentFixture();
+    h.tools = original.tools; h.personId = 20;
+    h.context.baye.getPersonCount = () => 200;
+    h.context.baye.getToolCount = () => h.tools.length;
+    h.context.baye.getToolName = id => { h.toolCalls.push(id); return h.tools[id]?.name ?? ''; };
+    h.context.baye.hd.toolDetails = id => { h.detailCalls.push(id); return h.tools[id] ? plain(h.tools[id]) : null; };
+    h.context.baye.hd.personProperties = () => null;
+    h.detailCalls = [];
+    h.people[20] = h.person;
+    h.people[19] = {...h.person, Equip: [0, 0], Tool1: 0, Tool2: 0};
+    h.person.Equip = slots.slice(); h.person.Tool1 = slots[0]; h.person.Tool2 = slots[1];
+    h.person.Belong = 1; h.people[19].Belong = 1;
+    h.city.Belong = 1; h.city.SatrapId = 20; h.raw.g_PlayerKing = 0;
+    h.queue.splice(7, 2, 20, 19);
+    for (const id of [0, 19, 20]) h.names.set(id, original.personName(id));
+    Object.assign(h.menu, {idsValid: true, ids: [20, 19], generation: 3, detailGeneration: 3,
+        itemLen: 8, names: [h.names.get(20), h.names.get(19)], packedNames: [h.names.get(20), h.names.get(19)]});
+    h.raw.g_hdDetailGeneration = 3;
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1};
+    h.setIdentity(h.identity);
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    h.renderEquipment = () => h.hud.renderPersonDetails();
+    return h;
+}
+function equipmentCards(h) { return plain(h.hud.state.personDetail?.equipment ?? []); }
+function visibleEquipmentNodes(h) {
+    const pane = h.document.getElementById('hd-city-menu-person-details');
+    return pane && !pane.hidden ? pane.querySelectorAll('.hd-city-menu-equipment-card') : [];
+}
+function assertNoEquipmentInput(h) { assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); }
+function assertEquipmentAbsent(h) {
+    assert.deepEqual(equipmentCards(h), []); assert.equal(visibleEquipmentNodes(h).length, 0); assertNoEquipmentInput(h);
+}
+
+test('equipment cards copy both actual original slots, all six tool fields and names without changing native fields', () => {
+    const h = equipmentHarness(), before = plain(h.raw); h.renderEquipment();
+    assert.equal(h.hud.state.personDetail.personIndex, 20); assert.equal(h.hud.state.personDetail.name, '吕布');
+    const cards = equipmentCards(h);
+    assert.deepEqual(cards.map(c => [c.slot, c.toolIndex, c.name, c.generation, c.source]),
+        [[0, 0, '方天画戟', 3, 'standard-tool-details'], [1, 22, '赤兔', 3, 'standard-tool-details']]);
+    assert.deepEqual(cards[0].properties, {useFlag: 0, attack: 10, iq: 0, move: 0, arm: 0, changeAttackRange: 0});
+    assert.deepEqual(cards[1].properties, {useFlag: 0, attack: 0, iq: 0, move: 3, arm: 0, changeAttackRange: 0});
+    assert.deepEqual(cards[0].rows.map(r => [r.field, r.label, r.value]), [
+        ['useFlag', '用法', '装备'], ['attack', '武力加成', '10'], ['iq', '智力加成', '0'],
+        ['move', '移动加成', '0'], ['arm', '兵种变化', '无'], ['changeAttackRange', '攻击范围', '不改变']]);
+    assert.deepEqual(plain(h.raw), before); assertNoEquipmentInput(h);
+    const nodes = visibleEquipmentNodes(h); assert.equal(nodes.length, 2);
+    assert.equal(nodes[0].tagName, 'ARTICLE'); assert.equal(nodes[0].children[0].textContent, '装备一 · 方天画戟');
+    assert.equal(nodes[1].children[0].textContent, '装备二 · 赤兔');
+    assert.equal(nodes[0].querySelectorAll('[data-hd-equipment-field]').length, 6);
+    assert.equal(nodes.flatMap(n => n.querySelectorAll('button')).length, 0);
+    assert.equal(nodes.flatMap(n => n.querySelectorAll('input')).length, 0);
+    const originalRows = rows(plain(h.hud.state.personDetail));
+    assert.equal(originalRows.装备一, '方天画戟（编号 1）'); assert.equal(originalRows.装备二, '赤兔（编号 23）');
+});
+for (const [slots, expected] of [[[1, 0], [[0, 0]]], [[0, 23], [[1, 22]]], [[0, 0], []]]) {
+    test('equipment cards retain the actual slot position for ' + slots.join('/'), () => {
+        const h = equipmentHarness(slots); h.renderEquipment();
+        assert.deepEqual(equipmentCards(h).map(c => [c.slot, c.toolIndex]), expected);
+        assert.equal(visibleEquipmentNodes(h).length, expected.length); assertNoEquipmentInput(h);
+        assert.equal(rows(plain(h.hud.state.personDetail))[slots[0] ? '装备二' : '装备一'], '无');
+    });
+}
+test('actual original conversion items retain use, arm and range semantics rather than index-derived labels', () => {
+    const h = equipmentHarness([31, 33]);
+    h.renderEquipment();
+    assert.deepEqual(equipmentCards(h).map(c => c.rows.filter(r => ['useFlag', 'arm'].includes(r.field)).map(r => r.value)),
+        [['使用', '极兵'], ['使用', '水军']]);
+    h.person.Equip = [32, 0]; h.renderEquipment();
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, '玄兵');
+    // These represent well-formed bridge values, exercising the documented raw
+    // range/arm mapping even where the current original table has zero range flags.
+    h.tools[31].arm = 9; h.tools[31].changeAttackRange = 1; h.renderEquipment();
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, '玄兵');
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'changeAttackRange').value, '改变（以战场为准）');
+    for (const [arm, expected] of ['无', '水军', '玄兵', '极兵', '骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'].entries()) {
+        h.tools[31].arm = arm; h.renderEquipment();
+        assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, expected);
+    }
+    h.tools[31].arm = 255; h.tools[31].changeAttackRange = 255; h.renderEquipment();
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, '原始码 255');
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'changeAttackRange').value, '改变（以战场为准）');
+    assertNoEquipmentInput(h);
+});
+test('equipment-card cache refreshes live tool values and slots while preserving the portrait and native names', () => {
+    const h = equipmentHarness(); h.renderEquipment();
+    const slot = h.document.getElementById('hd-city-menu-person-portrait'), figure = element('figure'); slot.appendChild(figure);
+    h.tools[0].attack = 11; h.renderEquipment(); assert.equal(equipmentCards(h)[0].properties.attack, 11);
+    h.person.Equip = [2, 0]; h.renderEquipment();
+    assert.deepEqual(equipmentCards(h).map(c => c.name), ['七星刀']); assert.equal(figure.parentElement, slot);
+    assert.equal(rows(plain(h.hud.state.personDetail)).装备一, '七星刀（编号 2）'); assertNoEquipmentInput(h);
+});
+test('the real standard population capacity may exceed the 200 current people without hiding valid equipment', () => {
+    const h = equipmentHarness(); h.people.length = 2000; h.renderEquipment();
+    assert.equal(equipmentCards(h).length, 2); assertNoEquipmentInput(h);
+});
+for (const [label, change] of [
+    ['pending LIB', h => h.setIdentity({...h.identity, status: 'pending'})],
+    ['custom LIB', h => h.setIdentity({...h.identity, sha256: 'custom'})],
+    ['wrong LIB byte length', h => h.setIdentity({...h.identity, byteLength: 207194})],
+    ['non-current LIB', h => h.setIdentity(h.identity, false)],
+    ['non-original population', h => { h.context.baye.getPersonCount = () => 786; }],
+    ['not-ready bridge', h => { h.context.baye.hd.ready = () => false; }],
+    ['custom person hook', h => { h.context.baye.hooks = {getPersonPropertyValue() { throw Error('must not execute'); }}; }],
+    ['custom tool hook', h => { h.context.baye.hooks = {getToolPropertyTitle() { throw Error('must not execute'); }}; }],
+    ['zero tool count', h => { h.context.baye.getToolCount = () => 0; }],
+    ['out-of-range slot', h => { h.person.Equip = [1, 34]; }],
+    ['fractional slot', h => { h.person.Equip = [1, 1.5]; }],
+    ['missing slot', h => { h.person.Equip = [1]; }],
+    ['unproven native IDs', h => { h.menu.idsValid = false; }],
+    ['incomplete packed names', h => { h.menu.packedNames.pop(); }],
+    ['missing item length', h => { delete h.menu.itemLen; }],
+    ['mismatched generation', h => { h.menu.generation = 4; }],
+    ['wrong full menu count', h => { h.menu.count = 3; }],
+    ['missing tool getter', h => { h.context.baye.hd.toolDetails = undefined; }],
+    ['missing second tool', h => { h.tools[22] = null; }],
+]) {
+    test('equipment cards fail closed for ' + label + ' without removing original name rows', () => {
+        const h = equipmentHarness(); change(h); h.renderEquipment(); assertEquipmentAbsent(h);
+        if (h.hud.state.personDetail) assert.equal(rows(plain(h.hud.state.personDetail)).装备一,
+            label === 'zero tool count' ? '道具编号 1（名称未读取）' : '方天画戟（编号 1）');
+    });
+}
+for (const [field, value] of [['standard', false], ['index', 1], ['generation', 4], ['name', ''], ['name', '-'],
+    ['useFlag', 2], ['attack', -1], ['iq', 256], ['move', 0.5], ['arm', '2'], ['changeAttackRange', null]]) {
+    test('one invalid equipped tool ' + field + '=' + String(value) + ' suppresses the entire pair', () => {
+        const h = equipmentHarness(); h.tools[22][field] = value; h.renderEquipment(); assertEquipmentAbsent(h);
+    });
+}
+for (const [label, change] of [
+    ['LIB generation', h => h.setIdentity({...h.identity, generation: 2})],
+    ['detail generation', h => { h.raw.g_hdDetailGeneration++; }],
+    ['menu sequence', h => { h.menu.seq++; }],
+    ['menu focus', h => { h.menu.index = 1; }],
+    ['full IDs order', h => { h.menu.ids.reverse(); }],
+    ['packed name', h => { h.menu.packedNames[0] += '变'; }],
+    ['slot replacement', h => { h.person.Equip[1] = 2; }],
+    ['tool count', h => { h.tools.pop(); }],
+    ['data identity', h => { h.context.baye.data = new Proxy(h.raw, {}); }],
+    ['bridge identity', h => { h.context.baye = {...h.context.baye}; }],
+    ['HD API identity', h => { h.context.baye.hd = {...h.context.baye.hd}; }],
+    ['tool getter identity', h => { h.context.baye.hd.toolDetails = id => plain(h.tools[id]); }],
+    ['getter reentry', h => h.hud.renderPersonDetails()],
+]) {
+    test('read-only tool getter reentry on ' + label + ' never publishes mixed equipment', () => {
+        const h = equipmentHarness(); let first = true;
+        const original = h.context.baye.hd.toolDetails;
+        h.context.baye.hd.toolDetails = id => {
+            const tool = original(id);
+            if (first) { first = false; change(h); }
+            return tool;
+        };
+        h.renderEquipment(); assertEquipmentAbsent(h);
+    });
+}
+test('two same-owner reads must agree on every equipped tool field, including a missing second read', () => {
+    for (const field of ['name', 'useFlag', 'attack', 'iq', 'move', 'arm', 'changeAttackRange', 'missing']) {
+        const h = equipmentHarness(); let reads = 0;
+        h.context.baye.hd.toolDetails = id => {
+            const value = plain(h.tools[id]);
+            if (id === 22 && ++reads === 2) {
+                if (field === 'missing') return null;
+                value[field] = field === 'name' ? '另一工具' : field === 'useFlag' ? 1 : value[field] + 1;
+            }
+            return value;
+        };
+        h.renderEquipment(); assertEquipmentAbsent(h);
+    }
+});
+test('custom-native person properties expose no standard equipment cards even under a verified original LIB', () => {
+    const h = equipmentHarness(), name = h.names.get(20);
+    h.context.baye.hd.personProperties = () => ({protocolVersion: 1, active: 1, complete: 1, pageComplete: 1,
+        custom: 1, generation: 3, detailGeneration: 3, context: 1, kind: 3, menuSeq: h.menu.seq,
+        paintSeq: 40, index: 0, person: 20, propertyCount: 1, pageIndex: 0, pageStart: 0, pageEnd: 1, name,
+        properties: [{index: 0, title: '自定义装备规则', value: '仅原生', captured: true,
+            titleCaptured: true, valueCaptured: true, titlePaintSeq: 40, valuePaintSeq: 40}]});
+    h.renderEquipment();
+    assert.equal(h.hud.state.personDetail.corePresentation, 'custom-native');
+    assertEquipmentAbsent(h); assert.equal(h.detailCalls.length, 0);
+});
+test('a tool snapshot exception and a report takeover retire cards rather than preserving an earlier pair', () => {
+    for (const kind of ['exception', 'report']) {
+        const h = equipmentHarness(); h.renderEquipment(); assert.equal(equipmentCards(h).length, 2);
+        h.context.baye.hd.toolDetails = () => { if (kind === 'exception') throw Error('read unavailable'); h.report.active = 1; return plain(h.tools[0]); };
+        h.renderEquipment(); assertEquipmentAbsent(h);
+    }
+});
+
+test('zero-based person zero and a fresh native highlight never inherit another person\'s equipment', () => {
+    const h = equipmentHarness(); h.people[0] = {...h.person, Equip: [2, 0]};
+    h.menu.ids = [0, 19]; h.menu.names[0] = h.names.get(0); h.menu.packedNames[0] = h.names.get(0); h.queue[7] = 0;
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu); h.renderEquipment();
+    assert.equal(h.hud.state.personDetail.personIndex, 0); assert.equal(equipmentCards(h)[0].name, '七星刀');
+    h.menu.index = 1; h.renderEquipment(); assert.equal(h.hud.state.personDetail.personIndex, 19); assertEquipmentAbsent(h);
+    h.menu.index = 0; h.renderEquipment(); assert.equal(equipmentCards(h)[0].toolIndex, 1); assertNoEquipmentInput(h);
+});
+test('equipment sampling keeps circular opaque native data out of diagnostic serialization', () => {
+    const h = equipmentHarness(); h.raw.self = h.raw;
+    h.raw.toJSON = () => { throw Error('native data must not be serialized'); };
+    h.renderEquipment(); assert.equal(equipmentCards(h).length, 2);
+    assert.doesNotThrow(() => JSON.stringify(h.context.BayeHdCityMenu.debugSnapshot())); assertNoEquipmentInput(h);
+});
+test('a menu getter changing the other equipment slot after its first read rejects the whole group', () => {
+    const h = equipmentHarness(); let changed = false;
+    h.context.baye.hd.menuItems = () => {
+        if (!changed && /\bsample\b/.test(new Error().stack)) { changed = true; h.person.Equip[1] = 2; }
+        return h.menu;
+    };
+    h.renderEquipment(); assert.equal(changed, true); assertEquipmentAbsent(h);
+});
+test('a lazy tool name getter cannot replace another equipped slot during the snapshot', () => {
+    const h = equipmentHarness(); let changed = false;
+    h.context.baye.hd.toolDetails = id => {
+        const value = {...h.tools[id]};
+        Object.defineProperty(value, 'name', {enumerable: true, get() {
+            if (!changed) { changed = true; h.person.Equip[1] = 2; }
+            return h.tools[id].name;
+        }});
+        return value;
+    };
+    h.renderEquipment(); assert.equal(changed, true); assertEquipmentAbsent(h);
+});
+
+// R03 decorative equipment coverage. Only the DOM namespace factory/faults are
+// supplied here; every row/icon is produced by the normal person renderer.
+function equipmentSvgDocument(h, mode) {
+    h.svgCalls = [];
+    h.equipmentFieldRewrites = 0;
+    if (mode !== 'no-svg') {
+        h.document.createElementNS = (namespace, tagName) => {
+            h.svgCalls.push({namespace, tagName});
+            if (mode === 'throws') throw Error('Controlled unavailable SVG creation');
+            const node = element(tagName);
+            node.namespaceURI = namespace;
+            return node;
+        };
+    }
+    if (mode === 'unknown-field') {
+        // Change only the DOM field identity at its normal assignment boundary;
+        // the measured native tool, displayed label/value and renderer stay real.
+        const create = h.document.createElement;
+        h.document.createElement = tagName => {
+            const node = create(tagName), set = node.setAttribute;
+            node.setAttribute = function (name, value) {
+                if (name === 'data-hd-equipment-field' && value === 'attack') {
+                    value = 'future-equipment-field';
+                    h.equipmentFieldRewrites++;
+                }
+                return set.call(this, name, value);
+            };
+            return node;
+        };
+    }
+    return h;
+}
+
+test('equipment semantic icons keep all six measured labels and values decorative through normal rendering', () => {
+    const h = equipmentSvgDocument(equipmentHarness([1, 0]), 'available'), before = plain(h.raw);
+    h.renderEquipment();
+    const cards = equipmentCards(h), nodes = visibleEquipmentNodes(h);
+    assert.equal(cards.length, 1); assert.equal(nodes.length, 1);
+    const actual = nodes[0].querySelectorAll('[data-hd-equipment-field]');
+    assert.equal(actual.length, 6);
+    assert.deepEqual(actual.map(row => row.getAttribute('data-hd-equipment-field')),
+        ['useFlag', 'attack', 'iq', 'move', 'arm', 'changeAttackRange']);
+    for (const [index, row] of actual.entries()) {
+        const expected = cards[0].rows[index], label = row.children[0], value = row.children[1];
+        assert.equal(label.textContent, expected.label); assert.equal(value.textContent, expected.value);
+        const icons = label.querySelectorAll('svg'); assert.equal(icons.length, 1);
+        const icon = icons[0];
+        assert.equal(icon.namespaceURI, 'http://www.w3.org/2000/svg');
+        assert.equal(icon.getAttribute('aria-hidden'), 'true'); assert.equal(icon.getAttribute('focusable'), 'false');
+        assert.equal(icon.getAttribute('data-hd-equipment-icon'), expected.field);
+        assert.ok(icon.querySelectorAll('path').some(path => (path.getAttribute('d') || '').trim().length > 0));
+        assert.equal(icon.querySelectorAll('title').length, 0); assert.equal(icon.getAttribute('aria-label'), null);
+        assert.equal(icon.getAttribute('tabindex'), null);
+        assert.ok([icon, ...walk(icon)].every(node => node.listeners.size === 0));
+        for (const tag of ['button', 'input', 'a']) assert.equal(row.querySelectorAll(tag).length, 0);
+    }
+    assert.ok(h.svgCalls.length > 0, 'The production renderer actually requested namespace SVG nodes');
+    assert.deepEqual(plain(h.raw), before); assertNoEquipmentInput(h);
+});
+
+test('equipment semantic icons retain text for unknown DOM fields, missing SVG and throwing SVG creation', () => {
+    for (const mode of ['unknown-field', 'no-svg', 'throws']) {
+        const h = equipmentSvgDocument(equipmentHarness([1, 0]), mode), before = plain(h.raw);
+        assert.doesNotThrow(() => h.renderEquipment(), mode);
+        const cards = equipmentCards(h), nodes = visibleEquipmentNodes(h);
+        assert.equal(cards.length, 1, mode); assert.equal(nodes.length, 1, mode);
+        const actual = nodes[0].querySelectorAll('[data-hd-equipment-field]'); assert.equal(actual.length, 6, mode);
+        for (const [index, row] of actual.entries()) {
+            const expected = cards[0].rows[index], label = row.children[0];
+            assert.equal(label.textContent, expected.label, mode); assert.equal(row.children[1].textContent, expected.value, mode);
+            const unknown = mode === 'unknown-field' && expected.field === 'attack';
+            assert.equal(row.getAttribute('data-hd-equipment-field'), unknown ? 'future-equipment-field' : expected.field);
+            const plainText = unknown || mode !== 'unknown-field';
+            assert.equal(label.querySelectorAll('svg').length, plainText ? 0 : 1, mode);
+            if (plainText) assert.equal(label.classList.contains('hd-city-menu-equipment-label'), false, mode);
+        }
+        if (mode === 'unknown-field') assert.equal(h.equipmentFieldRewrites, 1, 'The unknown identity fault actually reached one row');
+        if (mode === 'no-svg') assert.equal(h.svgCalls.length, 0);
+        else assert.ok(h.svgCalls.length > 0, mode + ' actually exercised the SVG factory');
+        assert.deepEqual(plain(h.raw), before, mode); assertNoEquipmentInput(h);
+    }
+});
+
+test('city resource semantic icons preserve five native fields and complete values through normal status rendering', () => {
+    const h = equipmentSvgDocument(harness(), 'available');
+    Object.assign(h.city, {Money: 65535, Food: 0, MothballArms: 43210, Persons: 200, Tools: 33, 金钱: 999});
+    const before = plain(h.raw), menuBefore = plain(h.menu);
+    h.hud.renderStatus();
+    const details = h.hud.state.cityDetails, sections = h.nodes['hd-city-menu-status'].querySelectorAll('.hd-city-menu-info-group');
+    assert.deepEqual(Object.keys(details), ['cityIndex', 'name', 'groups']);
+    for (const group of details.groups) for (const row of group.rows) {
+        assert.equal(Array.isArray(row), true); assert.equal(row.length, 2);
+        assert.deepEqual(Reflect.ownKeys(row), ['0', '1', 'length'], 'Public DTO rows retain only their original two cells');
+    }
+    const resource = sections.find(section => section.children[0].textContent === '资源与军备');
+    assert.ok(resource);
+    const expected = [
+        ['Money', '金钱', '65535'], ['Food', '粮食', '0'], ['MothballArms', '预备兵', '43210'],
+        ['Persons', '城内人物', '200'], ['Tools', '城内道具', '33']
+    ], actual = resource.querySelectorAll('.hd-city-menu-stat');
+    assert.equal(actual.length, 5);
+    assert.deepEqual(actual.map(row => row.getAttribute('data-hd-city-resource')), expected.map(row => row[0]));
+    for (const [index, row] of actual.entries()) {
+        const [field, title, value] = expected[index], label = row.children[0], number = row.children[1];
+        assert.equal(label.textContent, title); assert.equal(number.textContent, value);
+        const icons = label.querySelectorAll('svg'); assert.equal(icons.length, 1);
+        const icon = icons[0];
+        assert.equal(icon.namespaceURI, 'http://www.w3.org/2000/svg');
+        assert.equal(icon.getAttribute('data-hd-city-resource-icon'), field);
+        assert.equal(icon.getAttribute('aria-hidden'), 'true'); assert.equal(icon.getAttribute('focusable'), 'false');
+        assert.equal(icon.getAttribute('tabindex'), null); assert.equal(icon.getAttribute('aria-label'), null);
+        assert.equal(icon.querySelectorAll('title').length, 0);
+        assert.ok(icon.querySelectorAll('path').some(path => (path.getAttribute('d') || '').trim().length > 0));
+        assert.ok([icon, ...walk(icon)].every(node => node.listeners.size === 0));
+        for (const tag of ['button', 'input', 'a']) assert.equal(row.querySelectorAll(tag).length, 0);
+    }
+    for (const section of sections.filter(section => section !== resource)) {
+        assert.equal(section.querySelectorAll('svg').length, 0, 'Other city groups remain plain text');
+        assert.equal(section.querySelectorAll('[data-hd-city-resource]').length, 0);
+    }
+    const extra = sections.find(section => section.children[0].textContent === '其他属性');
+    assert.ok(extra); assert.equal(extra.querySelector('span').textContent, '金钱');
+    assert.equal(extra.querySelector('strong').textContent, '999', 'A same-label unknown source field is not the native Money row');
+    assert.deepEqual(plain(details.groups.find(group => group.title === '资源与军备').rows), expected.map(([, title, value]) => [title, value]));
+    assert.equal(h.svgCalls.filter(call => call.tagName === 'svg').length, 5, 'The production status renderer requested all five icons');
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assertNoEquipmentInput(h);
+});
+
+test('city resource semantic icons retain original text without SVG or trusted standard city labels', () => {
+    for (const mode of ['no-svg', 'throws', 'nonstandard', 'city-display-hook']) {
+        const h = equipmentSvgDocument(harness(), mode === 'no-svg' || mode === 'throws' ? mode : 'available');
+        let hookCalls = 0;
+        if (mode === 'nonstandard') h.setIdentity({status: 'ready', sha256: 'different-library', generation: 1});
+        if (mode === 'city-display-hook') h.context.baye.hooks = {
+            getCityPropertyDisplay() { hookCalls++; throw Error('Decorative rendering must not execute a city display hook'); }
+        };
+        const before = plain(h.raw), menuBefore = plain(h.menu);
+        assert.doesNotThrow(() => h.hud.renderStatus(), mode);
+        const resource = h.nodes['hd-city-menu-status'].querySelectorAll('.hd-city-menu-info-group')
+            .find(section => section.children[0].textContent === '资源与军备');
+        assert.ok(resource, mode);
+        const expected = [['Money', '金钱', '532'], ['Food', '粮食', '1790'], ['MothballArms', '预备兵', '975'],
+            ['Persons', '城内人物', '2'], ['Tools', '城内道具', '3']], actual = resource.querySelectorAll('.hd-city-menu-stat');
+        assert.equal(actual.length, 5, mode);
+        for (const [index, row] of actual.entries()) {
+            const [field, title, value] = expected[index], label = row.children[0];
+            assert.equal(label.textContent, title, mode); assert.equal(row.children[1].textContent, value, mode);
+            assert.equal(label.querySelectorAll('svg').length, 0, mode);
+            assert.equal(label.classList.contains('hd-city-menu-resource-label'), false, mode);
+            assert.equal(row.getAttribute('data-hd-city-resource'), mode === 'no-svg' || mode === 'throws' ? field : null, mode);
+        }
+        assert.deepEqual(plain(h.hud.state.cityDetails.groups.find(group => group.title === '资源与军备').rows),
+            expected.map(([, title, value]) => [title, value]), mode);
+        assert.equal(h.nodes['hd-city-menu-status'].querySelectorAll('svg').length, 0, mode);
+        assert.equal(hookCalls, 0, mode);
+        assert.equal(h.svgCalls.filter(call => call.tagName === 'svg').length, mode === 'throws' ? 5 : 0, mode);
+        assert.deepEqual(plain(h.raw), before, mode); assert.deepEqual(plain(h.menu), menuBefore, mode); assertNoEquipmentInput(h);
+    }
+});
+
+// Original selected-PERSON location. These fixtures exercise the normal
+// production renderer; they neither export the location reader nor write C data.
+let locationRomNames;
+function originalLocationNames() {
+    if (locationRomNames) return locationRomNames;
+    const bytes = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
+    assert.equal(bytes.length, 207195);
+    const decoder = new TextDecoder('gbk', {fatal: true});
+    function name(resource, index) {
+        const base = bytes.readUInt32LE((resource - 1) * 4), count = bytes.readUInt16LE(base + 6), fixed = bytes.readUInt32LE(base + 8);
+        assert.equal(bytes.readUInt16LE(base + 4), resource); assert.ok(index < count);
+        const row = base + 14 + index * 8, offset = fixed ? base + 14 + index * fixed : base + bytes.readUInt32LE(row), length = fixed || bytes.readUInt32LE(row + 4);
+        const raw = bytes.subarray(offset, offset + length), end = raw.indexOf(0);
+        return decoder.decode(end < 0 ? raw : raw.subarray(0, end));
+    }
+    locationRomNames = {people: Array.from({length: 200}, (_, id) => name(72, id)), cities: Array.from({length: 38}, (_, id) => name(58, id))};
+    assert.deepEqual([locationRomNames.people[29], locationRomNames.people[139], locationRomNames.cities[4], locationRomNames.cities[30]], ['崔琰', '朵思大王', '晋阳', '云南']);
+    return locationRomNames;
+}
+function locationHarness(personId = 139, {sourceText} = {}) {
+    const oldSource = process.env.BAYE_HD_PERSON_LOCATION_SOURCE;
+    const h = harness(sourceText !== undefined ? {sourceText} : oldSource ? {sourceText: readFileSync(oldSource, 'utf8')} : undefined), rom = originalLocationNames();
+    // C PERSON_MAX is physical2000; the verified original ROM exposes logical200.
+    h.people = Array.from({length: 2000}, () => ({...h.person, Belong: 0, OldBelong: 0, Equip: [0, 0], Tool1: 0, Tool2: 0}));
+    h.people[29].Belong = 1; h.people[139].Belong = 4; h.people[143].Belong = 4;
+    h.person = h.people[personId];
+    h.cities = Array.from({length: 38}, () => ({...h.city, Belong: 0, SatrapId: 0, PersonQueue: 0, Persons: 0}));
+    Object.assign(h.cities[4], {Belong: 1, PersonQueue: 5, Persons: 1});
+    Object.assign(h.cities[30], {Belong: 4, PersonQueue: 100, Persons: 2});
+    h.city = h.cities[4]; h.queue = Array(2000).fill(0); h.queue[5] = 29; h.queue[100] = 139; h.queue[101] = 143;
+    Object.assign(h.raw, {g_Cities: h.cities, g_Persons: h.people, g_PersonsQueue: h.queue,
+        g_engineConfig: {citiesCount: 38, enable16bitConsumeMoney: 0, fixAlienateComsumeThew: 0},
+        g_PlayerKing: 0, g_PIdx: 4, g_hdEngineReady: 1, g_hdDetailGeneration: 3});
+    // Real bridge objects retain identity. The legacy large-library fixture's
+    // intentionally uncached proxies above are not changed by this new scope.
+    const cache = new WeakMap();
+    h.readonlyLocation = function readonly(value, at = '') {
+        if (!value || typeof value !== 'object') return value;
+        if (cache.has(value)) return cache.get(value);
+        const proxy = new Proxy(value, {get(target, key) {return readonly(target[key], at + '.' + String(key));},
+            set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('location reader wrote native data');}});
+        cache.set(value, proxy); return proxy;
+    };
+    h.context.baye.data = h.readonlyLocation(h.raw); h.context.baye.ensureData = () => h.context.baye.data;
+    h.names.clear(); for (const [id, name] of rom.people.entries()) h.names.set(id, name);
+    h.cityNames = rom.cities.slice(); h.cityNameCalls = [];
+    h.context.baye.getCityName = id => {h.cityNameCalls.push(id); return h.cityNames[id] ?? '';};
+    h.context.baye.getPersonCount = () => 200; h.context.baye.getToolCount = () => 33;
+    h.context.baye.hd.personProperties = () => null;
+    const ids = personId === 29 ? [29] : [139, 143], index = ids.indexOf(personId);
+    Object.assign(h.menu, {active: 1, context: 1, kind: 3, seq: 9, count: ids.length, index,
+        generation: 3, detailGeneration: 3, idsValid: true, ids,
+        names: ids.map(id => rom.people[id]), packedNames: ids.map(id => rom.people[id].length === 4 ? rom.people[id].slice(0, 3) + '�' : rom.people[id]), itemLen: 8});
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1}; h.setIdentity(h.identity);
+    Object.assign(h.hud.state, {open: true, cityIndex: 4, cityName: '晋阳', layer: 'deep', deepKind: 'person', deepSelectionPending: null});
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    h.renderLocation = () => h.hud.renderPersonDetails();
+    return h;
+}
+function locationNodes(h) {
+    const pane = h.document.getElementById('hd-city-menu-person-details');
+    return pane && !pane.hidden ? pane.querySelectorAll('[data-hd-person-location]') : [];
+}
+function assertLocation(h, cityIndex, {queueStart, queueCount, queueOffset} = {}) {
+    const detail = h.hud.state.personDetail, id = h.menu.ids[h.menu.index], expectedCity = h.cities[cityIndex], nodes = locationNodes(h);
+    assert.ok(detail); assert.equal(nodes.length, 1, 'one current selected-person location row');
+    assert.deepEqual(plain(detail.location), {personIndex: id, cityIndex, name: h.cityNames[cityIndex], source: 'native-city-queue-first-match',
+        libraryGeneration: 1, detailGeneration: 3, menuSeq: h.menu.seq, nativeIndex: h.menu.index,
+        queueStart: queueStart ?? expectedCity.PersonQueue, queueCount: queueCount ?? expectedCity.Persons,
+        queueOffset: queueOffset ?? expectedCity.PersonQueue + h.queue.slice(expectedCity.PersonQueue, expectedCity.PersonQueue + expectedCity.Persons).indexOf(id)});
+    const row = nodes[0]; assert.equal(row.getAttribute('data-hd-person-location'), '1');
+    assert.equal(row.getAttribute('data-hd-person-location-city'), String(cityIndex));
+    assert.equal(row.children[0].textContent, '所在城市'); assert.equal(row.children[1].textContent, h.cityNames[cityIndex]);
+    assert.equal(row.parentElement.parentElement.children[0].textContent, '身份与经历');
+    assert.equal(detail.groups.flatMap(group => group.rows).length, 15, 'legacy raw core DTO stays fifteen fields');
+    assert.ok(detail.groups.every(group => group.rows.every(row => row.length === 2)));
+    for (const tag of ['button', 'a', 'input']) assert.equal(row.querySelectorAll(tag).length, 0);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    return row;
+}
+function assertLocationAbsent(h, reason) {
+    assert.equal(h.hud.state.personDetail?.location ?? null, null, reason); assert.equal(locationNodes(h).length, 0, reason);
+    assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+function installLocationNameFault(h, mutate) {
+    const original = h.context.baye.getCityName; let called = false;
+    h.context.baye.getCityName = function (id) {if (!called) {called = true; mutate(h);} return original(id);};
+    return () => called;
+}
+
+test('person location normal rendering follows actual native IDs for allied and foreign current people', () => {
+    for (const id of [29, 139, 143]) {
+        const h = locationHarness(id), before = plain(h.raw), menu = plain(h.menu); h.renderLocation();
+        assertLocation(h, id === 29 ? 4 : 30); assert.equal(h.hud.state.personDetail.personIndex, id);
+        if (id !== 29) assert.notEqual(h.hud.state.personDetail.location.cityIndex, h.hud.state.cityIndex, 'foreign location is not the active menu origin');
+        const heading = h.document.getElementById('hd-city-menu-person-name'); assert.equal(heading.textContent, h.names.get(id));
+        const groups = h.document.getElementById('hd-city-menu-person-fields').querySelectorAll('.hd-city-menu-info-group');
+        assert.equal(groups[0].querySelectorAll('.hd-city-menu-stat').length, 5);
+        assert.equal(groups[0].querySelectorAll('span')[0].textContent, '归属');
+        assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    }
+});
+
+test('person location preserves C first-city and first-offset semantics even under duplicate foreign prefixes', () => {
+    const h = locationHarness(); Object.assign(h.cities[1], {Belong: 2, PersonQueue: 20, Persons: 3});
+    h.queue[20] = 143; h.queue[21] = 139; h.queue[22] = 139;
+    const before = plain(h.raw); h.renderLocation(); assertLocation(h, 1, {queueStart: 20, queueCount: 3, queueOffset: 21});
+    assert.equal(h.hud.state.personDetail.ownership.value, 4, 'GetPersonCity does not filter by allegiance'); assert.deepEqual(plain(h.raw), before);
+});
+
+test('person location refreshes when only real city queues move the current person', () => {
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const old = locationNodes(h)[0], owner = h.hud.state.deepMenuOwner.key, menu = plain(h.menu);
+    h.queue[100] = 143; Object.assign(h.cities[31], {PersonQueue: 200, Persons: 1}); h.queue[200] = 139;
+    const before = plain(h.raw); h.renderLocation(); assertLocation(h, 31);
+    assert.notEqual(locationNodes(h)[0], old); assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.deepEqual(plain(h.menu), menu); assert.deepEqual(plain(h.raw), before);
+});
+
+test('person location accepts city zero and withholds missing255 without guessing the active city or travel state', () => {
+    const h = locationHarness(); Object.assign(h.cities[0], {PersonQueue: 30, Persons: 1}); h.queue[30] = 139;
+    h.renderLocation(); assertLocation(h, 0); h.cities[0].Persons = 0; h.queue[100] = 143;
+    const before = plain(h.raw); h.renderLocation(); assertLocationAbsent(h, 'no city queue contains the selected ID');
+    assert.deepEqual(plain(h.raw), before); assert.equal(h.hud.state.cityIndex, 4);
+    const fields = h.document.getElementById('hd-city-menu-person-fields'); assert.doesNotMatch(fields.textContent, /在途|正在移动|所在城市晋阳/);
+});
+
+test('person location withdraws for malformed original tables ranges and used IDs including data after the first match', () => {
+    for (const [label, mutate] of [
+        ['city count config', h => {h.raw.g_engineConfig.citiesCount = 37;}],
+        ['city table length', h => {h.cities.length = 37;}], ['truncated physical person binding', h => {h.people.length = 200;}],
+        ['queue ABI length', h => {h.queue.length = 1999;}], ['missing later city', h => {delete h.cities[37];}],
+        ['negative later range', h => {h.cities[37].PersonQueue = -1;}],
+        ['overflowing later range', h => {Object.assign(h.cities[37], {PersonQueue: 1999, Persons: 2});}],
+        ['invalid used ID after match', h => {h.queue[101] = 200;}],
+        ['invalid separate later ID', h => {Object.assign(h.cities[37], {PersonQueue: 1900, Persons: 1}); h.queue[1900] = 65535;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); mutate(h); h.renderLocation(); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location requires complete current PERSON ownership and never uses name-only or retired tickets', () => {
+    for (const [label, mutate] of [
+        ['retired menu', h => {h.menu.active = 0;}], ['wrong context', h => {h.menu.context = 2;}],
+        ['new sequence', h => {h.menu.seq++;}], ['generation', h => {h.menu.generation++; h.menu.detailGeneration++;}],
+        ['name-only list', h => {h.menu.idsValid = false;}],
+        ['native ID beyond original', h => {h.menu.ids[0] = 200;}], ['partial names', h => {h.menu.names = [h.menu.names[0]];}],
+        ['report takeover', h => {h.report.active = 1;}], ['hidden document', h => {h.document.hidden = true;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); mutate(h); h.renderLocation(); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location requires the current original library population and source identity', () => {
+    for (const [label, mutate] of [
+        ['unverified library', h => {h.setIdentity({...h.identity, status: 'pending'});}],
+        ['different library', h => {h.setIdentity({...h.identity, sha256: 'different'});}],
+        ['wrong library size', h => {h.setIdentity({...h.identity, byteLength: 207194});}],
+        ['identity no longer current', h => {h.setIdentity(h.identity, false);}],
+        ['non-original population', h => {h.context.baye.getPersonCount = () => 201;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); mutate(h); h.renderLocation(); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location refuses source and getter reference replacement during city-name reading even if values agree', () => {
+    for (const [label, mutate] of [
+        ['config ref', h => {h.raw.g_engineConfig = {...h.raw.g_engineConfig};}],
+        ['cities ref', h => {h.raw.g_Cities = h.cities.slice();}], ['queue ref', h => {h.raw.g_PersonsQueue = h.queue.slice();}],
+        ['people ref', h => {h.raw.g_Persons = h.people.slice();}], ['selected person ref', h => {h.people[139] = {...h.people[139]};}],
+        ['later city struct ref', h => {h.cities[37] = {...h.cities[37]};}],
+        ['person-count function', h => {h.context.baye.getPersonCount = () => 200;}],
+        ['city-name function', h => {h.context.baye.getCityName = id => h.cityNames[id] ?? '';}],
+        ['identity reader function', h => {h.context.BayeHdLibIdentity.read = () => h.identity;}],
+        ['identity current function', h => {h.context.BayeHdLibIdentity.isCurrent = value => value === h.identity;}],
+        ['identity API object', h => {h.context.BayeHdLibIdentity = {...h.context.BayeHdLibIdentity};}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const called = installLocationNameFault(h, mutate);
+        h.renderLocation(); assert.equal(called(), true, label + ' fault actually ran'); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location rejects whole relevant queue or range drift during an otherwise matching city-name call', () => {
+    for (const [label, mutate] of [
+        ['matched range', h => {h.cities[30].Persons = 1;}], ['unselected later range', h => {h.cities[37].PersonQueue = 1900;}],
+        ['current person changed during read', h => {h.menu.index = 1;}],
+        ['used queue after first match', h => {h.queue[101] = 29;}],
+        ['new earlier city match', h => {Object.assign(h.cities[1], {PersonQueue: 20, Persons: 1}); h.queue[20] = 139;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const called = installLocationNameFault(h, mutate);
+        h.renderLocation(); assert.equal(called(), true, label); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location withholds same-owner reentrant city-name reads and recovers on the next clean render', () => {
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const original = h.context.baye.getCityName;
+    let reentered = false; h.context.baye.getCityName = function (id) {if (!reentered) {reentered = true; h.hud.renderPersonDetails();} return original(id);};
+    const before = plain(h.raw); h.renderLocation(); assert.equal(reentered, true); assertLocationAbsent(h, 'one read cannot adopt its reentrant render');
+    assert.deepEqual(plain(h.raw), before); h.context.baye.getCityName = original; h.renderLocation(); assertLocation(h, 30); assert.deepEqual(plain(h.raw), before);
+});
+
+test('person location withdraws on throwing or unusable city-name results without preserving a prior row', () => {
+    for (const value of [null, '', ' ', '-']) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); h.context.baye.getCityName = () => value; h.renderLocation(); assertLocationAbsent(h, String(value));
+    }
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); let called = false;
+    h.context.baye.getCityName = () => {called = true; throw Error('native city name unavailable');};
+    assert.doesNotThrow(() => h.renderLocation()); assert.equal(called, true); assertLocationAbsent(h, 'exception');
+});
+
+test('person location respects current custom-native semantics and relevant hooks without replaying either hook', () => {
+    for (const hook of ['getPersonPropertyTitle', 'getPersonPropertyValue']) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); let calls = 0;
+        h.context.baye.hooks = {[hook]() {calls++; throw Error('extra native property hook');}};
+        h.renderLocation(); assertLocationAbsent(h, hook); assert.equal(calls, 0);
+    }
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30);
+    const props = {protocolVersion: 1, active: 1, complete: 0, pageComplete: 1, custom: 1, generation: 3, detailGeneration: 3,
+        context: 1, kind: 3, menuSeq: h.menu.seq, paintSeq: 40, index: h.menu.index, person: 139, propertyCount: 13,
+        pageIndex: 0, pageStart: 0, pageEnd: 1, name: h.names.get(139), properties: Array.from({length: 13}, (_, index) => ({index,
+            title: index === 0 ? '原生自定义标题' : '', value: index === 0 ? '原生自定义含义' : '', captured: index === 0,
+            titleCaptured: index === 0, valueCaptured: index === 0, titlePaintSeq: index === 0 ? 40 : 0, valuePaintSeq: index === 0 ? 40 : 0}))};
+    h.context.baye.hd.personProperties = () => plain(props); h.renderLocation(); assertLocationAbsent(h, 'current custom-native property table');
+    assert.equal(h.hud.state.personDetail.corePresentation, 'custom-native'); assert.equal(h.hud.state.personDetail.groups.flatMap(g => g.rows).length, 15);
+    assert.match(h.document.getElementById('hd-city-menu-person-properties').textContent, /原生自定义含义/);
+});
+
+// SURRENDER is the original target-first, actor-second ShowPersonControl loop.
+// These are normal renderer/input tests with a controlled C publication model;
+// the model never supplies a private JS role, approval flag or input ticket.
+// Its captive rows are synthetic test data, not evidence of a real capture.
+const surrenderSubNames = ['开垦', '招商', '搜寻', '治理', '出巡', '招降', '处斩', '流放', '赏赐', '没收', '交易', '宴请', '输送', '移动'];
+const surrenderRawFields = ['g_hdEngineReady', 'g_hdMapPick', 'g_hdMapCity', 'g_hdMapInputSeq', 'g_hdBattlePick',
+    'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq', 'g_hdMenuCount', 'g_hdMenuIndex',
+    'g_hdDetailGeneration', 'g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey',
+    'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady', 'g_hdQtyMin', 'g_hdQtyMax', 'g_hdQtyValue',
+    'g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchInputSeq', 'g_hdMarchOrigin', 'g_hdMarchSelected',
+    'g_hdMarchSeq', 'g_hdMarchOk', 'g_hdMarchCity', 'g_hdMarchObj', 'g_hdReportActive', 'g_hdReportSeq',
+    'g_hdReportInputSeq', 'g_hdReportKind', 'g_hdReportPerson', 'g_hdHelpActive', 'g_hdHelpInputSeq',
+    'g_hdFightActive', 'g_hdRecordActive', 'g_hdMovieActive', 'g_hdSpeActive', 'g_hdSkillActive',
+    'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdViewActive', 'g_hdMiniMapActive',
+    'g_hdGoodsActive', 'g_hdPersonPropertiesActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
+
+function surrenderHarness({mobile = false, subIndex = 5, seq = 10, duplicate = false, singleActor = false} = {}) {
+    const selectedSource = process.env.BAYE_HD_SURRENDER_SOURCE;
+    const h = locationHarness(139, {sourceText: selectedSource ? readFileSync(selectedSource, 'utf8') : read('js/hd-city-menu.js')});
+    const storage = new Map([['baye/cityMenuMode', 'hd'], ['baye/mobileCityMenuMode', 'hd'], ['baye/overworldMode', 'hd-map']]);
+    h.context.localStorage = {getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, String(value))};
+    h.context.innerWidth = mobile ? 844 : 1280; h.context.innerHeight = mobile ? 390 : 720;
+    h.context.dynLib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
+    h.context.baye.hooks = {};
+    h.raw.g_engineConfig.fixConsumeMoney = 0;
+    h.context.bayeQtyNativeClosed = () => false;
+    h.context.bayeQtyCloseInput = () => {};
+    let nameReadHook = null;
+    h.context.baye.getPersonName = id => {if (nameReadHook) nameReadHook(); return h.names.get(id) ?? '';};
+    h.people[139].Belong = h.people[143].Belong = 65535;
+    h.people[139].OldBelong = h.people[143].OldBelong = 4;
+    h.people[139].Arms = h.people[143].Arms = 0;
+    h.people[29].Belong = h.people[33].Belong = 1;
+    h.people[29].Thew = h.people[33].Thew = 100;
+    h.people[150].Belong = 0;
+    h.queue.fill(0);
+    const residents = singleActor ? [139, 29, 143, 150] : duplicate ? [139, 29, 139, 143, 33, 150] : [139, 29, 143, 33, 150];
+    residents.forEach((id, index) => {h.queue[5 + index] = id;});
+    Object.assign(h.cities[4], {Persons: residents.length, PersonQueue: 5, Belong: 1});
+    Object.assign(h.cities[30], {Persons: 0, PersonQueue: 100});
+    h.raw.g_OrderQueue = Array.from({length: 200}, () => ({OrderId: 255, City: 0, Person: 0, Object: 0, Money: 0, Food: 0, Arms: 0}));
+    for (const field of surrenderRawFields) h.raw[field] = 0;
+    Object.assign(h.raw, {g_hdEngineReady: 1, g_hdMapCity: 5, g_hdMapInputSeq: 40, g_hdDetailGeneration: 3,
+        g_hdQtySession: 2, g_hdQtyLastKey: 65535, g_hdQtyStep: 1, g_hdMarchOrigin: 255,
+        g_hdReportPerson: 65535, g_asyncActionID: 0});
+    Object.assign(h.qty, {protocol: true, active: 0, session: 2, inputSeq: 0, lastKey: 65535,
+        cursor: 0, step: 1, ready: 0, min: 0, max: 0, value: 0});
+    Object.assign(h.report, {active: 0, seq: 0, inputSeq: 0, kind: 0, person: 65535, text: ''});
+    Object.assign(h.help, {active: 0, seq: 0, inputSeq: 0});
+    const march = {pick: 0, battlePick: 0, mapCity: 5, mapInputSeq: 40, phase: 0, session: 0, inputSeq: 0,
+        origin: 255, selected: 0, seq: 0, ok: 0, city: 0, obj: 0};
+    h.context.baye.hd.march = () => plain(march);
+    h.context.baye.hd.fight = () => ({active: 0});
+    let propertyPaint = 40;
+    h.context.baye.hd.personProperties = () => {
+        if (!h.menu.active || h.menu.kind !== 3) return null;
+        const id = h.menu.ids[h.menu.index];
+        return {protocolVersion: 1, active: 1, complete: 0, pageComplete: 1, custom: 0,
+            generation: 3, detailGeneration: 3, context: 1, kind: 3, menuSeq: h.menu.seq,
+            paintSeq: propertyPaint, index: h.menu.index, person: id, propertyCount: 13, pageIndex: 0, pageStart: 0, pageEnd: 1,
+            name: h.names.get(id), properties: Array.from({length: 13}, (_, index) => ({index,
+                title: index === 0 ? ' 归属 ' : '', value: index === 0 ? (h.people[id].Belong === 65535 ? '俘虏' : '曹丕') : '',
+                captured: index === 0, titleCaptured: index === 0, valueCaptured: index === 0,
+                titlePaintSeq: index === 0 ? propertyPaint : 0, valuePaintSeq: index === 0 ? propertyPaint : 0}))};
+    };
+    const next = n => n === 0xffffffff ? 1 : n + 1;
+    const nativePending = [];
+    let role = 'sub', error = null, freezeKey = false, actorCommits = 0, actorCommitEffect = null;
+    function roleIds(which) {
+        return h.queue.slice(h.city.PersonQueue, h.city.PersonQueue + h.city.Persons)
+            .filter(id => h.people[id].Belong === (which === 'target' ? 65535 : h.city.Belong));
+    }
+    function publish(which, {menuSeq = h.menu.seq, index = 0, ids = null} = {}) {
+        role = which;
+        const active = which !== 'transition' && which !== 'map';
+        const kind = which === 'root' ? 1 : which === 'sub' ? 2 : active ? 3 : 0;
+        const values = ids || (kind === 3 ? roleIds(which) : []);
+        const names = !active ? (h.menu.packedNames || h.menu.names).slice() : which === 'root' ? ['内政', '外交', '军备', '状况'] :
+            which === 'sub' ? surrenderSubNames.slice() : values.map(id => h.names.get(id));
+        const count = active ? names.length : h.menu.count, currentIndex = active ? index : h.menu.index;
+        Object.assign(h.menu, {active: active ? 1 : 0, context: active ? 1 : 0, kind,
+            seq: menuSeq, count, index: currentIndex,
+            generation: 3, detailGeneration: 3, idsValid: kind === 3, ids: values.slice(),
+            names, packedNames: names.map(name => name.length === 4 ? name.slice(0, 3) + '�' : name), itemLen: 8});
+        Object.assign(h.raw, {g_hdMenuActive: h.menu.active, g_hdMenuContext: h.menu.context,
+            g_hdMenuKind: h.menu.kind, g_hdMenuSeq: h.menu.seq, g_hdMenuCount: h.menu.count, g_hdMenuIndex: h.menu.index,
+            g_hdPersonPropertiesActive: h.menu.kind === 3 ? 1 : 0, g_hdMapPick: which === 'map' ? 1 : 0});
+        march.pick = h.raw.g_hdMapPick;
+        if (kind === 3) propertyPaint = next(propertyPaint);
+        if (which === 'map') {march.mapInputSeq = h.raw.g_hdMapInputSeq = next(h.raw.g_hdMapInputSeq);}
+    }
+    function consume(key) {
+        if (freezeKey) return;
+        if (key === 34 || key === 35) {
+            nativePending.push(() => {h.menu.index += key === 34 ? -1 : 1; h.raw.g_hdMenuIndex = h.menu.index;}); return;
+        }
+        const old = h.menu.seq, before = role;
+        if (key !== 39 && key !== 40) return;
+        if (before === 'actor' && key === 39) {
+            actorCommits++;
+            if (!actorCommitEffect) return;
+            actorCommitEffect(h.menu.ids[h.menu.index]);
+        }
+        publish('transition', {menuSeq: next(old)});
+        if (before === 'target' && key === 39 && !roleIds('actor').length) {
+            // Native SurrenderMake reaches its no-person report before MAP.
+            Object.assign(h.raw, {g_hdReportActive: 1, g_hdReportKind: 1, g_hdReportPerson: 65535});
+            Object.assign(h.report, {active: 1, kind: 1, person: 65535, text: '本城没有可执行命令的将领'});
+            return;
+        }
+        if (before === 'sub' && key === 39) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
+        else if (before === 'target' && key === 39) nativePending.push(() => publish('actor', {menuSeq: next(next(old))}));
+        else if (before === 'actor' && key === 40) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
+        else if (before === 'actor' && key === 39) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
+        else if ((before === 'target' || before === 'root') && key === 40) nativePending.push(() => publish('map', {menuSeq: next(old)}));
+        else assert.fail('unexpected controlled SURRENDER key ' + key + ' at ' + before);
+    }
+    h.sendStacks = [];
+    h.context.sendKey = key => {h.keys.push(key); h.sendStacks.push(new Error('controlled send ' + key).stack); if (error) throw error; consume(key);};
+    h.context.baye.sendKey = h.context.sendKey;
+    h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', ''); h.root.appendChild(h.backButton);
+    h.root.contains = node => node === h.root || walk(h.root).includes(node);
+    const api = h.context.BayeHdCityMenu;
+    publish('sub', {menuSeq: seq, index: subIndex});
+    if (mobile) api.configureMobileHost({isAvailable: () => true});
+    Object.assign(h.hud.state, {open: true, cityIndex: 4, cityName: h.cityNames[4], layer: 'sub', subKind: 'neizheng',
+        deepKind: '', deepLabel: '', deepStep: 0, deepMenuOwner: null, deepSelectionPending: null, wizardStep: 'none'});
+    api.start();
+    const poll = h.intervals.at(-1);
+    const event = {detail: 1, isPrimary: true, button: 0, pointerId: 7};
+    function refresh() {poll(); h.hud.render();}
+    function click(button) {assert.ok(button, 'a current rendered button exists'); dispatch(h, 'click', button, event);}
+    function down(button) {assert.ok(button, 'a current rendered button exists'); dispatch(h, 'pointerdown', button, event); return button;}
+    function press(button) {down(button); click(button);}
+    function deep(index = 0) {
+        return h.document.querySelectorAll('[data-hd-deep]').find(button => button.getAttribute('data-hd-deep') === String(index));
+    }
+    function timersOnce() {const tasks = h.timers.splice(0); for (const task of tasks) task();}
+    function flush() {
+        // Each modeled C publication is explicit. There is no auto-reset or
+        // replay; production's own queued ACK continuation observes it next.
+        const tasks = nativePending.splice(0); for (const task of tasks) task();
+        timersOnce(); refresh();
+    }
+    function enter() {
+        const button = h.document.querySelectorAll('[data-hd-sub]').find(node => node.getAttribute('data-hd-sub') === '5');
+        press(button);
+    }
+    function world() {return plain({people: h.people, cities: h.cities, queue: h.queue, orders: h.raw.g_OrderQueue,
+        player: h.raw.g_PlayerKing, period: h.raw.g_PIdx, config: h.raw.g_engineConfig});}
+    return Object.assign(h, {api, storage, march, next, publish, roleIds, refresh, flush, timersOnce, enter,
+        deep, down, click, press, back: () => press(h.backButton), poll, nativePending, world,
+        stage: () => role, actorCommits: () => actorCommits,
+        setActorCommitEffect(value) {actorCommitEffect = value;},
+        setNameReadHook(value) {nameReadHook = value;},
+        setSendError(value) {error = value;}, setFreezeKey(value) {freezeKey = value;}});
+}
+function surrenderPresentation(h) {return h.api.debugSnapshot().surrenderPresentation ?? null;}
+function assertSurrender(h, role, captiveId = h.roleIds('target')[0]) {
+    const p = surrenderPresentation(h), title = role === 'target' ? '招降 · 选择俘虏' : '招降 · 选择招降将领';
+    assert.ok(p, 'source-bound SURRENDER presentation for ' + role);
+    assert.equal(p.role, role); assert.equal(p.title, title); assert.equal(p.cityIndex, 4);
+    assert.equal(p.menuSeq, h.menu.seq); assert.equal(p.detailGeneration, 3);
+    assert.deepEqual(plain(p.ids), h.roleIds(role));
+    const expectedTarget = role === 'actor' ? {personIndex: captiveId, name: h.names.get(captiveId)} : null;
+    assert.deepEqual(plain(p.target), expectedTarget);
+    const subtitle = h.document.getElementById('hd-city-menu-sub').textContent;
+    if (expectedTarget) assert.ok(subtitle.includes('目标 ' + expectedTarget.name));
+    else assert.ok(!subtitle.includes('目标 '));
+    const node = h.document.querySelectorAll('[data-hd-surrender-role]').find(item => item.getAttribute('data-hd-surrender-role') === role);
+    assert.ok(node); assert.equal(node.tagName, 'P'); assert.equal(node.textContent, title);
+    assert.equal(h.api.debugSnapshot().mobileHost, h.context.innerWidth === 844);
+    if (!h.api.debugSnapshot().mobileHost) assert.equal(h.api.getInputTicket(), null, 'PC does not acquire a mobile adapter capability');
+    return p;
+}
+function surrenderTarget(options) {
+    const h = surrenderHarness(options); h.enter(); assert.deepEqual(h.keys, [39]);
+    assert.equal(surrenderPresentation(h), null, 'no role is inferred before native target publication');
+    h.flush(); assertSurrender(h, 'target'); return h;
+}
+function surrenderActor(options) {
+    const h = surrenderTarget(options); h.press(h.deep(0));
+    assert.deepEqual(h.keys, [39, 39]); assert.equal(surrenderPresentation(h), null);
+    h.flush(); assertSurrender(h, 'actor'); return h;
+}
+function reopenSurrender(h) {
+    h.api.close({silent: true}); h.refresh();
+    h.api.setMode('classic'); h.api.setMode('hd'); h.refresh();
+}
+
+test('SURRENDER PC normal SUB entry follows captive target, actor cancellation, fresh target and MAP without business writes', () => {
+    const h = surrenderTarget(), before = h.world(), oldButton = h.deep(0), targetSeq = h.menu.seq;
+    assert.equal(h.hud.state.personDetail.personIndex, 139);
+    assert.equal(h.hud.state.personDetail.ownership.kind, 'captive');
+    h.press(oldButton); assert.equal(h.hud.state.layer, 'deep'); assert.equal(surrenderPresentation(h), null);
+    h.flush(); assertSurrender(h, 'actor'); assert.equal(h.menu.seq, h.next(h.next(targetSeq)));
+    assert.equal(h.hud.state.personDetail.personIndex, 29); assert.equal(h.actorCommits(), 0);
+    h.back(); assert.equal(surrenderPresentation(h), null); assert.equal(h.hud.state.layer, 'deep', 'EXIT waits for the new target owner');
+    h.flush(); assertSurrender(h, 'target');
+    h.click(oldButton); assert.deepEqual(h.keys, [39, 39, 40], 'old target DOM cannot confirm the newly published target');
+    h.back(); assert.equal(h.hud.state.layer, 'deep', 'target cancellation waits for native MAP');
+    h.flush(); assert.equal(surrenderPresentation(h), null); assert.equal(h.api.isOpen(), false);
+    assert.equal(h.march.pick, 1); assert.equal(h.menu.active, 0); assert.deepEqual(h.keys, [39, 39, 40, 40]);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+    const classic = surrenderTarget(), classicWorld = classic.world(), classicSeq = classic.menu.seq;
+    classic.api.setMode('classic');
+    // A real classic target cancellation is observed, without fabricating a
+    // private HD send/ACK receipt or replaying its EXIT through this model.
+    classic.publish('map', {menuSeq: classic.next(classicSeq)});
+    classic.api.setMode('hd'); classic.refresh();
+    assert.equal(classic.api.isOpen(), false); assert.equal(surrenderPresentation(classic), null);
+    assert.deepEqual(classic.keys, [39]); assert.deepEqual(classic.world(), classicWorld);
+    classic.publish('sub', {menuSeq: classic.next(classic.next(classic.menu.seq)), index: 5});
+    Object.assign(classic.hud.state, {open: true, cityIndex: 4, cityName: classic.cityNames[4], layer: 'sub', subKind: 'neizheng', deepKind: '', deepLabel: ''});
+    classic.refresh(); classic.enter();
+    assert.deepEqual(classic.keys, [39, 39], 'fresh classic return SUB entry sends one ENTER ' + JSON.stringify({
+        layer: classic.hud.state.layer, deepKind: classic.hud.state.deepKind, open: classic.hud.state.open,
+        nativeMenuRequest: classic.hud.state.nativeMenuRequest, nativeMenuCommit: classic.hud.state.nativeMenuCommit,
+        subKind: classic.hud.state.subKind, menu: classic.menu, mapPick: classic.raw.g_hdMapPick}));
+    classic.flush(); assertSurrender(classic, 'target');
+    assert.deepEqual(classic.keys, [39, 39], 'the retired classic flow does not block a fresh normal SUB entry');
+    assert.deepEqual(classic.writes, []);
+});
+
+test('SURRENDER explicitly configured mobile uses the same target-first flow and retains its own host boundary', () => {
+    const h = surrenderTarget({mobile: true}), before = h.world();
+    assert.equal(h.api.debugSnapshot().mobileHost, true);
+    h.press(h.deep(0)); h.flush(); assertSurrender(h, 'actor');
+    h.back(); h.flush(); assertSurrender(h, 'target'); h.back(); h.flush();
+    assert.deepEqual(h.keys, [39, 39, 40, 40]); assert.equal(h.api.isOpen(), false);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER mobile list pan drops a pressed row while preserving the current list and its owner', () => {
+    const h = surrenderTarget({mobile: true}), row = h.deep(0), owner = h.hud.state.deepMenuOwner;
+    h.down(row);
+    assert.equal(h.hud.state.deepPointerOwner.target, row);
+    h.api.retireInteraction('person-list-pan');
+    assert.equal(h.hud.state.deepPointerOwner, null);
+    assert.equal(h.hud.state.deepMenuOwner, owner);
+    h.refresh();
+    assert.equal(h.deep(0), row);
+    assert.deepEqual(h.keys, [39]);
+    h.press(row); h.flush(); assertSurrender(h, 'actor');
+    assert.deepEqual(h.keys, [39, 39]);
+});
+
+test('SURRENDER mobile reopens the city and returns from status to the map', () => {
+    const h = surrenderTarget({mobile: true}), before = h.world();
+    h.back(); h.flush();
+    assert.equal(h.stage(), 'map');
+    assert.equal(h.api.isOpen(), false);
+    h.publish('root', {menuSeq: h.next(h.menu.seq)});
+    assert.equal(h.api.open({cityIndex: 4}), true);
+    const status = element('button'); status.setAttribute('data-hd-root', '3');
+    h.nodes['hd-city-menu-root'].appendChild(status);
+    h.press(status);
+    assert.equal(h.hud.state.layer, 'status');
+    h.back();
+    assert.equal(h.hud.state.layer, 'root');
+    assert.deepEqual(h.keys, [39, 40]);
+    h.back(); h.flush();
+    assert.equal(h.stage(), 'map');
+    assert.equal(h.api.isOpen(), false);
+    assert.deepEqual(h.keys, [39, 40, 40]);
+    assert.deepEqual(h.world(), before);
+    assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER cannot adopt an unbound PERSON menu or a label-only generic pane', () => {
+    for (const mobile of [false, true]) {
+        const h = surrenderHarness({mobile}); h.publish('target', {menuSeq: 12});
+        Object.assign(h.hud.state, {layer: 'deep', deepKind: 'person', deepLabel: '招降'}); h.refresh();
+        assert.equal(surrenderPresentation(h), null);
+        assert.deepEqual(h.keys, [], 'a label and native IDs do not mint the private SURRENDER origin'); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SURRENDER derives ordered native captive and allied IDs including legal duplicate queue entries', () => {
+    const h = surrenderTarget({duplicate: true});
+    assert.deepEqual(plain(assertSurrender(h, 'target').ids), [139, 139, 143]);
+    assert.equal(h.deep(0).textContent.includes(h.names.get(139)), true);
+    assert.equal(h.deep(1).textContent.includes(h.names.get(139)), true);
+    h.press(h.deep(0)); h.flush(); assert.deepEqual(plain(assertSurrender(h, 'actor').ids), [29, 33]);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER SUB index selection requires native arrow ACK before ENTER and rechecks the original source', () => {
+    for (const mobile of [false, true]) {
+        const h = surrenderHarness({mobile, subIndex: 0}); h.enter(); assert.deepEqual(h.keys, [35]);
+        for (let arrows = 1; arrows < 5; arrows++) {
+            assert.equal(surrenderPresentation(h), null);
+            assert.equal(h.stage(), 'sub');
+            h.flush(); assert.deepEqual(h.keys, Array(arrows + 1).fill(35));
+        }
+        h.flush(); assert.deepEqual(h.keys, [35, 35, 35, 35, 35, 39]); assert.equal(surrenderPresentation(h), null);
+        h.flush(); assertSurrender(h, 'target');
+        const bad = surrenderHarness({mobile, subIndex: 4}); bad.enter(); assert.deepEqual(bad.keys, [35]);
+        bad.raw.g_engineConfig = {...bad.raw.g_engineConfig}; bad.flush();
+        assert.deepEqual(bad.keys, [35], 'config replacement between the acknowledged arrow and ENTER retires the request');
+        assert.equal(surrenderPresentation(bad), null); assert.deepEqual(bad.writes, []);
+    }
+});
+
+test('SURRENDER pending accepted ENTER cannot be reused by close or classic/HD before native role ACK', () => {
+    const h = surrenderTarget(), before = h.world(); h.setFreezeKey(true); h.press(h.deep(0));
+    assert.deepEqual(h.keys, [39, 39]); assert.equal(surrenderPresentation(h), null);
+    reopenSurrender(h); h.back(); const button = h.deep(0); if (button) h.press(button);
+    assert.deepEqual(h.keys, [39, 39]); assert.equal(surrenderPresentation(h), null);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER unknown ENTER preserves the exact exception and consumed role through close and mode cycles', () => {
+    for (const role of ['target', 'actor']) {
+        const h = role === 'target' ? surrenderTarget() : surrenderActor();
+        const original = new Error('unknown SURRENDER ' + role + ' ENTER transport'), before = h.keys.slice();
+        h.setSendError(original); assert.throws(() => h.press(h.deep(0)), error => error === original);
+        assert.deepEqual(h.keys, before.concat(39)); h.setSendError(null); reopenSurrender(h);
+        h.back(); const button = h.deep(0); if (button) h.press(button);
+        assert.deepEqual(h.keys, before.concat(39)); assert.equal(surrenderPresentation(h), null); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SURRENDER pending and unknown EXIT from either role remain one-shot across public presentation retirement', () => {
+    for (const role of ['target', 'actor']) for (const unknown of [false, true]) {
+        const h = role === 'target' ? surrenderTarget() : surrenderActor(), before = h.keys.slice();
+        const original = new Error('unknown SURRENDER ' + role + ' EXIT transport');
+        if (unknown) h.setSendError(original); else h.setFreezeKey(true);
+        if (unknown) assert.throws(() => h.back(), error => error === original); else h.back();
+        assert.deepEqual(h.keys, before.concat(40)); h.setSendError(null); reopenSurrender(h); h.back();
+        assert.deepEqual(h.keys, before.concat(40)); assert.equal(surrenderPresentation(h), null);
+        assert.equal(h.actorCommits(), 0); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SURRENDER true fresh actor and target ACKs retire consumed reservations without authorizing a stale menu', () => {
+    const h = surrenderTarget(), original = new Error('unknown but later observed native target ENTER');
+    const targetSeq = h.menu.seq; h.setSendError(original);
+    assert.throws(() => h.press(h.deep(0)), error => error === original); h.setSendError(null);
+    h.publish('actor', {menuSeq: h.next(h.next(targetSeq))}); h.refresh(); assertSurrender(h, 'actor');
+    h.back(); h.flush(); assertSurrender(h, 'target');
+    h.press(h.deep(1)); h.flush(); h.flush(); assertSurrender(h, 'actor', 143); h.back(); h.flush();
+    h.back(); h.flush(); assert.deepEqual(h.keys, [39, 39, 40, 35, 39, 40, 40]);
+    assert.equal(h.actorCommits(), 0); assert.equal(h.api.isOpen(), false); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER paired presses reject source, sender, queue, native owner and library drift before any new key', () => {
+    const changes = {
+        data(h) {h.context.baye.data = h.readonlyLocation({...h.raw});},
+        config(h) {h.raw.g_engineConfig = {...h.raw.g_engineConfig};},
+        cities(h) {h.raw.g_Cities = h.cities.slice();},
+        queue(h) {h.raw.g_PersonsQueue = h.queue.slice();},
+        'queue-content'(h) {h.queue[5] = 143;},
+        'queue-range'(h) {h.city.Persons--;},
+        sender(h) {h.context.sendKey = key => h.keys.push(key);},
+        'engine-sender'(h) {h.context.baye.sendKey = key => h.keys.push(key);},
+        library(h) {h.setIdentity({...h.identity, generation: 2});},
+        'identity-reader'(h) {h.context.BayeHdLibIdentity.read = () => h.identity;},
+        'identity-current'(h) {h.context.BayeHdLibIdentity.isCurrent = () => true;},
+        'person-name-reader'(h) {h.context.baye.getPersonName = id => h.names.get(id) ?? '';},
+        'person-count-reader'(h) {h.context.baye.getPersonCount = () => 200;},
+        'hooks-object'(h) {h.context.baye.hooks = {};},
+        'city-command'(h) {h.context.baye.hooks.cityMakeCommand = () => {assert.fail('custom command hook must not be replayed');};},
+        hooks(h) {h.context.baye.hooks.getPersonPropertyValue = () => {throw Error('must not invoke custom hook');};},
+        'native-seq'(h) {h.menu.seq = h.raw.g_hdMenuSeq = h.next(h.menu.seq);},
+        'native-ids'(h) {h.menu.ids.reverse(); h.menu.names.reverse(); h.menu.packedNames.reverse();},
+        'detail-generation'(h) {h.menu.generation = h.menu.detailGeneration = h.raw.g_hdDetailGeneration = 4;}
+    };
+    for (const [name, change] of Object.entries(changes)) {
+        const h = surrenderTarget(), button = h.down(h.deep(0)), before = h.keys.slice();
+        change(h); h.click(button);
+        assert.deepEqual(h.keys, before, name); h.refresh();
+        assert.equal(surrenderPresentation(h), null, name); assert.deepEqual(h.writes, [], name);
+    }
+});
+
+test('SURRENDER rejects wrong role members, sequence jumps and active overlays rather than guessing a return', () => {
+    for (const problem of ['allied-target', 'captive-actor', 'seq-jump', 'report', 'help', 'qty']) {
+        const h = surrenderTarget(), before = h.keys.slice();
+        if (problem === 'allied-target') h.publish('target', {ids: [29, 33]});
+        if (problem === 'captive-actor' || problem === 'seq-jump') {
+            h.press(h.deep(0)); before.push(39);
+            h.nativePending.splice(0);
+            h.publish('actor', {menuSeq: problem === 'seq-jump' ? h.next(h.menu.seq) + 2 : h.next(h.menu.seq),
+                ids: problem === 'captive-actor' ? [139, 143] : [29, 33]});
+        }
+        if (problem === 'report') {h.raw.g_hdReportActive = h.report.active = 1;}
+        if (problem === 'help') {h.raw.g_hdHelpActive = h.help.active = 1;}
+        if (problem === 'qty') {h.raw.g_hdQtyActive = h.qty.active = 1;}
+        h.refresh(); assert.equal(surrenderPresentation(h), null, problem); h.back();
+        const button = h.deep(0); if (button) h.press(button);
+        assert.deepEqual(h.keys, before, problem); assert.equal(h.actorCommits(), 0); assert.deepEqual(h.writes, [], problem);
+    }
+});
+
+test('SURRENDER same-owner synchronous bridge reentry cannot publish or consume a partially read source', () => {
+    for (const method of ['render-and-back', 'person-detail', 'person-properties', 'public-diagnostic']) {
+        const h = surrenderTarget(); let reads = 0, inside = false;
+        // The native name reader's original reference is installed before entry.
+        // Its callback changes behavior without a replacement-ref shortcut.
+        h.setNameReadHook(() => {
+            if (inside) return;
+            inside = true;
+            try {
+                reads++;
+                if (method === 'render-and-back') {h.hud.render(); h.back();}
+                if (method === 'person-detail') h.hud.renderPersonDetails();
+                if (method === 'person-properties') h.hud.renderPersonProperties();
+                if (method === 'public-diagnostic') h.api.debugSnapshot();
+            } finally {inside = false;}
+        });
+        const traceLimit = Error.stackTraceLimit; Error.stackTraceLimit = 64;
+        try {h.refresh();} finally {Error.stackTraceLimit = traceLimit;}
+        assert.ok(reads > 0, method); assert.equal(surrenderPresentation(h), null, method);
+        assert.deepEqual(h.keys, [39], method + '\n' + h.sendStacks.join('\n')); assert.deepEqual(h.writes, [], method);
+        h.setNameReadHook(null); h.refresh(); assertSurrender(h, 'target'); assert.equal(h.actorCommits(), 0);
+    }
+});
+
+test('SURRENDER actor confirmation can remove the final allied resident before a fresh captive target and its single EXIT', () => {
+    for (const terminalKey of [40, 39]) {
+        const h = surrenderActor({singleActor: true}), oldSeq = h.menu.seq;
+        assert.deepEqual(h.roleIds('actor'), [29]);
+        h.setActorCommitEffect(id => {
+            // Model only C DelPerson's resident-list effect. This is not an actual
+            // recruitment/order/fee result and earns no real business credit.
+            const start = h.city.PersonQueue, count = h.city.Persons;
+            const offset = h.queue.slice(start, start + count).indexOf(id); assert.ok(offset >= 0);
+            for (let i = start + offset; i < start + count - 1; i++) h.queue[i] = h.queue[i + 1];
+            h.queue[start + count - 1] = 0; h.city.Persons--;
+        });
+        h.press(h.deep(0)); assert.deepEqual(h.keys, [39, 39, 39]); assert.equal(surrenderPresentation(h), null);
+        h.flush(); assert.equal(h.menu.seq, h.next(h.next(oldSeq))); assert.deepEqual(h.roleIds('actor'), []);
+        assertSurrender(h, 'target'); assert.deepEqual(h.roleIds('target'), [139, 143]);
+        if (terminalKey === 40) {h.back(); h.flush();}
+        else {
+            h.press(h.deep(0)); h.refresh(); assert.equal(surrenderPresentation(h), null); assert.equal(h.api.isOpen(), true);
+            // Observe only the eventual C report completion/MAP publication.
+            // No HD report ACK or report-success assertion is supplied here.
+            Object.assign(h.raw, {g_hdReportActive: 0, g_hdReportKind: 0}); Object.assign(h.report, {active: 0, kind: 0, text: ''});
+            h.publish('map'); h.refresh();
+        }
+        assert.equal(h.api.isOpen(), false); assert.equal(surrenderPresentation(h), null);
+        assert.deepEqual(h.keys, [39, 39, 39, terminalKey]); assert.equal(h.actorCommits(), 1); assert.deepEqual(h.writes, []);
+    }
+});
+
+// Real interval observation, without the fixture's refresh()/forced render.
+// A DEPARTED march and inactive quantity/report retain their original payloads.
+test('SURRENDER PC interval alone observes delayed PERSON ACK with retained departed-march report and quantity', () => {
+    const h = surrenderHarness(), before = h.world();
+    Object.assign(h.march, {phase: 7, session: 1, inputSeq: 12, origin: 15, selected: 3, seq: 1,
+        ok: 0, city: 15, obj: 16, mapInputSeq: 7});
+    Object.assign(h.raw, {g_hdMarchPhase: 7, g_hdMarchSession: 1, g_hdMarchInputSeq: 12, g_hdMarchOrigin: 15,
+        g_hdMarchSelected: 3, g_hdMarchSeq: 1, g_hdMarchOk: 0, g_hdMarchCity: 15, g_hdMarchObj: 16, g_hdMapInputSeq: 7,
+        g_hdReportSeq: 12, g_hdReportInputSeq: 26, g_hdReportKind: 2, g_hdReportPerson: 20,
+        g_hdQtySession: 13, g_hdQtyInputSeq: 1, g_hdQtyLastKey: 39, g_hdQtyCursor: 3, g_hdQtyMin: 1,
+        g_hdQtyMax: 1140, g_hdQtyValue: 1140});
+    Object.assign(h.report, {active: 0, seq: 12, inputSeq: 26, kind: 2, person: 20, text: '许昌  出现  暴动，须尽快治理。'});
+    Object.assign(h.qty, {active: 0, session: 13, inputSeq: 1, lastKey: 39, cursor: 3, min: 1, max: 1140, value: 1140});
+    h.hud.state.consumedMarchSeq = 1;
+    const reportBefore = plain(h.report), quantityBefore = plain(h.qty);
+    function nativePublicationAndPoll() {
+        const callbacks = h.nativePending.splice(0); assert.equal(callbacks.length, 1, 'one native publication');
+        callbacks[0](); h.poll();
+    }
+    h.enter(); assert.deepEqual(h.keys, [39]); assert.equal(surrenderPresentation(h), null);
+    nativePublicationAndPoll(); assertSurrender(h, 'target');
+    assert.equal(h.hud.state.deepMenuOwner.seq, h.menu.seq); assert.equal(h.hud.state.personDetail.personIndex, 139);
+    assert.equal(h.hud.state.personProperties.paintSeq, h.context.baye.hd.personProperties().paintSeq);
+    h.press(h.deep(0)); assert.equal(surrenderPresentation(h), null);
+    nativePublicationAndPoll(); assertSurrender(h, 'actor');
+    assert.equal(h.hud.state.personDetail.personIndex, 29);
+    h.back(); nativePublicationAndPoll(); assertSurrender(h, 'target');
+    h.back(); nativePublicationAndPoll(); assert.equal(surrenderPresentation(h), null); assert.equal(h.api.isOpen(), false);
+    assert.deepEqual(h.keys, [39, 39, 40, 40]); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+    assert.deepEqual(plain(h.report), reportBefore); assert.deepEqual(plain(h.qty), quantityBefore);
+    assert.equal(h.march.phase, 7); assert.equal(h.march.inputSeq, 12); assert.equal(h.actorCommits(), 0);
+});
+
+// The arranged-orders surface reads the original physical tables. Actors have
+// already left the resident queue after C DelPerson; that is not a missing actor.
+function plansHarness(options) {
+    const h = harness(options), cache = new WeakMap();
+    h.people = Array.from({length: 2000}, () => ({Belong: 0}));
+    for (const id of [0, 20, 22, 199]) h.people[id].Belong = 1;
+    h.people[70].Belong = 2; h.people[71].Belong = 65535;
+    h.cities = Array.from({length: 38}, () => ({...h.city, Belong: 2, SatrapId: 0, Persons: 0, PersonQueue: 0}));
+    h.city = h.cities[0]; Object.assign(h.city, {Belong: 1, Persons: 1, PersonQueue: 10});
+    h.queue = Array(2000).fill(0); h.queue[10] = 0;
+    h.orders = Array.from({length: 200}, () => ({OrderId: 255, Person: 0, City: 0,
+        Object: 0, Money: 0, Food: 0, Arms: 0, Consume: 0, TimeCount: 0}));
+    h.fighterIndex = Array(30).fill(0); h.fighters = Array(600).fill(0);
+    Object.assign(h.raw, {g_Cities: h.cities, g_Persons: h.people, g_PersonsQueue: h.queue,
+        g_OrderQueue: h.orders, FIGHTERS_IDX: h.fighterIndex, FIGHTERS: h.fighters,
+        g_engineConfig: {citiesCount: 38}, g_PlayerKing: 0, g_PIdx: 1, g_YearDate: 190, g_MonthDate: 1,
+        g_hdEngineReady: 1, g_hdDetailGeneration: 3, g_hdMapCity: 1, g_hdMapPick: 0,
+        g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 1, g_hdMenuSeq: 8,
+        g_hdMenuCount: 4, g_hdMenuIndex: 3, g_hdReportActive: 0, g_hdHelpActive: 0,
+        g_hdQtyActive: 0, g_hdFightActive: 0, g_hdMarchPhase: 0});
+    h.readonlyPlans = function readonly(value, at = '') {
+        if (!value || typeof value !== 'object') return value;
+        if (cache.has(value)) return cache.get(value);
+        const proxy = new Proxy(value, {get(target, key) {return readonly(target[key], at + '.' + String(key));},
+            set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('plans reader wrote native data');}});
+        cache.set(value, proxy); return proxy;
+    };
+    h.context.baye.data = h.readonlyPlans(h.raw); h.context.baye.ensureData = () => h.context.baye.data;
+    h.context.baye.hooks = {};
+    h.context.dynLib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
+    h.context.baye.getPersonCount = () => 200; h.context.baye.hdCityLimit = () => 38;
+    h.names.clear(); for (let id = 0; id < 200; id++) h.names.set(id, '人物' + id);
+    h.names.set(0, '董卓'); h.names.set(20, '吕布'); h.names.set(22, '张辽');
+    h.personCalls = []; h.cityCalls = []; let nameHook = null;
+    h.context.baye.getPersonName = id => {h.personCalls.push(id); if (nameHook) nameHook(id); return h.names.get(id) ?? '';};
+    h.context.baye.getCityName = id => {h.cityCalls.push(id); return id === 0 ? '洛阳' : id === 16 ? '许昌' : '城' + id;};
+    Object.assign(h.menu, {active: 1, context: 1, kind: 1, seq: 8, generation: 3, detailGeneration: 3,
+        count: 4, index: 3, names: ['内政', '外交', '军备', '状况'], idsValid: false, ids: []});
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1}; h.setIdentity(h.identity);
+    Object.assign(h.hud.state, {open: true, cityIndex: 0, cityName: '洛阳', layer: 'status', deepKind: '',
+        deepMenuOwner: null, deepSelectionPending: null});
+    h.renderPlans = () => h.hud.renderStatus();
+    h.plan = (slot, orderId, person = 20, values = {}) => Object.assign(h.orders[slot], {OrderId: orderId, City: 0, Person: person}, values);
+    h.army = (slot, personIds) => {
+        h.fighterIndex[slot] = 1;
+        for (let i = 0; i < 10; i++) {
+            const id = personIds[i] == null ? 0 : personIds[i] + 1, offset = slot * 20 + i * 2;
+            h.fighters[offset] = id & 255; h.fighters[offset + 1] = id >>> 8;
+        }
+    };
+    h.nameHook = value => {nameHook = value;};
+    vm.runInContext(read('js/hd-city-plans.js'), h.context, {filename: 'js/hd-city-plans.js'});
+    return h;
+}
+function plansPane(h) {return h.nodes['hd-city-menu-status'].querySelector('[data-hd-city-plans]');}
+function planRows(h) {
+    const pane = plansPane(h); return pane ? pane.querySelectorAll('[data-hd-city-order]').map(row => {
+        assert.equal(row.children[0].tagName, 'SPAN'); assert.equal(row.children[1].tagName, 'STRONG');
+        return {slot: Number(row.getAttribute('data-hd-city-order')), order: Number(row.getAttribute('data-hd-city-order-id')),
+            label: row.children[0].textContent, value: row.children[1].textContent};
+    }) : [];
+}
+function assertPlansAbsent(h, reason) {
+    assert.equal(plansPane(h), null, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+
+test('arranged city plans show ordinary actors and all nonzero army members in exact queue order', () => {
+    const h = plansHarness();
+    h.plan(3, 24); h.plan(7, 13, 22, {Object: 16, Food: 1200, Money: 150, Arms: 300}); h.army(2, [20, null, 22, 20, null, null, null, null, null, 199]);
+    h.plan(170, 27, 2, {Object: 16, Food: 1200});
+    const before = plain(h.raw), menu = plain(h.menu); h.renderPlans();
+    assert.equal(plansPane(h)?.tagName, 'SECTION');
+    assert.match(plansPane(h).querySelector('h3').textContent, /^本月已安排事务（3）$/);
+    assert.deepEqual(planRows(h), [{slot: 3, order: 24, label: '征兵', value: '吕布'},
+        {slot: 7, order: 13, label: '输送', value: '张辽 → 许昌 · 粮食 1200 · 金钱 150 · 预备兵 300'},
+        {slot: 170, order: 27, label: '出征', value: '吕布、张辽、吕布、人物199 → 许昌 · 携粮 1200'}]);
+    assert.equal(h.queue.slice(h.city.PersonQueue, h.city.PersonQueue + h.city.Persons).includes(20), false);
+    for (const tag of ['button', 'input', 'a']) assert.equal(plansPane(h).querySelectorAll(tag).length, 0);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+// Rule hints belong to a real native city SUB, never to a retained PERSON
+// label. ROOT and SUB are published separately, as the C menus publish them.
+const cityRuleNames = ['开垦', '招商', '搜寻', '治理', '出巡', '招降', '处斩', '流放', '赏赐', '没收', '交易', '宴请', '输送', '移动'];
+const cityRuleGroups = {neizheng: cityRuleNames, waijiao: ['离间', '招揽', '策反', '反间', '劝降'],
+    junbei: ['侦察', '征兵', '分配', '掠夺', '出征']};
+const cityRuleHooks = ['cityMakeCommand', 'willOpenMenu', 'willChangeMenuSelection', 'onMenuIdle',
+    'willCloseMenu', 'willAddOrder', 'willExecuteOrder', 'willGiveTool', 'willTakeOffTool'];
+function rulesHarness({spyClicks = false} = {}) {
+    let sourceText = read('js/hd-city-menu.js');
+    if (spyClicks) {
+        assert.ok(sourceText.includes('function chooseSub(index) {'));
+        sourceText = sourceText.replace('function chooseSub(index) {',
+            'function chooseSub(index) { if (global.__ruleChooseSub) { global.__ruleChooseSub(index); return; }');
+    }
+    const h = plansHarness({sourceText});
+    h.config = {citiesCount: 38, enable16bitConsumeMoney: 0, fixConsumeMoney: 0, fixThewOverFlow: 0,
+        fixAlienateComsumeThew: 0, armsPerMoney: 10};
+    h.raw.g_engineConfig = h.config;
+    Object.assign(h.hud.state, {layer: 'root', subKind: '', deepKind: '', deepLabel: '', listKind: ''});
+    Object.assign(h.menu, {index: 0, itemLen: 5, packedNames: h.menu.names.slice()}); h.raw.g_hdMenuIndex = 0;
+    h.root.contains = node => node === h.root || walk(h.root).includes(node);
+    h.subClicks = []; h.context.__ruleChooseSub = index => h.subClicks.push(index);
+    vm.runInContext(read('js/hd-city-rules.js'), h.context, {filename: 'js/hd-city-rules.js'});
+    h.readRules = (cityIndex = 0, kind = 'neizheng') => {const dto = h.context.BayeHdCityRules.read(cityIndex, kind); return dto === null ? null : plain(dto);};
+    h.publishRuleSub = (index = 0, kind = 'neizheng') => {
+        const names = cityRuleGroups[kind]; assert.ok(names);
+        Object.assign(h.menu, {active: 1, context: 1, kind: 2, seq: 9, count: names.length, index,
+            generation: 3, detailGeneration: 3, names: names.slice(), packedNames: names.slice(),
+            itemLen: 5, idsValid: false, ids: []});
+        Object.assign(h.raw, {g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 2,
+            g_hdMenuSeq: 9, g_hdMenuCount: names.length, g_hdMenuIndex: index});
+        Object.assign(h.hud.state, {layer: 'sub', subKind: kind, idleIndex: index, listKind: ''});
+    };
+    h.renderRules = () => h.hud.render();
+    h.startRules = () => {h.context.BayeHdCityMenu.start(); h.pollRules = h.intervals.at(-1); assert.equal(typeof h.pollRules, 'function');};
+    return h;
+}
+function ruleButtons(h) {return h.nodes['hd-city-menu-sublist'].querySelectorAll('[data-hd-sub]');}
+function ruleHints(h) {return h.nodes['hd-city-menu-sublist'].querySelectorAll('[data-hd-city-rule]');}
+function assertRulesAbsent(h, reason) {
+    assert.equal(ruleHints(h).length, 0, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+function ruleLibrary(h, {thew = {}, money = {}, money16 = false} = {}) {
+    // The identity service is a controlled fixture. Synthetic cost bytes exercise
+    // the resource decoder; they are not claimed to be another accepted LIB.
+    const bytes = Buffer.from(h.context.dynLib, 'hex'), base = bytes.readUInt32LE(4), fixed = bytes.readUInt32LE(base + 8);
+    assert.equal(fixed, 0, 'the original IFACE resource uses variable-size items');
+    const record = item => base + 14 + item * 8;
+    const thewOffset = base + bytes.readUInt32LE(record(9)), moneyOffset = base + bytes.readUInt32LE(record(10));
+    const originalMoney = Array.from(bytes.subarray(moneyOffset, moneyOffset + 28));
+    for (const [index, value] of Object.entries(thew)) bytes[thewOffset + Number(index)] = value;
+    if (money16) {
+        assert.ok(moneyOffset + 56 <= base + bytes.readUInt32LE(base), 'the synthetic table stays in the actual IFACE bounds');
+        bytes.writeUInt32LE(56, record(10) + 4);
+        originalMoney.forEach((value, index) => bytes.writeUInt16LE(value, moneyOffset + index * 2));
+    }
+    for (const [index, value] of Object.entries(money)) {
+        if (money16) bytes.writeUInt16LE(value, moneyOffset + Number(index) * 2);
+        else bytes[moneyOffset + Number(index)] = value;
+    }
+    h.context.dynLib = bytes.toString('hex');
+}
+
+test('interior rules cover all fourteen native indices and retain stable SUB nodes and click delegation without input', () => {
+    const h = rulesHarness({spyClicks: true});
+    assert.equal(h.readRules(), null, 'ROOT is not an interior SUB'); h.renderRules(); assertRulesAbsent(h, 'ROOT has no rule hints');
+    h.publishRuleSub(2);
+    const before = plain(h.raw), menu = plain(h.menu); h.startRules();
+    const expected = [[8, 50], [8, 50], [8, 0], [0, 0], [8, 50], [15, 0], [0, 0], [0, 0],
+        [0, 0], [0, 0], [12, null], [0, 100], [8, null], [8, 0]];
+    const dto = h.readRules(); assert.equal(dto.cityIndex, 0);
+    assert.deepEqual(dto.rows.map(row => [row.index, row.command, row.thew, row.checkThew, row.money, row.variable]),
+        expected.map(([thew, money], index) => [index, index + 1, thew, index === 13 ? 0 : thew, money,
+            index === 10 ? 'trade' : index === 12 ? 'transfer' : '']));
+    const buttons = ruleButtons(h), hints = ruleHints(h); assert.equal(buttons.length, 14); assert.equal(hints.length, 14);
+    for (let index = 0; index < 14; index++) {
+        const button = buttons[index], hint = hints[index];
+        assert.equal(button.tagName, 'BUTTON'); assert.equal(button.getAttribute('data-hd-sub'), String(index));
+        assert.equal(button.children[0].tagName, 'SPAN'); assert.equal(button.children[0].textContent, cityRuleNames[index]);
+        assert.equal(hint.tagName, 'SMALL'); assert.equal(hint.parentElement, button);
+        assert.equal(hint.getAttribute('data-hd-city-rule'), String(index + 1)); assert.equal(hint.textContent, dto.rows[index].text);
+        assert.notEqual(button.disabled, true, 'rule hints never disable a native command');
+        assert.equal(button.getAttribute('disabled'), null); assert.equal(button.getAttribute('aria-disabled'), null);
+        dispatch(h, 'click', index % 2 ? hint : button.children[0], {detail: 1});
+    }
+    assert.deepEqual(h.subClicks, Array.from({length: 14}, (_, index) => index));
+    for (let poll = 0; poll < 4; poll++) {h.pollRules(); h.renderRules();}
+    ruleButtons(h).forEach((button, index) => assert.equal(button, buttons[index], 'unchanged polls retain the pressed button node'));
+    ruleHints(h).forEach((hint, index) => assert.equal(hint, hints[index], 'unchanged polls retain rule nodes'));
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('interior rules use actual C fee keys, U8 nonzero flags, conditional surrender fees and U16 money without inventing fixed variable fees', () => {
+    const h = rulesHarness(); h.publishRuleSub();
+    ruleLibrary(h, {thew: {0: 3, 4: 244, 7: 247, 8: 248, 9: 249, 10: 250, 12: 252, 13: 7, 14: 2},
+        money: {0: 17, 4: 244, 7: 247, 8: 248, 9: 249, 10: 250, 11: 251, 13: 253, 14: 254}});
+    let rows = h.readRules().rows;
+    assert.deepEqual([rows[3].thew, rows[3].checkThew, rows[3].money, rows[3].text], [3, 3, 17, '规则：体力 3 · 金钱 17']);
+    for (const index of [6, 7, 8, 9]) assert.deepEqual([rows[index].thew, rows[index].checkThew, rows[index].money], [0, 0, 0]);
+    assert.deepEqual([rows[11].thew, rows[11].checkThew, rows[11].money], [0, 0, 100], '宴请 restores target stamina rather than spending T[12]');
+    assert.equal(rows[10].text, '规则：体力 12 · 金钱随买卖数量'); assert.equal(rows[10].money, null);
+    assert.equal(rows[12].text, '规则：体力 7 · 运送物资另计'); assert.equal(rows[12].money, null);
+    assert.deepEqual([rows[13].checkThew, rows[13].thew, rows[13].money, rows[13].text], [2, 7, 0, '规则：体力检查 2 · 消耗 7']);
+    assert.equal(rows[5].money, 0); h.renderRules(); const oldSurrender = ruleHints(h)[5];
+    for (const flag of [2, 255]) {
+        h.config.fixConsumeMoney = flag; h.config.fixThewOverFlow = flag; rows = h.readRules().rows;
+        assert.equal(rows[5].money, 100); assert.deepEqual([rows[13].checkThew, rows[13].thew], [2, 2]);
+        assert.equal(rows[13].text, '规则：体力 2 · 金钱 0');
+    }
+    h.renderRules(); assert.notEqual(ruleHints(h)[5], oldSurrender, 'the list signature changes when the applicable rule changes');
+    assert.equal(ruleHints(h)[5].textContent, '规则：体力 15 · 金钱 100');
+    ruleLibrary(h, {money16: true, money: {0: 513, 1: 1025, 2: 2049, 3: 0, 4: 64004, 5: 4097, 6: 8193,
+        7: 64007, 8: 64008, 9: 64009, 10: 64010, 11: 64011, 12: 16385, 13: 64013, 14: 64014}});
+    for (const flag of [2, 255]) {
+        h.config.enable16bitConsumeMoney = flag; rows = h.readRules().rows;
+        assert.deepEqual(rows.map(row => row.money), [1025, 2049, 0, 513, 4097, 8193, 0, 0, 0, 0, null, 16385, null, 0]);
+    }
+    h.renderRules(); assert.equal(ruleHints(h)[0].textContent, '规则：体力 8 · 金钱 1025');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('interior rules withdraw all hints for invalid source, menu, config and custom hooks and preserve plain native names', () => {
+    const invalid = [h => h.city.Belong = 2, h => h.raw.g_hdMapCity = 2, h => h.raw.g_hdDetailGeneration = 4,
+        h => h.raw.g_hdMenuSeq++, h => h.raw.g_hdMenuCount = 13, h => h.raw.g_hdMenuIndex = 1,
+        h => h.menu.names[0] = '修改后的开垦', h => h.menu.names.reverse(), h => h.menu.count = 13,
+        h => h.menu.kind = 3, h => h.menu.context = 2, h => h.menu.active = 0, h => h.menu.detailGeneration = 4,
+        h => h.raw.g_hdReportActive = 1, h => h.raw.g_hdHelpActive = 1, h => h.raw.g_hdQtyActive = 1,
+        h => h.raw.g_hdFightActive = 1, h => h.raw.g_hdEngineReady = 0, h => h.cities.pop(),
+        h => h.identity.status = 'pending', h => h.identity.sha256 = 'different-library', h => h.identity.byteLength--,
+        h => h.setIdentity(h.identity, false), h => h.context.dynLib = h.context.dynLib.slice(2),
+        h => h.context.dynLib = h.context.dynLib.slice(0, 8) + 'zz' + h.context.dynLib.slice(10), h => delete h.raw.g_engineConfig,
+        ...['enable16bitConsumeMoney', 'fixConsumeMoney', 'fixThewOverFlow'].flatMap(field =>
+            [h => delete h.config[field], ...[null, false, '0', -1, 1.5, 256].map(value => h => h.config[field] = value)])];
+    for (const change of invalid) {
+        const h = rulesHarness(); h.publishRuleSub(); h.renderRules(); assert.equal(ruleHints(h).length, 14);
+        change(h); assert.equal(h.readRules(), null); h.renderRules(); assertRulesAbsent(h, 'invalid bindings retire every displayed rule');
+    }
+    for (const key of cityRuleHooks) {
+        const h = rulesHarness(); h.publishRuleSub(); let calls = 0;
+        h.context.baye.hooks[key] = function customRuleHook() {calls++; return -1;};
+        h.context.baye.hooks[key].toString = () => 'function () { return -1; }';
+        assert.equal(h.readRules(), null, key + ' cannot spoof canonical source'); h.renderRules(); assertRulesAbsent(h, key);
+        assert.deepEqual(ruleButtons(h).map(button => button.textContent), cityRuleNames, 'failed rule reads leave the original pure native names');
+        assert.equal(calls, 0, key + ' must never be replayed to inspect its behavior');
+        h.context.baye.hooks[key] = vm.runInContext('(function () { return -1; })', h.context);
+        assert.equal(h.readRules().rows.length, 14, key + ' allows only the exact known no-op sentinel');
+        h.renderRules(); assert.equal(ruleHints(h).length, 14);
+    }
+    const h = rulesHarness(); h.publishRuleSub();
+    for (const cityIndex of [-1, 1, 38, '0', 0.5, null]) assert.equal(h.readRules(cityIndex), null, 'only this current owned city has rules');
+    h.document.hidden = true; assert.equal(h.readRules(), null); h.document.hidden = false;
+    h.renderRules(); assert.equal(ruleHints(h).length, 14); h.startRules();
+    h.context.baye.hooks.cityMakeCommand = () => 0; h.pollRules();
+    assertRulesAbsent(h, 'an ordinary poll removes stale hints without requiring a click or layer change');
+    assert.deepEqual(ruleButtons(h).map(button => button.textContent), cityRuleNames);
+});
+
+test('interior rule three-read fences reject last-sample source, menu, hook, config and reference drift and synchronous reader reentry', () => {
+    const seed = rulesHarness(); seed.publishRuleSub(); const originalMenu = seed.context.baye.hd.menuItems; let samples = 0;
+    seed.context.baye.hd.menuItems = function () {samples++; return originalMenu();};
+    assert.equal(seed.readRules().rows.length, 14); assert.ok(samples >= 3, 'a DTO is sealed across three native menu samples');
+    const last = samples;
+    const drifts = [h => h.raw.g_hdMapCity = 2, h => {h.raw.g_hdMenuSeq++; h.menu.seq++;},
+        h => {h.raw.g_hdMenuIndex = 1; h.menu.index = 1;}, h => h.raw.g_hdDetailGeneration++, h => h.city.Belong = 2,
+        h => h.menu.names[4] = '新出巡',
+        h => h.config.fixConsumeMoney = 2, h => h.config.fixThewOverFlow = 2, h => h.config.enable16bitConsumeMoney = 2,
+        h => h.raw.g_engineConfig = {...h.config}, h => h.raw.g_Cities = h.cities.slice(),
+        h => h.cities[0] = {...h.city}, h => h.context.baye.data = h.readonlyPlans({...h.raw}),
+        h => h.context.baye.hooks = {}, h => h.context.baye.hooks.cityMakeCommand = () => 0,
+        h => h.identity.generation++, h => h.context.dynLib = h.context.dynLib.slice(0, -2) + 'ff',
+        h => h.context.BayeHdLibIdentity = {...h.context.BayeHdLibIdentity},
+        h => h.context.baye.hd = {...h.context.baye.hd}, h => h.context.baye = {...h.context.baye},
+        h => h.context.baye.hd.menuItems = () => h.menu];
+    for (const change of drifts) {
+        const h = rulesHarness(); h.publishRuleSub(); const getMenu = h.context.baye.hd.menuItems; let calls = 0, fired = false;
+        h.context.baye.hd.menuItems = function () {if (++calls === last) {fired = true; change(h);} return getMenu();};
+        assert.equal(h.readRules(), null, 'the final external callback cannot revise the sampled source'); assert.equal(fired, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const through of ['menu', 'config']) {
+        const h = rulesHarness(); h.publishRuleSub(); let entered = false, nested = 'not entered';
+        const reenter = () => {if (!entered) {entered = true; nested = h.readRules();}};
+        const getMenu = h.context.baye.hd.menuItems;
+        if (through === 'menu') h.context.baye.hd.menuItems = function () {reenter(); return getMenu();};
+        else Object.defineProperty(h.config, 'fixConsumeMoney', {get() {reenter(); return 0;}, configurable: true});
+        assert.equal(h.readRules(), null, through + ' synchronous reentry retires the outer DTO'); assert.equal(entered, true); assert.equal(nested, null);
+        h.context.baye.hd.menuItems = getMenu;
+        Object.defineProperty(h.config, 'fixConsumeMoney', {value: 0, writable: true, configurable: true});
+        assert.equal(h.readRules().rows.length, 14, 'a later independent read recovers after the torn transaction');
+        h.renderRules(); assert.equal(ruleHints(h).length, 14); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('diplomacy and military rule references retain all ten exact native names, IDs, click indices and stable nodes without input', () => {
+    const expected = {waijiao: [[15, 20, 50, ''], [16, 20, 50, ''], [17, 20, 50, ''], [18, 0, 0, ''], [19, 10, 50, '']],
+        junbei: [[23, 10, 20, ''], [24, 12, null, 'recruit'], [25, 0, 0, ''], [26, 12, 0, ''], [27, 0, 0, 'march']]};
+    for (const kind of ['waijiao', 'junbei']) {
+        const h = rulesHarness({spyClicks: true}); h.publishRuleSub(2, kind);
+        const before = plain(h.raw), menu = plain(h.menu); h.startRules(); const dto = h.readRules(0, kind);
+        assert.equal(dto.kind, kind); assert.equal(dto.cityIndex, 0);
+        assert.deepEqual(dto.rows.map(row => [row.command, row.thew, row.money, row.variable]), expected[kind]);
+        const buttons = ruleButtons(h), hints = ruleHints(h); assert.equal(buttons.length, 5); assert.equal(hints.length, 5);
+        for (let index = 0; index < 5; index++) {
+            assert.equal(buttons[index].getAttribute('data-hd-sub'), String(index));
+            assert.equal(buttons[index].children[0].textContent, cityRuleGroups[kind][index]);
+            assert.equal(hints[index].getAttribute('data-hd-city-rule'), String(expected[kind][index][0]));
+            assert.equal(hints[index].textContent, dto.rows[index].text); assert.equal(hints[index].parentElement, buttons[index]);
+            assert.notEqual(buttons[index].disabled, true); assert.equal(buttons[index].getAttribute('aria-disabled'), null);
+            dispatch(h, 'click', index % 2 ? hints[index] : buttons[index].children[0], {detail: 1});
+        }
+        assert.deepEqual(h.subClicks, [0, 1, 2, 3, 4]);
+        for (let count = 0; count < 3; count++) h.pollRules();
+        ruleButtons(h).forEach((button, index) => assert.equal(button, buttons[index], 'ordinary same-owner polls retain every button'));
+        assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('diplomacy distinguishes actor checks from legacy enemy-target stamina consumption and never charges the empty realienate branch', () => {
+    const h = rulesHarness(); h.publishRuleSub(0, 'waijiao');
+    ruleLibrary(h, {thew: {15: 7, 16: 8, 17: 9, 18: 245, 19: 11}, money: {15: 31, 16: 32, 17: 33, 18: 246, 19: 34}});
+    let dto = h.readRules(0, 'waijiao'), row = dto.rows[0];
+    assert.deepEqual([row.checkThew, row.thew, row.money, row.thewSubject], [7, 7, 31, 'target']);
+    assert.match(row.text, /己将.*检查.*7/); assert.match(row.text, /敌将.*(?:体力|消耗).*7/); assert.match(row.text, /金钱 31/);
+    const inactive = dto.rows[3]; assert.deepEqual([inactive.command, inactive.checkThew, inactive.thew, inactive.money], [18, 0, 0, 0]);
+    assert.match(inactive.text, /原版暂未实现/); assert.doesNotMatch(inactive.text, /245|246/);
+    h.renderRules(); const old = ruleHints(h)[0];
+    for (const flag of [2, 255]) {
+        h.config.fixAlienateComsumeThew = flag; row = h.readRules(0, 'waijiao').rows[0];
+        assert.deepEqual([row.checkThew, row.thew, row.money, row.thewSubject], [7, 7, 31, 'actor']);
+        assert.match(row.text, /体力.*7/); assert.doesNotMatch(row.text, /敌将.*(?:体力|消耗)/);
+    }
+    h.renderRules(); assert.notEqual(ruleHints(h)[0], old, 'changing the charged subject updates the visible rule');
+    ruleLibrary(h, {money16: true, money: {15: 513, 16: 1025, 17: 2049, 18: 65535, 19: 4097}});
+    for (const flag of [2, 255]) {
+        h.config.enable16bitConsumeMoney = flag;
+        assert.deepEqual(h.readRules(0, 'waijiao').rows.map(row => row.money), [513, 1025, 2049, 0, 4097]);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('military uses recruitment money checks and quantity division, the actual plunder T24 key, free distribution and selected march food', () => {
+    const h = rulesHarness(); h.publishRuleSub(1, 'junbei');
+    ruleLibrary(h, {thew: {23: 5, 24: 7, 25: 251, 26: 252, 27: 253},
+        money16: true, money: {23: 2049, 24: 513, 25: 65533, 26: 65534, 27: 1025}});
+    h.config.enable16bitConsumeMoney = 255;
+    for (const rate of [1, 10, 255]) {
+        h.config.armsPerMoney = rate; const rows = h.readRules(0, 'junbei').rows;
+        assert.deepEqual([rows[0].thew, rows[0].money], [5, 2049]);
+        assert.deepEqual([rows[1].thew, rows[1].checkThew, rows[1].money, rows[1].checkMoney, rows[1].armsPerMoney, rows[1].variable],
+            [7, 7, null, 513, rate, 'recruit']);
+        assert.match(rows[1].text, /金钱检查 513/); assert.ok(rows[1].text.includes('每 ' + rate + ' 兵 1 钱')); assert.match(rows[1].text, /余数不计/);
+        assert.deepEqual([rows[2].thew, rows[2].checkThew, rows[2].money], [0, 0, 0], 'distribution changes allocation without spending T25 or M25');
+        assert.deepEqual([rows[3].thew, rows[3].checkThew, rows[3].money], [7, 7, 0], 'plunder checks and spends CONSCRIPTION stamina rather than T26');
+        assert.deepEqual([rows[4].thew, rows[4].checkThew, rows[4].money, rows[4].variable], [0, 0, 1025, 'march']);
+        assert.match(rows[4].text, /粮草.*另计/); assert.doesNotMatch(rows[4].text, /253/);
+    }
+    h.renderRules(); assert.equal(ruleHints(h).length, 5);
+    for (const value of [0, null, false, '10', -1, 1.5, 256]) {
+        h.config.armsPerMoney = value; assert.equal(h.readRules(0, 'junbei'), null, 'zero or malformed divisor cannot produce a recruitment rule');
+        h.renderRules(); assertRulesAbsent(h, 'invalid recruitment config withdraws the whole military enhancement');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('new SUB rules reject equal-count cross-group publications, malformed bindings and ordinary-poll invalidation without changing native names', () => {
+    const invalid = [h => h.menu.names.reverse(), h => h.menu.names[0] = '同名自定义', h => h.menu.count = 14,
+        h => h.raw.g_hdMenuCount = 14, h => h.raw.g_hdMenuSeq++, h => h.menu.index = 5,
+        h => h.raw.g_hdQtyActive = 1, h => h.raw.g_hdReportActive = 1, h => h.city.Belong = 2,
+        h => h.identity.sha256 = 'other-library', h => h.context.baye.hooks.willAddOrder = () => -1];
+    for (const kind of ['waijiao', 'junbei']) {
+        for (const change of invalid) {
+            const h = rulesHarness(); h.publishRuleSub(0, kind); h.renderRules(); assert.equal(ruleHints(h).length, 5);
+            change(h); assert.equal(h.readRules(0, kind), null); h.renderRules(); assertRulesAbsent(h, 'stale source cannot retain any rule');
+            assert.deepEqual(ruleButtons(h).map(button => button.textContent), h.menu.names, 'plain native labels remain available');
+        }
+        const h = rulesHarness(); h.publishRuleSub(0, kind);
+        for (const other of ['neizheng', kind === 'waijiao' ? 'junbei' : 'waijiao', '', 'constructor', '__proto__', null]) {
+            assert.equal(h.readRules(0, other), null, 'same count and retained UI labels cannot identify another command group');
+        }
+        h.startRules(); assert.equal(ruleHints(h).length, 5); h.context.baye.hooks.cityMakeCommand = () => 0; h.pollRules();
+        assertRulesAbsent(h, 'ordinary PC SUB poll withdraws invalid diplomacy/military rules');
+        assert.deepEqual(ruleButtons(h).map(button => button.textContent), cityRuleGroups[kind]);
+    }
+    const h = rulesHarness(); h.publishRuleSub(0, 'waijiao'); h.startRules();
+    h.publishRuleSub(0, 'junbei'); h.pollRules(); assert.deepEqual(ruleHints(h).map(hint => Number(hint.getAttribute('data-hd-city-rule'))), [23, 24, 25, 26, 27]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('new rule configs are fenced against final-sample changes and synchronous getter reentry, with independent-read recovery', () => {
+    for (const [kind, field, changed] of [['waijiao', 'fixAlienateComsumeThew', 2], ['junbei', 'armsPerMoney', 11]]) {
+        const h = rulesHarness(); h.publishRuleSub(0, kind); const getMenu = h.context.baye.hd.menuItems; let samples = 0;
+        h.context.baye.hd.menuItems = function () {samples++; return getMenu();};
+        assert.equal(h.readRules(0, kind).rows.length, 5); const last = samples; assert.ok(last >= 3);
+        let calls = 0, fired = false;
+        h.context.baye.hd.menuItems = function () {if (++calls === last) {fired = true; h.config[field] = changed;} return getMenu();};
+        assert.equal(h.readRules(0, kind), null, 'the last native callback cannot change the rule config'); assert.equal(fired, true);
+        h.context.baye.hd.menuItems = getMenu; assert.equal(h.readRules(0, kind).rows.length, 5);
+        const original = h.config[field]; let entered = false, nested = 'not entered';
+        Object.defineProperty(h.config, field, {get() {if (!entered) {entered = true; nested = h.readRules(0, kind);} return original;}, configurable: true});
+        assert.equal(h.readRules(0, kind), null); assert.equal(entered, true); assert.equal(nested, null);
+        Object.defineProperty(h.config, field, {value: original, configurable: true, writable: true});
+        assert.equal(h.readRules(0, kind).rows.length, 5, 'fresh reader recovers after the nested read');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('arranged plans exclude foreign cities, other allegiances and empty slots before reading their names', () => {
+    const h = plansHarness(); h.plan(4, 1); h.plan(5, 1); // Repeated native slots remain separate rows.
+    h.plan(6, 3, 70, {City: 1}); h.plan(7, 3, 70); h.plan(8, 6, 71); h.plan(9, 3, 72);
+    h.plan(10, 255, 73); h.plan(171, 27, 29, {City: 1, Object: 16, Food: 1200});
+    h.army(2, [20, 70]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.order, row.value]), [[4, 1, '吕布'], [5, 1, '吕布']]);
+    for (const hiddenId of [70, 71, 72, 73]) assert.equal(h.personCalls.includes(hiddenId), false, String(hiddenId));
+    h.city.Belong = 2; h.renderPlans(); assertPlansAbsent(h, 'the selected city is no longer owned');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged plans use only order-relevant fields and never invent countdowns or unrelated resource amounts', () => {
+    const labels = [[0, '归队'], [1, '开垦'], [2, '招商'], [3, '搜寻'], [4, '治理'], [5, '出巡'], [6, '招降'],
+        [11, '交易'], [13, '输送'], [14, '移动'], [15, '离间'], [16, '招揽'], [17, '策反'], [19, '劝降'],
+        [23, '侦察'], [24, '征兵'], [26, '掠夺']];
+    const h = plansHarness(); let unusedReads = 0;
+    labels.forEach(([id], slot) => {
+        const order = h.plan(slot, id, 20, {Object: 16, ...(id === 13 ? {Food: 600, Money: 30, Arms: 120} : {})});
+        for (const field of ['Consume', 'TimeCount', ...(id === 13 ? [] : ['Money', 'Food', 'Arms']),
+            ...([6, 13, 14, 15, 16, 17, 19, 23].includes(id) ? [] : ['Object'])]) {
+            Object.defineProperty(order, field, {get() {unusedReads++; throw Error('unused original field read');}, configurable: true});
+        }
+    });
+    for (const field of ['Person', 'City', 'Object'])Object.defineProperty(h.orders[199], field, {
+        get() {unusedReads++; throw Error('empty slot metadata read');}, configurable: true});
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.order, row.label, row.value]), labels.map(([id, label]) =>
+        [id, label, '吕布' + ([13, 14, 23].includes(id) ? ' → 许昌' : [6, 15, 16, 17, 19].includes(id) ? ' → 人物16' : '') +
+            (id === 13 ? ' · 粮食 600 · 金钱 30 · 预备兵 120' : '')]));
+    assert.equal(unusedReads, 0); assert.doesNotMatch(plansPane(h).textContent, /TimeCount|倒计时|剩余.*月|Money|Food|Arms/);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    const empty = plansHarness(); empty.renderPlans();
+    assert.ok(plansPane(empty)); assert.match(plansPane(empty).textContent, /本月已安排事务（0）/);
+    assert.match(plansPane(empty).textContent, /暂无/); assert.deepEqual(planRows(empty), []);
+});
+
+test('arranged transport cargo shows exact zero and U16 maximum amounts with the existing public shape', () => {
+    for (const cargo of [{Food: 0, Money: 0, Arms: 0}, {Food: 65535, Money: 65535, Arms: 65535}, {Food: 0, Money: 65535, Arms: 300}]) {
+        const h = plansHarness(); h.plan(7, 13, 22, {Object: 16, ...cargo});
+        const before = plain(h.raw), menu = plain(h.menu);
+        const text = `张辽 → 许昌 · 粮食 ${cargo.Food} · 金钱 ${cargo.Money} · 预备兵 ${cargo.Arms}`;
+        assert.deepEqual(plain(h.context.BayeHdCityPlans.read(0)), {cityIndex: 0, year: 190, month: 1,
+            rows: [{slot: 7, command: 13, label: '输送', text, targetPerson: null}]});
+        h.renderPlans(); assert.deepEqual(planRows(h), [{slot: 7, order: 13, label: '输送', value: text}]);
+        assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('arranged transport cargo stays unread outside allied transport orders for the current city', () => {
+    const h = plansHarness(); h.plan(2, 13, 22, {Object: 16, Food: 90, Money: 20, Arms: 10});
+    h.plan(3, 13, 20, {City: 1, Object: 16}); h.plan(4, 13, 70); h.plan(5, 13, 71); h.plan(6, 13, 72);
+    h.plan(7, 255); h.plan(8, 24); h.plan(9, 14, 20, {Object: 16}); h.army(2, [20]); h.plan(170, 27, 2, {Object: 16, Food: 700});
+    let excludedReads = 0;
+    for (const slot of [3, 4, 5, 6, 7, 8, 9, 170]) for (const field of slot === 170 ? ['Money', 'Arms'] : ['Food', 'Money', 'Arms']) {
+        Object.defineProperty(h.orders[slot], field, {get() {excludedReads++; throw Error('uninitialized cargo read');}, configurable: true});
+    }
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [
+        [2, '张辽 → 许昌 · 粮食 90 · 金钱 20 · 预备兵 10'], [8, '吕布'], [9, '吕布 → 许昌'], [170, '吕布 → 许昌 · 携粮 700']]);
+    assert.equal(excludedReads, 0);
+    for (const id of [70, 71, 72]) assert.equal(h.personCalls.includes(id), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('destination status shows allied pending transfers and clears retired arrivals', () => {
+    const h = plansHarness(), box = h.nodes['hd-city-menu-status'];
+    const arrival = () => box.querySelectorAll('[data-hd-city-plans]').find(node => node.getAttribute('data-hd-city-plans') === 'arrivals');
+    h.cities[16].Belong = 1;
+    h.plan(7, 13, 20, {City: 16, Object: 0, Food: 0, Money: 200, Arms: 65535});
+    h.plan(3, 14, 22, {City: 16, Object: 0});
+    h.plan(1, 13, 70, {City: 1, Object: 0});
+    h.plan(5, 13, 22, {City: 16, Object: 1});
+    h.plan(9, 24);
+    let cargoReads = 0;
+    for (const slot of [1, 3, 5]) for (const field of ['Food','Money','Arms']) {
+        Object.defineProperty(h.orders[slot], field, {get() {cargoReads++; throw Error('unrelated cargo');}});
+    }
+    const expected = [
+        {slot: 3, command: 14, label: '移动', text: '张辽 · 来自许昌', targetPerson: null},
+        {slot: 7, command: 13, label: '输送', text: '吕布 · 来自许昌 · 粮食 0 · 金钱 200 · 预备兵 65535', targetPerson: null}
+    ];
+    assert.deepEqual(plain(h.context.BayeHdCityPlans.read(0).arrivals), expected);
+    h.renderPlans();
+    assert.equal(arrival().querySelector('h3').textContent, '待接收（2）');
+    assert.deepEqual(arrival().querySelectorAll('[data-hd-city-order]').map(row => [
+        Number(row.getAttribute('data-hd-city-order')), row.children[0].textContent, row.children[1].textContent
+    ]), expected.map(row => [row.slot, row.label, row.text]));
+    assert.equal(arrival().querySelectorAll('button').length, 0);
+    assert.deepEqual(planRows(h).map(row => row.slot), [9]);
+    h.orders[3].OrderId = h.orders[7].OrderId = 255;
+    h.renderPlans();
+    assert.equal(arrival(), undefined);
+    assert.deepEqual(planRows(h).map(row => row.slot), [9]);
+    assert.equal(cargoReads, 0);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('destination status withdraws a transfer if its route changes during a name read', () => {
+    const h = plansHarness(), order = h.plan(3, 14, 22, {City: 16, Object: 0});
+    h.plan(9, 24);
+    h.renderPlans();
+    assert.equal(h.context.BayeHdCityPlans.read(0).arrivals[0].slot, 3);
+    h.nameHook(id => {if (id === 22) order.Object = 1;});
+    h.renderPlans();
+    assertPlansAbsent(h, 'A changing destination must not retain a stale arrival');
+    h.nameHook(null);
+    h.renderPlans();
+    assert.equal(h.context.BayeHdCityPlans.read(0).arrivals, undefined);
+    assert.deepEqual(planRows(h).map(row => row.slot), [9]);
+});
+
+test('status retains its visible nodes and scroll during polling, then updates changed cargo', () => {
+    const h = plansHarness(), box = h.nodes['hd-city-menu-status'];
+    const order = h.plan(7, 13, 20, {City: 16, Object: 0, Food: 2, Money: 2, Arms: 2});
+    h.hud.render();
+    const before = box.children.slice(), row = box.querySelector('[data-hd-city-order]');
+    assert.ok(row && !box.hidden);
+    box.scrollTop = 215;
+    h.hud.render();
+    assert.equal(box.scrollTop, 215);
+    assert.ok(box.children.every((child, index) => child === before[index]));
+    assert.equal(box.querySelector('[data-hd-city-order]'), row);
+    order.Food = 4;
+    h.hud.render();
+    assert.match(box.querySelector('[data-hd-city-order]').textContent, /粮食 4/);
+    assert.equal(box.scrollTop, 215);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged transport cargo withdraws malformed values and callback changes as a whole', () => {
+    const payload = {Object: 16, Food: 1200, Money: 150, Arms: 300};
+    for (const field of ['Food', 'Money', 'Arms']) for (const value of [undefined, null, false, '1', -1, 65536, 1.5, NaN, Infinity]) {
+        const h = plansHarness(); h.plan(2, 13, 22, payload); h.renderPlans(); assert.equal(planRows(h).length, 1);
+        h.orders[2][field] = value; h.renderPlans(); assertPlansAbsent(h, field + ' is not a U16');
+    }
+    const seed = plansHarness(); seed.plan(2, 13, 22, payload); seed.renderPlans();
+    const lastNameCall = seed.personCalls.filter(id => id === 22).length; assert.ok(lastNameCall >= 2);
+    for (const field of ['Food', 'Money', 'Arms']) {
+        const h = plansHarness(); h.plan(2, 13, 22, payload); let calls = 0, fired = false;
+        h.nameHook(id => {if (id === 22 && ++calls === lastNameCall) {fired = true; h.orders[2][field]++;}});
+        h.renderPlans(); assert.equal(fired, true); assertPlansAbsent(h, 'last name callback changed ' + field);
+        h.nameHook(null); h.renderPlans();
+        const current = h.orders[2];
+        assert.equal(planRows(h)[0]?.value, `张辽 → 许昌 · 粮食 ${current.Food} · 金钱 ${current.Money} · 预备兵 ${current.Arms}`);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('arranged march supplies show exact U16 amounts with duplicate members, queue order and the existing public shape', () => {
+    const h = plansHarness();
+    h.army(2, [20, null, 22, 20, null, null, null, null, null, 199]); h.army(5, [22]); h.army(7, [0, 20]);
+    h.plan(175, 27, 7, {Object: 16, Food: 1200}); h.plan(173, 27, 5, {Object: 16, Food: 65535});
+    h.plan(170, 27, 2, {Object: 16, Food: 0});
+    const before = plain(h.raw), menu = plain(h.menu);
+    const expected = [
+        {slot: 170, command: 27, label: '出征', text: '吕布、张辽、吕布、人物199 → 许昌 · 携粮 0', targetPerson: null},
+        {slot: 173, command: 27, label: '出征', text: '张辽 → 许昌 · 携粮 65535', targetPerson: null},
+        {slot: 175, command: 27, label: '出征', text: '董卓、吕布 → 许昌 · 携粮 1200', targetPerson: null}];
+    assert.deepEqual(plain(h.context.BayeHdCityPlans.read(0)), {cityIndex: 0, year: 190, month: 1, rows: expected});
+    h.renderPlans();
+    assert.deepEqual(planRows(h), expected.map(row => ({slot: row.slot, order: row.command, label: row.label, value: row.text})));
+    assert.doesNotMatch(plansPane(h).textContent, /总兵|剩余粮|到达|倒计时|金钱|预备兵/);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged march armies show each current member and a total for a complete distinct formation', () => {
+    const h = plansHarness();
+    h.people[20].Arms = 65535; h.people[22].Arms = 0; h.people[199].Arms = 65535;
+    h.army(2, [20, null, 22, 199]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+    h.army(3, [22, 22]); h.plan(171, 27, 3, {Object: 16, Food: 0});
+    h.army(4, [0, 20]); h.plan(172, 27, 4, {Object: 16, Food: 65535});
+    h.people[0].Arms = 65536;
+    const before = plain(h.raw); h.renderPlans();
+    const rows = plain(h.context.BayeHdCityPlans.read(0)).rows;
+    assert.equal(rows[0].text, '吕布、张辽、人物199 → 许昌 · 携粮 1200');
+    assert.deepEqual(rows[0].army, {destination: '许昌', food: 1200, totalArms: 131070,
+        members: [{id: 20, name: '吕布', arms: 65535}, {id: 22, name: '张辽', arms: 0}, {id: 199, name: '人物199', arms: 65535}]});
+    assert.equal(rows[1].army.totalArms, null);
+    assert.equal(rows[2].army.totalArms, null);
+    assert.deepEqual(planRows(h).map(row => row.value), ['许昌 · 携粮 1200 · 合计 131070 兵', '许昌 · 携粮 0', '许昌 · 携粮 65535']);
+    const memberRows = slot => plansPane(h).querySelectorAll('[data-hd-city-order]')
+        .find(row => row.getAttribute('data-hd-city-order') === String(slot))
+        .querySelectorAll('[data-hd-city-march-member]').map(n => [Number(n.getAttribute('data-hd-city-march-member')), n.textContent]);
+    assert.deepEqual(memberRows(170), [[20, '吕布 65535 兵'], [22, '张辽 0 兵'], [199, '人物199 65535 兵']]);
+    assert.deepEqual(memberRows(171), [[22, '张辽 0 兵'], [22, '张辽 0 兵']]);
+    assert.deepEqual(memberRows(172), [[0, '董卓 兵力未读取'], [20, '吕布 65535 兵']]);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged march arms retire the old roster when a name callback changes a member', () => {
+    const h = plansHarness(); h.people[20].Arms = 1200; h.people[22].Arms = 800;
+    h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 300});
+    h.renderPlans(); assert.equal(planRows(h)[0]?.value, '许昌 · 携粮 300 · 合计 2000 兵');
+    let changed = false;
+    h.nameHook(id => { if (id === 22 && !changed) { changed = true; h.people[22].Arms = 801; } });
+    h.renderPlans(); assert.equal(changed, true); assertPlansAbsent(h, 'A changed member cannot keep the previous troop count');
+    h.nameHook(null); h.renderPlans(); assert.equal(planRows(h)[0]?.value, '许昌 · 携粮 300 · 合计 2001 兵');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged march supplies stay unread outside local allied armies and never read uninitialized march cargo', () => {
+    const h = plansHarness(); h.plan(2, 13, 22, {Object: 16, Food: 90, Money: 20, Arms: 10});
+    h.plan(3, 27, 3, {City: 1, Object: 16});
+    h.army(4, [20, 70]); h.plan(4, 27, 4, {Object: 16});
+    h.army(5, [71]); h.plan(5, 27, 5, {Object: 16}); h.army(6, [72]); h.plan(6, 27, 6, {Object: 16});
+    h.plan(7, 255); h.plan(8, 24); h.plan(9, 14, 20, {Object: 16});
+    h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 900});
+    let excludedReads = 0;
+    for (const id of [70, 71, 72]) Object.defineProperty(h.people[id], 'Arms', {
+        get() {excludedReads++; throw Error('excluded march member arms read');}
+    });
+    for (const slot of [3, 4, 5, 6, 7, 8, 9, 170]) for (const field of slot === 170 ?
+        ['Money', 'Arms', 'Consume', 'TimeCount'] : ['Food', 'Money', 'Arms']) {
+        Object.defineProperty(h.orders[slot], field, {get() {excludedReads++; throw Error('excluded march payload read');}, configurable: true});
+    }
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [
+        [2, '张辽 → 许昌 · 粮食 90 · 金钱 20 · 预备兵 10'], [8, '吕布'], [9, '吕布 → 许昌'], [170, '吕布、张辽 → 许昌 · 携粮 900']]);
+    assert.equal(excludedReads, 0);
+    for (const id of [70, 71, 72]) assert.equal(h.personCalls.includes(id), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged march supplies withdraw invalid food and final name or city callback changes, then recover', () => {
+    for (const value of [undefined, null, false, '1', -1, 65536, 1.5, NaN, Infinity]) {
+        const h = plansHarness(); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+        h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1200');
+        h.orders[170].Food = value; h.renderPlans(); assertPlansAbsent(h, 'march food is not a U16');
+        h.orders[170].Food = 1201; h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1201');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const seed = plansHarness(); seed.army(2, [20, 22]); seed.plan(170, 27, 2, {Object: 16, Food: 1200}); seed.renderPlans();
+    const lastNameCall = seed.personCalls.filter(id => id === 22).length, lastCityCall = seed.cityCalls.filter(id => id === 16).length;
+    assert.ok(lastNameCall >= 2); assert.ok(lastCityCall >= 2);
+    for (const callback of ['getPersonName', 'getCityName']) {
+        const h = plansHarness(); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+        h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1200');
+        const getCity = h.context.baye.getCityName; let calls = 0, fired = false;
+        if (callback === 'getPersonName') h.nameHook(id => {
+            if (id === 22 && ++calls === lastNameCall) {fired = true; h.orders[170].Food++;}
+        });
+        else h.context.baye.getCityName = id => {
+            if (id === 16 && ++calls === lastCityCall) {fired = true; h.orders[170].Food++;}
+            return getCity(id);
+        };
+        h.renderPlans(); assert.equal(fired, true); assertPlansAbsent(h, 'final ' + callback + ' callback changed march food');
+        h.nameHook(null); h.context.baye.getCityName = getCity; h.renderPlans();
+        assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1201');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('arranged plans withdraw torn queue/source reads and synchronous name-reader reentry, then recover cleanly', () => {
+    const seed = plansHarness(); seed.plan(2, 24); seed.renderPlans();
+    assert.equal(planRows(seed).length, 1);
+    const lastNameCall = seed.personCalls.filter(id => id === 20).length; assert.ok(lastNameCall >= 2);
+    const mutations = [h => {h.orders[199].OrderId = 1; h.orders[199].Person = 22;},
+        h => h.orders[2].OrderId = 3, h => h.people[20].Belong = 2,
+        h => h.raw.g_OrderQueue = h.orders.slice(), h => h.raw.g_Persons = h.people.slice(),
+        h => h.context.baye.data = h.readonlyPlans({...h.raw}),
+        h => h.people.pop(), h => h.cities.pop(), h => h.orders.push({OrderId: 255}),
+        h => h.identity.generation++, h => h.identity.sha256 = 'changed-library',
+        h => h.raw.g_MonthDate++, h => h.raw.g_PlayerKing = 1,
+        h => {h.raw.g_hdMenuSeq++; h.menu.seq++;}, h => h.raw.g_hdMapCity = 2];
+    for (const mutate of mutations) {
+        const h = plansHarness(); h.plan(2, 24); let calls = 0, fired = false;
+        h.nameHook(id => {if (id === 20 && ++calls === lastNameCall) {fired = true; mutate(h);}});
+        h.renderPlans(); assert.equal(fired, true); assertPlansAbsent(h, 'last name callback changed the observed source');
+    }
+    const h = plansHarness(); h.plan(2, 24); let reentered = false;
+    h.nameHook(id => {if (id === 20 && !reentered) {reentered = true; h.renderPlans();}});
+    h.renderPlans(); assert.equal(reentered, true); assertPlansAbsent(h, 'synchronous render reentry');
+    h.nameHook(null); h.renderPlans(); assert.equal(planRows(h).length, 1);
+    Object.assign(h.hud.state, {open: false}); h.renderPlans(); assertPlansAbsent(h, 'closed city shell');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged plans reject malformed local orders and ambiguous or incomplete native armies as a whole', () => {
+    const mutations = [h => delete h.raw.FIGHTERS_IDX, h => delete h.raw.FIGHTERS,
+        h => h.fighterIndex.pop(), h => h.fighters.pop(), h => h.fighterIndex[2] = 0, h => h.fighterIndex[2] = 2,
+        h => {h.fighters[40] = h.fighters[41] = 0;}, h => h.fighters[40] = -1,
+        h => {h.fighters[42] = 201; h.fighters[43] = 0;},
+        h => h.people[22].Belong = null,
+        h => h.orders[170].Person = 30, h => h.plan(171, 27, 2, {Object: 16, Food: 1200}),
+        h => h.orders[170].Object = 38, h => h.orders[2].OrderId = 20,
+        h => h.orders[2].Person = 200, h => h.names.set(20, ''),
+        h => h.orders.pop(), h => h.people.pop(), h => h.cities.pop(),
+        h => h.context.baye.getPersonCount = () => 2000];
+    for (const mutate of mutations) {
+        const h = plansHarness(); h.plan(2, 24); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+        mutate(h); h.renderPlans(); assertPlansAbsent(h, 'invalid local plan or native army');
+        assert.equal(h.personCalls.includes(70), false, 'enemy army members are not resolved to hidden names');
+    }
+});
+
+test('arranged person-target orders show exact zero-based targets independently of their present allegiance', () => {
+    const h = plansHarness(), entries = [[2, 6, 71], [4, 15, 70], [6, 16, 0], [8, 17, 72], [10, 19, 199]];
+    h.people[199].Belong = 3;
+    for (const [slot, command, target] of entries) h.plan(slot, command, 20, {Object: target});
+    h.plan(12, 13, 22, {Object: 16, Food: 1200, Money: 150, Arms: 300}); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 800});
+    const before = plain(h.raw), menu = plain(h.menu); h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [[2, '吕布 → 人物71'], [4, '吕布 → 人物70'],
+        [6, '吕布 → 董卓'], [8, '吕布 → 人物72'], [10, '吕布 → 人物199'],
+        [12, '张辽 → 许昌 · 粮食 1200 · 金钱 150 · 预备兵 300'], [170, '吕布、张辽 → 许昌 · 携粮 800']]);
+    const dto = h.context.BayeHdCityPlans.read(0); assert.ok(dto);
+    assert.deepEqual(plain(dto.rows.map(row => [row.slot, row.targetPerson])),
+        [[2, 71], [4, 70], [6, 0], [8, 72], [10, 199], [12, null], [170, null]]);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    for (const belong of [0, 1, 4, 65535]) {
+        h.people[70].Belong = belong; h.renderPlans();
+        assert.equal(planRows(h).find(row => row.slot === 4)?.value, '吕布 → 人物70', 'a queued target is not re-filtered as an allied actor');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged person-target payloads stay unread for other cities, other actors, empty slots and unrelated commands', () => {
+    const h = plansHarness(); h.plan(2, 16, 20, {Object: 70});
+    h.plan(3, 16, 20, {City: 1}); h.plan(4, 6, 70); h.plan(5, 19, 71);
+    h.plan(6, 255); h.plan(7, 24, 22);
+    let unusedTargets = 0;
+    for (const slot of [3, 4, 5, 6, 7]) Object.defineProperty(h.orders[slot], 'Object', {
+        get() {unusedTargets++; throw Error('excluded or unrelated order target was read');}, configurable: true});
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [[2, '吕布 → 人物70'], [7, '张辽']]);
+    const dto = h.context.BayeHdCityPlans.read(0); assert.ok(dto);
+    assert.deepEqual(plain(dto.rows.map(row => row.targetPerson)), [70, null]);
+    assert.equal(unusedTargets, 0); assert.equal(h.personCalls.includes(71), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged person targets withdraw malformed or torn references, names and reentrant callbacks as a whole', () => {
+    const invalid = [h => delete h.orders[2].Object, h => h.orders[2].Object = null,
+        h => h.orders[2].Object = false, h => h.orders[2].Object = '70', h => h.orders[2].Object = -1,
+        h => h.orders[2].Object = 200, h => h.orders[2].Object = 1.5,
+        h => h.people[70] = undefined, h => h.names.set(70, ''), h => h.names.set(70, '-'), h => h.names.set(70, '   ')];
+    for (const change of invalid) {
+        const h = plansHarness(); h.plan(2, 16, 20, {Object: 70}); h.renderPlans(); assert.equal(planRows(h).length, 1);
+        change(h); h.renderPlans(); assertPlansAbsent(h, 'invalid person target cannot leave a partial plan pane');
+    }
+    const seed = plansHarness(); seed.plan(2, 16, 20, {Object: 70}); seed.renderPlans();
+    const last = seed.personCalls.filter(id => id === 70).length; assert.ok(last >= 2);
+    const drifts = [h => h.orders[2].Object = 71, h => h.people[70] = {...h.people[70]},
+        h => h.names.set(70, '更新姓名'), h => h.raw.g_Persons = h.people.slice(),
+        h => {const name = h.context.baye.getPersonName; h.context.baye.getPersonName = id => name(id); }];
+    for (const change of drifts) {
+        const h = plansHarness(); h.plan(2, 16, 20, {Object: 70}); let calls = 0, fired = false;
+        h.nameHook(id => {if (id === 70 && ++calls === last) {fired = true; change(h);}});
+        h.renderPlans(); assert.equal(fired, true); assertPlansAbsent(h, 'last target-name callback changed the observed source');
+    }
+    for (const from of ['target-name', 'target-object']) {
+        const h = plansHarness(); h.plan(2, 16, 20, {Object: 70}); let reentered = false;
+        const enter = () => {if (!reentered) {reentered = true; h.renderPlans();}};
+        if (from === 'target-name') h.nameHook(id => {if (id === 70) enter();});
+        else Object.defineProperty(h.orders[2], 'Object', {get() {enter(); return 70;}, configurable: true});
+        h.renderPlans(); assert.equal(reentered, true); assertPlansAbsent(h, from + ' synchronous reentry');
+        h.nameHook(null); Object.defineProperty(h.orders[2], 'Object', {value: 70, writable: true, configurable: true});
+        h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布 → 人物70');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+function garrisonHarness() {
+    const h = plansHarness();
+    for (const id of [0, 20, 22, 199]) Object.assign(h.people[id], {Arms: 0, Thew: 0});
+    h.garrison = (ids, start = 10) => {
+        Object.assign(h.city, {PersonQueue: start, Persons: ids.length});
+        ids.forEach((id, index) => {h.queue[start + index] = id;});
+    };
+    h.renderGarrison = () => h.hud.renderStatus();
+    h.startGarrison = () => {h.context.BayeHdCityMenu.start(); h.pollGarrison = h.intervals.at(-1); assert.equal(typeof h.pollGarrison, 'function');};
+    vm.runInContext(read('js/hd-city-garrison.js'), h.context, {filename: 'js/hd-city-garrison.js'});
+    h.readGarrison = (cityIndex = 0) => {
+        const value = h.context.BayeHdCityGarrison.read(cityIndex); return value === null ? null : plain(value);
+    };
+    return h;
+}
+function garrisonPane(h) {return h.nodes['hd-city-menu-status'].querySelector('[data-hd-city-garrison]');}
+function garrisonRows(h) {
+    const pane = garrisonPane(h); return pane ? pane.querySelectorAll('[data-hd-city-general]').map(row => {
+        assert.equal(row.children[0].tagName, 'SPAN'); assert.equal(row.children[1].tagName, 'STRONG');
+        return {id: Number(row.getAttribute('data-hd-city-general')), queueSlot: Number(row.getAttribute('data-hd-city-queue-slot')),
+            name: row.children[0].textContent, value: row.children[1].textContent};
+    }) : [];
+}
+function assertGarrisonAbsent(h, reason) {
+    assert.equal(garrisonPane(h), null, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+
+test('current-city garrison preserves exact resident queue order, duplicates, IDs0 and199, zero/max stats and plain-text names', () => {
+    const h = garrisonHarness(), special = '朵思<大王>&"完整姓名';
+    h.names.set(199, special); Object.assign(h.people[199], {Arms: 65535, Thew: 255});
+    Object.assign(h.people[20], {Arms: undefined, Thew: null}); h.garrison([199, 0, 20, 199], 1996);
+    const before = plain(h.raw), menu = plain(h.menu), dto = h.readGarrison();
+    assert.deepEqual(dto, {cityIndex: 0, rows: [
+        {id: 199, queueSlot: 1996, name: special, arms: 65535, thew: 255},
+        {id: 0, queueSlot: 1997, name: '董卓', arms: 0, thew: 0},
+        {id: 20, queueSlot: 1998, name: '吕布', arms: null, thew: null},
+        {id: 199, queueSlot: 1999, name: special, arms: 65535, thew: 255}]});
+    h.renderGarrison(); assert.equal(garrisonPane(h)?.tagName, 'SECTION');
+    assert.equal(garrisonPane(h).getAttribute('data-hd-city-garrison'), '1');
+    assert.equal(garrisonPane(h).querySelector('h3').textContent, '在任将领（4）');
+    assert.deepEqual(garrisonRows(h), dto.rows.map(row => ({id: row.id, queueSlot: row.queueSlot, name: row.name,
+        value: '兵力 ' + (row.arms === null ? '未读取' : row.arms) + ' · 体力 ' + (row.thew === null ? '未读取' : row.thew)})));
+    for (const tag of ['button', 'input', 'a', 'img']) assert.equal(garrisonPane(h).querySelectorAll(tag).length, 0);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('garrison filters wild, captive and other-allegiance residents before reading their names or private stats', () => {
+    const h = garrisonHarness(); h.people[72].Belong = 0; h.garrison([70, 0, 71, 20, 72]);
+    let excludedReads = 0, outsideReads = 0;
+    for (const id of [70, 71, 72]) for (const field of ['Arms', 'Thew']) Object.defineProperty(h.people[id], field, {
+        get() {excludedReads++; throw Error('excluded resident stats must not be read');}, configurable: true});
+    for (const slot of [9, 15]) Object.defineProperty(h.queue, slot, {get() {outsideReads++; throw Error('unrelated queue range');}, configurable: true});
+    const dto = h.readGarrison(); assert.deepEqual(dto.rows.map(row => row.id), [0, 20]);
+    assert.equal(excludedReads, 0); assert.equal(outsideReads, 0);
+    assert.equal(h.personCalls.some(id => [70, 71, 72].includes(id)), false);
+    h.renderGarrison(); assert.deepEqual(garrisonRows(h).map(row => row.id), [0, 20]);
+    assert.equal(excludedReads, 0); assert.equal(outsideReads, 0);
+    assert.equal(h.personCalls.some(id => [70, 71, 72].includes(id)), false);
+    for (const ids of [[], [70, 71, 72]]) {
+        const empty = garrisonHarness(); empty.people[72].Belong = 0; empty.garrison(ids, ids.length ? 10 : 2000);
+        empty.renderGarrison(); assert.equal(garrisonPane(empty).querySelector('h3').textContent, '在任将领（0）');
+        assert.match(garrisonPane(empty).textContent, /暂无|没有/); assert.deepEqual(garrisonRows(empty), []);
+        assert.deepEqual(empty.readGarrison(), {cityIndex: 0, rows: []});
+        assert.equal(empty.personCalls.some(id => [70, 71, 72].includes(id)), false);
+        assert.deepEqual(empty.keys, []); assert.deepEqual(empty.writes, []);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('garrison withdraws malformed ranges, IDs, ROOT mirrors, library and table bindings rather than publishing a partial list', () => {
+    const invalid = [h => h.city.Belong = 2, h => h.raw.g_hdMapCity = 2, h => h.raw.g_hdDetailGeneration++,
+        h => h.raw.g_hdMenuSeq++, h => h.raw.g_hdMenuCount = 3, h => h.raw.g_hdMenuIndex = 0,
+        h => h.menu.kind = 2, h => h.menu.context = 3, h => h.menu.active = 0, h => h.menu.count = 3,
+        h => h.menu.names.reverse(), h => h.menu.detailGeneration++, h => h.raw.g_hdEngineReady = 0,
+        ...['g_hdReportActive', 'g_hdQtyActive', 'g_hdHelpActive', 'g_hdFightActive'].map(field => h => h.raw[field] = 1),
+        h => h.identity.status = 'pending', h => h.identity.sha256 = 'different-library', h => h.identity.byteLength--,
+        h => h.context.baye.hd.ready = () => false, h => h.context.baye.getPersonCount = () => 2000,
+        h => h.context.baye.hooks.getPersonName = () => 'custom',
+        h => h.people.pop(), h => h.queue.pop(), h => h.cities.pop(), h => delete h.raw.g_PersonsQueue,
+        h => h.city.PersonQueue = -1, h => h.city.PersonQueue = 1.5, h => h.city.PersonQueue = '10',
+        h => h.city.PersonQueue = 2001, h => h.city.Persons = -1, h => h.city.Persons = '1',
+        h => {h.city.PersonQueue = 1999; h.city.Persons = 2;}, h => {h.city.PersonQueue = 2000; h.city.Persons = 1;},
+        ...[-1, 0.5, '0', 200, 65535].map(value => h => h.queue[10] = value),
+        h => h.people[0] = null, h => h.people[0].Belong = '1', h => h.names.set(0, '')];
+    for (const change of invalid) {
+        const h = garrisonHarness(); h.renderGarrison(); assert.equal(garrisonRows(h).length, 1);
+        change(h); assert.equal(h.readGarrison(), null); h.renderGarrison();
+        assertGarrisonAbsent(h, 'invalid current garrison cannot retain old rows');
+    }
+    for (const change of [h => h.hud.state.open = false, h => h.hud.state.layer = 'root', h => h.document.hidden = true,
+        h => h.context.localStorage.getItem = () => 'classic']) {
+        const h = garrisonHarness(); h.renderGarrison(); assert.equal(garrisonRows(h).length, 1);
+        change(h); h.renderGarrison(); assertGarrisonAbsent(h, 'local presentation boundary clears the new section');
+    }
+    const other = garrisonHarness(); assert.equal(other.readGarrison(1), null);
+    assert.deepEqual(other.personCalls, [], 'another city is rejected before any garrison name is requested');
+    const readySeed = garrisonHarness(); let readyCalls = 0; const ready = readySeed.context.baye.hd.ready;
+    readySeed.context.baye.hd.ready = () => {readyCalls++; return ready();};
+    assert.ok(readySeed.readGarrison()); assert.ok(readyCalls >= 2);
+    const libraryDrift = garrisonHarness(), originalReady = libraryDrift.context.baye.hd.ready; let reads = 0, changed = false;
+    libraryDrift.context.baye.hd.ready = () => {
+        if (++reads === readyCalls) {changed = true; libraryDrift.context.dynLib = 'replacement-after-isCurrent';}
+        return originalReady();
+    };
+    assert.equal(libraryDrift.readGarrison(), null, 'the last ready callback after isCurrent cannot replace the loaded library');
+    assert.equal(changed, true); assert.deepEqual(libraryDrift.keys, []); assert.deepEqual(libraryDrift.writes, []);
+    const polled = garrisonHarness(); polled.startGarrison(); polled.renderGarrison();
+    const section = garrisonPane(polled), rows = section.querySelectorAll('[data-hd-city-general]');
+    for (let i = 0; i < 4; i++) polled.pollGarrison();
+    assert.equal(garrisonPane(polled), section, 'same-owner PC status poll preserves the section');
+    section.querySelectorAll('[data-hd-city-general]').forEach((row, index) => assert.equal(row, rows[index], 'stable poll preserves rows'));
+    const sectionIndex = polled.nodes['hd-city-menu-status'].children.indexOf(section);
+    polled.people[0].Arms = 4321; polled.pollGarrison();
+    assert.equal(garrisonPane(polled), section, 'changed roster fields update the existing section node');
+    assert.equal(polled.nodes['hd-city-menu-status'].children.indexOf(section), sectionIndex, 'changed roster stays at the same section position');
+    assert.equal(garrisonRows(polled)[0].value, '兵力 4321 · 体力 0');
+    polled.identity.sha256 = 'changed-library'; polled.pollGarrison();
+    assertGarrisonAbsent(polled, 'normal status poll withdraws a now-invalid garrison without full status rendering');
+});
+
+test('garrison rejects final-name callback drift and read/render reentry, then recovers with an independent current observation', () => {
+    const seed = garrisonHarness(); seed.garrison([20]); seed.readGarrison();
+    const last = seed.personCalls.filter(id => id === 20).length; assert.ok(last >= 2);
+    const mutations = [h => h.queue[10] = 22, h => h.city.PersonQueue++, h => h.city.Persons++,
+        h => h.people[20].Belong = 2, h => h.people[20].Arms++, h => h.people[20].Thew++,
+        h => h.names.set(20, '更新后的姓名'), h => h.raw.g_PersonsQueue = h.queue.slice(),
+        h => h.raw.g_Persons = h.people.slice(), h => h.cities[0] = {...h.city},
+        h => h.context.baye.data = h.readonlyPlans({...h.raw}), h => h.identity.generation++,
+        h => h.raw.g_hdMapCity = 2, h => {h.raw.g_hdMenuSeq++; h.menu.seq++;},
+        h => h.context.baye.hooks.getPersonName = () => 'custom'];
+    for (const change of mutations) {
+        const h = garrisonHarness(); h.garrison([20]); let calls = 0, fired = false;
+        h.nameHook(id => {if (id === 20 && ++calls === last) {fired = true; change(h);}});
+        assert.equal(h.readGarrison(), null, 'last external callback cannot publish mixed resident data'); assert.equal(fired, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const target of ['reader', 'renderer']) {
+        const h = garrisonHarness(); h.garrison([20]); let entered = false, nested = 'not entered';
+        h.nameHook(id => {if (id === 20 && !entered) {entered = true; nested = target === 'reader' ? h.readGarrison() : h.renderGarrison();}});
+        h.renderGarrison(); assert.equal(entered, true); if (target === 'reader') assert.equal(nested, null);
+        assertGarrisonAbsent(h, 'synchronous reentry invalidates the active garrison read');
+        h.nameHook(null); h.renderGarrison(); assert.deepEqual(garrisonRows(h).map(row => row.id), [20]);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const outer of ['direct', 'poll']) {
+        const h = garrisonHarness(); h.garrison([20]); h.plan(2, 3, 22);
+        h.raw.g_GoodsQueue = Array(2000).fill(0xffff); h.raw.g_GoodsQueue[40] = 0x8000;
+        Object.assign(h.city, {ToolQueue: 40, Tools: 1});
+        h.context.baye.getToolCount = () => 33; h.context.baye.getToolName = () => '已发现库存';
+        vm.runInContext(read('js/hd-city-inventory.js'), h.context, {filename: 'js/hd-city-inventory.js'});
+        h.startGarrison(); h.renderGarrison(); assert.equal(garrisonRows(h).length, 1);
+        assert.ok(inventoryPane(h)); assert.ok(plansPane(h));
+        const box = h.nodes['hd-city-menu-status'], remove = box.removeChild; let detachedRemovals = 0, entered = false;
+        box.removeChild = function (child) {
+            if (!this.children.includes(child)) {detachedRemovals++; throw new Error('NotFoundError: node is not a child');}
+            return remove.call(this, child);
+        };
+        h.nameHook(id => {if (id === 20 && !entered) {entered = true; h.renderGarrison();}});
+        assert.doesNotThrow(() => outer === 'direct' ? h.hud.renderCityGarrison() : h.pollGarrison(), 'reentrant render can detach the captured section');
+        assert.equal(entered, true); assert.equal(detachedRemovals, 0, 'detached old section is never removed twice');
+        assertGarrisonAbsent(h, 'reentrant existing section is retired');
+        assert.ok(inventoryPane(h), 'nested render preserves its fresh inventory section');
+        assert.ok(plansPane(h), 'nested render preserves its fresh arranged-order section');
+        h.nameHook(null); h.pollGarrison(); assert.deepEqual(garrisonRows(h).map(row => row.id), [20]);
+        assert.ok(inventoryPane(h)); assert.ok(plansPane(h));
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+// Inventory uses only found city-queue instances. Equipment and undiscovered
+// IDs are deliberately outside this read-only status surface.
+function inventoryHarness() {
+    const h = plansHarness();
+    h.goods = Array(2000).fill(0xffff); h.raw.g_GoodsQueue = h.goods;
+    Object.assign(h.city, {ToolQueue: 40, Tools: 0});
+    h.inventoryNames = new Map(Array.from({length: 33}, (_, id) => [id, '道具' + id]));
+    h.inventoryNameCalls = []; let nameHook = null, toolCount = 33;
+    h.context.baye.getToolCount = () => toolCount;
+    h.context.baye.getToolName = id => {
+        h.inventoryNameCalls.push(id); if (nameHook) nameHook(id); return h.inventoryNames.get(id) ?? '';
+    };
+    h.inventoryNameHook = value => {nameHook = value;}; h.inventoryToolCount = value => {toolCount = value;};
+    h.inventory = (values, start = 40) => {
+        Object.assign(h.city, {ToolQueue: start, Tools: values.length});
+        values.forEach((value, index) => {h.goods[start + index] = value;});
+    };
+    h.renderInventory = () => h.hud.renderStatus();
+    vm.runInContext(read('js/hd-city-inventory.js'), h.context, {filename: 'js/hd-city-inventory.js'});
+    h.readInventory = (cityIndex = 0) => {
+        const value = h.context.BayeHdCityInventory.read(cityIndex); return value === null ? null : plain(value);
+    };
+    return h;
+}
+function inventoryPane(h) {return h.nodes['hd-city-menu-status'].querySelector('[data-hd-city-inventory]');}
+function inventoryRows(h) {
+    const pane = inventoryPane(h); return pane ? pane.querySelectorAll('[data-hd-city-tool]').map(row => {
+        assert.equal(row.children[0].tagName, 'SPAN'); assert.equal(row.children[1].tagName, 'STRONG');
+        return {id: Number(row.getAttribute('data-hd-city-tool')), count: Number(row.getAttribute('data-hd-city-tool-count')),
+            name: row.children[0].textContent, value: row.children[1].textContent};
+    }) : [];
+}
+function assertInventoryAbsent(h, reason) {
+    assert.equal(inventoryPane(h), null, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+
+test('discovered city inventory preserves full names, first occurrence and per-ID quantities without counting hidden duplicates', () => {
+    const h = inventoryHarness(), lastName = '三十二号完整道具名称甲乙丙丁戊己庚辛壬癸';
+    h.inventoryNames.set(0, '零号完整道具'); h.inventoryNames.set(32, lastName);
+    h.inventoryNames.set(1, '同名道具'); h.inventoryNames.set(2, '同名道具');
+    h.inventory([0x8020, 32, 0x8000, 0x8020, 0x8001, 0x8002, 0x7fff, 0, 0x8001]);
+    h.cities[1].ToolQueue = 300; h.cities[1].Tools = 2; h.goods[300] = 0x8009; h.goods[301] = 0x8020;
+    const before = plain(h.raw), menu = plain(h.menu); h.renderInventory();
+    assert.equal(inventoryPane(h)?.tagName, 'SECTION'); assert.equal(inventoryPane(h).getAttribute('data-hd-city-inventory'), '1');
+    assert.equal(inventoryPane(h).querySelector('h3').textContent, '已发现城内道具（6件）');
+    assert.deepEqual(inventoryRows(h), [{id: 32, name: lastName, count: 2, value: '2 件'},
+        {id: 0, name: '零号完整道具', count: 1, value: '1 件'}, {id: 1, name: '同名道具', count: 2, value: '2 件'},
+        {id: 2, name: '同名道具', count: 1, value: '1 件'}]);
+    assert.deepEqual(h.readInventory(), {cityIndex: 0, total: 6, rows: [{id: 32, name: lastName, count: 2},
+        {id: 0, name: '零号完整道具', count: 1}, {id: 1, name: '同名道具', count: 2}, {id: 2, name: '同名道具', count: 1}]});
+    assert.deepEqual([...new Set(h.inventoryNameCalls)], [32, 0, 1, 2]);
+    for (const id of [32, 0, 1, 2]) assert.ok(h.inventoryNameCalls.filter(value => value === id).length >= 2);
+    for (const tag of ['button', 'input', 'a']) assert.equal(inventoryPane(h).querySelectorAll(tag).length, 0);
+    assert.doesNotMatch(inventoryPane(h).textContent, /32767|65535|未发现|隐藏|TimeCount/);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('empty, hidden-only, foreign and out-of-range inventory never ask for hidden names or equipment attributes', () => {
+    for (const [values, start] of [[[], 40], [[], 2000], [[0, 32, 0x7fff], 40]]) {
+        const h = inventoryHarness(); h.inventory(values, start); let outsideReads = 0, propertyReads = 0;
+        h.context.baye.hd.toolDetails = () => {propertyReads++; throw Error('inventory does not inspect tool properties');};
+        for (const field of ['Equip', 'Tool1', 'Tool2']) Object.defineProperty(h.people[0], field, {
+            get() {propertyReads++; throw Error('equipped tools are not city inventory');}, configurable: true});
+        for (const offset of [0, 1999]) Object.defineProperty(h.goods, offset, {
+            get() {outsideReads++; throw Error('another range was inspected');}, configurable: true});
+        h.renderInventory();
+        assert.ok(inventoryPane(h)); assert.equal(inventoryPane(h).querySelector('h3').textContent, '已发现城内道具（0件）');
+        assert.match(inventoryPane(h).textContent, /本城暂无已发现的道具。/); assert.deepEqual(inventoryRows(h), []);
+        assert.deepEqual(h.readInventory(), {cityIndex: 0, total: 0, rows: []});
+        assert.deepEqual(h.inventoryNameCalls, []); assert.equal(outsideReads, 0); assert.equal(propertyReads, 0);
+        assert.doesNotMatch(inventoryPane(h).textContent, /32767|65535|未发现|隐藏|库存3/);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const foreign = inventoryHarness(); foreign.inventory([0x8000]); foreign.city.Belong = 2;
+    foreign.renderInventory(); assert.equal(foreign.readInventory(), null); assertInventoryAbsent(foreign, 'selected city is not player owned');
+    assert.deepEqual(foreign.inventoryNameCalls, []);
+    const other = inventoryHarness(); other.inventory([0x8000]);
+    other.cities[1].ToolQueue = 300; other.cities[1].Tools = 1; other.goods[300] = 0x8009;
+    assert.equal(other.readInventory(1), null, 'a public read cannot inspect a city other than the current ROOT owner');
+    other.hud.state.cityIndex = 1; other.renderInventory(); assertInventoryAbsent(other, 'HD city and native current city disagree');
+    assert.deepEqual(other.inventoryNameCalls, []);
+});
+
+test('city inventory rejects invalid found IDs, bounds and torn sources, then recovers after read-only reentry', () => {
+    const invalid = [h => h.inventory([0xffff]), h => h.inventory([0x8021]), h => h.inventory([-1]),
+        h => h.inventory([65536]), h => h.inventory(['32768']), h => h.inventory([NaN]),
+        h => h.city.ToolQueue = -1, h => h.city.ToolQueue = 1.5, h => h.city.ToolQueue = '40',
+        h => h.city.ToolQueue = 65536, h => h.city.Tools = -1, h => h.city.Tools = 1.5,
+        h => h.city.Tools = '1', h => h.city.Tools = 65536,
+        h => {h.city.ToolQueue = 1999; h.city.Tools = 2;}, h => {h.city.ToolQueue = 2000; h.city.Tools = 1;},
+        h => h.goods.pop(), h => h.goods.push(0), h => h.cities.pop(), h => delete h.raw.g_GoodsQueue,
+        h => h.inventoryToolCount(32), h => h.inventoryToolCount(34), h => h.inventoryToolCount('33')];
+    for (const change of invalid) {
+        const h = inventoryHarness(); h.inventory([0x8000]); change(h); h.renderInventory();
+        assert.equal(h.readInventory(), null); assertInventoryAbsent(h, 'invalid inventory is not published as an empty list');
+    }
+    const seed = inventoryHarness(); seed.inventory([0x8000]); seed.renderInventory();
+    const last = seed.inventoryNameCalls.filter(id => id === 0).length; assert.ok(last >= 2);
+    const drifts = [h => h.goods[40] = 0, h => h.goods[40] = 0x8020, h => h.city.ToolQueue++, h => h.city.Tools++,
+        h => h.raw.g_GoodsQueue = h.goods.slice(), h => h.raw.g_Cities = h.cities.slice(),
+        h => h.cities[0] = {...h.city}, h => h.context.baye.data = h.readonlyPlans({...h.raw}),
+        h => h.identity.generation++, h => h.identity.sha256 = 'changed-library',
+        h => {h.raw.g_hdMenuSeq++; h.menu.seq++;}, h => h.raw.g_hdMenuIndex = 0,
+        h => h.raw.g_hdMapCity = 2, h => h.city.Belong = 2, h => h.inventoryNames.set(0, '更新道具名'),
+        h => h.context.baye.getToolCount = () => 33,
+        h => {const name = h.context.baye.getToolName; h.context.baye.getToolName = id => name(id);},
+        h => h.context.baye.hooks = {}];
+    for (const change of drifts) {
+        const h = inventoryHarness(); h.inventory([0x8000]); let calls = 0, fired = false;
+        h.inventoryNameHook(id => {if (id === 0 && ++calls === last) {fired = true; change(h);}});
+        h.renderInventory(); assert.equal(fired, true); assertInventoryAbsent(h, 'last name callback changed the sampled inventory');
+    }
+    const h = inventoryHarness(); h.inventory([0x8000]); let reentered = false;
+    h.inventoryNameHook(() => {if (!reentered) {reentered = true; h.renderInventory();}});
+    h.renderInventory(); assert.equal(reentered, true); assertInventoryAbsent(h, 'synchronous status render reentry');
+    h.inventoryNameHook(null); h.renderInventory();
+    assert.deepEqual(inventoryRows(h), [{id: 0, name: '道具0', count: 1, value: '1 件'}]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+// Drive the actual bound list-tools DOM events. Existing dispatch() stays unchanged.
+function dispatchListFind(h, type, target, options = {}) {
+    const event = {target, type, defaultPrevented: false, stopped: false, immediateStopped: false,
+        preventDefault() { this.defaultPrevented = true; },
+        stopPropagation() { this.stopped = true; },
+        stopImmediatePropagation() { this.immediateStopped = this.stopped = true; }, ...options};
+    function fire(node, listeners) {
+        event.currentTarget = node;
+        for (const listener of listeners || []) { listener(event); if (event.immediateStopped) break; }
+    }
+    fire(h.context, h.windowListeners.get(type));
+    if (!event.stopped) fire(h.document, h.documentListeners.get(type));
+    for (let node = target; node && !event.stopped; node = node.parentElement) fire(node, node.listeners?.get(type));
+    return event;
+}
+function listFindNodes(h) {
+    return Object.fromEntries(['tools', 'toggle', 'controls', 'query', 'sort', 'clear', 'count'].map(key =>
+        [key, h.nodes['hd-city-menu-list-' + key]]));
+}
+function visibleListFindButtons(h) {
+    const list = h.nodes['hd-city-menu-deep'];
+    return list.querySelectorAll('[data-hd-deep]').filter(button => {
+        for (let node = button; node && node !== list; node = node.parentElement) if (node.hidden) return false;
+        return true;
+    });
+}
+function listFindIds(h, kind = 'person') {
+    return visibleListFindButtons(h).map(button => Number(button.getAttribute(kind === 'person' ? 'data-hd-deep-pind' : 'data-hd-deep-tool')));
+}
+function openListFind(h) {
+    h.hud.fillDeepList(); const ui = listFindNodes(h);
+    assert.equal(ui.tools.hidden, false, 'current ordinary native list exposes the local tools');
+    assert.equal(ui.controls.hidden, true, 'tools start collapsed');
+    dispatchListFind(h, 'click', ui.toggle, {detail: 0});
+    assert.equal(ui.controls.hidden, false); assert.equal(ui.toggle.getAttribute('aria-expanded'), 'true');
+    return ui;
+}
+function queryListFind(h, value) {
+    const ui = listFindNodes(h); ui.query.focus(); dispatchListFind(h, 'focusin', ui.query); ui.query.value = value;
+    dispatchListFind(h, 'input', ui.query); return ui;
+}
+function sortListFind(h, value) {
+    const ui = listFindNodes(h); ui.sort.focus(); dispatchListFind(h, 'focusin', ui.sort); ui.sort.value = value;
+    dispatchListFind(h, 'change', ui.sort); return ui;
+}
+function clearListFind(h) { const ui = listFindNodes(h); dispatchListFind(h, 'click', ui.clear, {detail: 0}); return ui; }
+function assertListFindCount(h, visible, total) {
+    assert.deepEqual(listFindNodes(h).count.textContent.match(/\d+/g)?.map(Number), [visible, total]);
+}
+function exercisePersonListFind() {
+    const h = personListSummaryHarness([0, 20, 18, 199]), before = plain(h.raw), menuBefore = plain(h.menu), profileBefore = plain(h.personProps);
+    const ui = openListFind(h), items = plain(h.hud.state.deepItems);
+    assertListFindCount(h, 4, 4);
+    const originalButtons = personListButtons(h);
+    queryListFind(h, '  同名  '); assert.deepEqual(listFindIds(h), [0, 199]); assertListFindCount(h, 2, 4);
+    sortListFind(h, 'force'); assert.deepEqual(listFindIds(h), [199, 0]);
+    const current = visibleListFindButtons(h); ui.query.focus(); h.nodes['hd-city-menu-deep'].scrollTop = 37;
+    h.hud.fillDeepList(); assert.deepEqual(visibleListFindButtons(h), current);
+    assert.equal(h.document.activeElement, ui.query); assert.equal(h.nodes['hd-city-menu-deep'].scrollTop, 37);
+    assert.equal(h.document.getElementById(ui.query.id), ui.query, 'polling never replaces the text editor');
+    assert.deepEqual(plain(h.hud.state.deepItems), items, 'filter/sort never edits the public native-order items');
+    clearListFind(h); assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native');
+    assert.deepEqual(listFindIds(h), [0, 20, 18, 199]); assertListFindCount(h, 4, 4);
+    for (const [field, expected] of [
+        ['force', [199, 20, 18, 0]], ['iq', [0, 20, 18, 199]], ['thew', [199, 0, 20, 18]],
+        ['level', [199, 20, 18, 0]], ['arms', [199, 20, 18, 0]], ['devotion', [199, 20, 18, 0]]]) {
+        sortListFind(h, field); assert.deepEqual(listFindIds(h), expected, field + ' is descending, ties keep native index and ruler null follows actual zero');
+    }
+    queryListFind(h, '无此姓名'); assert.deepEqual(listFindIds(h), []); assertListFindCount(h, 0, 4);
+    assert.match(h.nodes['hd-city-menu-deep'].querySelector('[data-hd-list-empty]')?.textContent || ui.count.textContent, /没有匹配|无匹配/);
+    queryListFind(h, '甲'.repeat(40)); assert.ok(ui.query.value.length <= 32, 'programmatic input is bounded like the search control');
+    clearListFind(h); sortListFind(h, 'native'); assert.deepEqual(listFindIds(h), [0, 20, 18, 199]);
+    assert.ok(personListButtons(h).every(button => originalButtons.includes(button)), 'local editing reuses original item nodes');
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.personProps), profileBefore);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+
+    const keyboard = personListSummaryHarness([199, 20, 0]), k = openListFind(keyboard), leaked = [];
+    for (const type of ['keydown', 'keyup']) {
+        const probe = event => leaked.push([type, event.key]);
+        keyboard.documentListeners.set(type, [probe, ...(keyboard.documentListeners.get(type) || [])]);
+    }
+    k.query.focus(); dispatchListFind(keyboard, 'compositionstart', k.query);
+    k.query.value = '同名'; dispatchListFind(keyboard, 'input', k.query, {isComposing: true});
+    for (const [key, keyCode] of [['Process', 229], [' ', 32], ['ArrowDown', 40], ['Enter', 13], ['Escape', 27]]) {
+        const down = dispatchListFind(keyboard, 'keydown', k.query, {key, keyCode, which: keyCode, isComposing: true});
+        assert.equal(down.stopped, true, key + ' is captured before an earlier document game listener');
+        const up = dispatchListFind(keyboard, 'keyup', k.query, {key, keyCode, which: keyCode, isComposing: true});
+        assert.equal(up.stopped, true);
+    }
+    dispatchListFind(keyboard, 'compositionend', k.query); assert.deepEqual(listFindIds(keyboard), [199, 0]);
+    const tab = dispatchListFind(keyboard, 'keydown', k.query, {key: 'Tab', keyCode: 9, which: 9});
+    assert.equal(tab.defaultPrevented, false, 'Tab retains browser focus navigation');
+    dispatchListFind(keyboard, 'keydown', k.query, {key: 'ArrowDown', keyCode: 40, which: 40}); k.query.blur();
+    keyboard.menu.seq++; keyboard.raw.g_hdMenuSeq++; keyboard.personProps.menuSeq = keyboard.menu.seq; keyboard.hud.fillDeepList();
+    const released = dispatchListFind(keyboard, 'keyup', keyboard.document.body, {key: 'ArrowDown', keyCode: 40, which: 40});
+    assert.equal(released.stopped, true, 'a held editor keyup stays owned across blur and owner retirement');
+    assert.ok(leaked.every(([, key]) => key === 'Tab'), 'editing and release keys never reach native document listeners');
+    assert.deepEqual(keyboard.keys, []); assert.deepEqual(keyboard.writes, []);
+
+    const choose = personListSummaryHarness([0, 20, 199]); openListFind(choose); choose.context.sendKey = key => choose.keys.push(key);
+    queryListFind(choose, choose.menu.names[1]); const target = visibleListFindButtons(choose)[0];
+    assert.equal(target.getAttribute('data-hd-deep'), '1');
+    dispatchListFind(choose, 'pointerdown', target, {button: 0, isPrimary: true}); dispatchListFind(choose, 'click', target, {detail: 1});
+    assert.deepEqual(choose.keys, [0x23], 'filtered visual person row0 retains native index1');
+    choose.menu.index = choose.raw.g_hdMenuIndex = 1;
+    choose.personProps.index = 1; choose.personProps.person = 20; choose.personProps.name = choose.menu.names[1];
+    choose.hud.fillDeepList(); runBackQueue(choose);
+    assert.deepEqual(choose.keys, [0x23, 0x27], 'native ACK survives a real render before exactly one person Enter');
+    assert.equal(choose.hud.state.nativeMenuRequest, null); assert.deepEqual(choose.writes, []);
+}
+function exercisePersonListFindRefresh() {
+    const h = personListSummaryHarness([0, 20, 199]), ui = openListFind(h);
+    sortListFind(h, 'force'); assert.deepEqual(listFindIds(h), [199, 20, 0]);
+    const old = visibleListFindButtons(h)[0]; dispatchListFind(h, 'pointerdown', old, {button: 0, isPrimary: true});
+    queryListFind(h, h.menu.names[1]); assert.deepEqual(listFindIds(h), [20]);
+    dispatchListFind(h, 'click', old, {detail: 1}); assert.deepEqual(h.keys, [], 'a locally hidden held row cannot select');
+    clearListFind(h); sortListFind(h, 'force'); h.people[20].Force = 255; h.hud.fillDeepList();
+    assert.deepEqual(listFindIds(h), [20, 199, 0], 'same-owner value changes are resorted and ties retain native order');
+    assert.equal(ui.sort.value, 'force'); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    const current = visibleListFindButtons(h); h.hud.fillDeepList(); assert.deepEqual(visibleListFindButtons(h), current);
+}
+test('Recruitment filters and sorts current native generals and resets for the next list', () => {
+    const h = personListSummaryHarness([0, 20, 199]);
+    h.context.baye.hd.march = () => ({phase: 0, session: 0});
+    Object.assign(h.hud.state, {subKind: 'junbei', deepKind: 'person-qty', deepLabel: '征兵'});
+    const ui = openListFind(h);
+    sortListFind(h, 'arms'); assert.deepEqual(listFindIds(h), [199, 20, 0]);
+    queryListFind(h, h.menu.names[1]); assert.deepEqual(listFindIds(h), [20]);
+    assert.equal(visibleListFindButtons(h)[0].getAttribute('data-hd-deep'), '1');
+    assert.deepEqual(plain(h.hud.state.deepItems).map(row => row.pind), [0, 20, 199]);
+
+    h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq = h.menu.seq;
+    h.hud.state.deepStep = 1;
+    h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, false); assert.equal(ui.controls.hidden, true);
+    assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native');
+    assert.deepEqual(listFindIds(h), [0, 20, 199]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+function exercisePersonListFindInvalid() {
+    const h = personListSummaryHarness([0, 20, 199]), ui = openListFind(h);
+    queryListFind(h, '同名'); sortListFind(h, 'force');
+    h.personProps.custom = 1; h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, true); assert.equal(ui.sort.value, 'native'); assert.equal(ui.query.value, '');
+    assert.deepEqual(listFindIds(h), [0, 20, 199], 'receipt loss restores the complete original order');
+    h.personProps.custom = 0; h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, true, 'the old custom presentation still revokes this poll before its fresh property capture');
+    assert.equal(h.hud.state.personProperties.custom, false, 'the ordinary detail renderer captures the current default property profile');
+    h.hud.fillDeepList(); assert.equal(ui.tools.hidden, false); assert.equal(ui.controls.hidden, true);
+    dispatchListFind(h, 'click', ui.toggle, {detail: 0}); queryListFind(h, '同名'); sortListFind(h, 'iq');
+    ui.query.focus(); dispatchListFind(h, 'focusin', ui.query); dispatchListFind(h, 'compositionstart', ui.query);
+    ui.query.value = '过期组合'; dispatchListFind(h, 'input', ui.query, {isComposing: true});
+    h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq = h.menu.seq; h.hud.fillDeepList();
+    dispatchListFind(h, 'compositionend', ui.query);
+    assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native'); assert.equal(ui.controls.hidden, true);
+    assert.deepEqual(listFindIds(h), [0, 20, 199]); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+}
+function exerciseToolListFind() {
+    const h = toolListSummaryHarness([2, 17, 2, 31]), before = plain(h.raw), menuBefore = plain(h.menu), goodsBefore = plain(h.goods);
+    const ui = openListFind(h), items = plain(h.hud.state.deepItems);
+    for (const [field, expected] of [['attack', [17, 31, 2, 2]], ['iq', [2, 2, 31, 17]], ['move', [17, 31, 2, 2]]]) {
+        sortListFind(h, field); assert.deepEqual(listFindIds(h, 'tool'), expected);
+        assert.deepEqual(visibleListFindButtons(h).filter(button => button.getAttribute('data-hd-deep-tool') === '2').map(button => Number(button.getAttribute('data-hd-deep'))), [0, 2]);
+    }
+    queryListFind(h, '完整名称17'); assert.deepEqual(listFindIds(h, 'tool'), [17]); assertListFindCount(h, 1, 4);
+    const visible = visibleListFindButtons(h); ui.query.focus(); h.nodes['hd-city-menu-deep'].scrollTop = 23; h.hud.fillDeepList();
+    assert.deepEqual(visibleListFindButtons(h), visible); assert.equal(h.document.activeElement, ui.query); assert.equal(h.nodes['hd-city-menu-deep'].scrollTop, 23);
+    queryListFind(h, '无匹配道具'); assert.deepEqual(listFindIds(h, 'tool'), []); assertListFindCount(h, 0, 4);
+    clearListFind(h); assert.deepEqual(listFindIds(h, 'tool'), [2, 17, 2, 31]);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.goods), goodsBefore);
+    assert.deepEqual(plain(h.hud.state.deepItems), items); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+
+    const choose = toolListSummaryHarness([2, 17]), c = openListFind(choose); choose.context.sendKey = key => choose.keys.push(key);
+    queryListFind(choose, '完整名称17'); const target = visibleListFindButtons(choose)[0];
+    assert.equal(target.getAttribute('data-hd-deep'), '1', 'visual first row retains native index1');
+    dispatchListFind(choose, 'pointerdown', target, {button: 0, isPrimary: true}); dispatchListFind(choose, 'click', target, {detail: 1});
+    assert.deepEqual(choose.keys, [0x23], 'visual first row sends native Down before any Enter');
+    choose.menu.index = choose.raw.g_hdMenuIndex = 1;
+    choose.goods.index = choose.raw.g_hdGoodsIndex = 1; choose.goods.tool = choose.raw.g_hdGoodsTool = 17; choose.goods.name = choose.fullToolNames.get(17);
+    choose.hud.fillDeepList(); runBackQueue(choose); assert.deepEqual(choose.keys, [0x23, 0x27], 'real native index ACK and intervening render permit exactly one original Enter');
+    assert.equal(choose.hud.state.nativeMenuRequest, null); assert.deepEqual(choose.writes, []);
+}
+function exerciseToolListFindRefresh() {
+    const h = toolListSummaryHarness([2, 31, 17]), ui = openListFind(h);
+    sortListFind(h, 'attack'); assert.deepEqual(listFindIds(h, 'tool'), [17, 31, 2]);
+    const pressed = visibleListFindButtons(h)[0]; dispatchListFind(h, 'pointerdown', pressed, {button: 0, isPrimary: true});
+    queryListFind(h, '完整名称2'); assert.deepEqual(listFindIds(h, 'tool'), [2]);
+    dispatchListFind(h, 'click', pressed, {detail: 1}); assert.deepEqual(h.keys, []);
+    clearListFind(h); sortListFind(h, 'attack'); h.nativeTools[2].at = 255; h.hud.fillDeepList();
+    assert.deepEqual(listFindIds(h, 'tool'), [2, 17, 31]); assert.equal(ui.sort.value, 'attack');
+    const nodes = visibleListFindButtons(h); h.hud.fillDeepList(); assert.deepEqual(visibleListFindButtons(h), nodes);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+}
+function exerciseToolListFindInvalid() {
+    const h = toolListSummaryHarness([2, 17]), ui = openListFind(h);
+    queryListFind(h, '完整名称17'); sortListFind(h, 'attack'); h.goods.custom = 1; h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, true); assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native');
+    assert.deepEqual(listFindIds(h, 'tool'), [2, 17]);
+    h.goods.custom = 0; h.hud.fillDeepList(); assert.equal(ui.tools.hidden, false); assert.equal(ui.controls.hidden, true);
+    dispatchListFind(h, 'click', ui.toggle, {detail: 0}); queryListFind(h, '完整名称17');
+    h.menu.seq++; h.raw.g_hdMenuSeq++; h.goods.menuSeq = h.raw.g_hdGoodsMenuSeq = h.menu.seq; h.hud.fillDeepList();
+    assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native'); assert.equal(ui.controls.hidden, true);
+    assert.deepEqual(listFindIds(h, 'tool'), [2, 17]); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+}
+
+// List summaries exercise the normal native list renderer. Keep the existing
+// logical-200/physical-2000 original fixture and its stable read-only bindings.
+function personListSummaryHarness(ids = [199, 0]) {
+    const h = locationHarness(29);
+    for (const id of [0, 18, 20, 199]) h.people[id].Belong = 1;
+    h.people[77].Belong = 2;
+    Object.assign(h.people[0], {Force: 0, IQ: 255, Thew: 0, Level: 0, Arms: 0, Devotion: 0});
+    Object.assign(h.people[18], {Devotion: 0});
+    Object.assign(h.people[20], {Force: 91, IQ: 88, Thew: 0, Level: 7, Arms: 1234, Devotion: 88});
+    Object.assign(h.people[199], {Force: 255, IQ: 0, Thew: 255, Level: 255, Arms: 65535, Devotion: 255});
+    Object.assign(h.city, {PersonQueue: 5, Persons: 5});
+    h.queue.splice(5, 5, 0, 77, 20, 199, 18);
+    h.names.set(0, '同名将领'); h.names.set(199, '同名将领');
+    Object.assign(h.menu, {count: ids.length, index: 0, ids: ids.slice(),
+        names: ids.map(id => h.names.get(id)), packedNames: ids.map(id => h.names.get(id))});
+    Object.assign(h.raw, {g_hdMapCity: 5, g_hdMenuActive: 1, g_hdMenuContext: 1,
+        g_hdMenuKind: 3, g_hdMenuSeq: h.menu.seq, g_hdMenuCount: ids.length, g_hdMenuIndex: 0,
+        g_hdReportActive: 0, g_hdHelpActive: 0, g_hdFightActive: 0});
+    Object.assign(h.hud.state, {subKind: 'neizheng', deepLabel: '开垦'});
+    h.personProps = {protocolVersion: 1, active: 1, complete: 0, pageComplete: 0, custom: 0,
+        generation: 3, detailGeneration: 3, context: 1, kind: 3, menuSeq: h.menu.seq,
+        paintSeq: 40, index: 0, person: ids[0], propertyCount: 13,
+        pageIndex: 0, pageStart: 0, pageEnd: 0, name: h.menu.names[0],
+        properties: Array.from({length: 13}, (_, index) => ({index, title: '', value: '',
+            captured: false, titleCaptured: false, valueCaptured: false, titlePaintSeq: 0, valuePaintSeq: 0}))};
+    h.context.baye.hd.personProperties = () => plain(h.personProps);
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    h.hud.bind();
+    return h;
+}
+function personListButtons(h) { return h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-deep]'); }
+function personListSummaryText(h) {
+    return personListButtons(h).map(button => button.querySelector('[data-hd-person-summary]')?.textContent ?? null);
+}
+function assertPersonListPlain(h, names, message) {
+    assert.deepEqual(personListButtons(h).map(button => button.textContent), names, message);
+    assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-person-summary]').length, 0, message);
+    assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-person-unit-summary]').length, 0, message);
+    assert.deepEqual(h.keys, [], message); assert.deepEqual(h.writes, [], message);
+}
+
+test('mobile ordinary person previews keep the summary rows and search through each native cursor acknowledgement', () => {
+    const h = surrenderHarness({mobile: true});
+    h.people[150].Belong = 1;
+    const createElement = h.document.createElement;
+    h.document.createElement = tag => Object.defineProperty(createElement(tag), 'isConnected', {
+        get() { return h.root.contains(this); }
+    });
+    h.publish('actor');
+    Object.assign(h.hud.state, {layer: 'deep', deepKind: 'person', deepLabel: '搜寻'});
+    const ui = openListFind(h), name = h.names.get(150);
+    queryListFind(h, name);
+    ui.query.blur();
+    const row = h.deep(2), preview = h.document.querySelectorAll('[data-hd-deep-preview]').find(button =>
+        button.getAttribute('data-hd-deep-preview') === '2');
+    const summary = row.querySelector('[data-hd-person-summary]'), owner = h.hud.state.deepMenuOwner;
+    const world = h.world();
+    assert.ok(summary && preview);
+
+    h.down(preview);
+    assert.ok(h.hud.state.previewPointerOwner?.context);
+    h.api.retireInteraction('person-list-pan');
+    assert.equal(h.hud.state.deepMenuOwner, owner);
+    h.click(preview);
+    assert.deepEqual(h.keys, []);
+
+    h.press(preview);
+    assert.deepEqual(h.keys, [35]);
+    h.refresh();
+    assert.equal(h.deep(2), row);
+    assert.equal(ui.query.value, name);
+    h.flush();
+    assert.equal(h.menu.index, 1);
+    assert.deepEqual(h.keys, [35, 35]);
+    assert.equal(row.querySelector('[data-hd-person-summary]'), summary);
+    h.flush();
+    assert.equal(h.menu.index, 2);
+    assert.equal(h.hud.state.personDetail.personIndex, 150);
+    assert.equal(h.hud.state.nativeMenuRequest, null);
+    assert.equal(ui.query.value, name);
+    assert.deepEqual(plain(h.hud.state.listFind.visibleNativeIndices), [2]);
+    assert.deepEqual(h.keys, [35, 35]);
+    assert.deepEqual(h.world(), world);
+    assert.deepEqual(h.writes, []);
+});
+
+test('mobile person list resets a retired menu scroll and keeps the new scroll when summaries arrive', () => {
+    const h = surrenderHarness({mobile: true});
+    h.people[150].Belong = 1;
+    h.publish('actor');
+    Object.assign(h.hud.state, {layer: 'deep', deepKind: 'person', deepLabel: '搜寻'});
+    const list = h.nodes['hd-city-menu-deep'], properties = h.context.baye.hd.personProperties;
+    h.refresh();
+    assert.ok(list.classList.contains('has-person-summaries'));
+    list.scrollTop = 240;
+
+    h.context.baye.hd.personProperties = () => null;
+    h.publish('actor', {menuSeq: h.menu.seq + 2});
+    h.refresh();
+    assert.equal(list.scrollTop, 0);
+    assert.equal(list.classList.contains('has-person-summaries'), false);
+
+    list.scrollTop = 84;
+    h.context.baye.hd.personProperties = properties;
+    h.refresh();
+    assert.equal(list.scrollTop, 84);
+    assert.ok(list.classList.contains('has-person-summaries'));
+    const ui = openListFind(h);
+    queryListFind(h, h.names.get(150));
+    assert.equal(list.scrollTop, 0);
+    assert.equal(ui.query.value, h.names.get(150));
+    assert.deepEqual(h.keys, []);
+    assert.deepEqual(h.writes, []);
+});
+
+test('person list summary follows filtered reordered native IDs and duplicate names without changing public items or input', () => {
+    const h = personListSummaryHarness(), before = plain(h.raw), menuBefore = plain(h.menu), profileBefore = plain(h.personProps);
+    h.hud.fillDeepList();
+    assert.deepEqual(plain(h.hud.state.deepItems), [
+        {i: 0, name: '同名将领', nativeId: true, pind: 199},
+        {i: 1, name: '同名将领', nativeId: true, pind: 0}]);
+    const stats = ['武力 255 · 智力 0 · 体力 255', '武力 0 · 智力 255 · 体力 0'],
+        units = ['等级 255 · 兵力 65535 · 忠诚 255', '等级 0 · 兵力 0 · 忠诚 --'];
+    assert.deepEqual(personListSummaryText(h), stats.map((text, index) => text + units[index]));
+    const buttons = personListButtons(h);
+    assert.deepEqual(buttons.map(button => button.getAttribute('data-hd-deep-pind')), ['199', '0']);
+    for (const [index, button] of buttons.entries()) {
+        const summaries = button.querySelectorAll('[data-hd-person-summary]');
+        assert.equal(summaries.length, 1); assert.equal(summaries[0].tagName, 'SMALL');
+        assert.equal(summaries[0].parentElement, button);
+        const unit = summaries[0].querySelectorAll('[data-hd-person-unit-summary]');
+        assert.equal(unit.length, 1); assert.equal(unit[0].tagName, 'SPAN');
+        assert.equal(unit[0].parentElement, summaries[0]); assert.equal(unit[0].textContent, units[index]);
+        const loyalty = unit[0].querySelectorAll('[data-hd-person-loyalty-summary]');
+        assert.equal(loyalty.length, 1); assert.equal(loyalty[0].tagName, 'SPAN');
+        assert.equal(loyalty[0].parentElement, unit[0]);
+        assert.equal(loyalty[0].textContent, ' · 忠诚 ' + (index === 0 ? '255' : '--'));
+        assert.equal(summaries[0].textContent.slice(0, -unit[0].textContent.length), stats[index], 'first line preserves the original three native values');
+        assert.equal(button.textContent, h.menu.names[index] + stats[index] + units[index]);
+        for (const tag of ['button', 'input', 'a']) assert.equal(summaries[0].querySelectorAll(tag).length, 0);
+    }
+    h.hud.fillDeepList();
+    assert.ok(personListButtons(h).every((button, index) => button === buttons[index]), 'stable source polls keep native button nodes');
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.personProps), profileBefore);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+
+    const zero = personListSummaryHarness([199, 18, 0]), zeroRaw = plain(zero.raw),
+        zeroMenu = plain(zero.menu), zeroProfile = plain(zero.personProps);
+    zero.hud.fillDeepList();
+    assert.deepEqual(personListButtons(zero).map(button => button.getAttribute('data-hd-deep-pind')), ['199', '18', '0']);
+    assert.deepEqual(personListSummaryText(zero), [
+        '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535 · 忠诚 255',
+        '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 0',
+        '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0 · 忠诚 --']);
+    assert.deepEqual(plain(zero.raw), zeroRaw); assert.deepEqual(plain(zero.menu), zeroMenu);
+    assert.deepEqual(plain(zero.personProps), zeroProfile); assert.deepEqual(zero.keys, []); assert.deepEqual(zero.writes, []);
+
+    // Keep ID199 highlighted: right-side details must not be confused with the list reader.
+    const lord = personListSummaryHarness(); lord.hud.fillDeepList();
+    const lordButtons = personListButtons(lord), lordSignature = lord.hud.state.deepSig,
+        lordMenu = plain(lord.menu), lordProfile = plain(lord.personProps);
+    for (const value of ['throws', -1, 256, 0.5, '0', false, null, undefined, NaN, Infinity]) {
+        let listDevotionReads = 0;
+        Object.defineProperty(lord.people[0], 'Devotion', {configurable: true, get() {
+            if (/\breadPersonListStats\b/.test(new Error().stack)) listDevotionReads++;
+            if (value === 'throws') throw Error('ruler loyalty is intentionally unreadable');
+            return value;
+        }});
+        lord.hud.fillDeepList();
+        assert.equal(listDevotionReads, 0, 'ruler Devotion is never read by the list reader: ' + String(value));
+        assert.deepEqual(personListSummaryText(lord), stats.map((text, index) => text + units[index]));
+        assert.equal(lord.hud.state.deepSig, lordSignature, 'ruler Devotion does not enter the list value receipt');
+        assert.ok(personListButtons(lord).every((button, index) => button === lordButtons[index]), 'ruler Devotion alone does not rebuild buttons');
+        assert.deepEqual(plain(lord.menu), lordMenu); assert.deepEqual(plain(lord.personProps), lordProfile);
+        assert.deepEqual(lord.keys, []); assert.deepEqual(lord.writes, []);
+    }
+
+    const nonzeroLord = personListSummaryHarness([199, 18, 20]);
+    nonzeroLord.raw.g_PlayerKing = 18; nonzeroLord.city.Belong = 19;
+    for (const id of [0, 18, 20, 199]) nonzeroLord.people[id].Belong = 19;
+    let nonzeroLordReads = 0;
+    Object.defineProperty(nonzeroLord.people[18], 'Devotion', {configurable: true, get() {
+        if (/\breadPersonListStats\b/.test(new Error().stack)) nonzeroLordReads++;
+        throw Error('nonzero ruler loyalty is intentionally unreadable');
+    }});
+    const nonzeroMenu = plain(nonzeroLord.menu), nonzeroProfile = plain(nonzeroLord.personProps);
+    nonzeroLord.hud.fillDeepList();
+    assert.deepEqual(personListSummaryText(nonzeroLord), [
+        '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535 · 忠诚 255',
+        '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 --',
+        '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 88']);
+    assert.equal(nonzeroLordReads, 0, 'ruler suppression follows g_PlayerKing rather than hardcoded ID0');
+    assert.deepEqual(plain(nonzeroLord.menu), nonzeroMenu); assert.deepEqual(plain(nonzeroLord.personProps), nonzeroProfile);
+    assert.deepEqual(nonzeroLord.keys, []); assert.deepEqual(nonzeroLord.writes, []);
+    exercisePersonListFind();
+});
+
+test('person list summary refreshes changed same-owner values and rejects a press held across the real list refresh', () => {
+    for (const [label, change, expected, ids] of [
+        ['three existing stats', h => Object.assign(h.people[0], {Force: 17, IQ: 38, Thew: 64}), '武力 17 · 智力 38 · 体力 64等级 0 · 兵力 0 · 忠诚 --'],
+        ['Level only', h => h.people[0].Level = 255, '武力 0 · 智力 255 · 体力 0等级 255 · 兵力 0 · 忠诚 --'],
+        ['Arms only', h => h.people[0].Arms = 65535, '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 65535 · 忠诚 --'],
+        ['Devotion only', h => h.people[20].Devotion = 0, '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 0', [199, 20]]]) {
+        const h = personListSummaryHarness(ids); h.hud.fillDeepList();
+        const oldButtons = personListButtons(h), owner = h.hud.state.deepMenuOwner.key,
+            items = plain(h.hud.state.deepItems), menuBefore = plain(h.menu), signature = h.hud.state.deepSig;
+        dispatch(h, 'pointerdown', oldButtons[1].querySelector(label === 'three existing stats' ? '[data-hd-person-summary]' : '[data-hd-person-unit-summary]'), {button: 0, isPrimary: true});
+        change(h); const changedRaw = plain(h.raw);
+        h.hud.fillDeepList();
+        const currentButtons = personListButtons(h);
+        assert.equal(h.hud.state.deepMenuOwner.key, owner, label); assert.notEqual(h.hud.state.deepSig, signature, label);
+        assert.notEqual(currentButtons[1], oldButtons[1], label); assert.equal(oldButtons[1].parentElement, null, label);
+        assert.deepEqual(personListSummaryText(h), ['武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535 · 忠诚 255', expected], label);
+        assert.deepEqual(plain(h.hud.state.deepItems), items, label); assert.deepEqual(plain(h.menu), menuBefore, label);
+        assert.deepEqual(plain(h.raw), changedRaw, label + ' refresh does not rewrite any native source');
+        assert.deepEqual(h.keys, [], 'refresh never confirms a native person'); assert.deepEqual(h.writes, []);
+        dispatch(h, 'click', currentButtons[1], {detail: 1});
+        assert.deepEqual(h.keys, [], label + ': the old held pointer cannot confirm the replacement button');
+        assert.deepEqual(h.writes, []); assert.equal(h.hud.state.nativeMenuRequest, null);
+        h.hud.fillDeepList();
+        assert.ok(personListButtons(h).every((button, index) => button === currentButtons[index]), label + ': fresh stable polling does not rebuild again');
+    }
+    exercisePersonListFindRefresh();
+});
+
+test('person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry', () => {
+    const changes = [
+        ['unknown library', h => h.setIdentity({...h.identity, sha256: 'unknown'})],
+        ['pending library', h => h.setIdentity({...h.identity, status: 'pending'})],
+        ['stale library', h => h.setIdentity(h.identity, false)],
+        ['wrong library size', h => h.setIdentity({...h.identity, byteLength: 207194})],
+        ['non-original count', h => {h.context.baye.getPersonCount = () => 201;}],
+        ['physical person table', h => {h.people.length = 200;}],
+        ['city table', h => {h.cities.length = 37;}],
+        ['queue table', h => {h.queue.length = 1999;}],
+        ['city config', h => {h.raw.g_engineConfig.citiesCount = 37;}],
+        ['property title hook', h => {h.context.baye.hooks.getPersonPropertyTitle = () => {h.summaryHookCalls++; throw Error('hook must not run');};}],
+        ['property value hook', h => {h.context.baye.hooks.getPersonPropertyValue = () => {h.summaryHookCalls++; throw Error('hook must not run');};}],
+        ['name-only IDs', h => {h.menu.idsValid = false;}],
+        ['out-of-original native ID', h => {h.menu.ids[1] = 200;}],
+        ['foreign current city', h => {h.city.Belong = 2;}],
+        ['foreign native person', h => {h.people[20].Belong = 2;}],
+        ['native person outside current queue', h => {h.queue[7] = 18;}],
+        ['invalid hidden queue member', h => {h.queue[6] = 200;}],
+        ['raw generation', h => {h.raw.g_hdDetailGeneration++;}],
+        ['menu generation', h => {h.menu.generation++; h.menu.detailGeneration++;}],
+        ['trade person label', h => {h.hud.state.deepLabel = '交易';}],
+        ['execution person label', h => {h.hud.state.deepLabel = '处斩';}],
+        ['banishment person label', h => {h.hud.state.deepLabel = '流放';}],
+        ['special person-quantity route', h => {h.hud.state.deepKind = 'person-qty';}],
+        ['custom current property presentation', h => {h.hud.state.personProperties = {custom: true};}],
+        ['sticky custom native capture without live hooks', h => {h.personProps.custom = 1;}],
+        ['missing native property snapshot', h => {h.context.baye.hd.personProperties = () => null;}],
+        ['non-default native property count', h => {h.personProps.propertyCount = 12; h.personProps.properties.length = 12;}]
+    ];
+    for (const [label, change] of changes) {
+        const h = personListSummaryHarness([199, 20, 0]); h.summaryHookCalls = 0; h.context.baye.hooks ??= {};
+        h.hud.fillDeepList(); assert.equal(personListSummaryText(h).filter(Boolean).length, 3, label + ' positive prerequisite');
+        const names = h.menu.names.slice(); change(h);
+        let privateReads = 0;
+        // The existing right-side person panel reads only highlighted ID199.
+        // Guard unhighlighted ID20, so these failures belong to list enhancement.
+        for (const field of ['Force', 'IQ', 'Thew', 'Level', 'Arms', 'Devotion']) Object.defineProperty(h.people[20], field, {
+            configurable: true, get() {privateReads++; throw Error('unauthorized list stat read');}});
+        h.hud.fillDeepList(); assertPersonListPlain(h, names, label);
+        assert.equal(privateReads, 0, label + ' is rejected before the six private fields');
+        assert.equal(h.summaryHookCalls, 0, label + ' never replays native hooks');
+    }
+    for (const field of ['Force', 'IQ', 'Thew']) for (const value of [-1, 256, '0', false]) {
+        const h = personListSummaryHarness([199, 20, 0]); h.hud.fillDeepList();
+        assert.equal(personListSummaryText(h).filter(Boolean).length, 3, field + ' valid prerequisite');
+        h.people[20][field] = value; h.hud.fillDeepList();
+        assertPersonListPlain(h, h.menu.names, field + '=' + String(value) + ' is not a native U8 number');
+    }
+    for (const [field, max] of [['Level', 255], ['Arms', 65535], ['Devotion', 255]]) for (const value of [-1, max + 1, 0.5, '0', false, null, undefined, NaN, Infinity]) {
+        const h = personListSummaryHarness([199, 20, 0]); h.hud.fillDeepList();
+        assert.equal(personListSummaryText(h).filter(Boolean).length, 3, field + ' valid prerequisite');
+        h.people[20][field] = value; h.hud.fillDeepList();
+        assertPersonListPlain(h, h.menu.names, field + '=' + String(value) + ' fails the native unsigned integer type or range');
+    }
+    for (const field of ['Level', 'Arms', 'Devotion']) {
+        const torn = personListSummaryHarness([199, 20, 0]); torn.hud.fillDeepList();
+        const value = torn.people[20][field]; let reads = 0;
+        Object.defineProperty(torn.people[20], field, {configurable: true, get() {return ++reads === 1 ? value : value + 1;}});
+        torn.hud.fillDeepList(); assert.ok(reads >= 2, field + ' is observed twice in the real reader');
+        assertPersonListPlain(torn, torn.menu.names, field + ' changed between the two value reads');
+        delete torn.people[20][field]; torn.people[20][field] = value; torn.hud.fillDeepList();
+        assert.equal(personListSummaryText(torn).filter(Boolean).length, 3, field + ' recovers after an independent stable read');
+    }
+    const h = personListSummaryHarness([199, 20, 0]); h.hud.fillDeepList();
+    let entered = false;
+    Object.defineProperty(h.people[20], 'Force', {configurable: true, get() {
+        if (!entered) {entered = true; h.hud.fillDeepList();} return 91;
+    }});
+    h.hud.fillDeepList(); assert.equal(entered, true, 'normal list rendering reached the real native stat getter');
+    assertPersonListPlain(h, h.menu.names, 'synchronous renderer reentry cannot publish a partly read list');
+    delete h.people[20].Force; h.people[20].Force = 91; h.hud.fillDeepList();
+    assert.deepEqual(personListSummaryText(h), [
+        '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535 · 忠诚 255', '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 88', '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0 · 忠诚 --']);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+
+    for (const [field, value, expected] of [['Force', 73, '武力 73 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 88'],
+        ['Level', 73, '武力 91 · 智力 88 · 体力 0等级 73 · 兵力 1234 · 忠诚 88'],
+        ['Arms', 4321, '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 4321 · 忠诚 88'],
+        ['Devotion', 73, '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 73']]) {
+        const finalSample = personListSummaryHarness([199, 20, 0]); finalSample.hud.fillDeepList();
+        const profile = finalSample.personProps, menuBefore = plain(finalSample.menu), profileBefore = plain(profile),
+            people = finalSample.raw.g_Persons, cities = finalSample.raw.g_Cities, data = finalSample.context.baye.data,
+            getProperties = finalSample.context.baye.hd.personProperties;
+        let sampleCalls = 0, changedAtFinalSample = false;
+        finalSample.context.baye.hd.personProperties = () => {
+            if (/\breadPersonListStats\b/.test(new Error().stack) && ++sampleCalls === 3) {
+                finalSample.people[20][field] = value; changedAtFinalSample = true;
+            }
+            return getProperties();
+        };
+        finalSample.hud.fillDeepList();
+        assert.equal(changedAtFinalSample, true, field + ': the third summary sample really changed the value after the first two reads');
+        assert.equal(finalSample.personProps, profile); assert.equal(finalSample.raw.g_Persons, people);
+        assert.equal(finalSample.raw.g_Cities, cities); assert.equal(finalSample.context.baye.data, data);
+        assert.deepEqual(plain(finalSample.menu), menuBefore); assert.deepEqual(plain(profile), profileBefore);
+        assertPersonListPlain(finalSample, finalSample.menu.names, field + ': the final source callback cannot leave old stat text authorized');
+        finalSample.hud.fillDeepList();
+        assert.deepEqual(personListSummaryText(finalSample), [
+            '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535 · 忠诚 255', expected, '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0 · 忠诚 --']);
+        assert.deepEqual(finalSample.keys, []); assert.deepEqual(finalSample.writes, []);
+    }
+
+    for (const [change, expected] of [['stat', '武力 91 · 智力 88 · 体力 73等级 7 · 兵力 1234 · 忠诚 88'],
+        ['source reference', '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 88'],
+        ['Level', '武力 91 · 智力 88 · 体力 0等级 73 · 兵力 1234 · 忠诚 88'],
+        ['Arms', '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 4321 · 忠诚 88'],
+        ['Devotion', '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234 · 忠诚 73']]) {
+        const late = personListSummaryHarness([199, 20, 0]); late.hud.fillDeepList();
+        const getProps = late.context.baye.hd.personProperties, getMarch = late.context.baye.hd.march,
+            menuBefore = plain(late.menu), profileBefore = plain(late.personProps);
+        let summarySamples = 0, lateChanged = false;
+        late.context.baye.hd.personProperties = () => {
+            if (/\breadPersonListStats\b/.test(new Error().stack)) summarySamples++;
+            return getProps();
+        };
+        late.context.baye.hd.march = () => {
+            const stack = new Error().stack;
+            if (!lateChanged && summarySamples >= 3 && /\bfillDeepListSurrenderBody\b/.test(stack) && !/\breadPersonListStats\b/.test(stack)) {
+                lateChanged = true;
+                if (change === 'stat') late.people[20].Thew = 73;
+                else if (change === 'Level') late.people[20].Level = 73;
+                else if (change === 'Arms') late.people[20].Arms = 4321;
+                else if (change === 'Devotion') late.people[20].Devotion = 73;
+                else late.raw.g_Cities = late.cities = late.cities.slice();
+            }
+            return getMarch();
+        };
+        late.hud.fillDeepList();
+        assert.equal(lateChanged, true, change + ' really changed in the caller after the summary reader');
+        assertPersonListPlain(late, late.menu.names, change + ' late caller callback revokes the rendered enhancement');
+        assert.deepEqual(plain(late.menu), menuBefore); assert.deepEqual(plain(late.personProps), profileBefore);
+        late.hud.fillDeepList();
+        assert.deepEqual(personListSummaryText(late), [
+            '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535 · 忠诚 255', expected, '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0 · 忠诚 --']);
+        assert.deepEqual(late.keys, []); assert.deepEqual(late.writes, []);
+    }
+    exercisePersonListFindInvalid();
+});
+
+// Exercise the real list renderer with the same stable read-only binding shape
+// as V116. The full tool name intentionally differs from the LCD menu slot.
+function toolListSummaryHarness(ids = [17, 2]) {
+    const h = goodsHarness({custom: false}), cache = new WeakMap();
+    h.personTableReads = [];
+    h.readonlyTools = function readonly(value, at = '') {
+        if (!value || typeof value !== 'object') return value;
+        if (cache.has(value)) return cache.get(value);
+        const proxy = new Proxy(value, {get(target, key) {
+            if (at === '' && key === 'g_Persons') h.personTableReads.push(String(key));
+            return readonly(target[key], at + '.' + String(key));
+        }, set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('tool summary wrote native data');}});
+        cache.set(value, proxy); return proxy;
+    };
+    h.nativeTools = Array.from({length: 33}, () => ({useflag: 0, at: 0, iq: 0, move: 0, arm: 0, changeAttackRange: 0}));
+    Object.assign(h.nativeTools[17], {useflag: 0, at: 255, iq: 0, move: 255});
+    Object.assign(h.nativeTools[2], {useflag: 1, at: 0, iq: 255, move: 0});
+    Object.assign(h.nativeTools[31], {useflag: 0, at: 17, iq: 18, move: 19});
+    h.fullToolNames = new Map(Array.from({length: 33}, (_, id) => [id, '同名道具完整名称' + id]));
+    h.cities = Array.from({length: 38}, () => ({...h.city, Belong: 0}));
+    h.city = h.cities[0]; h.city.Belong = 1;
+    Object.assign(h.raw, {g_Cities: h.cities, g_engineConfig: {citiesCount: 38}, g_PlayerKing: 0,
+        g_Tools: h.nativeTools, g_hdMapCity: 1, g_hdDetailGeneration: 3,
+        g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 4, g_hdMenuSeq: h.menu.seq,
+        g_hdMenuIndex: 0, g_hdMenuItemLen: 8, g_hdReportActive: 0, g_hdHelpActive: 0, g_hdFightActive: 0,
+        g_hdGoodsActive: 1, g_hdGoodsCustom: 0, g_hdGoodsGeneration: 3, g_hdGoodsMenuSeq: h.menu.seq,
+        g_hdGoodsIndex: 0, g_hdGoodsTool: ids[0], g_hdGoodsPropertyCount: 5});
+    h.context.baye.data = h.readonlyTools(h.raw); h.context.baye.ensureData = () => h.context.baye.data;
+    h.context.baye.getPersonCount = () => 200; h.context.baye.getToolCount = () => 33;
+    h.context.baye.getToolName = id => h.fullToolNames.get(id) ?? '';
+    h.summaryDetailCalls = []; h.toolDetailDtos = new Map();
+    h.context.baye.hd.toolDetails = id => {
+        if (inToolListSummary()) h.summaryDetailCalls.push(id);
+        const tool = h.nativeTools[id];
+        if (!tool) return null;
+        if (!h.toolDetailDtos.has(id)) h.toolDetailDtos.set(id, {});
+        const value = Object.assign(h.toolDetailDtos.get(id), {index: id, name: h.fullToolNames.get(id), standard: true, generation: 3,
+            useFlag: tool.useflag, attack: tool.at, iq: tool.iq, move: tool.move,
+            arm: tool.arm, changeAttackRange: tool.changeAttackRange});
+        return h.toolDetailOverride ? h.toolDetailOverride(value, id) : value;
+    };
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1}; h.setIdentity(h.identity);
+    h.setToolMenu = next => {
+        Object.assign(h.menu, {active: 1, context: 1, kind: 4, idsValid: true,
+            generation: 3, detailGeneration: 3, itemLen: 8, count: next.length, index: 0,
+            ids: next.slice(), names: next.map(() => '同名道具'), packedNames: next.map(() => '同名道具')});
+        Object.assign(h.raw, {g_hdMenuCount: next.length, g_hdMenuIndex: 0, g_hdGoodsIndex: 0, g_hdGoodsTool: next[0]});
+        Object.assign(h.goods, {tool: next[0], index: 0, name: h.fullToolNames.get(next[0]), menuSeq: h.menu.seq});
+        h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    };
+    h.setToolRoute = confiscate => Object.assign(h.hud.state, {subKind: 'neizheng',
+        deepLabel: confiscate ? '没收' : '赏赐', deepKind: confiscate ? 'person-goods' : 'goods-person', deepStep: confiscate ? 1 : 0});
+    h.setToolRoute(false); h.setToolMenu(ids); h.summaryDetailCalls.length = 0;
+    return h;
+}
+function inToolListSummary() { return /\b(?:readToolListStats|finishToolListStats)\b/.test(new Error().stack); }
+function toolListButtons(h) { return h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-deep]'); }
+function toolListSummaryText(h) {
+    return toolListButtons(h).map(button => button.querySelector('[data-hd-tool-summary]')?.textContent ?? null);
+}
+function assertToolListPlain(h, message) {
+    assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-tool-summary]').length, 0, message);
+    assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-tool-arm-summary]').length, 0, message);
+    assert.ok(toolListButtons(h).every(button => button.textContent === h.menu.names[Number(button.getAttribute('data-hd-deep'))]), message);
+    assert.deepEqual(h.keys, [], message); assert.deepEqual(h.writes, [], message); assert.deepEqual(h.personTableReads, [], message);
+}
+function assertToolListSummaryShape(button, baseText, armText) {
+    const summaries = button.querySelectorAll('[data-hd-tool-summary]');
+    assert.equal(summaries.length, 1); assert.equal(summaries[0].tagName, 'SMALL');
+    assert.equal(summaries[0].parentElement, button);
+    const arm = summaries[0].querySelectorAll('[data-hd-tool-arm-summary]');
+    assert.equal(arm.length, 1); assert.equal(arm[0].tagName, 'SPAN'); assert.equal(arm[0].parentElement, summaries[0]);
+    assert.deepEqual(summaries[0].children, [arm[0]], 'the original summary prefix stays direct text with one child span');
+    assert.equal(arm[0].textContent, ' · 兵种变化 ' + armText);
+    assert.equal(summaries[0].textContent, baseText + arm[0].textContent, 'the original plus-prefixed stats remain direct text');
+    assert.equal(arm[0].getAttribute('role'), null); assert.equal(arm[0].getAttribute('tabindex'), null); assert.equal(arm[0].listeners.size, 0);
+    for (const tag of ['button', 'input', 'a']) assert.equal(summaries[0].querySelectorAll(tag).length, 0);
+}
+function assertToolListSignature(h) {
+    const expected = h.menu.ids.map(id => {const tool = h.nativeTools[id];
+        return [id, tool.useflag, tool.at, tool.iq, tool.move, h.fullToolNames.get(id), tool.arm];});
+    assert.ok(h.hud.state.deepSig.endsWith(':' + JSON.stringify(expected)), 'the private row signature keeps full name at column 5 and arm at column 6');
+}
+const toolSummary17Base = '装备 · 武力 +255 · 智力 +0 · 移动 +255';
+const toolSummary2Base = '使用 · 武力 +0 · 智力 +255 · 移动 +0';
+const toolSummary17 = toolSummary17Base + ' · 兵种变化 无';
+const toolSummary2 = toolSummary2Base + ' · 兵种变化 无';
+
+test('tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input', () => {
+    for (const confiscate of [false, true]) for (const ids of [[17, 2], [2], [2, 17, 2]]) {
+        const h = toolListSummaryHarness(ids); h.setToolRoute(confiscate);
+        const before = plain(h.raw), menuBefore = plain(h.menu), goodsBefore = plain(h.goods);
+        h.hud.fillDeepList();
+        assert.deepEqual(plain(h.hud.state.deepItems), ids.map((id, i) => ({i, name: '同名道具', nativeId: true, toolIndex: id})));
+        assert.deepEqual(toolListSummaryText(h), ids.map(id => id === 17 ? toolSummary17 : toolSummary2));
+        assert.deepEqual(toolListButtons(h).map(button => button.getAttribute('data-hd-deep-tool')), ids.map(String));
+        for (const [index, button] of toolListButtons(h).entries()) {
+            assertToolListSummaryShape(button, ids[index] === 17 ? toolSummary17Base : toolSummary2Base, '无');
+        }
+        assertToolListSignature(h);
+        assert.ok(ids.every(id => h.summaryDetailCalls.filter(value => value === id).length >= 2), 'both value reads reach each real ID');
+        assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.goods), goodsBefore);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+        assert.deepEqual(h.armCalls, []); assert.deepEqual(h.derivedCalls, []);
+    }
+    for (const confiscate of [false, true]) {
+        const h = toolListSummaryHarness(); h.setToolRoute(confiscate);
+        for (const [code, expected] of [[0, '无'], [1, '水军'], [2, '玄兵'], [3, '极兵'], [4, '骑兵'], [5, '步兵'],
+            [6, '弓箭兵'], [7, '水军'], [8, '极兵'], [9, '玄兵'], [10, '原始码 10'], [255, '原始码 255']]) {
+            h.nativeTools[17].arm = h.nativeTools[2].arm = code;
+            const before = plain(h.raw), menuBefore = plain(h.menu), goodsBefore = plain(h.goods);
+            h.hud.fillDeepList();
+            assert.deepEqual(toolListSummaryText(h), [toolSummary17Base, toolSummary2Base].map(base => base + ' · 兵种变化 ' + expected));
+            toolListButtons(h).forEach((button, index) => assertToolListSummaryShape(button, index ? toolSummary2Base : toolSummary17Base, expected));
+            assert.equal(rows(h.hud.state.toolDetail).兵种变化, expected, 'list and existing selected-tool details agree for arm ' + code);
+            assertToolListSignature(h);
+            assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.goods), goodsBefore);
+            assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+        }
+    }
+    exerciseToolListFind();
+});
+
+test('tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements', () => {
+    for (const mode of ['three existing stats', 'arm only', 'full name only']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList();
+        const first = toolListButtons(h), spans = first.map(button => button.querySelector('[data-hd-tool-arm-summary]'));
+        const owner = h.hud.state.deepMenuOwner.key, signature = h.hud.state.deepSig;
+        const items = plain(h.hud.state.deepItems), menuBefore = plain(h.menu), dto = h.toolDetailDtos.get(2);
+        h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === first[index]));
+        assert.ok(toolListButtons(h).every((button, index) => button.querySelector('[data-hd-tool-arm-summary]') === spans[index]));
+        dispatch(h, 'pointerdown', first[1].querySelector(mode === 'arm only' ? '[data-hd-tool-arm-summary]' : '[data-hd-tool-summary]'), {button: 0, isPrimary: true});
+        if (mode === 'three existing stats') Object.assign(h.nativeTools[2], {useflag: 0, at: 21, iq: 22, move: 23});
+        if (mode === 'arm only') h.nativeTools[2].arm = 9;
+        if (mode === 'full name only') h.fullToolNames.set(2, '同一LCD名称下变化的完整道具名');
+        h.hud.fillDeepList(); const fresh = toolListButtons(h);
+        assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.notEqual(fresh[1], first[1]); assert.equal(first[1].parentElement, null);
+        assert.equal(h.toolDetailDtos.get(2), dto, mode + ' updates the same DTO object');
+        assert.notEqual(h.hud.state.deepSig, signature, mode + ' changes the deep signature'); assertToolListSignature(h);
+        assert.deepEqual(toolListSummaryText(h), [toolSummary17, mode === 'three existing stats' ? '装备 · 武力 +21 · 智力 +22 · 移动 +23 · 兵种变化 无' :
+            mode === 'arm only' ? toolSummary2Base + ' · 兵种变化 玄兵' : toolSummary2]);
+        assert.deepEqual(plain(h.hud.state.deepItems), items); assert.deepEqual(plain(h.menu), menuBefore);
+        dispatch(h, 'click', fresh[1], {detail: 1});
+        assert.deepEqual(h.keys, [], 'a pointer held across ' + mode + ' refresh cannot confirm the replacement tool');
+        assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []); assert.equal(h.hud.state.nativeMenuRequest, null);
+        const freshSpans = fresh.map(button => button.querySelector('[data-hd-tool-arm-summary]'));
+        h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === fresh[index]));
+        assert.ok(toolListButtons(h).every((button, index) => button.querySelector('[data-hd-tool-arm-summary]') === freshSpans[index]));
+    }
+    exerciseToolListFindRefresh();
+});
+
+test('tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input', () => {
+    const gates = [
+        ['other command', h => {h.hud.state.deepLabel = '搜寻';}],
+        ['other branch', h => {h.hud.state.subKind = 'junbei';}],
+        ['unscoped goods', h => {Object.assign(h.hud.state, {deepKind: 'goods', subKind: '', deepLabel: ''});}],
+        ['wrong route step', h => {h.hud.state.deepStep = 1;}],
+        ['pending library', h => h.setIdentity({...h.identity, status: 'pending'})],
+        ['unknown library', h => h.setIdentity({...h.identity, sha256: 'unknown'})],
+        ['wrong library size', h => h.setIdentity({...h.identity, byteLength: 207194})],
+        ['stale library', h => h.setIdentity(h.identity, false)],
+        ['sticky custom goods', h => {h.goods.custom = 1;}],
+        ['non-default profile', h => {h.goods.propertyCount = 4; h.goods.properties.length = 4; h.goods.pageEnd = 3;}],
+        ['missing goods profile', h => {h.context.baye.hd.goods = () => null;}],
+        ['tool title hook', h => {h.context.baye.hooks = {getToolPropertyTitle() {throw Error('must not replay hook');}};}],
+        ['tool value hook', h => {h.context.baye.hooks = {getToolPropertyValue() {throw Error('must not replay hook');}};}],
+        ['name-only menu', h => {h.menu.idsValid = false;}],
+        ['out-of-range ID', h => {h.menu.ids[1] = 33;}],
+        ['clipped menu IDs', h => {h.menu.ids.pop();}],
+        ['clipped packed names', h => {h.menu.packedNames.pop();}],
+        ['empty packed name', h => {h.menu.packedNames[1] = '';}],
+        ['invalid slot width', h => {h.menu.itemLen = 65;}],
+        ['string slot width', h => {h.menu.itemLen = '8';}],
+        ['raw menu mismatch', h => {h.raw.g_hdMenuCount++;}],
+        ['raw generation', h => {h.raw.g_hdDetailGeneration++;}],
+        ['foreign current city', h => {h.city.Belong = 2;}]
+    ];
+    for (const [label, change] of gates) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); assert.equal(toolListSummaryText(h).filter(Boolean).length, 2, label + ' prerequisite');
+        const rawBefore = {...h.raw}, menuBefore = plain(h.menu), goodsBefore = plain(h.goods), getGoods = h.context.baye.hd.goods;
+        change(h); h.summaryDetailCalls.length = 0; h.hud.fillDeepList(); assertToolListPlain(h, label);
+        assert.equal(h.summaryDetailCalls.length, 0, label + ' rejects the source before tool detail reads');
+        Object.assign(h.raw, rawBefore); Object.assign(h.menu, menuBefore); Object.assign(h.goods, goodsBefore); h.city.Belong = 1;
+        h.context.baye.hd.goods = getGoods; delete h.context.baye.hooks; h.setIdentity(h.identity); h.setToolRoute(false);
+        h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu); h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2], label + ' recovers after restoring the native source');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+    }
+    for (const [field, value] of [['useFlag', 2], ['attack', -1], ['iq', 256], ['move', 0.5], ['attack', '0'],
+        ['move', false], ['name', ''], ['name', 17], ['index', 17], ['generation', 4], ['standard', 1],
+        ...[-1, 256, 0.5, '0', false, true, null, undefined, NaN, Infinity].map(value => ['arm', value])]) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false;
+        h.toolDetailOverride = (tool, id) => {if (id === 2 && inToolListSummary()) {reached = true; return {...tool, [field]: value};} return tool;};
+        h.hud.fillDeepList(); assert.equal(reached, true, field + ' malformed detail reached the summary'); assertToolListPlain(h, field + '=' + String(value));
+        h.toolDetailOverride = null; h.hud.fillDeepList(); assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2]);
+    }
+    for (const value of [-1, 256, 0.5, '0', false, true, null, undefined, NaN, Infinity]) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); h.nativeTools[2].arm = value; let reached = false;
+        h.toolDetailOverride = (tool, id) => {if (id === 2 && inToolListSummary()) {reached = true; return {...tool, arm: 0};} return tool;};
+        h.hud.fillDeepList(); assert.equal(reached, true, 'valid DTO reaches the malformed raw arm fence'); assertToolListPlain(h, 'raw arm=' + String(value));
+        h.nativeTools[2].arm = 0; h.toolDetailOverride = null; h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2]);
+    }
+    {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false;
+        h.toolDetailOverride = (tool, id) => {if (id === 2 && inToolListSummary()) {reached = true; return {...tool, arm: 7};} return tool;};
+        h.hud.fillDeepList(); assert.equal(reached, true); assertToolListPlain(h, 'valid but unequal DTO and raw arm values');
+        h.toolDetailOverride = null; h.hud.fillDeepList(); assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2]);
+    }
+    for (const mode of ['exception', 'data table', 'value', 'arm value', 'arm dual read', 'reentry']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false, armReads = 0;
+        h.toolDetailOverride = (tool, id) => {
+            if (mode === 'arm dual read' && id === 17 && inToolListSummary() && ++armReads === 2) {
+                reached = true; h.nativeTools[17].arm = tool.arm = 7;
+            }
+            if (mode !== 'arm dual read' && id === 2 && inToolListSummary() && !reached) {
+                reached = true;
+                if (mode === 'exception') throw Error('temporary native tool failure');
+                if (mode === 'data table') h.raw.g_Tools = h.nativeTools.slice();
+                if (mode === 'value') h.nativeTools[17].at = 73;
+                if (mode === 'arm value') h.nativeTools[17].arm = 6;
+                if (mode === 'reentry') h.hud.fillDeepList();
+            }
+            return tool;
+        };
+        h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really occurred inside the list reader'); assertToolListPlain(h, mode);
+        if (mode === 'arm dual read') assert.equal(armReads, 2, 'two individually matching raw/DTO reads disagree across samples');
+        h.toolDetailOverride = null; h.hud.fillDeepList();
+        const expected17 = mode === 'value' ? '装备 · 武力 +73 · 智力 +0 · 移动 +255 · 兵种变化 无' :
+            mode === 'arm value' ? toolSummary17Base + ' · 兵种变化 弓箭兵' : mode === 'arm dual read' ? toolSummary17Base + ' · 兵种变化 水军' : toolSummary17;
+        assert.deepEqual(toolListSummaryText(h), [expected17, toolSummary2]);
+    }
+    const seed = toolListSummaryHarness(), seedGoods = seed.context.baye.hd.goods; let profileCalls = 0;
+    seed.context.baye.hd.goods = () => {if (inToolListSummary()) profileCalls++; return seedGoods();}; seed.hud.fillDeepList();
+    assert.ok(profileCalls >= 4, 'calibration reached both value reads and the final receipt profile');
+    for (const mode of ['sticky profile', 'data reference', 'table reference', 'value', 'arm value']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); const getGoods = h.context.baye.hd.goods; let calls = 0, reached = false;
+        h.context.baye.hd.goods = () => {
+            if (inToolListSummary() && ++calls === profileCalls) {
+                reached = true;
+                if (mode === 'sticky profile') h.goods.custom = 1;
+                if (mode === 'data reference') h.context.baye.data = h.readonlyTools({...h.raw});
+                if (mode === 'table reference') h.raw.g_Tools = h.nativeTools.slice();
+                if (mode === 'value') h.nativeTools[17].at = 74;
+                if (mode === 'arm value') h.nativeTools[17].arm = 8;
+            }
+            return getGoods();
+        };
+        h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really reached the final profile callback'); assertToolListPlain(h, mode);
+        h.context.baye.hd.goods = getGoods; h.goods.custom = 0; h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +74 · 智力 +0 · 移动 +255 · 兵种变化 无' :
+            mode === 'arm value' ? toolSummary17Base + ' · 兵种变化 极兵' : toolSummary17, toolSummary2]);
+    }
+    for (const mode of ['value', 'arm value', 'table reference']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); const getGoods = h.context.baye.hd.goods, getMarch = h.context.baye.hd.march;
+        let summaryProfiles = 0, reached = false;
+        h.context.baye.hd.goods = () => {if (inToolListSummary()) summaryProfiles++; return getGoods();};
+        h.context.baye.hd.march = () => {
+            if (!reached && summaryProfiles >= 3 && /\bfillDeepListSurrenderBody\b/.test(new Error().stack) && !inToolListSummary()) {
+                reached = true;
+                if (mode === 'value') h.nativeTools[17].at = 75;
+                if (mode === 'arm value') h.nativeTools[17].arm = 9;
+                if (mode === 'table reference') h.raw.g_Tools = h.nativeTools.slice();
+            }
+            return getMarch();
+        };
+        h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really changed in the caller after the reader'); assertToolListPlain(h, mode);
+        h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +75 · 智力 +0 · 移动 +255 · 兵种变化 无' :
+            mode === 'arm value' ? toolSummary17Base + ' · 兵种变化 玄兵' : toolSummary17, toolSummary2]);
+    }
+    exerciseToolListFindInvalid();
+});

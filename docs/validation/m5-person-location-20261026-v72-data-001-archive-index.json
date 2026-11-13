@@ -1,0 +1,2077 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-001-archive-part001.json",
+      "bytes": 8123632,
+      "sha256": "7cbd122d191546df408524fb97a5868cc3f04a6630c25694a0e27da5abfcc2e7",
+      "blobs": 129
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-001-archive-part002.json",
+      "bytes": 6621611,
+      "sha256": "da4d74e304787fc4f582fb3b68826ea9dc136b0549cad6f5ddea8d12746b5ca4",
+      "blobs": 12
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-001-archive-part003.json",
+      "bytes": 5992673,
+      "sha256": "baf3800bc9627e778c8912849abd0edb2bf39b71d74c21213f8611bfbb1efa9e",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-001-archive-part004.json",
+      "bytes": 2995987,
+      "sha256": "07019279c0330bcb2b6d4ff0890257be805eaf0fc91d292d9476d30f488071ae",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 43293,
+      "sha256": "b22563777c8781b9257023af546fd2ed6a198cd17f417ce65385a9ae81d411fe",
+      "blob": "b22563777c8781b9257023af546fd2ed6a198cd17f417ce65385a9ae81d411fe",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/agent-hud-location-probe-v1.json",
+      "bytes": 1334,
+      "sha256": "0322964b4c2dbba34168f298b511663b7ce32a583a12384b0930798ca760b1fd",
+      "blob": "0322964b4c2dbba34168f298b511663b7ce32a583a12384b0930798ca760b1fd",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/agent-hud-location-probe-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/agent-hud-location-probe-v1.stdout.tap",
+      "bytes": 3350,
+      "sha256": "6825d56bd7e9462ad9bf7c062ef05d016a7d8d3c180921fe4b4a3472164c9cb7",
+      "blob": "6825d56bd7e9462ad9bf7c062ef05d016a7d8d3c180921fe4b4a3472164c9cb7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/baseline-city-menu-v1.json",
+      "bytes": 268,
+      "sha256": "f8667ee8c9be5f6dc3ca7e972daecd798d7adf6f513fe763269b55e2d2f3c484",
+      "blob": "f8667ee8c9be5f6dc3ca7e972daecd798d7adf6f513fe763269b55e2d2f3c484",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/hd-city-menu-location-no-reentry-native-capacity.js",
+      "bytes": 454668,
+      "sha256": "ec7ee907339870c8d5618efcd77205d001512f5bfe2ec4e24bb3c2b4d5e3a571",
+      "blob": "ec7ee907339870c8d5618efcd77205d001512f5bfe2ec4e24bb3c2b4d5e3a571",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/hd-city-menu-location-stage1.js",
+      "bytes": 454666,
+      "sha256": "62256b555cee17b1648e3e9a60802a03740da0eb035a350c8b2bfdcdd9caa639",
+      "blob": "62256b555cee17b1648e3e9a60802a03740da0eb035a350c8b2bfdcdd9caa639",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/hd-city-menu-location-stage2.js",
+      "bytes": 455218,
+      "sha256": "2ad926814b4260ae1539bdf75dba9bbbc3e05a7a9328857e83ef0904a915304d",
+      "blob": "2ad926814b4260ae1539bdf75dba9bbbc3e05a7a9328857e83ef0904a915304d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/js/hd-city-menu.js",
+      "bytes": 448176,
+      "sha256": "cfcd4f89e14987db475bb6950d24bce7425d36999eb6d5576842790909068399",
+      "blob": "cfcd4f89e14987db475bb6950d24bce7425d36999eb6d5576842790909068399",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/scripts/hd-person-identity-runtime-checks.mjs",
+      "bytes": 22262,
+      "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60",
+      "blob": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/scripts/hd-person-roles-runtime-checks.mjs",
+      "bytes": 12826,
+      "sha256": "9a6cfc4015641e6ac2a6ed3b5745109c945b560903eff380a7f377a3eee5d401",
+      "blob": "9a6cfc4015641e6ac2a6ed3b5745109c945b560903eff380a7f377a3eee5d401",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/scripts/test-hd-city-hud.mjs",
+      "bytes": 134812,
+      "sha256": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "blob": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/before/scripts/test-hd-person-identity-runtime.mjs",
+      "bytes": 49999,
+      "sha256": "41f8b3ded45af0f503855b947c7cf27cc88fc7f7cd8ec79135f6a0283b840b7d",
+      "blob": "41f8b3ded45af0f503855b947c7cf27cc88fc7f7cd8ec79135f6a0283b840b7d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/check-preserved-state-v1.mjs",
+      "bytes": 2485,
+      "sha256": "40d88abeee35516a5a668788352e386fe3393701bedfef00d480cd9823c3dc94",
+      "blob": "40d88abeee35516a5a668788352e386fe3393701bedfef00d480cd9823c3dc94",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/README.md",
+      "bytes": 6169,
+      "sha256": "fe2af1b204f161cc0d1e1fcfc4792abf6a2e2179a5ee93921f019fc2b0c73e9c",
+      "blob": "fe2af1b204f161cc0d1e1fcfc4792abf6a2e2179a5ee93921f019fc2b0c73e9c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/mobile667AcceptedV1-chunks/manifest.json",
+      "bytes": 1682,
+      "sha256": "2e7bd8b49515a06a30204cd3fee09a32e21e5233abe49f667bef32037fa473d3",
+      "blob": "2e7bd8b49515a06a30204cd3fee09a32e21e5233abe49f667bef32037fa473d3",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/mobile844AcceptedV1-chunks/manifest.json",
+      "bytes": 1406,
+      "sha256": "c497ab6cf8bfcebb26dcf5dfe9a4246365fa9b1d57d95ac4ff9df09600b69496",
+      "blob": "c497ab6cf8bfcebb26dcf5dfe9a4246365fa9b1d57d95ac4ff9df09600b69496",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/pc1080AcceptedV1-chunks/manifest.json",
+      "bytes": 845,
+      "sha256": "f6a4800934993210452629f3799b63d0ec43e9f6731cda13447b03221163958b",
+      "blob": "f6a4800934993210452629f3799b63d0ec43e9f6731cda13447b03221163958b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/pc720AcceptedV1-chunks/manifest.json",
+      "bytes": 842,
+      "sha256": "e5f8e5ccd2e277bb836741b942ce415ae0f8a5a15a59ade2924adefc532a502d",
+      "blob": "e5f8e5ccd2e277bb836741b942ce415ae0f8a5a15a59ade2924adefc532a502d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/pc720BeforeV1-chunks/manifest.json",
+      "bytes": 570,
+      "sha256": "bdd2ec699ba297d37da8deae5165bfae9f6d3ce28e101b044063dfd0c25b424f",
+      "blob": "bdd2ec699ba297d37da8deae5165bfae9f6d3ce28e101b044063dfd0c25b424f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/prepare-v1.mjs",
+      "bytes": 5935,
+      "sha256": "58a6db91275cd195c6e54e0125772e4daef5f7863b4ed3601867ddb2691730cf",
+      "blob": "58a6db91275cd195c6e54e0125772e4daef5f7863b4ed3601867ddb2691730cf",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/publish-v1.mjs",
+      "bytes": 4488,
+      "sha256": "d9ab3f4060ee39ff25d09e8846dc1cc59e615622726623005d7dc1e1b4290271",
+      "blob": "d9ab3f4060ee39ff25d09e8846dc1cc59e615622726623005d7dc1e1b4290271",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/root-bindings-reviewed-v1.json",
+      "bytes": 180659,
+      "sha256": "33dbdf6f80d0630877ec320e6c2f7f7b799b24d50c2b5331fe448875cca2d578",
+      "blob": "33dbdf6f80d0630877ec320e6c2f7f7b799b24d50c2b5331fe448875cca2d578",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/source-freeze-v1.json",
+      "bytes": 1182,
+      "sha256": "a939964262bf7dab3316538a2c817f2002292505af855154ed90b867c31778e1",
+      "blob": "a939964262bf7dab3316538a2c817f2002292505af855154ed90b867c31778e1",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/source-static-peer-v1.json",
+      "bytes": 6154,
+      "sha256": "fbe668c38f1aff9761341b85d9626a9f55b153cc38c817b9f655bbf0489b1ae3",
+      "blob": "fbe668c38f1aff9761341b85d9626a9f55b153cc38c817b9f655bbf0489b1ae3",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/v72-common-v1.mjs",
+      "bytes": 40965,
+      "sha256": "896b190304ca2806000a577723d876af6427bcf062de920bf5824ce9f509f81e",
+      "blob": "896b190304ca2806000a577723d876af6427bcf062de920bf5824ce9f509f81e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/v72-reader-v1.mjs",
+      "bytes": 43517,
+      "sha256": "a7bc53187fb23f7b6d22294539ab83902d9d1bdb3c3278e005d545dac2ef3d1f",
+      "blob": "a7bc53187fb23f7b6d22294539ab83902d9d1bdb3c3278e005d545dac2ef3d1f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/extend-location-runner-v1.mjs",
+      "bytes": 3137,
+      "sha256": "3e60e92bb1eb5b05c127679d942abd21544e627478fa34e7aa54ed859210070f",
+      "blob": "3e60e92bb1eb5b05c127679d942abd21544e627478fa34e7aa54ed859210070f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/extend-shared-runtime-v1.mjs",
+      "bytes": 1804,
+      "sha256": "73834eebfcfce01037ea88e06d5eb025773fb913249f25996e63143d87e2adce",
+      "blob": "73834eebfcfce01037ea88e06d5eb025773fb913249f25996e63143d87e2adce",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/freeze-current-epoch-v1.mjs",
+      "bytes": 3268,
+      "sha256": "7b0fe5e5770f6acda128a5e40e119cc1c8dc856adb3aff55413fb2eb30298c0e",
+      "blob": "7b0fe5e5770f6acda128a5e40e119cc1c8dc856adb3aff55413fb2eb30298c0e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/freeze-current-epoch-v2.mjs",
+      "bytes": 3461,
+      "sha256": "a7d296b7dbbd622ee3631dd2395c308f5d3c942baae1e60a9410fdb95749dddd",
+      "blob": "a7d296b7dbbd622ee3631dd2395c308f5d3c942baae1e60a9410fdb95749dddd",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/full-default-v1.before.json",
+      "bytes": 278960,
+      "sha256": "140ef538fb2c8ca41134a90fa234afaf6fa27891749cbabf4f2488f83cc88345",
+      "blob": "140ef538fb2c8ca41134a90fa234afaf6fa27891749cbabf4f2488f83cc88345",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/full-default-v1.json",
+      "bytes": 1843,
+      "sha256": "ae0164af029063c272cb00494383375970bb2cccdd418ca677c2a715a299d23e",
+      "blob": "ae0164af029063c272cb00494383375970bb2cccdd418ca677c2a715a299d23e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/full-default-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/full-default-v1.stdout.tap",
+      "bytes": 1633008,
+      "sha256": "5b6193c52e59407998886abb1353c3a6cae1b93461ebc7083bb6b8e6843aa3e6",
+      "blob": "5b6193c52e59407998886abb1353c3a6cae1b93461ebc7083bb6b8e6843aa3e6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-abi-negative-v1.before.json",
+      "bytes": 981,
+      "sha256": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "blob": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-abi-negative-v1.json",
+      "bytes": 1256,
+      "sha256": "21b303144b22fc976e2cc5148404c5dcd55548c60ffb25924915e0a6d237617d",
+      "blob": "21b303144b22fc976e2cc5148404c5dcd55548c60ffb25924915e0a6d237617d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-abi-negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-abi-negative-v1.stdout.tap",
+      "bytes": 61643,
+      "sha256": "f5317b2b552b9614df514e85464e3b3413bc2f6ddacbcef0631b440a2a2ebedc",
+      "blob": "f5317b2b552b9614df514e85464e3b3413bc2f6ddacbcef0631b440a2a2ebedc",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-current-v1.before.json",
+      "bytes": 981,
+      "sha256": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "blob": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-current-v1.json",
+      "bytes": 1044,
+      "sha256": "bc9a72ceb3ab5f5eeaa4187f80efa8fc11aa88f32a2ca73f0f73997860404319",
+      "blob": "bc9a72ceb3ab5f5eeaa4187f80efa8fc11aa88f32a2ca73f0f73997860404319",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-current-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-current-v1.stdout.tap",
+      "bytes": 49849,
+      "sha256": "2ac6fa3a0886d2aed8f19f84b9e38d12cf4e83425db197f837a03748a9bb48b1",
+      "blob": "2ac6fa3a0886d2aed8f19f84b9e38d12cf4e83425db197f837a03748a9bb48b1",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-no-reentry-negative-v1.before.json",
+      "bytes": 981,
+      "sha256": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "blob": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-no-reentry-negative-v1.json",
+      "bytes": 1304,
+      "sha256": "920f2663ca428c8339c2efd7c1e102e9fb1c103bfee94419472154f1aba140f0",
+      "blob": "920f2663ca428c8339c2efd7c1e102e9fb1c103bfee94419472154f1aba140f0",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-no-reentry-negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-no-reentry-negative-v1.stdout.tap",
+      "bytes": 51435,
+      "sha256": "b08bcfd772613b6d664d72d27f515fb5818ca92be5fae71dcb829887cc05db4e",
+      "blob": "b08bcfd772613b6d664d72d27f515fb5818ca92be5fae71dcb829887cc05db4e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-parent-negative-v1.before.json",
+      "bytes": 981,
+      "sha256": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "blob": "c3cddcb3b1ce7d809b21248ecd632e6101005a296cabc4bfe6a01965c467e968",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-parent-negative-v1.json",
+      "bytes": 1256,
+      "sha256": "62172864d8f513d833c7e1d3adb2bd6edbc8d300359047f56f5c83d81a322666",
+      "blob": "62172864d8f513d833c7e1d3adb2bd6edbc8d300359047f56f5c83d81a322666",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-parent-negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/hud-location-parent-negative-v1.stdout.tap",
+      "bytes": 61649,
+      "sha256": "b0d87cb7d62151641c7549339fa3c40184737b62ed3b2ca5b0a1c01fb3fe9897",
+      "blob": "b0d87cb7d62151641c7549339fa3c40184737b62ed3b2ca5b0a1c01fb3fe9897",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/location-runner-extension-v1.json",
+      "bytes": 3092,
+      "sha256": "fae62ae4dfdb4f0190c0e330d82cffcbf9df5eeaddfd826b9c991377b2f0e95d",
+      "blob": "fae62ae4dfdb4f0190c0e330d82cffcbf9df5eeaddfd826b9c991377b2f0e95d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/make-epoch-freezer-v2.mjs",
+      "bytes": 953,
+      "sha256": "9dff1804e555f9e93d92891be5d789f27b390ae2c9bf6ac4e65924831feed3fd",
+      "blob": "9dff1804e555f9e93d92891be5d789f27b390ae2c9bf6ac4e65924831feed3fd",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/make-location-controls-v1.mjs",
+      "bytes": 1218,
+      "sha256": "448967c8077934bd01389691242fe56f65debe1a8728314d7d21ff9e08f24bbb",
+      "blob": "448967c8077934bd01389691242fe56f65debe1a8728314d7d21ff9e08f24bbb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/browser-console.json",
+      "bytes": 15160,
+      "sha256": "c3e03d181cd5d1ebf965dd97144145cfba0ab3fb70091c58514914c143596faf",
+      "blob": "c3e03d181cd5d1ebf965dd97144145cfba0ab3fb70091c58514914c143596faf",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-checks.mjs",
+      "bytes": 22276,
+      "sha256": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "blob": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-city-menu.js",
+      "bytes": 455220,
+      "sha256": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "blob": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-location-helper.mjs",
+      "bytes": 8874,
+      "sha256": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "blob": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-roles-helper.mjs",
+      "bytes": 12931,
+      "sha256": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "blob": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-rom.mjs",
+      "bytes": 6532,
+      "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "blob": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/executed-tool.mjs",
+      "bytes": 50631,
+      "sha256": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "blob": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-00-jinyang-root.png",
+      "bytes": 49119,
+      "sha256": "c168cea7cf7855151d7df0ec4fbc2d8935bb8938c04df9e3919bf714b19e01bc",
+      "blob": "c168cea7cf7855151d7df0ec4fbc2d8935bb8938c04df9e3919bf714b19e01bc",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-01-mobile667-01-person-29-preview.png",
+      "bytes": 60694,
+      "sha256": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "blob": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-02-identity-person-29-listName.png",
+      "bytes": 60694,
+      "sha256": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "blob": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-03-identity-person-29-heading.png",
+      "bytes": 60694,
+      "sha256": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "blob": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-04-identity-person-29-ownership.png",
+      "bytes": 60694,
+      "sha256": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "blob": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-05-identity-person-29-priorOwnership.png",
+      "bytes": 60694,
+      "sha256": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "blob": "e267c5a9e2f74743a8d46fecb07c38c48b0b5a2cb1010886f8c76501f6f96b93",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-06-identity-person-29-nativeOwnership.png",
+      "bytes": 67548,
+      "sha256": "b6b320ba539dc6c26cde7a8386663a9f9cfc25f95df0efaa610bcac502d80d7f",
+      "blob": "b6b320ba539dc6c26cde7a8386663a9f9cfc25f95df0efaa610bcac502d80d7f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-07-person-location-29-hdLocation.png",
+      "bytes": 59971,
+      "sha256": "0ed84a1c6f0168203ec749115f1bf0fed1de7508b6a177e264d1de9cf705f94c",
+      "blob": "0ed84a1c6f0168203ec749115f1bf0fed1de7508b6a177e264d1de9cf705f94c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-08-person-location-29-nativeLocation.png",
+      "bytes": 64603,
+      "sha256": "e00a1d54f3672e9236559fff943c3ee3322e0dfdc824ce0b270ff73b7229a98c",
+      "blob": "e00a1d54f3672e9236559fff943c3ee3322e0dfdc824ce0b270ff73b7229a98c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-09-canvass-actor.png",
+      "bytes": 64232,
+      "sha256": "feafb197613a61626e81ab16cbab0db6bf0e4795e7ddc74d7572446bdb268ea1",
+      "blob": "feafb197613a61626e81ab16cbab0db6bf0e4795e7ddc74d7572446bdb268ea1",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-10-list-preview-reveal-139-0.png",
+      "bytes": 73473,
+      "sha256": "d94a7a647cb6a43640230948146981eb976981403f8476bc9d43ddc2e19f9bfa",
+      "blob": "d94a7a647cb6a43640230948146981eb976981403f8476bc9d43ddc2e19f9bfa",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-11-list-preview-reveal-139-1.png",
+      "bytes": 66368,
+      "sha256": "c4eccfa3475604313af532d23f7ae41c9395aba06bfd92c206237b826189e1ad",
+      "blob": "c4eccfa3475604313af532d23f7ae41c9395aba06bfd92c206237b826189e1ad",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-12-list-preview-reveal-139-2.png",
+      "bytes": 66907,
+      "sha256": "27f91f074ebbd6a34d969e791e87022d5d8b72d474e223a97669081d59215e3b",
+      "blob": "27f91f074ebbd6a34d969e791e87022d5d8b72d474e223a97669081d59215e3b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-13-list-preview-reveal-139-3.png",
+      "bytes": 67111,
+      "sha256": "df059d5ab94addadb5331780710176467bd3b944bd530d3f1ba962fb9e031dcd",
+      "blob": "df059d5ab94addadb5331780710176467bd3b944bd530d3f1ba962fb9e031dcd",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-14-list-preview-reveal-139-4.png",
+      "bytes": 67717,
+      "sha256": "8e1b30d6415f13e6dca81eb3ca2dd5e953827f2524aa1256db434eb58a9c4504",
+      "blob": "8e1b30d6415f13e6dca81eb3ca2dd5e953827f2524aa1256db434eb58a9c4504",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-15-list-preview-reveal-139-5.png",
+      "bytes": 67898,
+      "sha256": "298b537394b0a36f7efc1d39d756cd00fb9c5832ba45b5d652845a8af4ad7160",
+      "blob": "298b537394b0a36f7efc1d39d756cd00fb9c5832ba45b5d652845a8af4ad7160",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-16-list-preview-reveal-139-6.png",
+      "bytes": 66530,
+      "sha256": "a2653d434451018493fe8e495963014eb65097f8954d03509508e1976ec6a2f4",
+      "blob": "a2653d434451018493fe8e495963014eb65097f8954d03509508e1976ec6a2f4",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-17-list-preview-reveal-139-7.png",
+      "bytes": 65938,
+      "sha256": "67302ceaa41dcc242a419ba7e6b75f5b41d27277de2b1c0d5365bc364c6c5417",
+      "blob": "67302ceaa41dcc242a419ba7e6b75f5b41d27277de2b1c0d5365bc364c6c5417",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-18-list-preview-reveal-139-8.png",
+      "bytes": 66146,
+      "sha256": "2fb1560ee5b1474b579393f56c8e506f844d37f73ce2a9fedb132ea3335525ed",
+      "blob": "2fb1560ee5b1474b579393f56c8e506f844d37f73ce2a9fedb132ea3335525ed",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-19-list-preview-reveal-139-9.png",
+      "bytes": 66819,
+      "sha256": "2bcd9d53f995ce8860a0e620eeec0e072aaf1619ae215446982de459bc6f8d56",
+      "blob": "2bcd9d53f995ce8860a0e620eeec0e072aaf1619ae215446982de459bc6f8d56",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-20-list-preview-reveal-139-10.png",
+      "bytes": 66553,
+      "sha256": "3a597b82aff87f103edfb4182e5354c47e61f0ad411a1e75e80b65940c50d1f6",
+      "blob": "3a597b82aff87f103edfb4182e5354c47e61f0ad411a1e75e80b65940c50d1f6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-21-list-preview-reveal-139-11.png",
+      "bytes": 67225,
+      "sha256": "27f5153b88b6d934e37cb840ffb3a42000ee406b249f5507fc2263b4ccf52820",
+      "blob": "27f5153b88b6d934e37cb840ffb3a42000ee406b249f5507fc2263b4ccf52820",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-22-mobile667-02-person-139-preview.png",
+      "bytes": 66865,
+      "sha256": "1f9456d2cab81d2c4056e93011dec62917bc239e9cb4bd307e74dda2fd9649db",
+      "blob": "1f9456d2cab81d2c4056e93011dec62917bc239e9cb4bd307e74dda2fd9649db",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-23-list-preview-reveal-139-0.png",
+      "bytes": 66276,
+      "sha256": "c70b5c62cbfd54c4089a43c3996c7f566a268e4c30cc65be2e662e4d1bbb723c",
+      "blob": "c70b5c62cbfd54c4089a43c3996c7f566a268e4c30cc65be2e662e4d1bbb723c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-24-list-preview-reveal-139-1.png",
+      "bytes": 66549,
+      "sha256": "7f4bedad1121e0f491b385f6e904bfbd556297a7bbb572d89d65e579b7d99066",
+      "blob": "7f4bedad1121e0f491b385f6e904bfbd556297a7bbb572d89d65e579b7d99066",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-25-list-preview-reveal-139-2.png",
+      "bytes": 66543,
+      "sha256": "71428b723dc55c4159fbd6c9e4d11ea24fc1ae3d90aaebfd5841e2b6676cc1c7",
+      "blob": "71428b723dc55c4159fbd6c9e4d11ea24fc1ae3d90aaebfd5841e2b6676cc1c7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-26-list-preview-reveal-139-3.png",
+      "bytes": 67195,
+      "sha256": "7f124ad5a2e64471c502d323618dc6867edd56607c175204cbd397d00baa55ef",
+      "blob": "7f124ad5a2e64471c502d323618dc6867edd56607c175204cbd397d00baa55ef",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-27-list-preview-reveal-139-4.png",
+      "bytes": 67484,
+      "sha256": "aed3b12d105a186a714b5b36fa5d38a61a5542e85e6714b98f41e4345e075809",
+      "blob": "aed3b12d105a186a714b5b36fa5d38a61a5542e85e6714b98f41e4345e075809",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-28-list-preview-reveal-139-5.png",
+      "bytes": 66340,
+      "sha256": "df851ce341e3262e1fccaae728e76cb9133df2f846a0c9e8c525b4a107513333",
+      "blob": "df851ce341e3262e1fccaae728e76cb9133df2f846a0c9e8c525b4a107513333",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-29-list-preview-reveal-139-6.png",
+      "bytes": 65338,
+      "sha256": "7a3777e0895f36896deefd6975e61831037f0c76f433d41ce64018031d1dfa45",
+      "blob": "7a3777e0895f36896deefd6975e61831037f0c76f433d41ce64018031d1dfa45",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-30-list-preview-reveal-139-7.png",
+      "bytes": 66173,
+      "sha256": "a505dd95157a063bd776c255d5cc03f9b62f84ceaf9439dbbb4c78674ef8f66c",
+      "blob": "a505dd95157a063bd776c255d5cc03f9b62f84ceaf9439dbbb4c78674ef8f66c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-31-list-preview-reveal-139-8.png",
+      "bytes": 66315,
+      "sha256": "9a87d2ef639eaf8488ad54784e8ffae2fc7e068c0a0b925ae52072bfca4c1800",
+      "blob": "9a87d2ef639eaf8488ad54784e8ffae2fc7e068c0a0b925ae52072bfca4c1800",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-32-list-preview-reveal-139-9.png",
+      "bytes": 66718,
+      "sha256": "1ee918d0503b3b5252e5debf5755151d20c8b719f0f99a10621771fb88ff4703",
+      "blob": "1ee918d0503b3b5252e5debf5755151d20c8b719f0f99a10621771fb88ff4703",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-33-identity-person-139-listName.png",
+      "bytes": 66718,
+      "sha256": "1ee918d0503b3b5252e5debf5755151d20c8b719f0f99a10621771fb88ff4703",
+      "blob": "1ee918d0503b3b5252e5debf5755151d20c8b719f0f99a10621771fb88ff4703",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-34-identity-person-139-heading.png",
+      "bytes": 61294,
+      "sha256": "8c6dac6d2f8cf454604e2d67878f29d4b9f525d923b67c3c9f6aa75a30e1c45d",
+      "blob": "8c6dac6d2f8cf454604e2d67878f29d4b9f525d923b67c3c9f6aa75a30e1c45d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-35-identity-person-139-ownership.png",
+      "bytes": 61294,
+      "sha256": "8c6dac6d2f8cf454604e2d67878f29d4b9f525d923b67c3c9f6aa75a30e1c45d",
+      "blob": "8c6dac6d2f8cf454604e2d67878f29d4b9f525d923b67c3c9f6aa75a30e1c45d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-36-identity-person-139-priorOwnership.png",
+      "bytes": 61294,
+      "sha256": "8c6dac6d2f8cf454604e2d67878f29d4b9f525d923b67c3c9f6aa75a30e1c45d",
+      "blob": "8c6dac6d2f8cf454604e2d67878f29d4b9f525d923b67c3c9f6aa75a30e1c45d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-37-identity-person-139-nativeOwnership.png",
+      "bytes": 67524,
+      "sha256": "c46e3ad0992d8e1406f85c220fafca6c292ac44488f20e660566847ce4c7cb41",
+      "blob": "c46e3ad0992d8e1406f85c220fafca6c292ac44488f20e660566847ce4c7cb41",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-38-person-location-139-hdLocation.png",
+      "bytes": 59908,
+      "sha256": "9da593e9cfeacebab721495758250a4d40ebc9470a26a034c7e516dfc95d7412",
+      "blob": "9da593e9cfeacebab721495758250a4d40ebc9470a26a034c7e516dfc95d7412",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-39-person-location-139-nativeLocation.png",
+      "bytes": 64384,
+      "sha256": "857ad985438d860de070cbc09b4334488b292da041bb499808043f2426c11153",
+      "blob": "857ad985438d860de070cbc09b4334488b292da041bb499808043f2426c11153",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-40-list-preview-reveal-143-0.png",
+      "bytes": 65747,
+      "sha256": "a8724484ad8ce4ac237c819374db054d49f0a8250d2d45558c88ab2f5e4b7228",
+      "blob": "a8724484ad8ce4ac237c819374db054d49f0a8250d2d45558c88ab2f5e4b7228",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-41-list-preview-reveal-143-1.png",
+      "bytes": 63644,
+      "sha256": "fdceaad0842f22531f1189823909eb8abaa4332eb22253115e8d33314ccfc63e",
+      "blob": "fdceaad0842f22531f1189823909eb8abaa4332eb22253115e8d33314ccfc63e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-42-mobile667-03-person-143-preview.png",
+      "bytes": 67119,
+      "sha256": "1d3194ce754bae6201c670069389608012220863b37cf048ebd1ed89b27e2ecb",
+      "blob": "1d3194ce754bae6201c670069389608012220863b37cf048ebd1ed89b27e2ecb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-43-identity-person-143-listName.png",
+      "bytes": 67119,
+      "sha256": "1d3194ce754bae6201c670069389608012220863b37cf048ebd1ed89b27e2ecb",
+      "blob": "1d3194ce754bae6201c670069389608012220863b37cf048ebd1ed89b27e2ecb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-44-identity-person-143-heading.png",
+      "bytes": 61746,
+      "sha256": "71ef4d14e6f13ff7e084a77ca82bad2a65c5f47fc2e978aaf2dd0d79ff2d2788",
+      "blob": "71ef4d14e6f13ff7e084a77ca82bad2a65c5f47fc2e978aaf2dd0d79ff2d2788",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-45-identity-person-143-ownership.png",
+      "bytes": 61746,
+      "sha256": "71ef4d14e6f13ff7e084a77ca82bad2a65c5f47fc2e978aaf2dd0d79ff2d2788",
+      "blob": "71ef4d14e6f13ff7e084a77ca82bad2a65c5f47fc2e978aaf2dd0d79ff2d2788",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-46-identity-person-143-priorOwnership.png",
+      "bytes": 61746,
+      "sha256": "71ef4d14e6f13ff7e084a77ca82bad2a65c5f47fc2e978aaf2dd0d79ff2d2788",
+      "blob": "71ef4d14e6f13ff7e084a77ca82bad2a65c5f47fc2e978aaf2dd0d79ff2d2788",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-47-identity-person-143-nativeOwnership.png",
+      "bytes": 67711,
+      "sha256": "65fa84d6f83871db350b3dae972dfcbecf159d990d069b7d51a7663847660368",
+      "blob": "65fa84d6f83871db350b3dae972dfcbecf159d990d069b7d51a7663847660368",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-48-person-location-143-hdLocation.png",
+      "bytes": 60186,
+      "sha256": "7a44192ae2a799a74ca58eceeb4c3935514f5995fdaf2ad012452f6e63afdb1d",
+      "blob": "7a44192ae2a799a74ca58eceeb4c3935514f5995fdaf2ad012452f6e63afdb1d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-49-person-location-143-nativeLocation.png",
+      "bytes": 64766,
+      "sha256": "241e8fb9de20890a435e07daddee015596b799e5c76dff2f577c379ca1972f11",
+      "blob": "241e8fb9de20890a435e07daddee015596b799e5c76dff2f577c379ca1972f11",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-50-canvass-target-cancel-actor.png",
+      "bytes": 60534,
+      "sha256": "e548646e871273c106e75a112b82509e589fa09ff1f45bb15647b6eb6424091d",
+      "blob": "e548646e871273c106e75a112b82509e589fa09ff1f45bb15647b6eb6424091d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/mobile667-identity-51-canvass-cancel-map.png",
+      "bytes": 388049,
+      "sha256": "7c6369e6cf9a2c74bbf0a74a5860083642c0e79eb85ccb9bc3387ba6041832e1",
+      "blob": "7c6369e6cf9a2c74bbf0a74a5860083642c0e79eb85ccb9bc3387ba6041832e1",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/owned-process-samples.jsonl",
+      "bytes": 561406,
+      "sha256": "e6d18f8eea206abdd88757a91c85585d92bde0c6f52c6ce52be58678c71c98f6",
+      "blob": "e6d18f8eea206abdd88757a91c85585d92bde0c6f52c6ce52be58678c71c98f6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile667-after-v1/source-verification.json",
+      "bytes": 437054,
+      "sha256": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "blob": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/browser-console.json",
+      "bytes": 15161,
+      "sha256": "0267360e71a24455a3b77f2b8f3f8e5bf5964f2b93e7ded6ecfee45278d2173a",
+      "blob": "0267360e71a24455a3b77f2b8f3f8e5bf5964f2b93e7ded6ecfee45278d2173a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-checks.mjs",
+      "bytes": 22276,
+      "sha256": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "blob": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-city-menu.js",
+      "bytes": 455220,
+      "sha256": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "blob": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-location-helper.mjs",
+      "bytes": 8874,
+      "sha256": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "blob": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-roles-helper.mjs",
+      "bytes": 12931,
+      "sha256": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "blob": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-rom.mjs",
+      "bytes": 6532,
+      "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "blob": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/executed-tool.mjs",
+      "bytes": 50631,
+      "sha256": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "blob": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-00-jinyang-root.png",
+      "bytes": 52416,
+      "sha256": "8514fdd4ab85f359aea1a3b1d93e65df0470053ac4d1810faba2e784c9858967",
+      "blob": "8514fdd4ab85f359aea1a3b1d93e65df0470053ac4d1810faba2e784c9858967",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-01-mobile844-01-person-29-preview.png",
+      "bytes": 65637,
+      "sha256": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "blob": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-02-identity-person-29-listName.png",
+      "bytes": 65637,
+      "sha256": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "blob": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-03-identity-person-29-heading.png",
+      "bytes": 65641,
+      "sha256": "7729790f5e0712fc2b9966de5471a652035f187d18cbe3e6cd9c439e374ed04e",
+      "blob": "7729790f5e0712fc2b9966de5471a652035f187d18cbe3e6cd9c439e374ed04e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-04-identity-person-29-ownership.png",
+      "bytes": 65637,
+      "sha256": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "blob": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-05-identity-person-29-priorOwnership.png",
+      "bytes": 65637,
+      "sha256": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "blob": "04def6832d870e3a2d020c10e1f8838268a8d32318df437a077bd1292fa3cebc",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-06-identity-person-29-nativeOwnership.png",
+      "bytes": 73465,
+      "sha256": "6e14185102cb37fc5e322e489216a42689eaa4735dcc173f54501277850a2a2c",
+      "blob": "6e14185102cb37fc5e322e489216a42689eaa4735dcc173f54501277850a2a2c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-07-person-location-29-hdLocation.png",
+      "bytes": 64548,
+      "sha256": "7d4cdc95e7920e38d94e21735d6770261b16410c6096342b36d33e6b226fa611",
+      "blob": "7d4cdc95e7920e38d94e21735d6770261b16410c6096342b36d33e6b226fa611",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-08-person-location-29-nativeLocation.png",
+      "bytes": 69483,
+      "sha256": "fbe34cf1f746da65dba20a5d2261f8244983011bc168430885f118137a29eb58",
+      "blob": "fbe34cf1f746da65dba20a5d2261f8244983011bc168430885f118137a29eb58",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-09-canvass-actor.png",
+      "bytes": 69104,
+      "sha256": "448a3e5affa42ee52e2b372f7dd29557f3bdbe00e24c6a0e0720c71a8241c36f",
+      "blob": "448a3e5affa42ee52e2b372f7dd29557f3bdbe00e24c6a0e0720c71a8241c36f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-10-list-preview-reveal-139-0.png",
+      "bytes": 70603,
+      "sha256": "7a873f277c250c38756b96f489bcbfde7fe8009d1132c5b86c2ef84d5dde578c",
+      "blob": "7a873f277c250c38756b96f489bcbfde7fe8009d1132c5b86c2ef84d5dde578c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-11-list-preview-reveal-139-1.png",
+      "bytes": 71066,
+      "sha256": "b20f61de61e12207010a608e38b386eb4b9e1c17294282f6088fb0f6900e9c24",
+      "blob": "b20f61de61e12207010a608e38b386eb4b9e1c17294282f6088fb0f6900e9c24",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-12-list-preview-reveal-139-2.png",
+      "bytes": 72272,
+      "sha256": "d9f782e06d381511c9b83bad39cd0ee08eff58a0484ddcd0cda4369b555d3e3e",
+      "blob": "d9f782e06d381511c9b83bad39cd0ee08eff58a0484ddcd0cda4369b555d3e3e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-13-list-preview-reveal-139-3.png",
+      "bytes": 73538,
+      "sha256": "9d051e4530b52dee50f948436ef3cfaf88216f4666b2d2f2ab5006b8ab2b92cd",
+      "blob": "9d051e4530b52dee50f948436ef3cfaf88216f4666b2d2f2ab5006b8ab2b92cd",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-14-list-preview-reveal-139-4.png",
+      "bytes": 73417,
+      "sha256": "8820a272d39ccdd3d6e7576b8e2c7bb89944f0603e902d3cb901a58b859c811c",
+      "blob": "8820a272d39ccdd3d6e7576b8e2c7bb89944f0603e902d3cb901a58b859c811c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-15-list-preview-reveal-139-5.png",
+      "bytes": 71574,
+      "sha256": "d93c29df4c7749e5af99e3f59f21549d0db83ac6291bc347b2d2fb237520e500",
+      "blob": "d93c29df4c7749e5af99e3f59f21549d0db83ac6291bc347b2d2fb237520e500",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-16-list-preview-reveal-139-6.png",
+      "bytes": 71262,
+      "sha256": "01ba06612183fe1eec63aa3dfdb728d904fa518e4878e030af090be8a6650962",
+      "blob": "01ba06612183fe1eec63aa3dfdb728d904fa518e4878e030af090be8a6650962",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-17-list-preview-reveal-139-7.png",
+      "bytes": 72035,
+      "sha256": "fc7c7c56d78e98a8f19092a0bc82e189d981b291e531029905de39a224ae5708",
+      "blob": "fc7c7c56d78e98a8f19092a0bc82e189d981b291e531029905de39a224ae5708",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-18-list-preview-reveal-139-8.png",
+      "bytes": 71578,
+      "sha256": "cfecd67d945dfcd36f16753dbdc240b25fb551b86788f2d1808a000feb562fab",
+      "blob": "cfecd67d945dfcd36f16753dbdc240b25fb551b86788f2d1808a000feb562fab",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-19-list-preview-reveal-139-9.png",
+      "bytes": 71789,
+      "sha256": "8a769604b0099c18a34d4cc2a0701a15dcf85ace709d3731f5d1f1ccaeaf8b0f",
+      "blob": "8a769604b0099c18a34d4cc2a0701a15dcf85ace709d3731f5d1f1ccaeaf8b0f",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-20-mobile844-02-person-139-preview.png",
+      "bytes": 72701,
+      "sha256": "2a605412ab4cbe74245304fea206a32aa8b3d6c819b4eedfe30088e61aa161a5",
+      "blob": "2a605412ab4cbe74245304fea206a32aa8b3d6c819b4eedfe30088e61aa161a5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-21-identity-person-139-listName.png",
+      "bytes": 72701,
+      "sha256": "2a605412ab4cbe74245304fea206a32aa8b3d6c819b4eedfe30088e61aa161a5",
+      "blob": "2a605412ab4cbe74245304fea206a32aa8b3d6c819b4eedfe30088e61aa161a5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-22-identity-person-139-heading.png",
+      "bytes": 67793,
+      "sha256": "40f81a8a6b62c287431e83104d0c475c8417cad0ae67a058bcece9c7ce47c97d",
+      "blob": "40f81a8a6b62c287431e83104d0c475c8417cad0ae67a058bcece9c7ce47c97d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-23-identity-person-139-ownership.png",
+      "bytes": 67793,
+      "sha256": "40f81a8a6b62c287431e83104d0c475c8417cad0ae67a058bcece9c7ce47c97d",
+      "blob": "40f81a8a6b62c287431e83104d0c475c8417cad0ae67a058bcece9c7ce47c97d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-24-identity-person-139-priorOwnership.png",
+      "bytes": 67793,
+      "sha256": "40f81a8a6b62c287431e83104d0c475c8417cad0ae67a058bcece9c7ce47c97d",
+      "blob": "40f81a8a6b62c287431e83104d0c475c8417cad0ae67a058bcece9c7ce47c97d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-25-identity-person-139-nativeOwnership.png",
+      "bytes": 74781,
+      "sha256": "b507c51c34891b9b790894cc0e66e921b1aa1082e07e49c3882970563fdc964b",
+      "blob": "b507c51c34891b9b790894cc0e66e921b1aa1082e07e49c3882970563fdc964b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-26-person-location-139-hdLocation.png",
+      "bytes": 65966,
+      "sha256": "cfcdedb4025c54d9ff44ceb1083dfe69e54fb3c58d7fd973252fc9c06779bceb",
+      "blob": "cfcdedb4025c54d9ff44ceb1083dfe69e54fb3c58d7fd973252fc9c06779bceb",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-27-person-location-139-nativeLocation.png",
+      "bytes": 70749,
+      "sha256": "429b991b0fa045d79bc8a90568e9457bdae031ecc882d0f468984d59faf61a6d",
+      "blob": "429b991b0fa045d79bc8a90568e9457bdae031ecc882d0f468984d59faf61a6d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-28-list-preview-reveal-143-0.png",
+      "bytes": 72561,
+      "sha256": "d0a53735fac4a550872178b3c5edf6625238645c4f0c8632912bbb1efb60d338",
+      "blob": "d0a53735fac4a550872178b3c5edf6625238645c4f0c8632912bbb1efb60d338",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-29-mobile844-03-person-143-preview.png",
+      "bytes": 70528,
+      "sha256": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "blob": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-30-identity-person-143-listName.png",
+      "bytes": 70528,
+      "sha256": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "blob": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-31-identity-person-143-heading.png",
+      "bytes": 70528,
+      "sha256": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "blob": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-32-identity-person-143-ownership.png",
+      "bytes": 70528,
+      "sha256": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "blob": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-33-identity-person-143-priorOwnership.png",
+      "bytes": 70528,
+      "sha256": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "blob": "ca1153844b5e0f4a28085b62149f9f8f3759b1c5706373904eb6aa5d491c45f2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-34-identity-person-143-nativeOwnership.png",
+      "bytes": 77467,
+      "sha256": "4b96fed87b1e2c7c571ec0718eee197cefdba784b0ce5c6ab2446a53572540c0",
+      "blob": "4b96fed87b1e2c7c571ec0718eee197cefdba784b0ce5c6ab2446a53572540c0",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-35-person-location-143-hdLocation.png",
+      "bytes": 68202,
+      "sha256": "407fcdfb5dca1479e1b9e3aec0b0994bc95ae081b219c9feda075d6e3961ef13",
+      "blob": "407fcdfb5dca1479e1b9e3aec0b0994bc95ae081b219c9feda075d6e3961ef13",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-36-person-location-143-nativeLocation.png",
+      "bytes": 73363,
+      "sha256": "e5b7959d22f31a299fd7a72ac46579933c644ca2d9217e3e82c64f7f4931fd7a",
+      "blob": "e5b7959d22f31a299fd7a72ac46579933c644ca2d9217e3e82c64f7f4931fd7a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-37-canvass-target-cancel-actor.png",
+      "bytes": 71324,
+      "sha256": "d5dd5be320950d9b5cc3ace0860aaa61910adbd5bc065da5328b7904c8a72a14",
+      "blob": "d5dd5be320950d9b5cc3ace0860aaa61910adbd5bc065da5328b7904c8a72a14",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/mobile844-identity-38-canvass-cancel-map.png",
+      "bytes": 450699,
+      "sha256": "e6ee149ecbe6d4bbc2e2d6da996668b9cd6b231f4bb54b19427d544fb2f71c3c",
+      "blob": "e6ee149ecbe6d4bbc2e2d6da996668b9cd6b231f4bb54b19427d544fb2f71c3c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/owned-process-samples.jsonl",
+      "bytes": 435552,
+      "sha256": "cec5415668baa628fe664c3e05c8088534e1e24af1a643cd354003da64a1798b",
+      "blob": "cec5415668baa628fe664c3e05c8088534e1e24af1a643cd354003da64a1798b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/mobile844-after-v1/source-verification.json",
+      "bytes": 437054,
+      "sha256": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "blob": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/no-reentry-control-source-v1.json",
+      "bytes": 902,
+      "sha256": "c14a424491000d8f69d238af8541a3273f2ba7a6844b64e923a7c274a7c7c843",
+      "blob": "c14a424491000d8f69d238af8541a3273f2ba7a6844b64e923a7c274a7c7c843",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources-v1.json",
+      "bytes": 1162,
+      "sha256": "886bfc9dac7f13a06a1c0819137dbf23c0dd1959d3eb449c14534a0824f09527",
+      "blob": "886bfc9dac7f13a06a1c0819137dbf23c0dd1959d3eb449c14534a0824f09527",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/.gitattributes",
+      "bytes": 42931,
+      "sha256": "f987d684910589d30516d8b7f908414c96bb23642477751e2563120b53e2b5c9",
+      "blob": "f987d684910589d30516d8b7f908414c96bb23642477751e2563120b53e2b5c9",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/js/hd-city-menu.js",
+      "bytes": 448176,
+      "sha256": "cfcd4f89e14987db475bb6950d24bce7425d36999eb6d5576842790909068399",
+      "blob": "cfcd4f89e14987db475bb6950d24bce7425d36999eb6d5576842790909068399",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/m.html",
+      "bytes": 18480,
+      "sha256": "c6091467e7b92aeba9b07636836b4d526aa6fcd32193324c80bdda8a364249f9",
+      "blob": "c6091467e7b92aeba9b07636836b4d526aa6fcd32193324c80bdda8a364249f9",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/package.json",
+      "bytes": 21476,
+      "sha256": "37d5d464028fdcdffc753d9eeace27f2e2ef5ff6c120866bce1241a84957f720",
+      "blob": "37d5d464028fdcdffc753d9eeace27f2e2ef5ff6c120866bce1241a84957f720",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/pc.html",
+      "bytes": 28681,
+      "sha256": "3f1b98d58396f42b832888a0dfcf7d8fd62ae3b076ffda5cbb8567f452c686d7",
+      "blob": "3f1b98d58396f42b832888a0dfcf7d8fd62ae3b076ffda5cbb8567f452c686d7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/scripts/hd-person-identity-runtime-checks.mjs",
+      "bytes": 22262,
+      "sha256": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60",
+      "blob": "3ac8a287d09eb90a7e10af66b1e923513944de076a6bf393b03c28ab91a17e60",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/scripts/hd-person-roles-runtime-checks.mjs",
+      "bytes": 12826,
+      "sha256": "9a6cfc4015641e6ac2a6ed3b5745109c945b560903eff380a7f377a3eee5d401",
+      "blob": "9a6cfc4015641e6ac2a6ed3b5745109c945b560903eff380a7f377a3eee5d401",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/scripts/test-hd-city-hud.mjs",
+      "bytes": 134812,
+      "sha256": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "blob": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/parent-sources/scripts/test-hd-person-identity-runtime.mjs",
+      "bytes": 49999,
+      "sha256": "41f8b3ded45af0f503855b947c7cf27cc88fc7f7cd8ec79135f6a0283b840b7d",
+      "blob": "41f8b3ded45af0f503855b947c7cf27cc88fc7f7cd8ec79135f6a0283b840b7d",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/browser-console.json",
+      "bytes": 15419,
+      "sha256": "a5db2fcfdb703a237576bc7ed54691c04642f8651de14ea0e52f3d5a7655cb79",
+      "blob": "a5db2fcfdb703a237576bc7ed54691c04642f8651de14ea0e52f3d5a7655cb79",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-checks.mjs",
+      "bytes": 22276,
+      "sha256": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "blob": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-city-menu.js",
+      "bytes": 455220,
+      "sha256": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "blob": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-location-helper.mjs",
+      "bytes": 8874,
+      "sha256": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "blob": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-roles-helper.mjs",
+      "bytes": 12931,
+      "sha256": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "blob": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-rom.mjs",
+      "bytes": 6532,
+      "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "blob": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/executed-tool.mjs",
+      "bytes": 50631,
+      "sha256": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "blob": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/owned-process-samples.jsonl",
+      "bytes": 304973,
+      "sha256": "caa85ca3ce4949b02eb7bd9fc6151938a4541a39636864bd679f1fc93c077d93",
+      "blob": "caa85ca3ce4949b02eb7bd9fc6151938a4541a39636864bd679f1fc93c077d93",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-00-jinyang-root.png",
+      "bytes": 2233287,
+      "sha256": "db9f61605b3619139430fb3e0080215bbcda8249b84370a7dec41f797c4e97a3",
+      "blob": "db9f61605b3619139430fb3e0080215bbcda8249b84370a7dec41f797c4e97a3",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-01-identity-person-29-listName.png",
+      "bytes": 2246162,
+      "sha256": "2f5dd685943144124212523ec02d59e92ebc17678ad197c831c78585ea990601",
+      "blob": "2f5dd685943144124212523ec02d59e92ebc17678ad197c831c78585ea990601",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-02-identity-person-29-heading.png",
+      "bytes": 2246206,
+      "sha256": "aa701b75a6a19aeb2f69d29c189aa70ebc62b272137ece6dbf223c9fa75874ef",
+      "blob": "aa701b75a6a19aeb2f69d29c189aa70ebc62b272137ece6dbf223c9fa75874ef",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-03-identity-person-29-ownership.png",
+      "bytes": 2246485,
+      "sha256": "22aea44a90ba9200f5341fc8612345a55b4ced2c04a44a1d7e56196fedc12715",
+      "blob": "22aea44a90ba9200f5341fc8612345a55b4ced2c04a44a1d7e56196fedc12715",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-04-identity-person-29-priorOwnership.png",
+      "bytes": 2246055,
+      "sha256": "67730c047fa00e90f44203fdca980d5960b29ae232742dbf1c921316e42ee6c9",
+      "blob": "67730c047fa00e90f44203fdca980d5960b29ae232742dbf1c921316e42ee6c9",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/source-verification.json",
+      "bytes": 437054,
+      "sha256": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "blob": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-checks.mjs",
+      "bytes": 22276,
+      "sha256": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "blob": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-city-menu.js",
+      "bytes": 455220,
+      "sha256": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "blob": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-location-helper.mjs",
+      "bytes": 8874,
+      "sha256": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "blob": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-roles-helper.mjs",
+      "bytes": 12931,
+      "sha256": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "blob": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-rom.mjs",
+      "bytes": 6532,
+      "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "blob": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/executed-tool.mjs",
+      "bytes": 50631,
+      "sha256": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "blob": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-after-v1/source-verification.json",
+      "bytes": 437054,
+      "sha256": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "blob": "212b7e8502ee855f042162d0706faaeed05f9997397d70bc0b5e2808ea5b8a0b",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-checks.mjs",
+      "bytes": 22276,
+      "sha256": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "blob": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-city-menu.js",
+      "bytes": 448176,
+      "sha256": "cfcd4f89e14987db475bb6950d24bce7425d36999eb6d5576842790909068399",
+      "blob": "cfcd4f89e14987db475bb6950d24bce7425d36999eb6d5576842790909068399",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-location-helper.mjs",
+      "bytes": 8874,
+      "sha256": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "blob": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-roles-helper.mjs",
+      "bytes": 12931,
+      "sha256": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "blob": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-rom.mjs",
+      "bytes": 6532,
+      "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "blob": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc720-before-v1/executed-tool.mjs",
+      "bytes": 50631,
+      "sha256": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "blob": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 455220,
+      "sha256": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "blob": "24e6b0d1c976abaad6c2a7f67f66ea733424ee8e80cc22d200de2d1ebdc9d5a2",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-preview-runtime-checks.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-identity-rom.mjs",
+      "bytes": 6532,
+      "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "blob": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-identity-runtime-checks.mjs",
+      "bytes": 22276,
+      "sha256": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "blob": "e9f302c5e497c76ca521fb195b93c4e44ad8af79b0d4f972102ac78b8d3d50d6",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-location-runtime-checks.mjs",
+      "bytes": 8874,
+      "sha256": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "blob": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-roles-runtime-checks.mjs",
+      "bytes": 12931,
+      "sha256": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "blob": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-person-identity-runtime.mjs",
+      "bytes": 50631,
+      "sha256": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "blob": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 225,
+  "uniqueBlobs": 144,
+  "rawNamedBytes": 29995897,
+  "uniqueRawBytes": 23727048,
+  "uniqueGzipBytes": 17775282,
+  "serializedPartBytes": 23733903,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

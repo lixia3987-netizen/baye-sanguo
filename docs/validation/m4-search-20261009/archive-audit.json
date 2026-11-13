@@ -1,0 +1,1512 @@
+{
+  "schemaVersion": 1,
+  "batch": "R17 SEARCH archive original-byte audit",
+  "createdAt": "2026-10-08T23:54:23.143924+00:00",
+  "status": "PASS",
+  "postIndexAudit": true,
+  "indexUnchanged": {
+    "path": "docs/validation/m4-search-20261009/runtime-index.json",
+    "bytes": 73817,
+    "sha256": "e6a0737250da537a120d4f60af256283fddd70569948222023a55fbd61083eaa"
+  },
+  "topLevelUnchanged": {
+    "path": "docs/validation/m4-search-20261009.json",
+    "bytes": 192571,
+    "sha256": "d019d069d5a978426c9c777b0208311bc68957318c7bd7e8af607c1dc76ec13d"
+  },
+  "summary": {
+    "indexedEntries": 158,
+    "gzipEntries": 137,
+    "originalPngEntries": 21,
+    "allIndexedStoredAndDecodedBytesMatch": true,
+    "allLocalActualAttemptPngsIncluded": true,
+    "omittedPngs": [],
+    "attempts": 5,
+    "exactExecutedRunnerBackups": 5,
+    "finalCheckpoints": 8,
+    "finalDetails": 24,
+    "finalSources": 1147,
+    "fontRequestStatus": 200,
+    "fontLoadObservationSentKeys": 0,
+    "windowsFullPassed": 713,
+    "cityHudPassed": 65
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "ok": false,
+      "hdAccepted": false,
+      "checkpoints": 0,
+      "nativeInputs": 1,
+      "result": {
+        "path": "build/r17-search-hd-installed-v1/result.json",
+        "bytes": 770624,
+        "sha256": "8daede2e070dc60efe8cd1205bffc427bb56d5dc656cae568ac82914ed970032"
+      },
+      "executedRunner": {
+        "path": "build/r17-search-runtime-executed-v1-0084e1cb.mjs",
+        "bytes": 45845,
+        "sha256": "0084e1cbb3a6cd32215065360a9a70b7a863d32d2b5c8d7233a5d16d58d13d55"
+      },
+      "pngCount": 1,
+      "verified": true
+    },
+    {
+      "attempt": 2,
+      "ok": false,
+      "hdAccepted": false,
+      "checkpoints": 0,
+      "nativeInputs": 0,
+      "result": {
+        "path": "build/r17-search-hd-installed-v2/result.json",
+        "bytes": 770439,
+        "sha256": "58cf7d1d08b72722b5c7225d3866a4584e1f0eed61df8492f03831a50e38373a"
+      },
+      "executedRunner": {
+        "path": "build/r17-search-runtime-executed-v2-646e99cb.mjs",
+        "bytes": 46137,
+        "sha256": "646e99cbfbb026358423e2200ea08fc88c22c5ad6e73c1635ab3548d6489c366"
+      },
+      "pngCount": 1,
+      "verified": true
+    },
+    {
+      "attempt": 3,
+      "ok": false,
+      "hdAccepted": false,
+      "checkpoints": 1,
+      "nativeInputs": 18,
+      "result": {
+        "path": "build/r17-search-hd-installed-v3/result.json",
+        "bytes": 1490567,
+        "sha256": "864668fd923440f24c57de1d4d2837b222e1be2be479477de943d6f93f611b88"
+      },
+      "executedRunner": {
+        "path": "build/r17-search-runtime-executed-v3-e69bd26a.mjs",
+        "bytes": 47041,
+        "sha256": "e69bd26aaa379775d6edc6b5cbfdffbb8ef89fd736c457996d52b89a0c409a64"
+      },
+      "pngCount": 2,
+      "verified": true
+    },
+    {
+      "attempt": 4,
+      "ok": false,
+      "hdAccepted": false,
+      "checkpoints": 8,
+      "nativeInputs": 65,
+      "result": {
+        "path": "build/r17-search-hd-installed-v4/result.json",
+        "bytes": 15979975,
+        "sha256": "1a3e9a0b389ad7b31138c410516a1343e8ee501f38ddf2f018c80c31957b2099"
+      },
+      "executedRunner": {
+        "path": "build/r17-search-runtime-executed-v4-a0b3e15f.mjs",
+        "bytes": 47620,
+        "sha256": "a0b3e15fa330e64ab78ad52670f1d525259801812719f97fe018fefd0736b7e4"
+      },
+      "pngCount": 9,
+      "verified": true
+    },
+    {
+      "attempt": 5,
+      "ok": true,
+      "hdAccepted": true,
+      "checkpoints": 8,
+      "nativeInputs": 65,
+      "result": {
+        "path": "build/r17-search-hd-installed-v5/result.json",
+        "bytes": 15779740,
+        "sha256": "1c91736e0c497b45638858d1ea3575f1f692dec4a9581a1181b03ecb6daa92cb"
+      },
+      "executedRunner": {
+        "path": "build/r17-search-runtime-executed-v5-ce54abab.mjs",
+        "bytes": 48835,
+        "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f"
+      },
+      "pngCount": 8,
+      "verified": true
+    }
+  ],
+  "verifiedEntries": [
+    {
+      "source": "build/r17-all-tests-final.log",
+      "archived": "raw/a3901a159d433675be5aa54614f9752e2fb78d1351db78d7e6c9fbec65bf12bf-r17-all-tests-final.log.gz",
+      "bytes": 90340,
+      "sha256": "a3901a159d433675be5aa54614f9752e2fb78d1351db78d7e6c9fbec65bf12bf",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-all-tests-v1.log",
+      "archived": "raw/19b1dc344104ad9b57d4fa417efbf0b242265604988aa59a59fcc50f5cd03978-r17-all-tests-v1.log.gz",
+      "bytes": 89084,
+      "sha256": "19b1dc344104ad9b57d4fa417efbf0b242265604988aa59a59fcc50f5cd03978",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-archive-search.cjs",
+      "archived": "raw/5c15a3850475b5855f4d858eb96210e6fa9db082ab3368e51253ab3c75de86df-r17-archive-search.cjs.gz",
+      "bytes": 8643,
+      "sha256": "5c15a3850475b5855f4d858eb96210e6fa9db082ab3368e51253ab3c75de86df",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-city-hud-final-published.log",
+      "archived": "raw/cc26d099d4cd2c0d2e3fc8969c85fda67ccde62985ea1c2e90d9bc90174ef509-r17-city-hud-final-published.log.gz",
+      "bytes": 7313,
+      "sha256": "cc26d099d4cd2c0d2e3fc8969c85fda67ccde62985ea1c2e90d9bc90174ef509",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-city-hud-final.log",
+      "archived": "raw/bf4f7ba13f8fde41959f6cea89e883b9e2ee50a7ca2ad4625f16781005315529-r17-city-hud-final.log.gz",
+      "bytes": 7307,
+      "sha256": "bf4f7ba13f8fde41959f6cea89e883b9e2ee50a7ca2ad4625f16781005315529",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-city-hud-v2.log",
+      "archived": "raw/003c1108cb8b400d68097e75c16773220edb8c7ac161b7e64d1c2d0ca98ebec7-r17-city-hud-v2.log.gz",
+      "bytes": 6056,
+      "sha256": "003c1108cb8b400d68097e75c16773220edb8c7ac161b7e64d1c2d0ca98ebec7",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-city-hud-v3.log",
+      "archived": "raw/e687e548b4bce31d2793c7308d3e829a90a0516b433f33144c228aa625abefe6-r17-city-hud-v3.log.gz",
+      "bytes": 6769,
+      "sha256": "e687e548b4bce31d2793c7308d3e829a90a0516b433f33144c228aa625abefe6",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-cleanup-signal-probe.json",
+      "archived": "raw/b1bfdf2a4d731d464f8a1f1a31bda6fc04f2a81b0d61958a879c30aa71396e41-r17-cleanup-signal-probe.json.gz",
+      "bytes": 252,
+      "sha256": "b1bfdf2a4d731d464f8a1f1a31bda6fc04f2a81b0d61958a879c30aa71396e41",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-commit-message.txt",
+      "archived": "raw/132c69573aa0bdd46b7e5b809dab9b5f6dbd4d84c51dd5f1595158fe1b338fad-r17-commit-message.txt.gz",
+      "bytes": 466,
+      "sha256": "132c69573aa0bdd46b7e5b809dab9b5f6dbd4d84c51dd5f1595158fe1b338fad",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-focused-initial.log",
+      "archived": "raw/d0cb13b0ff99fb7aa25dedfcbeb662afec962b1a6c6d1b5b68792934cecd6a37-r17-focused-initial.log.gz",
+      "bytes": 15325,
+      "sha256": "d0cb13b0ff99fb7aa25dedfcbeb662afec962b1a6c6d1b5b68792934cecd6a37",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-focused-v1.log",
+      "archived": "raw/7ac6e6ceed3ffab1582164703562722aacecfcc4056f228014a93313aa5697a7-r17-focused-v1.log.gz",
+      "bytes": 16554,
+      "sha256": "7ac6e6ceed3ffab1582164703562722aacecfcc4056f228014a93313aa5697a7",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-run-all-final.cmd",
+      "archived": "raw/4bb2675a283702a5f33075d9dbc963449d149ae739d93c0d6de0f5c49fabda93-r17-run-all-final.cmd.gz",
+      "bytes": 1582,
+      "sha256": "4bb2675a283702a5f33075d9dbc963449d149ae739d93c0d6de0f5c49fabda93",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-run-all-v1.cmd",
+      "archived": "raw/5f46166900af6d58f3975194bf76b48d9e1d36ba7a40411e4361d02b2a09b96b-r17-run-all-v1.cmd.gz",
+      "bytes": 1577,
+      "sha256": "5f46166900af6d58f3975194bf76b48d9e1d36ba7a40411e4361d02b2a09b96b",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v1/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v1/result.json",
+      "archived": "raw/a405f6c417744a205b87c4675cdc7317db2738e3500c9df84d0547413d31c9ef-result.json.gz",
+      "bytes": 730084,
+      "sha256": "a405f6c417744a205b87c4675cdc7317db2738e3500c9df84d0547413d31c9ef",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v1/source-verification.json",
+      "archived": "raw/417994bd47f383e5411ccf282f6ad419e09946a39eafd22517d005926fc7ec99-source-verification.json.gz",
+      "bytes": 408094,
+      "sha256": "417994bd47f383e5411ccf282f6ad419e09946a39eafd22517d005926fc7ec99",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v2/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v2/result.json",
+      "archived": "raw/34c84efaec2845ffda14ab63137a68fe3697042d6ff3da090043e203203f257c-result.json.gz",
+      "bytes": 730084,
+      "sha256": "34c84efaec2845ffda14ab63137a68fe3697042d6ff3da090043e203203f257c",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v2/source-verification.json",
+      "archived": "raw/6a4a0c765a97a70d918e37f06caa8aa6c1ab8da2f5bd9a761ef31504548fd181-source-verification.json.gz",
+      "bytes": 408094,
+      "sha256": "6a4a0c765a97a70d918e37f06caa8aa6c1ab8da2f5bd9a761ef31504548fd181",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v3/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v3/result.json",
+      "archived": "raw/45b9d2411baa1ed186c3ffe69bd2ea2849e721c24df0b64946fed846ec897130-result.json.gz",
+      "bytes": 731000,
+      "sha256": "45b9d2411baa1ed186c3ffe69bd2ea2849e721c24df0b64946fed846ec897130",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v3/source-verification.json",
+      "archived": "raw/a48ebe2e2d14ac08dfbbd7f5ad26405d1e9ebc7c171dfcaa293b3faa3a4a2d1e-source-verification.json.gz",
+      "bytes": 408661,
+      "sha256": "a48ebe2e2d14ac08dfbbd7f5ad26405d1e9ebc7c171dfcaa293b3faa3a4a2d1e",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v4/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v4/result.json",
+      "archived": "raw/01880888912099b39197654b7e9d3562d975a3f1f0ad13492f5032b3a5ae3260-result.json.gz",
+      "bytes": 731000,
+      "sha256": "01880888912099b39197654b7e9d3562d975a3f1f0ad13492f5032b3a5ae3260",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v4/source-verification.json",
+      "archived": "raw/5007b98c2f90c547096a3afb18faeea81082ac7001fec41f3d5126126c0839a5-source-verification.json.gz",
+      "bytes": 408661,
+      "sha256": "5007b98c2f90c547096a3afb18faeea81082ac7001fec41f3d5126126c0839a5",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v5/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v5/result.json",
+      "archived": "raw/797cccb84013e89223e79352218a6d3770fbf91bf8505e5ec6ac9c7d0ad50485-result.json.gz",
+      "bytes": 731058,
+      "sha256": "797cccb84013e89223e79352218a6d3770fbf91bf8505e5ec6ac9c7d0ad50485",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v5/source-verification.json",
+      "archived": "raw/14e4aaafb2c4784de073f9c8d3438b500ebfd7838b7c18543ebc624312d4c4be-source-verification.json.gz",
+      "bytes": 408661,
+      "sha256": "14e4aaafb2c4784de073f9c8d3438b500ebfd7838b7c18543ebc624312d4c4be",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v6/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v6/result.json",
+      "archived": "raw/157ed9abb51efe505f5c901632740365d43ed64f69b3d4ad6145c3df0e90f40f-result.json.gz",
+      "bytes": 731058,
+      "sha256": "157ed9abb51efe505f5c901632740365d43ed64f69b3d4ad6145c3df0e90f40f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v6/source-verification.json",
+      "archived": "raw/e33d433326696cc201a5dd85e4c8ae615dde5f9ca50bc1da96e0d51408dbe948-source-verification.json.gz",
+      "bytes": 408661,
+      "sha256": "e33d433326696cc201a5dd85e4c8ae615dde5f9ca50bc1da96e0d51408dbe948",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v7/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v7/result.json",
+      "archived": "raw/044815f2ca5feb263d5b59fd449783770518c81798aaac8ad0f8f6305c7844ed-result.json.gz",
+      "bytes": 731058,
+      "sha256": "044815f2ca5feb263d5b59fd449783770518c81798aaac8ad0f8f6305c7844ed",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v7/source-verification.json",
+      "archived": "raw/91326f6ba1cd79c226e45176ecda55dd05c55c21efdc1206b384608fcc62e525-source-verification.json.gz",
+      "bytes": 408661,
+      "sha256": "91326f6ba1cd79c226e45176ecda55dd05c55c21efdc1206b384608fcc62e525",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v8/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v8/result.json",
+      "archived": "raw/2e1a3fe69f5a04ca2ce13d87a4061e51697b06f6da08b627eb6d0748e79cddfc-result.json.gz",
+      "bytes": 731058,
+      "sha256": "2e1a3fe69f5a04ca2ce13d87a4061e51697b06f6da08b627eb6d0748e79cddfc",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-candidate-preflight-v8/source-verification.json",
+      "archived": "raw/b575b69a3e31bb784935a9ee40690c556b8f4410560f1827706583b729de36fd-source-verification.json.gz",
+      "bytes": 408661,
+      "sha256": "b575b69a3e31bb784935a9ee40690c556b8f4410560f1827706583b729de36fd",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-city-hud-candidate.patch",
+      "archived": "raw/5f79741ddf31799edf05fe75038bf362163717f2733cd8bc87645af7341135c2-r17-search-city-hud-candidate.patch.gz",
+      "bytes": 9765,
+      "sha256": "5f79741ddf31799edf05fe75038bf362163717f2733cd8bc87645af7341135c2",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-final-independent-review-v4.json",
+      "archived": "raw/2f3a513ff98001268c2aa1b1df4c0e0a5fff12af3a1a7e52cf8c62a2d316cdb5-r17-search-final-independent-review-v4.json.gz",
+      "bytes": 8680,
+      "sha256": "2f3a513ff98001268c2aa1b1df4c0e0a5fff12af3a1a7e52cf8c62a2d316cdb5",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-final-independent-review-v5.json",
+      "archived": "raw/6820b957799f03e61bdd81c115436e831a9ca4418398d22582d37408e76ee42f-r17-search-final-independent-review-v5.json.gz",
+      "bytes": 10600,
+      "sha256": "6820b957799f03e61bdd81c115436e831a9ca4418398d22582d37408e76ee42f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-gameplay-review-v1.json",
+      "archived": "raw/78a32e10f339fc0642965f6c1213787def381c16fe036e1b85692fa6521b8230-r17-search-gameplay-review-v1.json.gz",
+      "bytes": 4584,
+      "sha256": "78a32e10f339fc0642965f6c1213787def381c16fe036e1b85692fa6521b8230",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-gameplay-review-v2.json",
+      "archived": "raw/56023308d594438e6fd59f981cf01cb90025f02168921b4fb1fc13d13d0ae8f0-r17-search-gameplay-review-v2.json.gz",
+      "bytes": 4049,
+      "sha256": "56023308d594438e6fd59f981cf01cb90025f02168921b4fb1fc13d13d0ae8f0",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-gameplay-review-v3.json",
+      "archived": "raw/a29c36c3afe70d5e686d3b2d69e6954a934624bdadea664fe5e8b0bae4cd0524-r17-search-gameplay-review-v3.json.gz",
+      "bytes": 4181,
+      "sha256": "a29c36c3afe70d5e686d3b2d69e6954a934624bdadea664fe5e8b0bae4cd0524",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-gameplay-review-v4.json",
+      "archived": "raw/14236774ab5144b415d0e23c4e9c10f96b1f641d70cd0950051c53a1ef79a8f1-r17-search-gameplay-review-v4.json.gz",
+      "bytes": 13562,
+      "sha256": "14236774ab5144b415d0e23c4e9c10f96b1f641d70cd0950051c53a1ef79a8f1",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-gameplay-review-v5.json",
+      "archived": "raw/051eadf4a8f93c265c55bc028277eecbd7675fb81f57f2e84085f29a7801bb87-r17-search-gameplay-review-v5.json.gz",
+      "bytes": 11375,
+      "sha256": "051eadf4a8f93c265c55bc028277eecbd7675fb81f57f2e84085f29a7801bb87",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v1.log",
+      "archived": "raw/0dbc8ff972616d3cf86d0458ae78f97104c96d96e58cf0fcd0d9e77e87f40ce7-r17-search-hd-installed-v1.log.gz",
+      "bytes": 1131,
+      "sha256": "0dbc8ff972616d3cf86d0458ae78f97104c96d96e58cf0fcd0d9e77e87f40ce7",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v1/browser-console.json",
+      "archived": "raw/d4b77aa009032c3e0a6a19a1b4be93ea1826289b22e63a1fd6439e0b76067c80-browser-console.json.gz",
+      "bytes": 1223,
+      "sha256": "d4b77aa009032c3e0a6a19a1b4be93ea1826289b22e63a1fd6439e0b76067c80",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v1/failure.png",
+      "archived": "screenshots/37c7fca02a4c9e9cfe4642e27e0dd7a1e8d561540f6cca17411c276491609963-failure.png",
+      "bytes": 75017,
+      "sha256": "37c7fca02a4c9e9cfe4642e27e0dd7a1e8d561540f6cca17411c276491609963",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v1/result.json",
+      "archived": "raw/8daede2e070dc60efe8cd1205bffc427bb56d5dc656cae568ac82914ed970032-result.json.gz",
+      "bytes": 770624,
+      "sha256": "8daede2e070dc60efe8cd1205bffc427bb56d5dc656cae568ac82914ed970032",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v1/runtime-validation-audit.json",
+      "archived": "raw/03593f5b577baf5f1dbc196da3e3fe9b8cbd8455523ab2816cd3f6efc4c14c85-runtime-validation-audit.json.gz",
+      "bytes": 1692,
+      "sha256": "03593f5b577baf5f1dbc196da3e3fe9b8cbd8455523ab2816cd3f6efc4c14c85",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v1/source-verification.json",
+      "archived": "raw/60f7c91a6dfda8d48a6a749647d74592d4ec4cb07b28568076ec221382fbd88c-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "60f7c91a6dfda8d48a6a749647d74592d4ec4cb07b28568076ec221382fbd88c",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v2.log",
+      "archived": "raw/924a1a509eae2f8e38f880f5a4e4054c38ce8661d84a2b1cf218694d4e9ba4a2-r17-search-hd-installed-v2.log.gz",
+      "bytes": 1115,
+      "sha256": "924a1a509eae2f8e38f880f5a4e4054c38ce8661d84a2b1cf218694d4e9ba4a2",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v2/browser-console.json",
+      "archived": "raw/67963705d565473e69c7198d283be8020ec31b11834719f89e599408696783ef-browser-console.json.gz",
+      "bytes": 1147,
+      "sha256": "67963705d565473e69c7198d283be8020ec31b11834719f89e599408696783ef",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v2/failure.png",
+      "archived": "screenshots/24d4921ab102291344751507d7cf187e17655fd137ff6ad9ce2a7f3181a23203-failure.png",
+      "bytes": 83105,
+      "sha256": "24d4921ab102291344751507d7cf187e17655fd137ff6ad9ce2a7f3181a23203",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v2/result.json",
+      "archived": "raw/58cf7d1d08b72722b5c7225d3866a4584e1f0eed61df8492f03831a50e38373a-result.json.gz",
+      "bytes": 770439,
+      "sha256": "58cf7d1d08b72722b5c7225d3866a4584e1f0eed61df8492f03831a50e38373a",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v2/runtime-validation-audit.json",
+      "archived": "raw/5412833765025e4349cfc7caceac530afc5dc00c506bac013043e1d3764fcdb7-runtime-validation-audit.json.gz",
+      "bytes": 1646,
+      "sha256": "5412833765025e4349cfc7caceac530afc5dc00c506bac013043e1d3764fcdb7",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v2/source-verification.json",
+      "archived": "raw/7217ae1121d2cd50218be2882e40924186727359c500a20a39bbfd14e772c593-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "7217ae1121d2cd50218be2882e40924186727359c500a20a39bbfd14e772c593",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v3.log",
+      "archived": "raw/9aba48875b14fa01323aae3e3ee125b5b66a7b0b9b6d1bad912afb1124f19034-r17-search-hd-installed-v3.log.gz",
+      "bytes": 1048,
+      "sha256": "9aba48875b14fa01323aae3e3ee125b5b66a7b0b9b6d1bad912afb1124f19034",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v3/01-real-P2-LiuBiao-map.png",
+      "archived": "screenshots/1ebe3470c817f481bb9d7c38bfded1a3f733544a27ff83209a021a8d17f76a3f-01-real-P2-LiuBiao-map.png",
+      "bytes": 3021539,
+      "sha256": "1ebe3470c817f481bb9d7c38bfded1a3f733544a27ff83209a021a8d17f76a3f",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v3/browser-console.json",
+      "archived": "raw/617b92f043b26d0f4ae622f8f596a1e3a9b68096efada6ce868af5b77395198a-browser-console.json.gz",
+      "bytes": 13444,
+      "sha256": "617b92f043b26d0f4ae622f8f596a1e3a9b68096efada6ce868af5b77395198a",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v3/failure.png",
+      "archived": "screenshots/708bdaae59c32c1c5200f0c34fb58346ae2d6ab13e6210e4b98ec22eebb12662-failure.png",
+      "bytes": 3020655,
+      "sha256": "708bdaae59c32c1c5200f0c34fb58346ae2d6ab13e6210e4b98ec22eebb12662",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v3/result.json",
+      "archived": "raw/864668fd923440f24c57de1d4d2837b222e1be2be479477de943d6f93f611b88-result.json.gz",
+      "bytes": 1490567,
+      "sha256": "864668fd923440f24c57de1d4d2837b222e1be2be479477de943d6f93f611b88",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v3/runtime-validation-audit.json",
+      "archived": "raw/1f11580ccac7cc38746938bf9344efe612d6c4522284bbb954dc32b7779cb29f-runtime-validation-audit.json.gz",
+      "bytes": 10576,
+      "sha256": "1f11580ccac7cc38746938bf9344efe612d6c4522284bbb954dc32b7779cb29f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v3/source-verification.json",
+      "archived": "raw/274410827d1199aca55f05313e8c910ce37a007430bb6986e8f3a7216feb3881-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "274410827d1199aca55f05313e8c910ce37a007430bb6986e8f3a7216feb3881",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4.log",
+      "archived": "raw/37eb0a35ac7a17adb16491525e38bd36534d32b99e29eff2f9a7ae8b9b504c03-r17-search-hd-installed-v4.log.gz",
+      "bytes": 1173,
+      "sha256": "37eb0a35ac7a17adb16491525e38bd36534d32b99e29eff2f9a7ae8b9b504c03",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/01-real-P2-LiuBiao-map.png",
+      "archived": "screenshots/1c8d65627f02c6a73a097720f91673302ac9b63ab3d8e6fa4175b77fd04ddeab-01-real-P2-LiuBiao-map.png",
+      "bytes": 3021637,
+      "sha256": "1c8d65627f02c6a73a097720f91673302ac9b63ab3d8e6fa4175b77fd04ddeab",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/02-native-HD-SEARCH.png",
+      "archived": "screenshots/dc293a4a2589e7e2fd353363a0e7d0e183b4cb68ea9196786ccc5a5bece49edc-02-native-HD-SEARCH.png",
+      "bytes": 2141929,
+      "sha256": "dc293a4a2589e7e2fd353363a0e7d0e183b4cb68ea9196786ccc5a5bece49edc",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/03-search-1080p.png",
+      "archived": "screenshots/83085991197aa38fd39648d662574786861ad75f156743b3079d4a01c81cae87-03-search-1080p.png",
+      "bytes": 2081353,
+      "sha256": "83085991197aa38fd39648d662574786861ad75f156743b3079d4a01c81cae87",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/04-search-720p.png",
+      "archived": "screenshots/3d98b83646e4d538a8a55c714bcba1cf51b68238c911cb77ea1e0c40100874f7-04-search-720p.png",
+      "bytes": 705636,
+      "sha256": "3d98b83646e4d538a8a55c714bcba1cf51b68238c911cb77ea1e0c40100874f7",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/05-original-search-report-before-order.png",
+      "archived": "screenshots/70b8e83e145754b9c0806ac34384c330406f027cb8cdac77bea4621506939689-05-original-search-report-before-order.png",
+      "bytes": 654653,
+      "sha256": "70b8e83e145754b9c0806ac34384c330406f027cb8cdac77bea4621506939689",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/06-filtered-1080p.png",
+      "archived": "screenshots/3bc49c7456be403b105ff539367caa5f882a74f6d9b5ab73a5d67ce8ae913338-06-filtered-1080p.png",
+      "bytes": 2089143,
+      "sha256": "3bc49c7456be403b105ff539367caa5f882a74f6d9b5ab73a5d67ce8ae913338",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/07-filtered-720p.png",
+      "archived": "screenshots/9cefa2c71245a070452a3b91125ff02c8e8aca18d98421453f94bdfac499d7de-07-filtered-720p.png",
+      "bytes": 713828,
+      "sha256": "9cefa2c71245a070452a3b91125ff02c8e8aca18d98421453f94bdfac499d7de",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/08-real-map-after-user-back.png",
+      "archived": "screenshots/6202d4f9a7c144c965703c648165d01ed081ba66bb460328d918a45f7b112ee3-08-real-map-after-user-back.png",
+      "bytes": 1420718,
+      "sha256": "6202d4f9a7c144c965703c648165d01ed081ba66bb460328d918a45f7b112ee3",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/browser-console.json",
+      "archived": "raw/69d35664c5d0b41d2368dcd661d6f687e7f2a809bb6938a33d7e81f246a88811-browser-console.json.gz",
+      "bytes": 14548,
+      "sha256": "69d35664c5d0b41d2368dcd661d6f687e7f2a809bb6938a33d7e81f246a88811",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/failure.png",
+      "archived": "screenshots/afa8587f913530060bf421fc232e1ca2a1beae51ec6514e63f7e9be9c3722122-failure.png",
+      "bytes": 1420690,
+      "sha256": "afa8587f913530060bf421fc232e1ca2a1beae51ec6514e63f7e9be9c3722122",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/result.json",
+      "archived": "raw/1a3e9a0b389ad7b31138c410516a1343e8ee501f38ddf2f018c80c31957b2099-result.json.gz",
+      "bytes": 15979975,
+      "sha256": "1a3e9a0b389ad7b31138c410516a1343e8ee501f38ddf2f018c80c31957b2099",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/runtime-validation-audit.json",
+      "archived": "raw/bd81aa95d17ed6135795376ff484b43c202a7d8e5406b61a2296668206bc9253-runtime-validation-audit.json.gz",
+      "bytes": 5438,
+      "sha256": "bd81aa95d17ed6135795376ff484b43c202a7d8e5406b61a2296668206bc9253",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v4/source-verification.json",
+      "archived": "raw/7b036385b31e199417ccd61a66294947fc6a2a840652b4ce38cbb77093819cd0-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "7b036385b31e199417ccd61a66294947fc6a2a840652b4ce38cbb77093819cd0",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5.log",
+      "archived": "raw/cc1733e5c283de379cd1a27fad2ac852439cb36443f4eff898963cfbaf5e0796-r17-search-hd-installed-v5.log.gz",
+      "bytes": 785,
+      "sha256": "cc1733e5c283de379cd1a27fad2ac852439cb36443f4eff898963cfbaf5e0796",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/01-real-P2-LiuBiao-map.png",
+      "archived": "screenshots/6e0456d44a45705f23a1775a025d941b47928e993cb928f9794be40197302717-01-real-P2-LiuBiao-map.png",
+      "bytes": 3031795,
+      "sha256": "6e0456d44a45705f23a1775a025d941b47928e993cb928f9794be40197302717",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/02-native-HD-SEARCH.png",
+      "archived": "screenshots/a128e411ac9fc61f662a7e9a9d2c14a23cddb639a631cdd80668cc9b520a6c02-02-native-HD-SEARCH.png",
+      "bytes": 2165610,
+      "sha256": "a128e411ac9fc61f662a7e9a9d2c14a23cddb639a631cdd80668cc9b520a6c02",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/03-search-1080p.png",
+      "archived": "screenshots/5192b91117becd01466c8c68eddd218073358299fd69bc0ed17af5921440e8c6-03-search-1080p.png",
+      "bytes": 2102186,
+      "sha256": "5192b91117becd01466c8c68eddd218073358299fd69bc0ed17af5921440e8c6",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/04-search-720p.png",
+      "archived": "screenshots/c3ee244da1e3067905aaaef3dce3f03bbcef0385375cf3684056ef77f7acdb65-04-search-720p.png",
+      "bytes": 719196,
+      "sha256": "c3ee244da1e3067905aaaef3dce3f03bbcef0385375cf3684056ef77f7acdb65",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/05-original-search-report-before-order.png",
+      "archived": "screenshots/ed78cd46dde005f449e9a663bf7c2e3e666313e6f4acf0cc80161853d40852fe-05-original-search-report-before-order.png",
+      "bytes": 663596,
+      "sha256": "ed78cd46dde005f449e9a663bf7c2e3e666313e6f4acf0cc80161853d40852fe",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/06-filtered-1080p.png",
+      "archived": "screenshots/1baacbdd5537477344cf869cf7e8efb6b35dc354538ef5b44a32e93d7ace38d9-06-filtered-1080p.png",
+      "bytes": 2110163,
+      "sha256": "1baacbdd5537477344cf869cf7e8efb6b35dc354538ef5b44a32e93d7ace38d9",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/07-filtered-720p.png",
+      "archived": "screenshots/4db376cb75f6405c7ed9d3a9587c057931b9a19abf65cebbd1cdd977b93a1439-07-filtered-720p.png",
+      "bytes": 727306,
+      "sha256": "4db376cb75f6405c7ed9d3a9587c057931b9a19abf65cebbd1cdd977b93a1439",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/08-real-map-after-user-back.png",
+      "archived": "screenshots/8e62b6fc6ef3454eac9e5a6c308440b2ee1a3aa04a8b0ad17469063f2dd0eec8-08-real-map-after-user-back.png",
+      "bytes": 1429165,
+      "sha256": "8e62b6fc6ef3454eac9e5a6c308440b2ee1a3aa04a8b0ad17469063f2dd0eec8",
+      "encoding": "original PNG bytes",
+      "verified": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/browser-console.json",
+      "archived": "raw/e42291f27c5b7bc6ec179c51cc01c9808a17148b120da4657ba801ee663eed61-browser-console.json.gz",
+      "bytes": 14443,
+      "sha256": "e42291f27c5b7bc6ec179c51cc01c9808a17148b120da4657ba801ee663eed61",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/result.json",
+      "archived": "raw/1c91736e0c497b45638858d1ea3575f1f692dec4a9581a1181b03ecb6daa92cb-result.json.gz",
+      "bytes": 15779740,
+      "sha256": "1c91736e0c497b45638858d1ea3575f1f692dec4a9581a1181b03ecb6daa92cb",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/runtime-validation-audit.json",
+      "archived": "raw/e5872b9907263d338622c9ccbc4026adcd69f7a75dd714f31a816a783de1dc6f-runtime-validation-audit.json.gz",
+      "bytes": 6550,
+      "sha256": "e5872b9907263d338622c9ccbc4026adcd69f7a75dd714f31a816a783de1dc6f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-installed-v5/source-verification.json",
+      "archived": "raw/9af05d639d57e207bb11a9b018d03aaddcfe03ac8f77fc934e928e3a78e73a93-source-verification.json.gz",
+      "bytes": 408992,
+      "sha256": "9af05d639d57e207bb11a9b018d03aaddcfe03ac8f77fc934e928e3a78e73a93",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-hd-plan.json",
+      "archived": "raw/dff459fcda779544b19d07e1ccde0ff99c975f2a6984cb8fbb22709a24221738-r17-search-hd-plan.json.gz",
+      "bytes": 15811,
+      "sha256": "dff459fcda779544b19d07e1ccde0ff99c975f2a6984cb8fbb22709a24221738",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-native-audit.json",
+      "archived": "raw/6b98c5caeb6dcfd8795773ba45e4fdf5a022984ad74d24b0c3d7952cff0d0c05-r17-search-native-audit.json.gz",
+      "bytes": 9644,
+      "sha256": "6b98c5caeb6dcfd8795773ba45e4fdf5a022984ad74d24b0c3d7952cff0d0c05",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-promotion-proof.json",
+      "archived": "raw/04f88bea6887ffc33d9943f04c992c800dfaa93bbd830bce6166414e9dd36dc3-r17-search-promotion-proof.json.gz",
+      "bytes": 909,
+      "sha256": "04f88bea6887ffc33d9943f04c992c800dfaa93bbd830bce6166414e9dd36dc3",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v1.log",
+      "archived": "raw/0151039aef1ca92590da60bf2ed988ec472ba768869a25469567290ec7a4fbf2-r17-search-published-preflight-v1.log.gz",
+      "bytes": 392,
+      "sha256": "0151039aef1ca92590da60bf2ed988ec472ba768869a25469567290ec7a4fbf2",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v1/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v1/result.json",
+      "archived": "raw/ea21c38afa23a4b2dcedc618733f54e3a516b05eaad3cc316f5b1f20b2f7b05d-result.json.gz",
+      "bytes": 730980,
+      "sha256": "ea21c38afa23a4b2dcedc618733f54e3a516b05eaad3cc316f5b1f20b2f7b05d",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v1/source-verification.json",
+      "archived": "raw/dae247d2508d218a32e90f6f14686ba33e5007a2fa9e367b6063eb7f33bd3384-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "dae247d2508d218a32e90f6f14686ba33e5007a2fa9e367b6063eb7f33bd3384",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v2.log",
+      "archived": "raw/2c6c8d9b95f532de3633c7150235a0bb9f576ca20d6e636ae9e0bf20a96d31c2-r17-search-published-preflight-v2.log.gz",
+      "bytes": 392,
+      "sha256": "2c6c8d9b95f532de3633c7150235a0bb9f576ca20d6e636ae9e0bf20a96d31c2",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v2/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v2/result.json",
+      "archived": "raw/e31ca5fd928b36825016d9005a6b4da6190f3a99d09a34706df01e8896649ed0-result.json.gz",
+      "bytes": 730980,
+      "sha256": "e31ca5fd928b36825016d9005a6b4da6190f3a99d09a34706df01e8896649ed0",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v2/source-verification.json",
+      "archived": "raw/968002372f7e89eb75696d569b2d400fffc4abbf0ff4a382e26762ec3db0aea7-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "968002372f7e89eb75696d569b2d400fffc4abbf0ff4a382e26762ec3db0aea7",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v3.log",
+      "archived": "raw/416be39a92caa2a3ee8e8b126022155ba7967b74f0e3bcc41fabd3d0b75b7a7b-r17-search-published-preflight-v3.log.gz",
+      "bytes": 392,
+      "sha256": "416be39a92caa2a3ee8e8b126022155ba7967b74f0e3bcc41fabd3d0b75b7a7b",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v3/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v3/result.json",
+      "archived": "raw/c11f1a8e1af922d0c9106d2b53556aa19f7bb31535e36475a75053627f2516c2-result.json.gz",
+      "bytes": 731038,
+      "sha256": "c11f1a8e1af922d0c9106d2b53556aa19f7bb31535e36475a75053627f2516c2",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v3/source-verification.json",
+      "archived": "raw/60f7c91a6dfda8d48a6a749647d74592d4ec4cb07b28568076ec221382fbd88c-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "60f7c91a6dfda8d48a6a749647d74592d4ec4cb07b28568076ec221382fbd88c",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v4.log",
+      "archived": "raw/b1d527f27b912cb81534979f8c38583b43681250e0666f5a355655e6e8cc18ad-r17-search-published-preflight-v4.log.gz",
+      "bytes": 392,
+      "sha256": "b1d527f27b912cb81534979f8c38583b43681250e0666f5a355655e6e8cc18ad",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v4/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v4/result.json",
+      "archived": "raw/f206949ce32b6c305c88977946eb60a9a4a6f4aa7c49a9af73fbf6a62e09b4dd-result.json.gz",
+      "bytes": 731038,
+      "sha256": "f206949ce32b6c305c88977946eb60a9a4a6f4aa7c49a9af73fbf6a62e09b4dd",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v4/source-verification.json",
+      "archived": "raw/7217ae1121d2cd50218be2882e40924186727359c500a20a39bbfd14e772c593-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "7217ae1121d2cd50218be2882e40924186727359c500a20a39bbfd14e772c593",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v5.log",
+      "archived": "raw/625d8987903cc9f52d964f0a6c4a1b86241a85588f2e49f62f4224138d6e88d3-r17-search-published-preflight-v5.log.gz",
+      "bytes": 392,
+      "sha256": "625d8987903cc9f52d964f0a6c4a1b86241a85588f2e49f62f4224138d6e88d3",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v5/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v5/result.json",
+      "archived": "raw/30ce6fcaf7b713fb736d83cd8504e1c0dd0b9a18b24eb8374d3de8d00f1422f8-result.json.gz",
+      "bytes": 731038,
+      "sha256": "30ce6fcaf7b713fb736d83cd8504e1c0dd0b9a18b24eb8374d3de8d00f1422f8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v5/source-verification.json",
+      "archived": "raw/274410827d1199aca55f05313e8c910ce37a007430bb6986e8f3a7216feb3881-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "274410827d1199aca55f05313e8c910ce37a007430bb6986e8f3a7216feb3881",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v6/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v6/result.json",
+      "archived": "raw/447263d180dad6930f59bec21cb6d2d351aed8df7f7ec94f8b6e0c88e7d7570a-result.json.gz",
+      "bytes": 731038,
+      "sha256": "447263d180dad6930f59bec21cb6d2d351aed8df7f7ec94f8b6e0c88e7d7570a",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v6/source-verification.json",
+      "archived": "raw/7b036385b31e199417ccd61a66294947fc6a2a840652b4ce38cbb77093819cd0-source-verification.json.gz",
+      "bytes": 408653,
+      "sha256": "7b036385b31e199417ccd61a66294947fc6a2a840652b4ce38cbb77093819cd0",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v7/browser-console.json",
+      "archived": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v7/result.json",
+      "archived": "raw/f94f7bec5294be6806e35b87e12f97d0d6521b18643dee799490b70d5598e241-result.json.gz",
+      "bytes": 731627,
+      "sha256": "f94f7bec5294be6806e35b87e12f97d0d6521b18643dee799490b70d5598e241",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-published-preflight-v7/source-verification.json",
+      "archived": "raw/9af05d639d57e207bb11a9b018d03aaddcfe03ac8f77fc934e928e3a78e73a93-source-verification.json.gz",
+      "bytes": 408992,
+      "sha256": "9af05d639d57e207bb11a9b018d03aaddcfe03ac8f77fc934e928e3a78e73a93",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runner-source-review-v2.json",
+      "archived": "raw/8fa20d91a499b74d3e9089e4c020d3dbbddb17ee5b467efaaae6c322b440ed0b-r17-search-runner-source-review-v2.json.gz",
+      "bytes": 2541,
+      "sha256": "8fa20d91a499b74d3e9089e4c020d3dbbddb17ee5b467efaaae6c322b440ed0b",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runner-source-review-v3.json",
+      "archived": "raw/4611e113c353bd6aaffae0fe81d44e948aa465d1b5992b0dc957fa1064aa8089-r17-search-runner-source-review-v3.json.gz",
+      "bytes": 3178,
+      "sha256": "4611e113c353bd6aaffae0fe81d44e948aa465d1b5992b0dc957fa1064aa8089",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runner-source-review-v4.json",
+      "archived": "raw/baa60095daaabe021e6c6680a2d2b7861c87ae823c04558556f2a1eb203da820-r17-search-runner-source-review-v4.json.gz",
+      "bytes": 2453,
+      "sha256": "baa60095daaabe021e6c6680a2d2b7861c87ae823c04558556f2a1eb203da820",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runner-source-review-v5.json",
+      "archived": "raw/0842921d27bcd0ad5b95583eb39e848228372b43d4968f8c86e2d97deb59f01d-r17-search-runner-source-review-v5.json.gz",
+      "bytes": 2323,
+      "sha256": "0842921d27bcd0ad5b95583eb39e848228372b43d4968f8c86e2d97deb59f01d",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runner-source-review-v6.json",
+      "archived": "raw/7042b61229fed2f6baeadb6ba4ffc237d080b1aacaac166e1acb33dd98fc6420-r17-search-runner-source-review-v6.json.gz",
+      "bytes": 2256,
+      "sha256": "7042b61229fed2f6baeadb6ba4ffc237d080b1aacaac166e1acb33dd98fc6420",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runner-source-review.json",
+      "archived": "raw/67b26604d95c48d37d6b1f8c0f074848a00846d6f2105f856e93ad008f7fe292-r17-search-runner-source-review.json.gz",
+      "bytes": 4693,
+      "sha256": "67b26604d95c48d37d6b1f8c0f074848a00846d6f2105f856e93ad008f7fe292",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-0084-executed.mjs",
+      "archived": "raw/0084e1cbb3a6cd32215065360a9a70b7a863d32d2b5c8d7233a5d16d58d13d55-r17-search-runtime-0084-executed.mjs.gz",
+      "bytes": 45845,
+      "sha256": "0084e1cbb3a6cd32215065360a9a70b7a863d32d2b5c8d7233a5d16d58d13d55",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-0ae-readonly.mjs",
+      "archived": "raw/0ae0d2d22dfceb5cb4aa83f117d2e39fd64ae5806407d1f9c7010d2ae11dd16f-r17-search-runtime-0ae-readonly.mjs.gz",
+      "bytes": 45678,
+      "sha256": "0ae0d2d22dfceb5cb4aa83f117d2e39fd64ae5806407d1f9c7010d2ae11dd16f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-646e-executed.mjs",
+      "archived": "raw/646e99cbfbb026358423e2200ea08fc88c22c5ad6e73c1635ab3548d6489c366-r17-search-runtime-646e-executed.mjs.gz",
+      "bytes": 46137,
+      "sha256": "646e99cbfbb026358423e2200ea08fc88c22c5ad6e73c1635ab3548d6489c366",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-a0b3-executed.mjs",
+      "archived": "raw/a0b3e15fa330e64ab78ad52670f1d525259801812719f97fe018fefd0736b7e4-r17-search-runtime-a0b3-executed.mjs.gz",
+      "bytes": 47620,
+      "sha256": "a0b3e15fa330e64ab78ad52670f1d525259801812719f97fe018fefd0736b7e4",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-a13b-readonly.mjs",
+      "archived": "raw/a13bfc67e0effc8d50c334599b3354ddc78553100c32aa8d6611a641ecff6c6e-r17-search-runtime-a13b-readonly.mjs.gz",
+      "bytes": 44929,
+      "sha256": "a13bfc67e0effc8d50c334599b3354ddc78553100c32aa8d6611a641ecff6c6e",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-before-cleanup-fix.mjs",
+      "archived": "raw/0ae0d2d22dfceb5cb4aa83f117d2e39fd64ae5806407d1f9c7010d2ae11dd16f-r17-search-runtime-before-cleanup-fix.mjs.gz",
+      "bytes": 45678,
+      "sha256": "0ae0d2d22dfceb5cb4aa83f117d2e39fd64ae5806407d1f9c7010d2ae11dd16f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-candidate.mjs",
+      "archived": "raw/ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f-r17-search-runtime-candidate.mjs.gz",
+      "bytes": 48835,
+      "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-e69b-executed.mjs",
+      "archived": "raw/e69bd26aaa379775d6edc6b5cbfdffbb8ef89fd736c457996d52b89a0c409a64-r17-search-runtime-e69b-executed.mjs.gz",
+      "bytes": 47041,
+      "sha256": "e69bd26aaa379775d6edc6b5cbfdffbb8ef89fd736c457996d52b89a0c409a64",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-executed-v1-0084e1cb.mjs",
+      "archived": "raw/0084e1cbb3a6cd32215065360a9a70b7a863d32d2b5c8d7233a5d16d58d13d55-r17-search-runtime-executed-v1-0084e1cb.mjs.gz",
+      "bytes": 45845,
+      "sha256": "0084e1cbb3a6cd32215065360a9a70b7a863d32d2b5c8d7233a5d16d58d13d55",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-executed-v2-646e99cb.mjs",
+      "archived": "raw/646e99cbfbb026358423e2200ea08fc88c22c5ad6e73c1635ab3548d6489c366-r17-search-runtime-executed-v2-646e99cb.mjs.gz",
+      "bytes": 46137,
+      "sha256": "646e99cbfbb026358423e2200ea08fc88c22c5ad6e73c1635ab3548d6489c366",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-executed-v3-e69bd26a.mjs",
+      "archived": "raw/e69bd26aaa379775d6edc6b5cbfdffbb8ef89fd736c457996d52b89a0c409a64-r17-search-runtime-executed-v3-e69bd26a.mjs.gz",
+      "bytes": 47041,
+      "sha256": "e69bd26aaa379775d6edc6b5cbfdffbb8ef89fd736c457996d52b89a0c409a64",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-executed-v4-a0b3e15f.mjs",
+      "archived": "raw/a0b3e15fa330e64ab78ad52670f1d525259801812719f97fe018fefd0736b7e4-r17-search-runtime-executed-v4-a0b3e15f.mjs.gz",
+      "bytes": 47620,
+      "sha256": "a0b3e15fa330e64ab78ad52670f1d525259801812719f97fe018fefd0736b7e4",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-executed-v5-ce54abab.mjs",
+      "archived": "raw/ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f-r17-search-runtime-executed-v5-ce54abab.mjs.gz",
+      "bytes": 48835,
+      "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-peer-review-a13b.json",
+      "archived": "raw/b170ec9fd7d30b071a88e4544bcbd571ce55a23835f6774b46bd74ec1865e8f8-r17-search-runtime-peer-review-a13b.json.gz",
+      "bytes": 3062,
+      "sha256": "b170ec9fd7d30b071a88e4544bcbd571ce55a23835f6774b46bd74ec1865e8f8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-peer-review-cleanup.json",
+      "archived": "raw/d8a3c9a4af6a0ebafbac5a716232ff7a35b4faa3fc80f25c52647d3baf4bb207-r17-search-runtime-peer-review-cleanup.json.gz",
+      "bytes": 1328,
+      "sha256": "d8a3c9a4af6a0ebafbac5a716232ff7a35b4faa3fc80f25c52647d3baf4bb207",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-peer-review-final.json",
+      "archived": "raw/0bc3c088c584e6f520db3c34b34f2ac1460f8c946553296230e22c45afa613f7-r17-search-runtime-peer-review-final.json.gz",
+      "bytes": 1491,
+      "sha256": "0bc3c088c584e6f520db3c34b34f2ac1460f8c946553296230e22c45afa613f7",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-runtime-peer-review-prefs.json",
+      "archived": "raw/8b69c9af6eb32ae5be20074ffafe4e2f14273d6aa4ae21530d6b25706e11129d-r17-search-runtime-peer-review-prefs.json.gz",
+      "bytes": 1322,
+      "sha256": "8b69c9af6eb32ae5be20074ffafe4e2f14273d6aa4ae21530d6b25706e11129d",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-unit-audit.json",
+      "archived": "raw/3082c65bd9b1b56b0d0ef32a74cc2f50dc7c1d47d4cd6b231a6c76e40ee8f14b-r17-search-unit-audit.json.gz",
+      "bytes": 4309,
+      "sha256": "3082c65bd9b1b56b0d0ef32a74cc2f50dc7c1d47d4cd6b231a6c76e40ee8f14b",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-unit-before.log",
+      "archived": "raw/cc12cd7a1aabc905a662665554c8db966b2135bc97171e6452d7e178855764b2-r17-search-unit-before.log.gz",
+      "bytes": 4340,
+      "sha256": "cc12cd7a1aabc905a662665554c8db966b2135bc97171e6452d7e178855764b2",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-unit-candidate.mjs",
+      "archived": "raw/674428e8b7100a682e6abd934c7528fbf8dab9e47dca16c05b32d93eee5f21b1-r17-search-unit-candidate.mjs.gz",
+      "bytes": 20243,
+      "sha256": "674428e8b7100a682e6abd934c7528fbf8dab9e47dca16c05b32d93eee5f21b1",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-unit-extra.txt",
+      "archived": "raw/100cd3ebf916dc3083cd553ef52c971aca8b1205625be5bcff5f6e4a584d5478-r17-search-unit-extra.txt.gz",
+      "bytes": 5547,
+      "sha256": "100cd3ebf916dc3083cd553ef52c971aca8b1205625be5bcff5f6e4a584d5478",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-unit-extra2.txt",
+      "archived": "raw/c760e8919e250cc16674191eba46889b896ad565e1eae88dd64b9dffc2d37dc0-r17-search-unit-extra2.txt.gz",
+      "bytes": 1834,
+      "sha256": "c760e8919e250cc16674191eba46889b896ad565e1eae88dd64b9dffc2d37dc0",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-search-validation-audit-final.json",
+      "archived": "raw/ea0f3ad3a633a94f1e26e6a4727c6eae5faeaf7e7cd275fc1507254d43fd2382-r17-search-validation-audit-final.json.gz",
+      "bytes": 49715,
+      "sha256": "ea0f3ad3a633a94f1e26e6a4727c6eae5faeaf7e7cd275fc1507254d43fd2382",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-update-docs.cjs",
+      "archived": "raw/6c9c66062df7b3745ce7cc6ffb2dc7e9526101d3f6827c4d5fa9f555a78ee258-r17-update-docs.cjs.gz",
+      "bytes": 4546,
+      "sha256": "6c9c66062df7b3745ce7cc6ffb2dc7e9526101d3f6827c4d5fa9f555a78ee258",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r17-write-runtime-audit.mjs",
+      "archived": "raw/70f257cc592fc45b0a16a9fda0773a6c1d1f98fa47b59b9a5b0ffd774edb64dd-r17-write-runtime-audit.mjs.gz",
+      "bytes": 7836,
+      "sha256": "70f257cc592fc45b0a16a9fda0773a6c1d1f98fa47b59b9a5b0ffd774edb64dd",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "build/r18-next-hd-plan.json",
+      "archived": "raw/b5bf62c2bbf7a7a9e799144e8c3fb2830d9185d9e427e26ad50925baad8e185f-r18-next-hd-plan.json.gz",
+      "bytes": 10134,
+      "sha256": "b5bf62c2bbf7a7a9e799144e8c3fb2830d9185d9e427e26ad50925baad8e185f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "js/baye.build.json",
+      "archived": "raw/59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8-baye.build.json.gz",
+      "bytes": 6763,
+      "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "js/hd-city-menu.js",
+      "archived": "raw/debf8b60ed8b29e5fe972344b5cd6ad7df43b6c1232da1939facc9c74fd8f787-hd-city-menu.js.gz",
+      "bytes": 267267,
+      "sha256": "debf8b60ed8b29e5fe972344b5cd6ad7df43b6c1232da1939facc9c74fd8f787",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "package.json",
+      "archived": "raw/be9cfe08e94feb9fab5b9e098d5ed24f28f1ea4ded0546620f778a0c6d6e0873-package.json.gz",
+      "bytes": 5663,
+      "sha256": "be9cfe08e94feb9fab5b9e098d5ed24f28f1ea4ded0546620f778a0c6d6e0873",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "pc.html",
+      "archived": "raw/5fe878639c4fb224b400d25587651ce66433da91527966061f2b4345b722b8fe-pc.html.gz",
+      "bytes": 25720,
+      "sha256": "5fe878639c4fb224b400d25587651ce66433da91527966061f2b4345b722b8fe",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "scripts/test-hd-city-hud.mjs",
+      "archived": "raw/02a2d1a4ae8dfd5ae2c26f3585693a0e63aa04e6d4ac6a9bc6739ac88968ded5-test-hd-city-hud.mjs.gz",
+      "bytes": 72621,
+      "sha256": "02a2d1a4ae8dfd5ae2c26f3585693a0e63aa04e6d4ac6a9bc6739ac88968ded5",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    },
+    {
+      "source": "scripts/test-hd-search-runtime.mjs",
+      "archived": "raw/ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f-test-hd-search-runtime.mjs.gz",
+      "bytes": 48835,
+      "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f",
+      "encoding": "gzip of original bytes",
+      "verified": true
+    }
+  ],
+  "failures": [],
+  "limits": [
+    "No browser was started or rerun.",
+    "PNG files were decoded for original-byte/format verification; no additional visual inspection is claimed.",
+    "Earlier attempts remain failures; only v5 is accepted.",
+    "713/65 totals are verified from archived logs, not a new test execution.",
+    "Original 8 PASS / 3 FAIL regression is an offline VM unit fixture, not browser coverage.",
+    "This audit is created after runtime-index and does not mutate or add a self-reference to that frozen index."
+  ],
+  "auditImplementationCorrection": "Initial unpublished audit draft used checkpoints instead of phases and TAP instead of Node spec-log prefixes. Corrected only this post-index audit; indexed archive and product bytes were never modified."
+}

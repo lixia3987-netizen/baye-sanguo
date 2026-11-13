@@ -1,0 +1,798 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-impact13-real-native-river-approach-and-controlled-global-route-repair",
+  "publicationDate": "2026-10-21",
+  "originalOnly": true,
+  "newProductRuntimeSourceChanges": false,
+  "newFormalValidationSourceChanges": true,
+  "sourceRunAccepted": true,
+  "actualContinuationAccepted": true,
+  "sourceCount": 1275,
+  "normalizedPhysicalSources": 1271,
+  "allCurrentSourceTuplesExact": true,
+  "nativeSourceCount": 128,
+  "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+  "publicSaveCount": 4,
+  "publicSaves": [
+    {
+      "tag": "impact13-129-v15-april-input",
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-april-input-sango0.sav",
+          "bytes": 8221,
+          "sha256": "93b26ffb2e8fee6ff7bab9beff52b9c691c2511b7a6fc8926202aede29cbd17a"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-april-input-sango1.sav",
+          "bytes": 4840,
+          "sha256": "448e6fc4e1d8d11b1cd9b153d983e41c1e10274b4dce1934cf68e8fcb3b9512f"
+        }
+      ],
+      "worldJsonSha256": "368ef41608d25324915ae98731cb78df06861a573f142d03014dbca5a631b099"
+    },
+    {
+      "tag": "impact13-129-v15-food-16",
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-food-16-sango0.sav",
+          "bytes": 8221,
+          "sha256": "7f50651253ab1cf4509caa2110047a9e8bfe0692c2dcaa4c762228e4cfad4896"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-food-16-sango1.sav",
+          "bytes": 4840,
+          "sha256": "7c4ba89ad597d401e7adc04fb0dee53b3dce0eba611a6abb8549da41d5ad79cd"
+        }
+      ],
+      "worldJsonSha256": "bba88737c8c097e8e7aae8c14d17cf3974573659ea8649aa7e0ba6b37e56dd89"
+    },
+    {
+      "tag": "impact13-129-v15-dispatched-421",
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-dispatched-421-sango0.sav",
+          "bytes": 8221,
+          "sha256": "02cc40d73ba51ef48d2ac4601fcf68b1915a50e0635a02057ecc89b0b523de59"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-dispatched-421-sango1.sav",
+          "bytes": 4840,
+          "sha256": "1c0a6a1ce12543014511b7c97bc67d6280ec1817ea49988ac70df7a349612ce4"
+        }
+      ],
+      "worldJsonSha256": "74cb6cd7f9e8a9becd23ee0aaf4c560001b10c036134f9c8d06b74bf9295a377"
+    },
+    {
+      "tag": "impact13-129-v15-route-settled",
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-route-settled-sango0.sav",
+          "bytes": 8221,
+          "sha256": "b2626336a846785f3f3344bde84dea12fbc7831c9b64535593f8adaffee03a64"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-route-settled-sango1.sav",
+          "bytes": 4840,
+          "sha256": "6ac36e53b65df8819ff1e2e7a5a2e905f6ab9e8f2261ac91ad3d423f6ac7f84c"
+        }
+      ],
+      "worldJsonSha256": "8dfa843aaffe1cf63995c6d13f37680992f10918b83ee4208d6f78a8dcec7429"
+    }
+  ],
+  "latestPublicSave": "impact13-129-v15-route-settled",
+  "latestSlot": 0,
+  "latestDate": [
+    237,
+    5
+  ],
+  "latestCaster": {
+    "person": {
+      "OldBelong": 0,
+      "Belong": 1,
+      "Level": 7,
+      "Force": 39,
+      "IQ": 72,
+      "Devotion": 71,
+      "Character": 2,
+      "Experience": 0,
+      "Thew": 100,
+      "ArmsType": 3,
+      "Arms": 1810,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 63
+    },
+    "residentCities": [
+      6
+    ]
+  },
+  "latestActiveOrders": [],
+  "latestOwnedCities": [
+    4,
+    5,
+    6,
+    7,
+    13,
+    16,
+    20
+  ],
+  "normalMonths": 1,
+  "newPaidTrades": 1,
+  "newPlunders": 0,
+  "newMarches": 1,
+  "actualTradeAccepted": {
+    "accepted": true,
+    "queueIndex": 79,
+    "opaque": [
+      "Object",
+      "Arms",
+      "Food",
+      "Money",
+      "Consume"
+    ],
+    "after": {
+      "money": 3385,
+      "food": 267,
+      "thew": 72
+    }
+  },
+  "actualMarchAccepted": {
+    "accepted": true,
+    "queueIndex": 18,
+    "slot": 170,
+    "fight": 0
+  },
+  "beforeCombatReadonlyCallbackAccepted": true,
+  "foodBeforeCombat": {
+    "accepted": true,
+    "ratio": 50,
+    "rows": [
+      {
+        "cityIndex": 4,
+        "arms": 200,
+        "required": 5,
+        "food": 6164
+      },
+      {
+        "cityIndex": 5,
+        "arms": 300,
+        "required": 7,
+        "food": 2443
+      },
+      {
+        "cityIndex": 6,
+        "arms": 400,
+        "required": 9,
+        "food": 8977
+      },
+      {
+        "cityIndex": 7,
+        "arms": 600,
+        "required": 13,
+        "food": 16075
+      },
+      {
+        "cityIndex": 13,
+        "arms": 500,
+        "required": 11,
+        "food": 7130
+      },
+      {
+        "cityIndex": 16,
+        "arms": 11500,
+        "required": 231,
+        "food": 267
+      },
+      {
+        "cityIndex": 20,
+        "arms": 13339,
+        "required": 267,
+        "food": 380
+      }
+    ]
+  },
+  "actualPathReadsAccepted": true,
+  "pathReadTriples": 6,
+  "pathStorageLength": 250,
+  "pathGridLength": 225,
+  "mapWidth": 32,
+  "mapHeight": 32,
+  "actualPlayerBouts": 6,
+  "actualEndTurns": 5,
+  "actualMoveReceipts": [
+    {
+      "bout": 1,
+      "from": [
+        4,
+        29,
+        1
+      ],
+      "to": [
+        4,
+        26,
+        7
+      ],
+      "held": false,
+      "keys": [
+        34,
+        34,
+        34,
+        39
+      ]
+    },
+    {
+      "bout": 2,
+      "from": [
+        4,
+        26,
+        7
+      ],
+      "to": [
+        4,
+        22,
+        7
+      ],
+      "held": false,
+      "keys": [
+        34,
+        34,
+        34,
+        34,
+        39
+      ]
+    },
+    {
+      "bout": 3,
+      "from": [
+        4,
+        22,
+        7
+      ],
+      "to": [
+        4,
+        21,
+        7
+      ],
+      "held": false,
+      "keys": [
+        34,
+        39
+      ]
+    },
+    {
+      "bout": 4,
+      "from": [
+        4,
+        21,
+        7
+      ],
+      "to": [
+        4,
+        21,
+        7
+      ],
+      "held": true,
+      "keys": [
+        39
+      ]
+    },
+    {
+      "bout": 5,
+      "from": [
+        4,
+        21,
+        7
+      ],
+      "to": [
+        4,
+        21,
+        7
+      ],
+      "held": true,
+      "keys": [
+        39
+      ]
+    },
+    {
+      "bout": 6,
+      "from": [
+        4,
+        21,
+        7
+      ],
+      "to": [
+        4,
+        21,
+        7
+      ],
+      "held": true,
+      "keys": [
+        39
+      ]
+    }
+  ],
+  "actualLandToRiverMoveObserved": true,
+  "actualLandStagingEndpointObserved": false,
+  "actualDefenderInputCount": 0,
+  "defenseRuntimeAccepted": false,
+  "nativeConfirmationCount": 0,
+  "actualCastOccurred": false,
+  "actualCastAccepted": false,
+  "actualMovieAccepted": false,
+  "actualPixelAccepted": false,
+  "actualPreparationAccepted": false,
+  "hd1080VisualAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false,
+  "sameRunContinuationAccepted": false,
+  "guardPreservationAccepted": false,
+  "legalRetreatAccepted": true,
+  "engineSidecar": {
+    "persisted": 170,
+    "final": 170,
+    "appended": 0
+  },
+  "speSidecar": {
+    "persisted": 297,
+    "final": 297,
+    "appended": 0
+  },
+  "cleanup": {
+    "accepted": true,
+    "identities": 11,
+    "samples": 3
+  },
+  "latestSavedStateMustBeCurrentInput": true,
+  "olderAprilPairMayReplaceIt": false,
+  "acceptedScope": "Actual source-bound paid230/march421; public native river movement and six bounded player bouts; lawful retreat and whole genuine May SAVE. No skill13 confirmation/movie/pixels/HD or actual defense credit.",
+  "rootIndependentVerification": {
+    "executedByRoot": true,
+    "terminal": {
+      "chunkId": "121949",
+      "exitCode": 0
+    },
+    "verifier": {
+      "path": "build/impact-skill-20261014/verify-impact13-battle-v15-terminal-v1.mjs",
+      "bytes": 33286,
+      "sha256": "e3282d89e51b60ac700ca3698e27bc8213b926d289ee45f1c07c8acb7298058e"
+    },
+    "freeze": {
+      "path": "build/impact-skill-20261014/impact13-battle-v15-terminal-verifier-freeze-v1.json",
+      "bytes": 6142,
+      "sha256": "00c2473612829c916cbb624ac57a86264525933f09085995186ebb8e7868803d"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/verify-impact13-battle-v15-terminal-v1.log",
+      "bytes": 377,
+      "sha256": "92fca875b6bd18fcc56cfd668bebccd3be52467b0ef422671cbe9f5375d02e9b"
+    }
+  },
+  "observedNoCast": {
+    "authority": "Exact final raw result; root proof closes zero confirmation/movie/pixels.",
+    "rawResult": {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v15/result.json",
+      "bytes": 341260252,
+      "sha256": "6f61c941047d5e8a50026fd2d972f58a9c9a3c1c17ab593617c643eb8a62df47"
+    },
+    "pointers": [
+      "/movePlanning",
+      "/missingConditions",
+      "/publicSave/after/world"
+    ],
+    "weatherByBout": [
+      5,
+      3,
+      1,
+      1,
+      2,
+      4
+    ],
+    "casterMP": 67,
+    "actualEndpoints": [
+      [
+        4,
+        26
+      ],
+      [
+        4,
+        22
+      ],
+      [
+        4,
+        21
+      ],
+      [
+        4,
+        21
+      ],
+      [
+        4,
+        21
+      ],
+      [
+        4,
+        21
+      ]
+    ],
+    "actualEnemyEnteredRiver": true,
+    "enemyRiverExamples": [
+      {
+        "bout": 5,
+        "nativeId": 72,
+        "personIndex": 71,
+        "position": [
+          12,
+          21
+        ],
+        "terrain": 7,
+        "distanceToCaster": 8
+      },
+      {
+        "bout": 6,
+        "nativeId": 150,
+        "personIndex": 149,
+        "position": [
+          12,
+          21
+        ],
+        "terrain": 7,
+        "distanceToCaster": 8
+      }
+    ],
+    "nearestFinalOtherEnemy": {
+      "nativeId": 72,
+      "personIndex": 71,
+      "position": [
+        9,
+        21
+      ],
+      "terrain": 0,
+      "distanceToCaster": 5
+    },
+    "reason": "Bout1 weather5 forbids13. Bouts2..6 actual13 available but no opposing living enemy satisfies bothriver7 andManhattan1 in originalAIM. Native move planner reached westbranch(4,21) thenheld3times; not an immobile-only enemy battle.",
+    "actualLandStagingEndpointObserved": false,
+    "staleText": {
+      "raw": "Ten actual player bouts exhausted; retreat without a tenth end-turn or eleventh-bout action",
+      "interpretation": "Inherited wording only. Root-verified actualPlayerBouts6/actualEndTurns5 govern the result."
+    }
+  },
+  "routeRepair": {
+    "controlledRegressionAccepted": true,
+    "newActualRunPerformed": false,
+    "actualInputAccepted": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "module": {
+      "path": "scripts/hd-impact-river-route.mjs",
+      "bytes": 6398,
+      "sha256": "69142e4682b76ae6072226805935d889709016ffc323991348dde4df9ad7bba6"
+    },
+    "test": {
+      "path": "scripts/test-hd-impact-river-route.mjs",
+      "bytes": 7083,
+      "sha256": "c9f7067f697858d38d98d21961869d743ece3dfe52a2e76ec6541facb972e6f7"
+    },
+    "fixture": {
+      "path": "scripts/fixtures/hd-impact-v15-west-river-move.json",
+      "bytes": 15737,
+      "sha256": "301150fd0fee566f266209a2d6c394850737a665b7fa61ab401054964d42d919"
+    },
+    "fixtureExtractor": {
+      "path": "build/impact-skill-20261014/extract-impact13-v15-river-fixture-v1.mjs",
+      "bytes": 2381,
+      "sha256": "f997594de3053d03e10965beb7bb3ae0ad6282fb05e1096c5cbd848a7913e825"
+    },
+    "fixtureProvenance": {
+      "actualResult": {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v15/result.json",
+        "bytes": 341260252,
+        "sha256": "6f61c941047d5e8a50026fd2d972f58a9c9a3c1c17ab593617c643eb8a62df47"
+      },
+      "pointer": "/actualMovePathReads/3",
+      "library": {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "sourceRecordedOnly": true,
+      "noNewGameInput": true
+    },
+    "algorithm": "Directed adjacent river pairs rank enemy-to-target-water distance, then original navy weighted Dijkstra distance to the actor river station. Actual next endpoint remains a current native MOVE cell; unknown/owner/full path gates remain strict. Fullmap cannot authorize a game move by itself.",
+    "controlledRecordedFixtureCase": {
+      "oldEndpoint": [
+        4,
+        21
+      ],
+      "newEndpoint": [
+        4,
+        19
+      ],
+      "newEndpointTerrain": 0,
+      "goalActorRiver": [
+        12,
+        20
+      ],
+      "goalEnemyRiver": [
+        12,
+        21
+      ],
+      "staticWeightedCost": [
+        14,
+        10
+      ],
+      "meaning": "Controlled decision on genuine old MOVE snapshot; initial northward land transit before turning east is legitimate weighted progress, not a newly played endpoint."
+    },
+    "rootExecution": {
+      "chunkId": "aef928",
+      "exitCode": 0,
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "existingApproachTests": 18,
+      "newGlobalRouteTests": 14,
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v15-river-route-tests-v2.log",
+        "bytes": 3100,
+        "sha256": "7a9f77ef1d8e05149f2d6c6c71f290afeaf67ae764d44a7797545fe7673cde0a"
+      },
+      "fullSuiteRerun": false
+    },
+    "failedFirstHarness": {
+      "test": {
+        "path": "build/impact-skill-20261014/test-hd-impact-river-route-failed-v1.mjs",
+        "bytes": 6845,
+        "sha256": "4f0219537cc0b1b1967ab4db8f3d2aae2aefc679e49c9f599c9b4359617a471c"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v15-river-route-tests-v1.log",
+        "bytes": 3923,
+        "sha256": "7ae207062c30b6637e5dcdc8a2af8150d79d59d305572f77c5e0dd8153a19d50"
+      },
+      "tests": 32,
+      "pass": 31,
+      "fail": 1,
+      "reason": "Test incorrectly required first endpoint x>4. Native-reachable4,19 reduces original weighted path cost14→10 before eastward transit; module bytes unchanged and controlled test corrected."
+    },
+    "sourcePeer": {
+      "path": "build/impact-skill-20261014/impact13-v15-river-route-independent-source-peer-v1.json",
+      "bytes": 5666,
+      "sha256": "5b6f88f0b9e413e7850d3ee5aedaa9acbfe91c65ca9f5cc886028c1cfcab1b41"
+    },
+    "commit": "1439d9deca30d9a4636e8dfa6d4ebce8405d64f7",
+    "pushVerification": {
+      "path": "build/impact-skill-20261014/impact13-v15-global-river-route-push-verification-v1.json",
+      "bytes": 419,
+      "sha256": "c32f0cebb1ab387f36ff40ef01af0f8b5b9819d5a4517b007ffea172c5364929"
+    },
+    "originalV15FrozenApproachPreserved": true,
+    "originalActualResultRetrospectivelyAcceptedAsCast": false
+  },
+  "testCounting": {
+    "oldFormal18SeparateFromActualPathSampling": true,
+    "combinedRouteTests32IncludeOld18": true,
+    "neverAdd18To32": true,
+    "actualTriples": 6,
+    "actualSnapshots": 18,
+    "actualPairVerifications": 12,
+    "testsAreNotActualDefenseOrCast": true
+  },
+  "cleanupProvenance": {
+    "external": {
+      "path": "build/impact-skill-20261014/impact13-battle-v15-external-cleanup-v1.json",
+      "bytes": 3273,
+      "sha256": "4cf68b17b6adfbbb8d0e26d9799ecdf413f76e4b49e087088a830c87e6f279aa"
+    },
+    "union": {
+      "path": "build/impact-skill-20261014/impact13-battle-v15-owned-union-v1.json",
+      "bytes": 3211,
+      "sha256": "d901419bd5151b441162cf2f0ba25bbc08197195a921e9db4ff03ea98225f6d8"
+    },
+    "samples": {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v15/owned-process-samples.jsonl",
+      "bytes": 30092,
+      "sha256": "e6aecfdc742712a744b17ae1a5a5d2800c894d35f160235585adba6ad08f30b8"
+    },
+    "user8080Before": {
+      "path": "build/impact-skill-20261014/impact13-battle-v15-user8080-before-v1.json",
+      "bytes": 136,
+      "sha256": "6fc6587d111c065e6d312c1659900b76520a5616959587ee8a17e57e12a94276"
+    },
+    "reportedRootChunk": "121f44",
+    "privatePorts": [
+      9556,
+      9557
+    ],
+    "matchingLive": 0,
+    "profileRetainedAndExcluded": true
+  },
+  "inputProvenance": {
+    "priorPolicyCommit": "01a0ff5e70987f48b909f6120602bdf8ac1be75d",
+    "latestV14InputRootProof": {
+      "path": "build/impact-skill-20261014/impact13-battle-v14-terminal-receipt-v1.json",
+      "bytes": 16551,
+      "sha256": "d14c27b3b6922abaf10f3c7b3092e2a22be5070f911af87bc25cb07cac33973d"
+    },
+    "previousAprilStateReplayedAfterThisRun": false,
+    "newInputIsLatestMayOnly": true
+  },
+  "continuation": {
+    "onlyLatestTag": "impact13-129-v15-route-settled",
+    "date": [
+      237,
+      5
+    ],
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-route-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "b2626336a846785f3f3344bde84dea12fbc7831c9b64535593f8adaffee03a64"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-route-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "6ac36e53b65df8819ff1e2e7a5a2e905f6ab9e8f2261ac91ad3d423f6ac7f84c"
+      }
+    ],
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-battle-v15-latest-genuine-saved-world-v1.json",
+      "bytes": 77866,
+      "sha256": "8dfa843aaffe1cf63995c6d13f37680992f10918b83ee4208d6f78a8dcec7429"
+    },
+    "casterResidentCities": [
+      6
+    ],
+    "activeOrders": [],
+    "requiresFreshSourceSupplyEnemiesAndOwners": true,
+    "oldAprilInputMayReplaceIt": false,
+    "routeRepairHasNotBeenUsedInGame": true
+  },
+  "plannedDocumentation": {
+    "writer": {
+      "path": "build/impact-skill-20261014/update-river-approach-progress-docs-v1.mjs",
+      "bytes": 2491,
+      "sha256": "fbfc4037c4efe2905faa15a49d39a1fe8603827a518352e4bf38f9c7675d23ab"
+    },
+    "existingDocsWrittenByArchiveBuilder": false
+  },
+  "limits": [
+    "No skill13 native confirmation or movie/pixel acceptance, no four-matrix or globalHD acceptance.",
+    "No actual defender input; formal defender evidence remains separate.",
+    "Source-only route prediction and controlled repaired fixture do not establish a future encounter.",
+    "Named files are fully embedded and roundtripped; complete product/source/history dependency tree remains external."
+  ],
+  "dependencyCommit": "01a0ff5e70987f48b909f6120602bdf8ac1be75d",
+  "publicationParent": "1439d9deca30d9a4636e8dfa6d4ebce8405d64f7",
+  "latestActualRootProof": {
+    "path": "build/impact-skill-20261014/impact13-battle-v15-terminal-receipt-v1.json",
+    "bytes": 10338,
+    "sha256": "18589613a37c0a61a2ef9dfea61c64666edcd8c8167c1cc8a508c5868729fc16"
+  },
+  "latestGenuineSave": {
+    "tag": "impact13-129-v15-route-settled",
+    "slot": 0,
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-route-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "b2626336a846785f3f3344bde84dea12fbc7831c9b64535593f8adaffee03a64"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v15/native-impact13-129-v15-route-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "6ac36e53b65df8819ff1e2e7a5a2e905f6ab9e8f2261ac91ad3d423f6ac7f84c"
+      }
+    ],
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-battle-v15-latest-genuine-saved-world-v1.json",
+      "bytes": 77866,
+      "sha256": "8dfa843aaffe1cf63995c6d13f37680992f10918b83ee4208d6f78a8dcec7429"
+    },
+    "worldJsonSha256": "8dfa843aaffe1cf63995c6d13f37680992f10918b83ee4208d6f78a8dcec7429"
+  },
+  "testEvidence": {
+    "originalApproach18": {
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v15-river-approach-tests-v1.log",
+        "bytes": 1806,
+        "sha256": "82b2bd567df9e1fb94431cce38470259bc42b600e4fd2836119fd1383833b65c"
+      },
+      "controlledOnly": true
+    },
+    "routeCombinedV2": {
+      "terminal": {
+        "chunkId": "aef928",
+        "exitCode": 0
+      },
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "includesOldApproachTests": 18,
+      "newRouteTests": 14,
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v15-river-route-tests-v2.log",
+        "bytes": 3100,
+        "sha256": "7a9f77ef1d8e05149f2d6c6c71f290afeaf67ae764d44a7797545fe7673cde0a"
+      },
+      "controlledOnly": true,
+      "newActualInputCredit": false,
+      "newActualCastCredit": false
+    },
+    "failedRouteHarnessV1": {
+      "tests": 32,
+      "pass": 31,
+      "fail": 1,
+      "test": {
+        "path": "build/impact-skill-20261014/test-hd-impact-river-route-failed-v1.mjs",
+        "bytes": 6845,
+        "sha256": "4f0219537cc0b1b1967ab4db8f3d2aae2aefc679e49c9f599c9b4359617a471c"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v15-river-route-tests-v1.log",
+        "bytes": 3923,
+        "sha256": "7ae207062c30b6637e5dcdc8a2af8150d79d59d305572f77c5e0dd8153a19d50"
+      },
+      "moduleChangedForHarnessFailure": false
+    },
+    "countsMustNotBeAdded": true,
+    "fullSuiteRerun": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021-archive.json",
+    "bytes": 27268,
+    "sha256": "90ae6b68385891f28a63d068cbe1a890976d659521ff735722be3f357cb199f8",
+    "namedFiles": 113,
+    "uniqueBlobs": 94,
+    "parts": 2,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "externalDependencies": [
+    {
+      "kind": "previous-V14-genuine-input-and-history",
+      "dependencyCommit": "01a0ff5e70987f48b909f6120602bdf8ac1be75d",
+      "canonical": {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-policy-resume-20261021.json",
+        "bytes": 21932,
+        "sha256": "3044483459b2057091128e3a3d081a7ff34abfde72147663f4e6ec405ece8c45"
+      },
+      "completeHistoricalResultReembedded": false,
+      "explanation": "Existing committed policy-resume archive owns V14 result and saved-input proof. Earlier V13 hundreds-of-MB history remains in that archive dependency chain."
+    },
+    {
+      "kind": "current-formal-river-module-commit",
+      "commit": "c782b5e7ea0dda0e88db0b6caa5f0105540b9d54",
+      "pushVerification": {
+        "path": "build/impact-skill-20261014/impact13-v15-river-module-push-verification-v1.json",
+        "bytes": 419,
+        "sha256": "071fa903c56ce4d89d8edda90096d49b9e47610561b6cf2f8d5f05e662389fea"
+      },
+      "completeCommitEmbedded": false,
+      "explanation": "Named exact module/test files are included; repository checkout and whole commit are external history, not a portable product bundle."
+    },
+    {
+      "kind": "complete-product-native-runtime-tree-and-transitive-build-imports",
+      "closed": false,
+      "explanation": "Final source-verification and named actual files will be embedded, but the complete native/resources/runtime tree and every older transitive build import remain external; portableClosedArchive=false."
+    },
+    {
+      "kind": "private-browser-profile",
+      "included": false,
+      "explanation": "Never include profile contents in named archive. Final cleanup proof and exact saved raw files must be provided separately by root."
+    },
+    {
+      "kind": "post-actual-formal-global-route-repair-commit",
+      "commit": "1439d9deca30d9a4636e8dfa6d4ebce8405d64f7",
+      "pushVerification": {
+        "path": "build/impact-skill-20261014/impact13-v15-global-river-route-push-verification-v1.json",
+        "bytes": 419,
+        "sha256": "c32f0cebb1ab387f36ff40ef01af0f8b5b9819d5a4517b007ffea172c5364929"
+      },
+      "completeCommitEmbedded": false,
+      "explanation": "Named module/test/fixture are embedded exactly. This post-actual validation change has only controlled regression coverage and was not loaded into any new actual game; original frozen V15 sources remain unchanged."
+    }
+  ]
+}

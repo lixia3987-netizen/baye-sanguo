@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V83",
+  "parentCommit": "3476da68bf1d05c1be78b9ed6d62d524fe522ff8",
+  "feature": "Structured visual presentation of already complete native terrain HELP",
+  "accepted": true,
+  "started": "2026-10-26T10:28:08.062Z",
+  "finished": "2026-10-26T10:28:10.485Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 343,
+  "pass": 343,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44238,
+      "sha256": "1e46274577ac6b95ffd3b963bed49cc550780a0b875403cd2b773adeb910fa8f"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 147081,
+      "sha256": "2fbf518bd1fea2d56d17d01e3508afd049b79294e7a73b4c6e4df19d85fc8e05"
+    },
+    {
+      "path": "css/hd-dialog.css",
+      "bytes": 10606,
+      "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32713,
+      "sha256": "3e359d7e5a9218e145e039a4911a167f22a1ca8154db32839b87c3ee05b406d0"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30296,
+      "sha256": "86c78a62ea99338c24ce95219553d1145fe05b24f2552f09ad25d980e96b43b3"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20278,
+      "sha256": "c9a4938c5bc871b613485927bc7f89c73d61dc90e73c63e01e3e3ad19f2a127a"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 85057,
+      "sha256": "8cb822700352b29355cee0555c4f47b888af71114b9e551bf5e5e7b7df8a17f4"
+    },
+    {
+      "path": "js/hd-portraits.js",
+      "bytes": 31196,
+      "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+    },
+    {
+      "path": "js/hd-mobile-portraits.js",
+      "bytes": 24568,
+      "sha256": "e390eb2b07f4102576a425305c9a626bc4ac1f64b1935581346edd84527b964f"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pstring.h",
+      "bytes": 1524,
+      "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "scripts/test-hd-dialog-routing.mjs",
+      "bytes": 125353,
+      "sha256": "dc4fadb0b93fd733e9a25a3ef1af7592fc6bf52307ae9b4d811b5d90c88731c4"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 52239,
+      "sha256": "30379f5a5c400b355ca8598ac036fe534b8a6d4f3d7ddc30e498b264213cb69b"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 3,
+  "fullSuiteRun": false,
+  "scope": "Dialog routing and mobile battle modules; no browser gameplay, C compilation or full-suite run",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "contract": {
+    "helpDetailSchemaChanged": false,
+    "newNativeFields": false,
+    "labels": [
+      "草地",
+      "平原",
+      "山地",
+      "森林",
+      "村庄",
+      "城池",
+      "营寨",
+      "河流"
+    ],
+    "publishedClassNotTile": true,
+    "capturedZeroBasedCoordinates": true,
+    "descriptionTransform": "existing pipe to newline; all other text and whitespace preserved",
+    "recalculatesTerrain": false,
+    "combatModifiersInferred": false,
+    "newInputs": false
+  },
+  "controlledLayouts": {
+    "accepted": true,
+    "kind": "Isolated production terrain renderer and current CSS; mock publication and long text, no game runtime",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "stage": {
+            "x": 272,
+            "y": 32,
+            "width": 720,
+            "height": 561
+          },
+          "body": {
+            "x": 300,
+            "y": 114,
+            "width": 664,
+            "height": 405
+          },
+          "header": {
+            "x": 300,
+            "y": 114,
+            "width": 664,
+            "height": 68.984375
+          },
+          "back": {
+            "x": 300,
+            "y": 529,
+            "width": 64,
+            "height": 44
+          },
+          "bodyScrollHeight": 484,
+          "bodyClientHeight": 405,
+          "bodyOverflowY": "auto",
+          "heading": "山地",
+          "position": "位置 3,4",
+          "descriptionExact": true,
+          "whiteSpace": "pre-wrap",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/terrain-help-20261026-v83/pc-layout-v2.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 651,
+            "height": 280
+          },
+          "body": {
+            "x": 12,
+            "y": 50,
+            "width": 627,
+            "height": 170
+          },
+          "header": {
+            "x": 12,
+            "y": 50,
+            "width": 627,
+            "height": 54.796875
+          },
+          "back": {
+            "x": 12,
+            "y": 228,
+            "width": 80,
+            "height": 44
+          },
+          "bodyScrollHeight": 386,
+          "bodyClientHeight": 170,
+          "bodyOverflowY": "auto",
+          "heading": "山地",
+          "position": "位置 3,4",
+          "descriptionExact": true,
+          "whiteSpace": "pre-wrap",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/terrain-help-20261026-v83/mobile-layout-v2.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false
+  },
+  "retainedLayoutFailure": {
+    "accepted": false,
+    "kind": "Isolated production terrain renderer and current CSS; mock publication and long text, no game runtime",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "stage": {
+            "x": 244,
+            "y": 32,
+            "width": 776,
+            "height": 607
+          },
+          "body": {
+            "x": 272,
+            "y": 114,
+            "width": 720,
+            "height": 451
+          },
+          "header": {
+            "x": 272,
+            "y": 114,
+            "width": 720,
+            "height": 68.984375
+          },
+          "back": {
+            "x": 272,
+            "y": 575,
+            "width": 64,
+            "height": 44
+          },
+          "bodyScrollHeight": 454,
+          "bodyClientHeight": 451,
+          "bodyOverflowY": "auto",
+          "heading": "山地",
+          "position": "位置 3,4",
+          "descriptionExact": true,
+          "whiteSpace": "pre-wrap",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/terrain-help-20261026-v83/pc-layout-v1.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 651,
+            "height": 280
+          },
+          "body": {
+            "x": 12,
+            "y": 50,
+            "width": 627,
+            "height": 170
+          },
+          "header": {
+            "x": 12,
+            "y": 50,
+            "width": 627,
+            "height": 54.796875
+          },
+          "back": {
+            "x": 12,
+            "y": 228,
+            "width": 80,
+            "height": 44
+          },
+          "bodyScrollHeight": 386,
+          "bodyClientHeight": 170,
+          "bodyOverflowY": "auto",
+          "heading": "山地",
+          "position": "位置 3,4",
+          "descriptionExact": true,
+          "whiteSpace": "pre-wrap",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/terrain-help-20261026-v83/mobile-layout-v1.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false
+  },
+  "retainedSourcePreflight": {
+    "step": "run-targeted-v1.mjs",
+    "toolChunk": "a779cb",
+    "exitCode": 1,
+    "testsStarted": false,
+    "reason": "Selected source path vendor/iBaye/src/baye/pstring.h does not exist; resolve actual path before rerun"
+  },
+  "earlierPassingTargetedRun": {
+    "path": "build/terrain-help-20261026-v83/targeted-v2.json",
+    "tests": 343,
+    "pass": 343,
+    "scope": "Before terrain-only border-box layout correction; not added to the final test count"
+  },
+  "actualToolTerminals": [
+    {
+      "step": "source-preflight",
+      "chunk": "a779cb",
+      "exitCode": 1,
+      "testsStarted": false
+    },
+    {
+      "step": "first-targeted",
+      "chunk": "a70e2a",
+      "exitCode": 0
+    },
+    {
+      "step": "first-layout",
+      "chunk": "8aeeaa",
+      "exitCode": 1
+    },
+    {
+      "step": "final-layout-and-targeted",
+      "chunk": "85007a",
+      "exitCode": 0
+    },
+    {
+      "step": "stage-byte-mismatch",
+      "chunk": "2c5a64",
+      "shellExitCode": 0,
+      "nodeVerifierThrew": true
+    },
+    {
+      "step": "final-targeted-after-newline-normalization",
+      "chunk": "b0faba",
+      "exitCode": 0
+    }
+  ],
+  "artifactPins": [
+    {
+      "path": "build/terrain-help-20261026-v83/run-targeted-v1.mjs",
+      "bytes": 2108,
+      "sha256": "0fced0380c46b0abb89ac8ef060245911fde4919730206a6c3b5fb7a8463ac9d"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/preflight-failure-v1.json",
+      "bytes": 199,
+      "sha256": "8b90a03394786f44ea3a46db65554e57e5e3164678e7ed794ac433de5c622a83"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/run-targeted-v2.mjs",
+      "bytes": 2108,
+      "sha256": "1b619414930095ba6f9e0f2a77ad8fbd8a44256c8bc98bbcfb0e04c7e32ddd33"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v2.json",
+      "bytes": 3176,
+      "sha256": "c6b0107f1f61b039aa49f288ffc7d3baf1aa7fa08a0a879f84333b957c99c5f7"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v2.stdout.tap",
+      "bytes": 74129,
+      "sha256": "6782dd5dc6fed071bf84c12273a7edfe340233f48da984ac70a778865057ac93"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/run-targeted-v3.mjs",
+      "bytes": 2108,
+      "sha256": "0fcd168148e5def12e033f16e6ca0b9308edf5adec7a5f9a5a4c77ba9222c66d"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v3.json",
+      "bytes": 3176,
+      "sha256": "3be6ddeba1ca697bf5db1ed061c4153200a8692edfe172ab0bac0aaf9537461a"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v3.stdout.tap",
+      "bytes": 74109,
+      "sha256": "8d279cd0f4f7b940d5912de0b38b45b52a7c03acf23587b52f37715125687681"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v3.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/hd-dialog-before-layout-fix.css",
+      "bytes": 10947,
+      "sha256": "109f9c7909aaf9b28cc69d9974f714e606b061cda62d57fad9775953bd6f7bae"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/preview-layout-v1.mjs",
+      "bytes": 5556,
+      "sha256": "2d9b3bf7825f82e71c15d53e59ae9282618abc2eeab308f34c53e6934cb02006"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/preview-layout-v1.json",
+      "bytes": 2444,
+      "sha256": "d379d35b6180e0e0002f8603b23d3d3272698c9536e26444491be0dff38e5f5f"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/terrain-renderer-v1.js",
+      "bytes": 1809,
+      "sha256": "dd5ac415a94cc24b7146991152f40da480da98c99fa231a74f78cda7f090ed52"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v1.html",
+      "bytes": 4761,
+      "sha256": "0a0af14c931ea6563d51e098d2d3ff8206509b713ce68cee7aa9fc932aba189f"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v1.dom.html",
+      "bytes": 6667,
+      "sha256": "25568e102d213c906c1e09ebbd0b5cd5a7be53f4ba7e7ff4f08348d81b9e33f7"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v1.png",
+      "bytes": 126536,
+      "sha256": "6b10c330421f6a97c8f9707b72ee0782c1ffdd9f7c7de9a938601c51ae49d452"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v1.stderr.log",
+      "bytes": 534,
+      "sha256": "abb8d2d0981d9d98cfc94b5ee30b3f6c3dedea002c391ba4c89a901419f15ad4"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v1.html",
+      "bytes": 4914,
+      "sha256": "712f33136dc1825492e633f1f81dd67255a1b966789e905b7083c7c679ba77cd"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v1.dom.html",
+      "bytes": 6811,
+      "sha256": "a844f55ab0b210b1b051aa481e4384a0f4fac7c760f1b13856931cfde02e74fe"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v1.png",
+      "bytes": 55417,
+      "sha256": "dd6dbe355e89fcec21b9625cfc3e0352e75e6778e97a56fd3f4186dceeafd68b"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v1.stderr.log",
+      "bytes": 537,
+      "sha256": "be85fc5bc4e967f4cca724f406b889342bee6bcb4b8ebf2952e1ad9f1e2420f8"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/preview-layout-v2.mjs",
+      "bytes": 5556,
+      "sha256": "af780c6d149156f3df508553e4492f7d559d05f206ae7f9a00149d6e9bc4b3bc"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/preview-layout-v2.json",
+      "bytes": 2443,
+      "sha256": "f5cd4abe0fffe08bc28ba53257ea6535bff61eeb528674bc9009df6a182c6c61"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/terrain-renderer-v2.js",
+      "bytes": 1809,
+      "sha256": "dd5ac415a94cc24b7146991152f40da480da98c99fa231a74f78cda7f090ed52"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v2.html",
+      "bytes": 4761,
+      "sha256": "0a0af14c931ea6563d51e098d2d3ff8206509b713ce68cee7aa9fc932aba189f"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v2.dom.html",
+      "bytes": 6667,
+      "sha256": "3fa3014bbf52c10fac006b8b09d8af235d66d8a3bc93821e6a59e43fa698946a"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v2.png",
+      "bytes": 128906,
+      "sha256": "90f3c3bbcc9b7aaef564eb46a5371f8d4b1855b6f1791fc55b6f453a0a7b4c37"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/pc-layout-v2.stderr.log",
+      "bytes": 534,
+      "sha256": "694c319833eaa872f488dac2eb336904bbf13f76fb0a0d4bd141c0e31856d07d"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v2.html",
+      "bytes": 4914,
+      "sha256": "712f33136dc1825492e633f1f81dd67255a1b966789e905b7083c7c679ba77cd"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v2.dom.html",
+      "bytes": 6811,
+      "sha256": "a844f55ab0b210b1b051aa481e4384a0f4fac7c760f1b13856931cfde02e74fe"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v2.png",
+      "bytes": 55417,
+      "sha256": "dd6dbe355e89fcec21b9625cfc3e0352e75e6778e97a56fd3f4186dceeafd68b"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/mobile-layout-v2.stderr.log",
+      "bytes": 537,
+      "sha256": "01aff606e8173bfa2af64ab024770ff9d91d0d365d696c0f9af0bb1a5d3fc489"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/run-targeted-v4.mjs",
+      "bytes": 2108,
+      "sha256": "b689f76ce6eeac555bb177796441ce31913fa6bb2212d70ebc7db6091b728024"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v4.json",
+      "bytes": 3176,
+      "sha256": "7a7f056d4f908af99708ec949d2471f7583ebbbd631148c221949d6c93166e89"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v4.stdout.tap",
+      "bytes": 74113,
+      "sha256": "9b35f53c3773e049165edcd0e7cf97441bf84f666407c36b9409b8d539be07ae"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/targeted-v4.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/hd-dialog-before-lf-normalize.css",
+      "bytes": 11039,
+      "sha256": "75c3f60dd2abca4c7a35429b6c9025c1eb70d0598a1794c0c8603a8556a15456"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/stage-failure-v1.json",
+      "bytes": 254,
+      "sha256": "d321cb3f9a6a4540f568586b4a05eb94101516ddc8123070687fcbcf2c6dcd49"
+    },
+    {
+      "path": "build/terrain-help-20261026-v83/stage-v1.mjs",
+      "bytes": 2707,
+      "sha256": "6aa9fadf29cb4cb55ed7865bd6afcf6527584d817807c077f33226eec2f41890"
+    }
+  ],
+  "browserRuns": 4,
+  "acceptedLayoutBrowserRuns": 2,
+  "engineRebuilt": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "actualTerrainGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "newlineNormalization": {
+    "before": {
+      "path": "build/terrain-help-20261026-v83/hd-dialog-before-lf-normalize.css",
+      "bytes": 11039,
+      "sha256": "75c3f60dd2abca4c7a35429b6c9025c1eb70d0598a1794c0c8603a8556a15456"
+    },
+    "after": {
+      "path": "css/hd-dialog.css",
+      "bytes": 10606,
+      "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+    },
+    "normalizedTextEqual": true,
+    "onlyCRLFToLF": true,
+    "attribute": "css/hd-dialog.css text eol=lf"
+  },
+  "targetedBeforeNormalization": {
+    "path": "build/terrain-help-20261026-v83/targeted-v3.json",
+    "tests": 343,
+    "pass": 343
+  },
+  "retainedStageFailure": {
+    "step": "stage-v1.mjs",
+    "toolChunk": "2c5a64",
+    "nodeVerifierThrew": true,
+    "stageReceiptWritten": false,
+    "shellExitCode": 0,
+    "reason": "Exact staged bytes css/hd-dialog.css assertion failed because Git normalized mixed CRLF/LF; shell subsequently ran diff --stat"
+  }
+}

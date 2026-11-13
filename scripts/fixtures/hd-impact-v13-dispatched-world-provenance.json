@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "kind": "genuine-V13-saved-world-with-controlled-defender-regressions",
+  "fixture": {
+    "path": "scripts/fixtures/hd-impact-v13-dispatched-world.json",
+    "bytes": 77877,
+    "sha256": "bba1d332325630b32bd3028ee2d89d8ec6f36e7dd4ac3ed87921e7c6bdda7111"
+  },
+  "sourceWorld": {
+    "path": "build/impact-skill-20261014/impact13-battle-v13-latest-genuine-saved-world-v2.json",
+    "bytes": 77877,
+    "sha256": "bba1d332325630b32bd3028ee2d89d8ec6f36e7dd4ac3ed87921e7c6bdda7111"
+  },
+  "sourceRootReceipt": {
+    "path": "build/impact-skill-20261014/impact13-battle-v13-terminal-receipt-v2.json",
+    "bytes": 11747,
+    "sha256": "c63a3256482fdd4b9f89b6cecb130fe0af300a772683d55f00012762464e7797"
+  },
+  "sourceLatestPublicSave": "impact13-129-dispatched-421",
+  "sourceDate": [
+    237,
+    3
+  ],
+  "sourcePair": [
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v13/native-impact13-129-dispatched-421-sango0.sav",
+      "bytes": 8221,
+      "sha256": "aed30af09d14afbabded317c4fa02f69f1cfbc54897650245907b961005bc4b9"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v13/native-impact13-129-dispatched-421-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8843e8ee40fc39fd8317791f8a55167973696c5ef8ee96e1d9614d76ad33950d"
+    }
+  ],
+  "measuredScope": "Only fixture world bytes were copied from the genuine dispatched421 public SAVE. This world contains pending Trade0,Plunder1,March170 and caster129 already bound to fighter0.",
+  "legacyRawDuplicates": [
+    {
+      "person": 65,
+      "cities": [
+        1,
+        7
+      ],
+      "absoluteSlots": [
+        8,
+        27
+      ]
+    },
+    {
+      "person": 136,
+      "cities": [
+        12,
+        21
+      ],
+      "absoluteSlots": [
+        51,
+        95
+      ]
+    },
+    {
+      "person": 138,
+      "cities": [
+        22,
+        26
+      ],
+      "absoluteSlots": [
+        96,
+        116
+      ]
+    }
+  ],
+  "controlledScope": {
+    "incomingOrder171": true,
+    "incomingArmy1": true,
+    "currentNativeDefenderOwner": true,
+    "namesAreControlledLabels": true,
+    "positions": true,
+    "keyCounters": true,
+    "selectionTransition": true,
+    "extraCrossCity33Case": true,
+    "explanation": "All native/owner/input and added incoming data are Node models derived around an actual saved-world clone. The source SAVE contains no defender picker. No game is loaded, mutated or played by this test. Source saved JSON has neither tools nor config.disableFightToDeath; envelope adds an explicit one-row controlled native tool table and disableFightToDeath=0. They are not sampled source-SAVE values. Real runtime must read the full current native tools/config separately and retain the unchanged ticket-world projection.",
+    "toolsNativeProjection": true,
+    "disableFightToDeathNativeProjection": true
+  },
+  "regression": {
+    "path": "scripts/test-hd-impact-defender-legacy-residents.mjs",
+    "bytes": 6641,
+    "sha256": "d63eaf049f396b9e953a73a718c886789d867d18d73f3d12ccfbab9cc2c0adef"
+  },
+  "acceptance": {
+    "actualInputCount": 0,
+    "actualDefenderPickerAccepted": false,
+    "actualDefenderSelectionAccepted": false,
+    "actualBattleAccepted": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "rngContinuityAccepted": false,
+    "restoreCompleteNativeAbiClaimed": false
+  },
+  "sourceRootResultExternal": true
+}

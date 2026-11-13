@@ -1,0 +1,965 @@
+{
+  "schemaVersion": 1,
+  "kind": "bounded-exact-originals",
+  "bounds": {
+    "maximumRecords": 160,
+    "singleFileBytes": 16777216,
+    "rawPayloadBytes": 67108864,
+    "gzipBytes": 8388608,
+    "fullLogBytes": 8388608
+  },
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/cleanup.json",
+      "bytes": 759429,
+      "sha256": "7d922779d65ce4f05ab609564e7eab1dec2ddd4e514e22b7ac7880e67297fb3e",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/executed-hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/executed-scenario.mjs",
+      "bytes": 13222,
+      "sha256": "3188e863bb84136a5e1c9162470b4178137adc4f63dae3c888157245a877b0be",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/executed-tool.mjs",
+      "bytes": 11678,
+      "sha256": "90bc83f8166f4de16c5f764467ffa3235d97e1c9e3dd43f39e02e138530637fb",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/failure-observer.json",
+      "bytes": 184457,
+      "sha256": "caa283a0f7b3df9533c866714ecefc8acfeae47da0532191fcb853c300a88c40",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/failure-state.json",
+      "bytes": 15277,
+      "sha256": "739cb475f49b5bc38ee7a1f7d1dafbd8eac1162aa8b2f5fae566c5e1544f1de3",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/opening-before.json",
+      "bytes": 14977,
+      "sha256": "f2c3a133c95d4cc51dd2cedd32ac66dbb0a8a6c7d273c75734f1cc42f92c17f0",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/owned-process-samples.jsonl",
+      "bytes": 459445,
+      "sha256": "dd8380cc60e7a4dd470c9ffb4040155bfd84e0d4b042fae56045ddb0a05485c5",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/result.json",
+      "bytes": 808225,
+      "sha256": "4d17afe6f8fe41da9972705c57086e326aa5f96bd53f25453b53b4d3989e1dfe",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/title-before-maker.json",
+      "bytes": 15265,
+      "sha256": "553536b5cf3828cea25a9d18b0dee1e52397a5cf9581ea956efe646a4a812756",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/title-before-maker.png",
+      "bytes": 68699,
+      "sha256": "52870b56908bf0a0fb75289a9354f0b3eb9b2d8bed87d46e0207d9c7bc4cc446",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v1/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "original-first-harness-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/cleanup.json",
+      "bytes": 766880,
+      "sha256": "072dbbdb9afff2ad7b3e25038a4d8b7a50519312a5b69807f16af154dcb5fed7",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/executed-hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/executed-scenario.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/executed-tool.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/maker-boundary-after-pointerup.json",
+      "bytes": 15342,
+      "sha256": "83626c1b31298f29ce130cfc5315410a70a8407250aa7bb4b8a64b000f7fb41e",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/maker-boundary-after-pointerup.png",
+      "bytes": 65383,
+      "sha256": "2a05d68dbceb989367856c17d3f06990bf6aca713bdd0df6ac2013ec296387a1",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/maker-hold-before-pointer.json",
+      "bytes": 13858,
+      "sha256": "9dbbb770063ca9a94a4e94a469c60780f027ed998ac72298db4fa0f3b9abc4df",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/maker-hold-before-pointer.png",
+      "bytes": 71000,
+      "sha256": "f8c2a21a142d70874f3cc18d56533ec4187a9b3f252f31389d25f8815f96e1fc",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/observer.json",
+      "bytes": 663123,
+      "sha256": "8e5d38a208a35c27eeccc0e143875f2e066a75bc471ab21e148463f2d1634c17",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/opening-before.json",
+      "bytes": 14977,
+      "sha256": "76bfbbaad74f9ca85f61a58079d6352b30419b50117f331dcbd6e81d79f57316",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/owned-process-samples.jsonl",
+      "bytes": 463166,
+      "sha256": "16d600161bb0a1d13519a58a986d5778381dfd05b9d7631847db280ead4eae73",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/result.json",
+      "bytes": 1636712,
+      "sha256": "741f2814088c7629a9607cd79c40e69245fc423e7132d2424f62f43a37f36237",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/title-after-maker.json",
+      "bytes": 15330,
+      "sha256": "b236abf9bd0132dcd8d8e6989943633830e4337d37f3a6d2bed6d38415b18321",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/title-after-maker.png",
+      "bytes": 65383,
+      "sha256": "2a05d68dbceb989367856c17d3f06990bf6aca713bdd0df6ac2013ec296387a1",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/title-before-maker.json",
+      "bytes": 15264,
+      "sha256": "279cf5e1bfdbff35b87f615e2d35b6e54dbdd002ab733add4cadf3e86892272f",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/title-before-maker.png",
+      "bytes": 68699,
+      "sha256": "52870b56908bf0a0fb75289a9354f0b3eb9b2d8bed87d46e0207d9c7bc4cc446",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-v2/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "original-before-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/cleanup.json",
+      "bytes": 766928,
+      "sha256": "d4f5239311f8c41f4d026b31a56f2682c5db169b748ca34985189a4c26767e79",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/executed-hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/executed-scenario.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/executed-tool.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/maker-boundary-after-pointerup.json",
+      "bytes": 13871,
+      "sha256": "98a3157d1dc71169f5dd2d67a9644608b65e900da8a1e23bff46dd09321b274e",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/maker-boundary-after-pointerup.png",
+      "bytes": 43403,
+      "sha256": "0d4c8df57ae79dc4fd4833415022ac9469f3240235e91f76eedc3c3c680fbb21",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/maker-hold-before-pointer.json",
+      "bytes": 13858,
+      "sha256": "1af16861831974e71d1c5d7fe23d92c5f7b6ea90d75b85303e2338f1199587b8",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/maker-hold-before-pointer.png",
+      "bytes": 71000,
+      "sha256": "f8c2a21a142d70874f3cc18d56533ec4187a9b3f252f31389d25f8815f96e1fc",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/observer.json",
+      "bytes": 756195,
+      "sha256": "f801dbb3d37f9a3cf1ad3b3316dab39bf2e36f372d12825d60b2d347d6934ea7",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/opening-before.json",
+      "bytes": 14977,
+      "sha256": "7873ae4bfe33e87984ebf831a1c0b21df079d6949fcf0926ed2462d746e1e313",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/owned-process-samples.jsonl",
+      "bytes": 461323,
+      "sha256": "de10b237cac92102e435aa76d2e7c916e2f5f28f9fbfd9d72ea436443ac56f94",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/result.json",
+      "bytes": 1564553,
+      "sha256": "6ecb621cc447aeee8555b3d635777b94f21d2a4027e5030e5ee2878b0a5a58cc",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/title-after-maker.json",
+      "bytes": 15330,
+      "sha256": "25ba2da9827a2f9935638bb2e84002e8a8664beb3b2b20c03a6ba151de8c6ad0",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/title-after-maker.png",
+      "bytes": 65383,
+      "sha256": "2a05d68dbceb989367856c17d3f06990bf6aca713bdd0df6ac2013ec296387a1",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/title-before-maker.json",
+      "bytes": 15250,
+      "sha256": "a2c350cc02e7df197c3a68c742cc52a0e33ac5c253c11e474d62a7216d71ef31",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/title-before-maker.png",
+      "bytes": 68699,
+      "sha256": "52870b56908bf0a0fb75289a9354f0b3eb9b2d8bed87d46e0207d9c7bc4cc446",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-after-resize-v1/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "fixed-after-real-Maker-resize"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-v1/executed-scenario.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "before-source-lock-and-independent-review"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-v1/executed-tool.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "before-source-lock-and-independent-review"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-v1/hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+      "roles": [
+        "before-source-lock-and-independent-review"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-v1/pc.html",
+      "bytes": 27750,
+      "sha256": "afaee3d921c629fe201eb614d88fb210f2d0635b3e20c19c3625da78c5021a42",
+      "roles": [
+        "before-source-lock-and-independent-review"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-v1/review.json",
+      "bytes": 11572,
+      "sha256": "7a6ba53b4a936c09565aac25d96b8659e19fb33a33f4ba7434f6f38fb42c06b9",
+      "roles": [
+        "before-source-lock-and-independent-review"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-v1/source-lock.json",
+      "bytes": 15589,
+      "sha256": "1994b06959204ab01a403b2f1d4f052a225e9b0636f26d99fb35e560c9266dcb",
+      "roles": [
+        "before-source-lock-and-independent-review"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-v1/executed-scenario.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "before-after-independent-review-with-first-order-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-v1/executed-tool.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "before-after-independent-review-with-first-order-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-v1/first-source-order-refusal.json",
+      "bytes": 875,
+      "sha256": "8701de0d5700e0663e913c5e935d0afd28feeb527ac74eb784d0aa7b12242330",
+      "roles": [
+        "before-after-independent-review-with-first-order-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-v1/hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "before-after-independent-review-with-first-order-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-v1/pc.html",
+      "bytes": 27750,
+      "sha256": "1fd2098e550f72d5ff506132413ef71edfb75d13a23a62eff36c1122fad21fbe",
+      "roles": [
+        "before-after-independent-review-with-first-order-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-v1/review.json",
+      "bytes": 15350,
+      "sha256": "e15a9b849bb9f4994fd0da82214e570659e986830140a1c24b4361690105b756",
+      "roles": [
+        "before-after-independent-review-with-first-order-refusal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/formal-after.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/formal-after.stdout.log",
+      "bytes": 492,
+      "sha256": "1bc8724feca6872c02ac3cfdb94572c2d30de1979ffe7ee0edfddd2570ab78c8",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/formal-before.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/formal-before.stdout.log",
+      "bytes": 3867,
+      "sha256": "04e16bb4f5a1317e9cc2e75dbd4687baaddcabebf175a22423f9aaf202ee3027",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/hd-spe.candidate.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/hd-spe.original.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/new-boundary-tests.txt",
+      "bytes": 1969,
+      "sha256": "216e5f6f3befccb0d03aaf21e2521bb56473a4c4557f7130024394921b26dc33",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/prepare-receipt.json",
+      "bytes": 2892,
+      "sha256": "1560defc6aeb8a4365ea0a33524ec92b3892e73221bd49cf9add5d567d780d09",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/proposed.patch",
+      "bytes": 6846,
+      "sha256": "2e1d89313c1b8df46c311c512454cd620298f92c9f2ff9c53361bdc521587fd5",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/target-receipt.json",
+      "bytes": 7043,
+      "sha256": "d84d839629f290c9d674ab341c8c93d9c0198f0b0f300b567c5b888244f52a6c",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/target.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/target.stdout.log",
+      "bytes": 436,
+      "sha256": "0e7c16b5a3ff007b5cffa46eec5270dd185ba131f633d91dd1ea5d0ae29f8a9e",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/test-applied-receipt.json",
+      "bytes": 706,
+      "sha256": "72798854e0a49d4b1e4d962baa15ab922427e2fff304e48634df471e15466298",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/test-hd-spe.candidate.mjs",
+      "bytes": 305606,
+      "sha256": "72d3d447aa4ba3f10db14ab54dad7c38c897b0ae86f8b8808ead53877fda005f",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-v1/test-hd-spe.original.mjs",
+      "bytes": 303084,
+      "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b",
+      "roles": [
+        "five-source-cases-and-original-target-logs"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v1.mjs",
+      "bytes": 13222,
+      "sha256": "3188e863bb84136a5e1c9162470b4178137adc4f63dae3c888157245a877b0be",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-scenario-v2-source-receipt.json",
+      "bytes": 4413,
+      "sha256": "32076e9a81d4d174e70cf90f03a38476ce25da31e5cb935cf16251402907fb39",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/OCTOBER-GEOMETRY-DRAFT-v2.md",
+      "bytes": 6903,
+      "sha256": "8ec74f58f8ab2dcb3d6a8bd967bfce0bbce09e08ad45c513d40a039543430803",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/OCTOBER-GEOMETRY-DRAFT.md",
+      "bytes": 6391,
+      "sha256": "8cc1a0a8edf6cd499ae997c9e3e6a44e6d587c57feaf09d5fd0ba648354ad480",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-source-receipt-v1.json",
+      "bytes": 4797,
+      "sha256": "0c5aec303fc38bd948fce13f60fd160bb944ab16f478b8625a2ddac404c0ab26",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-source-receipt-v2.json",
+      "bytes": 2410,
+      "sha256": "5780dc5f358f0426acf4a4cb22a15d584a9ffc54faec2ad3e3ab9e5ca279cf99",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v1.mjs",
+      "bytes": 21148,
+      "sha256": "b1c7225990e9b7baa5ac9361d7b0bd95c577a60c0a83b0723592cb4425abe23c",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v2.mjs",
+      "bytes": 21451,
+      "sha256": "9e7caadc765589b9bb722d7d368d8186c820ae57ba19b4c053dc68c17a24b054",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/prepare-maker-scenario-v2.mjs",
+      "bytes": 7242,
+      "sha256": "19f592ead92d407a0e8d6fc1c1ccfb9f8fd041110cd00232b0d955b3eae99755",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/prepare-october-geometry-v2.mjs",
+      "bytes": 4952,
+      "sha256": "8af60e784341f85955d44c9cc7baebc4b4603838bbae11143e295576dc70a90e",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/README.md",
+      "bytes": 10523,
+      "sha256": "a399f79d6bd53acf0d8681a73cd5a8c223b3e7ca10a53fa03eea2e6a082d1494",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+      "bytes": 3425,
+      "sha256": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v1.mjs",
+      "bytes": 11678,
+      "sha256": "90bc83f8166f4de16c5f764467ffa3235d97e1c9e3dd43f39e02e138530637fb",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/source-inventory.json",
+      "bytes": 5396,
+      "sha256": "d7af3fd34edf5f38228ea2f8821087630f64ef12b2def2bd03d523e6c031b2ae",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/update-plans-v43-v1.mjs",
+      "bytes": 4390,
+      "sha256": "ff6faa9357859bdab3d4d4599d37ac42cb44fb88e038498b48391bb05c24b3b4",
+      "roles": [
+        "source-only-harness-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-source-lock-v1.mjs",
+      "bytes": 2657,
+      "sha256": "baf4413cde023576c0a9ea6b269457fd00c073bc6e411b5bdde7e9b01e3751b3",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-resize-independent-review-v1.mjs",
+      "bytes": 13739,
+      "sha256": "606815774cd4e162e77508ebe1e06b3c8c5ab717debd98d5a3c5d030dc4b98ce",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-review-v1.mjs",
+      "bytes": 16174,
+      "sha256": "49d8c92e81d1df6d3d531085044ee3cd5de48e238a98c55a0a4e5c7b67587daa",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-maker-before-after-independent-review-v2.mjs",
+      "bytes": 16188,
+      "sha256": "bc25f54cc654fa78791f84ca6c706bc21081e4aa4396f8ea59d9fe125664b68b",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-source-probe-v1.mjs",
+      "bytes": 7273,
+      "sha256": "5286de0c1325512f68a1c3c183f9cfee29debc2b98aeabfb560b193fbeafd777",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-source-probe-v1.json",
+      "bytes": 8540,
+      "sha256": "792b1666ed2c5ec883c0feedf51cefab1ac9705dc5e6ba459c4592a1312d7d6d",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-source-probe-v1.stdout.log",
+      "bytes": 793,
+      "sha256": "edc37c96575dd7f82f9f490e48c6df9a892a6ad794c921f795e7bf37569f2f18",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-source-probe-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-prepare-patch-v1.mjs",
+      "bytes": 8022,
+      "sha256": "53ebba93bcf8913f895dbdd60c8e037a1c03727a12a1fdec8ce5e84115bc9cd0",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-patch-target-v1.mjs",
+      "bytes": 5820,
+      "sha256": "f00f76c2fc3a31c527bb28a969e198911f8ae4e08354e4c3d7dea0081e8f720e",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-boundary-apply-test-v1.mjs",
+      "bytes": 1419,
+      "sha256": "d2b6ea423b3c2c750759e0749953517e1e940b5ea9a9543e3f762647879ad498",
+      "roles": [
+        "small-original-control-tool-or-receipt"
+      ]
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "current-four-maintained-changes"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27750,
+      "sha256": "1fd2098e550f72d5ff506132413ef71edfb75d13a23a62eff36c1122fad21fbe",
+      "roles": [
+        "current-four-maintained-changes"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 305606,
+      "sha256": "72d3d447aa4ba3f10db14ab54dad7c38c897b0ae86f8b8808ead53877fda005f",
+      "roles": [
+        "current-four-maintained-changes"
+      ]
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 26747,
+      "sha256": "0b5654adcb2b9c22329539c237ef2108931d4d3205495f9c663937e2d2a8dc02",
+      "roles": [
+        "current-four-maintained-changes"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "roles": [
+        "unchanged-current-October-reference-only"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "roles": [
+        "unchanged-current-October-reference-only"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "roles": [
+        "unchanged-current-October-reference-only"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "roles": [
+        "unchanged-current-October-reference-only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1-before.json",
+      "bytes": 37384,
+      "sha256": "b8417df5c877b8711226534aaaa1b9726ed95354981f131d860d18c88b8967da",
+      "roles": [
+        "full-before-206-source-vector"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-spe-return-boundary-publication-v43-v1.mjs",
+      "bytes": 4272,
+      "sha256": "6edf73773bac479fa7b98fde438f9c658f12f997d8c2d1b2608e9acfa734b46f",
+      "roles": [
+        "publication-builder-or-reader-template"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-spe-return-boundary-v43-v1.mjs",
+      "bytes": 10332,
+      "sha256": "4c79a0f144614f3fda2174c45401f5952be3452476f72477823354ba4149af94",
+      "roles": [
+        "publication-builder-or-reader-template"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/spe-return-boundary-reader-template-v43-v1.mjs",
+      "bytes": 14652,
+      "sha256": "02f95c005af458180cb233ad7822cb861567f17580ec2cd992d3b0e2a2520e92",
+      "roles": [
+        "publication-builder-or-reader-template"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1.json",
+      "bytes": 38349,
+      "sha256": "38d2467459a58becb1e59a357a642f655e01893526a5238d7fa110d337114c00",
+      "roles": [
+        "closed-full-or-initial-publication-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "closed-full-or-initial-publication-preparation"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/spe-return-boundary-publication-prepared-v43-v1.json",
+      "bytes": 30774,
+      "sha256": "4a8f24a116e2312780e1e335e9d35c41b38ef8458e399b61f05fcd113c6830e2",
+      "roles": [
+        "closed-full-or-initial-publication-preparation"
+      ]
+    }
+  ],
+  "rawPayload": {
+    "bytes": 17245613,
+    "sha256": "94722a30dae1a3c7d894b5a39da31fbbe76e06dd24ff060ea672381fe3c0a74c"
+  },
+  "rawBundle": {
+    "path": "docs/validation/m5-spe-return-boundary-20261024-v43-raw.json.gz",
+    "bytes": 3002678,
+    "sha256": "b1a24e120ba362a2e2c7da840a9b3bed2d7617eac51444e967cd103742572f7a"
+  },
+  "fullLog": {
+    "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1.stdout.log",
+    "bytes": 647561,
+    "sha256": "0c325b221bb6fa24193801fd1a80a12921f57053ff000a87b29c653294c4d0d4"
+  },
+  "fullLogGzip": {
+    "path": "docs/validation/m5-spe-return-boundary-20261024-v43-full-test.log.gz",
+    "bytes": 168374,
+    "sha256": "7e82210d274ce5df890fb52d094487644b2f22e94d6f1a2cb731aeb5700b29dd"
+  },
+  "namedRawBytes": 12912918,
+  "matchingCheckoutRequired": true,
+  "portableClosedRuntimeArchive": false,
+  "oldLargeArchivesTraversed": false,
+  "privateProfilesArchived": false
+}

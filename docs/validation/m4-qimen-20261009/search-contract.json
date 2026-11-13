@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "status": "readonly-source-ROM-contract-no-browser",
+  "createdAt": "2026-10-08T20:49:43.750Z",
+  "head": "dc0bf42aad72a3b9ad90fc968e2317244b3a7011",
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "route": {
+    "period": 2,
+    "year": 198,
+    "lordPerson": 12,
+    "lordName": "刘表",
+    "cityIndex": 26,
+    "cityName": "襄阳",
+    "casterPerson": 171,
+    "casterNativeId": 172,
+    "casterName": "徐庶",
+    "rawBelong": 0,
+    "specialSkill": 20,
+    "searcherPerson": 110,
+    "searcherName": "蒯良",
+    "searcherRawIQ": 93
+  },
+  "appearance": {
+    "resourceId": 63,
+    "itemIndex": 1,
+    "personIndex": 171,
+    "conditionHex": "b400001b",
+    "birthYear": 180,
+    "bole": 0,
+    "cityToken": 27,
+    "rawAge": 18,
+    "appearanceAge": 16,
+    "appearanceYear": 196,
+    "initialQueueAlreadyContains171": true,
+    "explanation": "P2 starts198; XuShu is already a Belong0 resident in XiangYang. No additional birthday/Appear wait is required. PersonUpDatadate adds people only on a future matching birth+16 year, invoked at year wrap; that is separate from SearchDrv eligibility."
+  },
+  "properMenu": {
+    "path": "Real current city root 内政 -> actual submenu 搜寻 -> current native owned person picker selects 蒯良110.",
+    "commandId": 3,
+    "rawSearchMoneyCost": 0,
+    "rawSearchThewCost": 8,
+    "noQuantity": true,
+    "creation": "SearchMake requires current GetCityPersons plus IsManual/IsMoney, consumes original costs, shows original searcher speech, inserts SEARCH order TimeCount0; only successful AddOrderHead then removes searcher with DelPerson.",
+    "nativeOwnership": "Menu kind/context/seq and IDs are current observations; names or a historical city shell cannot authorize another Enter/Exit.",
+    "quantityBoundary": "Recruitment/distribution and march food may later have true qty owners; SearchMake itself has no amount field."
+  },
+  "searchExecution": {
+    "source": "GameDevDrv: ComputerTactic -> PolicyExec -> ConditionUpdate.",
+    "policy": "Current PolicyExec executes every non0xff order once through OrderExec/SearchDrv and then DelOrder. Search TimeCount0 is not a multi-month timer; player must genuinely finish the strategy phase.",
+    "return": "SearchDrv ends with AddPerson(Order->City,searcher), whether it finds nothing, money, food, a tool, another person, or XuShu.",
+    "date": "Only original ConditionUpdate advances month by1 after order execution; at12->1 year+1 and appearance updates. Do not write dates, direct-call PolicyExec/SearchDrv, or skip computer strategy.",
+    "randomGates": [
+      "gam_rand()%4 must select branch1 for people/tools, not0 nothing/2 money/3 food.",
+      "First rnd=gam_rand()%150 must be below searcherIQ and even for person branch; odd leads to a tool attempt.",
+      "GetCityOutPersons current Belong0 list is sampled by gam_rand()%count; four initial candidates exist, so XuShu is not a selectable deterministic target.",
+      "bole=0 enters a new gam_rand()%110 < searcherIQ test. It is neither automatic success nor rejection.",
+      "On success only, actual target.Belong becomes searcher.Belong (expected13), Devotion=70+gam_rand()%30. Failed visit leaves target unowned."
+    ],
+    "uniformHeuristicOnly": {
+      "initialOutPersons": [
+        150,
+        152,
+        170,
+        171
+      ],
+      "initialOutNames": [
+        "徐晃",
+        "邓芝",
+        "庞统",
+        "徐庶"
+      ],
+      "perSingleIQ93SearchApproxChanceFor171": 0.016556818181818183,
+      "warning": "Approximation assumes independent uniform draws and unchanged four-person pool; not a native measured probability, budget or success guarantee. Actual pool, AI, money, food and ownership can change naturally."
+    }
+  },
+  "whyNotCanvass": {
+    "menu": "外交/招揽",
+    "commandId": 16,
+    "source": "CanvassMake uses GetEnemyPersons(g_PlayerKing), which includes only different nonzero city owners and a resident whose Person.Belong equals that enemy owner; excludes enemy lords.",
+    "conclusion": "XuShu rawBelong0 inside player-owned city26 is not a valid CANVASS target. Native 招降 likewise requires captured people, not this out-of-service resident. Correct initial path is 搜寻."
+  },
+  "reports": {
+    "searcherCreation": "Original random P_SAY_STR21..23 speech for nonlord searcher, acknowledged under actual report owner.",
+    "result": "Success/refusal can show searcher and target reports; other branches report nothing/money/food/tool. Do not equate name appearing in a report with allied ownership.",
+    "actualStrings": [
+      {
+        "resourceId": 64,
+        "oneBasedItem": 99,
+        "text": "城中找到 ",
+        "hex": "b3c7d6d0d5d2b5bd20"
+      },
+      {
+        "resourceId": 64,
+        "oneBasedItem": 100,
+        "text": "听说城中有位贤者，可惜臣未能访到。",
+        "hex": "ccfdcbb5b3c7d6d0d3d0cebbcfcdd5dfa3acbfc9cfa7b3bcceb4c4dcb7c3b5bda1a3"
+      },
+      {
+        "resourceId": 64,
+        "oneBasedItem": 101,
+        "text": "什么也没找到……",
+        "hex": "cab2c3b4d2b2c3bbd5d2b5bda1ada1ad"
+      }
+    ]
+  },
+  "minimumReasonableProcedure": [
+    "Start a private original P2 LiuBiao game and verify actual dynLib SHA/current city26; preserve original queue/date/money/reserve/orders.",
+    "Issue one actual SEARCH using an eligible current high-IQ owned resident (prefer 蒯良110), acknowledge only observed reports, then genuine Back/strategy end through current owners.",
+    "Wait original execution, all actual reports, returned searcher and next map input; record new date/world/out-person list. If XuShu is not truly Belong13 and in current owned picker, retain failure and continue only within an explicit player-command budget; no guaranteed first month.",
+    "After actual acquisition, require U16 current picker/menu IDs contain171 and show actual name/Belong13. Genuine recruitment/distribution as needed, then original city26->20 dispatch receipt; select XuShu171 first and ally刘琦115 second.",
+    "At battle/map111 current actual positions/state/MP, legally stay the caster and select current skillID20, not a guessed menu index; baseline-only may cancel and legally rest without casting.",
+    "For a later actual cast, fresh native AIM must authorize current living same-side ally; success is actual movie39/skill20/actor+target, actual ally state0->4 plus native state report, not a manufactured event."
+  ],
+  "qimen": {
+    "skillId": 20,
+    "name": "奇门",
+    "recordHex": "01040000000014646464640064646464646464646464646464646464505050505050",
+    "specialAtInitialLevel": 1,
+    "initialMenuDerivation": [
+      20,
+      9
+    ],
+    "useMp": 20,
+    "minimumIQGate": false,
+    "actorTerrainAllowed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "actorRiver7Forbidden": true,
+    "weatherAllowed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "weather5Forbidden": true,
+    "aim": 1,
+    "sameSideRequired": true,
+    "targetTerrainAllowed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "targetArmAllSix": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+    ],
+    "range": {
+      "resourceId": 13,
+      "offset": 1539,
+      "size": 9,
+      "strict1Cells": 24,
+      "manhattanMaximum": 3,
+      "centerByte": 2,
+      "selfNotStrict1": true
+    },
+    "plannedStaticOpportunity": {
+      "dispatchWay": 4,
+      "mapId": 111,
+      "caster": {
+        "x": 16,
+        "y": 29,
+        "raw": 1
+      },
+      "ally": {
+        "x": 16,
+        "y": 30,
+        "raw": 1
+      },
+      "bounds": "Static source only; actual current menu/position/terrain/state/slot/mask take precedence."
+    },
+    "random": "Original FgtJNAction consumes MP before random success. Default success is gam_rand()%(target.canny+20) <= caster.canny>>1; no seed or forced success.",
+    "state": 4,
+    "stateName": "STATE_QM",
+    "effect": "FgtSetDifPot omits enemy orthogonal MOV_WKP activation markers for STATE_QM, and FgtCountPath remaps final enemy positions. Occupied units remain MOV_NOT; do not promise movement through occupied tiles or set move1.",
+    "report": {
+      "sameTargetActualState0RequiredForNewReport": true,
+      "textWithPlannedAlly": "刘琦 陷入了 奇门 状态",
+      "fragments": [
+        {
+          "resourceId": 1,
+          "oneBasedItem": 27,
+          "hex": "20cfddc8ebc1cb20"
+        },
+        {
+          "resourceId": 1,
+          "oneBasedItem": 32,
+          "hex": "c6e6c3c5"
+        },
+        {
+          "resourceId": 1,
+          "oneBasedItem": 36,
+          "hex": "20d7b4ccac"
+        }
+      ]
+    },
+    "numeric": {
+      "power": 0,
+      "destroy": 0,
+      "noProvPrelude": true,
+      "noArmsNumeric": true,
+      "noLabel": true,
+      "noFgtAtvShowNum": true,
+      "noFiftyTickNumericHold": true,
+      "scope": "Only default no-custom branch; invalid old archived display digits cannot be attributed to this new skill. Actual current skill owner remains movie, ends before state report; no fabricated numbers/hold phase."
+    },
+    "movie": {
+      "speId": 39,
+      "resourceIndex": 0,
+      "startFrm": 0,
+      "endFrm": 7,
+      "count": 8,
+      "picmax": 2,
+      "opaque": true,
+      "logicalSlotSize": [
+        64,
+        64
+      ],
+      "resourceFingerprint": "fnv1a32:6b0ebc5a:1084",
+      "originAt160x96": [
+        48,
+        16
+      ],
+      "backgroundMode": 0,
+      "keyflag": 0
+    },
+    "lifecycle": "Actual successful CommonJN sets state4 -> movie39 -> skill_end/result_scope_end -> native GamMsgBox(state report) only if changed -> normal command EXP/end checks. Natural skill failure is original 计谋失败 report, without movie or NUM."
+  },
+  "sources": [
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "sha256": "cedbc1dcff833049d6f68442ac6b1403e978eadf063c35d471eba19357f0e6b6"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "sha256": "1b79d469ce34b93af8ef41397a15c28123fc90b3240fbf727c426d636e2d0618"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "sha256": "fe04316ff69e71a4913b7781d00fab0ce9475b24bdd050ada475bf3c8432d477"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    }
+  ],
+  "oldPlansPreserved": [
+    "build/r16-next-skill-plan.json",
+    "build/r16-next-skill-plan-v2.json"
+  ],
+  "notRun": [
+    "No browser/private game, search, cast or generated images.",
+    "No native/product/runner/world edits."
+  ]
+}

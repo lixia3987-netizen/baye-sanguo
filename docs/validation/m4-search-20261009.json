@@ -1,0 +1,6564 @@
+{
+  "schemaVersion": 1,
+  "batch": "R17 SEARCH3 city person list HD",
+  "accepted": true,
+  "globalHdComplete": false,
+  "baseRevision": "4dd7fd8a2ee7ef4ae26fda9cff9dcb6d773dc41c",
+  "idConventions": {
+    "personIndex": "Actual native U16 zero-based PersonID: menu IDs, report.person and order.Person all use 110 for KuaiLiang.",
+    "legacyRawNativeId": "The raw runner nativeId field inherits an older one-based display number convention (111); it is not the native command ID and is never sent to the engine."
+  },
+  "scope": "PC standard P2 LiuBiao / XiangYang26 SEARCH list, native actor details and portrait reference, actual order speech/ACK/filter, current-owner input, cancellation and map retirement at 1920x1080 and 1280x720.",
+  "changes": [
+    "SEARCH route now reuses native person panel",
+    "Pending selection retires on report/help/quantity or changed native owner",
+    "Final send samples the native menu after potentially reentrant overlay readers",
+    "Rejected confirmation restores previous commit marker",
+    "City-menu script cache 20261009x"
+  ],
+  "production": [
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 267267,
+      "sha256": "debf8b60ed8b29e5fe972344b5cd6ad7df43b6c1232da1939facc9c74fd8f787"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 25720,
+      "sha256": "5fe878639c4fb224b400d25587651ce66433da91527966061f2b4345b722b8fe"
+    }
+  ],
+  "runner": {
+    "path": "scripts/test-hd-search-runtime.mjs",
+    "bytes": 48835,
+    "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f"
+  },
+  "attempts": [
+    {
+      "directory": "build/r17-search-hd-installed-v1",
+      "result": {
+        "path": "build/r17-search-hd-installed-v1/result.json",
+        "bytes": 770624,
+        "sha256": "8daede2e070dc60efe8cd1205bffc427bb56d5dc656cae568ac82914ed970032"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "runner": {
+        "source": "scripts/test-hd-search-runtime.mjs",
+        "bytes": 45845,
+        "sha256": "0084e1cbb3a6cd32215065360a9a70b7a863d32d2b5c8d7233a5d16d58d13d55"
+      },
+      "checkpoints": 0,
+      "engineInputs": 1,
+      "exceptionCount": 0,
+      "error": "AssertionError [ERR_ASSERTION]: Actually visible/hittable target [data-hd-system-ui=\"classic\"]\n    at targetPoint (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:134:12)\n    at async click (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:137:58)\n    at async boot (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:218:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:272:24)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:298:65)",
+      "sourceOk": true,
+      "isolation": {
+        "httpPort": 7248,
+        "debugPort": 7249,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-search-runtime-VnwDlL",
+        "chromePid": 175804,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "directory": "build/r17-search-hd-installed-v2",
+      "result": {
+        "path": "build/r17-search-hd-installed-v2/result.json",
+        "bytes": 770439,
+        "sha256": "58cf7d1d08b72722b5c7225d3866a4584e1f0eed61df8492f03831a50e38373a"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "runner": {
+        "source": "scripts/test-hd-search-runtime.mjs",
+        "bytes": 46137,
+        "sha256": "646e99cbfbb026358423e2200ea08fc88c22c5ad6e73c1635ab3548d6489c366"
+      },
+      "checkpoints": 0,
+      "engineInputs": 0,
+      "exceptionCount": 0,
+      "error": "AssertionError [ERR_ASSERTION]: Actually visible/hittable target #hd-spe-skip\n    at targetPoint (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:134:12)\n    at async click (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:137:58)\n    at async boot (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:217:74)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:273:24)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:299:65)",
+      "sourceOk": true,
+      "isolation": {
+        "httpPort": 9085,
+        "debugPort": 9086,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-search-runtime-oMbK4P",
+        "chromePid": 173140,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "directory": "build/r17-search-hd-installed-v3",
+      "result": {
+        "path": "build/r17-search-hd-installed-v3/result.json",
+        "bytes": 1490567,
+        "sha256": "864668fd923440f24c57de1d4d2837b222e1be2be479477de943d6f93f611b88"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "runner": {
+        "source": "scripts/test-hd-search-runtime.mjs",
+        "bytes": 47041,
+        "sha256": "e69bd26aaa379775d6edc6b5cbfdffbb8ef89fd736c457996d52b89a0c409a64"
+      },
+      "checkpoints": 1,
+      "engineInputs": 18,
+      "exceptionCount": 0,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   name: '襄阳',\n+   to: {\n+     x: 6,\n+     y: 5\n+   }\n+ }\n- true\n\n    at boot (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:233:219)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:280:24)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:306:65)",
+      "sourceOk": true,
+      "isolation": {
+        "httpPort": 2665,
+        "debugPort": 2666,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-search-runtime-sb6PQO",
+        "chromePid": 177236,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "directory": "build/r17-search-hd-installed-v4",
+      "result": {
+        "path": "build/r17-search-hd-installed-v4/result.json",
+        "bytes": 15979975,
+        "sha256": "1a3e9a0b389ad7b31138c410516a1343e8ee501f38ddf2f018c80c31957b2099"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "runner": {
+        "source": "scripts/test-hd-search-runtime.mjs",
+        "bytes": 47620,
+        "sha256": "a0b3e15fa330e64ab78ad52670f1d525259801812719f97fe018fefd0736b7e4"
+      },
+      "checkpoints": 8,
+      "engineInputs": 65,
+      "exceptionCount": 0,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   {\n+     status: 404,\n+     url: '/fonts/HarmonyOS_Sans_SC_Regular.ttf'\n+   }\n+ ]\n- []\n\n    at smoke (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:290:104)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-search-runtime.mjs:308:65)",
+      "sourceOk": true,
+      "isolation": {
+        "httpPort": 7976,
+        "debugPort": 7977,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-search-runtime-hfgmKw",
+        "chromePid": 169632,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "directory": "build/r17-search-hd-installed-v5",
+      "result": {
+        "path": "build/r17-search-hd-installed-v5/result.json",
+        "bytes": 15779740,
+        "sha256": "1c91736e0c497b45638858d1ea3575f1f692dec4a9581a1181b03ecb6daa92cb"
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "runner": {
+        "source": "scripts/test-hd-search-runtime.mjs",
+        "bytes": 48835,
+        "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f"
+      },
+      "checkpoints": 8,
+      "engineInputs": 65,
+      "exceptionCount": 0,
+      "error": null,
+      "sourceOk": true,
+      "isolation": {
+        "httpPort": 2836,
+        "debugPort": 2837,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-search-runtime-ZNNXYb",
+        "chromePid": 177224,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    }
+  ],
+  "tests": {
+    "windowsFull": {
+      "passed": 713,
+      "failed": 0,
+      "skipped": 0,
+      "log": "build/r17-all-tests-final.log"
+    },
+    "cityHud": {
+      "passed": 65,
+      "failed": 0,
+      "skipped": 0,
+      "log": "build/r17-city-hud-final-published.log"
+    },
+    "newCases": 21,
+    "originalRegression": {
+      "passed": 8,
+      "failed": 3,
+      "log": "build/r17-search-unit-before.log",
+      "scope": "Offline production-controller VM, not a browser attempt"
+    }
+  },
+  "actual": {
+    "directory": "build/r17-search-hd-installed-v5",
+    "result": {
+      "path": "build/r17-search-hd-installed-v5/result.json",
+      "bytes": 15779740,
+      "sha256": "1c91736e0c497b45638858d1ea3575f1f692dec4a9581a1181b03ecb6daa92cb"
+    },
+    "runner": {
+      "source": "scripts/test-hd-search-runtime.mjs",
+      "bytes": 48835,
+      "sha256": "ce54abab737b53c8ead18b84fa86900d14ba847ad98b0a9adf711174f8d9677f"
+    },
+    "startedAt": "2026-10-08T23:45:20.954Z",
+    "finishedAt": "2026-10-08T23:45:45.058Z",
+    "checkpoints": 8,
+    "detailChecks": 24,
+    "viewports": [
+      {
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "width": 1280,
+        "height": 720
+      }
+    ],
+    "viewportChecks": [
+      {
+        "label": "03-search-1080p",
+        "size": {
+          "width": 1920,
+          "height": 1080
+        },
+        "rows": [
+          {
+            "index": 0,
+            "person": 12,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "刘表",
+            "text": "刘表"
+          },
+          {
+            "index": 1,
+            "person": 110,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "蒯良",
+            "text": "蒯良"
+          },
+          {
+            "index": 2,
+            "person": 111,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "蒯越",
+            "text": "蒯越"
+          },
+          {
+            "index": 3,
+            "person": 112,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "韩嵩",
+            "text": "韩嵩"
+          },
+          {
+            "index": 4,
+            "person": 113,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "伊籍",
+            "text": "伊籍"
+          },
+          {
+            "index": 5,
+            "person": 114,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "蔡瑁",
+            "text": "蔡瑁"
+          },
+          {
+            "index": 6,
+            "person": 115,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "刘琦",
+            "text": "刘琦"
+          },
+          {
+            "index": 7,
+            "person": 116,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "王粲",
+            "text": "王粲"
+          },
+          {
+            "index": 8,
+            "person": 119,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "张允",
+            "text": "张允"
+          },
+          {
+            "index": 9,
+            "person": 122,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "文聘",
+            "text": "文聘"
+          },
+          {
+            "index": 10,
+            "person": 123,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "王威",
+            "text": "王威"
+          }
+        ],
+        "owner": {
+          "context": 1,
+          "kind": 3,
+          "seq": 13,
+          "generation": 3,
+          "detailGeneration": 3,
+          "ids": [
+            12,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123
+          ],
+          "key": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]"
+        },
+        "nativeOwnedIDs": [
+          12,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123
+        ]
+      },
+      {
+        "label": "04-search-720p",
+        "size": {
+          "width": 1280,
+          "height": 720
+        },
+        "rows": [
+          {
+            "index": 0,
+            "person": 12,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "刘表",
+            "text": "刘表"
+          },
+          {
+            "index": 1,
+            "person": 110,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "蒯良",
+            "text": "蒯良"
+          },
+          {
+            "index": 2,
+            "person": 111,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "蒯越",
+            "text": "蒯越"
+          },
+          {
+            "index": 3,
+            "person": 112,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "韩嵩",
+            "text": "韩嵩"
+          },
+          {
+            "index": 4,
+            "person": 113,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "伊籍",
+            "text": "伊籍"
+          },
+          {
+            "index": 5,
+            "person": 114,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "蔡瑁",
+            "text": "蔡瑁"
+          },
+          {
+            "index": 6,
+            "person": 115,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "刘琦",
+            "text": "刘琦"
+          },
+          {
+            "index": 7,
+            "person": 116,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "王粲",
+            "text": "王粲"
+          },
+          {
+            "index": 8,
+            "person": 119,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "张允",
+            "text": "张允"
+          },
+          {
+            "index": 9,
+            "person": 122,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "文聘",
+            "text": "文聘"
+          },
+          {
+            "index": 10,
+            "person": 123,
+            "owner": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "name": "王威",
+            "text": "王威"
+          }
+        ],
+        "owner": {
+          "context": 1,
+          "kind": 3,
+          "seq": 13,
+          "generation": 3,
+          "detailGeneration": 3,
+          "ids": [
+            12,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123
+          ],
+          "key": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]"
+        },
+        "nativeOwnedIDs": [
+          12,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123
+        ]
+      },
+      {
+        "label": "06-filtered-1080p",
+        "size": {
+          "width": 1920,
+          "height": 1080
+        },
+        "rows": [
+          {
+            "index": 0,
+            "person": 12,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "刘表",
+            "text": "刘表"
+          },
+          {
+            "index": 1,
+            "person": 111,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "蒯越",
+            "text": "蒯越"
+          },
+          {
+            "index": 2,
+            "person": 112,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "韩嵩",
+            "text": "韩嵩"
+          },
+          {
+            "index": 3,
+            "person": 113,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "伊籍",
+            "text": "伊籍"
+          },
+          {
+            "index": 4,
+            "person": 114,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "蔡瑁",
+            "text": "蔡瑁"
+          },
+          {
+            "index": 5,
+            "person": 115,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "刘琦",
+            "text": "刘琦"
+          },
+          {
+            "index": 6,
+            "person": 116,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "王粲",
+            "text": "王粲"
+          },
+          {
+            "index": 7,
+            "person": 119,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "张允",
+            "text": "张允"
+          },
+          {
+            "index": 8,
+            "person": 122,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "文聘",
+            "text": "文聘"
+          },
+          {
+            "index": 9,
+            "person": 123,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "王威",
+            "text": "王威"
+          }
+        ],
+        "owner": {
+          "context": 1,
+          "kind": 3,
+          "seq": 15,
+          "generation": 3,
+          "detailGeneration": 3,
+          "ids": [
+            12,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123
+          ],
+          "key": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]"
+        },
+        "nativeOwnedIDs": [
+          12,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123
+        ]
+      },
+      {
+        "label": "07-filtered-720p",
+        "size": {
+          "width": 1280,
+          "height": 720
+        },
+        "rows": [
+          {
+            "index": 0,
+            "person": 12,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "刘表",
+            "text": "刘表"
+          },
+          {
+            "index": 1,
+            "person": 111,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "蒯越",
+            "text": "蒯越"
+          },
+          {
+            "index": 2,
+            "person": 112,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "韩嵩",
+            "text": "韩嵩"
+          },
+          {
+            "index": 3,
+            "person": 113,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "伊籍",
+            "text": "伊籍"
+          },
+          {
+            "index": 4,
+            "person": 114,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "蔡瑁",
+            "text": "蔡瑁"
+          },
+          {
+            "index": 5,
+            "person": 115,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "刘琦",
+            "text": "刘琦"
+          },
+          {
+            "index": 6,
+            "person": 116,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "王粲",
+            "text": "王粲"
+          },
+          {
+            "index": 7,
+            "person": 119,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "张允",
+            "text": "张允"
+          },
+          {
+            "index": 8,
+            "person": 122,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "文聘",
+            "text": "文聘"
+          },
+          {
+            "index": 9,
+            "person": 123,
+            "owner": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+            "context": 1,
+            "kind": 3,
+            "seq": 15,
+            "name": "王威",
+            "text": "王威"
+          }
+        ],
+        "owner": {
+          "context": 1,
+          "kind": 3,
+          "seq": 15,
+          "generation": 3,
+          "detailGeneration": 3,
+          "ids": [
+            12,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123
+          ],
+          "key": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]"
+        },
+        "nativeOwnedIDs": [
+          12,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123
+        ]
+      }
+    ],
+    "fontValidation": {
+      "faces": [
+        {
+          "family": "BayeUI",
+          "status": "loaded"
+        }
+      ],
+      "status": "loaded",
+      "check": true,
+      "source": {
+        "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      "requests": [
+        {
+          "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "status": 200,
+          "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        }
+      ],
+      "keysBefore": 0,
+      "keysAfter": 0
+    },
+    "selection": {
+      "owner": {
+        "context": 1,
+        "kind": 3,
+        "seq": 13,
+        "generation": 3,
+        "detailGeneration": 3,
+        "ids": [
+          12,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123
+        ],
+        "key": "[3,1,3,13,[\"刘表\",\"蒯良\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,110,111,112,113,114,115,116,119,122,123]]"
+      },
+      "personIndex": 110,
+      "nativeId": 111,
+      "before": {
+        "keys": 53,
+        "period": 2,
+        "playerKing": 12,
+        "cityBelong": 13,
+        "money": 307,
+        "food": 774,
+        "reserve": 0,
+        "queue": [
+          12,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123,
+          150,
+          152,
+          170,
+          171
+        ],
+        "orders": [],
+        "date": {
+          "year": 198,
+          "month": 1
+        },
+        "cursor": {
+          "setx": 6,
+          "sety": 5,
+          "x": 2,
+          "y": 2
+        },
+        "observedPersons": 200,
+        "actor": {
+          "id": 110,
+          "name": "蒯良",
+          "derivedArm": 2,
+          "Belong": 13,
+          "OldBelong": 0,
+          "Age": 43,
+          "Character": 3,
+          "Level": 1,
+          "Force": 20,
+          "IQ": 93,
+          "Devotion": 88,
+          "Experience": 0,
+          "Thew": 100,
+          "ArmsType": 2,
+          "Arms": 100,
+          "Tool1": 0,
+          "Tool2": 0
+        }
+      },
+      "atReport": {
+        "keys": 63,
+        "period": 2,
+        "playerKing": 12,
+        "cityBelong": 13,
+        "money": 307,
+        "food": 774,
+        "reserve": 0,
+        "queue": [
+          12,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123,
+          150,
+          152,
+          170,
+          171
+        ],
+        "orders": [],
+        "date": {
+          "year": 198,
+          "month": 1
+        },
+        "cursor": {
+          "setx": 6,
+          "sety": 5,
+          "x": 2,
+          "y": 2
+        },
+        "observedPersons": 200,
+        "actor": {
+          "id": 110,
+          "name": "蒯良",
+          "derivedArm": 2,
+          "Belong": 13,
+          "OldBelong": 0,
+          "Age": 43,
+          "Character": 3,
+          "Level": 1,
+          "Force": 20,
+          "IQ": 93,
+          "Devotion": 88,
+          "Experience": 0,
+          "Thew": 92,
+          "ArmsType": 2,
+          "Arms": 100,
+          "Tool1": 0,
+          "Tool2": 0
+        }
+      },
+      "originalReport": {
+        "native": {
+          "text": "属下会留心各种消息，以期有所得。",
+          "seq": 1,
+          "active": 1,
+          "inputSeq": 3,
+          "kind": 2,
+          "person": 110
+        },
+        "ui": {
+          "open": true,
+          "kind": "report",
+          "asyncId": 0,
+          "textLen": 16,
+          "min": 0,
+          "max": 0,
+          "body": "属下会留心各种消息，以期有所得。",
+          "reportText": "属下会留心各种消息，以期有所得。",
+          "pass": false,
+          "leftoverHelp": false,
+          "leftoverFarm": false,
+          "lastReportSeq": 1,
+          "lastSpeechEnterSeq": 0,
+          "marchOwner": null,
+          "helpOwner": null,
+          "helpDetail": null,
+          "helpStamp": "",
+          "viewOwner": null,
+          "viewDetail": null,
+          "viewStamp": "",
+          "viewPending": false,
+          "showLcd": false,
+          "reportOwner": {
+            "seq": 1,
+            "inputSeq": 3
+          },
+          "successorOwner": null,
+          "successorRequest": null,
+          "defenseOwner": null,
+          "defenseRequest": null,
+          "defenseCommitted": false,
+          "reportSeq": 1,
+          "viewEpoch": 7
+        }
+      },
+      "after": {
+        "keys": 64,
+        "period": 2,
+        "playerKing": 12,
+        "cityBelong": 13,
+        "money": 307,
+        "food": 774,
+        "reserve": 0,
+        "queue": [
+          12,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123,
+          150,
+          152,
+          170,
+          171
+        ],
+        "orders": [
+          {
+            "OrderId": 3,
+            "City": 26,
+            "Person": 110,
+            "TimeCount": 0
+          }
+        ],
+        "date": {
+          "year": 198,
+          "month": 1
+        },
+        "cursor": {
+          "setx": 6,
+          "sety": 5,
+          "x": 2,
+          "y": 2
+        },
+        "observedPersons": 200,
+        "actor": {
+          "id": 110,
+          "name": "蒯良",
+          "derivedArm": 2,
+          "Belong": 13,
+          "OldBelong": 0,
+          "Age": 43,
+          "Character": 3,
+          "Level": 1,
+          "Force": 20,
+          "IQ": 93,
+          "Devotion": 88,
+          "Experience": 0,
+          "Thew": 92,
+          "ArmsType": 2,
+          "Arms": 100,
+          "Tool1": 0,
+          "Tool2": 0
+        }
+      },
+      "newMenu": {
+        "active": 1,
+        "context": 1,
+        "kind": 3,
+        "seq": 15,
+        "itemLen": 8,
+        "count": 10,
+        "index": 0,
+        "names": [
+          "刘表",
+          "蒯越",
+          "韩嵩",
+          "伊籍",
+          "蔡瑁",
+          "刘琦",
+          "王粲",
+          "张允",
+          "文聘",
+          "王威"
+        ],
+        "packedNames": [
+          "刘表",
+          "蒯越",
+          "韩嵩",
+          "伊籍",
+          "蔡瑁",
+          "刘琦",
+          "王粲",
+          "张允",
+          "文聘",
+          "王威"
+        ],
+        "ids": [
+          12,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123
+        ],
+        "idsValid": true,
+        "generation": 3,
+        "detailGeneration": 3
+      },
+      "keys": [
+        {
+          "code": 34,
+          "at": 17553.5,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 10,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 17617.40000000596,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 9,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 17678.59999999404,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 8,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 17763,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 7,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 17824.20000001788,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 6,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 17873.09999999404,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 5,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 17938.20000001788,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 4,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 18006.70000001788,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 3,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 34,
+          "at": 18073.30000001192,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 2,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 39,
+          "at": 18140.30000001192,
+          "generation": 3,
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 3,
+            "seq": 13,
+            "itemLen": 8,
+            "count": 11,
+            "index": 1,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [
+              12,
+              110,
+              111,
+              112,
+              113,
+              114,
+              115,
+              116,
+              119,
+              122,
+              123
+            ],
+            "idsValid": true,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "",
+            "seq": 0,
+            "active": 0,
+            "inputSeq": 2,
+            "kind": 0,
+            "person": 65535
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        },
+        {
+          "code": 39,
+          "at": 18888.80000001192,
+          "generation": 3,
+          "menu": {
+            "active": 0,
+            "context": 0,
+            "kind": 0,
+            "seq": 14,
+            "itemLen": 8,
+            "count": 11,
+            "index": 1,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [],
+            "idsValid": false,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "属下会留心各种消息，以期有所得。",
+            "seq": 1,
+            "active": 1,
+            "inputSeq": 3,
+            "kind": 2,
+            "person": 110
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        }
+      ],
+      "reportConfirmationKeys": [
+        {
+          "code": 39,
+          "at": 18888.80000001192,
+          "generation": 3,
+          "menu": {
+            "active": 0,
+            "context": 0,
+            "kind": 0,
+            "seq": 14,
+            "itemLen": 8,
+            "count": 11,
+            "index": 1,
+            "names": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "packedNames": [
+              "刘表",
+              "蒯良",
+              "蒯越",
+              "韩嵩",
+              "伊籍",
+              "蔡瑁",
+              "刘琦",
+              "王粲",
+              "张允",
+              "文聘",
+              "王威"
+            ],
+            "ids": [],
+            "idsValid": false,
+            "generation": 3,
+            "detailGeneration": 3
+          },
+          "report": {
+            "text": "属下会留心各种消息，以期有所得。",
+            "seq": 1,
+            "active": 1,
+            "inputSeq": 3,
+            "kind": 2,
+            "person": 110
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "march": {
+            "pick": 0,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 1,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          }
+        }
+      ],
+      "reportBeforeAddOrder": true
+    },
+    "returnToMap": {
+      "before": {
+        "keys": 64,
+        "period": 2,
+        "playerKing": 12,
+        "cityBelong": 13,
+        "money": 307,
+        "food": 774,
+        "reserve": 0,
+        "queue": [
+          12,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123,
+          150,
+          152,
+          170,
+          171
+        ],
+        "orders": [
+          {
+            "OrderId": 3,
+            "City": 26,
+            "Person": 110,
+            "TimeCount": 0
+          }
+        ],
+        "date": {
+          "year": 198,
+          "month": 1
+        },
+        "cursor": {
+          "setx": 6,
+          "sety": 5,
+          "x": 2,
+          "y": 2
+        },
+        "observedPersons": 200,
+        "actor": {
+          "id": 110,
+          "name": "蒯良",
+          "derivedArm": 2,
+          "Belong": 13,
+          "OldBelong": 0,
+          "Age": 43,
+          "Character": 3,
+          "Level": 1,
+          "Force": 20,
+          "IQ": 93,
+          "Devotion": 88,
+          "Experience": 0,
+          "Thew": 92,
+          "ArmsType": 2,
+          "Arms": 100,
+          "Tool1": 0,
+          "Tool2": 0
+        }
+      },
+      "after": {
+        "keys": 65,
+        "period": 2,
+        "playerKing": 12,
+        "cityBelong": 13,
+        "money": 307,
+        "food": 774,
+        "reserve": 0,
+        "queue": [
+          12,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          119,
+          122,
+          123,
+          150,
+          152,
+          170,
+          171
+        ],
+        "orders": [
+          {
+            "OrderId": 3,
+            "City": 26,
+            "Person": 110,
+            "TimeCount": 0
+          }
+        ],
+        "date": {
+          "year": 198,
+          "month": 1
+        },
+        "cursor": {
+          "setx": 6,
+          "sety": 5,
+          "x": 2,
+          "y": 2
+        },
+        "observedPersons": 200,
+        "actor": {
+          "id": 110,
+          "name": "蒯良",
+          "derivedArm": 2,
+          "Belong": 13,
+          "OldBelong": 0,
+          "Age": 43,
+          "Character": 3,
+          "Level": 1,
+          "Force": 20,
+          "IQ": 93,
+          "Devotion": 88,
+          "Experience": 0,
+          "Thew": 92,
+          "ArmsType": 2,
+          "Arms": 100,
+          "Tool1": 0,
+          "Tool2": 0
+        }
+      },
+      "steps": [
+        {
+          "before": {
+            "ready": true,
+            "generation": 3,
+            "period": 2,
+            "playerKing": 12,
+            "menu": {
+              "active": 1,
+              "context": 1,
+              "kind": 3,
+              "seq": 15,
+              "itemLen": 8,
+              "count": 10,
+              "index": 0,
+              "names": [
+                "刘表",
+                "蒯越",
+                "韩嵩",
+                "伊籍",
+                "蔡瑁",
+                "刘琦",
+                "王粲",
+                "张允",
+                "文聘",
+                "王威"
+              ],
+              "packedNames": [
+                "刘表",
+                "蒯越",
+                "韩嵩",
+                "伊籍",
+                "蔡瑁",
+                "刘琦",
+                "王粲",
+                "张允",
+                "文聘",
+                "王威"
+              ],
+              "ids": [
+                12,
+                111,
+                112,
+                113,
+                114,
+                115,
+                116,
+                119,
+                122,
+                123
+              ],
+              "idsValid": true,
+              "generation": 3,
+              "detailGeneration": 3
+            },
+            "qty": {
+              "active": 0,
+              "value": 0,
+              "min": 0,
+              "max": 0,
+              "protocol": true,
+              "session": 2,
+              "inputSeq": 0,
+              "lastKey": 65535,
+              "cursor": 0,
+              "step": 1,
+              "ready": 0
+            },
+            "report": {
+              "text": "属下会留心各种消息，以期有所得。",
+              "seq": 1,
+              "active": 0,
+              "inputSeq": 4,
+              "kind": 2,
+              "person": 110
+            },
+            "help": {
+              "active": 0,
+              "seq": 0,
+              "text": "",
+              "protocolVersion": 1,
+              "generation": 0,
+              "detailGeneration": 3,
+              "inputSeq": 0,
+              "kind": 0,
+              "complete": 0,
+              "person": 65535,
+              "slot": 255,
+              "x": 0,
+              "y": 0,
+              "terrain": 255,
+              "name": "",
+              "arm": "",
+              "state": "",
+              "levelMax": 0,
+              "fields": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "march": {
+              "pick": 0,
+              "battlePick": 0,
+              "mapCity": 27,
+              "mapInputSeq": 1,
+              "ok": 0,
+              "city": 0,
+              "obj": 0,
+              "time": 0,
+              "seq": 0,
+              "phase": 0,
+              "session": 0,
+              "origin": 255,
+              "selected": 0,
+              "inputSeq": 2
+            },
+            "fight": {
+              "active": 0,
+              "over": 0,
+              "wait": 0,
+              "phase": 0,
+              "aimType": 255,
+              "inputKind": 0,
+              "inputSeq": 2,
+              "actorIndex": 255,
+              "tip": "",
+              "skip": 0,
+              "result": "",
+              "cityIndex": 0,
+              "mapW": 0,
+              "mapH": 0,
+              "bout": 0,
+              "boutMax": 30,
+              "focusX": 0,
+              "focusY": 0
+            },
+            "city": {
+              "pref": "hd",
+              "showHd": true,
+              "open": true,
+              "layer": "deep",
+              "subKind": "neizheng",
+              "cityIndex": 26,
+              "cityName": "襄阳",
+              "titleText": "襄阳",
+              "idleIndex": 0,
+              "idleKeys": [
+                "cityIndex",
+                "commandIndex"
+              ],
+              "lastHook": "cityMakeCommand",
+              "showLcd": false,
+              "cityLcdMode": "off",
+              "probedCityKeys": [],
+              "deepKind": "person",
+              "deepLabel": "搜寻",
+              "deepCount": 10,
+              "deepItems": [
+                {
+                  "i": 0,
+                  "name": "刘表",
+                  "nativeId": true,
+                  "pind": 12
+                },
+                {
+                  "i": 1,
+                  "name": "蒯越",
+                  "nativeId": true,
+                  "pind": 111
+                },
+                {
+                  "i": 2,
+                  "name": "韩嵩",
+                  "nativeId": true,
+                  "pind": 112
+                },
+                {
+                  "i": 3,
+                  "name": "伊籍",
+                  "nativeId": true,
+                  "pind": 113
+                },
+                {
+                  "i": 4,
+                  "name": "蔡瑁",
+                  "nativeId": true,
+                  "pind": 114
+                },
+                {
+                  "i": 5,
+                  "name": "刘琦",
+                  "nativeId": true,
+                  "pind": 115
+                },
+                {
+                  "i": 6,
+                  "name": "王粲",
+                  "nativeId": true,
+                  "pind": 116
+                },
+                {
+                  "i": 7,
+                  "name": "张允",
+                  "nativeId": true,
+                  "pind": 119
+                },
+                {
+                  "i": 8,
+                  "name": "文聘",
+                  "nativeId": true,
+                  "pind": 122
+                },
+                {
+                  "i": 9,
+                  "name": "王威",
+                  "nativeId": true,
+                  "pind": 123
+                }
+              ],
+              "deepMenuOwner": {
+                "context": 1,
+                "kind": 3,
+                "seq": 15,
+                "detailGeneration": 3,
+                "key": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]"
+              },
+              "cityDetails": null,
+              "personDetail": {
+                "ownerKey": "[3,1,3,15,[\"刘表\",\"蒯越\",\"韩嵩\",\"伊籍\",\"蔡瑁\",\"刘琦\",\"王粲\",\"张允\",\"文聘\",\"王威\"],3,[12,111,112,113,114,115,116,119,122,123]]",
+                "context": 1,
+                "kind": 3,
+                "seq": 15,
+                "nativeIndex": 0,
+                "personIndex": 12,
+                "name": "刘表",
+                "ownership": {
+                  "kind": "lord",
+                  "value": 13,
+                  "personIndex": 12,
+                  "name": "刘表",
+                  "label": "君主 · 刘表"
+                },
+                "groups": [
+                  {
+                    "title": "身份与经历",
+                    "rows": [
+                      [
+                        "归属",
+                        "君主 · 刘表"
+                      ],
+                      [
+                        "原归属",
+                        "未记录（0）"
+                      ],
+                      [
+                        "年龄",
+                        "56"
+                      ],
+                      [
+                        "性格码",
+                        "4（君主：和平）"
+                      ]
+                    ]
+                  },
+                  {
+                    "title": "能力与状态",
+                    "rows": [
+                      [
+                        "等级",
+                        "1"
+                      ],
+                      [
+                        "武力",
+                        "22"
+                      ],
+                      [
+                        "智力",
+                        "71"
+                      ],
+                      [
+                        "忠诚值",
+                        "100"
+                      ],
+                      [
+                        "经验",
+                        "0"
+                      ],
+                      [
+                        "体力",
+                        "100"
+                      ]
+                    ]
+                  },
+                  {
+                    "title": "军队与装备",
+                    "rows": [
+                      [
+                        "基础兵种",
+                        "弓箭兵（码 2）"
+                      ],
+                      [
+                        "装备后兵种",
+                        "弓箭兵（码 2）"
+                      ],
+                      [
+                        "兵力",
+                        "100"
+                      ],
+                      [
+                        "装备一",
+                        "无"
+                      ],
+                      [
+                        "装备二",
+                        "无"
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "toolDetail": null,
+              "toolPagePending": null,
+              "pickedPersons": 0,
+              "dismissedObj": false,
+              "marchReady": false,
+              "marching": false,
+              "leftoverAfterFight": false,
+              "sawFightThisMarch": false,
+              "fightEndedThisMarch": false,
+              "campaignPick": false,
+              "battleMake": false,
+              "handoff": false,
+              "handoffAt": 0,
+              "handoffStatus": "",
+              "handoffExitCount": 0,
+              "handoffEnterCount": 0,
+              "lastHandoffExitAt": 0,
+              "lastFuncMenuIdle": 0,
+              "personExitSent": false,
+              "finishPersonsBusy": false,
+              "personExitTries": 0,
+              "lastExit": "",
+              "engineHelpOpen": false,
+              "overlayRetry": 0,
+              "finishVisibleRetry": 0,
+              "pickedPersonNames": [],
+              "leftoverOverlay": {
+                "open": false,
+                "kind": "report",
+                "pe": "none",
+                "help": false,
+                "farm": false,
+                "blocking": false,
+                "engineHelp": false,
+                "qtyActive": 0,
+                "body": "属下会留心各种消息，以期有所得。"
+              },
+              "engineLeftBattleMake": false,
+              "engineStillInPersonPick": false,
+              "liveJunbeiMenu": false,
+              "qtyActive": 0,
+              "lastBlockedExit": "",
+              "lastBlockedEnter": "",
+              "lastPickEnterAt": 0,
+              "holdEnterForFood": false,
+              "queueLen": 0,
+              "sending": false,
+              "enginePersons": 14,
+              "enginePersonNames": [
+                "刘表",
+                "蒯越",
+                "韩嵩",
+                "伊籍",
+                "蔡瑁",
+                "刘琦",
+                "王粲",
+                "张允",
+                "文聘",
+                "王威",
+                "徐晃",
+                "邓芝",
+                "庞统",
+                "徐庶"
+              ],
+              "enginePersonsAtFinish": 0,
+              "enginePersonsAtPickStart": 0,
+              "marchHint": "",
+              "holdExit": false,
+              "holdMenu": false,
+              "acceptMarchOk": false,
+              "freshMarch": false,
+              "consumedMarchSeq": 0,
+              "sawMarchCleared": false,
+              "walkBusy": false,
+              "pendingTarget": null,
+              "wizardStep": "none",
+              "wizardLabel": "",
+              "sawQtyThisMarch": false,
+              "sawGetFoodUi": false,
+              "foodConfirmed": false,
+              "leftoverPick": false,
+              "liveMarch": false,
+              "stickyBanner": false,
+              "lastBannerLog": null,
+              "battlePick": false,
+              "openedCity": 26,
+              "marchDest": {
+                "city": 0,
+                "obj": 0,
+                "ok": false,
+                "real": false
+              },
+              "leftoverEngineSub": "",
+              "leftoverQty": false,
+              "liveQty": false,
+              "liveGetFood": false,
+              "latentGetFood": false,
+              "realm": {
+                "playerKing": 12,
+                "playerBelong": 13,
+                "playerName": "刘表",
+                "ownedCount": 2,
+                "total": 38,
+                "cities": [
+                  {
+                    "i": 0,
+                    "name": "西凉",
+                    "belong": 12,
+                    "owner": "马腾",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 12,
+                      "personIndex": 11,
+                      "name": "马腾",
+                      "label": "马腾"
+                    }
+                  },
+                  {
+                    "i": 1,
+                    "name": "北平",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 2,
+                    "name": "襄平",
+                    "belong": 11,
+                    "owner": "公孙度",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 11,
+                      "personIndex": 10,
+                      "name": "公孙度",
+                      "label": "公孙度"
+                    }
+                  },
+                  {
+                    "i": 3,
+                    "name": "安定",
+                    "belong": 12,
+                    "owner": "马腾",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 12,
+                      "personIndex": 11,
+                      "name": "马腾",
+                      "label": "马腾"
+                    }
+                  },
+                  {
+                    "i": 4,
+                    "name": "晋阳",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 5,
+                    "name": "平原",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 6,
+                    "name": "南皮",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 7,
+                    "name": "北海",
+                    "belong": 16,
+                    "owner": "孔融",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 16,
+                      "personIndex": 15,
+                      "name": "孔融",
+                      "label": "孔融"
+                    }
+                  },
+                  {
+                    "i": 8,
+                    "name": "天水",
+                    "belong": 12,
+                    "owner": "马腾",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 12,
+                      "personIndex": 11,
+                      "name": "马腾",
+                      "label": "马腾"
+                    }
+                  },
+                  {
+                    "i": 9,
+                    "name": "河内",
+                    "belong": 1,
+                    "owner": "李傕",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 1,
+                      "personIndex": 0,
+                      "name": "李傕",
+                      "label": "李傕"
+                    }
+                  },
+                  {
+                    "i": 10,
+                    "name": "长安",
+                    "belong": 1,
+                    "owner": "李傕",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 1,
+                      "personIndex": 0,
+                      "name": "李傕",
+                      "label": "李傕"
+                    }
+                  },
+                  {
+                    "i": 11,
+                    "name": "邺",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 12,
+                    "name": "濮阳",
+                    "belong": 9,
+                    "owner": "吕布",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 9,
+                      "personIndex": 8,
+                      "name": "吕布",
+                      "label": "吕布"
+                    }
+                  },
+                  {
+                    "i": 13,
+                    "name": "徐州",
+                    "belong": 3,
+                    "owner": "刘备",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 3,
+                      "personIndex": 2,
+                      "name": "刘备",
+                      "label": "刘备"
+                    }
+                  },
+                  {
+                    "i": 14,
+                    "name": "汉中",
+                    "belong": 15,
+                    "owner": "张鲁",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 15,
+                      "personIndex": 14,
+                      "name": "张鲁",
+                      "label": "张鲁"
+                    }
+                  },
+                  {
+                    "i": 15,
+                    "name": "洛阳",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 16,
+                    "name": "许昌",
+                    "belong": 2,
+                    "owner": "曹操",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 2,
+                      "personIndex": 1,
+                      "name": "曹操",
+                      "label": "曹操"
+                    }
+                  },
+                  {
+                    "i": 17,
+                    "name": "小沛",
+                    "belong": 3,
+                    "owner": "刘备",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 3,
+                      "personIndex": 2,
+                      "name": "刘备",
+                      "label": "刘备"
+                    }
+                  },
+                  {
+                    "i": 18,
+                    "name": "下邳",
+                    "belong": 3,
+                    "owner": "刘备",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 3,
+                      "personIndex": 2,
+                      "name": "刘备",
+                      "label": "刘备"
+                    }
+                  },
+                  {
+                    "i": 19,
+                    "name": "梓潼",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 20,
+                    "name": "宛城",
+                    "belong": 8,
+                    "owner": "张绣",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 8,
+                      "personIndex": 7,
+                      "name": "张绣",
+                      "label": "张绣"
+                    }
+                  },
+                  {
+                    "i": 21,
+                    "name": "寿春",
+                    "belong": 5,
+                    "owner": "袁术",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 5,
+                      "personIndex": 4,
+                      "name": "袁术",
+                      "label": "袁术"
+                    }
+                  },
+                  {
+                    "i": 22,
+                    "name": "建业",
+                    "belong": 6,
+                    "owner": "孙策",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 6,
+                      "personIndex": 5,
+                      "name": "孙策",
+                      "label": "孙策"
+                    }
+                  },
+                  {
+                    "i": 23,
+                    "name": "吴",
+                    "belong": 6,
+                    "owner": "孙策",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 6,
+                      "personIndex": 5,
+                      "name": "孙策",
+                      "label": "孙策"
+                    }
+                  },
+                  {
+                    "i": 24,
+                    "name": "成都",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 25,
+                    "name": "棉竹",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 26,
+                    "name": "襄阳",
+                    "belong": 13,
+                    "owner": "刘表",
+                    "owned": true,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 13,
+                      "personIndex": 12,
+                      "name": "刘表",
+                      "label": "刘表"
+                    }
+                  },
+                  {
+                    "i": 27,
+                    "name": "江夏",
+                    "belong": 13,
+                    "owner": "刘表",
+                    "owned": true,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 13,
+                      "personIndex": 12,
+                      "name": "刘表",
+                      "label": "刘表"
+                    }
+                  },
+                  {
+                    "i": 28,
+                    "name": "庐江",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 29,
+                    "name": "会稽",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 30,
+                    "name": "云南",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 31,
+                    "name": "巴郡",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 32,
+                    "name": "武陵",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 33,
+                    "name": "长沙",
+                    "belong": 10,
+                    "owner": "韩玄",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 10,
+                      "personIndex": 9,
+                      "name": "韩玄",
+                      "label": "韩玄"
+                    }
+                  },
+                  {
+                    "i": 34,
+                    "name": "柴桑",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 35,
+                    "name": "零陵",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 36,
+                    "name": "桂阳",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 37,
+                    "name": "建宁",
+                    "belong": 7,
+                    "owner": "张邈",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 7,
+                      "personIndex": 6,
+                      "name": "张邈",
+                      "label": "张邈"
+                    }
+                  }
+                ]
+              },
+              "waitingGetFood": false,
+              "foodRecovered": false,
+              "foodRecoverEnter": false,
+              "foodRecoverNeeded": false,
+              "foodGaveUp": false,
+              "foodAttempt": 0,
+              "qtyBeforePersonExit": {
+                "active": false,
+                "min": 0,
+                "value": 0
+              },
+              "engineInGetCitySet": false,
+              "confirmingTarget": false,
+              "enginePhase": "none",
+              "displayWizard": "none",
+              "mapCity": 26,
+              "debug": "pick=0 battlePick=0 dest=0 mapCity=26(襄阳) phase=none qty=0 min=0 max=0 queue=0 pex=0 hold=0 leftoverPick=0 persons=14 lastExit=— help=0/report qtyA=0 ui=none",
+              "qtyDismissed": false,
+              "qtyAckFailed": false,
+              "qtyAckError": "",
+              "reportAtMarchStart": "",
+              "march": {
+                "pick": 0,
+                "battlePick": 0,
+                "mapCity": 27,
+                "mapInputSeq": 1,
+                "ok": 0,
+                "city": 0,
+                "obj": 0,
+                "time": 0,
+                "seq": 0,
+                "phase": 0,
+                "session": 0,
+                "origin": 255,
+                "selected": 0,
+                "inputSeq": 2
+              },
+              "qty": {
+                "active": 0,
+                "value": 0,
+                "min": 0,
+                "max": 0,
+                "protocol": true,
+                "session": 2,
+                "inputSeq": 0,
+                "lastKey": 65535,
+                "cursor": 0,
+                "step": 1,
+                "ready": 0
+              },
+              "lastStep4": null,
+              "step4Trace": [],
+              "marchOriginIndex": 26,
+              "originRetryTried": false,
+              "originRetryBusy": false,
+              "originRetryFrom": null,
+              "originRetryTo": null,
+              "preferredOrigin": null,
+              "originLinks": [
+                20,
+                27,
+                33,
+                32
+              ]
+            },
+            "dialog": {
+              "open": false,
+              "kind": "report",
+              "asyncId": 0,
+              "textLen": 16,
+              "min": 0,
+              "max": 0,
+              "body": "属下会留心各种消息，以期有所得。",
+              "reportText": "属下会留心各种消息，以期有所得。",
+              "pass": false,
+              "leftoverHelp": false,
+              "leftoverFarm": false,
+              "lastReportSeq": 1,
+              "lastSpeechEnterSeq": 0,
+              "marchOwner": null,
+              "helpOwner": null,
+              "helpDetail": null,
+              "helpStamp": "",
+              "viewOwner": null,
+              "viewDetail": null,
+              "viewStamp": "",
+              "viewPending": false,
+              "showLcd": false,
+              "reportOwner": null,
+              "successorOwner": null,
+              "successorRequest": null,
+              "defenseOwner": null,
+              "defenseRequest": null,
+              "defenseCommitted": false,
+              "reportSeq": 1,
+              "viewEpoch": 8
+            },
+            "system": {
+              "pref": "classic",
+              "showHd": false,
+              "open": false,
+              "screen": "title",
+              "idleIndex": 2,
+              "lastHook": "cityMakeCommand",
+              "kings": [],
+              "saves": [],
+              "recordMode": 0,
+              "recordSource": "",
+              "recordSeq": 0,
+              "input": null,
+              "pending": false,
+              "hint": "",
+              "playerKing": 12,
+              "haveBelong": true
+            },
+            "map": {
+              "mode": "hd-map",
+              "libraryIdentity": {
+                "status": "ready",
+                "generation": 2,
+                "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                "byteLength": 207195,
+                "reason": ""
+              },
+              "presentationReady": true,
+              "presentationReason": "",
+              "assetGeneration": 4,
+              "phase": "classic-menu",
+              "aligning": false,
+              "hitsEnabled": false,
+              "battleMakePending": false,
+              "engineGetCitySet": false,
+              "holdMenu": false,
+              "lastAlignWhy": null,
+              "cityMenuMarching": false,
+              "functionMenu": false,
+              "cityMenuShell": true,
+              "pan": {
+                "on": false,
+                "moved": false,
+                "suppressClick": false,
+                "tapHandled": false
+              },
+              "selectedIndex": 26,
+              "hoverIndex": -1,
+              "focusCity": 26,
+              "cursorPolicy": "os-pointer",
+              "enterFx": {
+                "index": 26,
+                "start": 1791503124809,
+                "duration": 150
+              },
+              "dateInfo": {
+                "year": 198,
+                "month": 1,
+                "yearPath": "g_YearDate",
+                "monthPath": "g_MonthDate",
+                "source": "probe"
+              },
+              "learnedCursor": null,
+              "haveCityPos": true,
+              "engineCursorIndex": 26,
+              "cityPos": {
+                "x": 6,
+                "y": 5
+              },
+              "mapCity": 26,
+              "mapPick": 0,
+              "cursorInView": true,
+              "alignLog": null,
+              "alignSnapRetry": false,
+              "hint": "经典城池菜单。空格关闭；点地图空白回 HD。",
+              "playerKingRaw": 12,
+              "playerBelong": 13,
+              "yearDate": 198,
+              "monthDate": 1,
+              "cityX": 0,
+              "cityY": 0,
+              "focusX": 0,
+              "focusY": 0,
+              "ownedCount": 2,
+              "cityTotal": 38,
+              "owned": [
+                {
+                  "i": 26,
+                  "name": "襄阳",
+                  "belong": 13
+                },
+                {
+                  "i": 27,
+                  "name": "江夏",
+                  "belong": 13
+                }
+              ],
+              "layout": "china-lcc",
+              "camera": {
+                "x": 1443.538,
+                "y": 1004.856,
+                "scale": 0.85,
+                "mapW": 3840,
+                "mapH": 4000,
+                "minX": 0,
+                "minY": 0,
+                "maxX": 1581.1764705882351,
+                "maxY": 2729.4117647058824,
+                "inited": true
+              },
+              "environmentLayers": {
+                "coordinateSystem": "china-lcc-raster-padded-v1",
+                "descriptorCount": 3,
+                "drawn": 12,
+                "skipped": 13,
+                "operations": [
+                  {
+                    "id": "rivers",
+                    "path": "terrain/overlay_rivers.png",
+                    "source": [
+                      721.7691176470587,
+                      502.5797779673974,
+                      1129.4117647058824,
+                      635.486107407605
+                    ],
+                    "destination": [
+                      0,
+                      0,
+                      1920,
+                      1080.0000000000002
+                    ]
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      820.3077882352927,
+                      0,
+                      433.69221176470717,
+                      1254
+                    ],
+                    "destination": [
+                      0,
+                      165.87249999999992,
+                      73.49250000000022,
+                      212.50000000000003
+                    ],
+                    "instanceIndex": 1
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      243.49250000000018,
+                      327.3724999999999,
+                      178.49999999999997,
+                      178.50000000000003
+                    ],
+                    "instanceIndex": 2
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      515.4925000000002,
+                      548.3725,
+                      178.49999999999997,
+                      178.50000000000003
+                    ],
+                    "instanceIndex": 3
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      396.4925000000002,
+                      786.3724999999998,
+                      204,
+                      204.00000000000003
+                    ],
+                    "instanceIndex": 4
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      1050.9925,
+                      854.3725,
+                      161.5,
+                      161.50000000000003
+                    ],
+                    "instanceIndex": 7
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      155.84638235294202,
+                      1254,
+                      1098.153617647058
+                    ],
+                    "destination": [
+                      1450.4925000000003,
+                      0,
+                      169.99999999999997,
+                      148.87249999999992
+                    ],
+                    "instanceIndex": 9
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      659.9925000000002,
+                      905.3725,
+                      144.5,
+                      144.5
+                    ],
+                    "instanceIndex": 0
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      629.9311764705901
+                    ],
+                    "destination": [
+                      838.4925000000002,
+                      998.8725,
+                      161.5,
+                      81.12750000000025
+                    ],
+                    "instanceIndex": 1
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      113.92307958477713
+                    ],
+                    "destination": [
+                      1008.4925000000002,
+                      1066.8725,
+                      144.5,
+                      13.127500000000238
+                    ],
+                    "instanceIndex": 2
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      121.0432720588257
+                    ],
+                    "destination": [
+                      1288.9925000000003,
+                      1066.8725,
+                      136,
+                      13.127500000000238
+                    ],
+                    "instanceIndex": 4
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      1263.4925000000003,
+                      743.8724999999998,
+                      127.5,
+                      127.50000000000001
+                    ],
+                    "instanceIndex": 9
+                  }
+                ]
+              },
+              "roads": {
+                "source": "lcc-neighbors",
+                "edges": 71,
+                "passes": 1,
+                "isolated": []
+              }
+            },
+            "keyCount": 64
+          },
+          "after": {
+            "ready": true,
+            "generation": 3,
+            "period": 2,
+            "playerKing": 12,
+            "menu": {
+              "active": 0,
+              "context": 0,
+              "kind": 0,
+              "seq": 16,
+              "itemLen": 8,
+              "count": 10,
+              "index": 0,
+              "names": [
+                "刘表",
+                "蒯越",
+                "韩嵩",
+                "伊籍",
+                "蔡瑁",
+                "刘琦",
+                "王粲",
+                "张允",
+                "文聘",
+                "王威"
+              ],
+              "packedNames": [
+                "刘表",
+                "蒯越",
+                "韩嵩",
+                "伊籍",
+                "蔡瑁",
+                "刘琦",
+                "王粲",
+                "张允",
+                "文聘",
+                "王威"
+              ],
+              "ids": [],
+              "idsValid": false,
+              "generation": 3,
+              "detailGeneration": 3
+            },
+            "qty": {
+              "active": 0,
+              "value": 0,
+              "min": 0,
+              "max": 0,
+              "protocol": true,
+              "session": 2,
+              "inputSeq": 0,
+              "lastKey": 65535,
+              "cursor": 0,
+              "step": 1,
+              "ready": 0
+            },
+            "report": {
+              "text": "属下会留心各种消息，以期有所得。",
+              "seq": 1,
+              "active": 0,
+              "inputSeq": 4,
+              "kind": 2,
+              "person": 110
+            },
+            "help": {
+              "active": 0,
+              "seq": 0,
+              "text": "",
+              "protocolVersion": 1,
+              "generation": 0,
+              "detailGeneration": 3,
+              "inputSeq": 0,
+              "kind": 0,
+              "complete": 0,
+              "person": 65535,
+              "slot": 255,
+              "x": 0,
+              "y": 0,
+              "terrain": 255,
+              "name": "",
+              "arm": "",
+              "state": "",
+              "levelMax": 0,
+              "fields": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            "march": {
+              "pick": 1,
+              "battlePick": 0,
+              "mapCity": 27,
+              "mapInputSeq": 2,
+              "ok": 0,
+              "city": 0,
+              "obj": 0,
+              "time": 0,
+              "seq": 0,
+              "phase": 0,
+              "session": 0,
+              "origin": 255,
+              "selected": 0,
+              "inputSeq": 2
+            },
+            "fight": {
+              "active": 0,
+              "over": 0,
+              "wait": 0,
+              "phase": 0,
+              "aimType": 255,
+              "inputKind": 0,
+              "inputSeq": 2,
+              "actorIndex": 255,
+              "tip": "",
+              "skip": 0,
+              "result": "",
+              "cityIndex": 0,
+              "mapW": 0,
+              "mapH": 0,
+              "bout": 0,
+              "boutMax": 30,
+              "focusX": 0,
+              "focusY": 0
+            },
+            "city": {
+              "pref": "hd",
+              "showHd": true,
+              "open": false,
+              "layer": "root",
+              "subKind": "neizheng",
+              "cityIndex": -1,
+              "cityName": "",
+              "titleText": "城池",
+              "idleIndex": 0,
+              "idleKeys": [
+                "cityIndex",
+                "commandIndex"
+              ],
+              "lastHook": "didShowMainMap",
+              "showLcd": false,
+              "cityLcdMode": "passthrough",
+              "probedCityKeys": [],
+              "deepKind": "",
+              "deepLabel": "",
+              "deepCount": 10,
+              "deepItems": [
+                {
+                  "i": 0,
+                  "name": "刘表",
+                  "nativeId": true,
+                  "pind": 12
+                },
+                {
+                  "i": 1,
+                  "name": "蒯越",
+                  "nativeId": true,
+                  "pind": 111
+                },
+                {
+                  "i": 2,
+                  "name": "韩嵩",
+                  "nativeId": true,
+                  "pind": 112
+                },
+                {
+                  "i": 3,
+                  "name": "伊籍",
+                  "nativeId": true,
+                  "pind": 113
+                },
+                {
+                  "i": 4,
+                  "name": "蔡瑁",
+                  "nativeId": true,
+                  "pind": 114
+                },
+                {
+                  "i": 5,
+                  "name": "刘琦",
+                  "nativeId": true,
+                  "pind": 115
+                },
+                {
+                  "i": 6,
+                  "name": "王粲",
+                  "nativeId": true,
+                  "pind": 116
+                },
+                {
+                  "i": 7,
+                  "name": "张允",
+                  "nativeId": true,
+                  "pind": 119
+                },
+                {
+                  "i": 8,
+                  "name": "文聘",
+                  "nativeId": true,
+                  "pind": 122
+                },
+                {
+                  "i": 9,
+                  "name": "王威",
+                  "nativeId": true,
+                  "pind": 123
+                }
+              ],
+              "deepMenuOwner": null,
+              "cityDetails": null,
+              "personDetail": null,
+              "toolDetail": null,
+              "toolPagePending": null,
+              "pickedPersons": 0,
+              "dismissedObj": false,
+              "marchReady": false,
+              "marching": false,
+              "leftoverAfterFight": false,
+              "sawFightThisMarch": false,
+              "fightEndedThisMarch": false,
+              "campaignPick": false,
+              "battleMake": false,
+              "handoff": false,
+              "handoffAt": 0,
+              "handoffStatus": "",
+              "handoffExitCount": 0,
+              "handoffEnterCount": 0,
+              "lastHandoffExitAt": 0,
+              "lastFuncMenuIdle": 0,
+              "personExitSent": false,
+              "finishPersonsBusy": false,
+              "personExitTries": 0,
+              "lastExit": "back-deep",
+              "engineHelpOpen": false,
+              "overlayRetry": 0,
+              "finishVisibleRetry": 0,
+              "pickedPersonNames": [],
+              "leftoverOverlay": {
+                "open": false,
+                "kind": "report",
+                "pe": "none",
+                "help": false,
+                "farm": false,
+                "blocking": false,
+                "engineHelp": false,
+                "qtyActive": 0,
+                "body": "属下会留心各种消息，以期有所得。"
+              },
+              "engineLeftBattleMake": false,
+              "engineStillInPersonPick": false,
+              "liveJunbeiMenu": false,
+              "qtyActive": 0,
+              "lastBlockedExit": "",
+              "lastBlockedEnter": "",
+              "lastPickEnterAt": 0,
+              "holdEnterForFood": false,
+              "queueLen": 0,
+              "sending": false,
+              "enginePersons": 0,
+              "enginePersonNames": [],
+              "enginePersonsAtFinish": 0,
+              "enginePersonsAtPickStart": 0,
+              "marchHint": "",
+              "holdExit": false,
+              "holdMenu": false,
+              "acceptMarchOk": false,
+              "freshMarch": false,
+              "consumedMarchSeq": 0,
+              "sawMarchCleared": false,
+              "walkBusy": false,
+              "pendingTarget": null,
+              "wizardStep": "none",
+              "wizardLabel": "",
+              "sawQtyThisMarch": false,
+              "sawGetFoodUi": false,
+              "foodConfirmed": false,
+              "leftoverPick": true,
+              "liveMarch": false,
+              "stickyBanner": false,
+              "lastBannerLog": null,
+              "battlePick": false,
+              "openedCity": -1,
+              "marchDest": {
+                "city": 0,
+                "obj": 0,
+                "ok": false,
+                "real": false
+              },
+              "leftoverEngineSub": "person",
+              "leftoverQty": false,
+              "liveQty": false,
+              "liveGetFood": false,
+              "latentGetFood": false,
+              "realm": {
+                "playerKing": 12,
+                "playerBelong": 13,
+                "playerName": "刘表",
+                "ownedCount": 2,
+                "total": 38,
+                "cities": [
+                  {
+                    "i": 0,
+                    "name": "西凉",
+                    "belong": 12,
+                    "owner": "马腾",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 12,
+                      "personIndex": 11,
+                      "name": "马腾",
+                      "label": "马腾"
+                    }
+                  },
+                  {
+                    "i": 1,
+                    "name": "北平",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 2,
+                    "name": "襄平",
+                    "belong": 11,
+                    "owner": "公孙度",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 11,
+                      "personIndex": 10,
+                      "name": "公孙度",
+                      "label": "公孙度"
+                    }
+                  },
+                  {
+                    "i": 3,
+                    "name": "安定",
+                    "belong": 12,
+                    "owner": "马腾",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 12,
+                      "personIndex": 11,
+                      "name": "马腾",
+                      "label": "马腾"
+                    }
+                  },
+                  {
+                    "i": 4,
+                    "name": "晋阳",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 5,
+                    "name": "平原",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 6,
+                    "name": "南皮",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 7,
+                    "name": "北海",
+                    "belong": 16,
+                    "owner": "孔融",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 16,
+                      "personIndex": 15,
+                      "name": "孔融",
+                      "label": "孔融"
+                    }
+                  },
+                  {
+                    "i": 8,
+                    "name": "天水",
+                    "belong": 12,
+                    "owner": "马腾",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 12,
+                      "personIndex": 11,
+                      "name": "马腾",
+                      "label": "马腾"
+                    }
+                  },
+                  {
+                    "i": 9,
+                    "name": "河内",
+                    "belong": 1,
+                    "owner": "李傕",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 1,
+                      "personIndex": 0,
+                      "name": "李傕",
+                      "label": "李傕"
+                    }
+                  },
+                  {
+                    "i": 10,
+                    "name": "长安",
+                    "belong": 1,
+                    "owner": "李傕",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 1,
+                      "personIndex": 0,
+                      "name": "李傕",
+                      "label": "李傕"
+                    }
+                  },
+                  {
+                    "i": 11,
+                    "name": "邺",
+                    "belong": 4,
+                    "owner": "袁绍",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 4,
+                      "personIndex": 3,
+                      "name": "袁绍",
+                      "label": "袁绍"
+                    }
+                  },
+                  {
+                    "i": 12,
+                    "name": "濮阳",
+                    "belong": 9,
+                    "owner": "吕布",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 9,
+                      "personIndex": 8,
+                      "name": "吕布",
+                      "label": "吕布"
+                    }
+                  },
+                  {
+                    "i": 13,
+                    "name": "徐州",
+                    "belong": 3,
+                    "owner": "刘备",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 3,
+                      "personIndex": 2,
+                      "name": "刘备",
+                      "label": "刘备"
+                    }
+                  },
+                  {
+                    "i": 14,
+                    "name": "汉中",
+                    "belong": 15,
+                    "owner": "张鲁",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 15,
+                      "personIndex": 14,
+                      "name": "张鲁",
+                      "label": "张鲁"
+                    }
+                  },
+                  {
+                    "i": 15,
+                    "name": "洛阳",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 16,
+                    "name": "许昌",
+                    "belong": 2,
+                    "owner": "曹操",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 2,
+                      "personIndex": 1,
+                      "name": "曹操",
+                      "label": "曹操"
+                    }
+                  },
+                  {
+                    "i": 17,
+                    "name": "小沛",
+                    "belong": 3,
+                    "owner": "刘备",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 3,
+                      "personIndex": 2,
+                      "name": "刘备",
+                      "label": "刘备"
+                    }
+                  },
+                  {
+                    "i": 18,
+                    "name": "下邳",
+                    "belong": 3,
+                    "owner": "刘备",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 3,
+                      "personIndex": 2,
+                      "name": "刘备",
+                      "label": "刘备"
+                    }
+                  },
+                  {
+                    "i": 19,
+                    "name": "梓潼",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 20,
+                    "name": "宛城",
+                    "belong": 8,
+                    "owner": "张绣",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 8,
+                      "personIndex": 7,
+                      "name": "张绣",
+                      "label": "张绣"
+                    }
+                  },
+                  {
+                    "i": 21,
+                    "name": "寿春",
+                    "belong": 5,
+                    "owner": "袁术",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 5,
+                      "personIndex": 4,
+                      "name": "袁术",
+                      "label": "袁术"
+                    }
+                  },
+                  {
+                    "i": 22,
+                    "name": "建业",
+                    "belong": 6,
+                    "owner": "孙策",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 6,
+                      "personIndex": 5,
+                      "name": "孙策",
+                      "label": "孙策"
+                    }
+                  },
+                  {
+                    "i": 23,
+                    "name": "吴",
+                    "belong": 6,
+                    "owner": "孙策",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 6,
+                      "personIndex": 5,
+                      "name": "孙策",
+                      "label": "孙策"
+                    }
+                  },
+                  {
+                    "i": 24,
+                    "name": "成都",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 25,
+                    "name": "棉竹",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 26,
+                    "name": "襄阳",
+                    "belong": 13,
+                    "owner": "刘表",
+                    "owned": true,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 13,
+                      "personIndex": 12,
+                      "name": "刘表",
+                      "label": "刘表"
+                    }
+                  },
+                  {
+                    "i": 27,
+                    "name": "江夏",
+                    "belong": 13,
+                    "owner": "刘表",
+                    "owned": true,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 13,
+                      "personIndex": 12,
+                      "name": "刘表",
+                      "label": "刘表"
+                    }
+                  },
+                  {
+                    "i": 28,
+                    "name": "庐江",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 29,
+                    "name": "会稽",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 30,
+                    "name": "云南",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 31,
+                    "name": "巴郡",
+                    "belong": 14,
+                    "owner": "刘璋",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 14,
+                      "personIndex": 13,
+                      "name": "刘璋",
+                      "label": "刘璋"
+                    }
+                  },
+                  {
+                    "i": 32,
+                    "name": "武陵",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 33,
+                    "name": "长沙",
+                    "belong": 10,
+                    "owner": "韩玄",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 10,
+                      "personIndex": 9,
+                      "name": "韩玄",
+                      "label": "韩玄"
+                    }
+                  },
+                  {
+                    "i": 34,
+                    "name": "柴桑",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 35,
+                    "name": "零陵",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 36,
+                    "name": "桂阳",
+                    "belong": 0,
+                    "owner": "",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "unowned",
+                      "value": 0,
+                      "personIndex": null,
+                      "name": "",
+                      "label": "无主城"
+                    }
+                  },
+                  {
+                    "i": 37,
+                    "name": "建宁",
+                    "belong": 7,
+                    "owner": "张邈",
+                    "owned": false,
+                    "ownership": {
+                      "kind": "owned",
+                      "value": 7,
+                      "personIndex": 6,
+                      "name": "张邈",
+                      "label": "张邈"
+                    }
+                  }
+                ]
+              },
+              "waitingGetFood": false,
+              "foodRecovered": false,
+              "foodRecoverEnter": false,
+              "foodRecoverNeeded": false,
+              "foodGaveUp": false,
+              "foodAttempt": 0,
+              "qtyBeforePersonExit": {
+                "active": false,
+                "min": 0,
+                "value": 0
+              },
+              "engineInGetCitySet": false,
+              "confirmingTarget": false,
+              "enginePhase": "none",
+              "displayWizard": "none",
+              "mapCity": 26,
+              "debug": "pick=1 battlePick=0 dest=0 mapCity=26(襄阳) phase=none qty=0 min=0 max=0 queue=0 pex=0 hold=0 leftoverPick=1 persons=0 lastExit=back-deep help=0/report qtyA=0 ui=none",
+              "qtyDismissed": false,
+              "qtyAckFailed": false,
+              "qtyAckError": "",
+              "reportAtMarchStart": "",
+              "march": {
+                "pick": 1,
+                "battlePick": 0,
+                "mapCity": 27,
+                "mapInputSeq": 2,
+                "ok": 0,
+                "city": 0,
+                "obj": 0,
+                "time": 0,
+                "seq": 0,
+                "phase": 0,
+                "session": 0,
+                "origin": 255,
+                "selected": 0,
+                "inputSeq": 2
+              },
+              "qty": {
+                "active": 0,
+                "value": 0,
+                "min": 0,
+                "max": 0,
+                "protocol": true,
+                "session": 2,
+                "inputSeq": 0,
+                "lastKey": 65535,
+                "cursor": 0,
+                "step": 1,
+                "ready": 0
+              },
+              "lastStep4": null,
+              "step4Trace": [],
+              "marchOriginIndex": 26,
+              "originRetryTried": false,
+              "originRetryBusy": false,
+              "originRetryFrom": null,
+              "originRetryTo": null,
+              "preferredOrigin": null,
+              "originLinks": []
+            },
+            "dialog": {
+              "open": false,
+              "kind": "report",
+              "asyncId": 0,
+              "textLen": 16,
+              "min": 0,
+              "max": 0,
+              "body": "属下会留心各种消息，以期有所得。",
+              "reportText": "属下会留心各种消息，以期有所得。",
+              "pass": false,
+              "leftoverHelp": false,
+              "leftoverFarm": false,
+              "lastReportSeq": 1,
+              "lastSpeechEnterSeq": 0,
+              "marchOwner": null,
+              "helpOwner": null,
+              "helpDetail": null,
+              "helpStamp": "",
+              "viewOwner": null,
+              "viewDetail": null,
+              "viewStamp": "",
+              "viewPending": false,
+              "showLcd": false,
+              "reportOwner": null,
+              "successorOwner": null,
+              "successorRequest": null,
+              "defenseOwner": null,
+              "defenseRequest": null,
+              "defenseCommitted": false,
+              "reportSeq": 1,
+              "viewEpoch": 8
+            },
+            "system": {
+              "pref": "classic",
+              "showHd": false,
+              "open": false,
+              "screen": "title",
+              "idleIndex": 2,
+              "lastHook": "didShowMainMap",
+              "kings": [],
+              "saves": [],
+              "recordMode": 0,
+              "recordSource": "",
+              "recordSeq": 0,
+              "input": null,
+              "pending": false,
+              "hint": "",
+              "playerKing": 12,
+              "haveBelong": true
+            },
+            "map": {
+              "mode": "hd-map",
+              "libraryIdentity": {
+                "status": "ready",
+                "generation": 2,
+                "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                "byteLength": 207195,
+                "reason": ""
+              },
+              "presentationReady": true,
+              "presentationReason": "",
+              "assetGeneration": 4,
+              "phase": "map",
+              "aligning": false,
+              "hitsEnabled": true,
+              "battleMakePending": false,
+              "engineGetCitySet": false,
+              "holdMenu": false,
+              "lastAlignWhy": null,
+              "cityMenuMarching": false,
+              "functionMenu": false,
+              "cityMenuShell": true,
+              "pan": {
+                "on": false,
+                "moved": false,
+                "suppressClick": false,
+                "tapHandled": false
+              },
+              "selectedIndex": 26,
+              "hoverIndex": -1,
+              "focusCity": 26,
+              "cursorPolicy": "os-pointer",
+              "enterFx": {
+                "index": 26,
+                "start": 1791503124809,
+                "duration": 150
+              },
+              "dateInfo": {
+                "year": 198,
+                "month": 1,
+                "yearPath": "g_YearDate",
+                "monthPath": "g_MonthDate",
+                "source": "probe"
+              },
+              "learnedCursor": null,
+              "haveCityPos": true,
+              "engineCursorIndex": 26,
+              "cityPos": {
+                "x": 6,
+                "y": 5
+              },
+              "mapCity": 26,
+              "mapPick": 1,
+              "cursorInView": true,
+              "alignLog": null,
+              "alignSnapRetry": false,
+              "hint": "经典城池菜单。空格关闭；点地图空白回 HD。",
+              "playerKingRaw": 12,
+              "playerBelong": 13,
+              "yearDate": 198,
+              "monthDate": 1,
+              "cityX": 0,
+              "cityY": 0,
+              "focusX": 0,
+              "focusY": 0,
+              "ownedCount": 2,
+              "cityTotal": 38,
+              "owned": [
+                {
+                  "i": 26,
+                  "name": "襄阳",
+                  "belong": 13
+                },
+                {
+                  "i": 27,
+                  "name": "江夏",
+                  "belong": 13
+                }
+              ],
+              "layout": "china-lcc",
+              "camera": {
+                "x": 1443.538,
+                "y": 1004.856,
+                "scale": 0.85,
+                "mapW": 3840,
+                "mapH": 4000,
+                "minX": 0,
+                "minY": 0,
+                "maxX": 1581.1764705882351,
+                "maxY": 2729.4117647058824,
+                "inited": true
+              },
+              "environmentLayers": {
+                "coordinateSystem": "china-lcc-raster-padded-v1",
+                "descriptorCount": 3,
+                "drawn": 12,
+                "skipped": 13,
+                "operations": [
+                  {
+                    "id": "rivers",
+                    "path": "terrain/overlay_rivers.png",
+                    "source": [
+                      721.7691176470587,
+                      502.5797779673974,
+                      1129.4117647058824,
+                      635.486107407605
+                    ],
+                    "destination": [
+                      0,
+                      0,
+                      1920,
+                      1080.0000000000002
+                    ]
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      820.3077882352927,
+                      0,
+                      433.69221176470717,
+                      1254
+                    ],
+                    "destination": [
+                      0,
+                      165.87249999999992,
+                      73.49250000000022,
+                      212.50000000000003
+                    ],
+                    "instanceIndex": 1
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      243.49250000000018,
+                      327.3724999999999,
+                      178.49999999999997,
+                      178.50000000000003
+                    ],
+                    "instanceIndex": 2
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      515.4925000000002,
+                      548.3725,
+                      178.49999999999997,
+                      178.50000000000003
+                    ],
+                    "instanceIndex": 3
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      396.4925000000002,
+                      786.3724999999998,
+                      204,
+                      204.00000000000003
+                    ],
+                    "instanceIndex": 4
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      1050.9925,
+                      854.3725,
+                      161.5,
+                      161.50000000000003
+                    ],
+                    "instanceIndex": 7
+                  },
+                  {
+                    "id": "mountains",
+                    "path": "terrain/mountain-cluster-v1.png",
+                    "source": [
+                      0,
+                      155.84638235294202,
+                      1254,
+                      1098.153617647058
+                    ],
+                    "destination": [
+                      1450.4925000000003,
+                      0,
+                      169.99999999999997,
+                      148.87249999999992
+                    ],
+                    "instanceIndex": 9
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      659.9925000000002,
+                      905.3725,
+                      144.5,
+                      144.5
+                    ],
+                    "instanceIndex": 0
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      629.9311764705901
+                    ],
+                    "destination": [
+                      838.4925000000002,
+                      998.8725,
+                      161.5,
+                      81.12750000000025
+                    ],
+                    "instanceIndex": 1
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      113.92307958477713
+                    ],
+                    "destination": [
+                      1008.4925000000002,
+                      1066.8725,
+                      144.5,
+                      13.127500000000238
+                    ],
+                    "instanceIndex": 2
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      121.0432720588257
+                    ],
+                    "destination": [
+                      1288.9925000000003,
+                      1066.8725,
+                      136,
+                      13.127500000000238
+                    ],
+                    "instanceIndex": 4
+                  },
+                  {
+                    "id": "forest",
+                    "path": "terrain/forest-cluster-v1.png",
+                    "source": [
+                      0,
+                      0,
+                      1254,
+                      1254
+                    ],
+                    "destination": [
+                      1263.4925000000003,
+                      743.8724999999998,
+                      127.5,
+                      127.50000000000001
+                    ],
+                    "instanceIndex": 9
+                  }
+                ]
+              },
+              "roads": {
+                "source": "lcc-neighbors",
+                "edges": 71,
+                "passes": 1,
+                "isolated": []
+              }
+            },
+            "keyCount": 65
+          },
+          "keys": [
+            {
+              "code": 40,
+              "at": 21641.30000001192,
+              "generation": 3,
+              "menu": {
+                "active": 1,
+                "context": 1,
+                "kind": 3,
+                "seq": 15,
+                "itemLen": 8,
+                "count": 10,
+                "index": 0,
+                "names": [
+                  "刘表",
+                  "蒯越",
+                  "韩嵩",
+                  "伊籍",
+                  "蔡瑁",
+                  "刘琦",
+                  "王粲",
+                  "张允",
+                  "文聘",
+                  "王威"
+                ],
+                "packedNames": [
+                  "刘表",
+                  "蒯越",
+                  "韩嵩",
+                  "伊籍",
+                  "蔡瑁",
+                  "刘琦",
+                  "王粲",
+                  "张允",
+                  "文聘",
+                  "王威"
+                ],
+                "ids": [
+                  12,
+                  111,
+                  112,
+                  113,
+                  114,
+                  115,
+                  116,
+                  119,
+                  122,
+                  123
+                ],
+                "idsValid": true,
+                "generation": 3,
+                "detailGeneration": 3
+              },
+              "report": {
+                "text": "属下会留心各种消息，以期有所得。",
+                "seq": 1,
+                "active": 0,
+                "inputSeq": 4,
+                "kind": 2,
+                "person": 110
+              },
+              "qty": {
+                "active": 0,
+                "value": 0,
+                "min": 0,
+                "max": 0,
+                "protocol": true,
+                "session": 2,
+                "inputSeq": 0,
+                "lastKey": 65535,
+                "cursor": 0,
+                "step": 1,
+                "ready": 0
+              },
+              "march": {
+                "pick": 0,
+                "battlePick": 0,
+                "mapCity": 27,
+                "mapInputSeq": 1,
+                "ok": 0,
+                "city": 0,
+                "obj": 0,
+                "time": 0,
+                "seq": 0,
+                "phase": 0,
+                "session": 0,
+                "origin": 255,
+                "selected": 0,
+                "inputSeq": 2
+              }
+            }
+          ]
+        }
+      ],
+      "map": {
+        "city": {
+          "pref": "hd",
+          "showHd": true,
+          "open": false,
+          "layer": "root",
+          "subKind": "neizheng",
+          "cityIndex": -1,
+          "cityName": "",
+          "titleText": "城池",
+          "idleIndex": 0,
+          "idleKeys": [
+            "cityIndex",
+            "commandIndex"
+          ],
+          "lastHook": "didShowMainMap",
+          "showLcd": false,
+          "cityLcdMode": "passthrough",
+          "probedCityKeys": [],
+          "deepKind": "",
+          "deepLabel": "",
+          "deepCount": 10,
+          "deepItems": [
+            {
+              "i": 0,
+              "name": "刘表",
+              "nativeId": true,
+              "pind": 12
+            },
+            {
+              "i": 1,
+              "name": "蒯越",
+              "nativeId": true,
+              "pind": 111
+            },
+            {
+              "i": 2,
+              "name": "韩嵩",
+              "nativeId": true,
+              "pind": 112
+            },
+            {
+              "i": 3,
+              "name": "伊籍",
+              "nativeId": true,
+              "pind": 113
+            },
+            {
+              "i": 4,
+              "name": "蔡瑁",
+              "nativeId": true,
+              "pind": 114
+            },
+            {
+              "i": 5,
+              "name": "刘琦",
+              "nativeId": true,
+              "pind": 115
+            },
+            {
+              "i": 6,
+              "name": "王粲",
+              "nativeId": true,
+              "pind": 116
+            },
+            {
+              "i": 7,
+              "name": "张允",
+              "nativeId": true,
+              "pind": 119
+            },
+            {
+              "i": 8,
+              "name": "文聘",
+              "nativeId": true,
+              "pind": 122
+            },
+            {
+              "i": 9,
+              "name": "王威",
+              "nativeId": true,
+              "pind": 123
+            }
+          ],
+          "deepMenuOwner": null,
+          "cityDetails": null,
+          "personDetail": null,
+          "toolDetail": null,
+          "toolPagePending": null,
+          "pickedPersons": 0,
+          "dismissedObj": false,
+          "marchReady": false,
+          "marching": false,
+          "leftoverAfterFight": false,
+          "sawFightThisMarch": false,
+          "fightEndedThisMarch": false,
+          "campaignPick": false,
+          "battleMake": false,
+          "handoff": false,
+          "handoffAt": 0,
+          "handoffStatus": "",
+          "handoffExitCount": 0,
+          "handoffEnterCount": 0,
+          "lastHandoffExitAt": 0,
+          "lastFuncMenuIdle": 0,
+          "personExitSent": false,
+          "finishPersonsBusy": false,
+          "personExitTries": 0,
+          "lastExit": "back-deep",
+          "engineHelpOpen": false,
+          "overlayRetry": 0,
+          "finishVisibleRetry": 0,
+          "pickedPersonNames": [],
+          "leftoverOverlay": {
+            "open": false,
+            "kind": "report",
+            "pe": "none",
+            "help": false,
+            "farm": false,
+            "blocking": false,
+            "engineHelp": false,
+            "qtyActive": 0,
+            "body": "属下会留心各种消息，以期有所得。"
+          },
+          "engineLeftBattleMake": false,
+          "engineStillInPersonPick": false,
+          "liveJunbeiMenu": false,
+          "qtyActive": 0,
+          "lastBlockedExit": "",
+          "lastBlockedEnter": "",
+          "lastPickEnterAt": 0,
+          "holdEnterForFood": false,
+          "queueLen": 0,
+          "sending": false,
+          "enginePersons": 0,
+          "enginePersonNames": [],
+          "enginePersonsAtFinish": 0,
+          "enginePersonsAtPickStart": 0,
+          "marchHint": "",
+          "holdExit": false,
+          "holdMenu": false,
+          "acceptMarchOk": false,
+          "freshMarch": false,
+          "consumedMarchSeq": 0,
+          "sawMarchCleared": false,
+          "walkBusy": false,
+          "pendingTarget": null,
+          "wizardStep": "none",
+          "wizardLabel": "",
+          "sawQtyThisMarch": false,
+          "sawGetFoodUi": false,
+          "foodConfirmed": false,
+          "leftoverPick": true,
+          "liveMarch": false,
+          "stickyBanner": false,
+          "lastBannerLog": null,
+          "battlePick": false,
+          "openedCity": -1,
+          "marchDest": {
+            "city": 0,
+            "obj": 0,
+            "ok": false,
+            "real": false
+          },
+          "leftoverEngineSub": "person",
+          "leftoverQty": false,
+          "liveQty": false,
+          "liveGetFood": false,
+          "latentGetFood": false,
+          "realm": {
+            "playerKing": 12,
+            "playerBelong": 13,
+            "playerName": "刘表",
+            "ownedCount": 2,
+            "total": 38,
+            "cities": [
+              {
+                "i": 0,
+                "name": "西凉",
+                "belong": 12,
+                "owner": "马腾",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 12,
+                  "personIndex": 11,
+                  "name": "马腾",
+                  "label": "马腾"
+                }
+              },
+              {
+                "i": 1,
+                "name": "北平",
+                "belong": 4,
+                "owner": "袁绍",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 4,
+                  "personIndex": 3,
+                  "name": "袁绍",
+                  "label": "袁绍"
+                }
+              },
+              {
+                "i": 2,
+                "name": "襄平",
+                "belong": 11,
+                "owner": "公孙度",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 11,
+                  "personIndex": 10,
+                  "name": "公孙度",
+                  "label": "公孙度"
+                }
+              },
+              {
+                "i": 3,
+                "name": "安定",
+                "belong": 12,
+                "owner": "马腾",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 12,
+                  "personIndex": 11,
+                  "name": "马腾",
+                  "label": "马腾"
+                }
+              },
+              {
+                "i": 4,
+                "name": "晋阳",
+                "belong": 4,
+                "owner": "袁绍",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 4,
+                  "personIndex": 3,
+                  "name": "袁绍",
+                  "label": "袁绍"
+                }
+              },
+              {
+                "i": 5,
+                "name": "平原",
+                "belong": 4,
+                "owner": "袁绍",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 4,
+                  "personIndex": 3,
+                  "name": "袁绍",
+                  "label": "袁绍"
+                }
+              },
+              {
+                "i": 6,
+                "name": "南皮",
+                "belong": 4,
+                "owner": "袁绍",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 4,
+                  "personIndex": 3,
+                  "name": "袁绍",
+                  "label": "袁绍"
+                }
+              },
+              {
+                "i": 7,
+                "name": "北海",
+                "belong": 16,
+                "owner": "孔融",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 16,
+                  "personIndex": 15,
+                  "name": "孔融",
+                  "label": "孔融"
+                }
+              },
+              {
+                "i": 8,
+                "name": "天水",
+                "belong": 12,
+                "owner": "马腾",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 12,
+                  "personIndex": 11,
+                  "name": "马腾",
+                  "label": "马腾"
+                }
+              },
+              {
+                "i": 9,
+                "name": "河内",
+                "belong": 1,
+                "owner": "李傕",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 1,
+                  "personIndex": 0,
+                  "name": "李傕",
+                  "label": "李傕"
+                }
+              },
+              {
+                "i": 10,
+                "name": "长安",
+                "belong": 1,
+                "owner": "李傕",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 1,
+                  "personIndex": 0,
+                  "name": "李傕",
+                  "label": "李傕"
+                }
+              },
+              {
+                "i": 11,
+                "name": "邺",
+                "belong": 4,
+                "owner": "袁绍",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 4,
+                  "personIndex": 3,
+                  "name": "袁绍",
+                  "label": "袁绍"
+                }
+              },
+              {
+                "i": 12,
+                "name": "濮阳",
+                "belong": 9,
+                "owner": "吕布",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 9,
+                  "personIndex": 8,
+                  "name": "吕布",
+                  "label": "吕布"
+                }
+              },
+              {
+                "i": 13,
+                "name": "徐州",
+                "belong": 3,
+                "owner": "刘备",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 3,
+                  "personIndex": 2,
+                  "name": "刘备",
+                  "label": "刘备"
+                }
+              },
+              {
+                "i": 14,
+                "name": "汉中",
+                "belong": 15,
+                "owner": "张鲁",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 15,
+                  "personIndex": 14,
+                  "name": "张鲁",
+                  "label": "张鲁"
+                }
+              },
+              {
+                "i": 15,
+                "name": "洛阳",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 16,
+                "name": "许昌",
+                "belong": 2,
+                "owner": "曹操",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 2,
+                  "personIndex": 1,
+                  "name": "曹操",
+                  "label": "曹操"
+                }
+              },
+              {
+                "i": 17,
+                "name": "小沛",
+                "belong": 3,
+                "owner": "刘备",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 3,
+                  "personIndex": 2,
+                  "name": "刘备",
+                  "label": "刘备"
+                }
+              },
+              {
+                "i": 18,
+                "name": "下邳",
+                "belong": 3,
+                "owner": "刘备",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 3,
+                  "personIndex": 2,
+                  "name": "刘备",
+                  "label": "刘备"
+                }
+              },
+              {
+                "i": 19,
+                "name": "梓潼",
+                "belong": 14,
+                "owner": "刘璋",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 14,
+                  "personIndex": 13,
+                  "name": "刘璋",
+                  "label": "刘璋"
+                }
+              },
+              {
+                "i": 20,
+                "name": "宛城",
+                "belong": 8,
+                "owner": "张绣",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 8,
+                  "personIndex": 7,
+                  "name": "张绣",
+                  "label": "张绣"
+                }
+              },
+              {
+                "i": 21,
+                "name": "寿春",
+                "belong": 5,
+                "owner": "袁术",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 5,
+                  "personIndex": 4,
+                  "name": "袁术",
+                  "label": "袁术"
+                }
+              },
+              {
+                "i": 22,
+                "name": "建业",
+                "belong": 6,
+                "owner": "孙策",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 6,
+                  "personIndex": 5,
+                  "name": "孙策",
+                  "label": "孙策"
+                }
+              },
+              {
+                "i": 23,
+                "name": "吴",
+                "belong": 6,
+                "owner": "孙策",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 6,
+                  "personIndex": 5,
+                  "name": "孙策",
+                  "label": "孙策"
+                }
+              },
+              {
+                "i": 24,
+                "name": "成都",
+                "belong": 14,
+                "owner": "刘璋",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 14,
+                  "personIndex": 13,
+                  "name": "刘璋",
+                  "label": "刘璋"
+                }
+              },
+              {
+                "i": 25,
+                "name": "棉竹",
+                "belong": 14,
+                "owner": "刘璋",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 14,
+                  "personIndex": 13,
+                  "name": "刘璋",
+                  "label": "刘璋"
+                }
+              },
+              {
+                "i": 26,
+                "name": "襄阳",
+                "belong": 13,
+                "owner": "刘表",
+                "owned": true,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 13,
+                  "personIndex": 12,
+                  "name": "刘表",
+                  "label": "刘表"
+                }
+              },
+              {
+                "i": 27,
+                "name": "江夏",
+                "belong": 13,
+                "owner": "刘表",
+                "owned": true,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 13,
+                  "personIndex": 12,
+                  "name": "刘表",
+                  "label": "刘表"
+                }
+              },
+              {
+                "i": 28,
+                "name": "庐江",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 29,
+                "name": "会稽",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 30,
+                "name": "云南",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 31,
+                "name": "巴郡",
+                "belong": 14,
+                "owner": "刘璋",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 14,
+                  "personIndex": 13,
+                  "name": "刘璋",
+                  "label": "刘璋"
+                }
+              },
+              {
+                "i": 32,
+                "name": "武陵",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 33,
+                "name": "长沙",
+                "belong": 10,
+                "owner": "韩玄",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 10,
+                  "personIndex": 9,
+                  "name": "韩玄",
+                  "label": "韩玄"
+                }
+              },
+              {
+                "i": 34,
+                "name": "柴桑",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 35,
+                "name": "零陵",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 36,
+                "name": "桂阳",
+                "belong": 0,
+                "owner": "",
+                "owned": false,
+                "ownership": {
+                  "kind": "unowned",
+                  "value": 0,
+                  "personIndex": null,
+                  "name": "",
+                  "label": "无主城"
+                }
+              },
+              {
+                "i": 37,
+                "name": "建宁",
+                "belong": 7,
+                "owner": "张邈",
+                "owned": false,
+                "ownership": {
+                  "kind": "owned",
+                  "value": 7,
+                  "personIndex": 6,
+                  "name": "张邈",
+                  "label": "张邈"
+                }
+              }
+            ]
+          },
+          "waitingGetFood": false,
+          "foodRecovered": false,
+          "foodRecoverEnter": false,
+          "foodRecoverNeeded": false,
+          "foodGaveUp": false,
+          "foodAttempt": 0,
+          "qtyBeforePersonExit": {
+            "active": false,
+            "min": 0,
+            "value": 0
+          },
+          "engineInGetCitySet": false,
+          "confirmingTarget": false,
+          "enginePhase": "none",
+          "displayWizard": "none",
+          "mapCity": 26,
+          "debug": "pick=1 battlePick=0 dest=0 mapCity=26(襄阳) phase=none qty=0 min=0 max=0 queue=0 pex=0 hold=0 leftoverPick=1 persons=0 lastExit=back-deep help=0/report qtyA=0 ui=none",
+          "qtyDismissed": false,
+          "qtyAckFailed": false,
+          "qtyAckError": "",
+          "reportAtMarchStart": "",
+          "march": {
+            "pick": 1,
+            "battlePick": 0,
+            "mapCity": 27,
+            "mapInputSeq": 2,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 0,
+            "session": 0,
+            "origin": 255,
+            "selected": 0,
+            "inputSeq": 2
+          },
+          "qty": {
+            "active": 0,
+            "value": 0,
+            "min": 0,
+            "max": 0,
+            "protocol": true,
+            "session": 2,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 0,
+            "step": 1,
+            "ready": 0
+          },
+          "lastStep4": null,
+          "step4Trace": [],
+          "marchOriginIndex": 26,
+          "originRetryTried": false,
+          "originRetryBusy": false,
+          "originRetryFrom": null,
+          "originRetryTo": null,
+          "preferredOrigin": null,
+          "originLinks": []
+        },
+        "menu": {
+          "active": 0,
+          "context": 0,
+          "kind": 0,
+          "seq": 16,
+          "itemLen": 8,
+          "count": 10,
+          "index": 0,
+          "names": [
+            "刘表",
+            "蒯越",
+            "韩嵩",
+            "伊籍",
+            "蔡瑁",
+            "刘琦",
+            "王粲",
+            "张允",
+            "文聘",
+            "王威"
+          ],
+          "packedNames": [
+            "刘表",
+            "蒯越",
+            "韩嵩",
+            "伊籍",
+            "蔡瑁",
+            "刘琦",
+            "王粲",
+            "张允",
+            "文聘",
+            "王威"
+          ],
+          "ids": [],
+          "idsValid": false,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "march": {
+          "pick": 1,
+          "battlePick": 0,
+          "mapCity": 27,
+          "mapInputSeq": 2,
+          "ok": 0,
+          "city": 0,
+          "obj": 0,
+          "time": 0,
+          "seq": 0,
+          "phase": 0,
+          "session": 0,
+          "origin": 255,
+          "selected": 0,
+          "inputSeq": 2
+        },
+        "map": {
+          "mode": "hd-map",
+          "libraryIdentity": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "presentationReady": true,
+          "presentationReason": "",
+          "assetGeneration": 4,
+          "phase": "map",
+          "aligning": false,
+          "hitsEnabled": true,
+          "battleMakePending": false,
+          "engineGetCitySet": false,
+          "holdMenu": false,
+          "lastAlignWhy": null,
+          "cityMenuMarching": false,
+          "functionMenu": false,
+          "cityMenuShell": true,
+          "pan": {
+            "on": false,
+            "moved": false,
+            "suppressClick": false,
+            "tapHandled": false
+          },
+          "selectedIndex": 26,
+          "hoverIndex": -1,
+          "focusCity": 26,
+          "cursorPolicy": "os-pointer",
+          "enterFx": {
+            "index": 26,
+            "start": 1791503124809,
+            "duration": 150
+          },
+          "dateInfo": {
+            "year": 198,
+            "month": 1,
+            "yearPath": "g_YearDate",
+            "monthPath": "g_MonthDate",
+            "source": "probe"
+          },
+          "learnedCursor": null,
+          "haveCityPos": true,
+          "engineCursorIndex": 26,
+          "cityPos": {
+            "x": 6,
+            "y": 5
+          },
+          "mapCity": 26,
+          "mapPick": 1,
+          "cursorInView": true,
+          "alignLog": null,
+          "alignSnapRetry": false,
+          "hint": "经典城池菜单。空格关闭；点地图空白回 HD。",
+          "playerKingRaw": 12,
+          "playerBelong": 13,
+          "yearDate": 198,
+          "monthDate": 1,
+          "cityX": 0,
+          "cityY": 0,
+          "focusX": 0,
+          "focusY": 0,
+          "ownedCount": 2,
+          "cityTotal": 38,
+          "owned": [
+            {
+              "i": 26,
+              "name": "襄阳",
+              "belong": 13
+            },
+            {
+              "i": 27,
+              "name": "江夏",
+              "belong": 13
+            }
+          ],
+          "layout": "china-lcc",
+          "camera": {
+            "x": 1443.538,
+            "y": 1004.856,
+            "scale": 0.85,
+            "mapW": 3840,
+            "mapH": 4000,
+            "minX": 0,
+            "minY": 0,
+            "maxX": 1581.1764705882351,
+            "maxY": 2729.4117647058824,
+            "inited": true
+          },
+          "environmentLayers": {
+            "coordinateSystem": "china-lcc-raster-padded-v1",
+            "descriptorCount": 3,
+            "drawn": 12,
+            "skipped": 13,
+            "operations": [
+              {
+                "id": "rivers",
+                "path": "terrain/overlay_rivers.png",
+                "source": [
+                  721.7691176470587,
+                  502.5797779673974,
+                  1129.4117647058824,
+                  635.486107407605
+                ],
+                "destination": [
+                  0,
+                  0,
+                  1920,
+                  1080.0000000000002
+                ]
+              },
+              {
+                "id": "mountains",
+                "path": "terrain/mountain-cluster-v1.png",
+                "source": [
+                  820.3077882352927,
+                  0,
+                  433.69221176470717,
+                  1254
+                ],
+                "destination": [
+                  0,
+                  165.87249999999992,
+                  73.49250000000022,
+                  212.50000000000003
+                ],
+                "instanceIndex": 1
+              },
+              {
+                "id": "mountains",
+                "path": "terrain/mountain-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  1254
+                ],
+                "destination": [
+                  243.49250000000018,
+                  327.3724999999999,
+                  178.49999999999997,
+                  178.50000000000003
+                ],
+                "instanceIndex": 2
+              },
+              {
+                "id": "mountains",
+                "path": "terrain/mountain-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  1254
+                ],
+                "destination": [
+                  515.4925000000002,
+                  548.3725,
+                  178.49999999999997,
+                  178.50000000000003
+                ],
+                "instanceIndex": 3
+              },
+              {
+                "id": "mountains",
+                "path": "terrain/mountain-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  1254
+                ],
+                "destination": [
+                  396.4925000000002,
+                  786.3724999999998,
+                  204,
+                  204.00000000000003
+                ],
+                "instanceIndex": 4
+              },
+              {
+                "id": "mountains",
+                "path": "terrain/mountain-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  1254
+                ],
+                "destination": [
+                  1050.9925,
+                  854.3725,
+                  161.5,
+                  161.50000000000003
+                ],
+                "instanceIndex": 7
+              },
+              {
+                "id": "mountains",
+                "path": "terrain/mountain-cluster-v1.png",
+                "source": [
+                  0,
+                  155.84638235294202,
+                  1254,
+                  1098.153617647058
+                ],
+                "destination": [
+                  1450.4925000000003,
+                  0,
+                  169.99999999999997,
+                  148.87249999999992
+                ],
+                "instanceIndex": 9
+              },
+              {
+                "id": "forest",
+                "path": "terrain/forest-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  1254
+                ],
+                "destination": [
+                  659.9925000000002,
+                  905.3725,
+                  144.5,
+                  144.5
+                ],
+                "instanceIndex": 0
+              },
+              {
+                "id": "forest",
+                "path": "terrain/forest-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  629.9311764705901
+                ],
+                "destination": [
+                  838.4925000000002,
+                  998.8725,
+                  161.5,
+                  81.12750000000025
+                ],
+                "instanceIndex": 1
+              },
+              {
+                "id": "forest",
+                "path": "terrain/forest-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  113.92307958477713
+                ],
+                "destination": [
+                  1008.4925000000002,
+                  1066.8725,
+                  144.5,
+                  13.127500000000238
+                ],
+                "instanceIndex": 2
+              },
+              {
+                "id": "forest",
+                "path": "terrain/forest-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  121.0432720588257
+                ],
+                "destination": [
+                  1288.9925000000003,
+                  1066.8725,
+                  136,
+                  13.127500000000238
+                ],
+                "instanceIndex": 4
+              },
+              {
+                "id": "forest",
+                "path": "terrain/forest-cluster-v1.png",
+                "source": [
+                  0,
+                  0,
+                  1254,
+                  1254
+                ],
+                "destination": [
+                  1263.4925000000003,
+                  743.8724999999998,
+                  127.5,
+                  127.50000000000001
+                ],
+                "instanceIndex": 9
+              }
+            ]
+          },
+          "roads": {
+            "source": "lcc-neighbors",
+            "edges": 71,
+            "passes": 1,
+            "isolated": []
+          }
+        }
+      }
+    },
+    "staleChecks": [
+      {
+        "label": "captured old row click during current report",
+        "method": "HTMLElement.click on the retained original native-owned row; no fabricated IDs or token",
+        "before": {
+          "keys": 63,
+          "period": 2,
+          "playerKing": 12,
+          "cityBelong": 13,
+          "money": 307,
+          "food": 774,
+          "reserve": 0,
+          "queue": [
+            12,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123,
+            150,
+            152,
+            170,
+            171
+          ],
+          "orders": [],
+          "date": {
+            "year": 198,
+            "month": 1
+          },
+          "cursor": {
+            "setx": 6,
+            "sety": 5,
+            "x": 2,
+            "y": 2
+          },
+          "observedPersons": 200,
+          "actor": {
+            "id": 110,
+            "name": "蒯良",
+            "derivedArm": 2,
+            "Belong": 13,
+            "OldBelong": 0,
+            "Age": 43,
+            "Character": 3,
+            "Level": 1,
+            "Force": 20,
+            "IQ": 93,
+            "Devotion": 88,
+            "Experience": 0,
+            "Thew": 92,
+            "ArmsType": 2,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0
+          }
+        },
+        "after": {
+          "keys": 63,
+          "period": 2,
+          "playerKing": 12,
+          "cityBelong": 13,
+          "money": 307,
+          "food": 774,
+          "reserve": 0,
+          "queue": [
+            12,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123,
+            150,
+            152,
+            170,
+            171
+          ],
+          "orders": [],
+          "date": {
+            "year": 198,
+            "month": 1
+          },
+          "cursor": {
+            "setx": 6,
+            "sety": 5,
+            "x": 2,
+            "y": 2
+          },
+          "observedPersons": 200,
+          "actor": {
+            "id": 110,
+            "name": "蒯良",
+            "derivedArm": 2,
+            "Belong": 13,
+            "OldBelong": 0,
+            "Age": 43,
+            "Character": 3,
+            "Level": 1,
+            "Force": 20,
+            "IQ": 93,
+            "Devotion": 88,
+            "Experience": 0,
+            "Thew": 92,
+            "ArmsType": 2,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0
+          }
+        }
+      },
+      {
+        "label": "captured previous SEARCH row after new native menu seq",
+        "method": "Retained original DOM row click after native menu generation/sequence retirement; no fabricated owner",
+        "before": {
+          "keys": 64,
+          "period": 2,
+          "playerKing": 12,
+          "cityBelong": 13,
+          "money": 307,
+          "food": 774,
+          "reserve": 0,
+          "queue": [
+            12,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123,
+            150,
+            152,
+            170,
+            171
+          ],
+          "orders": [
+            {
+              "OrderId": 3,
+              "City": 26,
+              "Person": 110,
+              "TimeCount": 0
+            }
+          ],
+          "date": {
+            "year": 198,
+            "month": 1
+          },
+          "cursor": {
+            "setx": 6,
+            "sety": 5,
+            "x": 2,
+            "y": 2
+          },
+          "observedPersons": 200,
+          "actor": {
+            "id": 110,
+            "name": "蒯良",
+            "derivedArm": 2,
+            "Belong": 13,
+            "OldBelong": 0,
+            "Age": 43,
+            "Character": 3,
+            "Level": 1,
+            "Force": 20,
+            "IQ": 93,
+            "Devotion": 88,
+            "Experience": 0,
+            "Thew": 92,
+            "ArmsType": 2,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0
+          }
+        },
+        "after": {
+          "keys": 64,
+          "period": 2,
+          "playerKing": 12,
+          "cityBelong": 13,
+          "money": 307,
+          "food": 774,
+          "reserve": 0,
+          "queue": [
+            12,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            119,
+            122,
+            123,
+            150,
+            152,
+            170,
+            171
+          ],
+          "orders": [
+            {
+              "OrderId": 3,
+              "City": 26,
+              "Person": 110,
+              "TimeCount": 0
+            }
+          ],
+          "date": {
+            "year": 198,
+            "month": 1
+          },
+          "cursor": {
+            "setx": 6,
+            "sety": 5,
+            "x": 2,
+            "y": 2
+          },
+          "observedPersons": 200,
+          "actor": {
+            "id": 110,
+            "name": "蒯良",
+            "derivedArm": 2,
+            "Belong": 13,
+            "OldBelong": 0,
+            "Age": 43,
+            "Character": 3,
+            "Level": 1,
+            "Force": 20,
+            "IQ": 93,
+            "Devotion": 88,
+            "Experience": 0,
+            "Thew": 92,
+            "ArmsType": 2,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0
+          }
+        }
+      }
+    ],
+    "engineInputCount": 65,
+    "exceptions": [],
+    "dialogs": [],
+    "observerErrors": [],
+    "isolation": {
+      "httpPort": 2836,
+      "debugPort": 2837,
+      "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-search-runtime-ZNNXYb",
+      "chromePid": 177224,
+      "user8080Touched": false,
+      "cleaned": true,
+      "chromeExited": true,
+      "chromeExitCode": null,
+      "chromeSignalCode": "SIGTERM",
+      "httpClosed": true
+    }
+  },
+  "sourceVerification": {
+    "ok": true,
+    "count": 1147,
+    "drift": [],
+    "added": []
+  },
+  "nativeSource": {
+    "count": 128,
+    "aggregate": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
+    "compiledRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+    "engineSourceModified": true
+  },
+  "assets": {
+    "newGeneratedImages": 0,
+    "note": "Existing native 24x24 portrait refs inside the HD person pane; no new HD portrait art or claim of full character art completion. LIB, SPE manifest, native sources and engine quartet unchanged."
+  },
+  "archived": {
+    "index": "m4-search-20261009/runtime-index.json",
+    "originalBytesVerified": true,
+    "entries": 158,
+    "pngCount": 21,
+    "allActualPngsIncluded": true
+  },
+  "notRun": [
+    "Native month execution, SEARCH finding or acquisition RNG",
+    "Full Mod person properties and campaign/save matrices",
+    "Other 28 attack combinations and other unverified spells/states",
+    "Mobile physical device, cloud account, fixed performance and complete visual art"
+  ],
+  "next": {
+    "plan": "build/r18-next-hd-plan.json",
+    "focus": "Capture and display actual selected-person native property titles/values/pages, including the specific sc-mod person hooks. R17 does not claim this is implemented."
+  }
+}

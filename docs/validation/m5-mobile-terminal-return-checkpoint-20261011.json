@@ -1,0 +1,341 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "createdAt": "2026-10-10T21:24:16.457Z",
+  "baseCommit": "f3866ba77ea53d7ca38ae1dd500fd5786f3b6c6c",
+  "status": "Implementation and static-regression checkpoint; final browser return flow remains pending",
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "finalRuntimeAccepted": false,
+  "changes": [
+    "Accept retained terminal march phase 7 only with a current MAP or CITY owner",
+    "Fence phase, march session and input sequence across owner reads",
+    "Use the current map city for ordinary terminal CITY, quantity and person restoration",
+    "Preserve active march and target gates; refresh affected HTML cache keys",
+    "Strengthen runtime settlement, post-battle city navigation and controlled missing-image checks",
+    "Close only verified task-owned browser gracefully before strict owned-process cleanup"
+  ],
+  "staticRegression": {
+    "modules": 68,
+    "tests": 2054,
+    "passed": 2054,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "concurrency": 4,
+    "clang": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "durationMs": 23488.996,
+    "syntaxCheckedChangedScripts": 11,
+    "diffCheckPassed": true
+  },
+  "controlledChecks": {
+    "cityHostAndHud": {
+      "passed": 200,
+      "total": 200,
+      "oldCitySourcePassed": 67,
+      "oldCitySourceTotal": 71
+    },
+    "overworldPointer": {
+      "passed": 37,
+      "total": 37,
+      "oldSourcePassed": 34,
+      "oldSourceTotal": 37
+    },
+    "note": "Controlled VM results are not actual browser or device acceptance; the earlier 198/200 fixture-error run remains archived."
+  },
+  "earlierRuntime": {
+    "artifacts": "build/mobile-effects-map-return-normal-20261011",
+    "startedAt": "2026-10-10T21:12:31.443Z",
+    "finishedAt": "2026-10-10T21:14:52.041Z",
+    "ok": false,
+    "accepted": false,
+    "effectsAccepted": false,
+    "error": "Error: Timed out Post-battle genuine CITY root\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:199:78)\n    at async runMobileBattleEffectsChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-battle-effects-runtime-checks.mjs:182:3)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:576:124)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:609:86",
+    "finalCodeCovered": false,
+    "passedEffectChecks": [
+      {
+        "label": "Native spy exact effect",
+        "verdict": {
+          "ok": true,
+          "accepted": true,
+          "skillEffectAccepted": true,
+          "skillId": 30,
+          "actorIndex": 0,
+          "personId": 5,
+          "outcome": "failure",
+          "naturalOutcome": "failure",
+          "mp": {
+            "before": 41,
+            "after": 31,
+            "cost": 10
+          },
+          "active": {
+            "before": 0,
+            "after": 1
+          },
+          "enemyGrain": {
+            "before": 0,
+            "after": 0,
+            "actualEnemy": 1384
+          },
+          "experience": {
+            "award": 0,
+            "before": 0,
+            "after": 0
+          },
+          "level": {
+            "before": 1,
+            "after": 1,
+            "max": 20
+          },
+          "statusTransitions": [],
+          "report": {
+            "observedOwners": 0,
+            "spyReportObserved": false,
+            "recordedAcknowledgements": 0,
+            "keyDelta": 1,
+            "touchDelta": 0,
+            "retired": true
+          },
+          "battleBout": 2,
+          "hdAccepted": false,
+          "battleCompletionAccepted": false,
+          "naturalReleaseAccepted": false,
+          "checked": {
+            "people": 200,
+            "cities": 38,
+            "queue": 2000,
+            "orderRows": 200,
+            "fighterBytes": 600,
+            "fighterFlags": 30
+          },
+          "scope": "One real same-bout skill30 command through SKILL -> BUSY -> fresh PICK; success or failure, exact measured world only",
+          "limits": [
+            "RNG state is neither read nor written; source/trusted-input evidence must establish no forced outcome",
+            "Only measured worldSource fields; unobserved OrderType Arms/Money/Consume are not byte-exact",
+            "Input counters bound acknowledgements; exact trusted key/touch codes and owner timing remain caller evidence",
+            "No attack damage, ordinary skill movie/NUM, battle victory, strategy return, or whole mobile HD acceptance"
+          ]
+        }
+      },
+      {
+        "label": "Actual native attack damage and mobile HD display",
+        "verdict": {
+          "accepted": true,
+          "actorIndex": 6,
+          "targetIndex": 11,
+          "session": 2,
+          "generation": 3,
+          "hurt": 11,
+          "targetArms": [
+            800,
+            789
+          ],
+          "experience": {
+            "before": 0,
+            "after": 2,
+            "gain": 2
+          },
+          "nativeDisplays": 18,
+          "actualDevice": false,
+          "hdDisplays": 18,
+          "nativePhases": [
+            "movie",
+            "numbers"
+          ],
+          "hdPhases": [
+            "movie",
+            "numbers"
+          ],
+          "fullFramesAccepted": false
+        }
+      },
+      {
+        "label": "Real retreat settlement and strategy return",
+        "verdict": {
+          "accepted": true,
+          "successorChoices": 0
+        }
+      }
+    ],
+    "attemptedCity": {
+      "index": 0,
+      "name": "西凉",
+      "kind": "owned",
+      "belong": 6
+    },
+    "nativeRetreatOver": 2,
+    "sourceDrift": [],
+    "exceptions": [],
+    "gracefulBrowserClose": {
+      "requested": true,
+      "responded": true
+    },
+    "cleanupTreeExited": true,
+    "serverClosed": true,
+    "interpretation": "HUD/map return succeeded with the first fix. Trusted owned-city entry then timed out. Shared pointer and city fixes were added afterward and are not browser-retested in this checkpoint."
+  },
+  "userServiceObservation": {
+    "pid": 57860,
+    "creationDate": "2026-10-10T19:26:04.279718+08:00",
+    "observedSameProcessBeforeCommit": true,
+    "serviceRestarted": false,
+    "userBrowserAccessedThisCommitTurn": false
+  },
+  "pending": [
+    "Fresh normal and controlled missing-image runtime runs on final frozen code",
+    "Actual classic-mode effect and visibility-transition matrix",
+    "Other mobile attack and skill families",
+    "HD march and full four-period campaign flows",
+    "Android/iOS devices and performance"
+  ],
+  "sourceFiles": [
+    {
+      "path": "index.html",
+      "bytes": 7669,
+      "sha256": "8aed5070ec990392881d111d49eb23d56d5eccbedd4d9922e26723dd1e977bec"
+    },
+    {
+      "path": "m.html",
+      "bytes": 15271,
+      "sha256": "53c75aeb1c246515c60983725b069183a8e9be8060b508393e2af49ac3a3bd70"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27413,
+      "sha256": "cf1b183990575fd216a65da0eb0e787197ce2e185925a0aa0b1b4f79ba9f5faa"
+    },
+    {
+      "path": "js/hd-mobile.js",
+      "bytes": 9959,
+      "sha256": "68445e55aa8c6de684d876c47de5bac142f27119cdac67027e7d4afd34f077c5"
+    },
+    {
+      "path": "js/hd-mobile-map.js",
+      "bytes": 18859,
+      "sha256": "a0ee30282106ec36590efc0f081cfb538762881d5f4eaf859e6cace62625d28f"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 168945,
+      "sha256": "cb1e0ff156b2b9ee818caab61a085551318002b5baf85ad41567b6c53d45bd23"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 313290,
+      "sha256": "407bf610f2cedf0a7e4725fa665043bdb9b2eeba322ede2405adcba5a383786e"
+    },
+    {
+      "path": "scripts/test-hd-mobile.mjs",
+      "bytes": 15228,
+      "sha256": "d4500bb1ae19d50201e5cc7cce554493fd2aa2a8a7d41f107cfd7b2b305950b6"
+    },
+    {
+      "path": "scripts/test-hd-mobile-map.mjs",
+      "bytes": 26036,
+      "sha256": "9569a2a41859d98ca4353ad0ea9e8352d79aa204389274b93869587de6d70c2f"
+    },
+    {
+      "path": "scripts/test-hd-overworld-touch.mjs",
+      "bytes": 19919,
+      "sha256": "625a69e69e15c703a00a06f84ecb615d416b5c26ebead082253d53f85680a399"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 34167,
+      "sha256": "7c0a1bacd8c791af0d0ddac4f278a9fe9156b42cd250356d6e9b4385e8b410f6"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 107521,
+      "sha256": "1c150fe4ae0b15450ee7ef1ac64a7b4bc084955ebd1e80d0c49df45ebfcad8e5"
+    },
+    {
+      "path": "scripts/hd-mobile-battle-effects-runtime-checks.mjs",
+      "bytes": 21463,
+      "sha256": "3716f7046e0edd2b2179534c51d1247411029cebe9c7639442af073343575d9f"
+    },
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 68482,
+      "sha256": "615e739d3396f4e8596ace458464f9941aad7ee338f154b7ceb36c79768c5bb5"
+    }
+  ],
+  "portableClosedArchive": false,
+  "archiveLimit": "Selected original result, test logs, source proofs and two screenshots only. Complete source trees, other images and private browser profile remain local.",
+  "archiveFiles": [
+    {
+      "originalPath": "build/mobile-terminal-return-precommit-tests-20261011.log",
+      "originalBytes": 213425,
+      "originalSha256": "bf58a3b28371383f3ce0a954062d6dc8e6b73d5c927bb1552ca651572659e0c4",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/mobile-terminal-return-precommit-tests-20261011.log.gz",
+      "archiveBytes": 60392,
+      "archiveSha256": "b38bbda8210889808d886d6cceda5c522cc5fd60b7f75a0d220cb0c81181435e",
+      "decompressedExact": true
+    },
+    {
+      "originalPath": "build/mobile-march-departed-return-source-proof-v1.json",
+      "originalBytes": 10408,
+      "originalSha256": "7adf184f24b5263ed6a3327ffab4a9f7ae84929c62c5cb8eee0bd4f0e716d75b",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/mobile-march-departed-return-source-proof-v1.json.gz",
+      "archiveBytes": 3161,
+      "archiveSha256": "06e6a33ce1a1388c54c3be0f2203b0583779dc20a5e1a95537d72663c1088271",
+      "decompressedExact": true
+    },
+    {
+      "originalPath": "build/mobile-overworld-terminal7-freeze-v1.json",
+      "originalBytes": 8876,
+      "originalSha256": "dca7a8211244e5faa42859fa333d96f994954ce3ab3451e4a36db4eb2d9e2b37",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/mobile-overworld-terminal7-freeze-v1.json.gz",
+      "archiveBytes": 2625,
+      "archiveSha256": "7d3aa4458f4ddbe278fc2d1678e288aa7f8a9c0690e51072005fcb190e3e6162",
+      "decompressedExact": true
+    },
+    {
+      "originalPath": "build/mobile-city-terminal7-source-freeze-v1.json",
+      "originalBytes": 12381,
+      "originalSha256": "dfb3513cfc73a93e272bc7876cb7409026185c6361230b69d2f0233d238b8482",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/mobile-city-terminal7-source-freeze-v1.json.gz",
+      "archiveBytes": 3667,
+      "archiveSha256": "bb6358c340d6957942531bb96ad9590ba9f841686f3b442490dde977a1a3c4d1",
+      "decompressedExact": true
+    },
+    {
+      "originalPath": "build/mobile-city-terminal7-targeted-20261011.log",
+      "originalBytes": 24501,
+      "originalSha256": "2b550f08158ad80dff8e8e7e952c423f1ea52467eb0bbf2b16d72b16f0c7eba5",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/mobile-city-terminal7-targeted-20261011.log.gz",
+      "archiveBytes": 6762,
+      "archiveSha256": "5b823ad669b1fe2543847e7c7176ae5898a0e35d236be1f6be54744eecc6b4de",
+      "decompressedExact": true
+    },
+    {
+      "originalPath": "build/mobile-effects-map-return-normal-20261011/result.json",
+      "originalBytes": 7240550,
+      "originalSha256": "48310e81dc5db3e3adcc939fc13cf5e5adedb91a92f9357a568644309b300a99",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/result.json.gz",
+      "archiveBytes": 472507,
+      "archiveSha256": "796b9d8db68a17454073ce253bbc7f3148f258fd1c8e38b6cfdd112eb2ea88d9",
+      "decompressedExact": true
+    },
+    {
+      "originalPath": "build/mobile-effects-map-return-normal-20261011/battle-effects-genuine-settlement-map.png",
+      "originalBytes": 618088,
+      "originalSha256": "cae2bcc354fef31f7ae77ea5aceeb83f16c863b36e5f5406ec327c16cdb17742",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/battle-effects-genuine-settlement-map.png.gz",
+      "archiveBytes": 618234,
+      "archiveSha256": "a6ef3b8d8a59f7131c7237440def29a28a84cdb9381f35c1d3c718fb213b6cdc",
+      "decompressedExact": true
+    },
+    {
+      "originalPath": "build/mobile-effects-map-return-normal-20261011/failure.png",
+      "originalBytes": 557388,
+      "originalSha256": "d6202c5cd77f2893f515364b21c79f269d6987e8bf6b8a85f99334441b12caec",
+      "archivePath": "docs/validation/m5-mobile-terminal-return-checkpoint-20261011/raw/failure.png.gz",
+      "archiveBytes": 557489,
+      "archiveSha256": "5d4ce8c63fe10ae79ffd6667fa5d4bbe322eec27e0df10c9654143ff5e5f9944",
+      "decompressedExact": true
+    }
+  ]
+}

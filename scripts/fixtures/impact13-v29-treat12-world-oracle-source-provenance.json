@@ -1,0 +1,507 @@
+{
+  "schemaVersion": 1,
+  "kind": "impact13-v29-Treat12-pure-world-oracle-source-provenance",
+  "sourceOnlyAccepted": true,
+  "rootExecution": null,
+  "testsExecutedByAuthor": false,
+  "actualTreatExecutionAccepted": false,
+  "actualPaymentAccepted": false,
+  "actualRunAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "prototypes": {
+    "module": {
+      "path": "build/impact-skill-20261014/hd-impact-v29-treat12-world-oracle-v1.mjs",
+      "bytes": 11801,
+      "sha256": "87a1443668483c31ca66544486698b4b9b9c4dcf9a56012486ac17583b536b65"
+    },
+    "tests": {
+      "path": "build/impact-skill-20261014/test-hd-impact-v29-treat12-world-oracle-v1.mjs",
+      "bytes": 18096,
+      "sha256": "6961c60a5f10217828e83bae353d48882d31a724a6ad397d36c7861ae2b22e80"
+    },
+    "fixture": {
+      "path": "build/impact-skill-20261014/hd-impact-v29-treat12-closed-august-input-v1.json",
+      "bytes": 77909,
+      "sha256": "97b769e882b4f292dcd0ebb18b5baeec8eed0a7d3baaa56f9077ba4f683d5309"
+    }
+  },
+  "sourceAdvice": {
+    "path": "build/impact-skill-20261014/impact13-v29-native-treat12-source-advice-v1.json",
+    "bytes": 19842,
+    "sha256": "185512c2072d5cba5a2e179ad85419453a28ff98246d6a43bc79e3f9d52b570a"
+  },
+  "genuineHistoricalBefore": {
+    "original": {
+      "path": "build/impact-skill-20261014/impact13-battle-v27-latest-genuine-saved-world-v1.json",
+      "bytes": 77909,
+      "sha256": "97b769e882b4f292dcd0ebb18b5baeec8eed0a7d3baaa56f9077ba4f683d5309"
+    },
+    "fixture": {
+      "path": "build/impact-skill-20261014/hd-impact-v29-treat12-closed-august-input-v1.json",
+      "bytes": 77909,
+      "sha256": "97b769e882b4f292dcd0ebb18b5baeec8eed0a7d3baaa56f9077ba4f683d5309"
+    },
+    "date": [
+      238,
+      8
+    ],
+    "fixtureByteExact": true,
+    "scope": "Closed V27 genuine August world copiedbyteexact. Every after/report/identity/negative-role/lowThew alternate fixture in tests is explicitly synthetic controlled data. It is neither latestV28 input nor an actual future payment, RNG or game outcome."
+  },
+  "nativeSources": [
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 117178,
+      "sha256": "528b41533393e0826d0cce781813c34aa2af1a222c6175f15cab396185498af8"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-make-oracle-v1.mjs",
+      "bytes": 24282,
+      "sha256": "93aa6b083e57753cc714257c35729ce7920b19901ec05cc0017b5b185faf23c5"
+    }
+  ],
+  "nativeRuleMapping": [
+    {
+      "source": "vendor/iBaye/src/citycmdc.c",
+      "lines": [
+        198,
+        255
+      ],
+      "rule": "GetCityPersons repeated selection; pay original100 once, U8Thew+50 clamp, nonkingShowGReport then Devotion increment if<100; noIsManual/DelPerson/order/date effect."
+    },
+    {
+      "source": "vendor/iBaye/src/citycmde.c",
+      "lines": [
+        365,
+        419
+      ],
+      "rule": "Exact originalbyte ConsumeMoney resource2/item10, command12=100, IsMoney then U16subtract.500cash is declared preparation scope."
+    },
+    {
+      "source": "vendor/iBaye/src/baye/attribute.h",
+      "lines": [
+        108,
+        132
+      ],
+      "rule": "THREW_TREAT50 andThewU8; selectednormal0..19 avoidswrap. Module rejects larger selectedThew as unnecessaryoroverflow-unsafe, retains fullnativeU8 ranges for unrelatedpeople."
+    },
+    {
+      "source": "vendor/iBaye/src/infdeal.c",
+      "lines": [
+        644,
+        670
+      ],
+      "rule": "ExistinggenericGREPORT kind2, begin/GamDelay300,2/end. No invented dedicatedTreat session/phase protocol is asserted."
+    },
+    {
+      "source": "scripts/test-hd-mobile-city-runtime.mjs",
+      "lines": [
+        95,
+        108
+      ],
+      "rule": "Originalwholeworld report/retired two-phase model reused; broadenednative-role examples are not adopted. Only explicit17envoy neededTreat scope, actualLibprice identity, no mutation and fulltyped shape guards are new."
+    }
+  ],
+  "reusedValidationSegments": {
+    "source": "build/impact-skill-20261014/hd-impact-v27-canvass16-make-oracle-v1.mjs",
+    "segments": [
+      {
+        "name": "PERSON/CITY/ORDER/CONFIG native bounds",
+        "bytes": 920,
+        "sha256": "25126545ab3a13e3365fbfd8f77795a42227533dfeb297e61c8b1bae7d5d3f68",
+        "copiedByteExact": true
+      },
+      {
+        "name": "integer/dense/measurement/vector/typed/shape helpers",
+        "bytes": 3452,
+        "sha256": "a3a2d3b1d053caedb8a6f0c642bc03a7f94056b8c7d3aeb994ba04a8e85314f7",
+        "copiedByteExact": true
+      }
+    ],
+    "rawQueuePolicy": "No global PID uniqueness or de-duplication. Native physicalspan/bounds validation remains exact. Only the selected actor must occur in exactly one raw city span; duplicates65/136/138 orotherunrelated valid data persist untouched."
+  },
+  "scopeDifferencesFromExistingMobileHelper": [
+    "Only explicit17envoys in assigned actualownedorigin, chosenrawunique/nonking/nonSatrap/noactorpending; Thew<20 when needed. Native itself permits morepersons andunnecessary highThew payments, outside this prototype.",
+    "ActualoriginalLIBbytes/hash and originalbyte moneytable12=100 verified; onlyselectednormalDevotion<=100, reportsenabled,debugpublished0/null; globalnativeU8fieldbounds remain255.",
+    "Moneyafter>=500; originalmoney100minus, nofood, noorder/newqueue/cleanup/month mutation.",
+    "Completeworldunknownfields compared, both report andretired phases required forTwoStage. Devotion100 accepted unchanged.",
+    "Optionalexistinglibraryidentity triple ready/hash/byteLength/generation andeveryunknownidentityfield exact; no customTreatbridge/no owner/input/native/SAVE credit.",
+    "Module I/O-free imports onlynodeassert/crypto. Allgame/source/publicsaveacceptance remains caller duty andfalse in receipts."
+  ],
+  "plannedControlledTests": {
+    "caseCount": 77,
+    "reusedValidationRuleRegressionPatterns": 5,
+    "v29DirectedVariants": 72,
+    "literalPriorCaseExecutionsClaimed": 0,
+    "classificationBoundary": "All77 case bodies are newly authored for this prototype.5 exercise reused wholeworld/native-shape regression rules,72 are V29 directed variants (including17scope routes). These are not77 new features, not historicalcases rerun byauthor, and not actualgame acceptance. ROOT execution result has not been supplied.",
+    "cases": [
+      {
+        "name": "Report phase changes only origin Money and selected Thew",
+        "classification": "reused-world-rule"
+      },
+      {
+        "name": "Retired phase adds the original nonking Devotion increment",
+        "classification": "reused-world-rule"
+      },
+      {
+        "name": "Full unknown world and existing raw duplicates survive valid Treat",
+        "classification": "reused-world-rule"
+      },
+      {
+        "name": "Unrelated native U8 IQ150 remains legal",
+        "classification": "reused-world-rule"
+      },
+      {
+        "name": "Unrelated empty city may share a physical start without occupied overlap",
+        "classification": "reused-world-rule"
+      },
+      {
+        "name": "Devotion100 is valid and low stamina still restores",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Zero stamina needs no IsManual and restores50",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Thew19 is the highest needed-restoration bound",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Thew20 rejects an unnecessary scoped payment",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Thew100 rejects an unnecessary payment despite native legality",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Abnormal native U8 overflow input206 is outside approved scope",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Negative stamina is not a native U8 value",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Selected Devotion101 cannot silently use a min100 model",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "King0 is outside the approved nonking17 scope",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Current Satrap cannot be restored under the envoy subset",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Enemy origin cannot pay a player Treat",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "An actor no longer owned cannot be treated",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Wrong city for otherwise allowed envoy rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Unlisted resident does not expand17actor scope",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Pending head order forbids selected actor Treat",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Pending Battle tail order also forbids selected actor Treat",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Retired order opaque actor value is preserved without becoming pending",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Cash600 exactly preserves500 after original payment",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Cash599 is native-affordable but outside500protection",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Cash99 cannot underflow a native payment",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Original library one-byte mutation rejects identity",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Truncated original library rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "16bit money mode cannot reinterpret original28-byte table",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Disabled native person report cannot prove report-phase flow",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Published debug1 rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "New unknown after-world field cannot be ignored",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Deleted unknown after-world field cannot be ignored",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Unrelated person IQ tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Origin Food tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Another actor stamina tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Existing order opaque field tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Raw queue200 tail tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Raw queue1999 tail tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Fighter byte tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Goods queue tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Month date tamper rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "City PersonQueue delta rejects even when empty-city bounds remain valid",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Report phase may not include early Devotion increment",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Retired phase must include the nonking Devotion increment",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Double payment and double benefit are not oneTreat",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Wrong existing library identity SHA rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Changed library generation across two stages rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Unknown library identity field must stay exactly unchanged",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Not-ready original-library identity rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Matching existing identities never invents Treat owner protocol or actual credit",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Two world phases can be compared without inventing UI identity evidence",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Selected envoy duplicate in another raw city rejects only selected uniqueness",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Selected envoy duplicate in origin raw city rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Sparse raw queue cannot pretend to preserve full data",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Non-JSON accessor world input rejects before any clone effect",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Unrecognized phase rejects",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Missing native person Money-independent field still rejects full shape",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Planning and both phase verification never mutate input data or library",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "All allowed disaster state tokens remain unchanged and legal",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Unknown native state token cannot be silently normalized",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 13/37 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 13/43 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 13/60 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 6/5 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 6/36 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 6/51 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 7/28 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 7/6 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 7/48 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 7/68 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 4/33 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 5/59 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 5/7 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 7/25 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 7/27 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 13/39 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      },
+      {
+        "name": "Approved envoy route 16/40 uses current owned low-stamina source",
+        "classification": "v29-directed"
+      }
+    ]
+  },
+  "interfaces": {
+    "plan": "planV29Treat12({world,libBytes,cityIndex,personId,identity?})",
+    "world": "verifyV29Treat12World({before,after,libBytes,cityIndex,personId,phase:report|retired,identity?})",
+    "twoStage": "verifyV29Treat12TwoStage({before,reportWorld,retiredWorld,libBytes,cityIndex,personId,identities?:{before,report,retired}})",
+    "identityBoundary": "Only existinglibraryidentity semantics. No dedicatedTreatbridge/session is created. UI ownership report-kind/person/seq/inputSeq, fresh readOnly fences, actualoneEnter/naturalretirement/cancel and packedSAVE still require independently bound futurewrapper andterminal evidence."
+  },
+  "authorChecks": {
+    "constructorOnlySyntaxParsed": true,
+    "moduleOrTestExecution": false,
+    "cliOrGitOrProcessOrGame": false,
+    "sourceFixtureReadOnlyNoAfterWritesToGenuine": true,
+    "noLiveV28DirectoryOrLogOrPendingIndependentOutputRead": true,
+    "v28ZeroTreatScopeUnchanged": true
+  },
+  "futureAdoption": "ROOT may chooseV29 onlyafterV28delivery. Rebind newestgenuineV28SAVE, stopifcasterexists, recomputewhichlowThewenvoys actuallyneedrestoration/currentownedrole/currentcash/supply. This prototype andhistoricalfixture neverauthorize replacingworld/Thew/loyalty/RNG orreplayingoldpayments."
+}

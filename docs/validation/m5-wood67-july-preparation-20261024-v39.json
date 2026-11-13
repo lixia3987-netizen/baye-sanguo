@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original July conditional supplied WOOD preparation and selected classic presentation source delivery",
+  "sourcePreparationAccepted": true,
+  "sourceOnly": true,
+  "differentNewRegisteredCases": 125,
+  "differentCases": {
+    "supplied": 90,
+    "presentation": 35,
+    "candidateReadonlyOnly": 26,
+    "candidateFinalWorkflowOnly": 46
+  },
+  "formalSources": [
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+    },
+    {
+      "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+      "bytes": 22834,
+      "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+    },
+    {
+      "path": "scripts/hd-wood-classic-presentation.mjs",
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+    },
+    {
+      "path": "scripts/test-hd-wood-classic-presentation.mjs",
+      "bytes": 6847,
+      "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+    }
+  ],
+  "package": {
+    "path": "package.json",
+    "bytes": 19484,
+    "sha256": "d89619c574dff11db482f7cbcd2d9ae376f45046379de451d79251f602fe970d"
+  },
+  "migration": {
+    "path": "build/impact-skill-20261014/wood67-v39-combined-migration-v1.json",
+    "bytes": 4488,
+    "sha256": "47b33e4d7d4fa6972d47b07895a9e6191fa2b4e778f234a8dd777991e14d47f1"
+  },
+  "controlledRuns": [
+    {
+      "name": "initial supplied88 are a subset of final90",
+      "tests": 88,
+      "terminal": {
+        "exitCode": 0,
+        "localReceipt": "build/impact-skill-20261014/v39-supplied-controls-v1/first-receipt.json"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/v39-supplied-controls-v1/first-stdout.txt",
+        "bytes": 16787,
+        "sha256": "8cd26ba0504be97ba0e92b4ebfaee6944d64f5e9f6910d2a1b06671cb2bd1b0e"
+      }
+    },
+    {
+      "name": "final supplied90 source controls",
+      "tests": 90,
+      "terminal": {
+        "exitCode": 0,
+        "localReceipt": "build/impact-skill-20261014/v39-supplied-controls-v1/final-receipt.json"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/v39-supplied-controls-v1/final-stdout.txt",
+        "bytes": 17212,
+        "sha256": "315f99e7f0e16d97d1a38fedde64563d38e3bc329b56e3c858e764e4995f98e8"
+      }
+    },
+    {
+      "name": "formal supplied same90",
+      "tests": 90,
+      "terminal": {
+        "chunkId": "1f5995",
+        "exitCode": 0
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/wood67-v39-supplied-migration-v2/formal-stdout.txt",
+        "bytes": 17207,
+        "sha256": "bfdfee8b9c8f16bb7ca7bb82c670f843cabdb70026782cc464ad36458580ab85"
+      }
+    },
+    {
+      "name": "presentation original same35",
+      "tests": 35,
+      "terminal": {
+        "chunkId": "218966",
+        "exitCode": 0
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/wood67-v39-classic-caller-fence-controlled-v1.stdout.txt",
+        "bytes": 2495,
+        "sha256": "f8f9af642f4c5047f1a92d97dfb7f85f6751a160ba2b107a0aac9b43dc323574"
+      }
+    },
+    {
+      "name": "readonly view26 candidate only",
+      "tests": 26,
+      "terminal": {
+        "chunkId": "f39d4e",
+        "exitCode": 0
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/wood67-v39-ticket-observer-controlled-v1.stdout.txt",
+        "bytes": 2216,
+        "sha256": "f06fcb86c9b84bed0ef3841ce69810e94452aa055b99bf11469ea590ab355d34"
+      }
+    },
+    {
+      "name": "final current workflow46 plus same readonly26, candidate-only",
+      "tests": 72,
+      "terminal": {
+        "chunkId": "0dc128",
+        "exitCode": 0,
+        "localReceipt": "build/impact-skill-20261014/v39-caller-controlled-v2/receipt.json"
+      },
+      "log": {
+        "path": "build/impact-skill-20261014/v39-caller-controlled-v2/stdout.txt",
+        "bytes": 6553,
+        "sha256": "fcf8b0d441ba9a3fd079083ae2efc3dd52c87c89923dd562f20686a18cf0f8c7"
+      }
+    }
+  ],
+  "fullRegression": {
+    "registeredFiles": 133,
+    "tests": 7177,
+    "pass": 7177,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "terminal": {
+      "sessionId": 88019,
+      "chunkId": "3021cc",
+      "exitCode": 0
+    },
+    "log": {
+      "path": "build/hd-full-suite-20261024-v39.log",
+      "bytes": 613378,
+      "sha256": "52fdd2e6f46c710e4b33c64b76bacf2ab88ec32948854ea58d9b92ffece67708"
+    },
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-v39-root-full-regression-v1.json",
+      "bytes": 2031,
+      "sha256": "1c8073be2a89f9558bced70ef241ef7505aa28ddbb6aa2ac0154b3a9c377c602"
+    }
+  },
+  "latestJulyInput": [
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38.json",
+      "bytes": 216002,
+      "sha256": "83a3728aa35990636a00e88f52d67602aa2de97364bb885051296a9cdd253705"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-latest-world.json",
+      "bytes": 147960,
+      "sha256": "6b4e5ff05bec60e8c93689f00ea39ecb0927aceef1db3ec8f563e8e50a724e2f"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-sango0.sav",
+      "bytes": 8221,
+      "sha256": "afccc92b9cbaef4cf7bed89f255d14ff551b47ebde4da5286143d859a611f5fa"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-sango1.sav",
+      "bytes": 4840,
+      "sha256": "f457e7012ef14fbe7636787881f2e1e5fd9139e4822d76604f5b8aa059725cc6"
+    }
+  ],
+  "archive": {
+    "path": "docs/validation/m5-wood67-july-preparation-20261024-v39-archive.json",
+    "bytes": 13602,
+    "sha256": "c42b4fe2a438662f3ab0c667682dc311ae41cebb6b40bd4f743c721a357758a3"
+  },
+  "boundaries": {
+    "newBrowserRuns": 0,
+    "newNativeInputs": 0,
+    "newPlunder": 0,
+    "newMarch": 0,
+    "newEND": 0,
+    "newPayment": 0,
+    "newPublicSave": 0,
+    "actualPreparationAccepted": false,
+    "actualCastAccepted": false,
+    "classicNativePixelAccepted": false,
+    "hd720Accepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false,
+    "portableClosedRuntimeArchive": false,
+    "matchingCheckoutRequired": true
+  },
+  "currentActualState": {
+    "date": [
+      239,
+      7
+    ],
+    "caster131": {
+      "city": 7,
+      "arms": 2334,
+      "experience": 8,
+      "level": 17,
+      "infantry": true,
+      "tool1": 0,
+      "tool2": 0
+    },
+    "captured129": {
+      "belong": 65535,
+      "arms": 0,
+      "experience": 8
+    },
+    "city20": {
+      "food": 114,
+      "money": 828,
+      "strictRequiredFood": 267,
+      "deficit": 153
+    },
+    "pendingOrders": 0,
+    "activeArmies": 0
+  },
+  "unexecutedSourceScope": {
+    "plunderSlot": 0,
+    "actor44ThewBefore": 24,
+    "thewCost": 12,
+    "plunderFoodFormula": 645,
+    "plunderMoneyFormula": 258,
+    "incomeReceived": false,
+    "marchSlot": 170,
+    "armyIndex": 0,
+    "origin": 7,
+    "destination": 1,
+    "mapId": 110,
+    "way": 3,
+    "sourceCarryFood": 481,
+    "onlyOneConditionalEND": true,
+    "currentFoodAdmissionAccepted": false,
+    "selectedClassicOnly": true,
+    "fullClassicControlsAccepted": false,
+    "casterReturnDestinationGuaranteed": false
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-july-preparation-20261024-v39-verify.mjs",
+    "bytes": 4470,
+    "sha256": "d183eac290d6d263376a1592e15a8d4f0c0e0cbac6a9ec75cd7d3ff89bf9066f"
+  }
+}

@@ -1,0 +1,3288 @@
+{
+  "at": "2026-10-11T09:10:54.389Z",
+  "globalHdComplete": false,
+  "realDeviceAccepted": false,
+  "nativeBuildChanged": false,
+  "scope": "Original mobile genuine player-king capture, HD non-first succession and inherited save/Treat/end/reload/load; original UI only",
+  "acceptedRuns": [
+    "installed-667-v7",
+    "installed-844-v6",
+    "installed-844-v8"
+  ],
+  "runs": [
+    {
+      "directory": "installed-667-v1",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: Timed out Actual HD system insystem",
+      "viewport": 667,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-667",
+        "campaign-667-01-inherited-map",
+        "campaign-667-02-inherited-city-status",
+        "campaign-667-03-post-inheritance-operation-map",
+        "failure"
+      ],
+      "candidateCount": 7,
+      "negatives": 6,
+      "nativeKeys": 45,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 279,
+        "sha256": "a582fd869c102ae97fe299834a3357008fff90a1637f9dd524a9ba0960ca4ba5"
+      },
+      "choice": {
+        "accepted": true,
+        "oldKing": 5,
+        "candidateIds": [
+          66,
+          56,
+          57,
+          64,
+          65,
+          63,
+          61
+        ],
+        "chosenIndex": 1,
+        "chosenId": 56,
+        "nativeNames": [
+          "杨秋",
+          "韩遂",
+          "马超",
+          "成宜",
+          "马玩",
+          "梁兴",
+          "李堪"
+        ],
+        "owner": {
+          "context": 5,
+          "kind": 1,
+          "seq": 38,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+        "successionOutcomeAccepted": false
+      },
+      "reportVerdict": {
+        "accepted": true,
+        "stage": "new-king-report",
+        "oldKing": 5,
+        "newKing": 56,
+        "checkedWorld": true
+      },
+      "settlementVerdict": {
+        "accepted": true,
+        "stage": "native-successor-committed",
+        "oldKing": 5,
+        "newKing": 56,
+        "cityIds": [
+          0,
+          3,
+          8
+        ],
+        "personIds": [
+          66,
+          56,
+          57,
+          64,
+          65,
+          63,
+          61
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30,
+          "goodsQueue": 2000
+        },
+        "successionOutcomeAccepted": true,
+        "randomMonthAccepted": false,
+        "rngContinuityAccepted": false
+      },
+      "returnVerdict": {
+        "accepted": true,
+        "stage": "terminal-map",
+        "randomMonthAccepted": false,
+        "limits": [
+          "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+          "Save/load independently binds the complete recorded terminal world"
+        ]
+      },
+      "battleContextVerdict": {
+        "accepted": true,
+        "oldKing": 5,
+        "captiveCity": 9,
+        "orderIndex": 170,
+        "armySlot": 0,
+        "winnerIds": [
+          85,
+          11
+        ],
+        "randomCaptureObserved": true
+      },
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": null,
+      "observations": [],
+      "systemOpen": [
+        {
+          "ordinal": 1,
+          "error": "Timed out Actual HD system insystem",
+          "beforePointers": [
+            "4",
+            "5",
+            "6"
+          ],
+          "blocked": true,
+          "click": "no-grant",
+          "ready": false
+        }
+      ],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-667-v2",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 667,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-667",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "af7fa09fbcbc0e1f923805f3f800e30bc827133b5116fca275f8ce861cce1353"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-667-v3",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 667,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-667",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "187776054a8020c8df08138636384f3ad3e5e77c7579f8b8abc005e68b621bb8"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-667-v4",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 667,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-667",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "fb3f4423470e9cb93997eae194ef2c9c6df111daec6be484ee53a1763fd63d82"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-667-v5",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":26,\"columnNumber\":22,\"scriptId\":\"102\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"\",\"scriptId\":\"102\",\"url\":\"\",\"lineNumber\":26,\"columnNumber\":28},{\"functionName\":\"\",\"scriptId\":\"102\",\"url\":\"\",\"lineNumber\":39,\"columnNumber\":2},{\"functionName\":\"\",\"scriptId\":\"102\",\"url\":\"\",\"lineNumber\":43,\"columnNumber\":145}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"Error\",\"description\":\"Error: Original world ABI counts differ\\n    at <anonymous>:27:29\\n    at <anonymous>:40:3\\n    at <anonymous>:44:146\",\"objectId\":\"-4101576202632443063.3.2\"}}",
+      "viewport": 667,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-667",
+        "campaign-667-01-inherited-map",
+        "campaign-667-02-inherited-city-status",
+        "campaign-667-03-post-inheritance-operation-map",
+        "campaign-667-04-saved-inherited-map",
+        "campaign-667-05-genuine-mutated-map",
+        "failure"
+      ],
+      "candidateCount": 6,
+      "negatives": 6,
+      "nativeKeys": 71,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 280,
+        "sha256": "30c586f48b15a1d86f717855feb99489d0b9eb205007eb783c99b6fb49ab1b61"
+      },
+      "choice": {
+        "accepted": true,
+        "oldKing": 5,
+        "candidateIds": [
+          56,
+          57,
+          60,
+          64,
+          66,
+          65
+        ],
+        "chosenIndex": 1,
+        "chosenId": 57,
+        "nativeNames": [
+          "韩遂",
+          "马超",
+          "程银",
+          "成宜",
+          "杨秋",
+          "马玩"
+        ],
+        "owner": {
+          "context": 5,
+          "kind": 1,
+          "seq": 38,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+        "successionOutcomeAccepted": false
+      },
+      "reportVerdict": {
+        "accepted": true,
+        "stage": "new-king-report",
+        "oldKing": 5,
+        "newKing": 57,
+        "checkedWorld": true
+      },
+      "settlementVerdict": {
+        "accepted": true,
+        "stage": "native-successor-committed",
+        "oldKing": 5,
+        "newKing": 57,
+        "cityIds": [
+          0,
+          3,
+          8
+        ],
+        "personIds": [
+          56,
+          57,
+          60,
+          64,
+          66,
+          65
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30,
+          "goodsQueue": 2000
+        },
+        "successionOutcomeAccepted": true,
+        "randomMonthAccepted": false,
+        "rngContinuityAccepted": false
+      },
+      "returnVerdict": {
+        "accepted": true,
+        "stage": "terminal-map",
+        "randomMonthAccepted": false,
+        "limits": [
+          "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+          "Save/load independently binds the complete recorded terminal world"
+        ]
+      },
+      "battleContextVerdict": {
+        "accepted": true,
+        "oldKing": 5,
+        "captiveCity": 9,
+        "orderIndex": 170,
+        "armySlot": 0,
+        "winnerIds": [
+          11,
+          85
+        ],
+        "randomCaptureObserved": true
+      },
+      "saved": true,
+      "mutated": true,
+      "loaded": false,
+      "notCovered": null,
+      "observations": [
+        {
+          "page": 1,
+          "reports": 6,
+          "commits": 1,
+          "overflow": false
+        }
+      ],
+      "systemOpen": [
+        {
+          "ordinal": 1,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        },
+        {
+          "ordinal": 2,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        }
+      ],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-667-v6",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 667,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-667",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "e428c06b3ca0bb690ceee4a25c1211bec829554b34889f248c9e73673f08eb71"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-667-v7",
+      "accepted": true,
+      "ok": true,
+      "error": null,
+      "viewport": 667,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-667",
+        "campaign-667-01-inherited-map",
+        "campaign-667-02-inherited-city-status",
+        "campaign-667-03-post-inheritance-operation-map",
+        "campaign-667-04-saved-inherited-map",
+        "campaign-667-05-genuine-mutated-map",
+        "campaign-667-06-reloaded-title",
+        "campaign-667-07-restored-inherited-map"
+      ],
+      "candidateCount": 5,
+      "negatives": 6,
+      "nativeKeys": 74,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 280,
+        "sha256": "dac223386f7070df63a3fa8ef3dafcc4a8e183c76a87239eb54da6c393b436ee"
+      },
+      "choice": {
+        "accepted": true,
+        "oldKing": 5,
+        "candidateIds": [
+          56,
+          57,
+          65,
+          64,
+          61
+        ],
+        "chosenIndex": 1,
+        "chosenId": 57,
+        "nativeNames": [
+          "韩遂",
+          "马超",
+          "马玩",
+          "成宜",
+          "李堪"
+        ],
+        "owner": {
+          "context": 5,
+          "kind": 1,
+          "seq": 38,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+        "successionOutcomeAccepted": false
+      },
+      "reportVerdict": {
+        "accepted": true,
+        "stage": "new-king-report",
+        "oldKing": 5,
+        "newKing": 57,
+        "checkedWorld": true
+      },
+      "settlementVerdict": {
+        "accepted": true,
+        "stage": "native-successor-committed",
+        "oldKing": 5,
+        "newKing": 57,
+        "cityIds": [
+          0,
+          3,
+          8
+        ],
+        "personIds": [
+          56,
+          57,
+          65,
+          64,
+          61
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30,
+          "goodsQueue": 2000
+        },
+        "successionOutcomeAccepted": true,
+        "randomMonthAccepted": false,
+        "rngContinuityAccepted": false
+      },
+      "returnVerdict": {
+        "accepted": true,
+        "stage": "terminal-map",
+        "randomMonthAccepted": false,
+        "limits": [
+          "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+          "Save/load independently binds the complete recorded terminal world"
+        ]
+      },
+      "battleContextVerdict": {
+        "accepted": true,
+        "oldKing": 5,
+        "captiveCity": 9,
+        "orderIndex": 170,
+        "armySlot": 0,
+        "winnerIds": [
+          85,
+          11
+        ],
+        "randomCaptureObserved": true
+      },
+      "saved": true,
+      "mutated": true,
+      "loaded": true,
+      "notCovered": null,
+      "observations": [
+        {
+          "page": 1,
+          "reports": 6,
+          "commits": 1,
+          "overflow": false
+        }
+      ],
+      "systemOpen": [
+        {
+          "ordinal": 1,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        },
+        {
+          "ordinal": 2,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        }
+      ],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [
+        "Actual original player king capture and authenticated direct successor IDs independently checked against the native resident queues",
+        "Trusted HD non-first successor, report-active and synchronous committed complete recorded worlds, current inherited CITY operation and one native return",
+        "Original native save pair, genuine post-save Treat mutation, normal end/reload/load and exact recorded terminal world restoration"
+      ],
+      "pendingScope": [
+        "Random month outcome prediction and RNG continuity",
+        "Other periods/capture branches and defender campaigns",
+        "Android/iOS devices, full visual frames and complete HD"
+      ]
+    },
+    {
+      "directory": "installed-844-v1",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: Timed out Actual HD system insystem",
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "campaign-844-01-inherited-map",
+        "campaign-844-02-inherited-city-status",
+        "campaign-844-03-post-inheritance-operation-map",
+        "failure"
+      ],
+      "candidateCount": 5,
+      "negatives": 6,
+      "nativeKeys": 45,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 280,
+        "sha256": "7900abe61695ed2af36fc327736e8e5a37187add4048f4e690788d4dbe1e2d78"
+      },
+      "choice": {
+        "accepted": true,
+        "oldKing": 5,
+        "candidateIds": [
+          56,
+          57,
+          61,
+          64,
+          65
+        ],
+        "chosenIndex": 1,
+        "chosenId": 57,
+        "nativeNames": [
+          "韩遂",
+          "马超",
+          "李堪",
+          "成宜",
+          "马玩"
+        ],
+        "owner": {
+          "context": 5,
+          "kind": 1,
+          "seq": 38,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+        "successionOutcomeAccepted": false
+      },
+      "reportVerdict": {
+        "accepted": true,
+        "stage": "new-king-report",
+        "oldKing": 5,
+        "newKing": 57,
+        "checkedWorld": true
+      },
+      "settlementVerdict": {
+        "accepted": true,
+        "stage": "native-successor-committed",
+        "oldKing": 5,
+        "newKing": 57,
+        "cityIds": [
+          0,
+          3,
+          8
+        ],
+        "personIds": [
+          56,
+          57,
+          61,
+          64,
+          65
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30,
+          "goodsQueue": 2000
+        },
+        "successionOutcomeAccepted": true,
+        "randomMonthAccepted": false,
+        "rngContinuityAccepted": false
+      },
+      "returnVerdict": {
+        "accepted": true,
+        "stage": "terminal-map",
+        "randomMonthAccepted": false,
+        "limits": [
+          "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+          "Save/load independently binds the complete recorded terminal world"
+        ]
+      },
+      "battleContextVerdict": {
+        "accepted": true,
+        "oldKing": 5,
+        "captiveCity": 9,
+        "orderIndex": 170,
+        "armySlot": 0,
+        "winnerIds": [
+          85,
+          11
+        ],
+        "randomCaptureObserved": true
+      },
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": null,
+      "observations": [],
+      "systemOpen": [
+        {
+          "ordinal": 1,
+          "error": "Timed out Actual HD system insystem",
+          "beforePointers": [
+            "4",
+            "5",
+            "6"
+          ],
+          "blocked": true,
+          "click": "no-grant",
+          "ready": false
+        }
+      ],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-844-v2",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "fb3f4423470e9cb93997eae194ef2c9c6df111daec6be484ee53a1763fd63d82"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-844-v3",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "fb3f4423470e9cb93997eae194ef2c9c6df111daec6be484ee53a1763fd63d82"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-844-v4",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":26,\"columnNumber\":22,\"scriptId\":\"102\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"\",\"scriptId\":\"102\",\"url\":\"\",\"lineNumber\":26,\"columnNumber\":28},{\"functionName\":\"\",\"scriptId\":\"102\",\"url\":\"\",\"lineNumber\":39,\"columnNumber\":2},{\"functionName\":\"\",\"scriptId\":\"102\",\"url\":\"\",\"lineNumber\":43,\"columnNumber\":145}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"Error\",\"description\":\"Error: Original world ABI counts differ\\n    at <anonymous>:27:29\\n    at <anonymous>:40:3\\n    at <anonymous>:44:146\",\"objectId\":\"-2176866802471574995.3.2\"}}",
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "campaign-844-01-inherited-map",
+        "campaign-844-02-inherited-city-status",
+        "campaign-844-03-post-inheritance-operation-map",
+        "campaign-844-04-saved-inherited-map",
+        "campaign-844-05-genuine-mutated-map",
+        "failure"
+      ],
+      "candidateCount": 7,
+      "negatives": 6,
+      "nativeKeys": 71,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 280,
+        "sha256": "4dee12e409da183571e1cee632e24508f5538b25554b091adb8ae8c47e11bbad"
+      },
+      "choice": {
+        "accepted": true,
+        "oldKing": 5,
+        "candidateIds": [
+          56,
+          57,
+          63,
+          64,
+          66,
+          62,
+          61
+        ],
+        "chosenIndex": 1,
+        "chosenId": 57,
+        "nativeNames": [
+          "韩遂",
+          "马超",
+          "梁兴",
+          "成宜",
+          "杨秋",
+          "张横",
+          "李堪"
+        ],
+        "owner": {
+          "context": 5,
+          "kind": 1,
+          "seq": 38,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+        "successionOutcomeAccepted": false
+      },
+      "reportVerdict": {
+        "accepted": true,
+        "stage": "new-king-report",
+        "oldKing": 5,
+        "newKing": 57,
+        "checkedWorld": true
+      },
+      "settlementVerdict": {
+        "accepted": true,
+        "stage": "native-successor-committed",
+        "oldKing": 5,
+        "newKing": 57,
+        "cityIds": [
+          0,
+          3,
+          8
+        ],
+        "personIds": [
+          56,
+          57,
+          63,
+          64,
+          66,
+          62,
+          61
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30,
+          "goodsQueue": 2000
+        },
+        "successionOutcomeAccepted": true,
+        "randomMonthAccepted": false,
+        "rngContinuityAccepted": false
+      },
+      "returnVerdict": {
+        "accepted": true,
+        "stage": "terminal-map",
+        "randomMonthAccepted": false,
+        "limits": [
+          "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+          "Save/load independently binds the complete recorded terminal world"
+        ]
+      },
+      "battleContextVerdict": {
+        "accepted": true,
+        "oldKing": 5,
+        "captiveCity": 9,
+        "orderIndex": 170,
+        "armySlot": 0,
+        "winnerIds": [
+          85,
+          11
+        ],
+        "randomCaptureObserved": true
+      },
+      "saved": true,
+      "mutated": true,
+      "loaded": false,
+      "notCovered": null,
+      "observations": [
+        {
+          "page": 1,
+          "reports": 6,
+          "commits": 1,
+          "overflow": false
+        }
+      ],
+      "systemOpen": [
+        {
+          "ordinal": 1,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        },
+        {
+          "ordinal": 2,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        }
+      ],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-844-v5",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "e428c06b3ca0bb690ceee4a25c1211bec829554b34889f248c9e73673f08eb71"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-844-v6",
+      "accepted": true,
+      "ok": true,
+      "error": null,
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "campaign-844-01-inherited-map",
+        "campaign-844-02-inherited-city-status",
+        "campaign-844-03-post-inheritance-operation-map",
+        "campaign-844-04-saved-inherited-map",
+        "campaign-844-05-genuine-mutated-map",
+        "campaign-844-06-reloaded-title",
+        "campaign-844-07-restored-inherited-map"
+      ],
+      "candidateCount": 6,
+      "negatives": 6,
+      "nativeKeys": 74,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 280,
+        "sha256": "9118aebe04c5a7879947d09f1de8f0399433672a9ff65248a477066f3e6c3e7b"
+      },
+      "choice": {
+        "accepted": true,
+        "oldKing": 5,
+        "candidateIds": [
+          65,
+          62,
+          56,
+          57,
+          58,
+          64
+        ],
+        "chosenIndex": 1,
+        "chosenId": 62,
+        "nativeNames": [
+          "马玩",
+          "张横",
+          "韩遂",
+          "马超",
+          "庞德",
+          "成宜"
+        ],
+        "owner": {
+          "context": 5,
+          "kind": 1,
+          "seq": 38,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+        "successionOutcomeAccepted": false
+      },
+      "reportVerdict": {
+        "accepted": true,
+        "stage": "new-king-report",
+        "oldKing": 5,
+        "newKing": 62,
+        "checkedWorld": true
+      },
+      "settlementVerdict": {
+        "accepted": true,
+        "stage": "native-successor-committed",
+        "oldKing": 5,
+        "newKing": 62,
+        "cityIds": [
+          0,
+          3,
+          8
+        ],
+        "personIds": [
+          65,
+          62,
+          56,
+          57,
+          58,
+          64
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30,
+          "goodsQueue": 2000
+        },
+        "successionOutcomeAccepted": true,
+        "randomMonthAccepted": false,
+        "rngContinuityAccepted": false
+      },
+      "returnVerdict": {
+        "accepted": true,
+        "stage": "terminal-map",
+        "randomMonthAccepted": false,
+        "limits": [
+          "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+          "Save/load independently binds the complete recorded terminal world"
+        ]
+      },
+      "battleContextVerdict": {
+        "accepted": true,
+        "oldKing": 5,
+        "captiveCity": 9,
+        "orderIndex": 170,
+        "armySlot": 0,
+        "winnerIds": [
+          85,
+          11
+        ],
+        "randomCaptureObserved": true
+      },
+      "saved": true,
+      "mutated": true,
+      "loaded": true,
+      "notCovered": null,
+      "observations": [
+        {
+          "page": 1,
+          "reports": 6,
+          "commits": 1,
+          "overflow": false
+        }
+      ],
+      "systemOpen": [
+        {
+          "ordinal": 1,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        },
+        {
+          "ordinal": 2,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        }
+      ],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [
+        "Actual original player king capture and authenticated direct successor IDs independently checked against the native resident queues",
+        "Trusted HD non-first successor, report-active and synchronous committed complete recorded worlds, current inherited CITY operation and one native return",
+        "Original native save pair, genuine post-save Treat mutation, normal end/reload/load and exact recorded terminal world restoration"
+      ],
+      "pendingScope": [
+        "Random month outcome prediction and RNG continuity",
+        "Other periods/capture branches and defender campaigns",
+        "Android/iOS devices, full visual frames and complete HD"
+      ]
+    },
+    {
+      "directory": "installed-844-v7",
+      "accepted": false,
+      "ok": false,
+      "error": "Error: The genuine random retreat did not produce a surviving player succession picker",
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "failure"
+      ],
+      "candidateCount": 0,
+      "negatives": 0,
+      "nativeKeys": 36,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 278,
+        "sha256": "304f00bc51dc8467c1476adca1a0df16e7dd3992ca0a3c61254eb46b65245f54"
+      },
+      "choice": null,
+      "reportVerdict": null,
+      "settlementVerdict": null,
+      "returnVerdict": null,
+      "battleContextVerdict": null,
+      "saved": false,
+      "mutated": false,
+      "loaded": false,
+      "notCovered": "candidate-not-triggered",
+      "observations": [],
+      "systemOpen": [],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [],
+      "pendingScope": []
+    },
+    {
+      "directory": "installed-844-v8",
+      "accepted": true,
+      "ok": true,
+      "error": null,
+      "viewport": 844,
+      "checkpoints": [
+        "00-title-844",
+        "battle-01-fresh-pick-844",
+        "campaign-844-01-inherited-map",
+        "campaign-844-02-inherited-city-status",
+        "campaign-844-03-post-inheritance-operation-map",
+        "campaign-844-04-saved-inherited-map",
+        "campaign-844-05-genuine-mutated-map",
+        "campaign-844-06-reloaded-title",
+        "campaign-844-07-restored-inherited-map"
+      ],
+      "candidateCount": 5,
+      "negatives": 6,
+      "nativeKeys": 71,
+      "nativeTouches": 0,
+      "exceptions": 0,
+      "sourceDrift": [],
+      "sourceFiles": {
+        "count": 281,
+        "sha256": "8fb74fd53b547fde50b748d27ca28730968f7c4b75883db61ad8ff0b3653cc06"
+      },
+      "choice": {
+        "accepted": true,
+        "oldKing": 5,
+        "candidateIds": [
+          61,
+          64,
+          65,
+          63,
+          60
+        ],
+        "chosenIndex": 1,
+        "chosenId": 64,
+        "nativeNames": [
+          "李堪",
+          "成宜",
+          "马玩",
+          "梁兴",
+          "程银"
+        ],
+        "owner": {
+          "context": 5,
+          "kind": 1,
+          "seq": 38,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+        "successionOutcomeAccepted": false
+      },
+      "reportVerdict": {
+        "accepted": true,
+        "stage": "new-king-report",
+        "oldKing": 5,
+        "newKing": 64,
+        "checkedWorld": true
+      },
+      "settlementVerdict": {
+        "accepted": true,
+        "stage": "native-successor-committed",
+        "oldKing": 5,
+        "newKing": 64,
+        "cityIds": [
+          3,
+          8
+        ],
+        "personIds": [
+          61,
+          64,
+          65,
+          63,
+          60
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30,
+          "goodsQueue": 2000
+        },
+        "successionOutcomeAccepted": true,
+        "randomMonthAccepted": false,
+        "rngContinuityAccepted": false
+      },
+      "returnVerdict": {
+        "accepted": true,
+        "stage": "terminal-map",
+        "randomMonthAccepted": false,
+        "limits": [
+          "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+          "Save/load independently binds the complete recorded terminal world"
+        ]
+      },
+      "battleContextVerdict": {
+        "accepted": true,
+        "oldKing": 5,
+        "captiveCity": 9,
+        "orderIndex": 170,
+        "armySlot": 0,
+        "winnerIds": [
+          85,
+          11
+        ],
+        "randomCaptureObserved": true
+      },
+      "saved": true,
+      "mutated": true,
+      "loaded": true,
+      "notCovered": null,
+      "observations": [
+        {
+          "page": 1,
+          "reports": 8,
+          "commits": 1,
+          "overflow": false
+        }
+      ],
+      "systemOpen": [
+        {
+          "ordinal": 1,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        },
+        {
+          "ordinal": 2,
+          "error": null,
+          "beforePointers": [],
+          "blocked": false,
+          "click": "authorized",
+          "ready": true
+        }
+      ],
+      "engineSource": {
+        "verified": true,
+        "count": 128,
+        "sha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315"
+      },
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true
+      },
+      "acceptedScope": [
+        "Actual original player king capture and authenticated direct successor IDs independently checked against the native resident queues",
+        "Trusted HD non-first successor, report-active and synchronous committed complete recorded worlds, current inherited CITY operation and one native return",
+        "Original native save pair, genuine post-save Treat mutation, normal end/reload/load and exact recorded terminal world restoration"
+      ],
+      "pendingScope": [
+        "Random month outcome prediction and RNG continuity",
+        "Other periods/capture branches and defender campaigns",
+        "Android/iOS devices, full visual frames and complete HD"
+      ]
+    }
+  ],
+  "suites": [
+    {
+      "startedAt": "2026-10-11T09:05:15.104Z",
+      "finishedAt": "2026-10-11T09:06:26.595Z",
+      "node": "v24.14.0",
+      "executionConcurrency": 1,
+      "modules": 84,
+      "exitCode": 0,
+      "counts": {
+        "tests": 3811,
+        "suites": 0,
+        "pass": 3811,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "sourceDrift": [],
+      "sources": 219,
+      "directory": "final-suite-v1"
+    }
+  ],
+  "build": {
+    "at": "2026-10-11T08:50:42.209Z",
+    "nativeBuildChanged": false,
+    "engineSourceSha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315",
+    "nativeFiles": 128,
+    "artifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192766,
+        "sha256": "c7b3f940a22d9aacb03e04ad1da4f293751822d9e4bfc35e1f0e72dd33f00651"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4556377,
+        "sha256": "2b6f779d0c1597d5f648c1f6cc183ed7ad728e29e4009fb200e46de37066a0f6"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "ab888c41526b347cd1186c3c82f69314621aa4e7680d36bc83065eb9278b2cf5"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 21284,
+        "sha256": "796da0939b5fd76b45ee91fecc70bff783cb468d9651ef185481268204c28646"
+      }
+    ],
+    "native": [
+      {
+        "path": "vendor/iBaye/.gitignore",
+        "bytes": 44,
+        "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75"
+      },
+      {
+        "path": "vendor/iBaye/.gitmodules",
+        "bytes": 293,
+        "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca"
+      },
+      {
+        "path": "vendor/iBaye/ATTRIBUTION.md",
+        "bytes": 495,
+        "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4"
+      },
+      {
+        "path": "vendor/iBaye/CMakeLists.txt",
+        "bytes": 82,
+        "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68"
+      },
+      {
+        "path": "vendor/iBaye/LICENSE",
+        "bytes": 1091,
+        "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1"
+      },
+      {
+        "path": "vendor/iBaye/README.md",
+        "bytes": 2077,
+        "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5"
+      },
+      {
+        "path": "vendor/iBaye/UPSTREAM_COMMIT",
+        "bytes": 42,
+        "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659"
+      },
+      {
+        "path": "vendor/iBaye/js/.gitignore",
+        "bytes": 62,
+        "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea"
+      },
+      {
+        "path": "vendor/iBaye/js/config.sh",
+        "bytes": 61,
+        "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff"
+      },
+      {
+        "path": "vendor/iBaye/js/whitelist.json",
+        "bytes": 3368,
+        "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f"
+      },
+      {
+        "path": "vendor/iBaye/src/CMakeLists.txt",
+        "bytes": 3097,
+        "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtCount.c",
+        "bytes": 27302,
+        "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtPkAi.c",
+        "bytes": 44229,
+        "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+      },
+      {
+        "path": "vendor/iBaye/src/Fight.c",
+        "bytes": 58254,
+        "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/Gamhzk.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33782,
+        "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+      },
+      {
+        "path": "vendor/iBaye/src/Size.c",
+        "bytes": 1727,
+        "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/bind-objects.h",
+        "bytes": 2593,
+        "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/comm.h",
+        "bytes": 5109,
+        "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/compa.h",
+        "bytes": 3328,
+        "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/data-bind.h",
+        "bytes": 4001,
+        "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/datman.h",
+        "bytes": 1158,
+        "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/enghead.h",
+        "bytes": 370,
+        "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/errcode.h",
+        "bytes": 985,
+        "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/extern.h",
+        "bytes": 4158,
+        "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fight.h",
+        "bytes": 9611,
+        "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fsys.h",
+        "bytes": 1185,
+        "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundec.h",
+        "bytes": 2184,
+        "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundef.h",
+        "bytes": 200,
+        "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/graph.h",
+        "bytes": 451,
+        "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/itoa.h",
+        "bytes": 267,
+        "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/order.h",
+        "bytes": 2916,
+        "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/paccount.h",
+        "bytes": 2251,
+        "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/resource.h",
+        "bytes": 557,
+        "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sconst.h",
+        "bytes": 4101,
+        "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/script.h",
+        "bytes": 873,
+        "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sharefun.h",
+        "bytes": 8365,
+        "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sources.h",
+        "bytes": 286,
+        "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/stdsys.h",
+        "bytes": 500,
+        "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 17734,
+        "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmd.c",
+        "bytes": 39212,
+        "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdb.c",
+        "bytes": 34493,
+        "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdc.c",
+        "bytes": 39495,
+        "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38172,
+        "sha256": "f59bcaa07e6b418135dd1b05e867216f3971a0d98213b0ad314243aecab6c48d"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmde.c",
+        "bytes": 15557,
+        "sha256": "1b79d469ce34b93af8ef41397a15c28123fc90b3240fbf727c426d636e2d0618"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/comOut.c",
+        "bytes": 21378,
+        "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+      },
+      {
+        "path": "vendor/iBaye/src/config.c",
+        "bytes": 179,
+        "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+      },
+      {
+        "path": "vendor/iBaye/src/convert_to_c.py",
+        "bytes": 294,
+        "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e"
+      },
+      {
+        "path": "vendor/iBaye/src/dat.lib.orig",
+        "bytes": 196890,
+        "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab"
+      },
+      {
+        "path": "vendor/iBaye/src/data-bind.c",
+        "bytes": 4662,
+        "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pconst.h",
+        "bytes": 1761,
+        "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pstring.h",
+        "bytes": 1524,
+        "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+      },
+      {
+        "path": "vendor/iBaye/src/datman.c",
+        "bytes": 9424,
+        "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+      },
+      {
+        "path": "vendor/iBaye/src/debug.c",
+        "bytes": 1904,
+        "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac"
+      },
+      {
+        "path": "vendor/iBaye/src/font.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/fsys.c",
+        "bytes": 33667,
+        "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da"
+      },
+      {
+        "path": "vendor/iBaye/src/gamEng.c",
+        "bytes": 47517,
+        "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+      },
+      {
+        "path": "vendor/iBaye/src/genver.py",
+        "bytes": 416,
+        "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 195970,
+        "sha256": "f8287d80bf9cb3e5a5ef04a512d96a908e7cba433a07069b6d52405a8e8a8db7"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 19003,
+        "sha256": "125171dfa461663dc875a37a7f6eb96c8b0b38fa849e6d3b148224c93143e439"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/ADDR.H",
+        "bytes": 2468,
+        "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictAfx.h",
+        "bytes": 702,
+        "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictHelp.h",
+        "bytes": 5664,
+        "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/GuiEdit.h",
+        "bytes": 2021,
+        "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/MEM.H",
+        "bytes": 1207,
+        "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/STDLIB.H",
+        "bytes": 19,
+        "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/SysResv.h",
+        "bytes": 6103,
+        "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/dictsys.h",
+        "bytes": 21754,
+        "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/filetype.h",
+        "bytes": 4695,
+        "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/flash.h",
+        "bytes": 17046,
+        "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/fsys.h",
+        "bytes": 1991,
+        "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/keytable.h",
+        "bytes": 3820,
+        "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/shell.h",
+        "bytes": 2138,
+        "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/itoa.c",
+        "bytes": 1038,
+        "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c"
+      },
+      {
+        "path": "vendor/iBaye/src/main.c",
+        "bytes": 116,
+        "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.c",
+        "bytes": 327452,
+        "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.h",
+        "bytes": 70791,
+        "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6"
+      },
+      {
+        "path": "vendor/iBaye/src/paccount.c",
+        "bytes": 3892,
+        "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd"
+      },
+      {
+        "path": "vendor/iBaye/src/pconst.c",
+        "bytes": 4213,
+        "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246"
+      },
+      {
+        "path": "vendor/iBaye/src/picture.asm",
+        "bytes": 9186,
+        "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/bios.c",
+        "bytes": 1053,
+        "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/gui.c",
+        "bytes": 3231,
+        "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sem.h",
+        "bytes": 522,
+        "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sys.c",
+        "bytes": 15103,
+        "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/timer.h",
+        "bytes": 485,
+        "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+        "bytes": 424,
+        "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/fsys.c",
+        "bytes": 4119,
+        "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sem.m",
+        "bytes": 866,
+        "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+        "bytes": 229,
+        "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/timer.m",
+        "bytes": 1937,
+        "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/dat.lib.c",
+        "bytes": 1181340,
+        "sha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/exportjs.c",
+        "bytes": 9789,
+        "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font.bin.c",
+        "bytes": 1003524,
+        "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.1.bin.c",
+        "bytes": 3616965,
+        "sha256": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.2.bin.c",
+        "bytes": 3616965,
+        "sha256": "0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.3.bin.c",
+        "bytes": 3616965,
+        "sha256": "f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.4.bin.c",
+        "bytes": 3616965,
+        "sha256": "7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.1.c",
+        "bytes": 117817,
+        "sha256": "c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.2.c",
+        "bytes": 117817,
+        "sha256": "41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/fsys.c",
+        "bytes": 11703,
+        "sha256": "144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/main.c",
+        "bytes": 1046,
+        "sha256": "a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/script.c",
+        "bytes": 7078,
+        "sha256": "b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sem.c",
+        "bytes": 1173,
+        "sha256": "c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sys-js.c",
+        "bytes": 312,
+        "sha256": "be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/timer.c",
+        "bytes": 1797,
+        "sha256": "178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/fsys.c",
+        "bytes": 24,
+        "sha256": "da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/game.c",
+        "bytes": 827,
+        "sha256": "d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/script.c",
+        "bytes": 32,
+        "sha256": "81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sem.c",
+        "bytes": 850,
+        "sha256": "5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sys.c",
+        "bytes": 27,
+        "sha256": "2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/timer.c",
+        "bytes": 1274,
+        "sha256": "34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/window.c",
+        "bytes": 6742,
+        "sha256": "2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac"
+      },
+      {
+        "path": "vendor/iBaye/src/pstring.c",
+        "bytes": 4189,
+        "sha256": "0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.c",
+        "bytes": 135,
+        "sha256": "6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.h",
+        "bytes": 183,
+        "sha256": "d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 42650,
+        "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+      },
+      {
+        "path": "vendor/iBaye/src/strcnt.c",
+        "bytes": 7932,
+        "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 45067,
+        "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.c",
+        "bytes": 6575,
+        "sha256": "cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.h",
+        "bytes": 1559,
+        "sha256": "559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73"
+      },
+      {
+        "path": "vendor/iBaye/src/varma.c",
+        "bytes": 4162,
+        "sha256": "4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508"
+      },
+      {
+        "path": "vendor/iBaye/src/version.c",
+        "bytes": 242,
+        "sha256": "3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8"
+      }
+    ]
+  },
+  "cleanup": {
+    "at": "2026-10-11T09:08:42.3905714+00:00",
+    "runs": [
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-667-v1",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-667-v2",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-667-v3",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-667-v4",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-667-v5",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-667-v6",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-667-v7",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v1",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v2",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v3",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v4",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v5",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v6",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v7",
+      "F:\\project\\baye-sanguo\\build\\mobile-campaign-completion-20261011\\installed-844-v8"
+    ],
+    "recordedIdentities": 189,
+    "survivingRecorded": [],
+    "pidReusedByOtherProcess": [],
+    "privateListeners": [],
+    "allRuntimeCleanupPassed": true,
+    "user8080Before": {
+      "at": "2026-10-11T16:46:36.245529+08:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.279718Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080After": {
+      "at": "2026-10-11T09:08:42.3064615+00:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080Unchanged": true
+  },
+  "independentReview": {
+    "schemaVersion": 1,
+    "auditOk": true,
+    "scope": "Independent pure-file recomputation of three terminal original mobile player-succession/save/reload/load runs; no browser or OS sampling.",
+    "methods": {
+      "newActualExecuted": false,
+      "osSampled": false,
+      "trackedFilesEdited": false,
+      "acceptedBooleansNotUsedAsSoleOracle": true,
+      "oracleExecution": "Actual maintained pure source in isolated VM using locally parsed raw result JSON; full measured world comparisons."
+    },
+    "oracleSources": [
+      {
+        "path": "scripts/hd-mobile-successor-runtime-oracle.mjs",
+        "bytes": 13121,
+        "sha256": "aa8349aee6f820541d2ba4347b454a119488bc4d5eed826974eb0ef12cfb789b"
+      },
+      {
+        "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+        "bytes": 10021,
+        "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+      },
+      {
+        "path": "scripts/hd-mobile-campaign-runtime-checks.mjs",
+        "bytes": 36168,
+        "sha256": "f35f5e5cb559251e58389f272a4288d1e4d6fb08050e9adcb6cfa9075ce09bf1"
+      }
+    ],
+    "runs": [
+      {
+        "id": "installed-844-v6",
+        "result": {
+          "path": "build/mobile-campaign-completion-20261011/installed-844-v6/result.json",
+          "bytes": 22418502,
+          "sha256": "a2b41eaf106883ed769895ee32c8f7df33b57217ca272cb785e52a82cf78218e"
+        },
+        "executedTool": {
+          "path": "build/mobile-campaign-completion-20261011/installed-844-v6/executed-tool.mjs",
+          "bytes": 112028,
+          "sha256": "dc2462e4d3d84934f7c3f4efe5e279acf6bdf2315623f4f4167f729859422d3b"
+        },
+        "sourceVerification": {
+          "path": "build/mobile-campaign-completion-20261011/installed-844-v6/source-verification.json",
+          "bytes": 79595,
+          "sha256": "78366f466a99d4f6f5e58c21ff627a91d16f1b30123d4b4e63e4298a516ce047"
+        },
+        "recomputed": {
+          "choice": {
+            "accepted": true,
+            "oldKing": 5,
+            "candidateIds": [
+              65,
+              62,
+              56,
+              57,
+              58,
+              64
+            ],
+            "chosenIndex": 1,
+            "chosenId": 62,
+            "nativeNames": [
+              "马玩",
+              "张横",
+              "韩遂",
+              "马超",
+              "庞德",
+              "成宜"
+            ],
+            "owner": {
+              "context": 5,
+              "kind": 1,
+              "seq": 38,
+              "generation": 3,
+              "detailGeneration": 3
+            },
+            "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+            "successionOutcomeAccepted": false
+          },
+          "report": {
+            "accepted": true,
+            "stage": "new-king-report",
+            "oldKing": 5,
+            "newKing": 62,
+            "checkedWorld": true
+          },
+          "commit": {
+            "accepted": true,
+            "stage": "native-successor-committed",
+            "oldKing": 5,
+            "newKing": 62,
+            "cityIds": [
+              0,
+              3,
+              8
+            ],
+            "personIds": [
+              65,
+              62,
+              56,
+              57,
+              58,
+              64
+            ],
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighterBytes": 600,
+              "fighterFlags": 30,
+              "goodsQueue": 2000
+            },
+            "successionOutcomeAccepted": true,
+            "randomMonthAccepted": false,
+            "rngContinuityAccepted": false
+          },
+          "battle": {
+            "accepted": true,
+            "oldKing": 5,
+            "captiveCity": 9,
+            "orderIndex": 170,
+            "armySlot": 0,
+            "winnerIds": [
+              85,
+              11
+            ],
+            "randomCaptureObserved": true
+          },
+          "returned": {
+            "accepted": true,
+            "stage": "terminal-map",
+            "randomMonthAccepted": false,
+            "limits": [
+              "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+              "Save/load independently binds the complete recorded terminal world"
+            ]
+          },
+          "fullRecordedTreatWorld": {
+            "actor": 65,
+            "cityIndex": 0,
+            "money": [
+              202,
+              102,
+              102
+            ],
+            "thew": [
+              100,
+              100,
+              100
+            ],
+            "devotion": [
+              86,
+              86,
+              87
+            ]
+          },
+          "loadedWorldEqualsSavedWorld": true,
+          "savePair": {
+            "version": 149,
+            "files": {
+              "sav0": {
+                "bytes": 8221,
+                "sha256": "63b3ee2b900f9b3f1ffa5e34a6a66f4afcc18548faae977e8e37dff57a0bb695"
+              },
+              "sav1": {
+                "bytes": 4840,
+                "sha256": "394a1f5d45125974484cfd3f6974fb5a009d3ed94695e1beac933cf1d0da6249"
+              }
+            },
+            "checked": {
+              "headerFields": [
+                "period",
+                "king",
+                "year",
+                "month"
+              ],
+              "people": 200,
+              "peopleFields": [
+                "OldBelong",
+                "Belong",
+                "Level",
+                "Force",
+                "IQ",
+                "Devotion",
+                "Character",
+                "Experience",
+                "Thew",
+                "ArmsType",
+                "Arms",
+                "Tool1",
+                "Tool2",
+                "Age"
+              ],
+              "cities": 38,
+              "cityFields": [
+                "Belong",
+                "SatrapId",
+                "State",
+                "AvoidCalamity",
+                "PeopleDevotion",
+                "Commerce",
+                "Money",
+                "Food",
+                "MothballArms",
+                "PersonQueue",
+                "Persons",
+                "Tools",
+                "ToolQueue"
+              ],
+              "residentQueuePrefix": 200,
+              "goodsQueue": 2000,
+              "rawFighterBytes": 600,
+              "fighterPersonTokens": 300,
+              "fighterIndex": 30,
+              "orders": 200,
+              "orderFields": [
+                "OrderId",
+                "City",
+                "Person",
+                "Object",
+                "TimeCount",
+                "Food"
+              ]
+            },
+            "savedOracleExact": true,
+            "loadedOracleExact": true
+          }
+        },
+        "input": {
+          "dir": "build/mobile-campaign-completion-20261011/installed-844-v6",
+          "keys": 74,
+          "lcdTouches": 0,
+          "pageInputs": [
+            {
+              "page": 1,
+              "keys": 70,
+              "events": 164
+            },
+            {
+              "page": 2,
+              "keys": 4,
+              "events": 10
+            }
+          ],
+          "opens": [
+            {
+              "ordinal": 1,
+              "keys": [
+                40
+              ],
+              "readyPointerIDs": [],
+              "blocked": false
+            },
+            {
+              "ordinal": 2,
+              "keys": [
+                40
+              ],
+              "readyPointerIDs": [],
+              "blocked": false
+            }
+          ],
+          "nonfirstSuccessorKeys": [
+            35,
+            39
+          ],
+          "allCandidatesActuallyVisible": 6,
+          "pcPreferencesSame": true,
+          "saveStorage": {
+            "validatePairReportedTrue": true,
+            "canLoad": true,
+            "journal": null,
+            "metadata": [
+              {
+                ".lib": "libs/dat-mod.lib",
+                ".name": "三国霸业-词典原版",
+                ".lib-id": "v1:414390:1d36da77:1e9c0477"
+              },
+              {
+                ".lib": "libs/dat-mod.lib",
+                ".name": "三国霸业-词典原版",
+                ".lib-id": "v1:414390:1d36da77:1e9c0477"
+              }
+            ],
+            "saveSelectorSeq": [
+              3,
+              4
+            ],
+            "loadSelectorSeq": [
+              2,
+              4
+            ],
+            "pairPostMutationReloadLoadByteSame": "Runtime exact fresh-pair assertions; only original pair raw value retained, not a second separately retained post-load raw pair."
+          },
+          "completePage1Observer": {
+            "commits": 1,
+            "reports": 6,
+            "playerCommits": 1
+          },
+          "loadedHudExact": true
+        },
+        "currentAndFrozenSources": {
+          "dir": "build/mobile-campaign-completion-20261011/installed-844-v6",
+          "count": 280,
+          "currentAndFrozenExact": true,
+          "sourceManifestSha256": "f2ae956914af0f9e0455b6aabcea7537caf4d0fb7ee5f777416d71873c1f66cc"
+        },
+        "nativeSourceCount": 128,
+        "nativeEngineSourceSha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315",
+        "installedEngineFiles": [
+          {
+            "path": "js/baye.js",
+            "bytes": 192766,
+            "sha256": "c7b3f940a22d9aacb03e04ad1da4f293751822d9e4bfc35e1f0e72dd33f00651"
+          },
+          {
+            "path": "js/baye.wasm",
+            "bytes": 4556377,
+            "sha256": "2b6f779d0c1597d5f648c1f6cc183ed7ad728e29e4009fb200e46de37066a0f6"
+          },
+          {
+            "path": "js/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "ab888c41526b347cd1186c3c82f69314621aa4e7680d36bc83065eb9278b2cf5"
+          },
+          {
+            "path": "js/baye.build.json",
+            "bytes": 21284,
+            "sha256": "796da0939b5fd76b45ee91fecc70bff783cb468d9651ef185481268204c28646"
+          }
+        ],
+        "terminalReport": {
+          "accepted": true,
+          "campaignAccepted": true,
+          "successionOutcomeAccepted": true,
+          "phases": 9,
+          "sourceDriftCount": 0,
+          "exceptionsCount": 0,
+          "cleanupTreeExited": true,
+          "privateServerClosed": true
+        },
+        "bounds": {
+          "realDeviceAccepted": false,
+          "fullHdAccepted": false,
+          "randomMonthAccepted": false,
+          "rngContinuityAccepted": false
+        }
+      },
+      {
+        "id": "installed-667-v7",
+        "result": {
+          "path": "build/mobile-campaign-completion-20261011/installed-667-v7/result.json",
+          "bytes": 22361720,
+          "sha256": "b08876fdb5398d016062fd0d8ec5b8b479859816adb847bfa96a30c40a1a18ef"
+        },
+        "executedTool": {
+          "path": "build/mobile-campaign-completion-20261011/installed-667-v7/executed-tool.mjs",
+          "bytes": 112028,
+          "sha256": "dc2462e4d3d84934f7c3f4efe5e279acf6bdf2315623f4f4167f729859422d3b"
+        },
+        "sourceVerification": {
+          "path": "build/mobile-campaign-completion-20261011/installed-667-v7/source-verification.json",
+          "bytes": 79595,
+          "sha256": "68a8dba56f7a0cfd2f6bcacebccd332d9f0a63461ded921e3897f57de2186863"
+        },
+        "recomputed": {
+          "choice": {
+            "accepted": true,
+            "oldKing": 5,
+            "candidateIds": [
+              56,
+              57,
+              65,
+              64,
+              61
+            ],
+            "chosenIndex": 1,
+            "chosenId": 57,
+            "nativeNames": [
+              "韩遂",
+              "马超",
+              "马玩",
+              "成宜",
+              "李堪"
+            ],
+            "owner": {
+              "context": 5,
+              "kind": 1,
+              "seq": 38,
+              "generation": 3,
+              "detailGeneration": 3
+            },
+            "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+            "successionOutcomeAccepted": false
+          },
+          "report": {
+            "accepted": true,
+            "stage": "new-king-report",
+            "oldKing": 5,
+            "newKing": 57,
+            "checkedWorld": true
+          },
+          "commit": {
+            "accepted": true,
+            "stage": "native-successor-committed",
+            "oldKing": 5,
+            "newKing": 57,
+            "cityIds": [
+              0,
+              3,
+              8
+            ],
+            "personIds": [
+              56,
+              57,
+              65,
+              64,
+              61
+            ],
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighterBytes": 600,
+              "fighterFlags": 30,
+              "goodsQueue": 2000
+            },
+            "successionOutcomeAccepted": true,
+            "randomMonthAccepted": false,
+            "rngContinuityAccepted": false
+          },
+          "battle": {
+            "accepted": true,
+            "oldKing": 5,
+            "captiveCity": 9,
+            "orderIndex": 170,
+            "armySlot": 0,
+            "winnerIds": [
+              85,
+              11
+            ],
+            "randomCaptureObserved": true
+          },
+          "returned": {
+            "accepted": true,
+            "stage": "terminal-map",
+            "randomMonthAccepted": false,
+            "limits": [
+              "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+              "Save/load independently binds the complete recorded terminal world"
+            ]
+          },
+          "fullRecordedTreatWorld": {
+            "actor": 56,
+            "cityIndex": 0,
+            "money": [
+              202,
+              102,
+              102
+            ],
+            "thew": [
+              100,
+              100,
+              100
+            ],
+            "devotion": [
+              90,
+              90,
+              91
+            ]
+          },
+          "loadedWorldEqualsSavedWorld": true,
+          "savePair": {
+            "version": 149,
+            "files": {
+              "sav0": {
+                "bytes": 8221,
+                "sha256": "0e40ba47882757d7af9233dd1059847a814910f0fca902b305dee7fa74dccd5d"
+              },
+              "sav1": {
+                "bytes": 4840,
+                "sha256": "81014ff68b6a45b602099bab2938d825054a8a1b35d206dcc0fe84ba2631f7cc"
+              }
+            },
+            "checked": {
+              "headerFields": [
+                "period",
+                "king",
+                "year",
+                "month"
+              ],
+              "people": 200,
+              "peopleFields": [
+                "OldBelong",
+                "Belong",
+                "Level",
+                "Force",
+                "IQ",
+                "Devotion",
+                "Character",
+                "Experience",
+                "Thew",
+                "ArmsType",
+                "Arms",
+                "Tool1",
+                "Tool2",
+                "Age"
+              ],
+              "cities": 38,
+              "cityFields": [
+                "Belong",
+                "SatrapId",
+                "State",
+                "AvoidCalamity",
+                "PeopleDevotion",
+                "Commerce",
+                "Money",
+                "Food",
+                "MothballArms",
+                "PersonQueue",
+                "Persons",
+                "Tools",
+                "ToolQueue"
+              ],
+              "residentQueuePrefix": 200,
+              "goodsQueue": 2000,
+              "rawFighterBytes": 600,
+              "fighterPersonTokens": 300,
+              "fighterIndex": 30,
+              "orders": 200,
+              "orderFields": [
+                "OrderId",
+                "City",
+                "Person",
+                "Object",
+                "TimeCount",
+                "Food"
+              ]
+            },
+            "savedOracleExact": true,
+            "loadedOracleExact": true
+          }
+        },
+        "input": {
+          "dir": "build/mobile-campaign-completion-20261011/installed-667-v7",
+          "keys": 74,
+          "lcdTouches": 0,
+          "pageInputs": [
+            {
+              "page": 1,
+              "keys": 70,
+              "events": 164
+            },
+            {
+              "page": 2,
+              "keys": 4,
+              "events": 10
+            }
+          ],
+          "opens": [
+            {
+              "ordinal": 1,
+              "keys": [
+                40
+              ],
+              "readyPointerIDs": [],
+              "blocked": false
+            },
+            {
+              "ordinal": 2,
+              "keys": [
+                40
+              ],
+              "readyPointerIDs": [],
+              "blocked": false
+            }
+          ],
+          "nonfirstSuccessorKeys": [
+            35,
+            39
+          ],
+          "allCandidatesActuallyVisible": 5,
+          "pcPreferencesSame": true,
+          "saveStorage": {
+            "validatePairReportedTrue": true,
+            "canLoad": true,
+            "journal": null,
+            "metadata": [
+              {
+                ".lib": "libs/dat-mod.lib",
+                ".name": "三国霸业-词典原版",
+                ".lib-id": "v1:414390:1d36da77:1e9c0477"
+              },
+              {
+                ".lib": "libs/dat-mod.lib",
+                ".name": "三国霸业-词典原版",
+                ".lib-id": "v1:414390:1d36da77:1e9c0477"
+              }
+            ],
+            "saveSelectorSeq": [
+              3,
+              4
+            ],
+            "loadSelectorSeq": [
+              2,
+              4
+            ],
+            "pairPostMutationReloadLoadByteSame": "Runtime exact fresh-pair assertions; only original pair raw value retained, not a second separately retained post-load raw pair."
+          },
+          "completePage1Observer": {
+            "commits": 1,
+            "reports": 6,
+            "playerCommits": 1
+          },
+          "loadedHudExact": true
+        },
+        "currentAndFrozenSources": {
+          "dir": "build/mobile-campaign-completion-20261011/installed-667-v7",
+          "count": 280,
+          "currentAndFrozenExact": true,
+          "sourceManifestSha256": "27976e0b7a5fc220ba2ab4df174d6086dbe3596028f4bce6f8afb3de2dabb3d8"
+        },
+        "nativeSourceCount": 128,
+        "nativeEngineSourceSha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315",
+        "installedEngineFiles": [
+          {
+            "path": "js/baye.js",
+            "bytes": 192766,
+            "sha256": "c7b3f940a22d9aacb03e04ad1da4f293751822d9e4bfc35e1f0e72dd33f00651"
+          },
+          {
+            "path": "js/baye.wasm",
+            "bytes": 4556377,
+            "sha256": "2b6f779d0c1597d5f648c1f6cc183ed7ad728e29e4009fb200e46de37066a0f6"
+          },
+          {
+            "path": "js/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "ab888c41526b347cd1186c3c82f69314621aa4e7680d36bc83065eb9278b2cf5"
+          },
+          {
+            "path": "js/baye.build.json",
+            "bytes": 21284,
+            "sha256": "796da0939b5fd76b45ee91fecc70bff783cb468d9651ef185481268204c28646"
+          }
+        ],
+        "terminalReport": {
+          "accepted": true,
+          "campaignAccepted": true,
+          "successionOutcomeAccepted": true,
+          "phases": 9,
+          "sourceDriftCount": 0,
+          "exceptionsCount": 0,
+          "cleanupTreeExited": true,
+          "privateServerClosed": true
+        },
+        "bounds": {
+          "realDeviceAccepted": false,
+          "fullHdAccepted": false,
+          "randomMonthAccepted": false,
+          "rngContinuityAccepted": false
+        }
+      },
+      {
+        "id": "installed-844-v8",
+        "result": {
+          "path": "build/mobile-campaign-completion-20261011/installed-844-v8/result.json",
+          "bytes": 23520510,
+          "sha256": "226531d24b898d4d43933d4c24118b5eb8e4e0cb5ca6d5185828f331fc243c71"
+        },
+        "executedTool": {
+          "path": "build/mobile-campaign-completion-20261011/installed-844-v8/executed-tool.mjs",
+          "bytes": 112028,
+          "sha256": "dc2462e4d3d84934f7c3f4efe5e279acf6bdf2315623f4f4167f729859422d3b"
+        },
+        "sourceVerification": {
+          "path": "build/mobile-campaign-completion-20261011/installed-844-v8/source-verification.json",
+          "bytes": 79883,
+          "sha256": "04c9fa0ac47747633ef99a09489df86577278cd0c2f9f325a8d35c306b3d51b8"
+        },
+        "recomputed": {
+          "choice": {
+            "accepted": true,
+            "oldKing": 5,
+            "candidateIds": [
+              61,
+              64,
+              65,
+              63,
+              60
+            ],
+            "chosenIndex": 1,
+            "chosenId": 64,
+            "nativeNames": [
+              "李堪",
+              "成宜",
+              "马玩",
+              "梁兴",
+              "程银"
+            ],
+            "owner": {
+              "context": 5,
+              "kind": 1,
+              "seq": 38,
+              "generation": 3,
+              "detailGeneration": 3
+            },
+            "identitySource": "Direct native zero-based publication, independently checked against GetKingPersons/GetCityPersons and full names",
+            "successionOutcomeAccepted": false
+          },
+          "report": {
+            "accepted": true,
+            "stage": "new-king-report",
+            "oldKing": 5,
+            "newKing": 64,
+            "checkedWorld": true
+          },
+          "commit": {
+            "accepted": true,
+            "stage": "native-successor-committed",
+            "oldKing": 5,
+            "newKing": 64,
+            "cityIds": [
+              3,
+              8
+            ],
+            "personIds": [
+              61,
+              64,
+              65,
+              63,
+              60
+            ],
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighterBytes": 600,
+              "fighterFlags": 30,
+              "goodsQueue": 2000
+            },
+            "successionOutcomeAccepted": true,
+            "randomMonthAccepted": false,
+            "rngContinuityAccepted": false
+          },
+          "battle": {
+            "accepted": true,
+            "oldKing": 5,
+            "captiveCity": 9,
+            "orderIndex": 170,
+            "armySlot": 0,
+            "winnerIds": [
+              85,
+              11
+            ],
+            "randomCaptureObserved": true
+          },
+          "returned": {
+            "accepted": true,
+            "stage": "terminal-map",
+            "randomMonthAccepted": false,
+            "limits": [
+              "Monthly random city/person/food changes are observed, not predicted by the succession oracle",
+              "Save/load independently binds the complete recorded terminal world"
+            ]
+          },
+          "fullRecordedTreatWorld": {
+            "actor": 61,
+            "cityIndex": 3,
+            "money": [
+              107,
+              7,
+              7
+            ],
+            "thew": [
+              100,
+              100,
+              100
+            ],
+            "devotion": [
+              86,
+              86,
+              87
+            ]
+          },
+          "loadedWorldEqualsSavedWorld": true,
+          "savePair": {
+            "version": 149,
+            "files": {
+              "sav0": {
+                "bytes": 8221,
+                "sha256": "15da09b56c1bac3cf0e8e206c8e473430f341d172b61bb85b6b046cc0e7a4afa"
+              },
+              "sav1": {
+                "bytes": 4840,
+                "sha256": "1e6ba39bc4836428e96cdff86f2d1b5c9b99251ae555511a4f94a3754128e380"
+              }
+            },
+            "checked": {
+              "headerFields": [
+                "period",
+                "king",
+                "year",
+                "month"
+              ],
+              "people": 200,
+              "peopleFields": [
+                "OldBelong",
+                "Belong",
+                "Level",
+                "Force",
+                "IQ",
+                "Devotion",
+                "Character",
+                "Experience",
+                "Thew",
+                "ArmsType",
+                "Arms",
+                "Tool1",
+                "Tool2",
+                "Age"
+              ],
+              "cities": 38,
+              "cityFields": [
+                "Belong",
+                "SatrapId",
+                "State",
+                "AvoidCalamity",
+                "PeopleDevotion",
+                "Commerce",
+                "Money",
+                "Food",
+                "MothballArms",
+                "PersonQueue",
+                "Persons",
+                "Tools",
+                "ToolQueue"
+              ],
+              "residentQueuePrefix": 200,
+              "goodsQueue": 2000,
+              "rawFighterBytes": 600,
+              "fighterPersonTokens": 300,
+              "fighterIndex": 30,
+              "orders": 200,
+              "orderFields": [
+                "OrderId",
+                "City",
+                "Person",
+                "Object",
+                "TimeCount",
+                "Food"
+              ]
+            },
+            "savedOracleExact": true,
+            "loadedOracleExact": true
+          }
+        },
+        "input": {
+          "dir": "build/mobile-campaign-completion-20261011/installed-844-v8",
+          "keys": 71,
+          "lcdTouches": 0,
+          "pageInputs": [
+            {
+              "page": 1,
+              "keys": 67,
+              "events": 160
+            },
+            {
+              "page": 2,
+              "keys": 4,
+              "events": 10
+            }
+          ],
+          "opens": [
+            {
+              "ordinal": 1,
+              "keys": [
+                40
+              ],
+              "readyPointerIDs": [],
+              "blocked": false
+            },
+            {
+              "ordinal": 2,
+              "keys": [
+                40
+              ],
+              "readyPointerIDs": [],
+              "blocked": false
+            }
+          ],
+          "nonfirstSuccessorKeys": [
+            35,
+            39
+          ],
+          "allCandidatesActuallyVisible": 5,
+          "pcPreferencesSame": true,
+          "saveStorage": {
+            "validatePairReportedTrue": true,
+            "canLoad": true,
+            "journal": null,
+            "metadata": [
+              {
+                ".lib": "libs/dat-mod.lib",
+                ".name": "三国霸业-词典原版",
+                ".lib-id": "v1:414390:1d36da77:1e9c0477"
+              },
+              {
+                ".lib": "libs/dat-mod.lib",
+                ".name": "三国霸业-词典原版",
+                ".lib-id": "v1:414390:1d36da77:1e9c0477"
+              }
+            ],
+            "saveSelectorSeq": [
+              3,
+              4
+            ],
+            "loadSelectorSeq": [
+              2,
+              4
+            ],
+            "pairPostMutationReloadLoadByteSame": "Runtime exact fresh-pair assertions; only original pair raw value retained, not a second separately retained post-load raw pair."
+          },
+          "completePage1Observer": {
+            "commits": 1,
+            "reports": 8,
+            "playerCommits": 1
+          },
+          "loadedHudExact": true
+        },
+        "currentAndFrozenSources": {
+          "dir": "build/mobile-campaign-completion-20261011/installed-844-v8",
+          "count": 281,
+          "currentAndFrozenExact": true,
+          "sourceManifestSha256": "6c47a8933d54a7749f50a465de596262abbc57927eb3b097f11c245d945e84cf"
+        },
+        "nativeSourceCount": 128,
+        "nativeEngineSourceSha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315",
+        "installedEngineFiles": [
+          {
+            "path": "js/baye.js",
+            "bytes": 192766,
+            "sha256": "c7b3f940a22d9aacb03e04ad1da4f293751822d9e4bfc35e1f0e72dd33f00651"
+          },
+          {
+            "path": "js/baye.wasm",
+            "bytes": 4556377,
+            "sha256": "2b6f779d0c1597d5f648c1f6cc183ed7ad728e29e4009fb200e46de37066a0f6"
+          },
+          {
+            "path": "js/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "ab888c41526b347cd1186c3c82f69314621aa4e7680d36bc83065eb9278b2cf5"
+          },
+          {
+            "path": "js/baye.build.json",
+            "bytes": 21284,
+            "sha256": "796da0939b5fd76b45ee91fecc70bff783cb468d9651ef185481268204c28646"
+          }
+        ],
+        "terminalReport": {
+          "accepted": true,
+          "campaignAccepted": true,
+          "successionOutcomeAccepted": true,
+          "phases": 9,
+          "sourceDriftCount": 0,
+          "exceptionsCount": 0,
+          "cleanupTreeExited": true,
+          "privateServerClosed": true
+        },
+        "bounds": {
+          "realDeviceAccepted": false,
+          "fullHdAccepted": false,
+          "randomMonthAccepted": false,
+          "rngContinuityAccepted": false
+        }
+      }
+    ],
+    "commonSourceClosure": {
+      "count": 279,
+      "allCommonBytesShaIdentical": true,
+      "differences": [
+        {
+          "id": "installed-844-v6",
+          "onlyNonCommonPaths": [
+            {
+              "path": "assets/hd-portraits/refs/period-1/65-马玩.png",
+              "bytes": 463,
+              "sha256": "2e63fcd0fb16b433a3343efd5b6a2f7dc60d47bd14c5c4da783daa5532290cb8"
+            }
+          ]
+        },
+        {
+          "id": "installed-667-v7",
+          "onlyNonCommonPaths": [
+            {
+              "path": "assets/hd-portraits/refs/period-1/56-韩遂.png",
+              "bytes": 507,
+              "sha256": "c4cfa8012bf2b65ca80b5767ea79cdcd771db147c58442d6f863fcae4dc5b263"
+            }
+          ]
+        },
+        {
+          "id": "installed-844-v8",
+          "onlyNonCommonPaths": [
+            {
+              "path": "assets/hd-portraits/refs/period-1/64-成宜.png",
+              "bytes": 436,
+              "sha256": "56d8408004b860467dad197bc166e1b4d68fcfb211538704e5524863995d9a92"
+            },
+            {
+              "path": "assets/hd-portraits/refs/period-1/61-李堪.png",
+              "bytes": 431,
+              "sha256": "0bcbaab850f45495485c478f76f1f7f7f3d0db678f32bdf7a25c8847ba6f7311"
+            }
+          ]
+        }
+      ]
+    },
+    "formalSuite": {
+      "result": {
+        "path": "build/mobile-campaign-completion-20261011/final-suite-v1/result.json",
+        "bytes": 59051,
+        "sha256": "57ffadd26d6e210daaefc59e1669524f0c956dce15d432893977412c2ca0742e"
+      },
+      "rawLog": {
+        "path": "build/mobile-campaign-completion-20261011/final-suite-v1/test-output.log",
+        "bytes": 346778,
+        "sha256": "9cd38e4591632bc2926ce7197e322f69fc9562dca04fd57600220f3f2c0ee62d"
+      },
+      "exitCode": 0,
+      "modules": 84,
+      "executionConcurrency": 1,
+      "counts": {
+        "tests": 3811,
+        "suites": 0,
+        "pass": 3811,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "sourceDrift": [],
+      "rawSummaryMatched": true
+    },
+    "totals": {
+      "terminalAcceptedRuns": 3,
+      "recomputedSuccessorOracles": 15,
+      "recomputedSavedAndLoadedSaveOracles": 6,
+      "recomputedTreatStages": 6,
+      "recomputedNegativeWorldMenuReportCases": 18,
+      "actualNonfirstSuccessorSelections": 3,
+      "allCandidateCurrentVisibleGeometry": 16,
+      "systemSingleExitOpens": 6,
+      "nativeKeys": [
+        74,
+        74,
+        71
+      ],
+      "nativeLcdTouches": 0,
+      "currentFrozenSourceRefs": [
+        280,
+        280,
+        281
+      ]
+    },
+    "limits": [
+      "Three original period1 fresh private desktop Chrome mobile emulations only; no Android/iOS or other campaign/defender/period branch acceptance.",
+      "No complete visual-frame inspection or full HD/full native ABI acceptance.",
+      "The native synchronous succession boundary is independently recomputed; the later strategy month/random outcomes are observed, not predicted or treated as a pure succession world diff.",
+      "Save serialization oracle accepts measured persisted fields, resident queue prefix0..199. Queue200..1999/config/tools are not serialized. Entire recorded loaded.world=saved.world is an actual equality observation for these runs, not proof all fields persist generally.",
+      "Fresh pair equality after mutation/reload/load is enforced by runtime assertions; only the original raw pair is retained separately, so no second post-load pair raw value is independently re-read here.",
+      "Six negative cases per run are independently checked from before/after full worlds. Held-classic uses clearly recorded public presentation-only setMode API; separate trusted mode tap roundtrip also ran.",
+      "No user browser profile or runtime profile content was read. OS cleanup is not independently sampled here; the result cleanup flags are explicitly terminal-runtime reports.",
+      "All earlier failed/non-triggered actuals remain historical evidence; this review does not relabel or erase them."
+    ]
+  },
+  "archive": "./m5-mobile-campaign-runtime-20261011-archive.json",
+  "notes": [
+    "Pre-fix runs prove stale System pointer IDs 4/5/6 survived battle buttons that consumed document capture UP; window capture fixes pairing without clearing held pointers or weakening gates.",
+    "Natural retreats without player succession remain rejected/not-covered. No seed/world writes, forceWin or automatic hidden retry.",
+    "Two intermediate runs completed actual save and Treat but failed a helper full-world read at the unloaded refreshed title; the corrected preload path is restricted to original TITLE/LOAD owners, with unchanged complete MAP world equality after LOAD.",
+    "Original native save only persists the first 200 resident queue entries; recorded full world equality does not imply additional ABI persistence or RNG restoration.",
+    "Other periods/capture branches, real defender selection, month/RNG outcomes, Android/iOS devices, performance and full HD remain pending."
+  ]
+}

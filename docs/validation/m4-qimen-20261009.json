@@ -1,0 +1,1465 @@
+{
+  "schemaVersion": 1,
+  "localDate": "2026-10-09",
+  "status": "standard-player-qimen39-HD-accepted",
+  "scope": "Only actual standard-LIB player skill20 奇门, FENG39/index0/kind2/0..7 and native friendly STATE_QM4. Shared-resource skills14/15 are not actual-cast accepted.",
+  "globalHdComplete": false,
+  "changes": {
+    "originalBuiltinPngs": [
+      {
+        "path": "assets/hd-spe/qimen-39/picture-0.png",
+        "bytes": 2458901,
+        "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": 2,
+        "picIndex": 0,
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-2a96348a-8ccf-474f-8c6e-0ebdff30c660.png",
+        "byteEqualOriginal": true,
+        "noPostProcessing": true
+      },
+      {
+        "path": "assets/hd-spe/qimen-39/picture-1.png",
+        "bytes": 2485449,
+        "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2",
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": 2,
+        "picIndex": 1,
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-c30d84bc-ddaa-4a4e-95a3-5db01501825d.png",
+        "byteEqualOriginal": true,
+        "noPostProcessing": true
+      }
+    ],
+    "generationMode": "built-in image_gen",
+    "generationCalls": 4,
+    "accepted": 2,
+    "rejected": 2,
+    "postProcessing": false,
+    "promptSet": {
+      "path": "assets/hd-spe/GENERATED-QIMEN.json",
+      "bytes": 23960,
+      "sha256": "c6f7a0bd458058a6c2d8e874f1ba7d449b2f529e92db2fcae5fbb6332f8e1226"
+    },
+    "manifest": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 553949,
+      "sha256": "b8a43ea2110486b92d375f072c50e5c60cd61ec075d322841f03a0b3908080fb"
+    },
+    "oldEntryCount": 42,
+    "newEntryCount": 43,
+    "oldEntriesPreserved": true,
+    "cacheVersion": "20261009w",
+    "nativeModified": false,
+    "frontendJsCssModified": false,
+    "engineArtifactsModified": false
+  },
+  "staticReviews": [
+    {
+      "path": "build/r16-qimen-art-review.json",
+      "bytes": 12618,
+      "sha256": "f3e22e6c322a74b95385eca87afa89318511a31ed4413fbcc238a6fd3806871c",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f3e22e6c322a74b95385eca87afa89318511a31ed4413fbcc238a6fd3806871c-r16-qimen-art-review.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-install-proof.json",
+      "bytes": 1865,
+      "sha256": "f2d205c1e7838ec53def6bcbf65d9ffd04754edae5428e853be0998d172a022a",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f2d205c1e7838ec53def6bcbf65d9ffd04754edae5428e853be0998d172a022a-r16-qimen-install-proof.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-renderer-harness.json",
+      "bytes": 8711,
+      "sha256": "1588484f69f0c2fdbed082bc14b1bf60e37bfb39a332da0e39289c47ea40801c",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1588484f69f0c2fdbed082bc14b1bf60e37bfb39a332da0e39289c47ea40801c-r16-qimen-renderer-harness.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-v5-source-fix-proof.json",
+      "bytes": 982,
+      "sha256": "451033dc6e83cbb5f841537ffa86e1861a5407db730307f4721b476fd8cf987b",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/451033dc6e83cbb5f841537ffa86e1861a5407db730307f4721b476fd8cf987b-r16-qimen-v5-source-fix-proof.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-helper-fix-source-review.json",
+      "bytes": 2074,
+      "sha256": "f47e80ff253e59db6fa90f9b725711695cfefb9bdff24145e3ec4b858547ff62",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f47e80ff253e59db6fa90f9b725711695cfefb9bdff24145e3ec4b858547ff62-r16-qimen-helper-fix-source-review.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-post-acquisition-source-review.json",
+      "bytes": 6670,
+      "sha256": "67a07e51ae36d5689145a143bf62e2a7a6355205defd1344db2b191eef9a285e",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/67a07e51ae36d5689145a143bf62e2a7a6355205defd1344db2b191eef9a285e-r16-qimen-post-acquisition-source-review.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-march-wait-source-proof.json",
+      "bytes": 1994,
+      "sha256": "d1b82a9924e8c42b8fcb32844aaacc214e2be72cec5d5828a558233a41b41029",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d1b82a9924e8c42b8fcb32844aaacc214e2be72cec5d5828a558233a41b41029-r16-qimen-march-wait-source-proof.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-final-source-peer-review-v6.json",
+      "bytes": 3525,
+      "sha256": "d9443af451c8d4c0f21cd07913be976ea9973c7b1f4d04a2e332a7d9ae4b05e2",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d9443af451c8d4c0f21cd07913be976ea9973c7b1f4d04a2e332a7d9ae4b05e2-r16-qimen-final-source-peer-review-v6.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-post-acquisition-source-review-1530.json",
+      "bytes": 4888,
+      "sha256": "9361baaad4f91bd604c5da1262bd21fdfcece1bddb08047a9d17af95aa94aaa0",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/9361baaad4f91bd604c5da1262bd21fdfcece1bddb08047a9d17af95aa94aaa0-r16-qimen-post-acquisition-source-review-1530.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-product-preservation-proof.json",
+      "bytes": 578372,
+      "sha256": "4f2e5cbffeb0bd191601c603e1651ee8aa2c620f45836ca7468a1ace1f388948",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/4f2e5cbffeb0bd191601c603e1651ee8aa2c620f45836ca7468a1ace1f388948-r16-product-preservation-proof.json.gz",
+      "byteExactVerified": true
+    },
+    {
+      "path": "build/r16-qimen-final-telemetry-tail-proof.json",
+      "bytes": 674,
+      "sha256": "8514fbd1a469f9f59f93725140c94170ab2c70351e71caa8af3e28a6a543b50a",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/8514fbd1a469f9f59f93725140c94170ab2c70351e71caa8af3e28a6a543b50a-r16-qimen-final-telemetry-tail-proof.json.gz",
+      "byteExactVerified": true
+    }
+  ],
+  "tests": {
+    "passed": 692,
+    "failed": 0,
+    "skipped": 0,
+    "parallelProcesses": 4,
+    "log": {
+      "path": "build/r16-all-tests-v1.log",
+      "bytes": 87880,
+      "sha256": "d37298ccb56e27845b8baff5de7f2e5d10a6566f8a4d4bcecedb9b34d910b83d",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d37298ccb56e27845b8baff5de7f2e5d10a6566f8a4d4bcecedb9b34d910b83d-r16-all-tests-v1.log.gz",
+      "byteExactVerified": true
+    },
+    "scope": "Full Windows suite after manifest43 installation. Runtime driver repairs separately verified with syntax, readonly preflight and actual browser."
+  },
+  "driver": {
+    "published": {
+      "path": "scripts/test-hd-qimen-runtime.mjs",
+      "bytes": 124471,
+      "sha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb-test-hd-qimen-runtime.mjs.gz",
+      "byteExactVerified": true
+    },
+    "finalExecutedSha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+    "exactFinalExecutedPublishedBytes": true,
+    "requiredTrackedInputPlans": [
+      {
+        "path": "docs/validation/m4-qimen-20261009/route-plan.json",
+        "bytes": 11627,
+        "sha256": "fa797bb0fb181338eafdc7acc589e5c9ae9749575cecc490acb605f819d9a3df"
+      },
+      {
+        "path": "docs/validation/m4-qimen-20261009/search-contract.json",
+        "bytes": 11551,
+        "sha256": "644af0beac307c852d4f8239cc477e006251bdcddb16641493e1ed7e24b5cba3"
+      }
+    ],
+    "command": "npm run test:qimen-runtime -- --recruit --search-orders 8 --search-months 24",
+    "budgetScope": "Private-game search budget only, no RNG, native cost or native calendar changes."
+  },
+  "preservedFailures": {
+    "allEarlierResultsRetained": true,
+    "v1": "Harness expected HD SEARCH picker while this production submenu is deliberately native LCD; no SEARCH/cast occurred.",
+    "v2": "8 genuine SEARCH orders passed, then intro classic SystemUi preference prevented expected HD strategy menu; no month/cast.",
+    "v3": "96 SEARCH orders and12 real months. XuShu found twice and naturally refused; no ownership/cast.",
+    "v4": "72 SEARCH orders and9 real months naturally acquired XuShu171/Belong13/Devotion89. Undefined assertActualLoadedLibrary caused Node driver failure before dispatch/cast; original fb6 and raw records retained.",
+    "v5": "56 SEARCH orders and7 real months naturally acquired XuShu171/Belong13/Devotion84; genuine conscription800 and distribution100 to800. First171 selection succeeded; next native menu seq204 was ready but current HD owner/rows were not yet ACKed, causing strict row identity assertion failure. No dispatch/cast.",
+    "marchFix": "Each selection waits for the existing strict currentPersonPicker owner/full rows and then confirms phase/session/origin/selected unchanged. All old U16/native queue/pind/input ACK checks remain.",
+    "fix": "Sole call name replaced by existing strict observeActualLib; full byte equality after reversing replacement. No assertion or ownership/library gate weakened."
+  },
+  "actualRuns": [
+    {
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v1/result.json",
+        "bytes": 2234740,
+        "sha256": "77aa2f3dee686f0e793e06a5bac27cedb0c445aa848e665b6efd0b7dfa1e570f",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/77aa2f3dee686f0e793e06a5bac27cedb0c445aa848e665b6efd0b7dfa1e570f-result.json.gz",
+        "byteExactVerified": true
+      },
+      "runtimeAudit": {
+        "path": "build/r16-qimen-hd-installed-v1/runtime-validation-audit.json",
+        "bytes": 6413,
+        "sha256": "0f8895d68a05dd295ea6398d3eb2cf1771bd9021bf57cd0602950588bfc3b4a3",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/0f8895d68a05dd295ea6398d3eb2cf1771bd9021bf57cd0602950588bfc3b4a3-runtime-validation-audit.json.gz",
+        "byteExactVerified": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "error": "Error: Timed out waiting for actual 搜寻 native IDs\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:229:11)\n    at async enterSearchPicker (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:729:19)\n    at async searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:784:9)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:820:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1176:9)",
+      "startedAt": "2026-10-08T21:19:05.565Z",
+      "finishedAt": "2026-10-08T21:19:34.701Z",
+      "runnerSha256": "c616e6f298ba3bcc9df497bac7ce38b807d4613bebb118133b39a7e971d58099",
+      "actualSearchOrders": 0,
+      "actualStrategyMonths": 0,
+      "acquisition": null,
+      "checkpoints": 4,
+      "uiActions": 23,
+      "nativeKeys": 25,
+      "actualDispatch": false,
+      "actualCastAttempts": 0,
+      "selectedPlayerMovieCallbacks": 0,
+      "hdAcceptedReadbacks": 0,
+      "source": {
+        "count": 1149,
+        "drift": 0,
+        "added": 0,
+        "runnerMatch": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "privateIsolation": {
+        "httpPort": 11036,
+        "debugPort": 11037,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-yiP902",
+        "chromePid": 160972,
+        "user8080Touched": false,
+        "cleaned": true
+      }
+    },
+    {
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v2/result.json",
+        "bytes": 6263571,
+        "sha256": "ff14b1448378255cd1748d116e727666e499b813f99ac454d87fbd0ee7322b69",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/ff14b1448378255cd1748d116e727666e499b813f99ac454d87fbd0ee7322b69-result.json.gz",
+        "byteExactVerified": true
+      },
+      "runtimeAudit": {
+        "path": "build/r16-qimen-hd-installed-v2/runtime-validation-audit.json",
+        "bytes": 12972,
+        "sha256": "7556d9b3b45fdf8d104442f9979ae645e25e3a974a261dd857927ac5483fa576",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/7556d9b3b45fdf8d104442f9979ae645e25e3a974a261dd857927ac5483fa576-runtime-validation-audit.json.gz",
+        "byteExactVerified": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "error": "Error: Timed out waiting for current original strategy menu\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:229:11)\n    at async executeSearchMonth (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:810:17)\n    at async searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:844:24)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:869:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1225:9)",
+      "startedAt": "2026-10-08T21:31:10.469Z",
+      "finishedAt": "2026-10-08T21:31:58.903Z",
+      "runnerSha256": "8492b3eb31afc75171ab0c15abbcb43de299387977f0eb2b4135a9dbf4cc0295",
+      "actualSearchOrders": 8,
+      "actualStrategyMonths": 0,
+      "acquisition": null,
+      "checkpoints": 20,
+      "uiActions": 59,
+      "nativeKeys": 61,
+      "actualDispatch": false,
+      "actualCastAttempts": 0,
+      "selectedPlayerMovieCallbacks": 0,
+      "hdAcceptedReadbacks": 0,
+      "source": {
+        "count": 1149,
+        "drift": 0,
+        "added": 0,
+        "runnerMatch": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "privateIsolation": {
+        "httpPort": 9034,
+        "debugPort": 9035,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-iXT4cI",
+        "chromePid": 168044,
+        "user8080Touched": false,
+        "cleaned": true
+      }
+    },
+    {
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v3/result.json",
+        "bytes": 86229561,
+        "sha256": "71aeb0cd65d9fc3525ab95e066d4ad27921db486ee8a075c5542f43858fed27d",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/71aeb0cd65d9fc3525ab95e066d4ad27921db486ee8a075c5542f43858fed27d-result.json.gz",
+        "byteExactVerified": true
+      },
+      "runtimeAudit": {
+        "path": "build/r16-qimen-hd-installed-v3/runtime-validation-audit.json",
+        "bytes": 107423,
+        "sha256": "005894fbf471b6cfc60a01272986b041207e906b8babaa1366e1d2a684cee456",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/005894fbf471b6cfc60a01272986b041207e906b8babaa1366e1d2a684cee456-runtime-validation-audit.json.gz",
+        "byteExactVerified": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: Natural SEARCH budget ended before actual XuShu acquisition; preserve this private game failure\n    at searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:861:12)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:879:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1235:9)",
+      "startedAt": "2026-10-08T21:42:09.897Z",
+      "finishedAt": "2026-10-08T21:49:48.196Z",
+      "runnerSha256": "fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1",
+      "actualSearchOrders": 96,
+      "actualStrategyMonths": 12,
+      "acquisition": null,
+      "checkpoints": 319,
+      "uiActions": 760,
+      "nativeKeys": 772,
+      "actualDispatch": false,
+      "actualCastAttempts": 0,
+      "selectedPlayerMovieCallbacks": 0,
+      "hdAcceptedReadbacks": 0,
+      "source": {
+        "count": 1149,
+        "drift": 0,
+        "added": 0,
+        "runnerMatch": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "privateIsolation": {
+        "httpPort": 14198,
+        "debugPort": 14199,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-FFKPcC",
+        "chromePid": 164368,
+        "user8080Touched": false,
+        "cleaned": true
+      }
+    },
+    {
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v4/result.json",
+        "bytes": 64181985,
+        "sha256": "6d248051ca7ffacafa7f7d616f06b4795b85d127567fdf67c665205ce9778992",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/6d248051ca7ffacafa7f7d616f06b4795b85d127567fdf67c665205ce9778992-result.json.gz",
+        "byteExactVerified": true
+      },
+      "runtimeAudit": {
+        "path": "build/r16-qimen-hd-installed-v4/runtime-validation-audit.json",
+        "bytes": 83556,
+        "sha256": "084dab48aa4b40a1a476ea3434f05ab2a53727b008bd4a431edbbe0399f1328c",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/084dab48aa4b40a1a476ea3434f05ab2a53727b008bd4a431edbbe0399f1328c-runtime-validation-audit.json.gz",
+        "byteExactVerified": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "error": "ReferenceError: assertActualLoadedLibrary is not defined\n    at searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:862:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:879:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1235:9)",
+      "startedAt": "2026-10-08T21:56:24.142Z",
+      "finishedAt": "2026-10-08T22:02:20.934Z",
+      "runnerSha256": "fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1",
+      "actualSearchOrders": 72,
+      "actualStrategyMonths": 9,
+      "acquisition": {
+        "month": 9,
+        "caster": {
+          "id": 171,
+          "personIndex": 171,
+          "nativeId": 172,
+          "name": "徐庶",
+          "belong": 13,
+          "oldBelong": 0,
+          "iq": 97,
+          "thew": 100,
+          "arms": 100,
+          "devotion": 89,
+          "level": 1,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        }
+      },
+      "checkpoints": 242,
+      "uiActions": 573,
+      "nativeKeys": 582,
+      "actualDispatch": false,
+      "actualCastAttempts": 0,
+      "selectedPlayerMovieCallbacks": 0,
+      "hdAcceptedReadbacks": 0,
+      "source": {
+        "count": 1149,
+        "drift": 0,
+        "added": 0,
+        "runnerMatch": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "privateIsolation": {
+        "httpPort": 4871,
+        "debugPort": 4872,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-cJsdwi",
+        "chromePid": 165996,
+        "user8080Touched": false,
+        "cleaned": true
+      }
+    },
+    {
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v5/result.json",
+        "bytes": 50893668,
+        "sha256": "f0a5645937915650c94c19889fe9a74a954b34506df574458b7e074ea02f1079",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/f0a5645937915650c94c19889fe9a74a954b34506df574458b7e074ea02f1079-result.json.gz",
+        "byteExactVerified": true
+      },
+      "runtimeAudit": {
+        "path": "build/r16-qimen-hd-installed-v5/runtime-validation-audit.json",
+        "bytes": 71428,
+        "sha256": "a81b4e904b9c38797c759ea0b120b836ee053eb48cc27105c5482e7a271c1b61",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/a81b4e904b9c38797c759ea0b120b836ee053eb48cc27105c5482e7a271c1b61-runtime-validation-audit.json.gz",
+        "byteExactVerified": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nundefined !== 115\n\n    at marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:896:48)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1235:9)",
+      "startedAt": "2026-10-08T22:11:42.743Z",
+      "finishedAt": "2026-10-08T22:16:01.686Z",
+      "runnerSha256": "3522e81eecef4bee7692052d49abdfe115ea7df083f4e70c3da616ad5ee2c64c",
+      "actualSearchOrders": 56,
+      "actualStrategyMonths": 7,
+      "acquisition": {
+        "month": 7,
+        "caster": {
+          "id": 171,
+          "personIndex": 171,
+          "nativeId": 172,
+          "name": "徐庶",
+          "belong": 13,
+          "oldBelong": 0,
+          "iq": 97,
+          "thew": 100,
+          "arms": 100,
+          "devotion": 84,
+          "level": 1,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        }
+      },
+      "checkpoints": 190,
+      "uiActions": 457,
+      "nativeKeys": 510,
+      "actualDispatch": false,
+      "actualCastAttempts": 0,
+      "selectedPlayerMovieCallbacks": 0,
+      "hdAcceptedReadbacks": 0,
+      "source": {
+        "count": 1149,
+        "drift": 0,
+        "added": 0,
+        "runnerMatch": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "privateIsolation": {
+        "httpPort": 10617,
+        "debugPort": 10618,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-zClhi6",
+        "chromePid": 174712,
+        "user8080Touched": false,
+        "cleaned": true
+      }
+    },
+    {
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v6/result.json",
+        "bytes": 75858162,
+        "sha256": "d3006918647910ace7cc29955af6a55471232b89443ea3bf4b59acfde17c3f00",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/d3006918647910ace7cc29955af6a55471232b89443ea3bf4b59acfde17c3f00-result.json.gz",
+        "byteExactVerified": true
+      },
+      "runtimeAudit": {
+        "path": "build/r16-qimen-hd-installed-v6/runtime-validation-audit.json",
+        "bytes": 104434,
+        "sha256": "a3551db4654fd97fac4fbba16c72cabd14a94ed024acf5eb23d99433a914dc6f",
+        "archivedPath": "docs/validation/m4-qimen-20261009/raw/a3551db4654fd97fac4fbba16c72cabd14a94ed024acf5eb23d99433a914dc6f-runtime-validation-audit.json.gz",
+        "byteExactVerified": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "error": null,
+      "startedAt": "2026-10-08T22:27:23.650Z",
+      "finishedAt": "2026-10-08T22:34:09.362Z",
+      "runnerSha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+      "actualSearchOrders": 80,
+      "actualStrategyMonths": 10,
+      "acquisition": {
+        "month": 10,
+        "caster": {
+          "id": 171,
+          "personIndex": 171,
+          "nativeId": 172,
+          "name": "徐庶",
+          "belong": 13,
+          "oldBelong": 0,
+          "iq": 97,
+          "thew": 100,
+          "arms": 100,
+          "devotion": 81,
+          "level": 1,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        }
+      },
+      "checkpoints": 276,
+      "uiActions": 650,
+      "nativeKeys": 706,
+      "actualDispatch": true,
+      "actualCastAttempts": 1,
+      "selectedPlayerMovieCallbacks": 8,
+      "hdAcceptedReadbacks": 8,
+      "source": {
+        "count": 1149,
+        "drift": 0,
+        "added": 0,
+        "runnerMatch": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "privateIsolation": {
+        "httpPort": 6365,
+        "debugPort": 6366,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-IbxzXM",
+        "chromePid": 176884,
+        "user8080Touched": false,
+        "cleaned": true
+      }
+    }
+  ],
+  "accepted": {
+    "attemptNumber": 6,
+    "period": 2,
+    "lord": {
+      "id": 12,
+      "name": "刘表"
+    },
+    "originCity": 26,
+    "destination": 20,
+    "searchOrders": 80,
+    "strategyMonths": 10,
+    "acquisition": {
+      "id": 171,
+      "personIndex": 171,
+      "nativeId": 172,
+      "name": "徐庶",
+      "belong": 13,
+      "oldBelong": 0,
+      "iq": 97,
+      "thew": 100,
+      "arms": 100,
+      "devotion": 81,
+      "level": 1,
+      "armType": 2,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "ownedQueueIncludesCaster": true,
+    "actualLibObservations": [
+      {
+        "stage": "startup",
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "before": {
+          "generationBefore": 2,
+          "generationAfter": 2,
+          "identityBefore": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "identityAfter": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "preferred": "libs/dat-mod.lib"
+        },
+        "after": {
+          "generationBefore": 2,
+          "generationAfter": 2,
+          "identityBefore": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "identityAfter": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "preferred": "libs/dat-mod.lib"
+        }
+      },
+      {
+        "stage": "strategy-map",
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "before": {
+          "generationBefore": 3,
+          "generationAfter": 3,
+          "identityBefore": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "identityAfter": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "preferred": "libs/dat-mod.lib"
+        },
+        "after": {
+          "generationBefore": 3,
+          "generationAfter": 3,
+          "identityBefore": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "identityAfter": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "preferred": "libs/dat-mod.lib"
+        }
+      },
+      {
+        "stage": "post-search-actual-standard-LIB",
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "before": {
+          "generationBefore": 3,
+          "generationAfter": 3,
+          "identityBefore": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "identityAfter": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "preferred": "libs/dat-mod.lib"
+        },
+        "after": {
+          "generationBefore": 3,
+          "generationAfter": 3,
+          "identityBefore": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "identityAfter": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "reason": ""
+          },
+          "preferred": "libs/dat-mod.lib"
+        }
+      }
+    ],
+    "marchPersonIds": [
+      171,
+      115
+    ],
+    "marchOrderReceipt": {
+      "pick": 1,
+      "battlePick": 0,
+      "mapCity": 21,
+      "mapInputSeq": 26,
+      "ok": 1,
+      "city": 26,
+      "obj": 20,
+      "time": 1,
+      "seq": 1,
+      "phase": 7,
+      "session": 1,
+      "origin": 26,
+      "selected": 2,
+      "inputSeq": 11
+    },
+    "battleDestinationReceipt": {
+      "active": 1,
+      "over": 0,
+      "wait": 1,
+      "phase": 1,
+      "aimType": 255,
+      "inputKind": 1,
+      "inputSeq": 14,
+      "actorIndex": 255,
+      "tip": "",
+      "skip": 0,
+      "result": "",
+      "cityIndex": 20,
+      "mapW": 32,
+      "mapH": 32,
+      "bout": 1,
+      "boutMax": 30,
+      "focusX": 16,
+      "focusY": 29
+    },
+    "battleMap": {
+      "id": 111,
+      "width": 32,
+      "height": 32
+    },
+    "preparation": {
+      "cityIndex": 26,
+      "requested": 800,
+      "actualRecruited": 800,
+      "actualDistributed": 800,
+      "casterArmsBefore": 100,
+      "casterArmsAfter": 800,
+      "moneyBefore": 6279,
+      "moneyAfter": 6199,
+      "reserveBefore": 0,
+      "reserveAfter": 100,
+      "completed": true
+    },
+    "baseline": {
+      "caster": {
+        "i": 0,
+        "id": 172,
+        "personIndex": 171,
+        "name": "徐庶",
+        "side": "player",
+        "x": 16,
+        "y": 29,
+        "hp": 92,
+        "mp": 82,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 13,
+        "arms": 800,
+        "iq": 97,
+        "armType": 2,
+        "terrain": 1
+      },
+      "ally": {
+        "i": 1,
+        "id": 116,
+        "personIndex": 115,
+        "name": "刘琦",
+        "side": "player",
+        "x": 16,
+        "y": 30,
+        "hp": 51,
+        "mp": 39,
+        "move": 5,
+        "active": 0,
+        "state": 0,
+        "belong": 13,
+        "arms": 100,
+        "iq": 44,
+        "armType": 0,
+        "terrain": 1
+      },
+      "skill": {
+        "id": 20,
+        "index": 0,
+        "name": "奇门",
+        "speId": 39,
+        "aim": 1,
+        "state": 4,
+        "power": 0,
+        "destroy": 0,
+        "useMp": 20,
+        "eland": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "earm": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "available": true
+      }
+    },
+    "successfulCast": {
+      "actor": {
+        "i": 0,
+        "id": 172,
+        "personIndex": 171,
+        "name": "徐庶",
+        "side": "player",
+        "x": 16,
+        "y": 29,
+        "hp": 92,
+        "mp": 82,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 13,
+        "arms": 800,
+        "iq": 97,
+        "armType": 2,
+        "terrain": 1
+      },
+      "target": {
+        "i": 1,
+        "id": 116,
+        "personIndex": 115,
+        "name": "刘琦",
+        "side": "player",
+        "x": 16,
+        "y": 30,
+        "state": 0,
+        "belong": 13,
+        "arms": 100,
+        "terrain": 1,
+        "armType": 0
+      },
+      "skill": {
+        "id": 20,
+        "index": 0,
+        "name": "奇门",
+        "speId": 39,
+        "aim": 1,
+        "state": 4,
+        "power": 0,
+        "destroy": 0,
+        "useMp": 20,
+        "eland": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "earm": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "available": true
+      },
+      "currentNativeAim": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 3,
+          "aimType": 1,
+          "inputKind": 5,
+          "inputSeq": 26,
+          "actorIndex": 0,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 20,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 1,
+          "boutMax": 30,
+          "focusX": 16,
+          "focusY": 29
+        },
+        "generation": 3,
+        "casterId": 172,
+        "casterMp": 82,
+        "casterState": 0,
+        "casterActive": 0,
+        "casterTerrain": 1,
+        "weather": 3,
+        "targetId": 116,
+        "x": 16,
+        "y": 30,
+        "state": 0,
+        "terrain": 1,
+        "arm": 0,
+        "size": 9,
+        "originX": 12,
+        "originY": 25,
+        "values": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mpBefore": 82,
+      "mpAfter": 62,
+      "targetArmsBefore": 100,
+      "targetArmsAfter": 100,
+      "targetStateBefore": 0,
+      "targetStateAfter": 4,
+      "actualReports": [
+        {
+          "owner": {
+            "seq": 170,
+            "inputSeq": 341
+          },
+          "body": "刘琦 陷入了 奇门 状态",
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 0,
+            "phase": 0,
+            "aimType": 1,
+            "inputKind": 0,
+            "inputSeq": 27,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 20,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 1,
+            "boutMax": 30,
+            "focusX": 16,
+            "focusY": 30
+          }
+        }
+      ]
+    },
+    "nativeMovie": {
+      "resourceId": 39,
+      "count": 8,
+      "picmax": 2,
+      "range": [
+        0,
+        7
+      ],
+      "units": [
+        {
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 0
+        },
+        {
+          "frame": 1,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 1
+        },
+        {
+          "frame": 2,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 0
+        },
+        {
+          "frame": 3,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 1
+        },
+        {
+          "frame": 4,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 0
+        },
+        {
+          "frame": 5,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 1
+        },
+        {
+          "frame": 6,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 0
+        },
+        {
+          "frame": 7,
+          "x": 0,
+          "y": 0,
+          "cdelay": 25,
+          "ndelay": 25,
+          "picIndex": 1
+        }
+      ],
+      "fingerprint": "fnv1a32:6b0ebc5a:1084",
+      "actualLcdCallbacks": 8,
+      "hdReadbacks": 8,
+      "actualFrameIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "oracle": {
+        "actualLcdCallbacks": 8,
+        "events": 1,
+        "hdReadbacks": 8,
+        "verified": [
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 0,
+            "commitSeq": 1,
+            "visible": [
+              0
+            ],
+            "cleared": [],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-000-movie-lcd.png",
+              "bytes": 5797,
+              "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+            },
+            "hdFile": {
+              "file": "qimen-000-movie-hd.png",
+              "bytes": 1739884,
+              "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+            },
+            "nativeRgbaSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4",
+            "independentExpectedSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4"
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 1,
+            "commitSeq": 2,
+            "visible": [
+              1
+            ],
+            "cleared": [
+              0
+            ],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-001-movie-lcd.png",
+              "bytes": 5755,
+              "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+            },
+            "hdFile": {
+              "file": "qimen-001-movie-hd.png",
+              "bytes": 1771046,
+              "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+            },
+            "nativeRgbaSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e",
+            "independentExpectedSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e"
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 2,
+            "commitSeq": 3,
+            "visible": [
+              2
+            ],
+            "cleared": [
+              0,
+              1
+            ],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-002-movie-lcd.png",
+              "bytes": 5797,
+              "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+            },
+            "hdFile": {
+              "file": "qimen-002-movie-hd.png",
+              "bytes": 1739884,
+              "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+            },
+            "nativeRgbaSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4",
+            "independentExpectedSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4"
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 3,
+            "commitSeq": 4,
+            "visible": [
+              3
+            ],
+            "cleared": [
+              0,
+              1,
+              2
+            ],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-003-movie-lcd.png",
+              "bytes": 5755,
+              "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+            },
+            "hdFile": {
+              "file": "qimen-003-movie-hd.png",
+              "bytes": 1771046,
+              "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+            },
+            "nativeRgbaSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e",
+            "independentExpectedSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e"
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 4,
+            "commitSeq": 5,
+            "visible": [
+              4
+            ],
+            "cleared": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-004-movie-lcd.png",
+              "bytes": 5797,
+              "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+            },
+            "hdFile": {
+              "file": "qimen-004-movie-hd.png",
+              "bytes": 1739884,
+              "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+            },
+            "nativeRgbaSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4",
+            "independentExpectedSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4"
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 5,
+            "commitSeq": 6,
+            "visible": [
+              5
+            ],
+            "cleared": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-005-movie-lcd.png",
+              "bytes": 5755,
+              "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+            },
+            "hdFile": {
+              "file": "qimen-005-movie-hd.png",
+              "bytes": 1771046,
+              "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+            },
+            "nativeRgbaSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e",
+            "independentExpectedSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e"
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 6,
+            "commitSeq": 7,
+            "visible": [
+              6
+            ],
+            "cleared": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-006-movie-lcd.png",
+              "bytes": 5797,
+              "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+            },
+            "hdFile": {
+              "file": "qimen-006-movie-hd.png",
+              "bytes": 1739884,
+              "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+            },
+            "nativeRgbaSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4",
+            "independentExpectedSha256": "bdb1d72fa6d9e420e686ba1c0c160ad0e0dda75041245984f24d105e75b5c1b4"
+          },
+          {
+            "generation": 3,
+            "eventId": 6,
+            "frameIndex": 7,
+            "commitSeq": 8,
+            "visible": [
+              7
+            ],
+            "cleared": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "source": "hd-assets",
+            "nativeFile": {
+              "file": "qimen-007-movie-lcd.png",
+              "bytes": 5755,
+              "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+            },
+            "hdFile": {
+              "file": "qimen-007-movie-hd.png",
+              "bytes": 1771046,
+              "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+            },
+            "nativeRgbaSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e",
+            "independentExpectedSha256": "0e2dbd9cfb2f4fd1e275c17c5a47187eb1f5fd0588162226138d640ce077102e"
+          }
+        ]
+      },
+      "scope": "Complete160x96 independent native bitplane/delay oracle for selected real player39 callbacks. Does not claim all other raw captures oracle-accepted."
+    },
+    "stateOnly": {
+      "noNumericPostlude": true,
+      "no50TickNumberHold": true,
+      "zeroInputsWhileResultOwnerActive": true,
+      "nativeReportAndOwnerRetirement": true,
+      "notClaimed": "No Stone6 immobilization or STATE_DS3 move1 assertion. STATE_QM4 and unchanged actual troop count only."
+    },
+    "gameplayIndependent": {
+      "path": "build/r16-qimen-gameplay-review-v6.json",
+      "bytes": 211309,
+      "sha256": "687650ced4083eeadf4e01bf90f43686a431419f4c7c9eedc20c68ef385de9b6",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/687650ced4083eeadf4e01bf90f43686a431419f4c7c9eedc20c68ef385de9b6-r16-qimen-gameplay-review-v6.json.gz",
+      "byteExactVerified": true
+    },
+    "renderingIndependent": {
+      "path": "build/r16-qimen-final-independent-review-v6.json",
+      "bytes": 27731,
+      "sha256": "651652928198d10f9392ecb48a6be8f6ffd0015bc5a52c4f9a86a860ec088caf",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/651652928198d10f9392ecb48a6be8f6ffd0015bc5a52c4f9a86a860ec088caf-r16-qimen-final-independent-review-v6.json.gz",
+      "byteExactVerified": true
+    }
+  },
+  "provenance": {
+    "nativeCount": 128,
+    "nativeAggregate": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
+    "compiledSourceRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+    "engineSourceModified": true,
+    "compiledArtifacts": {
+      "baye.js": {
+        "bytes": 192446,
+        "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60"
+      },
+      "baye.wasm": {
+        "bytes": 4439355,
+        "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e"
+      },
+      "baye.wasm.map": {
+        "bytes": 29805,
+        "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4"
+      }
+    },
+    "buildManifest": {
+      "path": "js/baye.build.json",
+      "bytes": 6763,
+      "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8"
+    },
+    "nativeRebuiltInThisBatch": false
+  },
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-qimen-20261009/runtime-index.json",
+      "bytes": 595509,
+      "sha256": "5cf197bc77f911b1bbf31a30ddf68ad7dcc5e193d613d2f9690a2230efd2047e"
+    },
+    "counts": {
+      "logicalRaw": 181,
+      "physicalRaw": 149,
+      "logicalPng": 253,
+      "physicalPng": 225,
+      "omittedImages": 826
+    },
+    "scope": "Full original raw private attempt reports, inputs, worlds and frame telemetry plus explicitly selected original PNGs, native references, static reviews and tests. v1/v2 failure PNGs all kept; v3 onward retains each month first SEARCH actor and first order/execution report, every XuShu report, final report, every other checkpoint and all native/HD movie captures. Unselected repetitive SEARCH PNGs remain local with explicit original hashes.",
+    "transformation": "Raw reports/scripts/logs only gzip; original PNGs byte-exact copied. All archive roundtrips verified. No asset transformations or deletions.",
+    "omittedPngsAreNotRecoverableFromTelemetry": true,
+    "telemetryTail": {
+      "schemaVersion": 1,
+      "status": "PASS-external-observer-prefix-and-full-final-result",
+      "externalRecords": 938,
+      "finalResultRecords": 940,
+      "extraTailRecords": 2,
+      "selectedPlayer39Callbacks": 8,
+      "tail": [
+        {
+          "stage": "lcd-flush",
+          "eventId": 0,
+          "active": 0,
+          "id": 0
+        },
+        {
+          "stage": "lcd-flush",
+          "eventId": 0,
+          "active": 0,
+          "id": 0
+        }
+      ],
+      "scope": "Standalone spe-observations was saved before the final two collect samples. The complete final result contains the exact external prefix and extra tail. Both original files remain unmodified and archived; no selected native39 movie callback missing."
+    }
+  },
+  "next": "SEARCH3 person HD pane: native U16/current owner already available, current neizheng[2] remains LCD. Readonly R17 plan exists locally only; no implementation/actual HD SEARCH acceptance claimed.",
+  "remaining": [
+    "28 ordinary attack combinations actual player acceptance",
+    "Other spell families and STACHG27",
+    "City/HUD/help/search visual completion",
+    "Over-river art",
+    "Real succession",
+    "Full four-period/Mod campaign and save matrix",
+    "Fixed-device performance",
+    "Mobile landscape and Android/iOS actual acceptance",
+    "Actual remote cloud account"
+  ]
+}

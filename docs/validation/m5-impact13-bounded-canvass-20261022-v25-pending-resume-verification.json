@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T19:51:40.416Z",
+  "kind": "Root executed V25 pending-resume archive delivery checks",
+  "canonical": {
+    "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v25-pending-resume.json",
+    "bytes": 659514,
+    "sha256": "8845f1df3ffa29b6887365a312d65b53249a8c2f55dc9d9ac0d644948ab00e15"
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v25-pending-resume-archive.json",
+    "bytes": 93233,
+    "sha256": "e36f3d9536e44d42949da6e2f9c59c3bf75cba1cd638a9b800a1c393a57864ab"
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v25-pending-resume-archive-part001.json",
+      "bytes": 10067775,
+      "sha256": "88ed33bdd1d35f2068329c5bb0f0dfaab6987696d61eabd036c3455ad50ce134"
+    }
+  ],
+  "independentArchiveReader": {
+    "terminal": {
+      "sessionId": null,
+      "chunkId": "84494a",
+      "exitCode": 0
+    },
+    "source": {
+      "path": "build/impact-skill-20261014/verify-impact13-v25-pending-resume-archive-v3.mjs",
+      "bytes": 11978,
+      "sha256": "1b6e705ebb70540816a6fe2d641b5e466b1b357b414b51e795f22f1bc7234943"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-pending-publication-read-root-v1.log",
+      "bytes": 814,
+      "sha256": "6700d4dbdf0875c2f926934cb1a3922bac81eaa3071d1beb89012ca96c7a89be"
+    },
+    "facts": {
+      "ok": true,
+      "canonical": {
+        "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v25-pending-resume.json",
+        "bytes": 659514,
+        "sha256": "8845f1df3ffa29b6887365a312d65b53249a8c2f55dc9d9ac0d644948ab00e15"
+      },
+      "namedFiles": 333,
+      "uniqueBlobs": 234,
+      "parts": 1,
+      "allRawRoundtripsExact": true,
+      "allNamedBlobsClosed": true,
+      "noUnreferencedBlobs": true,
+      "rawResultsEmbeddedOnce": [
+        {
+          "id": "v25",
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v25/result.json",
+          "bytes": 68505,
+          "sha256": "08053dbd0882e46e232d83d8cf96372e4b2d8c861c2b705561d14fc029625045"
+        },
+        {
+          "id": "v25c",
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v25c/result.json",
+          "bytes": 72811,
+          "sha256": "05c5fd10d4609d59a640f12262a130267f53674d6165f87005116d82699adb6d"
+        }
+      ],
+      "latestPairsPackedAccepted": true,
+      "currentNamedDiskReopened": true,
+      "portableClosedArchive": false
+    }
+  },
+  "builder": {
+    "terminal": {
+      "sessionId": null,
+      "chunkId": "b39654",
+      "exitCode": 0
+    },
+    "source": {
+      "path": "build/impact-skill-20261014/build-impact13-v25-pending-resume-archive-v3.mjs",
+      "bytes": 17777,
+      "sha256": "0e7e1330d41dcbd6d736f42675051fe1a1f6c3d182076ab1f5e84baa99edfc3d"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-pending-publication-build-root-v1.log",
+      "bytes": 1515,
+      "sha256": "a297f87adda7b2bf5b29ba3d31a2fd3c48107c38e0c26971d3079d20b2371264"
+    }
+  },
+  "actualTerminal": {
+    "sessionId": 21700,
+    "chunkId": "f1083f",
+    "exitCode": 0
+  },
+  "independentTerminal": {
+    "sessionId": 96204,
+    "chunkId": "71e19b",
+    "exitCode": 0
+  },
+  "distinctControlledCases": 17,
+  "formalRerunIsSameCases": true,
+  "historicalFullSuiteRerun": false,
+  "controlledLog": {
+    "path": "build/impact-skill-20261014/impact13-v25-pending-input-tests-root-v1.log",
+    "bytes": 1827,
+    "sha256": "9867a8a83d24d7dc0c0bc98789e1fa98108616f411bf69ba99f37b91d9c14cfb"
+  },
+  "formalLog": {
+    "path": "build/impact-skill-20261014/impact13-v25-formal-pending-tests-root-v1.log",
+    "bytes": 1826,
+    "sha256": "cc1a67359ebe2f504994c211ef2a4158e3c99af0a5db412fbb81714f69386829"
+  },
+  "formalTestTerminal": {
+    "sessionId": null,
+    "chunkId": "3b52c2",
+    "exitCode": 0
+  },
+  "sourceRunAccepted": true,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "classicVisualAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "portableClosedArchive": false,
+  "scope": "Fresh execution and exact current named-file reopen only; retained historical dependencies are not new gameplay acceptance."
+}

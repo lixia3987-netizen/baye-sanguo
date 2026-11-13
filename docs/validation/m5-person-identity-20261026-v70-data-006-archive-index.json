@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-data-006-archive-part001.json",
+      "bytes": 7404973,
+      "sha256": "c9074ccb948025b21af52385a70219e65b0f0380a164589c58d031fd049d24ae",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-data-006-archive-part002.json",
+      "bytes": 7738077,
+      "sha256": "9e1fb3fa2fd6815815f07c189c25c3fa4cc64d970a5b045ebc08cc17e8825800",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-data-006-archive-part003.json",
+      "bytes": 7740497,
+      "sha256": "a3a7de3358242e7182cc2e1537ff883bc6153efc5b406152c07a335838db805c",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-data-006-archive-part004.json",
+      "bytes": 7768061,
+      "sha256": "cf98c441bbc9ef4786eeaf0708d07f9c4421b1861b7bab727d2c7349304a665c",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-data-006-archive-part005.json",
+      "bytes": 2468364,
+      "sha256": "27397539613d2f4d33f2ce752e9c221c48e26daf4733be1eebc127e95411b60f",
+      "blobs": 3
+    }
+  ],
+  "files": [
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-03-identity-person-3-heading.png",
+      "bytes": 877003,
+      "sha256": "7d18773e7bbd0bfb658bf6d31aa8838c76ad3942eaa3420f55b5d5639c987f00",
+      "blob": "7d18773e7bbd0bfb658bf6d31aa8838c76ad3942eaa3420f55b5d5639c987f00",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-04-identity-person-3-ownership.png",
+      "bytes": 877066,
+      "sha256": "da9a574cd36ddefb36a4e87050b7fe9881860e28f197e89ec1329788fa384392",
+      "blob": "da9a574cd36ddefb36a4e87050b7fe9881860e28f197e89ec1329788fa384392",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-05-identity-person-3-priorOwnership.png",
+      "bytes": 877009,
+      "sha256": "3d6536a205385365f9a9467b3ad4bd18c27709ff818d434831e415b16f88e568",
+      "blob": "3d6536a205385365f9a9467b3ad4bd18c27709ff818d434831e415b16f88e568",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-06-identity-person-3-nativeOwnership.png",
+      "bytes": 980530,
+      "sha256": "302b84da25701139986085b9f10f4a94a091692c3b43a15037ccf4e55233f9ba",
+      "blob": "302b84da25701139986085b9f10f4a94a091692c3b43a15037ccf4e55233f9ba",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-07-identity-person-139-listName.png",
+      "bytes": 980726,
+      "sha256": "45e5bd68ecd2e580c5b5a8a30447958f5a0d4e9d18c715bc6115faf9b95fe2cc",
+      "blob": "45e5bd68ecd2e580c5b5a8a30447958f5a0d4e9d18c715bc6115faf9b95fe2cc",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-08-identity-person-139-heading.png",
+      "bytes": 959590,
+      "sha256": "701d0ecd6f30cea1c4b13678071ec1e342c899298758f518060b0fe36772c31b",
+      "blob": "701d0ecd6f30cea1c4b13678071ec1e342c899298758f518060b0fe36772c31b",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-09-identity-person-139-ownership.png",
+      "bytes": 959628,
+      "sha256": "bf64b1d8dfa0bedeee2b789e03388e372adae94e53823438815bcf6a9f968565",
+      "blob": "bf64b1d8dfa0bedeee2b789e03388e372adae94e53823438815bcf6a9f968565",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-10-identity-person-139-priorOwnership.png",
+      "bytes": 959598,
+      "sha256": "f4bd1b022cd00b7cbef28376a97ea4968a960ed17df879578bc22cce78903dfa",
+      "blob": "f4bd1b022cd00b7cbef28376a97ea4968a960ed17df879578bc22cce78903dfa",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-11-identity-person-139-nativeOwnership.png",
+      "bytes": 980704,
+      "sha256": "5e8e4918353de5a29a8cfd49c447b574c36a156f9c93662049521e020747edc0",
+      "blob": "5e8e4918353de5a29a8cfd49c447b574c36a156f9c93662049521e020747edc0",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-12-identity-person-140-listName.png",
+      "bytes": 980469,
+      "sha256": "87653a140ae42529e6d80bc47b8967bad8e352af06bb495eea196b71e29810c1",
+      "blob": "87653a140ae42529e6d80bc47b8967bad8e352af06bb495eea196b71e29810c1",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-13-identity-person-140-heading.png",
+      "bytes": 960195,
+      "sha256": "8fae40c3e2b48949035748204c6dafd577c8a219c9cd8e53235ecb18216657a5",
+      "blob": "8fae40c3e2b48949035748204c6dafd577c8a219c9cd8e53235ecb18216657a5",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-14-identity-person-140-ownership.png",
+      "bytes": 960260,
+      "sha256": "754081c4ef54cabb8e929a2132bd4ec1565de7d50cacf7f2ae53b54a81d897d7",
+      "blob": "754081c4ef54cabb8e929a2132bd4ec1565de7d50cacf7f2ae53b54a81d897d7",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-15-identity-person-140-priorOwnership.png",
+      "bytes": 960206,
+      "sha256": "9748e711c6d783be61128f2490792939e51bd989a98220cad58a3ec35aba81e2",
+      "blob": "9748e711c6d783be61128f2490792939e51bd989a98220cad58a3ec35aba81e2",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-16-identity-person-140-nativeOwnership.png",
+      "bytes": 980642,
+      "sha256": "7b1473cdcc82798d440ae6e8e3810ac5a1bca371f6eb6ddaf21ffd40f9c25c85",
+      "blob": "7b1473cdcc82798d440ae6e8e3810ac5a1bca371f6eb6ddaf21ffd40f9c25c85",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-17-identity-person-143-listName.png",
+      "bytes": 980437,
+      "sha256": "e62d39aa908e6c04d680d19f56f20772813fde7e907813e4e7b08ea5f2eda1b0",
+      "blob": "e62d39aa908e6c04d680d19f56f20772813fde7e907813e4e7b08ea5f2eda1b0",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-18-identity-person-143-heading.png",
+      "bytes": 960392,
+      "sha256": "80483393d587bec20f34d7654ebd9b7def48290e6f1be4456b596e21197e6da6",
+      "blob": "80483393d587bec20f34d7654ebd9b7def48290e6f1be4456b596e21197e6da6",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-19-identity-person-143-ownership.png",
+      "bytes": 960396,
+      "sha256": "a8f02d7e50d08f3f12e7cf5f85b663996ed17fa0a83ad064d46476b40f5f4573",
+      "blob": "a8f02d7e50d08f3f12e7cf5f85b663996ed17fa0a83ad064d46476b40f5f4573",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-20-identity-person-143-priorOwnership.png",
+      "bytes": 960498,
+      "sha256": "e3e210819f1a096d7044c9002c696017493b4bcecb1acc53b446e0651c957cd8",
+      "blob": "e3e210819f1a096d7044c9002c696017493b4bcecb1acc53b446e0651c957cd8",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-21-identity-person-143-nativeOwnership.png",
+      "bytes": 980406,
+      "sha256": "74a3eab6166543064aec7c79091b10d04894b3e64d135e47bf44886ff31d20d6",
+      "blob": "74a3eab6166543064aec7c79091b10d04894b3e64d135e47bf44886ff31d20d6",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-22-identity-person-144-listName.png",
+      "bytes": 981127,
+      "sha256": "6a8fe1d27d67b5cce2800e846d0e3c51024c56e7871c7fa8082db909c6d80465",
+      "blob": "6a8fe1d27d67b5cce2800e846d0e3c51024c56e7871c7fa8082db909c6d80465",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-23-identity-person-144-heading.png",
+      "bytes": 960164,
+      "sha256": "7f29a857143601b58feeb04a59e9067b7f097136f700efe008971fa20d449806",
+      "blob": "7f29a857143601b58feeb04a59e9067b7f097136f700efe008971fa20d449806",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-24-identity-person-144-ownership.png",
+      "bytes": 960203,
+      "sha256": "27803a3085fed2a81569c6eb94e7a14fb6fbb6f61eb2722356b86946dd109fcf",
+      "blob": "27803a3085fed2a81569c6eb94e7a14fb6fbb6f61eb2722356b86946dd109fcf",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-25-identity-person-144-priorOwnership.png",
+      "bytes": 960250,
+      "sha256": "a16babf55a35a13c28132191cd94b53ef6c7aeb52112579ecea45a0b5bd70348",
+      "blob": "a16babf55a35a13c28132191cd94b53ef6c7aeb52112579ecea45a0b5bd70348",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-26-identity-person-144-nativeOwnership.png",
+      "bytes": 981139,
+      "sha256": "5cd5ec19df229d8b9a2d2c6cd860de835b44aa7b592ab412a77d58d74aae8311",
+      "blob": "5cd5ec19df229d8b9a2d2c6cd860de835b44aa7b592ab412a77d58d74aae8311",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/pc720-v3/pc720-identity-27-return-map.png",
+      "bytes": 1843480,
+      "sha256": "d6f45117c861eaf638a0e6547609e5487d4682eb5197c261b0964b5d1ca3f9cf",
+      "blob": "d6f45117c861eaf638a0e6547609e5487d4682eb5197c261b0964b5d1ca3f9cf",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/preflight-pc720-v1/browser-console.json",
+      "bytes": 70,
+      "sha256": "46568dae8c3ff6247fe1b949b4a578213e6a7e355676c582a97cf1417bf5341e",
+      "blob": "46568dae8c3ff6247fe1b949b4a578213e6a7e355676c582a97cf1417bf5341e",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-identity-20261026-v70/preflight-pc720-v1/executed-checks.mjs",
+      "bytes": 21928,
+      "sha256": "c3cc11bf055e232400e3cad44743c1905b45607b1ba3b395c14cc27919d9fd24",
+      "blob": "c3cc11bf055e232400e3cad44743c1905b45607b1ba3b395c14cc27919d9fd24",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 27,
+  "uniqueBlobs": 27,
+  "rawNamedBytes": 24844116,
+  "uniqueRawBytes": 24844116,
+  "uniqueGzipBytes": 24834983,
+  "serializedPartBytes": 33119972,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

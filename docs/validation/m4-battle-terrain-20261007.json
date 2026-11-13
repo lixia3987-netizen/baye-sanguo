@@ -1,0 +1,552 @@
+{
+  "date": "2026-10-07",
+  "scope": "PC standard dictionary LIB battle terrain and focus presentation",
+  "environment": {
+    "platform": "Windows",
+    "node": "24.14.0",
+    "browser": "Chrome 154.0.8037.98",
+    "viewports": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1280,
+        720
+      ]
+    ]
+  },
+  "javascript": {
+    "filesPassed": 14,
+    "nodeTestsPassed": 134,
+    "failed": 0,
+    "skipped": 0,
+    "terrainCases": 16,
+    "newRendererTerrainCases": 4,
+    "log": "build/m4-terrain-validation/js-tests.log"
+  },
+  "battle": {
+    "ok": true,
+    "checkpoints": 39,
+    "userInputs": 145,
+    "exceptions": 0,
+    "dialogs": 0,
+    "nativeMap": {
+      "width": 32,
+      "height": 32,
+      "stride": 32,
+      "livingUnitsCrosschecked": 8
+    },
+    "terrainChecks": [
+      {
+        "label": "initial focused terrain",
+        "terrain": {
+          "source": "full",
+          "width": 32,
+          "height": 32,
+          "stride": 32,
+          "verified": true,
+          "libPath": "libs/dat-mod.lib",
+          "preferredLibPath": "libs/dat-mod.lib",
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "libGeneration": 1,
+          "session": 1,
+          "reason": ""
+        },
+        "focus": {
+          "kind": "hill",
+          "label": "山地",
+          "index": 2,
+          "raw": 7,
+          "x": 4,
+          "y": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 4,
+              "y": 16
+            }
+          },
+          {
+            "i": 1,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "i": 2,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 11,
+              "x": 3,
+              "y": 16
+            }
+          },
+          {
+            "i": 3,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 5,
+              "y": 16
+            }
+          },
+          {
+            "i": 4,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 4,
+              "y": 15
+            }
+          },
+          {
+            "i": 5,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 6,
+              "y": 14
+            }
+          },
+          {
+            "i": 10,
+            "terrain": {
+              "kind": "city",
+              "label": "城池",
+              "index": 5,
+              "raw": 3,
+              "x": 14,
+              "y": 17
+            }
+          },
+          {
+            "i": 11,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 14,
+              "y": 18
+            }
+          }
+        ]
+      },
+      {
+        "label": "occupied focused terrain",
+        "terrain": {
+          "source": "full",
+          "width": 32,
+          "height": 32,
+          "stride": 32,
+          "verified": true,
+          "libPath": "libs/dat-mod.lib",
+          "preferredLibPath": "libs/dat-mod.lib",
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "libGeneration": 1,
+          "session": 1,
+          "reason": ""
+        },
+        "focus": {
+          "kind": "hill",
+          "label": "山地",
+          "index": 2,
+          "raw": 7,
+          "x": 4,
+          "y": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 4,
+              "y": 16
+            }
+          },
+          {
+            "i": 1,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "i": 2,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 11,
+              "x": 3,
+              "y": 16
+            }
+          },
+          {
+            "i": 3,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 5,
+              "y": 16
+            }
+          },
+          {
+            "i": 4,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 4,
+              "y": 15
+            }
+          },
+          {
+            "i": 5,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 6,
+              "y": 14
+            }
+          },
+          {
+            "i": 10,
+            "terrain": {
+              "kind": "city",
+              "label": "城池",
+              "index": 5,
+              "raw": 3,
+              "x": 14,
+              "y": 17
+            }
+          },
+          {
+            "i": 11,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 14,
+              "y": 18
+            }
+          }
+        ]
+      },
+      {
+        "label": "empty focused terrain",
+        "terrain": {
+          "source": "full",
+          "width": 32,
+          "height": 32,
+          "stride": 32,
+          "verified": true,
+          "libPath": "libs/dat-mod.lib",
+          "preferredLibPath": "libs/dat-mod.lib",
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "libGeneration": 1,
+          "session": 1,
+          "reason": ""
+        },
+        "focus": {
+          "kind": "forest",
+          "label": "森林",
+          "index": 3,
+          "raw": 5,
+          "x": 4,
+          "y": 14
+        },
+        "units": [
+          {
+            "i": 0,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 4,
+              "y": 16
+            }
+          },
+          {
+            "i": 1,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "i": 2,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 11,
+              "x": 3,
+              "y": 16
+            }
+          },
+          {
+            "i": 3,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 5,
+              "y": 16
+            }
+          },
+          {
+            "i": 4,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 4,
+              "y": 15
+            }
+          },
+          {
+            "i": 5,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 6,
+              "y": 14
+            }
+          },
+          {
+            "i": 10,
+            "terrain": {
+              "kind": "city",
+              "label": "城池",
+              "index": 5,
+              "raw": 3,
+              "x": 14,
+              "y": 17
+            }
+          },
+          {
+            "i": 11,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 14,
+              "y": 18
+            }
+          }
+        ]
+      },
+      {
+        "label": "720p focused terrain",
+        "terrain": {
+          "source": "full",
+          "width": 32,
+          "height": 32,
+          "stride": 32,
+          "verified": true,
+          "libPath": "libs/dat-mod.lib",
+          "preferredLibPath": "libs/dat-mod.lib",
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "libGeneration": 1,
+          "session": 1,
+          "reason": ""
+        },
+        "focus": {
+          "kind": "forest",
+          "label": "森林",
+          "index": 3,
+          "raw": 5,
+          "x": 4,
+          "y": 14
+        },
+        "units": [
+          {
+            "i": 0,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 4,
+              "y": 16
+            }
+          },
+          {
+            "i": 1,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "i": 2,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 11,
+              "x": 3,
+              "y": 16
+            }
+          },
+          {
+            "i": 3,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 5,
+              "y": 16
+            }
+          },
+          {
+            "i": 4,
+            "terrain": {
+              "kind": "forest",
+              "label": "森林",
+              "index": 3,
+              "raw": 5,
+              "x": 4,
+              "y": 15
+            }
+          },
+          {
+            "i": 5,
+            "terrain": {
+              "kind": "plain",
+              "label": "平原",
+              "index": 1,
+              "raw": 1,
+              "x": 6,
+              "y": 14
+            }
+          },
+          {
+            "i": 10,
+            "terrain": {
+              "kind": "city",
+              "label": "城池",
+              "index": 5,
+              "raw": 3,
+              "x": 14,
+              "y": 17
+            }
+          },
+          {
+            "i": 11,
+            "terrain": {
+              "kind": "hill",
+              "label": "山地",
+              "index": 2,
+              "raw": 7,
+              "x": 14,
+              "y": 18
+            }
+          }
+        ]
+      }
+    ],
+    "artifacts": "build/m4-terrain-battle-final"
+  },
+  "core": {
+    "ok": true,
+    "checkpoints": 14,
+    "exceptions": 0,
+    "dialogs": 0,
+    "artifacts": "build/m4-terrain-runtime-final"
+  },
+  "servedSources": {
+    "baye.js": {
+      "source": "js\\baye.js",
+      "bytes": 191660,
+      "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+    },
+    "baye.wasm": {
+      "source": "js\\baye.wasm",
+      "bytes": 4214737,
+      "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+    },
+    "baye.wasm.map": {
+      "source": "js\\baye.wasm.map",
+      "bytes": 29629,
+      "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+    },
+    "baye.build.json": {
+      "source": "js\\baye.build.json",
+      "bytes": 1878,
+      "sha256": "e572f346ae7c13a44388f712885ac398f060a6bc6e85ed5819dcf173ca972038"
+    },
+    "hd-battle.js": {
+      "source": "js\\hd-battle.js",
+      "bytes": 62405,
+      "sha256": "b2195164de6a03405a85508ea5892488d0b17abff6bcdf4ca7a859df743f6e06"
+    },
+    "hd-battle-terrain.js": {
+      "source": "js\\hd-battle-terrain.js",
+      "bytes": 15066,
+      "sha256": "6b834b4dab0e5949fd2e4113a5cebfe779b8b74162eb73cfa97bbecab571de52"
+    }
+  },
+  "engineSourceRevision": "fe1eb426ff2c1fe4c9badb30860b8228fe23f0b8",
+  "visualReview": [
+    "15-terrain-occupied-1080p.png",
+    "15-terrain-empty-720p.png",
+    "29-attack-target-preview.png",
+    "35-terrain-eight-class-fixture.png"
+  ],
+  "limitations": [
+    "Four C harness suites require cc unavailable on this machine and are outside JavaScript pass count.",
+    "Real terrain browser flow used dictionary LIB period1; unknown LIB and custom terrain hook neutral fallback covered by JavaScript regressions.",
+    "Eight-class gallery is a labelled renderer fixture, not native battlefield layout.",
+    "No new FPS or latency conclusion, full campaign/save or mobile acceptance claimed."
+  ]
+}

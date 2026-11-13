@@ -1,0 +1,374 @@
+{
+  "schemaVersion": 2,
+  "kind": "bounded-original-capital-paid-food-archive",
+  "namedFileArchiveClosed": true,
+  "portableClosedArchive": false,
+  "dependencies": {
+    "baseCommit": "b91cf74ec78bf8abc721f2fd45eaed08a92c6b1b",
+    "committedExternalReferences": [
+      {
+        "path": "build/impact-skill-20261014/prepare-induce-actual-v6/result.json",
+        "bytes": 77450104,
+        "sha256": "15372d36bdc911d9f29264f52212af00ebeb5c7d4058f57c599a58a00f76108a"
+      }
+    ],
+    "scope": "Prior January/November evidence, original product/source/history and prior5130 frozen blobs remain committed dependencies. Old large archive parts, the77MB January result and240 frozen blobs are not duplicated. Current external result bytes are rehashed solely to compare the real input world."
+  },
+  "files": [
+    {
+      "path": "build/impact-induce-candidate-v6.mjs",
+      "bytes": 443647,
+      "sha256": "df882c23e57eb5a8af597dfbe8d29c4e45bf7c7ce5f744b873cf7043fe208753"
+    },
+    {
+      "path": "build/impact-induce-candidate-v7.mjs",
+      "bytes": 458051,
+      "sha256": "f0dc79a60ff361f28f3f5a2ad49c83b89771d5bcf3b658d63863c00c01551ed5"
+    },
+    {
+      "path": "build/impact-induce-candidate-v8.mjs",
+      "bytes": 462141,
+      "sha256": "913704de5758badb5efecba333bc001bf71e2318bec67622984e5b47fee9f112"
+    },
+    {
+      "path": "build/impact-skill-20261014/capital-food-planning-docs-patch-v1.json",
+      "bytes": 8316,
+      "sha256": "24bbfb0683143f3debcae68f94e9821bd097e5cfe6b05f47a631481dd70cf5d1"
+    },
+    {
+      "path": "build/impact-skill-20261014/capital-food-v7-external-cleanup-v1.json",
+      "bytes": 3440,
+      "sha256": "2c9fa6514463d42f38d9ed28f28678027190140cd7ba5dd224568d1d8d5f768a"
+    },
+    {
+      "path": "build/impact-skill-20261014/capital-food-v7-terminal-receipt-v1.json",
+      "bytes": 1621,
+      "sha256": "e5c4dc7bfc327bebc40d7c294c0dc56c1d0a08006a768759d8640077a704b651"
+    },
+    {
+      "path": "build/impact-skill-20261014/capital-food-v8-external-cleanup-v1.json",
+      "bytes": 3441,
+      "sha256": "bddc53c7cefce1d98aaf2c796dd3b95e2fb69d7d77a42798348a4faba752d688"
+    },
+    {
+      "path": "build/impact-skill-20261014/capital-food-v8-terminal-receipt-v1.json",
+      "bytes": 2758,
+      "sha256": "1ff5b262ab778dc87cd5ee33e740c9c8d5b21503a79cef0cbf282566544f75d9"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v7-delta.json",
+      "bytes": 55508,
+      "sha256": "1f528d6dcaf71cf4ebfbc389511201aecc37229acfa81491858dcb706c8fed58"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v7-freeze.json",
+      "bytes": 8303,
+      "sha256": "3ed6ec407aa58b2b19ba0476e30371dc63986465ada418d5e4da39c362b70ce7"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v7-independent-audit-v1.md",
+      "bytes": 9480,
+      "sha256": "528e259d210e976fc59a270db9c9716396b6c6f1d68645c12707ff058a57242b"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v7-integration-review-v1.md",
+      "bytes": 8833,
+      "sha256": "d4caeb9558a42e7edc951b0133c1c7e418ca8902410295fe3e7679dda089110d"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v8-delta.json",
+      "bytes": 9173,
+      "sha256": "6361eb5b95ace8278dec3405c141fcc7d65abec4cad1d4c67cbbea66c500215e"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v8-freeze.json",
+      "bytes": 13735,
+      "sha256": "cd3fb7fd8fa6a8a57fdaa218c88875e95bc5579dbbb199bbca2597d65a818e8d"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v8-independent-audit-v1.md",
+      "bytes": 6971,
+      "sha256": "ce5108eff6cfb41f884dc2101158b756586ece04fcaaea8736c5cf650f02f969"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v8-integration-review-v1.md",
+      "bytes": 7062,
+      "sha256": "3c1ca29572ece816188fcad3ffb4919707d17e9704d061c198364cbd5f256bfe"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-input-v4.json",
+      "bytes": 21136,
+      "sha256": "bdc16e6d2ac834560459829f8ea8bbf725d8ec27c609940431d5db4b51e2577d"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-root-proof-v4.json",
+      "bytes": 2947,
+      "sha256": "6f80f7c7aef3f24e7822a615c90b313285eb950400308fa2f8231e503ab08739"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-diplomacy-oracle-v1.mjs",
+      "bytes": 17456,
+      "sha256": "711a62f8299e3fcd2c739e90acfe3b03f5cca68af3dab05126a8bff85efbe5de"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-plunder-oracle-v3.mjs",
+      "bytes": 10718,
+      "sha256": "2b21c4194435f5f602a102f976a27d47d2cfa5639cce16269d6a91675fe9a998"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-terminal-v2.json",
+      "bytes": 1434,
+      "sha256": "c406242972104ab7f3d20a9ddd01c5c4c826f176443483d1a12441e158f686f2"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/result.json",
+      "bytes": 69575,
+      "sha256": "712e535c1008d5d02024e5f09723329fcec244eb8b533fc89f151698d8b2d16f"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/source-freeze.json",
+      "bytes": 62084,
+      "sha256": "e7a6c7e98f7efa2a058ce525c09d37db6b8e652a4ffd65473b4c4c4990588658"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7.log",
+      "bytes": 797,
+      "sha256": "fb143cbc4f8292529614b8003cd6e6cc5ae5ab612d766decb4f632ea23898696"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7/02-public-original-January-pending-loaded.png",
+      "bytes": 3086937,
+      "sha256": "4e36f81c76e5c242b071b5546992d7ace2c62c811dc67bb12e8c322b18167d20"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7/browser-console.json",
+      "bytes": 9596,
+      "sha256": "8007ca2ae0673bb066d289072baece1729f14857a2861bd26a525ed4857ee963"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7/failure.png",
+      "bytes": 2133869,
+      "sha256": "aa2764ad3f92610492a9c458a6e7df6f7b393970c92f0a44550ad1078b282e08"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7/owned-process-samples.jsonl",
+      "bytes": 20749,
+      "sha256": "743026486b3fe3216ecbddc64135357cadc7db6b97c0c97f5593da7d479af4c8"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7/result.json",
+      "bytes": 4350507,
+      "sha256": "94075b470bd1b4cbd37a9f7f425fe123ce5d80788909a483693eebe6b0c713ce"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v7/source-verification.json",
+      "bytes": 467503,
+      "sha256": "8b70741343c1542d5f1c6b72d288d9e3718f6617b90f33a7e54e7cd37809de33"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8.log",
+      "bytes": 508,
+      "sha256": "8ec61d7f31bb74213ba96b169c4c413d78d211bd3beb7773b656277fb47376ca"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/02-public-original-January-pending-loaded.png",
+      "bytes": 3087592,
+      "sha256": "3ac269014f7342797271593fd47d5f8ad0558fb9e05868bea84be5c479cadc85"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/browser-console.json",
+      "bytes": 9888,
+      "sha256": "47b29335f7c4f42bb9fbc063b1229716926473e700c70d033a8e69deebfeb838"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/native-impact-capital-paid-food-040-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ec9364bfcdb9ddd2680b2cd034a8d4eca04c1cebe63392452ea53c820db40d97"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/native-impact-capital-paid-food-040-sango1.sav",
+      "bytes": 4840,
+      "sha256": "54c67918370e78c4cb36f899c193b3e5c583c83c59574954c20fe6e75c1eca05"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/owned-process-samples.jsonl",
+      "bytes": 32976,
+      "sha256": "3fa7367cbd807688fc336ff9adf0d7a44f525d0a69498629a9eee809583d7d9f"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/prepared-public-native-save-impact-capital-paid-food-040.png",
+      "bytes": 3035154,
+      "sha256": "a87dabbadf2c5ee0b253d766113531dcb099164732d73f6b3e8523d4f251b370"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/result.json",
+      "bytes": 12817277,
+      "sha256": "addbdd51ce810b12045dd6f452d8d17e5fd0c15f82eae5f487c3133efa22df83"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/source-verification.json",
+      "bytes": 467503,
+      "sha256": "8b70741343c1542d5f1c6b72d288d9e3718f6617b90f33a7e54e7cd37809de33"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v7.log",
+      "bytes": 348,
+      "sha256": "ef76730651797232d833fa1b6b7ac6ae5acc30a9cbbc1c4384dbabfe2bcd0ebe"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v7/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v7/result.json",
+      "bytes": 962486,
+      "sha256": "0b736afeb0182dd85e6f2aa9e98d2ce1d17478d6e3392b47bd0ddc4568e36ac4"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v7/source-verification.json",
+      "bytes": 467503,
+      "sha256": "8b70741343c1542d5f1c6b72d288d9e3718f6617b90f33a7e54e7cd37809de33"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v8.log",
+      "bytes": 348,
+      "sha256": "3af3e6cdc1b775451e3dbced4d0a129c760bbee5f5fffbff0f38c1bfb3c6b4c1"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v8/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v8/result.json",
+      "bytes": 962486,
+      "sha256": "ea21f039ac6978bbc2fc3716b400375e8a9243b9ebb151df25db1f19429837e9"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-preflight-v8/source-verification.json",
+      "bytes": 467503,
+      "sha256": "8b70741343c1542d5f1c6b72d288d9e3718f6617b90f33a7e54e7cd37809de33"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-pending-016-sango0.sav",
+      "bytes": 8221,
+      "sha256": "2cb151de2e77db3d76b365a39fa380aa97a51d3c2f4cdf448ff4a1131271c248"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-pending-016-sango1.sav",
+      "bytes": 4840,
+      "sha256": "f7eea80d7ec12645606c72bc3ed42f44b15e457f59bdd6b1236f10b7c4bf6a93"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-induce-v6-independent-audit-v1.md",
+      "bytes": 11691,
+      "sha256": "a5ccbd8a10319d956668e736dd5783c4558f963562f51bc3dfa26647b8b46cdb"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-induce-v6-terminal-receipt-v1.json",
+      "bytes": 13808,
+      "sha256": "5428eaf8228e4d2e3850b037726991217e944aed26b0016faa1b534f73f5dfa5"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-capital-food-checkpoint-review-v1.md",
+      "bytes": 6186,
+      "sha256": "23b9ab1af1dbf5bdd559d20f29ede229f7447e35ed88d77a7a2b5f04b7985132"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-capital-food-checkpoint-v1.mjs",
+      "bytes": 38910,
+      "sha256": "8f36c3ce97249db901d5f862eeeb422fc6ed2308437eb1c2580a7a7a3605bdb1"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-capital-food-freeze-v1.json",
+      "bytes": 2296,
+      "sha256": "1130c5e1b486dfbf3364ec5b11fef4966038c8f4d22253b1344574a8bb725c5e"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-capital-food-inputs-v1.json",
+      "bytes": 15257,
+      "sha256": "813cb99c470e61b7f13b0fa7b7874e9ddf2d1b4f6ab468cfce8851354e5d8301"
+    },
+    {
+      "path": "build/impact-skill-20261014/user-server-before-capital-food-v7-final-v1.json",
+      "bytes": 487,
+      "sha256": "1a602a8489bcb6a69f6ba4187b3892a92007b47feebe0c9e3dc2bb736b7eec8a"
+    },
+    {
+      "path": "build/impact-skill-20261014/user-server-before-capital-food-v7-v1.json",
+      "bytes": 469,
+      "sha256": "5a7cfa719eaf49aace7e69b5a53e2ef7e967ce67f6438326c457f8e8df82c4fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/user-server-before-capital-food-v8-v1.json",
+      "bytes": 263,
+      "sha256": "c9112cb53cfd8cad7de18026a7e8cbe9d9b6d1a641fb302555bfac0900c9156d"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-capital-food-v7-failure-v1.log",
+      "bytes": 263,
+      "sha256": "36b14316ec602b4a0e22cad100b5e01d949222757930ee8ac54519ddbb2854ec"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-capital-food-v7-failure-v1.mjs",
+      "bytes": 3827,
+      "sha256": "51d75841f21d7ba06fbdfeea40b746571b9acb1b0c4916d3838b6d1fd22cbbe1"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-capital-food-v8-success-v1.log",
+      "bytes": 888,
+      "sha256": "48306dec0e7a1f0a666371d294f1a82ccdfd1e022c0221951bf598475f9d42b9"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-capital-food-v8-success-v1.mjs",
+      "bytes": 7525,
+      "sha256": "9000aeed1330e8d0f3c9e433263be4f900ee9028c47ae269bec261912ffb5557"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 428488,
+      "sha256": "69d85a0dda567673f141fe459056698362d3ebb4f6b318e07a4bc3bfe76b451c"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    }
+  ],
+  "blobParts": [
+    {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-capital-food-20261021-archive-part001.json",
+      "bytes": 17942500,
+      "sha256": "dc4be4b41865484b045c12890ba3aa30922c4615330f72995910772bf1a7a44f",
+      "blobs": 65
+    }
+  ],
+  "uniqueBlobs": 65,
+  "scope": "Only the explicitly fixed65 original files plus publisher/input/review/freeze. Includes all6 failedv7 and8 successfulv8 nonprofile actual top-level files, both complete3-file preflights/logs, v6/v7/v8 source baseline and narrow deltas/reviews, root receipts/generators/logs, input/current SAVE halves, selected native formula sources and planned four-doc append patch. Profiles/cache/futureCanvass/new188tests are excluded."
+}

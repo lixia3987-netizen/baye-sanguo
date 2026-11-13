@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part001.json",
+      "bytes": 4421811,
+      "sha256": "7ff39f3ad00d42abf4f8e1550ea6dc2508282ebf0912abe25c36e687bedc8547",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part002.json",
+      "bytes": 4477267,
+      "sha256": "e437a90345798b1b82c207974e7edbd116450961911539a719f5e625b5e08720",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part003.json",
+      "bytes": 4532207,
+      "sha256": "c6f74f9c9c74eab06de2edae5ddad47b20bcdf0b674de5d794b988b94f4f975d",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part004.json",
+      "bytes": 4586935,
+      "sha256": "f3cab12b0f1f0efd88aa226f5a5611a5227945da0acf6dc04f010eabf4f052d5",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part005.json",
+      "bytes": 4641115,
+      "sha256": "af8de1c9a529b12e8514497e9d3f1aa17b973198a6531da0c04826c608b5ae1a",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part006.json",
+      "bytes": 4695583,
+      "sha256": "9c43855f4bd4f7d6cfdf994d1c18c0b912b743363bd62801870ecb7442122d2a",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part007.json",
+      "bytes": 4757491,
+      "sha256": "ae5917c6746945031678584f2e7d8f720ef9b65475e4e931f17a667c7f02f802",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part008.json",
+      "bytes": 4818263,
+      "sha256": "b0b36af1f93f2f23c46f5091809a41b5fe8a9b15324c0b8049f6ac1c06550749",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-images-005-archive-part009.json",
+      "bytes": 4876859,
+      "sha256": "a675d6f03c56f24134a69947aa51da0079299e13ec52114e9b664448ebc1309b",
+      "blobs": 2
+    }
+  ],
+  "files": [
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/073-commit-73-frame-72-hd.png",
+      "bytes": 3318710,
+      "sha256": "1fbfd713263ee64eef6ab0bf9c77b22e3940ce0295f0205c5f134e334bc0b13b",
+      "blob": "1fbfd713263ee64eef6ab0bf9c77b22e3940ce0295f0205c5f134e334bc0b13b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/073-commit-73-frame-72-hd.png",
+      "bytes": 3318710,
+      "sha256": "1fbfd713263ee64eef6ab0bf9c77b22e3940ce0295f0205c5f134e334bc0b13b",
+      "blob": "1fbfd713263ee64eef6ab0bf9c77b22e3940ce0295f0205c5f134e334bc0b13b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/074-commit-74-frame-73-native.png",
+      "bytes": 3585,
+      "sha256": "d0c312a31b6180dcff2d747604a73ab5c5aee2e40d958a5e77094780c19c6325",
+      "blob": "d0c312a31b6180dcff2d747604a73ab5c5aee2e40d958a5e77094780c19c6325",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/074-commit-74-frame-73-native.png",
+      "bytes": 3585,
+      "sha256": "d0c312a31b6180dcff2d747604a73ab5c5aee2e40d958a5e77094780c19c6325",
+      "blob": "d0c312a31b6180dcff2d747604a73ab5c5aee2e40d958a5e77094780c19c6325",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/074-commit-74-frame-73-hd.png",
+      "bytes": 3360073,
+      "sha256": "1742a98d09db1ca9e80f4b81c429da920c0ad42ea6df7c8b174fcd3e75a612a5",
+      "blob": "1742a98d09db1ca9e80f4b81c429da920c0ad42ea6df7c8b174fcd3e75a612a5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/074-commit-74-frame-73-hd.png",
+      "bytes": 3360073,
+      "sha256": "1742a98d09db1ca9e80f4b81c429da920c0ad42ea6df7c8b174fcd3e75a612a5",
+      "blob": "1742a98d09db1ca9e80f4b81c429da920c0ad42ea6df7c8b174fcd3e75a612a5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/075-commit-75-frame-74-native.png",
+      "bytes": 3610,
+      "sha256": "1c24e87f4281ab66914a8ea018120d2c7bef616c545216fa331548e5f4bcd355",
+      "blob": "1c24e87f4281ab66914a8ea018120d2c7bef616c545216fa331548e5f4bcd355",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/075-commit-75-frame-74-native.png",
+      "bytes": 3610,
+      "sha256": "1c24e87f4281ab66914a8ea018120d2c7bef616c545216fa331548e5f4bcd355",
+      "blob": "1c24e87f4281ab66914a8ea018120d2c7bef616c545216fa331548e5f4bcd355",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/075-commit-75-frame-74-hd.png",
+      "bytes": 3401382,
+      "sha256": "f2f80e399adbdb846c2afe45d26900bbb7084630064c0a5047992736f7f9ccec",
+      "blob": "f2f80e399adbdb846c2afe45d26900bbb7084630064c0a5047992736f7f9ccec",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/075-commit-75-frame-74-hd.png",
+      "bytes": 3401382,
+      "sha256": "f2f80e399adbdb846c2afe45d26900bbb7084630064c0a5047992736f7f9ccec",
+      "blob": "f2f80e399adbdb846c2afe45d26900bbb7084630064c0a5047992736f7f9ccec",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/076-commit-76-frame-75-native.png",
+      "bytes": 3624,
+      "sha256": "04bb0fd1a7609f95d7b2f7a9cd9318a884de1cfcd850ff146d5c029bd1c80c3c",
+      "blob": "04bb0fd1a7609f95d7b2f7a9cd9318a884de1cfcd850ff146d5c029bd1c80c3c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/076-commit-76-frame-75-native.png",
+      "bytes": 3624,
+      "sha256": "04bb0fd1a7609f95d7b2f7a9cd9318a884de1cfcd850ff146d5c029bd1c80c3c",
+      "blob": "04bb0fd1a7609f95d7b2f7a9cd9318a884de1cfcd850ff146d5c029bd1c80c3c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/076-commit-76-frame-75-hd.png",
+      "bytes": 3442149,
+      "sha256": "46e7992fcc3f536fb142284bdcff3bd85a8cc94c50da45ff1844a872be9357e8",
+      "blob": "46e7992fcc3f536fb142284bdcff3bd85a8cc94c50da45ff1844a872be9357e8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/076-commit-76-frame-75-hd.png",
+      "bytes": 3442149,
+      "sha256": "46e7992fcc3f536fb142284bdcff3bd85a8cc94c50da45ff1844a872be9357e8",
+      "blob": "46e7992fcc3f536fb142284bdcff3bd85a8cc94c50da45ff1844a872be9357e8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/077-commit-77-frame-76-native.png",
+      "bytes": 3660,
+      "sha256": "7c77581f2e03b9cc1bbf5ef03bbcd18daa0f1db47c64e7eabc95625384464bff",
+      "blob": "7c77581f2e03b9cc1bbf5ef03bbcd18daa0f1db47c64e7eabc95625384464bff",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/077-commit-77-frame-76-native.png",
+      "bytes": 3660,
+      "sha256": "7c77581f2e03b9cc1bbf5ef03bbcd18daa0f1db47c64e7eabc95625384464bff",
+      "blob": "7c77581f2e03b9cc1bbf5ef03bbcd18daa0f1db47c64e7eabc95625384464bff",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/077-commit-77-frame-76-hd.png",
+      "bytes": 3482506,
+      "sha256": "0f60fdb8f6eed3a8c32175682fa6cb9bb516727a6d3fb3a580f7b1c7a1f15c36",
+      "blob": "0f60fdb8f6eed3a8c32175682fa6cb9bb516727a6d3fb3a580f7b1c7a1f15c36",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/077-commit-77-frame-76-hd.png",
+      "bytes": 3482506,
+      "sha256": "0f60fdb8f6eed3a8c32175682fa6cb9bb516727a6d3fb3a580f7b1c7a1f15c36",
+      "blob": "0f60fdb8f6eed3a8c32175682fa6cb9bb516727a6d3fb3a580f7b1c7a1f15c36",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/078-commit-78-frame-77-native.png",
+      "bytes": 3722,
+      "sha256": "675b132497781a2e658059035efdc736043cf1e7d7566dc216074948e15efa64",
+      "blob": "675b132497781a2e658059035efdc736043cf1e7d7566dc216074948e15efa64",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/078-commit-78-frame-77-native.png",
+      "bytes": 3722,
+      "sha256": "675b132497781a2e658059035efdc736043cf1e7d7566dc216074948e15efa64",
+      "blob": "675b132497781a2e658059035efdc736043cf1e7d7566dc216074948e15efa64",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/078-commit-78-frame-77-hd.png",
+      "bytes": 3522991,
+      "sha256": "e51d82b9f2ad6172983ad54454b41e0276dd3b2bf29795444636feb33422e0f2",
+      "blob": "e51d82b9f2ad6172983ad54454b41e0276dd3b2bf29795444636feb33422e0f2",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/078-commit-78-frame-77-hd.png",
+      "bytes": 3522991,
+      "sha256": "e51d82b9f2ad6172983ad54454b41e0276dd3b2bf29795444636feb33422e0f2",
+      "blob": "e51d82b9f2ad6172983ad54454b41e0276dd3b2bf29795444636feb33422e0f2",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/079-commit-79-frame-78-native.png",
+      "bytes": 3767,
+      "sha256": "79b048ce870726cafe1735304de5dc01fbff03e2dd9c189c13604292f2e1e3a4",
+      "blob": "79b048ce870726cafe1735304de5dc01fbff03e2dd9c189c13604292f2e1e3a4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/079-commit-79-frame-78-native.png",
+      "bytes": 3767,
+      "sha256": "79b048ce870726cafe1735304de5dc01fbff03e2dd9c189c13604292f2e1e3a4",
+      "blob": "79b048ce870726cafe1735304de5dc01fbff03e2dd9c189c13604292f2e1e3a4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/079-commit-79-frame-78-hd.png",
+      "bytes": 3569025,
+      "sha256": "49c421bd2ba8d571e737cb50ae7f773a19dbd8f24848182190a3c23d00733fe7",
+      "blob": "49c421bd2ba8d571e737cb50ae7f773a19dbd8f24848182190a3c23d00733fe7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/079-commit-79-frame-78-hd.png",
+      "bytes": 3569025,
+      "sha256": "49c421bd2ba8d571e737cb50ae7f773a19dbd8f24848182190a3c23d00733fe7",
+      "blob": "49c421bd2ba8d571e737cb50ae7f773a19dbd8f24848182190a3c23d00733fe7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/080-commit-80-frame-79-native.png",
+      "bytes": 3821,
+      "sha256": "0b57011cc21fe7bddd8bb97fcb11304abd6e5a45f84c792718b9069e64a27747",
+      "blob": "0b57011cc21fe7bddd8bb97fcb11304abd6e5a45f84c792718b9069e64a27747",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/080-commit-80-frame-79-native.png",
+      "bytes": 3821,
+      "sha256": "0b57011cc21fe7bddd8bb97fcb11304abd6e5a45f84c792718b9069e64a27747",
+      "blob": "0b57011cc21fe7bddd8bb97fcb11304abd6e5a45f84c792718b9069e64a27747",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/080-commit-80-frame-79-hd.png",
+      "bytes": 3614181,
+      "sha256": "1e59776c94c66d65bac4f9eb6e860353b58390478b0c0ff3a3a55bbb50801f0e",
+      "blob": "1e59776c94c66d65bac4f9eb6e860353b58390478b0c0ff3a3a55bbb50801f0e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/080-commit-80-frame-79-hd.png",
+      "bytes": 3614181,
+      "sha256": "1e59776c94c66d65bac4f9eb6e860353b58390478b0c0ff3a3a55bbb50801f0e",
+      "blob": "1e59776c94c66d65bac4f9eb6e860353b58390478b0c0ff3a3a55bbb50801f0e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/081-commit-81-frame-80-native.png",
+      "bytes": 3857,
+      "sha256": "84d0bacb0ad24520d47e8b63c8d6413f43f153d8b717a0f66a43c3537d5a3b4d",
+      "blob": "84d0bacb0ad24520d47e8b63c8d6413f43f153d8b717a0f66a43c3537d5a3b4d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/081-commit-81-frame-80-native.png",
+      "bytes": 3857,
+      "sha256": "84d0bacb0ad24520d47e8b63c8d6413f43f153d8b717a0f66a43c3537d5a3b4d",
+      "blob": "84d0bacb0ad24520d47e8b63c8d6413f43f153d8b717a0f66a43c3537d5a3b4d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/081-commit-81-frame-80-hd.png",
+      "bytes": 3657712,
+      "sha256": "d892c6095743ba37ba9aa846a93ee2fed219265eb05cbc64695131cb0dbbc789",
+      "blob": "d892c6095743ba37ba9aa846a93ee2fed219265eb05cbc64695131cb0dbbc789",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/081-commit-81-frame-80-hd.png",
+      "bytes": 3657712,
+      "sha256": "d892c6095743ba37ba9aa846a93ee2fed219265eb05cbc64695131cb0dbbc789",
+      "blob": "d892c6095743ba37ba9aa846a93ee2fed219265eb05cbc64695131cb0dbbc789",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/082-commit-82-frame-81-native.png",
+      "bytes": 3909,
+      "sha256": "8f95b06f859e2ef18128e6a4011bf6102e10e8591ef1d0dd957e83070738a1f6",
+      "blob": "8f95b06f859e2ef18128e6a4011bf6102e10e8591ef1d0dd957e83070738a1f6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/082-commit-82-frame-81-native.png",
+      "bytes": 3909,
+      "sha256": "8f95b06f859e2ef18128e6a4011bf6102e10e8591ef1d0dd957e83070738a1f6",
+      "blob": "8f95b06f859e2ef18128e6a4011bf6102e10e8591ef1d0dd957e83070738a1f6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    }
+  ],
+  "logicalFiles": 36,
+  "uniqueBlobs": 18,
+  "rawNamedBytes": 62804568,
+  "uniqueRawBytes": 31402284,
+  "uniqueGzipBytes": 31352014,
+  "serializedPartBytes": 41807531,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

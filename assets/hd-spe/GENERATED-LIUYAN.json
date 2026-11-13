@@ -1,0 +1,680 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-10T13:31:58.870Z",
+  "scope": "Original LIUYAN40 static artwork generation and exact-copy provenance only. Source integration and offline tests are documented separately. Actual player casting/browser HD remain pending.",
+  "generator": {
+    "name": "Codex builtin image_gen.imagegen",
+    "skill": "C:/Users/75112/.codex/skills/.system/imagegen/SKILL.md",
+    "completedCalls": 4,
+    "versions": 2,
+    "callsPerVersion": 2,
+    "selectedFinalOutputs": 2,
+    "retainedRejectedOutputs": 2,
+    "automaticRetries": false,
+    "paidCliOrExternalGenerator": false,
+    "postprocessing": "None. All PNG and original prompt/request/tool/review/native files copied byte-for-byte."
+  },
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "resource": {
+    "resource": 40,
+    "item": 0,
+    "bytes": 1084,
+    "sha256": "2b1f0fb020dd068a39f470a605c0fd0e5ed6de515dfd50a9cb808ea80f18b66c",
+    "fingerprint": "fnv1a32:bd0140e0:1084",
+    "header": [
+      0,
+      12,
+      8,
+      2,
+      0,
+      7
+    ],
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picture": 1
+      }
+    ],
+    "pictures": [
+      {
+        "index": 0,
+        "offset": 46,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "bytes": 519,
+        "sha256": "8ab791ecb9fec04126d2e28c1f3fec845f7e51d04e40945684dc3cbce2ff8af6"
+      },
+      {
+        "index": 1,
+        "offset": 565,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "bytes": 519,
+        "sha256": "48b5fbc3651c7f910e050170cbf8334cfd4dbe6383057a930425dbf2976d2084"
+      }
+    ]
+  },
+  "nativeEvidence": {
+    "path": "assets/hd-spe/liuyan-40/native-source/metadata.json",
+    "bytes": 6421,
+    "sha256": "1ad646245c2a95f2eb27b973831112df097bb79f758c5c764e39d2cdbb40706f"
+  },
+  "selected": [
+    {
+      "frame": 0,
+      "selected": {
+        "path": "assets/hd-spe/liuyan-40/picture-0.png",
+        "bytes": 2737107,
+        "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab"
+      },
+      "rawGenerationOutput": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/picture-0.png",
+        "bytes": 2737107,
+        "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab"
+      },
+      "byteEqual": true,
+      "width": 1254,
+      "height": 1254,
+      "colorType": 2,
+      "opaque": true
+    },
+    {
+      "frame": 1,
+      "selected": {
+        "path": "assets/hd-spe/liuyan-40/picture-1.png",
+        "bytes": 2664650,
+        "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d"
+      },
+      "rawGenerationOutput": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/picture-1.png",
+        "bytes": 2664650,
+        "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d"
+      },
+      "byteEqual": true,
+      "width": 1254,
+      "height": 1254,
+      "colorType": 2,
+      "opaque": true
+    }
+  ],
+  "attempts": [
+    {
+      "version": 1,
+      "frame": 0,
+      "disposition": "rejected-text-qa-fail",
+      "image": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/picture-0.png",
+        "bytes": 3113150,
+        "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6"
+      },
+      "prompt": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-0-prompt.txt",
+        "bytes": 2230,
+        "sha256": "c211122f1827491edb65dee35bbeeb7c8b9a40026661fd92c72b0dab1b03175b"
+      },
+      "request": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-0-request.json",
+        "bytes": 3928,
+        "sha256": "422326e32491df0f1d5b9916f2ea684332fd641ebf42c12ceb106d508c66fbf4"
+      },
+      "toolResultAndReview": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-0-tool-result-and-review.json",
+        "bytes": 1736,
+        "sha256": "d8ebb231ea2c8ff3c279c50be97f50a317a0ef66d6d97b7cb497b143cc5d58d7"
+      },
+      "orderedReferences": [
+        {
+          "order": 0,
+          "role": "Primary composition and exact glyph source, original resource40 frame0, 4x nearest reference",
+          "originalRequestPath": "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+          "retained": {
+            "path": "assets/hd-spe/liuyan-40/native-source/picture-0-nearest-4x.png",
+            "bytes": 3404,
+            "sha256": "f2085396f6421e0e8def150534286cec4b8d93b661d3b9708e6c2b42cb8cc1d9"
+          }
+        },
+        {
+          "order": 1,
+          "role": "Palette and painterly rendering style only; do not borrow its subject count, pose or setting layout",
+          "originalRequestPath": "assets/hd-spe/qimen-39/picture-0.png",
+          "retained": {
+            "path": "assets/hd-spe/qimen-39/picture-0.png",
+            "bytes": 2458901,
+            "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882"
+          }
+        },
+        {
+          "order": 2,
+          "role": "Armour, helmet, spear and painterly material style only; do not borrow its third character or marching poses",
+          "originalRequestPath": "assets/hd-spe/aid-41/picture-0.png",
+          "retained": {
+            "path": "assets/hd-spe/aid-41/picture-0.png",
+            "bytes": 3203857,
+            "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+          }
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "frame": 1,
+      "disposition": "rejected-text-qa-fail",
+      "image": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/picture-1.png",
+        "bytes": 2793104,
+        "sha256": "add4e62a629b6b89aeb2fd69f124414b0f85f94fe8582388687551c70f7f8674"
+      },
+      "prompt": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-1-prompt.txt",
+        "bytes": 1631,
+        "sha256": "4bebdcc8652cc333bb2abc813c2b72b6051b8ecbb86ad0bd9f4d6e1890231772"
+      },
+      "request": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-1-request.json",
+        "bytes": 2930,
+        "sha256": "ba33b12b6b38a2975c29d690735ffe4841de727782d4f97e0a30e07144482b67"
+      },
+      "toolResultAndReview": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-1-tool-result-and-review.json",
+        "bytes": 1780,
+        "sha256": "ad34cd4c3ecabb18b55789f6d670a46535cabea461f6655ef16bf7de61b19921"
+      },
+      "orderedReferences": [
+        {
+          "order": 0,
+          "role": "Edit target. Preserve the entire actual generated frame0 image; change only its bubble interior.",
+          "originalRequestPath": "build/r25-liuyan-40-art-v1/picture-0.png",
+          "retained": {
+            "path": "assets/hd-spe/liuyan-40/generation-v1/picture-0.png",
+            "bytes": 3113150,
+            "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6"
+          }
+        },
+        {
+          "order": 1,
+          "role": "Authoritative exact native frame1 glyph-shape and placement reference. Not a style reference.",
+          "originalRequestPath": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+          "retained": {
+            "path": "assets/hd-spe/liuyan-40/native-source/picture-1-nearest-4x.png",
+            "bytes": 3430,
+            "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726"
+          }
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "frame": 0,
+      "disposition": "selected-static-artwork",
+      "image": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/picture-0.png",
+        "bytes": 2737107,
+        "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab"
+      },
+      "prompt": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-0-prompt.txt",
+        "bytes": 1629,
+        "sha256": "c08841e9aa9e0ee1e95b9cb945d272d4681453154d1d45ee9b0b59af3d2b3c2a"
+      },
+      "request": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-0-request.json",
+        "bytes": 3256,
+        "sha256": "d79f9a82befe5905b86b60cdc92191af722ff3d9669b0cb32d0bc968f7a92bbf"
+      },
+      "toolResultAndReview": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-0-tool-result-and-review.json",
+        "bytes": 1728,
+        "sha256": "d0737f0a854decfc560946b1fdd9629171bfc8338366108aecd3658f7c09079f"
+      },
+      "orderedReferences": [
+        {
+          "order": 0,
+          "role": "Edit target. Exact v1 generated frame; preserve everything except interior dialogue.",
+          "originalRequestPath": "build/r25-liuyan-40-art-v1/picture-0.png",
+          "retained": {
+            "path": "assets/hd-spe/liuyan-40/generation-v1/picture-0.png",
+            "bytes": 3113150,
+            "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6"
+          }
+        },
+        {
+          "order": 1,
+          "role": "Original native reference for frame composition and bubble position. Text transcription has separately been explicitly confirmed by the human-directed root visual review.",
+          "originalRequestPath": "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+          "retained": {
+            "path": "assets/hd-spe/liuyan-40/native-source/picture-0-nearest-4x.png",
+            "bytes": 3404,
+            "sha256": "f2085396f6421e0e8def150534286cec4b8d93b661d3b9708e6c2b42cb8cc1d9"
+          }
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "frame": 1,
+      "disposition": "selected-static-artwork",
+      "image": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/picture-1.png",
+        "bytes": 2664650,
+        "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d"
+      },
+      "prompt": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-1-prompt.txt",
+        "bytes": 1617,
+        "sha256": "a962c8dac0b6da2b3dd0c4499e49f320a1cd40677cd7b69e43f6208358299110"
+      },
+      "request": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-1-request.json",
+        "bytes": 3243,
+        "sha256": "ea55e4d79e75c72adee42c163f2daeb2002848dbbca97d1caeeafcccbfb76698"
+      },
+      "toolResultAndReview": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-1-tool-result-and-review.json",
+        "bytes": 1805,
+        "sha256": "4fe84e633e6c30408f6354a951f875fcddef94700e53fd881a63eed78a3fb32e"
+      },
+      "orderedReferences": [
+        {
+          "order": 0,
+          "role": "Edit target. Exact v1 generated frame; preserve everything except interior dialogue.",
+          "originalRequestPath": "build/r25-liuyan-40-art-v1/picture-1.png",
+          "retained": {
+            "path": "assets/hd-spe/liuyan-40/generation-v1/picture-1.png",
+            "bytes": 2793104,
+            "sha256": "add4e62a629b6b89aeb2fd69f124414b0f85f94fe8582388687551c70f7f8674"
+          }
+        },
+        {
+          "order": 1,
+          "role": "Original native reference for frame composition and bubble position. Text transcription has separately been explicitly confirmed by the human-directed root visual review.",
+          "originalRequestPath": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+          "retained": {
+            "path": "assets/hd-spe/liuyan-40/native-source/picture-1-nearest-4x.png",
+            "bytes": 3430,
+            "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726"
+          }
+        }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "path": "assets/hd-spe/liuyan-40/generation-v1/review.json",
+      "bytes": 7959,
+      "sha256": "2d566ed0276060345b40d12ab1d66b745b0e63d1a6b2fb22c48c88339a5479b6"
+    },
+    {
+      "path": "assets/hd-spe/liuyan-40/generation-v2/review.json",
+      "bytes": 5961,
+      "sha256": "3083d59d2ac472945ba37b8f517700f8a7594d0050bd3ca539599775add13c36"
+    }
+  ],
+  "originalArtifacts": [
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/artifact-index.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/artifact-index.json",
+        "bytes": 3033,
+        "sha256": "ef7c1857e9c554b20fff3f0cbd3d7650f2c4b92898192626ee8de7bf7761f750"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/frame-0-prompt.txt",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-0-prompt.txt",
+        "bytes": 2230,
+        "sha256": "c211122f1827491edb65dee35bbeeb7c8b9a40026661fd92c72b0dab1b03175b"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/frame-0-request.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-0-request.json",
+        "bytes": 3928,
+        "sha256": "422326e32491df0f1d5b9916f2ea684332fd641ebf42c12ceb106d508c66fbf4"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/frame-0-tool-result-and-review.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-0-tool-result-and-review.json",
+        "bytes": 1736,
+        "sha256": "d8ebb231ea2c8ff3c279c50be97f50a317a0ef66d6d97b7cb497b143cc5d58d7"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/frame-1-prompt.txt",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-1-prompt.txt",
+        "bytes": 1631,
+        "sha256": "4bebdcc8652cc333bb2abc813c2b72b6051b8ecbb86ad0bd9f4d6e1890231772"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/frame-1-request.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-1-request.json",
+        "bytes": 2930,
+        "sha256": "ba33b12b6b38a2975c29d690735ffe4841de727782d4f97e0a30e07144482b67"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/frame-1-tool-result-and-review.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/frame-1-tool-result-and-review.json",
+        "bytes": 1780,
+        "sha256": "ad34cd4c3ecabb18b55789f6d670a46535cabea461f6655ef16bf7de61b19921"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/native-font-exact-comparison.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/native-font-exact-comparison.json",
+        "bytes": 8751,
+        "sha256": "bfa49bb5bab22a1710da928ef127d19932740e14e9fa6a44fd89002ff6fa7199"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/picture-0.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/picture-0.png",
+        "bytes": 3113150,
+        "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/picture-1.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/picture-1.png",
+        "bytes": 2793104,
+        "sha256": "add4e62a629b6b89aeb2fd69f124414b0f85f94fe8582388687551c70f7f8674"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v1/review.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v1/review.json",
+        "bytes": 7959,
+        "sha256": "2d566ed0276060345b40d12ab1d66b745b0e63d1a6b2fb22c48c88339a5479b6"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/artifact-index.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/artifact-index.json",
+        "bytes": 2697,
+        "sha256": "f121ff8ec0b3ea729cd19a853ae048bc1ead8670a3ff8e8bdd2700253ae041de"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/frame-0-prompt.txt",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-0-prompt.txt",
+        "bytes": 1629,
+        "sha256": "c08841e9aa9e0ee1e95b9cb945d272d4681453154d1d45ee9b0b59af3d2b3c2a"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/frame-0-request.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-0-request.json",
+        "bytes": 3256,
+        "sha256": "d79f9a82befe5905b86b60cdc92191af722ff3d9669b0cb32d0bc968f7a92bbf"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/frame-0-tool-result-and-review.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-0-tool-result-and-review.json",
+        "bytes": 1728,
+        "sha256": "d0737f0a854decfc560946b1fdd9629171bfc8338366108aecd3658f7c09079f"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/frame-1-prompt.txt",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-1-prompt.txt",
+        "bytes": 1617,
+        "sha256": "a962c8dac0b6da2b3dd0c4499e49f320a1cd40677cd7b69e43f6208358299110"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/frame-1-request.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-1-request.json",
+        "bytes": 3243,
+        "sha256": "ea55e4d79e75c72adee42c163f2daeb2002848dbbca97d1caeeafcccbfb76698"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/frame-1-tool-result-and-review.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/frame-1-tool-result-and-review.json",
+        "bytes": 1805,
+        "sha256": "4fe84e633e6c30408f6354a951f875fcddef94700e53fd881a63eed78a3fb32e"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/picture-0.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/picture-0.png",
+        "bytes": 2737107,
+        "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/picture-1.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/picture-1.png",
+        "bytes": 2664650,
+        "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-liuyan-40-art-v2/review.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/generation-v2/review.json",
+        "bytes": 5961,
+        "sha256": "3083d59d2ac472945ba37b8f517700f8a7594d0050bd3ca539599775add13c36"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/metadata.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/metadata.json",
+        "bytes": 6421,
+        "sha256": "1ad646245c2a95f2eb27b973831112df097bb79f758c5c764e39d2cdbb40706f"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/picture-0-native-64.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/picture-0-native-64.png",
+        "bytes": 887,
+        "sha256": "1a2fbd359951531c91f9293bd1cc09be66a977287947bb6f7d79a41b0a4fe318"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/picture-0-nearest-4x.png",
+        "bytes": 3404,
+        "sha256": "f2085396f6421e0e8def150534286cec4b8d93b661d3b9708e6c2b42cb8cc1d9"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/picture-0.bin",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/picture-0.bin",
+        "bytes": 519,
+        "sha256": "8ab791ecb9fec04126d2e28c1f3fec845f7e51d04e40945684dc3cbce2ff8af6"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/picture-1-native-64.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/picture-1-native-64.png",
+        "bytes": 898,
+        "sha256": "bd86cb47e356d314c2689c842bc67fbcdd9656eb7367dac3f4139e4b9f1b43b6"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/picture-1-nearest-4x.png",
+        "bytes": 3430,
+        "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/picture-1.bin",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/picture-1.bin",
+        "bytes": 519,
+        "sha256": "48b5fbc3651c7f910e050170cbf8334cfd4dbe6383057a930425dbf2976d2084"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/png-roundtrip-proof.json",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/png-roundtrip-proof.json",
+        "bytes": 2444,
+        "sha256": "7cdc76958e23ecb45f9364cbfd53d9ef1b2dae4b105103a365a260fff566c78e"
+      },
+      "byteEqual": true
+    },
+    {
+      "originalBuildPath": "build/r25-native-liuyan-40/resource-40-item-0.bin",
+      "retained": {
+        "path": "assets/hd-spe/liuyan-40/native-source/resource-40-item-0.bin",
+        "bytes": 1084,
+        "sha256": "2b1f0fb020dd068a39f470a605c0fd0e5ed6de515dfd50a9cb808ea80f18b66c"
+      },
+      "byteEqual": true
+    }
+  ],
+  "originalMetadataPreserved": "Retained original JSON/TXT files have not been rewritten. Historical absolute/build paths and review-time productionIntegrated=false fields remain their original historical values. originalArtifacts and orderedReferences above map these to retained repository paths.",
+  "textReview": {
+    "frames": [
+      "在那?",
+      "河北"
+    ],
+    "authority": "Root actual visual transcription of the tiny original reference, followed by actual visual review of the selected outputs.",
+    "fontMatchProven": false,
+    "exactFontComparison": {
+      "path": "assets/hd-spe/liuyan-40/generation-v1/native-font-exact-comparison.json",
+      "bytes": 8751,
+      "sha256": "bfa49bb5bab22a1710da928ef127d19932740e14e9fa6a44fd89002ff6fa7199"
+    },
+    "rejectedVersion1": [
+      "Frame0 bubble remained blank",
+      "Frame1 contained incorrect !!"
+    ],
+    "limits": "No claim of exact bitmap font matches, pixel-identical outside-bubble edits, or a newly recovered original script."
+  },
+  "staticArtworkAccepted": true,
+  "selectedByteEqualRawOriginals": true,
+  "actualCastAccepted": false,
+  "actualHdAccepted": false,
+  "wholeHdAccepted": false,
+  "nativeResultScope": "Skill16 has a transient SKILL movie scope but zero arms damage and no NUM15 numeric postlude/hold. This static art record does not validate actual MP/state/report or timing.",
+  "generationChainRetained": true,
+  "referenceHashesVerified": true,
+  "browserExecuted": false
+}

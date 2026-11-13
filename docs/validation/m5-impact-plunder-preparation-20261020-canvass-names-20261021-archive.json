@@ -1,0 +1,464 @@
+{
+  "schemaVersion": 2,
+  "kind": "bounded-original-canvass-names-failure-and-contract-fix-archive",
+  "namedFileArchiveClosed": true,
+  "portableClosedArchive": false,
+  "dependencies": {
+    "baseCommit": "28df2277812a25957fb5044c841469128d6390b3",
+    "committedExternalReferences": [
+      {
+        "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/result.json",
+        "bytes": 12817277,
+        "sha256": "addbdd51ce810b12045dd6f452d8d17e5fd0c15f82eae5f487c3133efa22df83"
+      }
+    ],
+    "scope": "Prior food/January/November complete archives and original product/source/history stay committed dependencies. The12.8MB food result is rehashed/read for the actual saved input comparison, not duplicated. Old large archive parts and240 fullsuite frozen blobs are excluded."
+  },
+  "files": [
+    {
+      "path": "build/impact-induce-candidate-v10.mjs",
+      "bytes": 476629,
+      "sha256": "e54a5363eb4280c789e9b7c13404bdd5efe857b01d340ab52594ba2dad7c9feb"
+    },
+    {
+      "path": "build/impact-induce-candidate-v8.mjs",
+      "bytes": 462141,
+      "sha256": "913704de5758badb5efecba333bc001bf71e2318bec67622984e5b47fee9f112"
+    },
+    {
+      "path": "build/impact-induce-candidate-v9.mjs",
+      "bytes": 475996,
+      "sha256": "69d92ac0c803af979f6f4d611ba62e928ad6d88d18b851fb6885408ced0fc417"
+    },
+    {
+      "path": "build/impact-skill-20261014/canvass-names-planning-docs-patch-v1.json",
+      "bytes": 8917,
+      "sha256": "7e5ee27f11981ed1d2a5406164df9b4d8cbbbe38f547aff9fd47b8f77d654d7a"
+    },
+    {
+      "path": "build/impact-skill-20261014/canvass-v10-external-cleanup-v1.json",
+      "bytes": 4357,
+      "sha256": "8028fc23dfcdd47f1d7e44648ac895133e4547ce227ff95927fa176d2f05df0d"
+    },
+    {
+      "path": "build/impact-skill-20261014/canvass-v10-failure-independent-audit-v1.md",
+      "bytes": 6308,
+      "sha256": "9b0b223ec2a7fbc252dcae4cd6d599fc5f1313e318ddcc887cb3ab9b18e668f2"
+    },
+    {
+      "path": "build/impact-skill-20261014/canvass-v10-terminal-receipt-v1.json",
+      "bytes": 5139,
+      "sha256": "0e81100d276b2f72dd4fed3147b66435f3d74b7f1d349e9d404cd37fa9fe8d3b"
+    },
+    {
+      "path": "build/impact-skill-20261014/capital-food-v8-terminal-receipt-v1.json",
+      "bytes": 2758,
+      "sha256": "1ff5b262ab778dc87cd5ee33e740c9c8d5b21503a79cef0cbf282566544f75d9"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-canvass-jan-v6-controlled-input-v1.json",
+      "bytes": 171276,
+      "sha256": "d9bd1bf23886949cc6131b5c13851133ee24ad9a7f90aee83920dfcdf6fccc0c"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-canvass-v10-native-names-fixture-v1.json",
+      "bytes": 620972,
+      "sha256": "427ce7b77a6fb46602bb666830a7e9722a460d395ece955e6c07abed905a152a"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-canvass16-contract-draft-v1.md",
+      "bytes": 8209,
+      "sha256": "576f59b02d9d2a6c716fff24caecb008bde03b7aee2fa93d2561f7ef231d6508"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v10-delta.json",
+      "bytes": 4623,
+      "sha256": "b956dca77648d26a7e1f72201ba45cabd0c56d6bb0e7ed5da878600e6079fd30"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v10-freeze.json",
+      "bytes": 10419,
+      "sha256": "1aaa07d0f1a810dff87f0aee8ce957e2cd873b5b78d75c70460c145d012d51fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v10-integration-review-v1.md",
+      "bytes": 4419,
+      "sha256": "9c2fd7751cdb78b685d4469873be5e9c647699be59dbbc1618880ba5d35f41b4"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v10-peer-source-review-v1.json",
+      "bytes": 10132,
+      "sha256": "88a84be0b1f591b48f2c29ec99d5186e2d9ac83e1b14ce0a6c9e7b1cd9ff8ebb"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v9-delta.json",
+      "bytes": 54762,
+      "sha256": "bffabc2faa80125e26d04dd885db929c70f2cf7ccbdbab195d119f88fbf55ed5"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v9-freeze.json",
+      "bytes": 9864,
+      "sha256": "69519a123e0e6a78d5784d3de6eba81940134a682e07daa9d8996a88309f7934"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v9-integration-review-v1.md",
+      "bytes": 8747,
+      "sha256": "87589f736d1d74b486584e29eb90478e7d2f21ee0186fd3494bb621eea8e3520"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v9-peer-source-review-v1.json",
+      "bytes": 8683,
+      "sha256": "6115dee95e07d15492a0b6e7cf6e177ae81089827e4df28214465938f43005ca"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v9-static-blocker-v1.json",
+      "bytes": 622,
+      "sha256": "f6906ade32d593e8640ac8ceb0a831e9fb0d67c661be4039360fbd78969d1751"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-input-v5.json",
+      "bytes": 23886,
+      "sha256": "ec8a9cc98e28b556d485bc9e5bde5ab8c241e3fde01fbdae705ecd977d35e3fb"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-input-v6.json",
+      "bytes": 28396,
+      "sha256": "2d669ef64c9258bc5c6ba87e2b804cac0d2bf61f871af9b5abc8f093212bef39"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-root-proof-v5.json",
+      "bytes": 3714,
+      "sha256": "63c48f15a25b72359ac8e65e896b3cfc553b5532cd6f46a1e44fa2ddd2375dda"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-root-proof-v6.json",
+      "bytes": 4304,
+      "sha256": "260f6be67ae66e1445b9f0fc2ba0c49b1f08f070c7639699c1c252abd8434963"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v1-delta.json",
+      "bytes": 25081,
+      "sha256": "0892caad53f9fcf22953f5c8396a8e0561d0787029b3a21ccddab946cf332b8c"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v1-freeze.json",
+      "bytes": 6684,
+      "sha256": "2e94746001f7fe8b4a7ee0306ac1d54c3b6032d9fe6de0b49c3ad29955e43c17"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v1-peer-review-v1.json",
+      "bytes": 9640,
+      "sha256": "6d5cf1ada8bedb08c4a4fa1893995201ca2df981f5460a685b72a1a3d98eb86d"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v1-peer-review-v1.md",
+      "bytes": 1985,
+      "sha256": "c19cb42e569a39a61baa84d8b0355e33c2687e947691cf79f111e8d4754d39b1"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v1-review-v2.md",
+      "bytes": 1663,
+      "sha256": "5d89cc43e38463c3a8f2cfa3d93954a3d991631e15da9f94568f42ce841953a0"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v1-review.md",
+      "bytes": 4091,
+      "sha256": "85888f7da15ecec56059530aff365d75b44431facc1f5ce5b0975ddf5c4b56e2"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v1.mjs",
+      "bytes": 21270,
+      "sha256": "36a537e7e1a5c624659990fea91c6697dc953a0f5e14412727544c63e7fef61d"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v2-delta.json",
+      "bytes": 4423,
+      "sha256": "3bb51b9a64cb34caed73c7e966a64de8802a6c8315621ba6329567d6ab266311"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v2-freeze.json",
+      "bytes": 5868,
+      "sha256": "3024e6ddb896a0f0cd1ad3ca63d4749815ff3d98a7f369f294c2e5ae98726795"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v2-review.md",
+      "bytes": 4461,
+      "sha256": "ccffcd44b7141815af5f2b1ba8ba3ff0fb7ea1622dc9907fab3beb0deac2004d"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-oracle-v2.mjs",
+      "bytes": 23731,
+      "sha256": "fee745532b88252b22d29e677a92d9da5335aa695aa8aea3dd7e01b4a227a524"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-tests-root-proof-v1.json",
+      "bytes": 1600,
+      "sha256": "be0c50bdb406abc0f491e6d2b74c8f8fe9c9eb3b10425534595d6b73507202ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-tests-root-proof-v2.json",
+      "bytes": 2602,
+      "sha256": "7a6f535db6d0f9cbe52b05fcf997172d516120487b03fb1bcbe5f7e9b2fea478"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-diplomacy-oracle-v1.mjs",
+      "bytes": 17456,
+      "sha256": "711a62f8299e3fcd2c739e90acfe3b03f5cca68af3dab05126a8bff85efbe5de"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-raw-plunder-oracle-v3.mjs",
+      "bytes": 10718,
+      "sha256": "2b21c4194435f5f602a102f976a27d47d2cfa5639cce16269d6a91675fe9a998"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-terminal-v2.json",
+      "bytes": 1434,
+      "sha256": "c406242972104ab7f3d20a9ddd01c5c4c826f176443483d1a12441e158f686f2"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/result.json",
+      "bytes": 69575,
+      "sha256": "712e535c1008d5d02024e5f09723329fcec244eb8b533fc89f151698d8b2d16f"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/source-freeze.json",
+      "bytes": 62084,
+      "sha256": "e7a6c7e98f7efa2a058ce525c09d37db6b8e652a4ffd65473b4c4c4990588658"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10.log",
+      "bytes": 1454,
+      "sha256": "7f663198b8c9a2a38cd576ad263d0339a6d2a83647bbf640a610142e89201786"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/02-public-original-January-pending-loaded.png",
+      "bytes": 3087272,
+      "sha256": "7e77305c1e589547b6d96fa982bfe7939619986ffb94153a80505e57d6265f9b"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/browser-console.json",
+      "bytes": 8948,
+      "sha256": "b6775fa9c25b490be4906799542233b1342233809622d32e7a2c15b67a986c3b"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/failure.png",
+      "bytes": 3034407,
+      "sha256": "249832bfa568358e4d2c8f41cb053b29b2b2ff2d590b0637ecb4acf18a1c97f9"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/native-impact-canvass-paid-input-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ec9364bfcdb9ddd2680b2cd034a8d4eca04c1cebe63392452ea53c820db40d97"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/native-impact-canvass-paid-input-sango1.sav",
+      "bytes": 4840,
+      "sha256": "484127385b7c64e74619327cdff4043d04110672c756d59b5536f6cc2861b895"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/owned-process-samples.jsonl",
+      "bytes": 33734,
+      "sha256": "7915aade674e5a961a8fc35cb13a91b0e49bb910348cb2ac310b65c9345639d6"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/prepared-public-native-save-impact-canvass-paid-input.png",
+      "bytes": 3087701,
+      "sha256": "32f77f833b79cbf953003a576bfdd5063beaa487c017e2fecaed2b1526bfb5f8"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/result.json",
+      "bytes": 39830852,
+      "sha256": "aac81245f8093e7185a2da8066253bfe6f8c62d4397bc5536b8f4ca11b64e98b"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/source-verification.json",
+      "bytes": 473316,
+      "sha256": "3a4429d016ede411b72abc3816fbf38e4ab457de752fb97c5d98c1b797eaa027"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-preflight-v10.log",
+      "bytes": 344,
+      "sha256": "028f255e322e537e1047e4e4fdd092c0999972c62c922f41e9e7e1b752d6fa56"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-preflight-v10/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-preflight-v10/result.json",
+      "bytes": 969632,
+      "sha256": "48d45d0d559385872e1a95db327e4c4d3f19c8f38165b0c3ef6cf2086571e227"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-canvass-preflight-v10/source-verification.json",
+      "bytes": 473316,
+      "sha256": "3a4429d016ede411b72abc3816fbf38e4ab457de752fb97c5d98c1b797eaa027"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/native-impact-capital-paid-food-040-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ec9364bfcdb9ddd2680b2cd034a8d4eca04c1cebe63392452ea53c820db40d97"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/native-impact-capital-paid-food-040-sango1.sav",
+      "bytes": 4840,
+      "sha256": "54c67918370e78c4cb36f899c193b3e5c583c83c59574954c20fe6e75c1eca05"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-canvass-names-checkpoint-review-v1.md",
+      "bytes": 6651,
+      "sha256": "81348598ce05c5ddfb997fe8333d0b19ee5efa3e48eafa0e2e951bf1d2f158f5"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-canvass-names-checkpoint-v1.mjs",
+      "bytes": 47391,
+      "sha256": "fca6cb01befa46848ebcc9cb9211caf77829f9a1d00483834f85cd589c953b33"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-canvass-names-freeze-v1.json",
+      "bytes": 2067,
+      "sha256": "f15c195afd9965d64efafadb9863af8eea7bde43ff793827c5d958ac81fedc6f"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-impact-canvass-names-inputs-v1.json",
+      "bytes": 18256,
+      "sha256": "6a4b0a21898bd4d017520d0e9370950721e5bc998d18d74a1dcaab2639c689f7"
+    },
+    {
+      "path": "build/impact-skill-20261014/receipt-raw-canvass-tests-v1.mjs",
+      "bytes": 1516,
+      "sha256": "b390528f9e96d3e5ad9bca97a3db783b1863d739a8188b2494a5c9612340a963"
+    },
+    {
+      "path": "build/impact-skill-20261014/receipt-raw-canvass-tests-v2.mjs",
+      "bytes": 2029,
+      "sha256": "f822210c9224cf9f306ec7490dbe449fbe2a95ef535e2833c7b96d5ac8f180b3"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-impact-raw-canvass-oracle-v1.log",
+      "bytes": 10164,
+      "sha256": "5df4f885f29514a4c8ae91ac5680365cfe9388d8f36670fbca49fdcc31fb2510"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-impact-raw-canvass-oracle-v1.mjs",
+      "bytes": 23249,
+      "sha256": "ae7ced65a5e31aa561bd303f59066924bf4be7b7391bf2e5f06edacfe0b7c5df"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-impact-raw-canvass-oracle-v2-delta.json",
+      "bytes": 13159,
+      "sha256": "dce6b824b4a307fb6cac709d81bfa1ab95725c5fd26752f4de4976eab1369ed9"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-impact-raw-canvass-oracle-v2-initial-draft.mjs",
+      "bytes": 32874,
+      "sha256": "daaa90a716014d157d84903e5f7dbec0df01dad78bea30b05c6b3b39a499eb8a"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-impact-raw-canvass-oracle-v2.log",
+      "bytes": 11846,
+      "sha256": "f053921890c6feab79858769a208669d5487c7352b5d14351c60a5e2baa0b45d"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-impact-raw-canvass-oracle-v2.mjs",
+      "bytes": 33003,
+      "sha256": "452d4f841e4466f7979be508bfc706468559467f0ef5f45bb36533338c549d6a"
+    },
+    {
+      "path": "build/impact-skill-20261014/user-server-before-canvass-v10-v1.json",
+      "bytes": 246,
+      "sha256": "3d9d3de0f461a5cc4fd2abf011e654b2584930005d204c439dd7a868be8881a6"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-canvass-v10-failure-v1.log",
+      "bytes": 398,
+      "sha256": "2c5addebd75d5a84e559432728baf495487f06611aabb6fbeb80e8ccb2548bb9"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-canvass-v10-failure-v1.mjs",
+      "bytes": 20148,
+      "sha256": "956690c156bb36360b7e48e02638b061be53e79198ff9556bf46ba303d2283b0"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-recovery-input-v5.log",
+      "bytes": 324,
+      "sha256": "94620092a26da08eace74ce38222003c98efe544c7414ebf3f57278d5dd155dd"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-recovery-input-v5.mjs",
+      "bytes": 5826,
+      "sha256": "0ecc6c8241661c7a273c25914b17654a39ff50cfc27c2349ae40f69b8564f3da"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-recovery-input-v6.log",
+      "bytes": 334,
+      "sha256": "75cc43213aeaefa871acd8c949e58267cbf929a92b4f7cc0863d808570ca78eb"
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-recovery-input-v6.mjs",
+      "bytes": 6622,
+      "sha256": "1db0fc76b28f48a7d842f0b13216f7c524f18dbc191b6e731b62112ad78de635"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 160484,
+      "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/exportjs.c",
+      "bytes": 9789,
+      "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+    },
+    {
+      "path": "vendor/iBaye/src/showface.c",
+      "bytes": 42650,
+      "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+    }
+  ],
+  "blobParts": [
+    {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-names-20261021-archive-part001.json",
+      "bytes": 16165824,
+      "sha256": "760e9c329aa0636d7df73621f30981de7904f9cce5f6e26a83b1d2830c495462",
+      "blobs": 85
+    }
+  ],
+  "uniqueBlobs": 85,
+  "scope": "Explicit83 original files plus4 publisher metadata files. All v10 actual9 nonprofile files, complete3-file preflight/logs, frozenv9 static blocker/v10 source baselines/deltas/reviews, rawv1/v2 source/tests/exact delta/retained initial draft/root188+208 records, real3ticket fixture, recovery5→6 and root6, selected original native name/dispatch sources and plannedfourdocpatch. Excludes profiles/cache/formalization staging/unfrozenv11/futureactual."
+}

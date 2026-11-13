@@ -1,0 +1,613 @@
+{
+  "schemaVersion": 1,
+  "kind": "impact13-v27-scoped-canvass-pure-source-provenance",
+  "sourceOnlyAccepted": true,
+  "actualRunAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "fixture": {
+    "pin": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-may-input-v1.json",
+      "bytes": 77990,
+      "sha256": "969820ee07d8a3e1e0cafff4c4f1117a6c56ac86077477f9732083d6daba382b"
+    },
+    "sourceWorld": {
+      "path": "build/impact-skill-20261014/impact13-battle-v26-latest-genuine-saved-world-v1.json",
+      "bytes": 77990,
+      "sha256": "969820ee07d8a3e1e0cafff4c4f1117a6c56ac86077477f9732083d6daba382b"
+    },
+    "sourceFormalReceipt": {
+      "path": "build/impact-skill-20261014/impact13-battle-v26-terminal-receipt-v1.json",
+      "bytes": 457065,
+      "sha256": "9726a94a334efd57d8da90805c5b1f8678f7bc80ba04be32c9d28223b9c92e5b"
+    },
+    "sourcePublicSave": "impact13-129-v26-month3-policy-settled",
+    "sourcePair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v26/native-impact13-129-v26-month3-policy-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "dbc4c8a057238841c5e64a536bdfebd431628590fc2b405c64666c43643ed651"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v26/native-impact13-129-v26-month3-policy-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "ee08aee873d0efe6fa217d328068394883992d5c979f741b8ebc0534a41157ef"
+      }
+    ],
+    "byteExactSourceWorld": true,
+    "date": [
+      238,
+      5
+    ],
+    "person129": {
+      "OldBelong": 1,
+      "Belong": 2,
+      "Level": 7,
+      "Force": 39,
+      "IQ": 72,
+      "Devotion": 71,
+      "Character": 2,
+      "Experience": 6,
+      "Thew": 100,
+      "ArmsType": 3,
+      "Arms": 0,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 64
+    },
+    "activeOrders": 0,
+    "afterWorldsAndTicketsAreControlled": true
+  },
+  "adopted": {
+    "planner": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-acquisition-plan-v2.mjs",
+      "bytes": 9595,
+      "sha256": "33460da7a99354632d69fc6e6999d4b94e8e2635c7cffb038c5ed322fa9cd02f"
+    },
+    "make": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-make-oracle-v1.mjs",
+      "bytes": 24282,
+      "sha256": "93aa6b083e57753cc714257c35729ce7920b19901ec05cc0017b5b185faf23c5"
+    },
+    "naturalReturn": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-natural-return-v1.mjs",
+      "bytes": 13971,
+      "sha256": "b2fa868e41b33fb171ddec01a9b3df6a21ad0b23ba3fb0e28eb3a7f1b073931c"
+    },
+    "tests": [
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v27-acquisition-plan-v2.mjs",
+        "bytes": 9044,
+        "sha256": "9e55e8185b3172fcad97bdcbe807aaf072a6b66cc27240fddb7416545fda749d"
+      },
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v27-canvass16-make-oracle-v2.mjs",
+        "bytes": 12549,
+        "sha256": "4ca22f830f734bf22dacfce2e734c5a0e5f3b68a53c132fe4df4fa4e57929dbe"
+      },
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v27-canvass16-natural-return-v1.mjs",
+        "bytes": 12662,
+        "sha256": "d8cc9a5448f2560c0140bd121f748a12f92005fab4ffffc25950baa2e8c2996e"
+      }
+    ]
+  },
+  "historical": {
+    "plannerV1": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-acquisition-plan-v1.mjs",
+      "bytes": 9542,
+      "sha256": "c3f4177c805aa0c586d5729232577c39ee920362eb8f1ef56b9818d3558fbc98"
+    },
+    "plannerTestsV1": {
+      "path": "build/impact-skill-20261014/test-hd-impact-v27-acquisition-plan-v1.mjs",
+      "bytes": 8493,
+      "sha256": "d271ba0074f89be9f31f4fb099fc523f876598fa06370e07f05171c6584a4cad"
+    },
+    "makeTestsV1": {
+      "path": "build/impact-skill-20261014/test-hd-impact-v27-canvass16-make-oracle-v1.mjs",
+      "bytes": 12231,
+      "sha256": "ae5b845e6b93f17a8d801a08f5521e2384d1b1852d503ed75d55deebe99ee924"
+    },
+    "failedCanvassTestLog": {
+      "path": "build/impact-skill-20261014/impact13-v27-new-canvass-tests-root-v1.log",
+      "bytes": 10723,
+      "sha256": "edaf87b2344b31a117a5910fe6ccc7c72f67f31dab1647497063abf3341df67f"
+    },
+    "failedPlannerTestLog": {
+      "path": "build/impact-skill-20261014/impact13-v27-new-planner-tests-root-v1.log",
+      "bytes": 25100,
+      "sha256": "9fa45b7ac77d6ed1e296e1ba358bcccf04721f25e3cb61aa720d48f5cd82a5d8"
+    },
+    "failures": [
+      "City17 has Persons0, so its pointer alone cannot overlap a physical live slot. V1 incorrectly expected rejection; V2 tests live city13 overlap plus empty17 acceptance.",
+      "Neutral original174/175 have native U8 IQ150/Force150. PlannerV1 incorrectly narrowed all200 IQ/Devotion/Thew to100/Character4; V2 keeps global U8 and only applies existing MAKE IQ/Devotion/Character planning bounds to selected candidates. Genuine May bytes are unchanged."
+    ]
+  },
+  "copyIntegrity": {
+    "parentMake": {
+      "path": "build/impact-skill-20261014/hd-impact-v23-canvass16-make-oracle-v1.mjs",
+      "bytes": 24115,
+      "sha256": "4014c45d90bf34d3d58d4b65d5bf04d276b40cf7fe01fd01581d41500367cf4e"
+    },
+    "parentReturn": {
+      "path": "build/impact-skill-20261014/hd-impact-v23-canvass16-natural-return-v2.mjs",
+      "bytes": 13571,
+      "sha256": "b2abed346f81fd2305a3159f68a30bd8db3aa6f21be0e6e193b5ae69d49728c6"
+    },
+    "makeExactlyReversedToParent": true,
+    "makeExactSingleOccurrenceChanges": [
+      {
+        "before": "// Pure V23 Canvass16 MAKE contract.",
+        "after": "// Pure V27 scoped Canvass16 MAKE contract; forward copy of frozen V23."
+      },
+      {
+        "before": " version:3,command:16,period:4,king:0,",
+        "after": " version:4,command:16,period:4,king:0,"
+      },
+      {
+        "before": " allowedOriginsActors:Object.freeze({6:Object.freeze([5,36,51]),7:Object.freeze([28,6,48,68]),13:Object.freeze([37,43,60])}),",
+        "after": " allowedOriginsActors:Object.freeze({4:Object.freeze([33]),5:Object.freeze([59,7]),6:Object.freeze([5,36,51]),7:Object.freeze([28,6,48,68,25,27]),13:Object.freeze([37,43,60,39]),16:Object.freeze([40])}),"
+      },
+      {
+        "before": " allowedTargets:Object.freeze([86,107,113,129]),",
+        "after": " allowedTargets:Object.freeze([77,86,95,104,106,107,109,113,117,119,121,128,129,132,133,135]),"
+      },
+      {
+        "before": " prohibitedActors:Object.freeze([0,40,30,45,8,17,69,70,11,10,38]),",
+        "after": " prohibitedActors:Object.freeze([0,30,45,8,17,69,70,11,10,38]),"
+      },
+      {
+        "before": "assert.equal(command,16,'Only Canvass16 draft');",
+        "after": "assert.equal(command,16,'Only V27 scoped Canvass16 draft');"
+      }
+    ],
+    "naturalReturnExactlyReversedToParent": true,
+    "naturalReturnChanges": "Header, new MAKE CONTRACT import, three V27 aliases only; full readonly32/adjacent success-failure-indeterminate/opaque/queue-tail algorithms exact.",
+    "plannerFoodGuardAndPlunderTail": "Exact V23 tail after v23/V23 function/constant name substitutions only.",
+    "oldFrozenModulesModified": false
+  },
+  "planningContract": {
+    "actors": {
+      "4": [
+        33
+      ],
+      "5": [
+        59,
+        7
+      ],
+      "6": [
+        5,
+        36,
+        51
+      ],
+      "7": [
+        28,
+        6,
+        48,
+        68,
+        25,
+        27
+      ],
+      "13": [
+        37,
+        43,
+        60,
+        39
+      ],
+      "16": [
+        40
+      ]
+    },
+    "targets": [
+      77,
+      86,
+      95,
+      104,
+      106,
+      107,
+      109,
+      113,
+      117,
+      119,
+      121,
+      128,
+      129,
+      132,
+      133,
+      135
+    ],
+    "maximumOrdersPerMonth": 10,
+    "maximumOrdersPerTargetPerMonth": 2,
+    "maximumMonths": 3,
+    "maximumCanvassTotal": 30,
+    "maximumInitialBuys": 2,
+    "maximumPlunder": 1,
+    "minimumCashAfterCumulativePlannedPayments": 500,
+    "sorting": "All eligible actor-target edges sourceScore descending then frozen actor order then target order; each actor once/target twice including already-paid pending own Canvasses.",
+    "lowerIqSubsetRetained": true,
+    "currentFirstRawTargetLocationMustBeEnemy": true,
+    "actorRawOccurrencesExactlyOneAcrossAllCities": true,
+    "retainedCurrentSatrap": true,
+    "completeOriginalNativeMenusUnfiltered": true,
+    "sourceScoresAreNotPredictions": true,
+    "noFutureHarvestOrIncomeCredited": true,
+    "oldEnvoyRenew": "THREW_RENEW4: old10 currentThew4/8 cannot reach20 by third-month beginning without another original action. No repair."
+  },
+  "controlledTestEvidence": {
+    "rootProvidedExecution": {
+      "id": "98d27c",
+      "exitCode": 0,
+      "independentExecutionByThisAuthor": false
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-v27-final-pure-contract-tests-root-v1.log",
+      "bytes": 11910,
+      "sha256": "3349d6daa6cb5318041f2da4c2ac98a6b8b47dfdc9c79a2981d6d875d068c7a9"
+    },
+    "cases": 158,
+    "passed": 158,
+    "failed": 0,
+    "reusedOrInheritedRegressionCaseExecutions": 109,
+    "v27DirectedCaseExecutions": 49,
+    "perSuite": [
+      {
+        "suite": "planner-v2",
+        "cases": 22,
+        "regression": 12,
+        "directed": 10
+      },
+      {
+        "suite": "MAKE-test-v2",
+        "cases": 60,
+        "regression": 37,
+        "directed": 23
+      },
+      {
+        "suite": "natural-return-test-v1",
+        "cases": 76,
+        "regression": 60,
+        "directed": 16
+      }
+    ],
+    "classification": "Conservative semantic classification, not all text-cloned tests counted new. 49 directed controlled case executions cover new actor/target table, target255, cumulative cash/cap2/pendingprefix and greedy scheduling; not49 new features or real successes. Existing bounds/world/provenance/return/compatibility gates are regression even with May fixture. Failed historical runs are not added to158.",
+    "regressionCaseNames": [
+      "exhausted original envoys are dynamically skipped and +4 monthly renew does not repair them",
+      "current Satrap, pending actor and Thew19 are excluded without modifying input",
+      "first raw target location must itself be an eligible enemy, not a later repaired ghost",
+      "current qualification and lower IQ are checked afresh for every planned edge",
+      "native own raw base with zero army immediately stops paid acquisition planning",
+      "food conservatively includes reserve2967 and preserves duplicate raw residents",
+      "unobserved food never receives actual credit and condition is only a separate forecast",
+      "native guard requires all real May residents and exact arms before battle",
+      "planner rejects malformed native state, physical overlap and wrong owned set",
+      "all public planning calls preserve full genuine input bytes logically",
+      "native U8 neutral people174/175 retain IQ150 and Force150 without global narrowing",
+      "empty city17 pointer is permitted while live physical overlap is rejected",
+      "all original disaster State tokens preserved 0",
+      "all original disaster State tokens preserved 1",
+      "all original disaster State tokens preserved 2",
+      "all original disaster State tokens preserved 3",
+      "all original disaster State tokens preserved 4",
+      "explicit current target scope preserves complete original menu 86",
+      "explicit current target scope preserves complete original menu 107",
+      "explicit current target scope preserves complete original menu 113",
+      "explicit current target scope preserves complete original menu 129",
+      "retained lower-IQ planning subset rejects native-possible higher-IQ target choice",
+      "king and unrelated actors remain excluded by exact origin scope",
+      "native target repeated rows remain complete and are never deduplicated",
+      "unknown values are preserved with only four newly sampled opaque fields masked",
+      "full unknown/native world drift rejected cash",
+      "full unknown/native world drift rejected actorArms",
+      "full unknown/native world drift rejected targetOldBelong",
+      "full unknown/native world drift rejected othercity",
+      "full unknown/native world drift rejected tail200",
+      "full unknown/native world drift rejected tail1999",
+      "full unknown/native world drift rejected slot199",
+      "full unknown/native world drift rejected goods",
+      "full unknown/native world drift rejected unknownOrder",
+      "full native ticket mismatch rejected fullNames",
+      "full native ticket mismatch rejected packedNames",
+      "full native ticket mismatch rejected generation",
+      "full native ticket mismatch rejected ownerSession",
+      "full native ticket mismatch rejected identity",
+      "full native ticket mismatch rejected nativeData",
+      "full native ticket mismatch rejected readonly",
+      "full native ticket mismatch rejected doubleEnter",
+      "full native ticket mismatch rejected noEnter",
+      "full native ticket mismatch rejected badACK",
+      "full native ticket mismatch rejected noMAP",
+      "full native ticket mismatch rejected takeover",
+      "all new opaque bounds allowed only at the new slot",
+      "missing new opaque field or physical overlap remains rejected",
+      "all actual credit fields remain false in pure controlled acceptance",
+      "random U8 gate source count is not a forecast or actual acquisition",
+      "complete controlled failure accepts generic slot0 without Plunder0",
+      "complete controlled failure accepts generic slot1 without Plunder0",
+      "complete controlled failure accepts generic slot9 without Plunder0",
+      "complete controlled failure accepts generic slot169 without Plunder0",
+      "complete controlled failure accepts generic slot170 without Plunder0",
+      "complete controlled failure accepts generic slot198 without Plunder0",
+      "complete controlled success dynamic13/37/113",
+      "complete controlled success dynamic13/43/107",
+      "complete controlled success dynamic6/5/113",
+      "complete controlled success dynamic6/36/113",
+      "complete controlled success dynamic6/51/86",
+      "complete controlled success dynamic7/28/113",
+      "complete controlled success dynamic7/6/113",
+      "complete controlled success dynamic7/48/107",
+      "complete controlled success dynamic7/68/107",
+      "controlled success Devotion40 inclusive",
+      "controlled success Devotion79 inclusive",
+      "reject controlled success Devotion39",
+      "reject controlled success Devotion80",
+      "same target already acquired at prior order may move owncity6 to origin13 without double acquisition",
+      "observationally equal success/failure of already-own target never guesses success",
+      "failure remains failure despite forged monthEnd affiliation hint",
+      "unchanged opaque metadata plus all32asyncparams remains exact",
+      "repeated unrelated raw175 is preserved, never globally deduplicated",
+      "no immediate next callback refuses completion even with savedWorld hint",
+      "last order cannot borrow an earlier callback or synthesized ordinal",
+      "reject complete return drift targetOwner",
+      "reject complete return drift actorThew",
+      "reject complete return drift unrelated129",
+      "reject complete return drift money",
+      "reject complete return drift food",
+      "reject complete return drift opaqueOrderFood",
+      "reject complete return drift opaqueUnknown",
+      "reject complete return drift unknownWorld",
+      "reject complete return drift slot199",
+      "reject complete return drift tail200",
+      "reject complete return drift tail1999",
+      "reject complete return drift goods",
+      "reject complete return drift month",
+      "reject complete return drift guard",
+      "reject complete return drift otherOrder",
+      "reject readonly/provenance drift A/Btorn",
+      "reject readonly/provenance drift async",
+      "reject readonly/provenance drift asyncText",
+      "reject readonly/provenance drift returned0",
+      "reject readonly/provenance drift identity",
+      "reject readonly/provenance drift gameplayHook",
+      "reject readonly/provenance drift slotCandidates",
+      "reject readonly/provenance drift callsTruncated",
+      "reject readonly/provenance drift ordinal",
+      "reject readonly/provenance drift fullOrderUnknown",
+      "reject readonly/provenance drift context",
+      "reject readonly/provenance drift actorChangedBeforeDriver",
+      "reject readonly/provenance drift originChangedBeforeDriver",
+      "exact full-order matching rejects two identical current slot candidates",
+      "reject missing fields, out-of-bounds native values or physical overlap",
+      "reject unknown target and actor/origin scopes; no fixed slot1 assumption",
+      "all actual/classic/HD/cast credit remains false in controlled source-model reports",
+      "slot199 cannot borrow lower slot198 as a later callback in ascending native PolicyExec"
+    ],
+    "v27DirectedCaseNames": [
+      "fixture is actual May2385, 129enemy/rawcity12 and no pending, not an actual after-world",
+      "scope17/16 and legacy aliases are exact API aliases",
+      "actual May has seven new actors: source-score greedy cap2 gives a fixed diverse target set",
+      "cash is reserved cumulatively across two planned actors from the same city",
+      "all selected cities stay at least500 after every planned debit",
+      "one paid original prefix remains in monthly target caps and fresh greedy replan",
+      "pending same-target count2 forces further diversification instead of a third dispatch",
+      "controlled recovered actors join but no more than10 total or2 pertarget",
+      "actor must have exactly one raw occurrence globally and a resident Satrap retained",
+      "only first170 original slots may be planned before native AI battles",
+      "genuine May fixture and V27 explicit scope, no new actual input",
+      "current May new actor full-ticket full-world MAKE 4/33",
+      "current May new actor full-ticket full-world MAKE 5/59",
+      "current May new actor full-ticket full-world MAKE 5/7",
+      "current May new actor full-ticket full-world MAKE 7/25",
+      "current May new actor full-ticket full-world MAKE 7/27",
+      "current May new actor full-ticket full-world MAKE 13/39",
+      "current May new actor full-ticket full-world MAKE 16/40",
+      "explicit current target scope preserves complete original menu 77",
+      "explicit current target scope preserves complete original menu 95",
+      "explicit current target scope preserves complete original menu 104",
+      "explicit current target scope preserves complete original menu 106",
+      "explicit current target scope preserves complete original menu 109",
+      "explicit current target scope preserves complete original menu 117",
+      "explicit current target scope preserves complete original menu 119",
+      "explicit current target scope preserves complete original menu 121",
+      "explicit current target scope preserves complete original menu 128",
+      "explicit current target scope preserves complete original menu 132",
+      "explicit current target scope preserves complete original menu 133",
+      "explicit current target scope preserves complete original menu 135",
+      "old exhausted envoy does not get silent Thew repair",
+      "new actor40 cannot leave while designated current Satrap",
+      "unrelated empty city pointer occupies no physical slot and is not rejected",
+      "V27 new native actor complete adjacent failure 4/33/129",
+      "V27 new native actor complete adjacent success 4/33/129",
+      "V27 new native actor complete adjacent failure 5/59/129",
+      "V27 new native actor complete adjacent success 5/59/129",
+      "V27 new native actor complete adjacent failure 5/7/86",
+      "V27 new native actor complete adjacent success 5/7/86",
+      "V27 new native actor complete adjacent failure 7/25/133",
+      "V27 new native actor complete adjacent success 7/25/133",
+      "V27 new native actor complete adjacent failure 7/27/133",
+      "V27 new native actor complete adjacent success 7/27/133",
+      "V27 new native actor complete adjacent failure 13/39/132",
+      "V27 new native actor complete adjacent success 13/39/132",
+      "V27 new native actor complete adjacent failure 16/40/132",
+      "V27 new native actor complete adjacent success 16/40/132",
+      "native target255 is a complete failure independent of hypothetical random success",
+      "target255 cannot be turned into success through final affiliation hints"
+    ],
+    "actualOrClassicCredit": false
+  },
+  "nativeFailureAudit": {
+    "sourceReferences": [
+      "vendor/iBaye/src/citycmd.c:673-753",
+      "vendor/iBaye/src/cityedit.c:665-680,790-812",
+      "vendor/iBaye/src/tactic.c:273-279,402-407,754-766",
+      "vendor/iBaye/src/infdeal.c:62-67",
+      "vendor/iBaye/src/baye/attribute.h:51-55,107"
+    ],
+    "canvassDrv": "Three random comparisons then GetPersonCity!=255; no OldBelong/former-player ban and no driver king/owner recheck. Public native enemy list still excludes kings and captives/nonresidents.",
+    "v26PolicyPackets": [
+      {
+        "monthOrdinal": 1,
+        "rawPin": {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v26/raw-v26-month1-native-policy-before-SAVE.json",
+          "bytes": 4481973,
+          "sha256": "53ad69bc4e80fcc4fdb51a2d2f28bc6209bb7c72fd3adae1a30965dfeb178376"
+        },
+        "pinMatches": true,
+        "logicalPin": {
+          "bytes": 8127159,
+          "sha256": "f3b8372920fb15f96e0e9a71cb7ff1af467521e1fa64754bf46ff141fdc4183d"
+        },
+        "targetRawCitiesAtFirstCallback": [
+          12
+        ],
+        "targetNativePendingAtFirstCallback": [],
+        "targetOwnCallbackRows": [],
+        "playerFailureLocations": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ]
+      },
+      {
+        "monthOrdinal": 2,
+        "rawPin": {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v26/raw-v26-month2-native-policy-before-SAVE.json",
+          "bytes": 3719451,
+          "sha256": "46a2f007900cec9df40799e4077a18ce89f760261d8112f84c6f5a2fb0dbb506"
+        },
+        "pinMatches": true,
+        "logicalPin": {
+          "bytes": 6744736,
+          "sha256": "120b74418947f0c6350af986acc01a138daf7d179707c768faef950b00c1b278"
+        },
+        "targetRawCitiesAtFirstCallback": [],
+        "targetNativePendingAtFirstCallback": [
+          {
+            "orderIndex": 15,
+            "order": {
+              "OrderId": 3,
+              "Person": 129,
+              "City": 12,
+              "Object": 12,
+              "Arms": 5,
+              "Food": 0,
+              "Money": 3373,
+              "Consume": 0,
+              "TimeCount": 0
+            }
+          }
+        ],
+        "targetOwnCallbackRows": [
+          {
+            "ordinal": 15,
+            "order": {
+              "OrderId": 3,
+              "Person": 129,
+              "City": 12,
+              "Object": 12,
+              "Arms": 5,
+              "Food": 0,
+              "Money": 3373,
+              "Consume": 0,
+              "TimeCount": 0
+            },
+            "slotCandidates": [
+              15
+            ],
+            "returnValue": -1
+          }
+        ],
+        "playerFailureLocations": [
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255
+        ]
+      },
+      {
+        "monthOrdinal": 3,
+        "rawPin": {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v26/raw-v26-month3-native-policy-before-SAVE.json",
+          "bytes": 4958095,
+          "sha256": "cb07f5e929fce761c08dbe55507063e4e604096154e60e142d10b2a6c2436843"
+        },
+        "pinMatches": true,
+        "logicalPin": {
+          "bytes": 8990405,
+          "sha256": "b562f8f4acfefbd55ca62c25939f77bf700573bbed3a46dc8422a9873b9740ae"
+        },
+        "targetRawCitiesAtFirstCallback": [],
+        "targetNativePendingAtFirstCallback": [
+          {
+            "orderIndex": 25,
+            "order": {
+              "OrderId": 5,
+              "Person": 129,
+              "City": 12,
+              "Object": 12,
+              "Arms": 105,
+              "Food": 0,
+              "Money": 6,
+              "Consume": 0,
+              "TimeCount": 0
+            }
+          }
+        ],
+        "targetOwnCallbackRows": [
+          {
+            "ordinal": 25,
+            "order": {
+              "OrderId": 5,
+              "Person": 129,
+              "City": 12,
+              "Object": 12,
+              "Arms": 105,
+              "Food": 0,
+              "Money": 6,
+              "Consume": 0,
+              "TimeCount": 0
+            },
+            "slotCandidates": [
+              25
+            ],
+            "returnValue": -1
+          }
+        ],
+        "playerFailureLocations": [
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255,
+          255
+        ]
+      }
+    ],
+    "deterministicallyUnavailableCallbacks": 19,
+    "firstMonthLocationAvailableFailureCount": 10,
+    "randomGateFailureBranchNotInferred": true
+  },
+  "method": {
+    "filesystemAndOwnStringOrDictionaryAlgorithmsOnly": true,
+    "modulesImportedOrExecuted": false,
+    "cliGitBrowserGameProcessUsed": false,
+    "newTestsExecutedByThisAuthor": false
+  }
+}

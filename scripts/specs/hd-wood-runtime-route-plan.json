@@ -1,0 +1,1625 @@
+{
+  "schemaVersion": 1,
+  "kind": "R21 read-only public-player preparation plan; no browser or gameplay acceptance",
+  "createdAt": "2026-10-09T05:51:41.547Z",
+  "head": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+  "execution": {
+    "readOnly": true,
+    "productEdited": false,
+    "browserStarted": false,
+    "worldOrRngWritten": false,
+    "server8080Touched": false,
+    "onlyOutput": "build/r21-wood-runtime-route-plan.json"
+  },
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "sources": [
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "bytes": 44229,
+      "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 32534,
+      "sha256": "cedbc1dcff833049d6f68442ac6b1403e978eadf063c35d471eba19357f0e6b6"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+    },
+    {
+      "path": "vendor/iBaye/src/varma.c",
+      "bytes": 4162,
+      "sha256": "4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+    },
+    {
+      "path": "scripts/test-hd-water-runtime.mjs",
+      "bytes": 112187,
+      "sha256": "fd4d7a77577d73e5c13dc07c44af669a5cf9e1d63424219e0f54519cf82d47bb"
+    },
+    {
+      "path": "scripts/test-hd-qimen-runtime.mjs",
+      "bytes": 124471,
+      "sha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb"
+    }
+  ],
+  "resource": {
+    "id": 37,
+    "index": 0,
+    "absoluteOffset": 73288,
+    "length": 1148,
+    "payloadSha256": "2dc6db9e1144f98c9c288bf634cb2bd57cd2f39436616bc81010bc2d4df4cf02",
+    "fingerprint": "fnv1a32:d38c3c8b:1148",
+    "header": [
+      0,
+      10,
+      8,
+      2,
+      0,
+      7
+    ],
+    "count": 8,
+    "picmax": 2,
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "offset": 46,
+        "absoluteOffset": 73334,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "length": 519,
+        "rawSlotSha256": "098cc033217387c64d1b6b3a1878bd03a3b691970c56372e1e01803f91df491b"
+      },
+      {
+        "picIndex": 1,
+        "offset": 565,
+        "absoluteOffset": 73853,
+        "width": 66,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "length": 583,
+        "rawSlotSha256": "b859c02336180e21dd0eaa9b1bdf09f734c1a8c9dd2d0f5e0c14232a537d28e9"
+      }
+    ],
+    "parsedBytes": 1148,
+    "noBackpic16": true,
+    "origin": {
+      "x": 48,
+      "y": 16
+    },
+    "keyFlag": 0,
+    "kind": 2
+  },
+  "skills": [
+    {
+      "id": 6,
+      "name": "滚木",
+      "recordHex": "0000200300001464646464006464003c000000000000640000640000646464646464",
+      "aim": 0,
+      "state": 0,
+      "power": 800,
+      "destroy": 0,
+      "mp": 20,
+      "weather": [
+        100,
+        100,
+        100,
+        100,
+        0
+      ],
+      "targetTerrain": [
+        100,
+        100,
+        0,
+        60,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actorTerrain": [
+        0,
+        0,
+        100,
+        0,
+        0,
+        100,
+        0,
+        0
+      ],
+      "targetArm": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "range": {
+        "resourceId": 13,
+        "index": 0,
+        "offset": 405,
+        "size": 9,
+        "bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "落石",
+      "recordHex": "0000e80300001964646464006464003c000000640000640000640000646464646464",
+      "aim": 0,
+      "state": 0,
+      "power": 1000,
+      "destroy": 0,
+      "mp": 25,
+      "weather": [
+        100,
+        100,
+        100,
+        100,
+        0
+      ],
+      "targetTerrain": [
+        100,
+        100,
+        0,
+        60,
+        0,
+        0,
+        0,
+        100
+      ],
+      "actorTerrain": [
+        0,
+        0,
+        100,
+        0,
+        0,
+        100,
+        0,
+        0
+      ],
+      "targetArm": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "range": {
+        "resourceId": 13,
+        "index": 0,
+        "offset": 486,
+        "size": 9,
+        "bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "unlock": {
+    "nativeSource": "FgtPkAi.c:512-539 FgtGetSklBuf; IFACE_CONID2/item1; default maxLevel20",
+    "effectiveInfantryType": 1,
+    "actualInfantryRow": [
+      5,
+      6,
+      7,
+      8,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "visibleCountFormula": "floor(4 * actualLevel / 21) + 1",
+    "minLevelSkill6": 6,
+    "minLevelSkill7": 11,
+    "allPeriods": [
+      {
+        "period": 1,
+        "count": 200,
+        "levelHistogram": {
+          "0": 13,
+          "1": 185,
+          "20": 2
+        },
+        "allLevelAtLeast6": [
+          {
+            "period": 1,
+            "personIndex": 185,
+            "nativeGenId": 186,
+            "name": "通宵虫",
+            "recordHex": "ba000000149696000400000400000000000000",
+            "oldBelong": 186,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 4,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 0,
+            "specialSkill": 23
+          },
+          {
+            "period": 1,
+            "personIndex": 186,
+            "nativeGenId": 187,
+            "name": "南方小鬼",
+            "recordHex": "bb000000149696000400000500000000000000",
+            "oldBelong": 187,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 5,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 0,
+            "specialSkill": 23
+          }
+        ],
+        "specialSkill6or7": []
+      },
+      {
+        "period": 2,
+        "count": 200,
+        "levelHistogram": {
+          "0": 16,
+          "1": 182,
+          "20": 2
+        },
+        "allLevelAtLeast6": [
+          {
+            "period": 2,
+            "personIndex": 183,
+            "nativeGenId": 184,
+            "name": "通宵虫",
+            "recordHex": "b8000000149696000400000400000000000013",
+            "oldBelong": 184,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 4,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 19,
+            "specialSkill": 23
+          },
+          {
+            "period": 2,
+            "personIndex": 184,
+            "nativeGenId": 185,
+            "name": "南方小鬼",
+            "recordHex": "b9000000149696000400000500000000000013",
+            "oldBelong": 185,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 5,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 19,
+            "specialSkill": 23
+          }
+        ],
+        "specialSkill6or7": []
+      },
+      {
+        "period": 3,
+        "count": 200,
+        "levelHistogram": {
+          "0": 11,
+          "1": 187,
+          "20": 2
+        },
+        "allLevelAtLeast6": [
+          {
+            "period": 3,
+            "personIndex": 187,
+            "nativeGenId": 188,
+            "name": "通宵虫",
+            "recordHex": "bc000000149696000400000400000000000014",
+            "oldBelong": 188,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 4,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 20,
+            "specialSkill": 23
+          },
+          {
+            "period": 3,
+            "personIndex": 188,
+            "nativeGenId": 189,
+            "name": "南方小鬼",
+            "recordHex": "bd000000149696000400000500000000000014",
+            "oldBelong": 189,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 5,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 20,
+            "specialSkill": 23
+          }
+        ],
+        "specialSkill6or7": []
+      },
+      {
+        "period": 4,
+        "count": 200,
+        "levelHistogram": {
+          "0": 24,
+          "1": 174,
+          "20": 2
+        },
+        "allLevelAtLeast6": [
+          {
+            "period": 4,
+            "personIndex": 174,
+            "nativeGenId": 175,
+            "name": "通宵虫",
+            "recordHex": "af000000149696000400000500000000000016",
+            "oldBelong": 175,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 5,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 22,
+            "specialSkill": 0
+          },
+          {
+            "period": 4,
+            "personIndex": 175,
+            "nativeGenId": 176,
+            "name": "南方小鬼",
+            "recordHex": "b0000000149696000400000500000000000016",
+            "oldBelong": 176,
+            "belong": 0,
+            "level": 20,
+            "force": 150,
+            "iq": 150,
+            "devotion": 0,
+            "character": 4,
+            "experience": 0,
+            "rawThew": 0,
+            "baseArmsType": 5,
+            "rawArms": 0,
+            "equip": [
+              0,
+              0
+            ],
+            "age": 22,
+            "specialSkill": 0
+          }
+        ],
+        "specialSkill6or7": []
+      }
+    ],
+    "loadPeriodOverride": "tactic.c:1047-1051 sets ALL Thew100/Arms100 and OldBelong0. Raw resource zero does not mean actual initial zero.",
+    "noNaturalQualifiedInfantry": true,
+    "standardArmChangingTools": "Only tool30/31/32 alter arm to extreme4/mystic5/navy3; none changes to infantry1. Never invoke LevelUp/direct export or alter config."
+  },
+  "preferred": {
+    "period": 4,
+    "lord": {
+      "period": 4,
+      "personIndex": 0,
+      "nativeGenId": 1,
+      "name": "曹丕",
+      "recordHex": "0100010001344d640300000000000000000026",
+      "oldBelong": 1,
+      "belong": 1,
+      "level": 1,
+      "force": 52,
+      "iq": 77,
+      "devotion": 100,
+      "character": 3,
+      "experience": 0,
+      "rawThew": 0,
+      "baseArmsType": 0,
+      "rawArms": 0,
+      "equip": [
+        0,
+        0
+      ],
+      "age": 38,
+      "specialSkill": 0
+    },
+    "origin": {
+      "period": 4,
+      "cityIndex": 20,
+      "name": "宛城",
+      "recordHex": "1501000000c911de05670f77043438651a0300de2d01007f00770100004f00060009000000",
+      "belong": 1,
+      "money": 127,
+      "food": 375,
+      "reserve": 0,
+      "queueOffset": 79,
+      "queue": [
+        20,
+        44,
+        45,
+        50,
+        52,
+        171
+      ],
+      "ownedQueue": [
+        20,
+        44,
+        45,
+        50,
+        52
+      ],
+      "links": [
+        {
+          "way": 0,
+          "cityIndex": 10,
+          "name": "长安",
+          "belong": 1
+        },
+        null,
+        {
+          "way": 2,
+          "cityIndex": 21,
+          "name": "寿春",
+          "belong": 1
+        },
+        null,
+        {
+          "way": 4,
+          "cityIndex": 26,
+          "name": "襄阳",
+          "belong": 3
+        },
+        null,
+        null,
+        {
+          "way": 7,
+          "cityIndex": 14,
+          "name": "汉中",
+          "belong": 2
+        }
+      ],
+      "mapResourceId": 111
+    },
+    "caster": {
+      "period": 4,
+      "personIndex": 131,
+      "nativeGenId": 132,
+      "name": "张休",
+      "recordHex": "84000300012a50500300000100000000000015",
+      "oldBelong": 132,
+      "belong": 3,
+      "level": 1,
+      "force": 42,
+      "iq": 80,
+      "devotion": 80,
+      "character": 3,
+      "experience": 0,
+      "rawThew": 0,
+      "baseArmsType": 1,
+      "rawArms": 0,
+      "equip": [
+        0,
+        0
+      ],
+      "age": 21,
+      "specialSkill": 0
+    },
+    "targetInitialCity": {
+      "period": 4,
+      "cityIndex": 33,
+      "name": "长沙",
+      "recordHex": "220300000075117506dc0ca8054137bf87030032210100a0009d0100009c00010017000000",
+      "belong": 3,
+      "money": 160,
+      "food": 413,
+      "reserve": 0,
+      "queueOffset": 156,
+      "queue": [
+        131
+      ],
+      "ownedQueue": [
+        131
+      ],
+      "links": [
+        {
+          "way": 0,
+          "cityIndex": 27,
+          "name": "江夏",
+          "belong": 3
+        },
+        null,
+        {
+          "way": 2,
+          "cityIndex": 34,
+          "name": "柴桑",
+          "belong": 3
+        },
+        null,
+        {
+          "way": 4,
+          "cityIndex": 36,
+          "name": "桂阳",
+          "belong": 3
+        },
+        null,
+        null,
+        {
+          "way": 7,
+          "cityIndex": 26,
+          "name": "襄阳",
+          "belong": 3
+        }
+      ],
+      "mapResourceId": 112
+    },
+    "targetFactionLord": {
+      "period": 4,
+      "personIndex": 2,
+      "nativeGenId": 3,
+      "name": "孙权",
+      "recordHex": "03000300014a496404000000000000001e002b",
+      "oldBelong": 3,
+      "belong": 3,
+      "level": 1,
+      "force": 74,
+      "iq": 73,
+      "devotion": 100,
+      "character": 4,
+      "experience": 0,
+      "rawThew": 0,
+      "baseArmsType": 0,
+      "rawArms": 0,
+      "equip": [
+        0,
+        30
+      ],
+      "age": 43,
+      "specialSkill": 0
+    },
+    "backupCaster": {
+      "period": 4,
+      "personIndex": 130,
+      "nativeGenId": 131,
+      "name": "张温",
+      "recordHex": "83000300011c4a590000000100000000000024",
+      "oldBelong": 131,
+      "belong": 3,
+      "level": 1,
+      "force": 28,
+      "iq": 74,
+      "devotion": 89,
+      "character": 0,
+      "experience": 0,
+      "rawThew": 0,
+      "baseArmsType": 1,
+      "rawArms": 0,
+      "equip": [
+        0,
+        0
+      ],
+      "age": 36,
+      "specialSkill": 0
+    },
+    "backupInitialCity": {
+      "period": 4,
+      "cityIndex": 35,
+      "name": "零陵",
+      "recordHex": "2403000000c50c5704fb0bd503452b0f420300dad800006d0015010000a200020018000000",
+      "belong": 3,
+      "money": 109,
+      "food": 277,
+      "reserve": 0,
+      "queueOffset": 162,
+      "queue": [
+        130,
+        166
+      ],
+      "ownedQueue": [
+        130
+      ],
+      "links": [
+        null,
+        null,
+        {
+          "way": 2,
+          "cityIndex": 36,
+          "name": "桂阳",
+          "belong": 3
+        },
+        null,
+        null,
+        null,
+        null,
+        {
+          "way": 7,
+          "cityIndex": 32,
+          "name": "武陵",
+          "belong": 3
+        }
+      ],
+      "mapResourceId": 114
+    },
+    "currentNativeNames": true,
+    "route": [
+      "Start actual standard P4 CaoPi through native title/period/lord menus. Confirm LIB SHA/native realm, actual owned city20 and full current IDs.",
+      "End genuine strategy months via original FunctionMenu/PolicyExec/ConditionUpdate. After every ACK record date + actual person131/130 Level/Belong/Equip/queue/location; keep AI faction3 separate until a target reaches Level11. Do not write aiLevelUpSpeed/debug/RNG or call ComputerTactic.",
+      "When actual candidate has effective infantry1 and Level>=11, enter city20 native root > diplomacy > Canvass. Select actual current allied envoy, then actual current enemy-ID131 (or130 when genuinely qualified). Both native lists require full IDs/current seq/gen/detail and one-confirm ACK. Do not infer identity from name/old row.",
+      "Queue bounded real Canvass orders through available resident/envoy IDs and money/Thew guards. Execute original month; accept ownership only when candidate.Belong===1 AND present in native city20 queue. Natural reports alone do not authorize ownership.",
+      "Read actual queue/Level/derived arm/MP; real recruitment/distribution then march city20->26 only if current native links/ownership/army/food allow. City26 static map113 is a route candidate; ownership and destination readiness must be current.",
+      "Use fresh native complete MOVE/AIM and living enemy target with actor terrain2 or5, target terrain0/1/3 (or7 for skill7), weather1..4, current MP sufficient and exact native skill6 or7 available. Prefer two different still-living enemies or larger-armies so first800-damage cast does not finish the battle.",
+      "Cast real skill6 until one actual successful resource37/0..7 event; separately cast real skill7 until successful resource37/0..0. Failure is recorded with genuine MP/report ACK, not counted as movie. Bounded REST/end-turn may restore MP1; no scripted MP increase.",
+      "For each selected actual LCD callback compare frozen real LIB timer/clear/bitplanes full160x96 and HD draw footprint. Positive damage requires actual label/NUM15/history/hold; zero or failure must not invent numbers. Confirm event retirement/report ACK/scene visibility and source0drift before acceptance."
+    ],
+    "aiTraining": {
+      "source": "tactic.c:177-190 strategy branch; 528-537 random resident on month%3==0; IFACE_CONID2/items11+12",
+      "defaultAiLevelUpSpeed": 0,
+      "targetFactionCharacter": 4,
+      "interiorThreshold": 10,
+      "diplomacyThreshold": 20,
+      "staticArmamentProbability": 0.8,
+      "initialOwnedRosterCount": 1,
+      "conditionalPerQuarterLevelProbability": 0.8,
+      "levelsNeeded": 10,
+      "earliestEligibleQuarterlyWindows": 10,
+      "earliestEligibleStrategyExecutions": 30,
+      "staticExpectedExecutionsIfUnchanged": 37.5,
+      "notGuaranteed": "Probability applies only if roster/owner/strategy availability remain unchanged. Wars, queued orders, migration, joining others, death and configured/default native conditions may prevent or delay it. Actual runtime world decides.",
+      "suggestedBoundedBudget": {
+        "naturalMonths": 180,
+        "canvassMonths": 60,
+        "envoysPerMonth": 4
+      }
+    },
+    "canvass": {
+      "source": "citycmdc.c:604-665; citycmd.c:674-738; cityedit.c:790-812",
+      "orderId": 16,
+      "targetMustBeOwnedEnemyNonLordInCityQueue": true,
+      "targetId": 131,
+      "actualInitialDevotion": 80,
+      "actualCharacter": 3,
+      "characterThreshold": 20,
+      "rawRngConditions": [
+        "U8 rade=envoy.IQ-target.IQ; randint0..99 +100 <= rade+100",
+        "randint0..99 >= actual target.Devotion",
+        "randint0..99 <= character threshold20 for大志"
+      ],
+      "u8Note": "All initial city20 envoy IQs61/46/48/72/45 < target IQ80: native U8 difference wraps, so the existing first predicate passes. This is the unmodified native arithmetic, not a new world/config write.",
+      "conditionalInitialSuccessPerAttempt": 0.042,
+      "remainingGatesAreNaturalRng": true,
+      "failedAttemptsMayContinueOnlyAfterActualOrderReportAndRestoredQueue": true,
+      "maxDevotion100MeansCanvassBlocked": true,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "timeCount": 10,
+      "policyExecNote": "Current citycmd.c1248-1264 executes all queued orders next strategy; old TimeCount decrement loop1274+ is commented, so do not wait ten months from the field."
+    },
+    "casterAtLevel11IfThew100": {
+      "hp": 68,
+      "mp": 78,
+      "mpFormula": "(IQ*80/100 + (floor(sqrt(Force)) >> 1) + actualLevel) * actualThew / 100, native integer arithmetic. IQ80/Force42/Level11/Thew100 gives64+3+11=78.",
+      "combinedTwoSuccessCosts": 45,
+      "oneSkill6FailurePlusTwoSuccessCosts": 65
+    },
+    "finalMap": {
+      "resourceId": 113,
+      "absoluteOffset": 202993,
+      "length": 1040,
+      "sha256": "bd46c3352eb2ab0a872fde4ce41344a76ab8aa3eba90203fbeab4ff39e512f93",
+      "width": 32,
+      "height": 32,
+      "staticDestination": 26,
+      "rawCityTile": [
+        {
+          "x": 14,
+          "y": 17
+        }
+      ],
+      "candidateActorCellsNearCity": [
+        {
+          "x": 7,
+          "y": 12,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 8,
+          "y": 12,
+          "rawTile": 12,
+          "class": 2
+        },
+        {
+          "x": 9,
+          "y": 12,
+          "rawTile": 13,
+          "class": 2
+        },
+        {
+          "x": 10,
+          "y": 12,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 20,
+          "y": 12,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 8,
+          "y": 13,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 12,
+          "y": 13,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 11,
+          "y": 14,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 12,
+          "y": 14,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 7,
+          "y": 16,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 8,
+          "y": 16,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 9,
+          "y": 16,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 13,
+          "y": 16,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 20,
+          "y": 16,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 8,
+          "y": 17,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 11,
+          "y": 17,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 12,
+          "y": 17,
+          "rawTile": 10,
+          "class": 2
+        },
+        {
+          "x": 13,
+          "y": 17,
+          "rawTile": 11,
+          "class": 2
+        },
+        {
+          "x": 14,
+          "y": 17,
+          "rawTile": 3,
+          "class": 5
+        },
+        {
+          "x": 20,
+          "y": 17,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 10,
+          "y": 18,
+          "rawTile": 10,
+          "class": 2
+        },
+        {
+          "x": 11,
+          "y": 18,
+          "rawTile": 11,
+          "class": 2
+        },
+        {
+          "x": 12,
+          "y": 18,
+          "rawTile": 12,
+          "class": 2
+        },
+        {
+          "x": 13,
+          "y": 18,
+          "rawTile": 13,
+          "class": 2
+        },
+        {
+          "x": 14,
+          "y": 18,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 18,
+          "y": 18,
+          "rawTile": 10,
+          "class": 2
+        },
+        {
+          "x": 19,
+          "y": 18,
+          "rawTile": 11,
+          "class": 2
+        },
+        {
+          "x": 21,
+          "y": 18,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 11,
+          "y": 19,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 13,
+          "y": 19,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 16,
+          "y": 19,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 18,
+          "y": 19,
+          "rawTile": 12,
+          "class": 2
+        },
+        {
+          "x": 19,
+          "y": 19,
+          "rawTile": 13,
+          "class": 2
+        },
+        {
+          "x": 14,
+          "y": 20,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 18,
+          "y": 20,
+          "rawTile": 7,
+          "class": 2
+        },
+        {
+          "x": 21,
+          "y": 20,
+          "rawTile": 7,
+          "class": 2
+        }
+      ],
+      "nativeTerrainClassificationSource": "FightSub.c:775-803, explicit raw3 city5; raw6..15 hill2; raw1 plain1/raw2 grass0/raw5 forest3; do not swap raw ID with class"
+    },
+    "acceptanceNotRun": true
+  },
+  "alternatives": {
+    "p1ChengYi": {
+      "initial": {
+        "period": 1,
+        "personIndex": 64,
+        "nativeGenId": 65,
+        "name": "成宜",
+        "recordHex": "41000600012d26580000000100000000000019",
+        "oldBelong": 65,
+        "belong": 6,
+        "level": 1,
+        "force": 45,
+        "iq": 38,
+        "devotion": 88,
+        "character": 0,
+        "experience": 0,
+        "rawThew": 0,
+        "baseArmsType": 1,
+        "rawArms": 0,
+        "equip": [
+          0,
+          0
+        ],
+        "age": 25,
+        "specialSkill": 0
+      },
+      "city": {
+        "period": 1,
+        "cityIndex": 3,
+        "name": "安定",
+        "recordHex": "0406000000f906b8023808c7033a45514c0100b95900006b00ae0000000c00050002000000",
+        "belong": 6,
+        "money": 107,
+        "food": 174,
+        "reserve": 0,
+        "queueOffset": 12,
+        "queue": [
+          64,
+          147,
+          151,
+          158,
+          175
+        ],
+        "ownedQueue": [
+          64
+        ],
+        "links": [
+          null,
+          null,
+          null,
+          {
+            "way": 3,
+            "cityIndex": 8,
+            "name": "天水",
+            "belong": 6
+          },
+          null,
+          null,
+          null,
+          {
+            "way": 7,
+            "cityIndex": 0,
+            "name": "西凉",
+            "belong": 6
+          }
+        ],
+        "mapResourceId": 116
+      },
+      "sameConditionalQuarterProbability": 0.8,
+      "reasonNotPreferred": "Low IQ38 Lv11 native maxMP44 is below skill6+skill7 total45; requires REST/new battle even with both success. Initial Dev88 and char0 yield slower recruitment; physical conquest shortest static path from DongZhuo owned city10 ->14->8->3 needs multiple battles and capture is random."
+    },
+    "ownedInfantryLord": {
+      "example": {
+        "period": 1,
+        "personIndex": 3,
+        "nativeGenId": 4,
+        "name": "袁术",
+        "recordHex": "04000400014e54640100000100000000000023",
+        "oldBelong": 4,
+        "belong": 4,
+        "level": 1,
+        "force": 78,
+        "iq": 84,
+        "devotion": 100,
+        "character": 1,
+        "experience": 0,
+        "rawThew": 0,
+        "baseArmsType": 1,
+        "rawArms": 0,
+        "equip": [
+          0,
+          0
+        ],
+        "age": 35,
+        "specialSkill": 0
+      },
+      "city": {
+        "period": 1,
+        "cityIndex": 21,
+        "name": "寿春",
+        "recordHex": "16040000001c0e83048f115f07422c00150300420c0100d100200100006f0005000c000000",
+        "belong": 4,
+        "money": 209,
+        "food": 288,
+        "reserve": 0,
+        "queueOffset": 111,
+        "queue": [
+          3,
+          46,
+          47,
+          49,
+          117
+        ],
+        "ownedQueue": [
+          3,
+          46,
+          47,
+          49
+        ],
+        "links": [
+          {
+            "way": 0,
+            "cityIndex": 15,
+            "name": "洛阳",
+            "belong": 1
+          },
+          null,
+          {
+            "way": 2,
+            "cityIndex": 22,
+            "name": "建业",
+            "belong": 0
+          },
+          null,
+          null,
+          null,
+          {
+            "way": 6,
+            "cityIndex": 20,
+            "name": "宛城",
+            "belong": 1
+          },
+          null
+        ],
+        "mapResourceId": 111
+      },
+      "skill30": {
+        "id": 30,
+        "name": "谍报",
+        "recordHex": "0100000000000a646464646400000000000000006464646464646464000000000000",
+        "aim": 1,
+        "state": 0,
+        "power": 0,
+        "destroy": 0,
+        "mp": 10,
+        "weather": [
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "targetTerrain": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "actorTerrain": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "targetArm": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "range": {
+          "resourceId": 13,
+          "index": 0,
+          "offset": 2349,
+          "size": 9,
+          "bytes": [
+            0,
+            0,
+            232,
+            232,
+            0,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            0,
+            0,
+            0,
+            100,
+            100,
+            100,
+            100,
+            100,
+            0,
+            0,
+            0,
+            0,
+            0,
+            100,
+            100,
+            100,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "successfulReconXp": 8,
+      "successesNeededFromLv1Exp0ToLv6": 63,
+      "successesNeededToLv11": 125,
+      "reconSelfTargetNoAim": "Fight.c317-318 returns actor for skill30; FgtJNAction still applies actual success RNG and MP10 before return8.",
+      "safetyCost": "g_FgtBoutMax30. Native REST recovers only1 MP. At IQ84/Force78 Lv1 initial fullThew MP72, repeated battles required; attacker timeout/retreat is native FGT_LOSE with capture/escape consequences. Do not treat retreat as guaranteed safe XP save.",
+      "notPreferredForFirstRun": true
+    },
+    "highDamageXp": {
+      "source": "FightSub.c714-730; PublicFun.c702-704 sqrt; Fight.c468-488",
+      "formula": "floor(sqrt(actualClampedHurt)/4) adjusted by actual Level difference, +2; U8 exp and Experience native arithmetic preserved",
+      "equalLevelExamples": [
+        {
+          "hurt": 100,
+          "exp": 4
+        },
+        {
+          "hurt": 400,
+          "exp": 7
+        },
+        {
+          "hurt": 800,
+          "exp": 9
+        },
+        {
+          "hurt": 1000,
+          "exp": 9
+        },
+        {
+          "hurt": 4000,
+          "exp": 17
+        },
+        {
+          "hurt": 10000,
+          "exp": 27
+        },
+        {
+          "hurt": 65535,
+          "exp": 65
+        }
+      ],
+      "limitations": "Not damage/4. Against level1 enemies, growing caster Level subtracts XP before+2; finite troop pools, deaths, survival and repeated campaign battles make 10 natural levels a long route. No player direct level API or artificial high hurt."
+    },
+    "naturalCaptureSurrender": {
+      "source": "citycmdd.c629-690 TheLoserDeal; citycmd.c357-435 SurrenderDrv",
+      "possible": true,
+      "risks": "Must actually win/conquer then acquire captive; capture/escape are random. Surrender needs real captive list/own executor/Devotion gates; repeated real attempts lower Devotion only through original engine. More combat route work than direct Canvass and not guaranteed."
+    }
+  },
+  "driverReuse": {
+    "useBase": "scripts/test-hd-water-runtime.mjs",
+    "reuse": [
+      "Source freeze/Staged quartet/private HTTP+Chrome/CDP isolation, no user8080/profile/save",
+      "Actual native title/period/lord, exact full person IDs/owner and recruitment/distribution ACK",
+      "Real player MOVE/AIM/skill selection, movie/label/NUM15/hold callback owner fencing",
+      "Independent ROM decoder, full LCD PNG CRC/bitplane/RGBA and HD source rectangle, final world+source summary and OS cleanup"
+    ],
+    "borrowFromQimen": [
+      "Strict genuine FunctionMenu month ACK and readonly campaign observations; remove SEARCH requirement and do not bind XuShu171/R16 route inputs",
+      "Two-stage owned/envoy/enemy selection under original menus, every key+order receipt and no stale ownership"
+    ],
+    "mustAdd": [
+      "Period4/lord0/city20/candidate131+130 actual current eligibility scan, bounded AI natural training and Canvass acquisition (separate result phases)",
+      "Native force/queue/world assertions per natural month; diplomacy actual can be LCD under existing city DEEP.waijiao city heuristic, never claim new diplomacy HD support",
+      "Exact real resource37 two different ranges and two widths64/66. Current FIRE/Stone64-window assumptions cannot be silently reused for 66px slot1. New native/renderer contract must support actual width66 before strict HD acceptance.",
+      "One-frame skill7 movie has final0; genuine copy/flush may coalesce units, accept only actual callback stamps and required final actual frame, not all8 timer callbacks assumed",
+      "If training/recruitment fails budget preserve private raw/result/cleanup and report0cast, no retry/seed/write escape"
+    ],
+    "preflightOnlyUntilNewProductionFreeze": true
+  },
+  "boundary": "Plan from fresh immutable standard LIB/current native source only. No casts, new games, HD gameplay pass, Mod support, saved preparation world, or guaranteed globally shortest route are asserted."
+}

@@ -1,0 +1,521 @@
+{
+  "schemaVersion": 1,
+  "localDate": "2026-10-09",
+  "baseRevision": "dc0bf42aad72a3b9ad90fc968e2317244b3a7011",
+  "resourceId": 39,
+  "itemIndex": 0,
+  "nativeSkill": {
+    "id": 20,
+    "name": "奇门",
+    "target": "Actual friendly AIM cell; true RNG success applies state4, cost20 MP; power0/destroy0 do not execute NUM15 or the numeric hold.",
+    "aim": 1,
+    "state": 4,
+    "power": 0,
+    "destroy": 0,
+    "mp": 20
+  },
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "native": {
+    "payloadSha256": "f498fcdb94bcf5e5b6993c923cf3c3faad4c4c447fe3694e4459cde67c93be73",
+    "fingerprint": "fnv1a32:6b0ebc5a:1084",
+    "header": {
+      "type": 0,
+      "idx": 18,
+      "count": 8,
+      "picmax": 2,
+      "startFrm": 0,
+      "endFrm": 7
+    },
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "itemOffset": 46,
+        "libraryAbsoluteOffset": 75761,
+        "headerBytes": 7,
+        "slotBytes": 519,
+        "bitmapOffset": 53,
+        "bitmapAbsoluteOffset": 75768,
+        "bitmapBytes": 512,
+        "rowBytes": 8,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rawSlotSha256": "f8496023f2a4c2ee1d88ecba86192ca338bba8f0d0a59f09250e870ebbc293ed",
+        "bitmapSha256": "8c90dc6262026f502f132c193e780e1041c5fb848665b07b38290384604ce948",
+        "nativeReferences": [
+          {
+            "path": "build/r16-qimen-native/QIMEN39-picture-0.png",
+            "bytes": 946,
+            "sha256": "63d81433bdfc9d22fb82bfd84f79fae2d59b491e35125d5c23435281707cc1ad",
+            "width": 64,
+            "height": 64,
+            "mode": "RGB",
+            "bitmapScale": 1,
+            "decodedRgbSha256": "f27ae32d4115b413ece050adaffd93114de011e6b421ee607385149a18a47309"
+          },
+          {
+            "path": "build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png",
+            "bytes": 3193,
+            "sha256": "2fe63335b0f14813ed5423ac4bc29068c675016f308c2a1538a24ad488b83843",
+            "width": 512,
+            "height": 512,
+            "mode": "RGB",
+            "bitmapScale": 8,
+            "decodedRgbSha256": "26636d918a573d2e2e3b1f499cc829bf22db9773e705928ac6fd3afee8f4dd56"
+          }
+        ]
+      },
+      {
+        "picIndex": 1,
+        "itemOffset": 565,
+        "libraryAbsoluteOffset": 76280,
+        "headerBytes": 7,
+        "slotBytes": 519,
+        "bitmapOffset": 572,
+        "bitmapAbsoluteOffset": 76287,
+        "bitmapBytes": 512,
+        "rowBytes": 8,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rawSlotSha256": "9a00a09f3b654c8cbc5bc4822fd92fde9abb2e72822b93efdd08a355fa8e9093",
+        "bitmapSha256": "49557330ba6931d29dd0990283f770fa888044527c84e82044d5a199c3747a32",
+        "nativeReferences": [
+          {
+            "path": "build/r16-qimen-native/QIMEN39-picture-1.png",
+            "bytes": 917,
+            "sha256": "78ea86290bf979d18e4fb8d3e1c9bc292d23b949ee6fb09144df8e78bd29de56",
+            "width": 64,
+            "height": 64,
+            "mode": "RGB",
+            "bitmapScale": 1,
+            "decodedRgbSha256": "3f7ac0fd511913eb1d178eaad371c79a8b617153fe4f16c115bc7fa260e7a3a0"
+          },
+          {
+            "path": "build/r16-qimen-native/QIMEN39-picture-1-packed-cells-x8.png",
+            "bytes": 3155,
+            "sha256": "fed9545906b6369d6c57a473e00dec50c085e85e183d16681fdf79c5c543217c",
+            "width": 512,
+            "height": 512,
+            "mode": "RGB",
+            "bitmapScale": 8,
+            "decodedRgbSha256": "1d0d7af438bfc8a64d2aca8fb569703f0ca5f7aa83f3ac665b61693ca93ed51a"
+          }
+        ]
+      }
+    ]
+  },
+  "imageGeneration": {
+    "mode": "built-in image_gen",
+    "calls": 4,
+    "transparentBackground": false,
+    "postProcessing": "None: selected original PNG bytes copied exactly; no crop, resize, recolor, reencode or compositing.",
+    "requests": [
+      {
+        "call": 1,
+        "mode": "built-in image_gen",
+        "promptSource": {
+          "path": "build/r16-qimen-picture0-prompt.json",
+          "bytes": 2798,
+          "sha256": "fbded9829cbe97b30d9400b7c88963900ca9b2bd6ff69b04765e5b08320eb1fa"
+        },
+        "request": {
+          "mode": "built-in image_gen",
+          "intent": "style-transfer",
+          "args": {
+            "prompt": "Use case: style-transfer.\nAsset type: original high-resolution opaque square bitmap for Baye Sanguo's native FENG39 picture 0, a two-picture alternating game animation.\nPrimary request: faithfully render the native composition from Images 1 and 2 as a detailed painted late-Han historical scene, matching the established HD game's rendering quality.\nInput images: Image 1 is the exact native 64x64 picture 0 and is the primary composition and pose reference. Image 2 is the same native bitmap shown with enlarged square cells for legibility; it is not a pixel-art style reference. Image 3 is supporting painterly material, muted palette and lighting reference only; do not copy its stone wall, its warrior pose, framing, weapon or character identity.\nScene/backdrop: retain a quiet dark atmospheric upper strip, a dense broken horizontal background texture across the middle behind the figure, and a stippled rough ground in the lower area. Treat the source's uncertain middle-band marks as abstract uneven environmental texture, never as readable writing, runes or extra people.\nSubject: exactly one full standing human figure center-left. Follow the cap/head outline, long dark garment outline and visible limb positions in native picture 0. Preserve the extended arm and lower bent forearm arrangement of this first pose, the lower garment and both feet, and the direction of the head. Keep the figure's silhouette clearly readable against the background.\nStyle/medium: richly detailed historical game painting with restrained natural fabric and worn material textures; the dark charcoal, desaturated green-gray earth and muted aged-bronze accents of Image 3. No pixel grid or imitation low-resolution edges.\nComposition/framing: one square image, faithful overall placement and scale. Show the entire standing figure, head to feet, within the square. Preserve the relatively quiet top and empty areas from the native picture. Render the whole backdrop fully opaque to the edges.\nConstraints: this is picture 0 of an alternating pair; the native composition determines the scene, rather than the spell's name. Do not add weapons, staffs, books, scrolls, spell glyphs, circles, portals, lightning, wind vortex, flames, boats or additional characters. No UI, border, letters, numbers, logo or watermark. No transparency. Deliver a finished original square high-resolution PNG.",
+            "referenced_image_paths": [
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0.png",
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png",
+              "F:/project/baye-sanguo/assets/hd-spe/stone-42/picture-0.png"
+            ],
+            "transparent_background": false
+          }
+        },
+        "referenceFiles": [
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0.png",
+            "bytes": 946,
+            "sha256": "63d81433bdfc9d22fb82bfd84f79fae2d59b491e35125d5c23435281707cc1ad"
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png",
+            "bytes": 3193,
+            "sha256": "2fe63335b0f14813ed5423ac4bc29068c675016f308c2a1538a24ad488b83843"
+          },
+          {
+            "path": "F:/project/baye-sanguo/assets/hd-spe/stone-42/picture-0.png",
+            "bytes": 2914976,
+            "sha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8"
+          }
+        ],
+        "original": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-50a38a6b-839b-495c-a8bd-0f401c440bd6.png",
+          "bytes": 2647231,
+          "sha256": "8ab59721a79918073509a1ce24e2ed893e1076da0b56715c619071661c6446a7",
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2
+        },
+        "selection": "rejected for picture0: raised extended arm"
+      },
+      {
+        "call": 2,
+        "mode": "built-in image_gen",
+        "promptSource": {
+          "path": "build/r16-qimen-picture0-correction-prompt.json",
+          "bytes": 1838,
+          "sha256": "a1e838a183964a84544bf7d61bb60167613ddc3d868e6bb125f8c1e382f50a01"
+        },
+        "request": {
+          "mode": "built-in image_gen",
+          "intent": "precise-object-edit",
+          "reason": "Independent actual visual review rejected original candidate pic0 arm pose.",
+          "args": {
+            "prompt": "Use case: precise-object-edit.\nAsset type: corrected original opaque square game animation picture 0.\nInput images: Image 1 is the edit target, the first high-resolution candidate. Image 2 is the exact native FENG39 picture 0, the authoritative pose reference. Image 3 is only the same native picture enlarged into square cells for legibility.\nPrimary request: change only the edit target's two arm poses to match native picture 0. The arm on the figure's screen-right must bend down and inward, with its forearm and hand low near the chest/abdomen and close to the body, instead of a long nearly straight horizontal rightward push. The other arm should extend slightly toward screen-left as shown by the native outline. Keep the two arms anatomically natural and the bent low pose unmistakably different from a raised forward pushing pose.\nInvariants: preserve exactly the character identity, cap, clothing, body and legs, feet, head direction, standing location, image framing, entire background, palette, lighting and painted texture. Do not change the image into pixel art or add anything. Do not crop or add a border. Keep the whole image fully opaque. No text, digits, symbols, UI or additional people. Return a finished original square high-resolution PNG.",
+            "referenced_image_paths": [
+              "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-50a38a6b-839b-495c-a8bd-0f401c440bd6.png",
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0.png",
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png"
+            ],
+            "transparent_background": false
+          }
+        },
+        "referenceFiles": [
+          {
+            "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-50a38a6b-839b-495c-a8bd-0f401c440bd6.png",
+            "bytes": 2647231,
+            "sha256": "8ab59721a79918073509a1ce24e2ed893e1076da0b56715c619071661c6446a7"
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0.png",
+            "bytes": 946,
+            "sha256": "63d81433bdfc9d22fb82bfd84f79fae2d59b491e35125d5c23435281707cc1ad"
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png",
+            "bytes": 3193,
+            "sha256": "2fe63335b0f14813ed5423ac4bc29068c675016f308c2a1538a24ad488b83843"
+          }
+        ],
+        "original": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-29b30bb5-71e1-4128-8639-11ebc2f6d80b.png",
+          "bytes": 2522187,
+          "sha256": "1a33b402ad2723d40c9b0c5aef19fa16f43fc6e20719d8ae26d1bd73c8776c50",
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2
+        },
+        "selection": "rejected for picture0: hand still chest/shoulder high"
+      },
+      {
+        "call": 3,
+        "mode": "built-in image_gen",
+        "promptSource": {
+          "path": "build/r16-qimen-picture0-correction2-prompt.json",
+          "bytes": 1822,
+          "sha256": "cd2598b440dd16bba83e1940f2876238e0b4ca65ef16ce6f991fbf17913aaae1"
+        },
+        "request": {
+          "mode": "built-in image_gen",
+          "intent": "precise-object-edit",
+          "reason": "Second candidate still had high outward hand; independent visual rejection retained.",
+          "args": {
+            "prompt": "Use case: precise-object-edit.\nAsset type: final corrected opaque square FENG39 native picture 0.\nInput images: Image 1 is the edit target. Images 2 and 3 are the exact native picture 0 and its enlarged-cell pose reference.\nPrimary request: lower and bend ONLY the screen-right arm into a clearly low inward bent-elbow pose. Put that hand next to the abdomen at belt height, approximately image x=0.48 to 0.52, y=0.50 to 0.55. Put the elbow below the shoulder, outside the torso, with the forearm slanting back DOWN AND IN toward the belt, so the whole arm has an obvious folded angle. There must be no hand reaching out at shoulder/chest height. The hand should be in the middle of the image at the waistband, not extended into the upper-right. These approximate anchors correct the HD pose; use the native reference's lower compact arm silhouette for the composition.\nKeep everything else exactly unchanged: same one character, face, head/cap, garment design, other arm, body, legs, feet, standing position, full-body square camera, painted texture, palette, lighting, rocks and quiet dark sky. Change only the one raised arm to a LOW BENT arm. No new objects or people, no crop, no frame, no text or symbols, fully opaque original PNG.",
+            "referenced_image_paths": [
+              "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-29b30bb5-71e1-4128-8639-11ebc2f6d80b.png",
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0.png",
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png"
+            ],
+            "transparent_background": false
+          }
+        },
+        "referenceFiles": [
+          {
+            "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-29b30bb5-71e1-4128-8639-11ebc2f6d80b.png",
+            "bytes": 2522187,
+            "sha256": "1a33b402ad2723d40c9b0c5aef19fa16f43fc6e20719d8ae26d1bd73c8776c50"
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0.png",
+            "bytes": 946,
+            "sha256": "63d81433bdfc9d22fb82bfd84f79fae2d59b491e35125d5c23435281707cc1ad"
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png",
+            "bytes": 3193,
+            "sha256": "2fe63335b0f14813ed5423ac4bc29068c675016f308c2a1538a24ad488b83843"
+          }
+        ],
+        "original": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-2a96348a-8ccf-474f-8c6e-0ebdff30c660.png",
+          "bytes": 2458901,
+          "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2
+        },
+        "selection": "selected picture0: low inward bent elbow at belt"
+      },
+      {
+        "call": 4,
+        "mode": "built-in image_gen",
+        "promptSource": {
+          "path": "build/r16-qimen-picture1-prompt.json",
+          "bytes": 2253,
+          "sha256": "9312a87675d8ad497ef82723bc5a7f90022d2209d786eeeffbf7b0c0458e21f7"
+        },
+        "request": {
+          "mode": "built-in image_gen",
+          "intent": "precise-object-edit",
+          "args": {
+            "prompt": "Use case: precise-object-edit.\nAsset type: FENG39 picture 1, the second original opaque square bitmap in a two-picture native game animation.\nInput images: Image 1 is the high-resolution picture 0 used as the edit target and continuity reference. Image 2 is the exact native 64x64 picture 1 and is authoritative for the changed pose. Image 3 is the same native picture 1 enlarged into square cells for legibility, not a pixel-art style reference.\nPrimary request: change only the two arms from the low compact picture-0 pose into native picture 1's more forward, raised and opened arm silhouette. The screen-right arm must now reach forward at approximately chest height with a visible bent elbow, the hand further right and higher than picture 0; approximate image anchor x=0.56 to 0.61, y=0.36 to 0.42. The other arm opens a little toward screen-left as in the native outline. Keep hands anatomically natural. Make this raised forward pose clearly distinguishable from picture 0's low inward bent arm, while faithfully following native picture 1 rather than inventing a spell effect.\nInvariants: same one full standing figure, identical face identity, head/cap and head direction, garment design, body, legs, feet, location, scale, camera and framing, and the same entire rocky textured background and quiet dark upper strip. Preserve the painterly game finish, dark charcoal, muted earth/green-gray and aged-bronze accents. Do not inherit a rock wall scene or extra character from another asset.\nConstraints: no weapons, staff, book, scroll, runes, magic circle, portal, wind vortex, lightning, flame, UI, frame, border, words, numbers, logo, watermark or extra people. No transparent regions. Deliver one finished original high-resolution square PNG for picture 1.",
+            "referenced_image_paths": [
+              "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-2a96348a-8ccf-474f-8c6e-0ebdff30c660.png",
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-1.png",
+              "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-1-packed-cells-x8.png"
+            ],
+            "transparent_background": false
+          }
+        },
+        "referenceFiles": [
+          {
+            "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-2a96348a-8ccf-474f-8c6e-0ebdff30c660.png",
+            "bytes": 2458901,
+            "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882"
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-1.png",
+            "bytes": 917,
+            "sha256": "78ea86290bf979d18e4fb8d3e1c9bc292d23b949ee6fb09144df8e78bd29de56"
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r16-qimen-native/QIMEN39-picture-1-packed-cells-x8.png",
+            "bytes": 3155,
+            "sha256": "fed9545906b6369d6c57a473e00dec50c085e85e183d16681fdf79c5c543217c"
+          }
+        ],
+        "original": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-c30d84bc-ddaa-4a4e-95a3-5db01501825d.png",
+          "bytes": 2485449,
+          "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2",
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2
+        },
+        "selection": "selected picture1: raised forward arm and other hand opened"
+      }
+    ]
+  },
+  "selectedPictures": [
+    {
+      "path": "assets/hd-spe/qimen-39/picture-0.png",
+      "bytes": 2458901,
+      "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+      "width": 1254,
+      "height": 1254,
+      "bitDepth": 8,
+      "colorType": 2,
+      "picIndex": 0,
+      "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-2a96348a-8ccf-474f-8c6e-0ebdff30c660.png",
+      "byteEqualOriginal": true,
+      "noPostProcessing": true
+    },
+    {
+      "path": "assets/hd-spe/qimen-39/picture-1.png",
+      "bytes": 2485449,
+      "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2",
+      "width": 1254,
+      "height": 1254,
+      "bitDepth": 8,
+      "colorType": 2,
+      "picIndex": 1,
+      "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-c30d84bc-ddaa-4a4e-95a3-5db01501825d.png",
+      "byteEqualOriginal": true,
+      "noPostProcessing": true
+    }
+  ],
+  "manifestEntry": {
+    "speId": 39,
+    "resourceIndex": 0,
+    "kind": 2,
+    "startFrm": 0,
+    "endFrm": 7,
+    "count": 8,
+    "picmax": 2,
+    "resourceFingerprint": "fnv1a32:6b0ebc5a:1084",
+    "resourceLength": 1084,
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "src": "assets/hd-spe/qimen-39/picture-0.png",
+        "width": 1254,
+        "height": 1254,
+        "logicalWidth": 64,
+        "logicalHeight": 64,
+        "nativeWidth": 64,
+        "nativeHeight": 64,
+        "mask": 0
+      },
+      {
+        "picIndex": 1,
+        "src": "assets/hd-spe/qimen-39/picture-1.png",
+        "width": 1254,
+        "height": 1254,
+        "logicalWidth": 64,
+        "logicalHeight": 64,
+        "nativeWidth": 64,
+        "nativeHeight": 64,
+        "mask": 0
+      }
+    ],
+    "skillResultVersion": 1,
+    "skillNumber": {
+      "id": 15,
+      "resourceIndex": 0,
+      "pictureIndex": 0,
+      "nativeWidth": 12,
+      "nativeHeight": 16,
+      "count": 10,
+      "mask": 0,
+      "x": 0,
+      "y": 0,
+      "resourceLength": 327,
+      "resourceFingerprint": "fnv1a32:b37d7407:327"
+    }
+  },
+  "visualReview": {
+    "scope": "Art/static only; runtime evidence is separately recorded in docs/validation/m4-qimen-20261009.",
+    "rejectedCandidates": 2,
+    "accepted": "Single full standing figure, picture0 low inward bent arm, picture1 raised forward/opened arm; consistent character/material/scene, no visible UI, text or extra props.",
+    "nativeInterpretationBoundary": "Key pose differences and composition followed; painterly translation is not pixel-for-pixel native anatomy or a named spell narrative."
+  },
+  "artOnly": true,
+  "globalHdCompletion": false
+}

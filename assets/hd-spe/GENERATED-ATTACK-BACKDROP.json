@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-08",
+  "mode": "builtin-imagegen",
+  "asset": "SPE_BACKPIC16 item0 picture0",
+  "nativeLogicalSize": [
+    130,
+    64
+  ],
+  "inputs": [
+    {
+      "path": "F:\\project\\baye-sanguo\\build\\r09-attack-native\\resource-16-index-0-picture-0.png",
+      "role": "authoritative native pose and frame geometry",
+      "bytes": 652,
+      "sha256": "fca25a2755bf325ccca8bd7458f4e2a3c28a5ba6964946afbb3d588323a1528c",
+      "width": 130,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "F:\\project\\baye-sanguo\\assets\\hd-spe\\maker-6\\picture-0.png",
+      "role": "material and palette only; no text or character identity",
+      "bytes": 3275767,
+      "sha256": "91f0aedea0a34760282d43ce2470febe3a436c63e429bf333b14540f4e1c537c",
+      "width": 1614,
+      "height": 975,
+      "mode": "RGB"
+    }
+  ],
+  "prompt": "Use case: stylized-concept.\nAsset type: production HD bitmap for the classic Chinese Three Kingdoms game Baye, the real SPE_BACKPIC=16 attack arena background, logical130x64.\nInput Image1 is the authoritative newly decoded native130x64 BACKPIC bitmap: preserve its empty interior, extremely thin rectangular edge and small ornamental scrollwork in all four corners. Image2 is only the already accepted HD Maker credits plaque palette/material reference: restrained worn bronze/gold trim, dark charcoal green, polished painted game art. Do not copy any of Image2's text, mascots, large thick border, layout or lighting gradients.\nCreate one wide, flat, front-facing rectangular battle-animation arena. Aspect near130:64 (about2.03:1). The complete outside rectangle and all four corners must be fully inside the image, with no cropping. Use a fine subdued antique bronze outline and small Chinese cloud-scroll corner ornaments matching the native silhouette. The inner95percent of the rectangle is a perfectly flat, uniform opaque deep charcoal green RGB(23,26,22), color #171a16: no grain, no glow, no gradient, no ground, no landscape, no scenery, no shadows, no vignette. This empty center will receive separately generated transparent military sprites and real numerical feedback, so it must stay visually calm and entirely empty. Only the narrow border and corners may show fine bronze surface detail. Thin trim rather than a massive frame.\nHigh resolution original bitmap, clear crisp painterly edging, restrained warm metallic palette consistent with the already accepted Baye MAIN and MAKER art. Zero text, zero numbers, zero icons, zero badges, zero characters, zero people, zero horses, zero weapons, zero UI, zero watermark. Entire background opaque; no alpha. Output one arena image only, not a sprite sheet or screenshot.",
+  "output": {
+    "path": "F:\\project\\baye-sanguo\\assets\\hd-spe\\attacks\\backdrop-16\\picture-0.png",
+    "role": "original production PNG copied byte for byte",
+    "bytes": 1262711,
+    "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+    "width": 1787,
+    "height": 880,
+    "mode": "RGB"
+  },
+  "originalSource": "C:\\Users\\75112\\.codex\\generated_images\\01a116e2-c940-7931-9e13-0a495970c85f\\exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+  "transparentBackground": false,
+  "calls": 1,
+  "rejectedCandidates": [],
+  "review": {
+    "decision": "accepted for staged visual validation",
+    "completeFrameAndFourCorners": true,
+    "noTextOrPeople": true,
+    "opaque": true,
+    "limitation": "The generated center has faint charcoal texture and tonal variation. It is not pixel-uniform RGB23,26,22. Native erased rectangles are rendered as uniform #171a16; visual seam acceptance requires real staged captures. No pixels were edited, resized, cropped or re-encoded."
+  }
+}

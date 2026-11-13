@@ -1,0 +1,24 @@
+{
+  "accepted": true,
+  "sourceOnly": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-missing-picture-source-20261024-v40.json",
+    "bytes": 22505,
+    "sha256": "6b76694f6e8aa3b8f7ba65663b0fb8f7e8c0b252385047d31e242082ce41b47a"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-missing-picture-source-20261024-v40.md",
+    "bytes": 2410,
+    "sha256": "96f7b588b86301f07ecd709019ac6a380e7dbb585b7991391926a9fc8f11ad06"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-missing-picture-source-20261024-v40-verify.mjs",
+    "bytes": 6404,
+    "sha256": "a866ca7c8f870218afd7d657a1dc11f4652d19150ca0e9f19e9412106baaa987"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-missing-picture-source-20261024-v40-archive.json",
+    "bytes": 21353,
+    "sha256": "e30a9cf3f9b424fd7fdb6f80d2adc5aa21491a93417a537ae4b02c2d01721f89"
+  }
+}

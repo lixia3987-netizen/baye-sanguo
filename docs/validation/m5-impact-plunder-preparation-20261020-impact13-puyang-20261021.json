@@ -1,0 +1,1434 @@
+{
+  "schemaVersion": 3,
+  "kind": "original-impact13-puyang-route112-real-cast-and-July-checkpoint",
+  "originalOnly": true,
+  "originalLibrary": "libs/dat-mod.lib",
+  "originalLibraryIdentity": "v1:414390:1d36da77:1e9c0477",
+  "sourceRunAccepted": true,
+  "actualContinuationAccepted": true,
+  "allCurrentSourceTuplesExact": true,
+  "actualPreparationAccepted": true,
+  "beforeCombatReadonlyCallbackAccepted": true,
+  "actualPathReadsAccepted": true,
+  "actualGlobalRiverRouteUsed": true,
+  "defenseRuntimeAccepted": false,
+  "finalAimFencesAccepted": true,
+  "actualCastOccurred": true,
+  "actualNativeSkillInvocationAccepted": true,
+  "mpDebitsAccepted": true,
+  "actualCastAccepted": true,
+  "actualMovieAccepted": true,
+  "actualPixelAccepted": true,
+  "moviePixelAdapterRun": true,
+  "hd1080VisualAccepted": true,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false,
+  "sameRunContinuationAccepted": false,
+  "guardPreservationAccepted": false,
+  "wholeNativeAbiRestorationAccepted": false,
+  "nonserializedQueueTailRestorationAccepted": false,
+  "legalRetreatAccepted": true,
+  "latestSavedStateMustBeCurrentInput": true,
+  "olderMayOrJunePairMayReplaceIt": false,
+  "restoreUnsavedBattleOrRngAllowed": false,
+  "driverAcceptanceFlagsUsedForIndependentProof": false,
+  "sourceCount": 1561,
+  "normalizedPhysicalSources": 1557,
+  "nativeSourceCount": 128,
+  "publicSaveCount": 5,
+  "normalMonths": 1,
+  "newPayments": 1,
+  "newRecruitments": 1,
+  "newDistributions": 1,
+  "newMarches": 1,
+  "newPaidTrades": 0,
+  "newPlunders": 0,
+  "newGovernanceCount": 0,
+  "newTradeCount": 0,
+  "pathReadTriples": 4,
+  "pathStorageLength": 250,
+  "pathGridLength": 225,
+  "mapWidth": 32,
+  "mapHeight": 32,
+  "mapId": 112,
+  "actualPlayerBouts": 4,
+  "actualEndTurns": 3,
+  "actualDefenderInputCount": 0,
+  "finalAimFenceCount": 1,
+  "nativeConfirmationCount": 1,
+  "naturalFailureCount": 0,
+  "actualSuccessfulCastCount": 1,
+  "sources": {
+    "accepted": true,
+    "logical": 1561,
+    "physical": 1557,
+    "native": 128,
+    "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+    "allCurrentTuplesExact": true
+  },
+  "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+  "preparationDelta": {
+    "recruitment": {
+      "rawFile": {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v18/raw-v18-recruitment-before-SAVE-oracle.json",
+        "bytes": 17068225,
+        "sha256": "71223a882945e82eaea3082aadca3c706aaf53a232452929d80172d6de0003a8"
+      },
+      "delta": {
+        "ok": true,
+        "accepted": true,
+        "recruitmentAccepted": true,
+        "wholeMeasuredWorldExact": true,
+        "cityIndex": 13,
+        "personId": 43,
+        "quantity": 1054,
+        "maximum": 1380,
+        "orderIndex": 0,
+        "queueIndex": 58,
+        "order": {
+          "OrderId": 24,
+          "Person": 43,
+          "City": 13,
+          "TimeCount": 0
+        },
+        "money": {
+          "before": 30000,
+          "after": 29895,
+          "cost": 105,
+          "minimum": 1,
+          "armsPerMoney": 10
+        },
+        "thew": {
+          "before": 100,
+          "after": 88,
+          "cost": 12
+        },
+        "stock": {
+          "before": 0,
+          "after": 1054,
+          "applied": 1054,
+          "saturated": false
+        },
+        "rawDuplicateResidents": [
+          {
+            "personId": 65,
+            "occurrences": [
+              {
+                "cityIndex": 1,
+                "queueIndex": 8
+              },
+              {
+                "cityIndex": 7,
+                "queueIndex": 27
+              }
+            ]
+          },
+          {
+            "personId": 136,
+            "occurrences": [
+              {
+                "cityIndex": 12,
+                "queueIndex": 48
+              },
+              {
+                "cityIndex": 21,
+                "queueIndex": 98
+              }
+            ]
+          },
+          {
+            "personId": 138,
+            "occurrences": [
+              {
+                "cityIndex": 22,
+                "queueIndex": 99
+              },
+              {
+                "cityIndex": 26,
+                "queueIndex": 121
+              }
+            ]
+          }
+        ],
+        "uninitializedOrderMask": {
+          "orderIndex": 0,
+          "fields": [
+            "Object",
+            "Arms",
+            "Food",
+            "Money",
+            "Consume"
+          ],
+          "actual": {
+            "Object": 65535,
+            "Arms": 0,
+            "Food": 0,
+            "Money": 48232,
+            "Consume": 57
+          },
+          "semanticAcceptance": false
+        },
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "goodsQueue": 2000,
+          "orders": 200,
+          "fighters": 600,
+          "fighterIndex": 30
+        },
+        "scope": "One positive original ConscriptionMake delta before a later command or strategy month; current original-LIB costs, ADD16 and raw DelPerson, sampled world fields only",
+        "inputAccepted": false,
+        "actualInputAccepted": false,
+        "actualPreparationAccepted": false,
+        "actualCastAccepted": false,
+        "hdAccepted": false,
+        "wholeNativeAbiAccepted": false,
+        "strategyMonthAccepted": false,
+        "limits": [
+          "Only complete sampled raw world fields; no native-memory or RNG restoration claim",
+          "Trusted owner/quantity/public input, fresh publication and genuine SAVE are independent caller evidence",
+          "Cross-city duplicate raw PIDs remain exactly observed; no deduplication or world repair"
+        ]
+      },
+      "qty": {
+        "accepted": true,
+        "min": 0,
+        "maximum": 1380,
+        "wanted": 1054,
+        "steps": 17,
+        "exactFullTickets": true
+      }
+    },
+    "distribution": {
+      "rawFile": {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v18/raw-v18-distribution-before-SAVE-oracle.json",
+        "bytes": 6717443,
+        "sha256": "4213478f774a84f56c3516ec735a9eff546fcb3d7ba37a50a40586856296a8c5"
+      },
+      "delta": {
+        "ok": true,
+        "accepted": true,
+        "distributionAccepted": true,
+        "wholeMeasuredWorldExact": true,
+        "cityIndex": 13,
+        "personId": 129,
+        "targetArms": 1810,
+        "quantityMeaning": "target-total-arms",
+        "quantity": 1810,
+        "capacity": 1810,
+        "available": 1810,
+        "maximum": 1810,
+        "arms": {
+          "before": 756,
+          "after": 1810,
+          "delta": 1054
+        },
+        "reserve": {
+          "before": 1054,
+          "after": 0,
+          "uncast": 0,
+          "wrapped": false
+        },
+        "changed": true,
+        "rawDuplicateResidents": [
+          {
+            "personId": 65,
+            "occurrences": [
+              {
+                "cityIndex": 1,
+                "queueIndex": 8
+              },
+              {
+                "cityIndex": 7,
+                "queueIndex": 27
+              }
+            ]
+          },
+          {
+            "personId": 136,
+            "occurrences": [
+              {
+                "cityIndex": 12,
+                "queueIndex": 48
+              },
+              {
+                "cityIndex": 21,
+                "queueIndex": 97
+              }
+            ]
+          },
+          {
+            "personId": 138,
+            "occurrences": [
+              {
+                "cityIndex": 22,
+                "queueIndex": 98
+              },
+              {
+                "cityIndex": 26,
+                "queueIndex": 120
+              }
+            ]
+          }
+        ],
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "goodsQueue": 2000,
+          "orders": 200,
+          "fighters": 600,
+          "fighterIndex": 30
+        },
+        "scope": "One original DistributeMake target-total delta; exact U16 reserve assignment, sampled world fields only",
+        "inputAccepted": false,
+        "actualInputAccepted": false,
+        "actualPreparationAccepted": false,
+        "actualCastAccepted": false,
+        "hdAccepted": false,
+        "wholeNativeAbiAccepted": false,
+        "strategyMonthAccepted": false,
+        "limits": [
+          "Only complete sampled raw world fields; no native-memory or RNG restoration claim",
+          "Trusted owner/quantity/public input, fresh publication and genuine SAVE are independent caller evidence",
+          "Cross-city duplicate raw PIDs remain exactly observed; no deduplication or world repair"
+        ]
+      },
+      "qty": {
+        "accepted": true,
+        "min": 0,
+        "maximum": 1810,
+        "wanted": 1810,
+        "steps": 0,
+        "exactFullTickets": true
+      }
+    },
+    "march": {
+      "accepted": true,
+      "queueIndex": 56,
+      "food": 421,
+      "timeCount": 1,
+      "origin": 13,
+      "destination": 12,
+      "rawFile": {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v18/raw-march-dispatch-before-SAVE-oracle.json",
+        "bytes": 11953964,
+        "sha256": "89a409eb95cf5c7f200d0aee35f67aca11836b5d009257daa0168f0a4890b90e"
+      },
+      "inputs": {
+        "accepted": true,
+        "foodQuantity": 421,
+        "foodSteps": 10,
+        "exactFullQuantityTickets": true,
+        "target": 12,
+        "targetKeys": [
+          36
+        ],
+        "targetEnter": 39
+      }
+    }
+  },
+  "actualDamage": {
+    "actorId": 130,
+    "targetId": 135,
+    "beforeArms": 1330,
+    "afterArms": 330,
+    "requested": 1000,
+    "applied": 1000,
+    "value": 1000,
+    "session": 1,
+    "resultKind": 1,
+    "actorMpBefore": 67,
+    "actorMpAfter": 37
+  },
+  "actualMoveReceipts": [
+    {
+      "bout": 1,
+      "from": [
+        29,
+        16,
+        7
+      ],
+      "to": [
+        27,
+        14,
+        7
+      ],
+      "beforeMp": 67,
+      "afterMp": 67,
+      "keys": [
+        36,
+        36,
+        34,
+        34,
+        39
+      ],
+      "held": false
+    },
+    {
+      "bout": 2,
+      "from": [
+        27,
+        14,
+        7
+      ],
+      "to": [
+        23,
+        14,
+        7
+      ],
+      "beforeMp": 67,
+      "afterMp": 67,
+      "keys": [
+        36,
+        36,
+        36,
+        36,
+        39
+      ],
+      "held": false
+    },
+    {
+      "bout": 3,
+      "from": [
+        23,
+        14,
+        7
+      ],
+      "to": [
+        22,
+        14,
+        7
+      ],
+      "beforeMp": 67,
+      "afterMp": 67,
+      "keys": [
+        36,
+        39
+      ],
+      "held": false
+    },
+    {
+      "bout": 4,
+      "from": [
+        22,
+        14,
+        7
+      ],
+      "to": [
+        22,
+        14,
+        7
+      ],
+      "beforeMp": 67,
+      "afterMp": 67,
+      "keys": [
+        39
+      ],
+      "held": true
+    }
+  ],
+  "pixelAdapterSource": {
+    "path": "build/impact-skill-20261014/impact13-v18-movie-pixel-adapter-final-v1.mjs",
+    "bytes": 43371,
+    "sha256": "9a1a0eb59b435e36de124c2993df65bb048ed0bcf89633b13291b49f11a8ed95"
+  },
+  "moviePixelProof": {
+    "path": "build/impact-skill-20261014/impact13-battle-v18-independent-movie-pixel-proof-v1.json",
+    "bytes": 83918,
+    "sha256": "79dc5441abdc1fa413fecf525944d73f8af6df0065e24abfd1b9c082145d7639"
+  },
+  "cleanup": {
+    "accepted": true,
+    "identities": 11,
+    "samples": 3,
+    "privatePorts": [
+      7625,
+      7626
+    ],
+    "user8080Unchanged": true,
+    "profileRetained": true,
+    "pin": {
+      "path": "build/impact-skill-20261014/impact13-battle-v18-external-cleanup-v1.json",
+      "bytes": 3292,
+      "sha256": "7e80d9e4a0f1b6dce69c8ff1c8e0c8ca4f0f1376fa42e783e0247ffa8369e334"
+    }
+  },
+  "latestRunId": "v18",
+  "latestDate": [
+    237,
+    7
+  ],
+  "latestCaster": {
+    "person": {
+      "OldBelong": 0,
+      "Belong": 1,
+      "Level": 7,
+      "Force": 39,
+      "IQ": 72,
+      "Devotion": 71,
+      "Character": 2,
+      "Experience": 2,
+      "Thew": 100,
+      "ArmsType": 3,
+      "Arms": 1789,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 63
+    },
+    "residentCities": [
+      4
+    ]
+  },
+  "latestActiveOrders": [],
+  "latestOwnedCities": [
+    4,
+    5,
+    6,
+    7,
+    13,
+    16,
+    20
+  ],
+  "independentMoviePixelProof": {
+    "path": "build/impact-skill-20261014/impact13-battle-v18-independent-movie-pixel-proof-v1.json",
+    "bytes": 83918,
+    "sha256": "79dc5441abdc1fa413fecf525944d73f8af6df0065e24abfd1b9c082145d7639"
+  },
+  "pixelCoverage": {
+    "captureRecords": 26,
+    "pngFiles": 52,
+    "independentlyBoundHdStates": 24,
+    "observedMovieStates": 3,
+    "nativeLcdCallbacks": 23,
+    "independentLogicalCopies": 19,
+    "numericReadbacks": 20,
+    "completedHoldReadbacks": 1,
+    "outsideLogicalCellsPerReadback": 7040,
+    "physicalOutsidePixelComparisons": 20444160,
+    "interiorHdFontRasterEqualityAccepted": false,
+    "cssCompositeContrastAccepted": false,
+    "scope": "Independent pixel layer only: positive current original13to12/map112 AIM/invocation plus original SPE38/BACKPIC16/NUM15/GBK label/HOLD, full160x96 native LCD, exact stored PNG raw/file hashes, actual HD geometry/source art and all7040 logical exterior cells (and every scaled physical exterior pixel). Native short-delay copies may coalesce;19 recomputed copies are not19 physically sampled frames. HD interior Georgia/text antialias raster equality, CSS composite contrast, complete gameplay/preparation/cleanup, other modes/platforms and global HD are not established."
+  },
+  "formalDelivery": {
+    "commit": "48f1234c9cd67f46d8dff996cd4bf88a79b937b2",
+    "sourcePins": [
+      {
+        "path": ".gitattributes",
+        "bytes": 6665,
+        "sha256": "e95450f7634ff658e556d88878827fb6b2386b8326b015d5065d40da8894ae45"
+      },
+      {
+        "path": "package.json",
+        "bytes": 14563,
+        "sha256": "e7a028a318f7ca3d07f46b448a2499f1b69523f996db2a7904410acf93786725"
+      },
+      {
+        "path": "scripts/fixtures/hd-impact-v17-june-army-world-provenance.json",
+        "bytes": 3758,
+        "sha256": "6b921dd8aed56d3a4f172b4f1555adecaa5bb300abb80df4fad4afdb43f8a975"
+      },
+      {
+        "path": "scripts/fixtures/hd-impact-v17-june-army-world.json",
+        "bytes": 77936,
+        "sha256": "f85eb617e3700e80a4df4650ca4465de5340f749710650b710bdc69ba6297e51"
+      },
+      {
+        "path": "scripts/hd-impact-army-runtime-oracle.mjs",
+        "bytes": 14752,
+        "sha256": "6bfa998ab342fce7343b9df6d6b5a8bb8498ca1acd6ceb21121f7addf9370f6f"
+      },
+      {
+        "path": "scripts/hd-impact-route112-final-aim.mjs",
+        "bytes": 3383,
+        "sha256": "eb18793f9dd37a0e84ed04ae80b369e8dda976b0a1fee935ba6d4fe25d292e3a"
+      },
+      {
+        "path": "scripts/test-hd-impact-army-runtime-oracle.mjs",
+        "bytes": 15383,
+        "sha256": "c6ceb7aeeeada46d9d5856750192891c692866b2f79f629467fc267ac25a6132"
+      },
+      {
+        "path": "scripts/test-hd-impact-route112-final-aim.mjs",
+        "bytes": 8452,
+        "sha256": "70ef915b6aaacb1ced4bf4754938cb06724187f9468b30e2a3b38d124bf2bc2b"
+      }
+    ],
+    "pushVerification": {
+      "path": "build/impact-skill-20261014/impact13-v18-army-route112-push-verification-v1.json",
+      "bytes": 419,
+      "sha256": "49893be3569584396e1efc9255cb971653efa5ec70d84345f8734330fe66ffa2"
+    }
+  },
+  "independentVerifierRepairs": [
+    {
+      "rejected": {
+        "verifier": {
+          "path": "build/impact-skill-20261014/verify-impact13-battle-v18-terminal-final-v1.mjs",
+          "bytes": 51088,
+          "sha256": "169d5cf59e594145b998208a184d5c46f44cb68d547458b9f93266dbd5d22763"
+        },
+        "log": {
+          "path": "build/impact-skill-20261014/impact13-battle-v18-independent-terminal-v1.log",
+          "bytes": 961,
+          "sha256": "3be7014113c9c4127314c01dca54efc175bca67194d9a2471daaf7775bb56e51"
+        },
+        "rootTerminal": {
+          "chunkId": "7b20f0",
+          "exitCode": 1
+        },
+        "accepted": false,
+        "reason": "Independent oracle read map resource item0(150 bytes); actual candidate uses item13(108 bytes). No evidence outputs emitted and no game rerun."
+      },
+      "accepted": {
+        "verifier": {
+          "path": "build/impact-skill-20261014/verify-impact13-battle-v18-terminal-final-v2.mjs",
+          "bytes": 51165,
+          "sha256": "43757d77ff7482ead78292290205a9f73594d89e7892447a599b8503751f7308"
+        },
+        "log": {
+          "path": "build/impact-skill-20261014/impact13-battle-v18-independent-terminal-v2.log",
+          "bytes": 684,
+          "sha256": "8f0fd7d6cadba7672f510ddf371e22119697e1a52b6c4b07361af402ae4b0a80"
+        },
+        "rootTerminal": {
+          "chunkId": "9b0067",
+          "exitCode": 0
+        },
+        "accepted": true
+      }
+    }
+  ],
+  "continuationPolicy": {
+    "latestGenuineSavedDate": [
+      237,
+      7
+    ],
+    "latestCasterCity": 4,
+    "latestCasterArms": 1789,
+    "latestCasterExperience": 2,
+    "latestCasterThew": 100,
+    "latestOrders": [],
+    "olderMayOrJunePairMayReplaceIt": false,
+    "repeatPaymentsAllowed": false,
+    "restoreUnsavedBattleOrRngAllowed": false
+  },
+  "notAccepted": [
+    "global HD completion",
+    "720/classic/missing and other untested modes or flows",
+    "HD interior Georgia/text-antialias raster equality",
+    "CSS composite contrast",
+    "actual defender input",
+    "real devices and other platforms",
+    "whole campaign ABI, nonserialized queue-tail or RNG restoration",
+    "portable complete-product closure"
+  ],
+  "externalCommittedDependencies": [
+    {
+      "kind": "V17-complete-lineage-and-V16b-V17-large-raw-owner",
+      "commit": "6cb2e479fee2bec96c3e04f7c10e8793d49b30e1",
+      "pins": [
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021.json",
+          "bytes": 23616,
+          "sha256": "077d3f1704467e0ef152725f3fe153c8a83cc5e98999776d714bd96dfb331aff"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive.json",
+          "bytes": 56154,
+          "sha256": "660046b585074c19c06d58e6494b52dce3556255869c9748ba8c7d1c9658a4a8"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part001.json",
+          "bytes": 19663763,
+          "sha256": "5319f5a17df94dd39090844766db027336989390b2521f2fa6c3a464233ba6a9"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part002.json",
+          "bytes": 25933807,
+          "sha256": "0a40ef71d0c5b9bd2128c81c80d03e5a9aea5aa6d52229a191abcc4e8471918f"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part003.json",
+          "bytes": 10103707,
+          "sha256": "0361fd3228d7a63e267f5674a674c1b7dc44d722d7be7c42b6a444c4d77ec13c"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-verification.json",
+          "bytes": 25615,
+          "sha256": "7d0aacfa43909e5923a1976d3ba243a70e4f6d0ef64bcfd1f2ae346e67956b55"
+        }
+      ],
+      "representedRawPins": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v16b/result.json",
+          "bytes": 370147336,
+          "sha256": "2533bb7b4bd81d9bb004f57aae88ee5d395f5a11f5674d441be65b5ee20f5d7c"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v17/result.json",
+          "bytes": 136583310,
+          "sha256": "1675f8a7e9f6461415e6f58a2adbf6a6f1233239b47fa54f9400c4384bc81ed9"
+        }
+      ],
+      "embeddedAgain": false
+    },
+    {
+      "kind": "V15-complete-prior-lineage-and-large-raw-owner",
+      "commit": "a417cc2cb005f304146add78e16abc2f828d2749",
+      "pins": [
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021.json",
+          "bytes": 24135,
+          "sha256": "012a0984a6f6cbd1e9552635a762fb64a5132a4887679dd37ceb31687ac9ecf9"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021-archive.json",
+          "bytes": 27268,
+          "sha256": "90ae6b68385891f28a63d068cbe1a890976d659521ff735722be3f357cb199f8"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021-archive-part001.json",
+          "bytes": 19480188,
+          "sha256": "7906edb4046c5ad596d5790702e7b0b2ce5297af37a6e9baa516d565055c584d"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021-archive-part002.json",
+          "bytes": 16332299,
+          "sha256": "d27ae33d1b7d01ab9c7ed7ed4d77804029660689c561fa34866bc149f110364a"
+        }
+      ],
+      "representedRawPins": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/result.json",
+          "bytes": 341260252,
+          "sha256": "6f61c941047d5e8a50026fd2d972f58a9c9a3c1c17ab593617c643eb8a62df47"
+        }
+      ],
+      "embeddedAgain": false
+    }
+  ],
+  "scope": "Original June756 publicly loaded. Genuine CON43 1054/cost105/Thew12, total-army distribution1291810 and13-to12/map112 march421/time1 each independently checked against complete raw native world and actual public SAVE. Readonly native callback returned-1 after worker43 native return; four fresh original river MOVE triples and one precise-type AIM plus genuine queued39, MP67-to37 and enemy135 Arms1330-to330. Independent original movie/NUM/HOLD160x96 pixel model, actual stored PNG bindings, HD geometry and7040 logical outside pixels/physical counterparts accepted at1920x1080. Legal retreat and genuine July237-7 SAVE/caster1789 city4 accepted.19 recomputed movie copies are not19 physically sampled frames. HD interior text/antialias raster equality, CSS contrast, defense, other modes/platforms, full campaign/RNG/ABI/queue-tail restoration and global HD remain outside acceptance.",
+  "dependencyCommit": "48f1234c9cd67f46d8dff996cd4bf88a79b937b2",
+  "publicationParent": "48f1234c9cd67f46d8dff996cd4bf88a79b937b2",
+  "latestActualRootProof": {
+    "path": "build/impact-skill-20261014/impact13-battle-v18-terminal-receipt-v1.json",
+    "bytes": 22506,
+    "sha256": "e123b114f300c1e42c56bccb7a81c51e62a37e993184bbebc0ec5b739181493f"
+  },
+  "actualRuns": [
+    {
+      "id": "v18",
+      "terminal": {
+        "sessionId": 29985,
+        "chunkId": "e44193",
+        "exitCode": 0
+      },
+      "result": {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v18/result.json",
+        "bytes": 325769252,
+        "sha256": "e01a6fe65376d4569a6601e6c415e6fa0a63b993165556d8d7bd61a52d4821a4"
+      },
+      "rootProof": {
+        "path": "build/impact-skill-20261014/impact13-battle-v18-terminal-receipt-v1.json",
+        "bytes": 22506,
+        "sha256": "e123b114f300c1e42c56bccb7a81c51e62a37e993184bbebc0ec5b739181493f"
+      },
+      "rootVerifier": {
+        "path": "build/impact-skill-20261014/verify-impact13-battle-v18-terminal-final-v2.mjs",
+        "bytes": 51165,
+        "sha256": "43757d77ff7482ead78292290205a9f73594d89e7892447a599b8503751f7308"
+      },
+      "proofPaths": {
+        "terminal": [
+          "terminal"
+        ],
+        "result": [
+          "result"
+        ],
+        "latestWorld": [
+          "latestWorldFile"
+        ],
+        "latestPair": [
+          "latestPair"
+        ],
+        "publicSaves": [
+          "publicSaves"
+        ],
+        "latestPublicSave": [
+          "latestPublicSave"
+        ],
+        "latestSlot": [
+          "latestSlot"
+        ]
+      },
+      "publicSaveCount": 5,
+      "latestPublicSave": "impact13-129-v18-route-settled",
+      "latestSlot": 0,
+      "latestPair": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v18/native-impact13-129-v18-route-settled-sango0.sav",
+          "bytes": 8221,
+          "sha256": "46bedc9ae4f329e6cfe70df951ca386cf3a92c39134cbd1c2f81abc0fbea8104"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v18/native-impact13-129-v18-route-settled-sango1.sav",
+          "bytes": 4840,
+          "sha256": "8af9a0089bf083aaffd13b65f3edc455d7766e2e34a29553365b0e5f68b6b39c"
+        }
+      ],
+      "latestWorld": {
+        "path": "build/impact-skill-20261014/impact13-battle-v18-latest-genuine-saved-world-v1.json",
+        "bytes": 77902,
+        "sha256": "8680c5dccb1db202ff4bd0746bbea0955418ba5e03228e45284d665d3041129a"
+      },
+      "worldJsonSha256": "8680c5dccb1db202ff4bd0746bbea0955418ba5e03228e45284d665d3041129a",
+      "facts": {
+        "sourceRunAccepted": true,
+        "actualContinuationAccepted": true,
+        "allCurrentSourceTuplesExact": true,
+        "actualPreparationAccepted": true,
+        "beforeCombatReadonlyCallbackAccepted": true,
+        "actualPathReadsAccepted": true,
+        "actualGlobalRiverRouteUsed": true,
+        "defenseRuntimeAccepted": false,
+        "finalAimFencesAccepted": true,
+        "actualCastOccurred": true,
+        "actualNativeSkillInvocationAccepted": true,
+        "mpDebitsAccepted": true,
+        "actualCastAccepted": true,
+        "actualMovieAccepted": true,
+        "actualPixelAccepted": true,
+        "moviePixelAdapterRun": true,
+        "hd1080VisualAccepted": true,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "sameRunContinuationAccepted": false,
+        "guardPreservationAccepted": false,
+        "wholeNativeAbiRestorationAccepted": false,
+        "nonserializedQueueTailRestorationAccepted": false,
+        "legalRetreatAccepted": true,
+        "latestSavedStateMustBeCurrentInput": true,
+        "olderMayOrJunePairMayReplaceIt": false,
+        "restoreUnsavedBattleOrRngAllowed": false,
+        "driverAcceptanceFlagsUsedForIndependentProof": false,
+        "sourceCount": 1561,
+        "normalizedPhysicalSources": 1557,
+        "nativeSourceCount": 128,
+        "publicSaveCount": 5,
+        "normalMonths": 1,
+        "newPayments": 1,
+        "newRecruitments": 1,
+        "newDistributions": 1,
+        "newMarches": 1,
+        "newPaidTrades": 0,
+        "newPlunders": 0,
+        "newGovernanceCount": 0,
+        "newTradeCount": 0,
+        "pathReadTriples": 4,
+        "pathStorageLength": 250,
+        "pathGridLength": 225,
+        "mapWidth": 32,
+        "mapHeight": 32,
+        "mapId": 112,
+        "actualPlayerBouts": 4,
+        "actualEndTurns": 3,
+        "actualDefenderInputCount": 0,
+        "finalAimFenceCount": 1,
+        "nativeConfirmationCount": 1,
+        "naturalFailureCount": 0,
+        "actualSuccessfulCastCount": 1,
+        "sources": {
+          "accepted": true,
+          "logical": 1561,
+          "physical": 1557,
+          "native": 128,
+          "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+          "allCurrentTuplesExact": true
+        },
+        "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+        "preparationDelta": {
+          "recruitment": {
+            "rawFile": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v18/raw-v18-recruitment-before-SAVE-oracle.json",
+              "bytes": 17068225,
+              "sha256": "71223a882945e82eaea3082aadca3c706aaf53a232452929d80172d6de0003a8"
+            },
+            "delta": {
+              "ok": true,
+              "accepted": true,
+              "recruitmentAccepted": true,
+              "wholeMeasuredWorldExact": true,
+              "cityIndex": 13,
+              "personId": 43,
+              "quantity": 1054,
+              "maximum": 1380,
+              "orderIndex": 0,
+              "queueIndex": 58,
+              "order": {
+                "OrderId": 24,
+                "Person": 43,
+                "City": 13,
+                "TimeCount": 0
+              },
+              "money": {
+                "before": 30000,
+                "after": 29895,
+                "cost": 105,
+                "minimum": 1,
+                "armsPerMoney": 10
+              },
+              "thew": {
+                "before": 100,
+                "after": 88,
+                "cost": 12
+              },
+              "stock": {
+                "before": 0,
+                "after": 1054,
+                "applied": 1054,
+                "saturated": false
+              },
+              "rawDuplicateResidents": [
+                {
+                  "personId": 65,
+                  "occurrences": [
+                    {
+                      "cityIndex": 1,
+                      "queueIndex": 8
+                    },
+                    {
+                      "cityIndex": 7,
+                      "queueIndex": 27
+                    }
+                  ]
+                },
+                {
+                  "personId": 136,
+                  "occurrences": [
+                    {
+                      "cityIndex": 12,
+                      "queueIndex": 48
+                    },
+                    {
+                      "cityIndex": 21,
+                      "queueIndex": 98
+                    }
+                  ]
+                },
+                {
+                  "personId": 138,
+                  "occurrences": [
+                    {
+                      "cityIndex": 22,
+                      "queueIndex": 99
+                    },
+                    {
+                      "cityIndex": 26,
+                      "queueIndex": 121
+                    }
+                  ]
+                }
+              ],
+              "uninitializedOrderMask": {
+                "orderIndex": 0,
+                "fields": [
+                  "Object",
+                  "Arms",
+                  "Food",
+                  "Money",
+                  "Consume"
+                ],
+                "actual": {
+                  "Object": 65535,
+                  "Arms": 0,
+                  "Food": 0,
+                  "Money": 48232,
+                  "Consume": 57
+                },
+                "semanticAcceptance": false
+              },
+              "checked": {
+                "people": 200,
+                "cities": 38,
+                "queue": 2000,
+                "goodsQueue": 2000,
+                "orders": 200,
+                "fighters": 600,
+                "fighterIndex": 30
+              },
+              "scope": "One positive original ConscriptionMake delta before a later command or strategy month; current original-LIB costs, ADD16 and raw DelPerson, sampled world fields only",
+              "inputAccepted": false,
+              "actualInputAccepted": false,
+              "actualPreparationAccepted": false,
+              "actualCastAccepted": false,
+              "hdAccepted": false,
+              "wholeNativeAbiAccepted": false,
+              "strategyMonthAccepted": false,
+              "limits": [
+                "Only complete sampled raw world fields; no native-memory or RNG restoration claim",
+                "Trusted owner/quantity/public input, fresh publication and genuine SAVE are independent caller evidence",
+                "Cross-city duplicate raw PIDs remain exactly observed; no deduplication or world repair"
+              ]
+            },
+            "qty": {
+              "accepted": true,
+              "min": 0,
+              "maximum": 1380,
+              "wanted": 1054,
+              "steps": 17,
+              "exactFullTickets": true
+            }
+          },
+          "distribution": {
+            "rawFile": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v18/raw-v18-distribution-before-SAVE-oracle.json",
+              "bytes": 6717443,
+              "sha256": "4213478f774a84f56c3516ec735a9eff546fcb3d7ba37a50a40586856296a8c5"
+            },
+            "delta": {
+              "ok": true,
+              "accepted": true,
+              "distributionAccepted": true,
+              "wholeMeasuredWorldExact": true,
+              "cityIndex": 13,
+              "personId": 129,
+              "targetArms": 1810,
+              "quantityMeaning": "target-total-arms",
+              "quantity": 1810,
+              "capacity": 1810,
+              "available": 1810,
+              "maximum": 1810,
+              "arms": {
+                "before": 756,
+                "after": 1810,
+                "delta": 1054
+              },
+              "reserve": {
+                "before": 1054,
+                "after": 0,
+                "uncast": 0,
+                "wrapped": false
+              },
+              "changed": true,
+              "rawDuplicateResidents": [
+                {
+                  "personId": 65,
+                  "occurrences": [
+                    {
+                      "cityIndex": 1,
+                      "queueIndex": 8
+                    },
+                    {
+                      "cityIndex": 7,
+                      "queueIndex": 27
+                    }
+                  ]
+                },
+                {
+                  "personId": 136,
+                  "occurrences": [
+                    {
+                      "cityIndex": 12,
+                      "queueIndex": 48
+                    },
+                    {
+                      "cityIndex": 21,
+                      "queueIndex": 97
+                    }
+                  ]
+                },
+                {
+                  "personId": 138,
+                  "occurrences": [
+                    {
+                      "cityIndex": 22,
+                      "queueIndex": 98
+                    },
+                    {
+                      "cityIndex": 26,
+                      "queueIndex": 120
+                    }
+                  ]
+                }
+              ],
+              "checked": {
+                "people": 200,
+                "cities": 38,
+                "queue": 2000,
+                "goodsQueue": 2000,
+                "orders": 200,
+                "fighters": 600,
+                "fighterIndex": 30
+              },
+              "scope": "One original DistributeMake target-total delta; exact U16 reserve assignment, sampled world fields only",
+              "inputAccepted": false,
+              "actualInputAccepted": false,
+              "actualPreparationAccepted": false,
+              "actualCastAccepted": false,
+              "hdAccepted": false,
+              "wholeNativeAbiAccepted": false,
+              "strategyMonthAccepted": false,
+              "limits": [
+                "Only complete sampled raw world fields; no native-memory or RNG restoration claim",
+                "Trusted owner/quantity/public input, fresh publication and genuine SAVE are independent caller evidence",
+                "Cross-city duplicate raw PIDs remain exactly observed; no deduplication or world repair"
+              ]
+            },
+            "qty": {
+              "accepted": true,
+              "min": 0,
+              "maximum": 1810,
+              "wanted": 1810,
+              "steps": 0,
+              "exactFullTickets": true
+            }
+          },
+          "march": {
+            "accepted": true,
+            "queueIndex": 56,
+            "food": 421,
+            "timeCount": 1,
+            "origin": 13,
+            "destination": 12,
+            "rawFile": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v18/raw-march-dispatch-before-SAVE-oracle.json",
+              "bytes": 11953964,
+              "sha256": "89a409eb95cf5c7f200d0aee35f67aca11836b5d009257daa0168f0a4890b90e"
+            },
+            "inputs": {
+              "accepted": true,
+              "foodQuantity": 421,
+              "foodSteps": 10,
+              "exactFullQuantityTickets": true,
+              "target": 12,
+              "targetKeys": [
+                36
+              ],
+              "targetEnter": 39
+            }
+          }
+        },
+        "actualDamage": {
+          "actorId": 130,
+          "targetId": 135,
+          "beforeArms": 1330,
+          "afterArms": 330,
+          "requested": 1000,
+          "applied": 1000,
+          "value": 1000,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 67,
+          "actorMpAfter": 37
+        },
+        "actualMoveReceipts": [
+          {
+            "bout": 1,
+            "from": [
+              29,
+              16,
+              7
+            ],
+            "to": [
+              27,
+              14,
+              7
+            ],
+            "beforeMp": 67,
+            "afterMp": 67,
+            "keys": [
+              36,
+              36,
+              34,
+              34,
+              39
+            ],
+            "held": false
+          },
+          {
+            "bout": 2,
+            "from": [
+              27,
+              14,
+              7
+            ],
+            "to": [
+              23,
+              14,
+              7
+            ],
+            "beforeMp": 67,
+            "afterMp": 67,
+            "keys": [
+              36,
+              36,
+              36,
+              36,
+              39
+            ],
+            "held": false
+          },
+          {
+            "bout": 3,
+            "from": [
+              23,
+              14,
+              7
+            ],
+            "to": [
+              22,
+              14,
+              7
+            ],
+            "beforeMp": 67,
+            "afterMp": 67,
+            "keys": [
+              36,
+              39
+            ],
+            "held": false
+          },
+          {
+            "bout": 4,
+            "from": [
+              22,
+              14,
+              7
+            ],
+            "to": [
+              22,
+              14,
+              7
+            ],
+            "beforeMp": 67,
+            "afterMp": 67,
+            "keys": [
+              39
+            ],
+            "held": true
+          }
+        ],
+        "pixelAdapterSource": {
+          "path": "build/impact-skill-20261014/impact13-v18-movie-pixel-adapter-final-v1.mjs",
+          "bytes": 43371,
+          "sha256": "9a1a0eb59b435e36de124c2993df65bb048ed0bcf89633b13291b49f11a8ed95"
+        },
+        "moviePixelProof": {
+          "path": "build/impact-skill-20261014/impact13-battle-v18-independent-movie-pixel-proof-v1.json",
+          "bytes": 83918,
+          "sha256": "79dc5441abdc1fa413fecf525944d73f8af6df0065e24abfd1b9c082145d7639"
+        },
+        "cleanup": {
+          "accepted": true,
+          "identities": 11,
+          "samples": 3,
+          "privatePorts": [
+            7625,
+            7626
+          ],
+          "user8080Unchanged": true,
+          "profileRetained": true,
+          "pin": {
+            "path": "build/impact-skill-20261014/impact13-battle-v18-external-cleanup-v1.json",
+            "bytes": 3292,
+            "sha256": "7e80d9e4a0f1b6dce69c8ff1c8e0c8ca4f0f1376fa42e783e0247ffa8369e334"
+          }
+        }
+      }
+    }
+  ],
+  "latestGenuineSave": {
+    "tag": "impact13-129-v18-route-settled",
+    "slot": 0,
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v18/native-impact13-129-v18-route-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "46bedc9ae4f329e6cfe70df951ca386cf3a92c39134cbd1c2f81abc0fbea8104"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v18/native-impact13-129-v18-route-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "8af9a0089bf083aaffd13b65f3edc455d7766e2e34a29553365b0e5f68b6b39c"
+      }
+    ],
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-battle-v18-latest-genuine-saved-world-v1.json",
+      "bytes": 77902,
+      "sha256": "8680c5dccb1db202ff4bd0746bbea0955418ba5e03228e45284d665d3041129a"
+    },
+    "worldJsonSha256": "8680c5dccb1db202ff4bd0746bbea0955418ba5e03228e45284d665d3041129a"
+  },
+  "testEvidence": {
+    "army87": {
+      "tests": 87,
+      "pass": 87,
+      "fail": 0,
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v18-army-tests-v1.log",
+        "bytes": 6190,
+        "sha256": "32dc17c0cf053ba51d4329d3c06863b63bc7d047420fe9f062679eaf9380be77"
+      }
+    },
+    "route112AndAim54": {
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v18-route112-tests-v1.log",
+        "bytes": 5359,
+        "sha256": "ce9044be07d74c28903e785819e92fd29cc22a965716140d259f7f294729ab88"
+      }
+    },
+    "noFreshFullSuiteClaim": true,
+    "countsMustNotBeAdded": true
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-puyang-20261021-archive.json",
+    "bytes": 57685,
+    "sha256": "f9e679f8905b9e712d9d859fafbf4ccddbd78e3032b70984d925662a3ffdb9e4",
+    "namedFiles": 207,
+    "uniqueBlobs": 182,
+    "parts": 3,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "externalDependencies": [
+    {
+      "kind": "V17-complete-lineage-and-V16b-V17-large-raw-owner",
+      "commit": "6cb2e479fee2bec96c3e04f7c10e8793d49b30e1",
+      "pins": [
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021.json",
+          "bytes": 23616,
+          "sha256": "077d3f1704467e0ef152725f3fe153c8a83cc5e98999776d714bd96dfb331aff"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive.json",
+          "bytes": 56154,
+          "sha256": "660046b585074c19c06d58e6494b52dce3556255869c9748ba8c7d1c9658a4a8"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part001.json",
+          "bytes": 19663763,
+          "sha256": "5319f5a17df94dd39090844766db027336989390b2521f2fa6c3a464233ba6a9"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part002.json",
+          "bytes": 25933807,
+          "sha256": "0a40ef71d0c5b9bd2128c81c80d03e5a9aea5aa6d52229a191abcc4e8471918f"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part003.json",
+          "bytes": 10103707,
+          "sha256": "0361fd3228d7a63e267f5674a674c1b7dc44d722d7be7c42b6a444c4d77ec13c"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-verification.json",
+          "bytes": 25615,
+          "sha256": "7d0aacfa43909e5923a1976d3ba243a70e4f6d0ef64bcfd1f2ae346e67956b55"
+        }
+      ],
+      "representedRawPins": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v16b/result.json",
+          "bytes": 370147336,
+          "sha256": "2533bb7b4bd81d9bb004f57aae88ee5d395f5a11f5674d441be65b5ee20f5d7c"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v17/result.json",
+          "bytes": 136583310,
+          "sha256": "1675f8a7e9f6461415e6f58a2adbf6a6f1233239b47fa54f9400c4384bc81ed9"
+        }
+      ],
+      "embeddedAgain": false
+    },
+    {
+      "kind": "V15-complete-prior-lineage-and-large-raw-owner",
+      "commit": "a417cc2cb005f304146add78e16abc2f828d2749",
+      "pins": [
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021.json",
+          "bytes": 24135,
+          "sha256": "012a0984a6f6cbd1e9552635a762fb64a5132a4887679dd37ceb31687ac9ecf9"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021-archive.json",
+          "bytes": 27268,
+          "sha256": "90ae6b68385891f28a63d068cbe1a890976d659521ff735722be3f357cb199f8"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021-archive-part001.json",
+          "bytes": 19480188,
+          "sha256": "7906edb4046c5ad596d5790702e7b0b2ce5297af37a6e9baa516d565055c584d"
+        },
+        {
+          "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-river-approach-20261021-archive-part002.json",
+          "bytes": 16332299,
+          "sha256": "d27ae33d1b7d01ab9c7ed7ed4d77804029660689c561fa34866bc149f110364a"
+        }
+      ],
+      "representedRawPins": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v15/result.json",
+          "bytes": 341260252,
+          "sha256": "6f61c941047d5e8a50026fd2d972f58a9c9a3c1c17ab593617c643eb8a62df47"
+        }
+      ],
+      "embeddedAgain": false
+    },
+    {
+      "kind": "complete-product-native-runtime-and-transitive-dependencies",
+      "closed": false,
+      "portable": false,
+      "nativeLibrarySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "fontSha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "observedPixelAssetPins": [
+        {
+          "path": "assets/hd-spe/impact-38/picture-0.png",
+          "bytes": 1883384,
+          "sha256": "684cf0a1ead2b95dd672d99770178a1415d88deccd6bb7f7d1aadebc5f6988f2",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/hd-spe/impact-38/picture-1.png",
+          "bytes": 1959022,
+          "sha256": "71b750a245b56ea121509a280e3260db3b02456b103efb962bd390c77ca82260",
+          "width": 1254,
+          "height": 1254
+        },
+        {
+          "path": "assets/hd-spe/impact-38/picture-2.png",
+          "bytes": 1238434,
+          "sha256": "799c68bbeffae400fbb301ac48b9f539617aaf9e4093365f464569e440746017",
+          "width": 1314,
+          "height": 1197
+        },
+        {
+          "path": "assets/hd-spe/impact-38/picture-3.png",
+          "bytes": 1649105,
+          "sha256": "e635cc42e5ffb1c02ff173a81056c0fba3307c63b3889d673003887814cd0914",
+          "width": 1313,
+          "height": 1198
+        },
+        {
+          "path": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+          "bytes": 1262711,
+          "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+          "width": 1787,
+          "height": 880
+        }
+      ]
+    },
+    {
+      "kind": "private-browser-profile",
+      "included": false,
+      "profileRetained": true
+    }
+  ]
+}

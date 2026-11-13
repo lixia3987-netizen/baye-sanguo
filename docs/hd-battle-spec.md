@@ -1,0 +1,265 @@
+# 战场 HD 输入规格与 B0 / B1 历史记录
+
+本文保留 B0/B1 的战斗地图规格；当前分支已增加引擎桥接并从 `vendor/iBaye` 重编 WASM。经典模式走原菜单，HD 模式拥有独立输入 hook；`fightOpenMainMenu` 回退协议见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。下文历史阶段的“不改 WASM”“不 stub”不是当前实现状态。继续开发与真实战斗验收见 [hd-development-plan.md](hd-development-plan.md)。
+
+**分支策略：只停在 `feature/hd-graphics`，用户明确要求之前不要合入 `main`。**
+
+城池菜单见 [hd-city-menu-spec.md](hd-city-menu-spec.md)。全屏清单见 [hd-full-replacement-checklist.md](hd-full-replacement-checklist.md)。
+
+## 当前手动战斗协议（M2）
+
+引擎使用 `g_hdFightInputKind/inputSeq/actor` 表示正在等待的玩家操作；菜单使用 `g_hdMenuActive/context/kind/seq` 确认归属。完整字段及有效期见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。HD 只在这些字段匹配时允许操作；旧菜单内容仍留在内存中，不表示菜单可点击。
+
+点击将领、移动格或瞄准目标时，每次只提交一个方向键，等待真实光标回执后继续，最后提交一次确认。菜单选择同样等待真实索引回执。等待超时只终止本次请求并提示玩家，没有确认重试。移动范围、攻击射程和技能合法性由引擎裁决。
+
+PC 选将时，点击棋盘上的空格、敌将或当前不可行动的己将，只逐键移动原版光标。到达后可用「查看详情」打开原版地形或武将说明。点击待行动己将进入原版移动阶段。鼠标按下与点击时核对同一输入归属、棋盘布局和目标格，切换场景或隐藏页面时取消待处理的棋盘点击。
+
+刷新、轮询、绘制和切换经典/HD 模式不发送战斗指令。待机由玩家选择，只结束该将行动；结束回合必须通过真实系统菜单确认。系统、撤退确认和设置使用原生菜单；HD 的 `fightOpenMainMenu` 返回 `-2`，让 C 打开原菜单。切换经典模式恢复原 hook，不能自动结束回合。
+
+HELP 9 和 VIEW 10 保留原生 LCD，置于 HD 战场上方。返回只发送一次取消；形势图翻页依据引擎输入序号回执。战斗结束时关闭战场层，结果和继任提示交由引擎及玩家处理，不自动确认。
+
+专项回归：`npm run test:battle-commands`、`npm run test:battle-mode`、`npm run test:engine-protocol`。真实流程：`npm run test:battle-runtime`。实际通过范围记录在开发计划中。
+
+## 原版战场概况
+
+PC／手机提供显式下一将领入口，仅当前PICK等待且无其它owner／事务时可用。按己方槽0..9从当前焦点之后循环，沿原生active与状态规则，不额外按HP／MP／兵力筛除；同格首槽及原始地图边界保持。选择复用逐方向ACK→唯一ENTER，最终槽／人物替换时取消；原刷新、菜单及回合不自动调用。PC旧按下与手机旧opaque票各自退休。开发范围与真实操作待验边界见[V87记录](validation/m5-next-unit-20261026-v87.md)。
+
+战场系统／设置菜单只读展示原生动画、移动速度和敌军移动的当前值；严格按 0／1 映射，不读取子菜单高亮作已提交值，也不猜同名设置的类型。未读取单项保留未知，来源或当前菜单失效撤摘要；原设置确认与取消继续由引擎处理。开发验证见 [V80记录](validation/m5-battle-settings-20261026-v80.md)。
+
+PC／手机计谋菜单只读展示当前 MP、按精确原技能 ID 对应的规则消耗，并按 MP→施术者地形→天气顺序提示限制。仅原版有效来源和当前菜单采用；零消耗与 MP 相等边界保留。未知条件不作允许判断，目标合法性、效果与实际扣除均由原生引擎决定；提示不改变按钮禁用或确认语义。十项增强菜单可滚动，PC 选中项随原生索引变化滚入可见区；手机保持原滚动与按压合同。来源失效撤提示。开发验证与边界见 [V78记录](validation/m5-skill-hints-20261026-v78.md)。
+
+PC与手机共用只读天气／我方粮草／战斗天数状态条。仅当前原版活动战场及玩家Mode0／1显示；我方粮草来自MProvender，不读取EProvender。天气1..5遵循原C，天数与上限保留原始U16值，零粮不误判为缺失；非法字段标未读取。报告、HELP／VIEW、结束、经典模式与来源漂移撤行。界面只展示当前状态，不判断剩余回合或胜败，不改变原生输入。开发验证与限制见[V77记录](validation/m5-battle-status-20261026-v77.md)。
+
+## M4 战场识别与目标预览
+
+PC焦点将领改为右侧DOM分行卡，保留原采样中的完整姓名、阵营、兵种、坐标、兵力、HP／MP、状态、本回合行动与地形；未知值保持未知，不推断100上限或可行动性。右栏同时容纳既有菜单与概况，棋盘绘制和鼠标换算共用按侧栏边界预留的几何。空格／死亡／高层报告／HELP／VIEW及表现生命周期撤卡，稳定内容保留节点，不加原生读取或输入。手机已有的DOM详情保持。开发范围见[V86记录](validation/m5-pc-focus-card-20261026-v86.md)。
+
+将领以阵营旗标显示原生有效兵种、姓名和实际兵力，并区分待行动、已行动及当前将领。焦点详情显示原生 HP、MP 和状态，不以固定 100 为属性上限。兵种来自包含装备修正的 `getArmType`；当前导出只接受 U8 人物索引，超过 256 的人物编号或缺少字段时显示通用旗标，避免截断后读到另一人物。
+
+瞄准时按当前输入归属、行动者和原生射程掩码绘制目标连线；报告接管或范围数据失效时同步撤销。普通攻击只标敌将；计谋仅提示“射程内目标”，阵营、地形、MP 和实际效果继续由原生引擎裁决。预览不提交按键，也不预测伤害；棋盘坐标和点击换算保持一致。
+
+表现与后台回归：`npm run test:render-visibility`。真实流程继续使用 `npm run test:battle-runtime`，具体本轮范围见开发计划。
+
+## M4 战场地形与焦点说明
+
+地形绘制独立为 `js/hd-battle-terrain.js`，在战场模块之前加载。使用 `g_MapWid × g_MapHgt` 的完整 `g_FightMapData`，行跨度为原生宽度；固定 65536 字节分配不表示有效地图大小。`g_FightMap` 是带滚动原点的 LCD 屏显缓存，不能当成整张地图或推算尺寸。视觉棋盘为容纳部队和焦点而扩展时，扩展格仍显示未知地形。
+
+分类遵循原生 `FgtGetTerrain`：1 平原、2 草地、3 城池、4 村庄、5 森林、6–15 山地、41 营寨，其余 16–255 河流；0、缺失和越界均未知。使用草纹、田垄、山峰、树木、房屋、城墙、营帐和水纹区分八类地形，单位和原生范围掩码绘制在地形之上。焦点位于空格或部队时都显示地形和原生坐标；未知时保留可读的原始图块编号。
+
+标准表现须校验实际加载的 `dynLib` 内容，不能只相信 `localStorage` 的首选路径。自定义地图绘制、地图加载或地形说明 hook 接管时使用中性地块，保留原生帮助路径。读取已占格的原生地形 getter 进行交叉核对；发生分类不一致时整张地图退回未知。绘制不调用 Mod 规则或绘制 hook，不提供移动消耗、防御加成或计谋合法性推断。
+
+静态地形使用独立画布缓存，内容、原生尺寸/跨度、视区、DPR、LIB 校验结果和战斗生命周期改变时失效；经典模式清除缓存，隐藏页不绘制。棋盘布局、点击换算和原生输入归属保持一致。专项：`npm run test:battle-terrain`、`npm run test:render-visibility`；真实战斗及两种视口继续由 `npm run test:battle-runtime` 验证。
+
+## M4 原生范围反馈
+
+`js/hd-battle-feedback.js` 在战场模块之前加载，独立完成只读范围查询与绘制。移动读取固定 15×15 的 `g_FightPath`，使用 `px = (x - g_PathSX + g_PUseSX) & 255`，Y 轴同理，模拟原生 U8 偏移和回绕。只在 `g_MapWid × g_MapHgt` 的真实边界内查询完整掩码，局部坐标须小于 15，不读取数组尾垫。原生确认允许掩码值 0–128，与旧 LCD 只绘制 1–127 不同，因此图例明确为“移动范围 · 可确认位置”，自身格说明为“可移动 · 原地”。
+
+PC 在开启原版「敌军移动」时读取原版范围与落点阶段。范围阶段沿用 `FgtShowMvRng` 的局部起点及 1–127 标记，用红色绘制可见的实际地图格。落点阶段高亮当前敌将和原版所在格。报告、动画或玩家输入接管后收起提示，展示过程只读。
+
+攻击和计谋读取 `g_FgtAtkRng` 的尺寸、U8 左上角原点与行掩码，坐标差同样按 U8 回绕。尺寸须为 1–15，数据至少覆盖完整的尺寸平方，只认掩码值 1；缺失、短数组、非法字段或非法字节不能成为范围内格。视觉棋盘为容纳部队和焦点而扩展时，扩展格不能获得范围高亮或 MOVE/AIM 确认。
+
+MOVE/AIM 范围轮廓、射程内将领角标、焦点说明和目标连线共用当前 kind、seq、wait、有效行动者及掩码查询。报告和菜单接管、无效行动者、数据失效、战斗结束、经典模式、预览和隐藏页均撤销范围反馈；真实行动或计谋菜单仍可显示当前将领徽记。隐藏页不绘制，输入队列继续按玩家请求等待原生回执。
+
+青色表示移动范围，金色表示攻击射程，紫色表示计谋射程。普通攻击只标射程内活敌将；计谋可标射程内友军或敌军，仅使用“射程内目标”等措辞，不能据此推断可施放、伤害或命中。阵营、兵种、地形及 Mod 的 `canUseSkill` 等条件和实际效果仍由引擎裁决；绘制不调用规则 hook，不发送按键或写入引擎状态。
+
+专项：`npm run test:battle-feedback`、`npm run test:battle-commands`、`npm run test:render-visibility`；真实流程继续由 `npm run test:battle-runtime` 验证。范围 oracle 从实际 C 决策表达式和宏派生，并模拟 U8 赋值，不等同于编译执行 C。实际通过范围见开发计划。本批没有替换 SPE 素材，动画仍沿用引擎 LCD 放大路径。
+
+## 历史 B0 / B1 规格
+
+以下保留早期表现壳的设计与当时验证结果；其中键盘不拦截、猜测 `wait`、不改 WASM 等实现描述已由上面的 M2 协议替代。
+
+---
+
+## 1. 目标 / 非目标
+
+### 目标（B0 / B1）
+
+- 战役在 HD 大地图模式下进入战斗时，铺一层 1080p 战场壳。
+- 能读到的引擎战场状态（`g_FightMap` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FoucsX·Y`）画成可读格子与单位标记。
+- 读不到时：**HD 铬框套住放大后的经典 LCD 战场**（B0 过渡）。
+- 点击 / 方向 / 确认 / 返回仍 `sendKey` 或现有触控回传，引擎裁决。
+- 经典战斗路径必须可逆、不强迫。
+
+### 非目标（本切片不做）
+
+- 不重做计谋动画、SPE、伤害数字、完整战术 AI。
+- 不改六兵种规则、天气、地形系数。
+- 不把标题 / 存档做成 HD（下一切片）。
+- 不改 WASM。
+
+---
+
+## 2. 分期
+
+| 期 | 内容 | 本 PR |
+|----|------|--------|
+| **B0** | 规格 + 检测（fight hooks / `g_FgtParam`）+ 1080p 壳；有图则画格，无图则框 LCD | 做 |
+| **B1** | 用已暴露的 `g_GenPos` / `GenArray` 画简易单位；光标跟 `g_FoucsX/Y` | 做（数据在才画） |
+| B2 | 地形色按 `g_FightMap` 图元分类、移动范围、攻击预览 | 后续 |
+| B3 | 战场系统菜单 HD（只读 `menuItems()`，不 stub `fightOpenMainMenu`）。未见过选将 / `wait=1` / 无新鲜 `onMenuIdle` 时关壳，避免残留「战场系统」挡选将 | 做 |
+| B3b | 计谋列表 HD（`g_hdSkill*` / `FgtGetJNIdx`，不 stub `fightChooseSkill`） | 做 |
+
+---
+
+## 3. 检测
+
+引擎可能调用的 hook（`baye.callHook`，**不**用空函数去 stub，以免替换系统菜单）：
+
+| Hook | 含义 |
+|------|------|
+| `fightOpenMainMenu` | 战场系统菜单 |
+| `meetFight` | 本城被进攻 |
+| `drawMapUnit` | 画一格地形（`ctx.tile/x/y`，`g_FightMap[tile]`） |
+| `drawOneGeneral` | 画一将（`ctx.index/x/y/pic`） |
+| `fightChooseAction` | 攻击/计谋/查看/待机 |
+| `fightStatusBarTouched` | 状态栏点击 |
+
+只读数组（存在才用）：
+
+| 字段 | 用途 |
+|------|------|
+| `baye.data.g_FightMap` | 地形图元 |
+| `baye.data.g_FgtParam.GenArray` | 战场人物 id（常见 0–9 己方，10–19 敌方） |
+| `baye.data.g_GenPos[i]` | `.x .y .active .hp .mp` |
+| `baye.data.g_FoucsX` / `g_FoucsY` | 战场光标 |
+| `baye.data.g_MapSX` / `g_MapSY` | 战场卷轴（也用于大地图，战斗期才当卷轴） |
+
+`localStorage['baye/battleMode']`：`auto`（默认，HD 战役下自动）/ `hd` / `classic`。
+
+---
+
+## 4. 1080p 布局
+
+`#hd-battle` 盖在大地图之上（z-index 65）。
+
+```
+┌──────────────── 1920 × 1080 ────────────────┐
+│  HD 战场 · hook/探测                      │
+│  ┌────────────── 格网 / 单位 ────────────┐ │
+│  │                                      │ │
+│  │     无数据时：中央框经典 LCD         │ │
+│  └──────────────────────────────────────┘ │
+│  按键仍交引擎 · [ 经典 LCD ] [ 关闭预览 ] │
+└────────────────────────────────────────────┘
+```
+
+---
+
+## 5. 输入
+
+- 键盘：现有 `document.onkeydown` → `sendKey`（不拦截，除非 HD 壳自己的关闭钮）。
+- 格网点击（B1）：向该格连发方向键逼近，或 `_bayeSendTouchEvent` 映射到 LCD；失败则忽略。
+- 关闭预览：只关壳，不向引擎乱发 EXIT（真战斗中「关闭」只露出 LCD）。
+- 战场系统 / 将领行动：本场见过 `wait=1`、当前 `wait=0`，且 `onMenuIdle` 已把 `liveMenuKind` 置上才画壳。开战瞬间残留「回合结束」不当活菜单。`willCloseMenu` / `wait` 变化清位，过期 idle 不再把活壳藏掉。「系统菜单」在 `wait=1` 时发 EXIT；若还没进 `FgtGetFoucs` 则记下再发。「返回」只在菜单活着时发 EXIT。点己方将：方向键对齐，仅 `wait=1` 时回车。结算后关壳，不把战场盖回大地图。
+
+---
+
+## 6. 成功标准（B0 / B1）
+
+1. 规格 + `js/hd-battle.js` + `css/hd-battle.css` 入 `pc.html`。
+2. 检测到战斗 hook 或 `GenArray` 有人时，HD 壳出现（HD 战役 + `battleMode≠classic`）。
+3. 经典大地图 / `battleMode=classic` 不强迫 HD 战场。
+4. 无战斗数据时可用 `BayeHdBattle.debugPreview()` 展示 B0 铬框 + LCD 对照（自动化核验）。
+5. 真进战斗的手动路径：HD 地图 → 己方城 → 军备 → 出征 → 选将 / 目标（深层仍 LCD）→ 开打后应升 HD 壳。
+
+---
+
+## 7. 文件
+
+| 路径 | 角色 |
+|------|------|
+| `docs/hd-battle-spec.md` | 本规格 |
+| `js/hd-battle.js` | 检测 / 画格 / 单位 / LCD 框 |
+| `css/hd-battle.css` | 1080p 壳 |
+
+不新增 npm 依赖，不改 WASM。
+
+---
+
+## 8. 本切片核验（B0）
+
+自动化（CDP / 词典原版 / 马腾 190）：
+
+1. `overworldMode=classic` 时 `BayeHdCityMenu.shouldShowHd()` 与 `BayeHdBattle.shouldShowHd()` 均为 false。
+2. HD 地图点安定 → 外交（离间…劝降）、军备（侦察…出征）、状况（只读 `g_Cities[3]`）均出 HD 面板；返回后 `phase=map`。
+3. `BayeHdBattle.debugPreview()` 打开 B0 铬框：16×16 格网 + 角上经典 LCD 对照。当时 `GenArray` 为空（未真开打），故无单位点。
+
+真进战斗未在 agent VM 走完（出征选将 / 选目标仍是 M3 LCD 多层对话框）。手动：
+
+HD 地图 → 己方城 → 军备 → 出征 →（LCD）选将 / 目标 → 开打后 `fightOpenMainMenu` / `drawMapUnit` / `drawOneGeneral` 应升 HD 壳；`battleMode=classic` 则不升。
+
+
+## 原生战前公告（V93）
+
+baye.hd.battleNote沿version1保留胜1／败2，追加进攻3／交锋4，后两者winner必须65535，不代表任何已知胜者；UI只呈现该次原生已拼好并绘出的全文。原ShowAttackNote的100tick／flag0与ShowFightNote的300tick／原响应配置保持，被动面板没有按钮或发键，也不改变LCD命中。
+
+绘制前generation与发布序号保护新入口；begin保存自身序号后才同步通知，旧end不会因通知重入拿到替换序号。PC／手机原LIB身份、data／API引用、全文raw、模式与生命周期严格读封口，报告／战场等高owner仍优先。原型与真实流程验收边界见[V93记录](validation/m5-battle-announcements-20261026-v93.md)。
+
+### 战事公告地点
+
+进攻、交战、胜利和战败公告携带原版出征订单的目标城。原生 `g_hdBattleNoteCity` 为零基城池编号，`255` 表示没有地点。公开 `baye.hd.battleNote()` 在地点有效时提供 `cityIndex`，并与公告代次、序号和原版正文一起核对。
+
+原版高清交战公告显示“交战 · 城名”。胜败公告沿用可核实的进攻、守城、占领或入驻标题，其余胜败显示“战果 · 城名”。进攻正文已包含城名。较早的引擎继续使用已有的原版公告字段。
+
+### 高清战事公告插画
+
+[战事公告图集](../assets/hd-battle-note/notice-atlas-v1.jpg)以原版 `FIGHT_NOTE_ICON` 资源 76 的四幅 84×64 位图为构图参考，由内置图像生成器制作并转为 1430×1100 JPEG。图集从左上到右下依次对应进攻、交战、胜利、战败。桌面和手机横屏读取同一张图集，按当前原版公告类型选取画面。原版文字即时显示，图集加载成功后显示插画。图集缺失或仍在加载时保留文字和城名。
+
+<details>
+<summary>图集生成提示词</summary>
+
+```text
+Image 1 is the original Four Kingdoms-era strategy game battle-notice bitmap atlas and the composition reference to transform.
+Repaint it as one crisp, high-resolution 2-by-2 game illustration atlas in an atmospheric painted historical Chinese Three Kingdoms style, with ink-wash edges, restrained mineral colors, believable late Han clothing and armor, elegant readable silhouettes, and the rich, low-key rendering of a serious strategy game.
+Each of the four tiles is a complete small horizontal vignette, always in this order: top left, two mounted cavalry scouts riding swiftly with the lead rider holding a long banner or pennant, as in the reference; top right, two opposing ranks of cavalry converging from left and right among mist and dust, helmets and spear shafts, with the center still readable; bottom left, an armored soldier lifting the large, flowing ochre military standard in a celebratory victory pose, warm light and clear waving fabric; bottom right, a solitary weary soldier turning away with a drooping, torn banner in desaturated slate-blue dusk, distinct pale silhouette echoing the reference, dignified and quiet.
+Depict only non-graphic historical scenes.
+Keep important subjects fully inside each of the four tiles and readily legible when displayed at roughly 200 pixels wide.
+The four tiles form an exact equal 2-by-2 grid, each tile fills one entire quadrant right up to the central seam at 50% width and 50% height.
+No outer padding, gutters, visible divider, rounded card corners, letters, characters, labels, text, watermarks, borders or interface.
+The game renders its own live text below the art.
+Landscape output suitable for CSS sprite positioning, with a balanced, cohesive dark indigo, subdued bronze and parchment palette.
+```
+
+</details>
+
+
+## 计算前的策略预告（V94）
+
+ShowTacticNote每条原生文字绘制后以battleNote version1类型5发布，winner65535；原5tick／flag0、队列顺序、原读取／绘制／清图保持，函数世代与局部序号阻旧条目复活。该预告在ComputerTactic之前，不是实际逐君主计算进度，不补END、确认或延长等待。
+
+PC／手机复用只读公告观察器，同步begin／end立即显退；type5透明根与紧凑底条、不隐藏LCD，原1..4全屏行为保持，ARIA为电脑策略预告。状态条无按钮、不拦截输入、不持留最后一条；真实END、短帧及真机边界见[V94记录](validation/m5-tactic-prelude-20261026-v94.md)。
+
+
+## 天气与战斗日数过场（V95）
+
+FgtChgWeather在三次原图片绘制之后发布battleNote version1类型6，Value1..5、空text，依次晴／阴／风／雨／冰雹；FgtDealBout在原数字绘制后发布类型7，Value与规范十进制text一致，完整U16范围0..65535，局部缓冲六字节。两类winner65535，仅新active6/7 DTO扩value，旧型保持。原RNG／禁变天气、回合／粮草顺序、居中与各50tick／false等待不改。
+
+过场通过独立只读controller在PC与手机stage显示，原生begin/end立即显退；世界／seq／owner／数据来源失效回退。高report/menu/help/qty入口仅同步退休6/7。无按钮与输入拦截，LCD仅opacity变化、原输入命中保持，手机竖屏恢复LCD。自然战斗／天变22与真机仍待，轻量证据见[V95记录](validation/m5-battle-transition-20261026-v95.md)。
+
+### PC 天气和战斗日插画
+
+内置图像工具生成的 1536×1024 图集按三列两行排列。第一行依次为晴、阴、风，第二行依次为雨、冰雹、战斗日。PC 按当前原版公告选择对应画面。图集未就绪时沿用天气图标和战斗日文字。 [天气和战斗日图集](../assets/hd-battle-transition/weather-day-atlas-v1.jpg)
+
+<details>
+<summary>生成提示词</summary>
+
+```text
+Use case: historical-scene.
+Create ONE production raster illustration atlas for the PC weather and new-day transitions of a late Han / Three Kingdoms strategy game.
+Make a landscape 1536×1024 image divided exactly into three equal columns and two equal rows, six square 512×512 tiles, cutting at x=512, x=1024 and y=512.
+All six independent paintings are full bleed and meet precisely with no padding, border, grid line, gutter or shared landscape.
+Keep the essential signals well inside each tile.
+Paint refined, realistic historical environment concept art with believable terrain, soft ink-wash edges, mineral-pigment colors, restrained saturation and distinct lighting.
+Each tile should read at 300 pixels square.
+No text, typography, symbols, numbers, watermarks or UI.
+Top left: sunny midday on a late-Han river plain near a low fortified town, clear blue sky, bright clean sunlight and natural green and ochre landscape.
+Top center: a completely overcast still valley, layered gray clouds covering the sun, soft diffuse gray-blue light, dry ground and no precipitation.
+Top right: strong wind at a dry grassy pass, distinct long cloth banners and grass bending dramatically in one direction, a little airborne dust, clear enough to show the direction, no rain.
+Bottom left: rain on an old earthwork and wooded hills, obvious slanting liquid rain streaks, wet path with ripples, cool dark cloud.
+Bottom center: hail near a small stone wall and grassy hillside, visible round white ice pellets falling and bouncing on the dark ground, scattered small round pellets in the foreground, no snowflakes or blanket of snow.
+Bottom right: new battle day at quiet first light over a Late Han army encampment, silhouettes of tents and standards, copper-orange dawn horizon and far mist, no active combat.
+Keep all scenes non-graphic and naturalistic.
+The UI will supply every label.
+```
+
+</details>

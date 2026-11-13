@@ -1,0 +1,2245 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29",
+  "batch": "V124",
+  "baselineHead": "5507bc838b83ee851f4ee25db38219d0ddf4ee02",
+  "feature": {
+    "name": "道具名单兵种变化属性",
+    "routes": [
+      "neizheng 赏赐 goods-person step0",
+      "neizheng 没收 person-goods step1"
+    ],
+    "qualification": "Existing original ready/current LIB identity, 33 tools, logical 200 people, 38 cities, complete kind4/context1 real-ID/name DTO and default five-property custom=false goods profile gates retained",
+    "identityByteLength": 207195,
+    "identitySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "rowsShape": [
+      "id",
+      "useFlag",
+      "attack",
+      "iq",
+      "move",
+      "fullName",
+      "arm"
+    ],
+    "armU8Strict": true,
+    "armLabels": [
+      "无",
+      "水军",
+      "玄兵",
+      "极兵",
+      "骑兵",
+      "步兵",
+      "弓箭兵",
+      "水军",
+      "极兵",
+      "玄兵"
+    ],
+    "unknownArm": "10..255: 原始码 N, preserving original byte N; not an asserted legal troop type",
+    "zeroMeaning": "This tool has no troop override attribute. No guarantee about the final person arm after other equipment changes.",
+    "nativeUseConditions": "Special arm2 checks current stored IQ>105; arm3 checks Force>105; arm9/8 have the same names without those special checks. Native giveTool hook can reject. No usability or conversion-success claim.",
+    "nativeEquipmentOrder": "GetArmType reads two slots; later nonzero overrides earlier value.",
+    "sameReceiptTwoReadsAndFinalFence": true,
+    "noNewCallbacks": true,
+    "noNewPersonReads": true,
+    "noDTOOrInputChanges": true,
+    "originalBonusPrefixDirectTextPreserved": true,
+    "span": "span[data-hd-tool-arm-summary]",
+    "spanText": " · 兵种变化 NAME",
+    "spanNoninteractive": true,
+    "spanNoWrap": true,
+    "cacheKey": "20261029toolarm1",
+    "specialTradeEquipmentRoutesExpanded": false
+  },
+  "tests": {
+    "accepted": true,
+    "started": "2026-10-29T04:29:32.523Z",
+    "finished": "2026-10-29T04:29:34.206Z",
+    "exitCode": 0,
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "commandArgs": [
+      "--test",
+      "--test-reporter=tap",
+      "--test-name-pattern=^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+      "scripts/test-hd-city-hud.mjs"
+    ],
+    "pattern": "^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 69471,
+        "sha256": "809566b52d29254ae0830d1fda35c8fe7fe725b9b3778e48b1e59fab3e981f80"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 32341,
+        "sha256": "764122756802e1fe14e70275df9f13e55f782e337ad2877ea2b3f5926d2ac717"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23678,
+        "sha256": "17f5255946713c1484d807af08b06dafe3a52c685cb86863d478c4f30ec6ad86"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 511268,
+        "sha256": "fe27aa68eda4f0fad2e092d1e6d014fd162a848de91cc9e4d692974f7e5bf542"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 17019,
+        "sha256": "0ab52721c447d0b4d58ee161820ed97346d4cd069cfc9cef304ee5779f7b7838"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 301265,
+        "sha256": "1409dca88d9c2e8c5e5a7c858761f37728174c79b51747413047e568446d3b50"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "scripts/hd-person-identity-rom.mjs",
+        "bytes": 6532,
+        "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      },
+      {
+        "path": "vendor/iBaye/src/strcnt.c",
+        "bytes": 7932,
+        "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 43864,
+        "sha256": "cd12096c8e63db0e969f9eba23e9e0d4db013709f9a1fe18f7d8107cfc17a294"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fight.h",
+        "bytes": 9611,
+        "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 0,
+    "modifiedExistingTests": 4,
+    "newDefaultModules": 0,
+    "entireHudModuleRun": false,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "scopeVerification": {
+      "beforeSha256": "3cab9c20a7ab50d7d6078a4507ebfe496b7d0b174211e7f4b0027c40e0da1f4f",
+      "candidateSha256": "1409dca88d9c2e8c5e5a7c858761f37728174c79b51747413047e568446d3b50",
+      "namedCaseCountBefore": 157,
+      "namedCaseCountAfter": 157,
+      "namedCaseNamesAndOrderIdentical": true,
+      "outsideAllowedBlocksByteIdentical": true,
+      "personSummaryThreeCasesByteIdentical": true,
+      "controlCharactersOtherThanLfCrTab": 0,
+      "lineEndings": "LF retained",
+      "nodeCheckExitCode": 0,
+      "testModuleRun": false
+    },
+    "negativeControl": {
+      "accepted": true,
+      "expectedOldSourceRejection": true,
+      "exitCode": 1,
+      "tests": 3,
+      "pass": 0,
+      "fail": 3,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "source": {
+        "path": "build/tool-arm-summary-20261029-v124/js_hd-city-menu.js.before",
+        "bytes": 510801,
+        "sha256": "a4e47b364a47b523d719dad922f9e949a1307329c352538a38bf5b7f93b5c761"
+      },
+      "selectedSources": [
+        {
+          "path": "js/hd-city-menu.js",
+          "bytes": 511268,
+          "sha256": "fe27aa68eda4f0fad2e092d1e6d014fd162a848de91cc9e4d692974f7e5bf542"
+        },
+        {
+          "path": "scripts/test-hd-city-hud.mjs",
+          "bytes": 301265,
+          "sha256": "1409dca88d9c2e8c5e5a7c858761f37728174c79b51747413047e568446d3b50"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/js_hd-city-menu.js.before",
+          "bytes": 510801,
+          "sha256": "a4e47b364a47b523d719dad922f9e949a1307329c352538a38bf5b7f93b5c761"
+        }
+      ],
+      "productionSourcesUnchanged": true,
+      "browserRun": false,
+      "actualGameplayAccepted": false
+    },
+    "wholeHudModuleRun": false
+  },
+  "preview": {
+    "accepted": true,
+    "previewOnly": true,
+    "visualReviewPending": false,
+    "browserLaunchAttempts": 1,
+    "browserLaunches": 1,
+    "isolatedPages": 3,
+    "navigationAttempts": 3,
+    "navigations": 3,
+    "samePageStates": 9,
+    "screenshots": 9,
+    "sourcePins": [
+      {
+        "path": "pc.html",
+        "bytes": 32341,
+        "sha256": "764122756802e1fe14e70275df9f13e55f782e337ad2877ea2b3f5926d2ac717"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23678,
+        "sha256": "17f5255946713c1484d807af08b06dafe3a52c685cb86863d478c4f30ec6ad86"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 17019,
+        "sha256": "0ab52721c447d0b4d58ee161820ed97346d4cd069cfc9cef304ee5779f7b7838"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": ".gitattributes",
+        "bytes": 69471,
+        "sha256": "809566b52d29254ae0830d1fda35c8fe7fe725b9b3778e48b1e59fab3e981f80"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 301265,
+        "sha256": "1409dca88d9c2e8c5e5a7c858761f37728174c79b51747413047e568446d3b50"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 511268,
+        "sha256": "fe27aa68eda4f0fad2e092d1e6d014fd162a848de91cc9e4d692974f7e5bf542"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-instrumented-city-menu-v1.js",
+        "bytes": 511597,
+        "sha256": "dc9533ca50fb39c6f0983bbed302b38f8f8582311fa26fbf70696ddbf65bf137"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-fixture-v1.js",
+        "bytes": 10208,
+        "sha256": "c9ececce0323162f0b981aaa33124e316f799c169301e5273887fe5aeea74af4"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-collect-v1.js",
+        "bytes": 9450,
+        "sha256": "1fcb1a2ea063c86c5a8dbfe61b76e1f10fbd99079729d1247f75317f17ac4d05"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-v1.mjs",
+        "bytes": 18433,
+        "sha256": "94954bc840bfceba4f66bf83d398086f70dc79cb10ec421568836892269bd2f4"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-finalize-v1.mjs",
+        "bytes": 1854,
+        "sha256": "34c5b80e54b6c6e37d1dcb476d0ba4431601877eb365adb1cab55924a6e02784"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/prepare-preview-helpers-v1.mjs",
+        "bytes": 13177,
+        "sha256": "b027d63fff3426cdd2c0b69a66579a0acaa1a57668e6fbba85a4b0228c69d7e9"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-helper-lineage-v1.json",
+        "bytes": 1154,
+        "sha256": "9b3b1bd1ddc16a7384f5ae3d664c7d3a5be72d3d978b84c1661958fa66b923b4"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-preserve-failure-v1.mjs",
+        "bytes": 1328,
+        "sha256": "c6f3b4b20d0c5b73836f18ec56942f06e7bdfb0b0f69226503ed0bf6507ab79d"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-pc-menu-dom-v1.html",
+        "bytes": 1618,
+        "sha256": "de608380de4253d773c756f4e2bebd5e3aeab8b9ac085b662b380c65069581a8"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-pc-inline-styles-v1.html",
+        "bytes": 587,
+        "sha256": "ff6819108cf830436084a6ab4a08f7671ab833f6f5a8212aa574009c9e58ec48"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-v1.html",
+        "bytes": 3455,
+        "sha256": "de1fe92f1697da8847bba9242b9561f45858d2fbda47e553e861215cfde4a1f8"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-mobile-menu-dom-v1.html",
+        "bytes": 1767,
+        "sha256": "66d6fd75777d32fd3a3f44ecf2340280508cac8de261e224f83f38b994cae122"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-mobile-inline-styles-v1.html",
+        "bytes": 365,
+        "sha256": "87ee4c91479c7667f77e8ec6537988eece8a9b1382c76001101e1c2d1d9cb5eb"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-v1.html",
+        "bytes": 4986,
+        "sha256": "73c45450900c957477707625e9dcc22f7275d97c7c537a55f602cb4b8ef378b5"
+      },
+      {
+        "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-v1.html",
+        "bytes": 4986,
+        "sha256": "73c45450900c957477707625e9dcc22f7275d97c7c537a55f602cb4b8ef378b5"
+      }
+    ],
+    "sourceBytesStable": true,
+    "ownedBrowserClosed": true,
+    "serverClosed": true,
+    "runtime": {
+      "node": "v24.14.0",
+      "playwright": "1.62.1",
+      "chromeExecutable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "browserVersion": "155.0.8059.85"
+    },
+    "fixturePeople": {
+      "logical": 200,
+      "physicalSlots": 2000
+    },
+    "cases": [
+      {
+        "name": "pc-1280x720",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "prefixUnchanged": true,
+          "onlyArmChanged": true,
+          "armChanged": true,
+          "customRemovedAll": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            25,
+            49
+          ],
+          "stableRerenders": [
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 1,
+              "afterDomEpoch": 1
+            },
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 25,
+              "afterDomEpoch": 25
+            },
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 49,
+              "afterDomEpoch": 49
+            }
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 152,
+          "independentToolPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 1,
+              "afterDomEpoch": 1
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-standard-v1.png",
+              "bytes": 156771,
+              "sha256": "d212edbcd0692f486cc2ba0417f9653ad9379b342f278f847eb1c4f952820f91"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-standard-v1.dom.html",
+              "bytes": 17886,
+              "sha256": "e2c7346b441512682361dc2fb5ba695945abb8ce82820dabe1b2d9007c522e15"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-standard-raw-v1.json",
+              "bytes": 187135,
+              "sha256": "05f919a7a94f12537945a5ee7e83a36f456466c55a80bee9b117b135914f582f"
+            },
+            "armSummaries": [
+              " · 兵种变化 无",
+              " · 兵种变化 原始码 255",
+              " · 兵种变化 水军",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 极兵",
+              " · 兵种变化 骑兵",
+              " · 兵种变化 步兵",
+              " · 兵种变化 弓箭兵",
+              " · 兵种变化 水军",
+              " · 兵种变化 极兵",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 原始码 10"
+            ],
+            "prefixSummaries": [
+              "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+              "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+              "装备 · 武力 +10 · 智力 +5 · 移动 +0",
+              "装备 · 武力 +41 · 智力 +36 · 移动 +3",
+              "装备 · 武力 +14 · 智力 +9 · 移动 +4",
+              "使用 · 武力 +15 · 智力 +10 · 移动 +5",
+              "装备 · 武力 +16 · 智力 +11 · 移动 +6",
+              "装备 · 武力 +17 · 智力 +12 · 移动 +0",
+              "使用 · 武力 +18 · 智力 +13 · 移动 +1",
+              "装备 · 武力 +19 · 智力 +14 · 移动 +2",
+              "装备 · 武力 +20 · 智力 +15 · 移动 +3",
+              "使用 · 武力 +21 · 智力 +16 · 移动 +4"
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 25,
+              "afterDomEpoch": 25
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-updated-v1.png",
+              "bytes": 160455,
+              "sha256": "4c46b8246a78cb641d1a034e42cd9cdbcd88e587974863961143e3dd7ec9817a"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-updated-v1.dom.html",
+              "bytes": 17896,
+              "sha256": "523289146f1be18d66e8252c5ba56e3aea14efbf6a19f064df66cf25d412db8a"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-updated-raw-v1.json",
+              "bytes": 193490,
+              "sha256": "d6a4e9698b1e007e94146a94e6a1ba4ec65272b6d3beedb1bba2d212e351d381"
+            },
+            "armSummaries": [
+              " · 兵种变化 原始码 255",
+              " · 兵种变化 无",
+              " · 兵种变化 水军",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 极兵",
+              " · 兵种变化 骑兵",
+              " · 兵种变化 步兵",
+              " · 兵种变化 弓箭兵",
+              " · 兵种变化 水军",
+              " · 兵种变化 极兵",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 原始码 10"
+            ],
+            "prefixSummaries": [
+              "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+              "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+              "装备 · 武力 +10 · 智力 +5 · 移动 +0",
+              "装备 · 武力 +41 · 智力 +36 · 移动 +3",
+              "装备 · 武力 +14 · 智力 +9 · 移动 +4",
+              "使用 · 武力 +15 · 智力 +10 · 移动 +5",
+              "装备 · 武力 +16 · 智力 +11 · 移动 +6",
+              "装备 · 武力 +17 · 智力 +12 · 移动 +0",
+              "使用 · 武力 +18 · 智力 +13 · 移动 +1",
+              "装备 · 武力 +19 · 智力 +14 · 移动 +2",
+              "装备 · 武力 +20 · 智力 +15 · 移动 +3",
+              "使用 · 武力 +21 · 智力 +16 · 移动 +4"
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 49,
+              "afterDomEpoch": 49
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-ineligible-v1.png",
+              "bytes": 112908,
+              "sha256": "b2f68de1760993c33f1701b0462b649e953a7fd4e489ca82817470484c6afecb"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-ineligible-v1.dom.html",
+              "bytes": 13368,
+              "sha256": "c4810abdd81da9c951085a93dcbb6fd44af57d8e3df211a01aa918f0f4ed67e0"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-ineligible-raw-v1.json",
+              "bytes": 126943,
+              "sha256": "fb908488c2b9bca2a337f18a3f34c4f2be84f333a757df8b799beecfae8e1046"
+            },
+            "armSummaries": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "prefixSummaries": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-844x390",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "prefixUnchanged": true,
+          "onlyArmChanged": true,
+          "armChanged": true,
+          "customRemovedAll": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            37,
+            73
+          ],
+          "stableRerenders": [
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 1,
+              "afterDomEpoch": 1
+            },
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 37,
+              "afterDomEpoch": 37
+            },
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 73,
+              "afterDomEpoch": 73
+            }
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 750,
+          "independentToolPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 1,
+              "afterDomEpoch": 1
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-standard-v1.png",
+              "bytes": 80051,
+              "sha256": "98800dc51c215ab66c90aa2cee39889e790be1d57e4fff1c304239bba868cfe4"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-standard-v1.dom.html",
+              "bytes": 27774,
+              "sha256": "8f2c49653dde42c3a5bdc4e1f0fe223c769e24c70775c39957ead1312039a915"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-standard-raw-v1.json",
+              "bytes": 208234,
+              "sha256": "99907023c999b319d454cdd8e240fda808a9db6366665418075d7934a0a19d19"
+            },
+            "armSummaries": [
+              " · 兵种变化 无",
+              " · 兵种变化 原始码 255",
+              " · 兵种变化 水军",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 极兵",
+              " · 兵种变化 骑兵",
+              " · 兵种变化 步兵",
+              " · 兵种变化 弓箭兵",
+              " · 兵种变化 水军",
+              " · 兵种变化 极兵",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 原始码 10"
+            ],
+            "prefixSummaries": [
+              "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+              "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+              "装备 · 武力 +10 · 智力 +5 · 移动 +0",
+              "装备 · 武力 +41 · 智力 +36 · 移动 +3",
+              "装备 · 武力 +14 · 智力 +9 · 移动 +4",
+              "使用 · 武力 +15 · 智力 +10 · 移动 +5",
+              "装备 · 武力 +16 · 智力 +11 · 移动 +6",
+              "装备 · 武力 +17 · 智力 +12 · 移动 +0",
+              "使用 · 武力 +18 · 智力 +13 · 移动 +1",
+              "装备 · 武力 +19 · 智力 +14 · 移动 +2",
+              "装备 · 武力 +20 · 智力 +15 · 移动 +3",
+              "使用 · 武力 +21 · 智力 +16 · 移动 +4"
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 37,
+              "afterDomEpoch": 37
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-updated-v1.png",
+              "bytes": 79535,
+              "sha256": "b29d9a3e0782744580a287714b6c6930b9d986617eb503685f781a5178277e4f"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-updated-v1.dom.html",
+              "bytes": 27784,
+              "sha256": "5656769fc9204b5ac1f5ae6f06ee0147c8479ae6c697303b844b7e71de5cf8f2"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-updated-raw-v1.json",
+              "bytes": 215040,
+              "sha256": "2a2ceca721f82496e7b6d835fc9a000f09a4a4ca172d3b33069876af1822576d"
+            },
+            "armSummaries": [
+              " · 兵种变化 原始码 255",
+              " · 兵种变化 无",
+              " · 兵种变化 水军",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 极兵",
+              " · 兵种变化 骑兵",
+              " · 兵种变化 步兵",
+              " · 兵种变化 弓箭兵",
+              " · 兵种变化 水军",
+              " · 兵种变化 极兵",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 原始码 10"
+            ],
+            "prefixSummaries": [
+              "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+              "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+              "装备 · 武力 +10 · 智力 +5 · 移动 +0",
+              "装备 · 武力 +41 · 智力 +36 · 移动 +3",
+              "装备 · 武力 +14 · 智力 +9 · 移动 +4",
+              "使用 · 武力 +15 · 智力 +10 · 移动 +5",
+              "装备 · 武力 +16 · 智力 +11 · 移动 +6",
+              "装备 · 武力 +17 · 智力 +12 · 移动 +0",
+              "使用 · 武力 +18 · 智力 +13 · 移动 +1",
+              "装备 · 武力 +19 · 智力 +14 · 移动 +2",
+              "装备 · 武力 +20 · 智力 +15 · 移动 +3",
+              "使用 · 武力 +21 · 智力 +16 · 移动 +4"
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 73,
+              "afterDomEpoch": 73
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-ineligible-v1.png",
+              "bytes": 77579,
+              "sha256": "9182092dfe7da2dc4e973de3f52d88011f1d2b5fddfd4fb0858ebec0a1e51750"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-ineligible-v1.dom.html",
+              "bytes": 23256,
+              "sha256": "fdd5cbbb40cffd806e3f8723a1476cf55baf34c049528d24b8c0117e8691610c"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-ineligible-raw-v1.json",
+              "bytes": 160516,
+              "sha256": "1240b82075c379d780bf3f3d78a2f3c84369877efafcca282f458498721fb717"
+            },
+            "armSummaries": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "prefixSummaries": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-667x375",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "prefixUnchanged": true,
+          "onlyArmChanged": true,
+          "armChanged": true,
+          "customRemovedAll": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            37,
+            73
+          ],
+          "stableRerenders": [
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 1,
+              "afterDomEpoch": 1
+            },
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 37,
+              "afterDomEpoch": 37
+            },
+            {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 73,
+              "afterDomEpoch": 73
+            }
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 829,
+          "independentToolPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 1,
+              "afterDomEpoch": 1
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-standard-v1.png",
+              "bytes": 73287,
+              "sha256": "9c94672e7fe322e0ba4df59d85f275efe893f963465e8c1f9e216d6a31abcb4b"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-standard-v1.dom.html",
+              "bytes": 27774,
+              "sha256": "a71a88b5c8fc745e3a89b77d26d8b13c3c7151c28a3bd2141136158d448b3363"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-standard-raw-v1.json",
+              "bytes": 216439,
+              "sha256": "00ce2dc041f36df2d482a4cef70632b0bcfbf099293f7ad587eafad897ca44d6"
+            },
+            "armSummaries": [
+              " · 兵种变化 无",
+              " · 兵种变化 原始码 255",
+              " · 兵种变化 水军",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 极兵",
+              " · 兵种变化 骑兵",
+              " · 兵种变化 步兵",
+              " · 兵种变化 弓箭兵",
+              " · 兵种变化 水军",
+              " · 兵种变化 极兵",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 原始码 10"
+            ],
+            "prefixSummaries": [
+              "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+              "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+              "装备 · 武力 +10 · 智力 +5 · 移动 +0",
+              "装备 · 武力 +41 · 智力 +36 · 移动 +3",
+              "装备 · 武力 +14 · 智力 +9 · 移动 +4",
+              "使用 · 武力 +15 · 智力 +10 · 移动 +5",
+              "装备 · 武力 +16 · 智力 +11 · 移动 +6",
+              "装备 · 武力 +17 · 智力 +12 · 移动 +0",
+              "使用 · 武力 +18 · 智力 +13 · 移动 +1",
+              "装备 · 武力 +19 · 智力 +14 · 移动 +2",
+              "装备 · 武力 +20 · 智力 +15 · 移动 +3",
+              "使用 · 武力 +21 · 智力 +16 · 移动 +4"
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 37,
+              "afterDomEpoch": 37
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-updated-v1.png",
+              "bytes": 71427,
+              "sha256": "0bb9cc924057348719ee3b414971a2196433f7bcdc31c420cc2f58e08964cbca"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-updated-v1.dom.html",
+              "bytes": 27784,
+              "sha256": "b6775dc0849fd6833f9b285dfb6377209b080031b8f1ee573ee3f576386aca5b"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-updated-raw-v1.json",
+              "bytes": 224395,
+              "sha256": "e8839428a273fcaa0337d6f28310d093a5d6d4fbc5b1528236ef1cd52bc5b71d"
+            },
+            "armSummaries": [
+              " · 兵种变化 原始码 255",
+              " · 兵种变化 无",
+              " · 兵种变化 水军",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 极兵",
+              " · 兵种变化 骑兵",
+              " · 兵种变化 步兵",
+              " · 兵种变化 弓箭兵",
+              " · 兵种变化 水军",
+              " · 兵种变化 极兵",
+              " · 兵种变化 玄兵",
+              " · 兵种变化 原始码 10"
+            ],
+            "prefixSummaries": [
+              "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+              "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+              "装备 · 武力 +10 · 智力 +5 · 移动 +0",
+              "装备 · 武力 +41 · 智力 +36 · 移动 +3",
+              "装备 · 武力 +14 · 智力 +9 · 移动 +4",
+              "使用 · 武力 +15 · 智力 +10 · 移动 +5",
+              "装备 · 武力 +16 · 智力 +11 · 移动 +6",
+              "装备 · 武力 +17 · 智力 +12 · 移动 +0",
+              "使用 · 武力 +18 · 智力 +13 · 移动 +1",
+              "装备 · 武力 +19 · 智力 +14 · 移动 +2",
+              "装备 · 武力 +20 · 智力 +15 · 移动 +3",
+              "使用 · 武力 +21 · 智力 +16 · 移动 +4"
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "arm": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "stable": {
+              "accepted": true,
+              "sameSignature": true,
+              "sameRowAndArmNodes": true,
+              "samePreviewNodes": true,
+              "beforeDomEpoch": 73,
+              "afterDomEpoch": 73
+            },
+            "screenshot": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-ineligible-v1.png",
+              "bytes": 67571,
+              "sha256": "50d3e83222027cb14bc536d7161da1049c7bcf5f2fdd6a57e2af099dc4b47628"
+            },
+            "dom": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-ineligible-v1.dom.html",
+              "bytes": 23256,
+              "sha256": "05ccc439bdbe16558dd7fd9fca1c7ccbad8b03ea17c1d01039e5f3c37456bf4d"
+            },
+            "raw": {
+              "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-ineligible-raw-v1.json",
+              "bytes": 168604,
+              "sha256": "056d87b973f41e4d2e18d5d1cdaac20a3ae3d13e10b6662a3b34ed152d949989"
+            },
+            "armSummaries": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "prefixSummaries": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "trapCounts": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            }
+          }
+        ]
+      }
+    ],
+    "visualReview": {
+      "accepted": true,
+      "reviewedAt": "2026-10-29T04:38:01.189Z",
+      "reviewer": "Root",
+      "method": "Actual individual original-resolution view_image calls for each of nine original PNG files; no montage or resized derivative",
+      "screenshotsVisuallyReviewed": 9,
+      "reviewedPaths": [
+        "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-standard-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-updated-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-ineligible-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-standard-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-updated-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-ineligible-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-standard-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-updated-v1.png",
+        "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-ineligible-v1.png"
+      ],
+      "screenshotPins": [
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-standard-v1.png",
+          "bytes": 156771,
+          "sha256": "d212edbcd0692f486cc2ba0417f9653ad9379b342f278f847eb1c4f952820f91"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-updated-v1.png",
+          "bytes": 160455,
+          "sha256": "4c46b8246a78cb641d1a034e42cd9cdbcd88e587974863961143e3dd7ec9817a"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-ineligible-v1.png",
+          "bytes": 112908,
+          "sha256": "b2f68de1760993c33f1701b0462b649e953a7fd4e489ca82817470484c6afecb"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-standard-v1.png",
+          "bytes": 80051,
+          "sha256": "98800dc51c215ab66c90aa2cee39889e790be1d57e4fff1c304239bba868cfe4"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-updated-v1.png",
+          "bytes": 79535,
+          "sha256": "b29d9a3e0782744580a287714b6c6930b9d986617eb503685f781a5178277e4f"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-ineligible-v1.png",
+          "bytes": 77579,
+          "sha256": "9182092dfe7da2dc4e973de3f52d88011f1d2b5fddfd4fb0858ebec0a1e51750"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-standard-v1.png",
+          "bytes": 73287,
+          "sha256": "9c94672e7fe322e0ba4df59d85f275efe893f963465e8c1f9e216d6a31abcb4b"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-updated-v1.png",
+          "bytes": 71427,
+          "sha256": "0bb9cc924057348719ee3b414971a2196433f7bcdc31c420cc2f58e08964cbca"
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-ineligible-v1.png",
+          "bytes": 67571,
+          "sha256": "50d3e83222027cb14bc536d7161da1049c7bcf5f2fdd6a57e2af099dc4b47628"
+        }
+      ],
+      "notes": [
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-standard-v1.png",
+          "accepted": true,
+          "note": "PC standard: first long name wraps inside its row. Original bonus prefix remains readable; arm no-override and raw255 labels appear as whole groups. Right detail shows matching 无. Two-column list and footer fit."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-updated-v1.png",
+          "accepted": true,
+          "note": "PC updated: list intentionally scrolled to bottom; lower tools show full atomic arm labels including raw10. Right detail shows 原始码255, with other selected-tool bonuses unchanged. Footer remains fixed; updated top-row values are verified by full-DOM metrics rather than this scrolled screenshot."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-pc-1280x720-ineligible-v1.png",
+          "accepted": true,
+          "note": "PC custom: summary and arm labels withdrawn, full original names remain; generic unread property panel and footer fit. Existing two-column layout retained."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-standard-v1.png",
+          "accepted": true,
+          "note": "844 standard: single-column tool rows with separate 查看 column; long name fits one line and bonus/arm summary two lines. 无 and 原始码255 groups are intact, no horizontal crop. Detail pane and footer fit."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-updated-v1.png",
+          "accepted": true,
+          "note": "844 updated: bottom tools remain readable with separate 查看 controls; 孙子兵法 shows 原始码10 as one group. Right detail pane/footer remain in place. Top-row arm swap is outside screenshot viewport and is verified by DOM metrics."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-844x390-ineligible-v1.png",
+          "accepted": true,
+          "note": "844 custom: summaries withdrawn and original names plus 查看 remain. Existing fallback two-column layout retained; long first name wraps within row. Generic detail pane/footer fit."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-standard-v1.png",
+          "accepted": true,
+          "note": "667 standard: 没收 title, narrow single-column rows plus 查看. First long name uses two lines; bonus/arm summary uses two lines with 兵种变化 无 intact. Second raw255 label is intact. List, detail pane and footer remain within viewport."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-updated-v1.png",
+          "accepted": true,
+          "note": "667 updated: scrolled bottom; 倚天剑 and 孙子兵法 retain separate 查看 and atomic arm labels including 原始码10. Right pane/footer remain fixed. Top-row swap verified through full-DOM metrics, not visible here."
+        },
+        {
+          "path": "build/tool-arm-summary-20261029-v124/preview-mobile-667x375-ineligible-v1.png",
+          "accepted": true,
+          "note": "667 custom: summaries withdrawn, original names plus 查看 remain in inherited two-column fallback. Long names wrap to several lines within expanded row, with no ellipsis or horizontal crop. Lower rows continue through independent list scrolling; generic property pane/footer fit."
+        }
+      ],
+      "reviewBoundary": "Only pixels visible in the nine screenshots. Offscreen row mutations and scrolling independence use the separately captured full DOM/geometry data. Original custom tool fallback remains two columns. No real game, device or performance acceptance.",
+      "heldBattleAccessed": false,
+      "heldBattleInputs": 0
+    },
+    "boundary": "Production fillDeepList and detail/highlight/group renderers only. Read-only explicit original-contract mock supplies stable 33 native tools, logical 200 people backed by 2000 physical slots, 38 cities, player king, current complete kind-4 menu DTO and incomplete five-property default goods DTO. Twelve rows include a long full name and equal names with distinct IDs. Fixture changes only two arm values 0→255 and 255→0 and then goods.custom, preserving menu owner and never clearing deepSig. PC and 844 mobile routes are goods-person0/赏赐; 667 mobile person-goods1/没收. Only private mobileHost isAvailable capability assignment is added. Lifecycle/configure/start/bind, actual bridge/LIB/WASM/storage/save/gameplay/physical devices are excluded.",
+    "processBoundary": "Exactly one owned Chrome context/profile and one private ephemeral allowlist HTTP server; only owned pages/context/server closed. No existing browser/game/CDP/8080/process inventory accessed."
+  },
+  "independentStaticReview": {
+    "status": "static_review_pass",
+    "checks": 9,
+    "blockingFindings": [],
+    "actionableFindings": [],
+    "sourcePins": [
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 511268,
+        "sha256": "fe27aa68eda4f0fad2e092d1e6d014fd162a848de91cc9e4d692974f7e5bf542"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 17019,
+        "sha256": "0ab52721c447d0b4d58ee161820ed97346d4cd069cfc9cef304ee5779f7b7838"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 32341,
+        "sha256": "764122756802e1fe14e70275df9f13e55f782e337ad2877ea2b3f5926d2ac717"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23678,
+        "sha256": "17f5255946713c1484d807af08b06dafe3a52c685cb86863d478c4f30ec6ad86"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 301265,
+        "sha256": "1409dca88d9c2e8c5e5a7c858761f37728174c79b51747413047e568446d3b50"
+      }
+    ]
+  },
+  "preservation": {
+    "nativeSources": [
+      {
+        "path": "vendor/iBaye/.gitignore",
+        "bytes": 44,
+        "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75"
+      },
+      {
+        "path": "vendor/iBaye/.gitmodules",
+        "bytes": 293,
+        "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca"
+      },
+      {
+        "path": "vendor/iBaye/ATTRIBUTION.md",
+        "bytes": 495,
+        "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4"
+      },
+      {
+        "path": "vendor/iBaye/CMakeLists.txt",
+        "bytes": 82,
+        "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68"
+      },
+      {
+        "path": "vendor/iBaye/LICENSE",
+        "bytes": 1091,
+        "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1"
+      },
+      {
+        "path": "vendor/iBaye/README.md",
+        "bytes": 2077,
+        "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5"
+      },
+      {
+        "path": "vendor/iBaye/UPSTREAM_COMMIT",
+        "bytes": 42,
+        "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659"
+      },
+      {
+        "path": "vendor/iBaye/js/.gitignore",
+        "bytes": 62,
+        "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea"
+      },
+      {
+        "path": "vendor/iBaye/js/config.sh",
+        "bytes": 61,
+        "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff"
+      },
+      {
+        "path": "vendor/iBaye/js/whitelist.json",
+        "bytes": 3368,
+        "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f"
+      },
+      {
+        "path": "vendor/iBaye/src/CMakeLists.txt",
+        "bytes": 3097,
+        "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtCount.c",
+        "bytes": 27302,
+        "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtPkAi.c",
+        "bytes": 44229,
+        "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+      },
+      {
+        "path": "vendor/iBaye/src/Fight.c",
+        "bytes": 56872,
+        "sha256": "1d54526bfebe2c237ef40a2aaa3c51a1ba14cc5f9f8a31492ab5239620929a95"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36812,
+        "sha256": "22cab37f4aa4271dd10731d43622a070c7f02099ee95729421d0271997857ad6"
+      },
+      {
+        "path": "vendor/iBaye/src/Gamhzk.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33917,
+        "sha256": "86e5966d22c05e09d6f6cbcc4804b30b8befcc6f52d6c303758719e1c12e3acf"
+      },
+      {
+        "path": "vendor/iBaye/src/Size.c",
+        "bytes": 1727,
+        "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/bind-objects.h",
+        "bytes": 2593,
+        "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/comm.h",
+        "bytes": 5109,
+        "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/compa.h",
+        "bytes": 3328,
+        "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/data-bind.h",
+        "bytes": 4001,
+        "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/datman.h",
+        "bytes": 1158,
+        "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/enghead.h",
+        "bytes": 370,
+        "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/errcode.h",
+        "bytes": 985,
+        "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/extern.h",
+        "bytes": 4158,
+        "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fight.h",
+        "bytes": 9611,
+        "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fsys.h",
+        "bytes": 1185,
+        "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundec.h",
+        "bytes": 2184,
+        "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundef.h",
+        "bytes": 200,
+        "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/graph.h",
+        "bytes": 451,
+        "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/itoa.h",
+        "bytes": 267,
+        "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/order.h",
+        "bytes": 2916,
+        "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/paccount.h",
+        "bytes": 2251,
+        "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/resource.h",
+        "bytes": 557,
+        "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sconst.h",
+        "bytes": 4101,
+        "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/script.h",
+        "bytes": 873,
+        "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sharefun.h",
+        "bytes": 8365,
+        "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sources.h",
+        "bytes": 286,
+        "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/stdsys.h",
+        "bytes": 500,
+        "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmd.c",
+        "bytes": 39212,
+        "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdb.c",
+        "bytes": 34493,
+        "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdc.c",
+        "bytes": 39495,
+        "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmde.c",
+        "bytes": 15835,
+        "sha256": "0833452c305f584254d3a93c6b00923c2b274f50b9626e182e11129402840821"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/comOut.c",
+        "bytes": 21378,
+        "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+      },
+      {
+        "path": "vendor/iBaye/src/config.c",
+        "bytes": 179,
+        "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+      },
+      {
+        "path": "vendor/iBaye/src/convert_to_c.py",
+        "bytes": 294,
+        "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e"
+      },
+      {
+        "path": "vendor/iBaye/src/dat.lib.orig",
+        "bytes": 196890,
+        "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab"
+      },
+      {
+        "path": "vendor/iBaye/src/data-bind.c",
+        "bytes": 4662,
+        "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pconst.h",
+        "bytes": 1761,
+        "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pstring.h",
+        "bytes": 1524,
+        "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+      },
+      {
+        "path": "vendor/iBaye/src/datman.c",
+        "bytes": 9424,
+        "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+      },
+      {
+        "path": "vendor/iBaye/src/debug.c",
+        "bytes": 1904,
+        "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac"
+      },
+      {
+        "path": "vendor/iBaye/src/font.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/fsys.c",
+        "bytes": 33667,
+        "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da"
+      },
+      {
+        "path": "vendor/iBaye/src/gamEng.c",
+        "bytes": 47517,
+        "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+      },
+      {
+        "path": "vendor/iBaye/src/genver.py",
+        "bytes": 416,
+        "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 208504,
+        "sha256": "307cfdfda07f115c2c588aa63926c95d5690fe901ecffb948bb74f297fd5560d"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21241,
+        "sha256": "8fd4339f17f0883fa8875d274e22588c08b0feea1284d05976ea1473d3fb0b54"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/ADDR.H",
+        "bytes": 2468,
+        "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictAfx.h",
+        "bytes": 702,
+        "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictHelp.h",
+        "bytes": 5664,
+        "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/GuiEdit.h",
+        "bytes": 2021,
+        "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/MEM.H",
+        "bytes": 1207,
+        "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/STDLIB.H",
+        "bytes": 19,
+        "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/SysResv.h",
+        "bytes": 6103,
+        "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/dictsys.h",
+        "bytes": 21754,
+        "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/filetype.h",
+        "bytes": 4695,
+        "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/flash.h",
+        "bytes": 17046,
+        "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/fsys.h",
+        "bytes": 1991,
+        "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/keytable.h",
+        "bytes": 3820,
+        "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/shell.h",
+        "bytes": 2138,
+        "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/itoa.c",
+        "bytes": 1038,
+        "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c"
+      },
+      {
+        "path": "vendor/iBaye/src/main.c",
+        "bytes": 116,
+        "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.c",
+        "bytes": 327452,
+        "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.h",
+        "bytes": 70791,
+        "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6"
+      },
+      {
+        "path": "vendor/iBaye/src/paccount.c",
+        "bytes": 3892,
+        "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd"
+      },
+      {
+        "path": "vendor/iBaye/src/pconst.c",
+        "bytes": 4213,
+        "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246"
+      },
+      {
+        "path": "vendor/iBaye/src/picture.asm",
+        "bytes": 9186,
+        "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/bios.c",
+        "bytes": 1053,
+        "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/gui.c",
+        "bytes": 3231,
+        "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sem.h",
+        "bytes": 522,
+        "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sys.c",
+        "bytes": 15103,
+        "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/timer.h",
+        "bytes": 485,
+        "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+        "bytes": 424,
+        "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/fsys.c",
+        "bytes": 4119,
+        "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sem.m",
+        "bytes": 866,
+        "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+        "bytes": 229,
+        "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/timer.m",
+        "bytes": 1937,
+        "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/dat.lib.c",
+        "bytes": 1181340,
+        "sha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/exportjs.c",
+        "bytes": 9789,
+        "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font.bin.c",
+        "bytes": 1003524,
+        "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.1.bin.c",
+        "bytes": 3616965,
+        "sha256": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.2.bin.c",
+        "bytes": 3616965,
+        "sha256": "0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.3.bin.c",
+        "bytes": 3616965,
+        "sha256": "f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.4.bin.c",
+        "bytes": 3616965,
+        "sha256": "7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.1.c",
+        "bytes": 117817,
+        "sha256": "c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.2.c",
+        "bytes": 117817,
+        "sha256": "41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/fsys.c",
+        "bytes": 11703,
+        "sha256": "144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/main.c",
+        "bytes": 1046,
+        "sha256": "a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/script.c",
+        "bytes": 7078,
+        "sha256": "b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sem.c",
+        "bytes": 1132,
+        "sha256": "fe6b0d8ce49b41b54a1f0976576c6267e2476a274d2d178d1062f2dc3ea7461f"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sys-js.c",
+        "bytes": 312,
+        "sha256": "be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/timer.c",
+        "bytes": 1797,
+        "sha256": "178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/fsys.c",
+        "bytes": 24,
+        "sha256": "da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/game.c",
+        "bytes": 827,
+        "sha256": "d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/script.c",
+        "bytes": 32,
+        "sha256": "81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sem.c",
+        "bytes": 850,
+        "sha256": "5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sys.c",
+        "bytes": 27,
+        "sha256": "2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/timer.c",
+        "bytes": 1274,
+        "sha256": "34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/window.c",
+        "bytes": 6742,
+        "sha256": "2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac"
+      },
+      {
+        "path": "vendor/iBaye/src/pstring.c",
+        "bytes": 4189,
+        "sha256": "0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.c",
+        "bytes": 135,
+        "sha256": "6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.h",
+        "bytes": 183,
+        "sha256": "d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      },
+      {
+        "path": "vendor/iBaye/src/strcnt.c",
+        "bytes": 7932,
+        "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 43864,
+        "sha256": "cd12096c8e63db0e969f9eba23e9e0d4db013709f9a1fe18f7d8107cfc17a294"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.c",
+        "bytes": 6575,
+        "sha256": "cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.h",
+        "bytes": 1559,
+        "sha256": "559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73"
+      },
+      {
+        "path": "vendor/iBaye/src/varma.c",
+        "bytes": 4162,
+        "sha256": "4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508"
+      },
+      {
+        "path": "vendor/iBaye/src/version.c",
+        "bytes": 242,
+        "sha256": "3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8"
+      }
+    ],
+    "runtimeArtifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193652,
+        "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4583234,
+        "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 24700,
+        "sha256": "b81fcca954e6bb5d88ff6cb12e5133f8e873c244a6ff4c5a9144d77fce3bd775"
+      }
+    ],
+    "preserved": [
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 180706,
+        "sha256": "bab25469b093c38d7bec3a4440547cb21c3f8ad44cf79ffb3e8a0890cba5eec0"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "js/hd-city-plans.js",
+        "bytes": 12573,
+        "sha256": "8daf904721c232f448c96fe966774b99149b8f20f16bde329dba5e4d941e93c1"
+      }
+    ],
+    "portraitMappings": 687,
+    "portraitImages": 312
+  },
+  "evidence": [
+    {
+      "path": "build/tool-arm-summary-20261029-v124/targeted-v1.json",
+      "bytes": 4337,
+      "sha256": "46808d34657e4137e19f9a612441195449a8193903c3732fba44980f811fc45d"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/negative-parent-v1.json",
+      "bytes": 1006,
+      "sha256": "0c6c7c61e23ffdc3fb10ff15d74ba551cc85faa6b60d8dc607ede50a9dd40113"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/tests-development-v1/scope-syntax-v3.json",
+      "bytes": 514,
+      "sha256": "ca1588881aeeed0af9cc72e10a4456ddf50a7604535e56d010b892d3a03c0ac7"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/independent-semantic-review-v1.json",
+      "bytes": 7744,
+      "sha256": "d7563a4420cc9c9980faeeed0251d80e07bfedda5a81c4e19ed6d2cc8406b6ce"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/implementation-review-v1.json",
+      "bytes": 7638,
+      "sha256": "450e48727cd3cb5404bec11771f01784ae7549a9d54de964d89ca04f0b1c6694"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/root-preview-freeze-v2.json",
+      "bytes": 5081,
+      "sha256": "47501bde228ad6eeb96138439f3b2e2dbad21264d6a6627e2f5e64fb2e633b2e"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/preview-v1-raw.json",
+      "bytes": 1491963,
+      "sha256": "8811f4d568ba119ddacf5fbc5253a646b8d8d242567475c4525a75e78601231d"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/preview-v1.json",
+      "bytes": 31681,
+      "sha256": "f1b826e2a8c6d238c7213b759ae1a088aa6369e39040e5d52c654176b9aae358"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/preview-visual-review-v1.json",
+      "bytes": 6661,
+      "sha256": "4908a0455d5ce95ded1f7b3da5ee5bed41bb85c67e9b3ae60cafbb662475e523"
+    },
+    {
+      "path": "build/tool-arm-summary-20261029-v124/preservation-v1.json",
+      "bytes": 24332,
+      "sha256": "39e7e8af80e32810db2d719dc5d7129d66160c31b72248453023531aad8aad98"
+    }
+  ],
+  "preparationCorrections": [
+    "Before any browser launch, preserved candidate scope/newline failure was repaired to original LF and byte-scope v3 passed.",
+    "Before launch, preview helper retained original 2000 physical person slots with logical count200; raw-code spacing expectation corrected.",
+    "Freeze v1 text-control check incorrectly scanned binary LIB and stopped before JSON/browser; v2 checks only text files."
+  ],
+  "acceptance": {
+    "sourceAndVmChecks": true,
+    "controlledRendererPreview": true,
+    "naturalGameFlowAccepted": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "performanceAccepted": false,
+    "entireHudModuleRun": false,
+    "fullSuiteRun": false,
+    "heldBattleAccessed": false,
+    "heldBattleInputs": 0,
+    "globalHdComplete": false,
+    "overallHd": "partial",
+    "goalStillActive": true
+  }
+}

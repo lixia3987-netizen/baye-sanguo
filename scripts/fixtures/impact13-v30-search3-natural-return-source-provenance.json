@@ -1,0 +1,554 @@
+{
+  "schemaVersion": 1,
+  "kind": "impact13-v30-search3-adjacent-return-source-provenance",
+  "sourceOnlyAccepted": true,
+  "authoringScope": "Filesystem reads, immutable new source/test writes and independent own string/data algorithms. No CLI, game, native function, repository module import/invocation, process, browser or Git.",
+  "adoptedModule": {
+    "path": "build/impact-skill-20261014/hd-impact-v30-search3-natural-return-v3.mjs",
+    "bytes": 14934,
+    "sha256": "e4a31fb60af161bfc5e04470de3b9f769c2b68a19548ce8f18f2664ccccbd852"
+  },
+  "adoptedTests": {
+    "path": "build/impact-skill-20261014/test-hd-impact-v30-search3-natural-return-v3.mjs",
+    "bytes": 16042,
+    "sha256": "4a7745408b935bfe7b151d5a0013438000a8c8b82ec8a6a16171f468397b9657"
+  },
+  "historicalUnexecutedSources": [
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v30-search3-natural-return-v1.mjs",
+      "bytes": 14808,
+      "sha256": "64e949f1025a6938a1f0fc348b83962c6f0579b8208889fa1cec5af15b37c8ed",
+      "reason": "First write bound a diagnostic goodsStatusAtReturn to first item slot. Source review generalized this explanatory field to exact raw32 slot lookup before any ROOT test/actual use."
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v30-search3-natural-return-v1.mjs",
+      "bytes": 15357,
+      "sha256": "83aa1b29056f8e48cfbe5905a87085559d124b40a373b3b0fd0653fa7c65561c",
+      "reason": "First write structuredClone(Buffer) would compare Uint8Array with Buffer in no-mutation case. Source review split byte and plain argument copies before ROOT execution."
+    }
+  ],
+  "forwardCorrections": [
+    {
+      "from": "build/impact-skill-20261014/hd-impact-v30-search3-natural-return-v1.mjs",
+      "to": "build/impact-skill-20261014/hd-impact-v30-search3-natural-return-v2.mjs",
+      "occurrences": 1,
+      "old": "goodsStatusAtReturn:(after.goodsQueue[before.cities[city].ToolQueue]&0x8000)!==0",
+      "new": "goodsStatusAtReturn:after.goodsQueue.slice(after.cities[city].ToolQueue,after.cities[city].ToolQueue+after.cities[city].Tools).some(token=>(token&0x7fff)===32&&(token&0x8000)!==0)",
+      "otherBytesUnchanged": true
+    },
+    {
+      "from": "build/impact-skill-20261014/test-hd-impact-v30-search3-natural-return-v1.mjs",
+      "to": "build/impact-skill-20261014/test-hd-impact-v30-search3-natural-return-v2.mjs",
+      "occurrences": 1,
+      "old": "test('module never mutates queued world or observer arguments',()=>{const f=prepare(),v=input(f),old=clone(v);verify(v);assert.deepEqual(v,old);});",
+      "new": "test('module never mutates queued world or observer arguments',()=>{const f=prepare(),v=input(f),old={queuedWorld:clone(v.queuedWorld),observer:clone(v.observer),orderIndex:v.orderIndex},oldLib=Buffer.from(v.libBytes);verify(v);assert.deepEqual({queuedWorld:v.queuedWorld,observer:v.observer,orderIndex:v.orderIndex},old);assert.deepEqual(v.libBytes,oldLib);});",
+      "otherBytesUnchanged": true
+    },
+    {
+      "from": "build/impact-skill-20261014/hd-impact-v30-search3-natural-return-v2.mjs",
+      "to": "build/impact-skill-20261014/hd-impact-v30-search3-natural-return-v3.mjs",
+      "semanticGate": {
+        "old": "for(const h of scope.hiddenGoods){const condition=lib.condition(h.rawId);if(condition.bole===0||condition.bole-1===actor){",
+        "new": "for(const h of scope.hiddenGoods){const condition=lib.condition(h.rawId);if(iq>=2&&(condition.bole===0||condition.bole-1===actor)){",
+        "occurrences": 1,
+        "source": "citycmd.c154–159 requires rnd<iq and rnd odd. Such an odd integer exists iff current IQ>=2; current actor5 IQ1 can never discover an item."
+      },
+      "descriptionOnlyChange": {
+        "oldKey": "possibleOriginalPaths",
+        "newKey": "generalSourcePathsNotCurrentBranchProof",
+        "reason": "A list of general no-visible source paths must not claim every listed path is feasible for the current hidden/IQ state."
+      },
+      "allOtherSourceBytesUnchanged": true
+    }
+  ],
+  "api": {
+    "function": "verifyV30Search3NaturalReturn",
+    "argumentKeys": [
+      "queuedWorld",
+      "observer",
+      "orderIndex",
+      "libBytes"
+    ],
+    "return": "accepted/completeAdjacentNativeReturnAccepted + all matching original value effects + exact actor/slot/ordinal/target flag model; no actual input/discovery/month/SAVE/acquisition/cast/HD credit"
+  },
+  "originalSources": {
+    "citycmd.c": {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    "cityedit.c": {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    "citycmdd.c": {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    "tactic.c": {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    "infdeal.c": {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    "attribute": {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    "order": {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    "consdef": {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+    },
+    "gamEng": {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+    }
+  },
+  "originalLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "conditionsResource67": {
+      "periodItemIndex": 3,
+      "bytes": 132,
+      "recordBytes": 4,
+      "target32": {
+        "raw": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "birth": 0,
+        "bole": 0,
+        "city": 0
+      }
+    },
+    "SearchCondition": "attribute.h161–165: U8 birth, PersonID bole(U16), U8 city; current original serialized record4B"
+  },
+  "sourceProofs": [
+    {
+      "file": "vendor/iBaye/src/citycmd.c",
+      "lines": [
+        140,
+        159
+      ],
+      "fact": "Search selects original pss%4; item/person subcase only after rnd%150<IQ. A goods discovery additionally requires odd rnd; source-approved bounded actor IQ1 therefore cannot discover goods. IQ>=2 is the exact existence boundary, no RNG value is reconstructed."
+    },
+    {
+      "file": "vendor/iBaye/src/citycmd.c",
+      "lines": [
+        161,
+        222
+      ],
+      "fact": "Person path selects current local Belong0 raw candidate; fixed bole-1==actor succeeds, bole0 adds IQ/110 gate; success changes Belong and Devotion70..99. This V30 bounded return module explicitly rejects any current free-person candidate, rather than pretending to validate this path."
+    },
+    {
+      "file": "vendor/iBaye/src/citycmd.c",
+      "lines": [
+        223,
+        251
+      ],
+      "fact": "Goods path reads current hidden raw items, original GOODS_CON at raw ID, accepts bole0 or bole-1==actor then SetGoods; only target32 supported in this scope."
+    },
+    {
+      "file": "vendor/iBaye/src/citycmd.c",
+      "lines": [
+        266,
+        281
+      ],
+      "fact": "Coin/food source amount10+rand%(IQ*2), exact10..2IQ+9; fixOverFlow16 uses ADD16 otherwise U16 wrap."
+    },
+    {
+      "file": "vendor/iBaye/src/gamEng.c",
+      "lines": [
+        1285,
+        1294
+      ],
+      "fact": "add_16 positive overflow saturates to65535. If already saturated, no-visible and economic branch worlds may coincide, preserved as observationally-indeterminate."
+    },
+    {
+      "file": "vendor/iBaye/src/citycmd.c",
+      "lines": [
+        283,
+        303
+      ],
+      "fact": "Original report may happen before AddPerson; this oracle does not identify report retirement from final inventory. Actor returns at end of SearchDrv."
+    },
+    {
+      "file": "vendor/iBaye/src/infdeal.c",
+      "lines": [
+        685,
+        699
+      ],
+      "fact": "SetGoods scans current local ToolQueue/Tools and flags first matching hidden raw ID with high0x8000 only."
+    },
+    {
+      "file": "vendor/iBaye/src/infdeal.c",
+      "lines": [
+        767,
+        783
+      ],
+      "fact": "GetCityDispGoods scans original local raw goods; no Set or global de-dup."
+    },
+    {
+      "file": "vendor/iBaye/src/cityedit.c",
+      "lines": [
+        59,
+        92
+      ],
+      "fact": "Original AddPerson shifts the first200 raw queue backwards from199, inserts at origin start and increments later city offsets; 200..1999 tail unchanged, no global PID uniqueness assumed."
+    },
+    {
+      "file": "vendor/iBaye/src/citycmdd.c",
+      "lines": [
+        1180,
+        1182
+      ],
+      "fact": "DelOrder changes only OrderId255; all five uninitialized Search fields Object/Arms/Food/Money/Consume and unknown opaque fields preserved."
+    }
+  ],
+  "inheritedContract": {
+    "source": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-natural-return-v1.mjs",
+      "bytes": 13971,
+      "sha256": "b2fa868e41b33fb171ddec01a9b3df6a21ad0b23ba3fb0e28eb3a7f1b073931c"
+    },
+    "helperBlocks": [
+      {
+        "id": "complete native world/JSON shape",
+        "bytes": 4161,
+        "sha256": "6b3cbb4a8edcf52cab19355cfcf7e27e4f9950a0cb953c5ed919a0eb7d8cd473",
+        "bodyCopiedExactly": true,
+        "countsSuppliedSameLiteralValues": true
+      },
+      {
+        "id": "full readonly callback",
+        "bytes": 1067,
+        "sha256": "123c6475477824e79a450e2f691455348f2c4f73aca8c759ca74b7f6738e2806",
+        "bodyCopiedExactly": true
+      },
+      {
+        "id": "original AddPerson",
+        "bytes": 311,
+        "sha256": "94e160e84ac0ad2c4a4b3dbf27ec46fc257c925fca7e37f503bcf90e23ecb01f",
+        "bodyCopiedExactly": true
+      }
+    ],
+    "preserved": "Every observer call/sample, ordinal/calls identity, full A=B, full contextAfter, all async unknown fields and32params, -1/context/async true, currentIdentity/hooksfalse, exact all full-order slot candidates. One current full Search order matches; immediate next same-policy callback at higher unique slot required. Missing adjacent callback does not get credit from later SAVE."
+  },
+  "scope": {
+    "cityIndex": 6,
+    "allowedActorIds": [
+      51,
+      5,
+      36
+    ],
+    "originalResidentMenuMustRemainComplete": [
+      51,
+      5,
+      36,
+      21
+    ],
+    "satrap21NotNewActor": true,
+    "maximumCurrentFreePersonCandidates": 0,
+    "currentHiddenGoods": "empty after already-found32, or exactly one original raw32; different/multiple hidden goods reject",
+    "allNativeStatesRetainedWithoutClear": true,
+    "originalNoDedupConfigOnly": true,
+    "personU8FieldsNativeBounds255": true,
+    "nonzeroActorIQRequiredForSafeOriginalModulus": true,
+    "noGlobalPidUniquenessRule": true,
+    "unrelatedUnknownWorldFieldsMustBeExactlyPreserved": true
+  },
+  "fixture": {
+    "path": "build/impact-skill-20261014/hd-impact-v30-december-search-world-v1.json",
+    "bytes": 77919,
+    "sha256": "b620e8fc2b28d267639d0c5d68721ff1e1e6aa14b389745f0f2864ca00b4b9a1",
+    "byteEqualsClosedLatestWorld": {
+      "path": "build/impact-skill-20261014/impact13-battle-v29-latest-genuine-saved-world-v1.json",
+      "bytes": 77919,
+      "sha256": "b620e8fc2b28d267639d0c5d68721ff1e1e6aa14b389745f0f2864ca00b4b9a1"
+    },
+    "date": [
+      238,
+      12
+    ],
+    "role": "Controlled-test source only. Base copied unchanged from genuine saved world; test before/after/queued orders/observer tickets are controlled constructions and cannot be called actual gameplay.",
+    "currentGoodsQueue3": 32,
+    "noCurrentFreePersonsCity6": true
+  },
+  "tests": {
+    "testsExecutedByAuthor": false,
+    "plannedCaseExecutions": 85,
+    "classification": [
+      {
+        "id": "search-effect-and-scope-directed",
+        "caseCount": 47,
+        "labels": [
+          "source fixture is real December world; after worlds and callbacks are controlled only",
+          "no-visible-discovery preserves complete original return including five opaque fields",
+          "money lower endpoint10 exact",
+          "money upper endpoint2IQ+9 exact",
+          "food lower endpoint10 exact",
+          "food upper endpoint2IQ+9 exact",
+          "money amount9 cannot be reported as legal source branch",
+          "money amount130 above IQ60 bound rejected",
+          "food amount9 below bound rejected",
+          "food amount130 above bound rejected",
+          "unfixed native U16 money overflow wraps and is accepted exactly",
+          "unfixed native U16 food overflow wraps and is accepted exactly",
+          "fixOverFlow16 money saturation retains all compatible amounts",
+          "fixOverFlow16 food saturation follows same native ADD16",
+          "money already saturated is observationally ambiguous and never identifies RNG",
+          "actor5 IQ1 legitimate endpoints10 and11",
+          "actor5 IQ1 amount12 rejected",
+          "actor36 IQ43 upper endpoint95",
+          "actor36 amount96 rejected",
+          "hidden original raw32 flips only its high discovered bit",
+          "already discovered32 permits no-discovery after a prior real order",
+          "already discovered target also permits legal coins without new discovery",
+          "target status uses actual32 slot even after an earlier discovered different item",
+          "discovering a different hidden id rejected rather than silently ignored",
+          "two hidden32 occurrences exceed narrow sole-item scope",
+          "new current local free-person branch explicitly outside V1 bounded scope",
+          "cash and food cannot both change in one source Search branch",
+          "goods discovery plus money cannot be merged into one source branch",
+          "every known native disaster state is preserved by Search return",
+          "cross-city raw PID repetitions are preserved without global deduplication",
+          "complete unknown world/person/city/order fields remain legal when unchanged",
+          "module never mutates queued world or observer arguments",
+          "all model outcomes keep actual month/save/cast/discovery credit false",
+          "full unknown world tampering rejected",
+          "wrong actor21 satrap outside source-approved scope",
+          "queued order command16 not Search rejected",
+          "queued TimeCount10 not original Search0 rejected",
+          "origin ownership drift before driver rejected",
+          "actor faction drift before driver rejected",
+          "actor becomes current satrap before callback rejected",
+          "old queued actor differs from exact before-driver person rejected",
+          "zero IQ selected actor outside safe native modulus scope rejected",
+          "mutated original LIB source rejected before branch credit",
+          "missing original LIB cannot be replaced by summarized source flag",
+          "cyclic or non-JSON measurement rejected without losing unknown JSON support",
+          "goods path rejects actor5 IQ1 because rnd0 is even; whole flag flip cannot be sourced",
+          "goods path permits minimal IQ2 odd residue1 when exact source worlds match"
+        ],
+        "note": "Newly authored source adaptations/variants include reused invariants. These45 do not represent45 new product features or actual outcome observations."
+      },
+      {
+        "id": "inherited-readonly-adjacency-gate-variants",
+        "caseCount": 20,
+        "labels": [
+          "readonly/adjacent gate: observer not installed",
+          "readonly/adjacent gate: callback A/B differs",
+          "readonly/adjacent gate: context full opaque changed",
+          "readonly/adjacent gate: async extra parameter changed",
+          "readonly/adjacent gate: async parameter length31",
+          "readonly/adjacent gate: async unknown field changed",
+          "readonly/adjacent gate: nonminusone callback return",
+          "readonly/adjacent gate: contextUnchanged false",
+          "readonly/adjacent gate: asyncActionUnchanged false",
+          "readonly/adjacent gate: gameplay hook takeover",
+          "readonly/adjacent gate: empty hook observations",
+          "readonly/adjacent gate: identity not current",
+          "readonly/adjacent gate: ordinal gap",
+          "readonly/adjacent gate: calls context differs",
+          "readonly/adjacent gate: recorded slot candidate omits exact slot",
+          "readonly/adjacent gate: missing immediate next callback",
+          "readonly/adjacent gate: same slot next callback",
+          "readonly/adjacent gate: next month or lower-slot callback",
+          "readonly/adjacent gate: duplicate matching callback",
+          "readonly/adjacent gate: next callback is not readonly"
+        ],
+        "note": "Original Canvass-return gate concepts retargeted to Search; no new unique-feature claim."
+      },
+      {
+        "id": "inherited-fullworld-exact-delta-variants",
+        "caseCount": 18,
+        "labels": [
+          "full world exact gate: opaque Object",
+          "full world exact gate: opaque Arms",
+          "full world exact gate: opaque Food",
+          "full world exact gate: opaque Money",
+          "full world exact gate: opaque Consume",
+          "full world exact gate: unknown order field",
+          "full world exact gate: queue tail200",
+          "full world exact gate: queue tail1999",
+          "full world exact gate: raw shift cell199",
+          "full world exact gate: other city PersonQueue",
+          "full world exact gate: return missing actor",
+          "full world exact gate: actor Thew changed",
+          "full world exact gate: unrelated person Devotion",
+          "full world exact gate: city State manually cleared",
+          "full world exact gate: other city economy",
+          "full world exact gate: month advanced between adjacent callbacks",
+          "full world exact gate: fighter storage",
+          "full world exact gate: config field"
+        ],
+        "note": "Original whole-world/opaque/queue integrity concepts retargeted to Search."
+      }
+    ],
+    "sum": 85,
+    "allPlannedCaseNames": [
+      "source fixture is real December world; after worlds and callbacks are controlled only",
+      "no-visible-discovery preserves complete original return including five opaque fields",
+      "money lower endpoint10 exact",
+      "money upper endpoint2IQ+9 exact",
+      "food lower endpoint10 exact",
+      "food upper endpoint2IQ+9 exact",
+      "money amount9 cannot be reported as legal source branch",
+      "money amount130 above IQ60 bound rejected",
+      "food amount9 below bound rejected",
+      "food amount130 above bound rejected",
+      "unfixed native U16 money overflow wraps and is accepted exactly",
+      "unfixed native U16 food overflow wraps and is accepted exactly",
+      "fixOverFlow16 money saturation retains all compatible amounts",
+      "fixOverFlow16 food saturation follows same native ADD16",
+      "money already saturated is observationally ambiguous and never identifies RNG",
+      "actor5 IQ1 legitimate endpoints10 and11",
+      "actor5 IQ1 amount12 rejected",
+      "actor36 IQ43 upper endpoint95",
+      "actor36 amount96 rejected",
+      "hidden original raw32 flips only its high discovered bit",
+      "already discovered32 permits no-discovery after a prior real order",
+      "already discovered target also permits legal coins without new discovery",
+      "target status uses actual32 slot even after an earlier discovered different item",
+      "discovering a different hidden id rejected rather than silently ignored",
+      "two hidden32 occurrences exceed narrow sole-item scope",
+      "new current local free-person branch explicitly outside V1 bounded scope",
+      "cash and food cannot both change in one source Search branch",
+      "goods discovery plus money cannot be merged into one source branch",
+      "every known native disaster state is preserved by Search return",
+      "cross-city raw PID repetitions are preserved without global deduplication",
+      "complete unknown world/person/city/order fields remain legal when unchanged",
+      "module never mutates queued world or observer arguments",
+      "all model outcomes keep actual month/save/cast/discovery credit false",
+      "full unknown world tampering rejected",
+      "wrong actor21 satrap outside source-approved scope",
+      "queued order command16 not Search rejected",
+      "queued TimeCount10 not original Search0 rejected",
+      "origin ownership drift before driver rejected",
+      "actor faction drift before driver rejected",
+      "actor becomes current satrap before callback rejected",
+      "old queued actor differs from exact before-driver person rejected",
+      "zero IQ selected actor outside safe native modulus scope rejected",
+      "mutated original LIB source rejected before branch credit",
+      "missing original LIB cannot be replaced by summarized source flag",
+      "cyclic or non-JSON measurement rejected without losing unknown JSON support",
+      "readonly/adjacent gate: observer not installed",
+      "readonly/adjacent gate: callback A/B differs",
+      "readonly/adjacent gate: context full opaque changed",
+      "readonly/adjacent gate: async extra parameter changed",
+      "readonly/adjacent gate: async parameter length31",
+      "readonly/adjacent gate: async unknown field changed",
+      "readonly/adjacent gate: nonminusone callback return",
+      "readonly/adjacent gate: contextUnchanged false",
+      "readonly/adjacent gate: asyncActionUnchanged false",
+      "readonly/adjacent gate: gameplay hook takeover",
+      "readonly/adjacent gate: empty hook observations",
+      "readonly/adjacent gate: identity not current",
+      "readonly/adjacent gate: ordinal gap",
+      "readonly/adjacent gate: calls context differs",
+      "readonly/adjacent gate: recorded slot candidate omits exact slot",
+      "readonly/adjacent gate: missing immediate next callback",
+      "readonly/adjacent gate: same slot next callback",
+      "readonly/adjacent gate: next month or lower-slot callback",
+      "readonly/adjacent gate: duplicate matching callback",
+      "readonly/adjacent gate: next callback is not readonly",
+      "full world exact gate: opaque Object",
+      "full world exact gate: opaque Arms",
+      "full world exact gate: opaque Food",
+      "full world exact gate: opaque Money",
+      "full world exact gate: opaque Consume",
+      "full world exact gate: unknown order field",
+      "full world exact gate: queue tail200",
+      "full world exact gate: queue tail1999",
+      "full world exact gate: raw shift cell199",
+      "full world exact gate: other city PersonQueue",
+      "full world exact gate: return missing actor",
+      "full world exact gate: actor Thew changed",
+      "full world exact gate: unrelated person Devotion",
+      "full world exact gate: city State manually cleared",
+      "full world exact gate: other city economy",
+      "full world exact gate: month advanced between adjacent callbacks",
+      "full world exact gate: fighter storage",
+      "full world exact gate: config field",
+      "goods path rejects actor5 IQ1 because rnd0 is even; whole flag flip cannot be sourced",
+      "goods path permits minimal IQ2 odd residue1 when exact source worlds match"
+    ],
+    "executedSourceCases": 0,
+    "formalCases": 0,
+    "actualCases": 0,
+    "globalDistinctFeatureTotalClaimed": false,
+    "newSourceGateBoundaryCases": 2,
+    "prior83SourceCasesReusedAsRegression": 83,
+    "current85RunByAuthor": false
+  },
+  "syntax": {
+    "constructorOnly": true,
+    "moduleBodyInvoked": false,
+    "testBodyInvoked": false,
+    "repositoryImportsExecuted": false
+  },
+  "limitations": [
+    "No local free-person acquisition branch is accepted in this bounded module; if ComputerTactic changes city6 candidates into that scope, stop without success credit.",
+    "All actual code/source/identity/whole observer and row streams require ROOT independent terminal binding; this pure module never certifies the whole runtime.",
+    "A matching Search effect does not prove original pss/random value; equivalent saturating worlds remain ambiguous.",
+    "The original report UI and MAKE paid/queued two-stage transition are handled by a separate pure MAKE/UI verifier, not replaced by this return model.",
+    "The current target discovery status does not mean item has been publicly gifted to a caster or that a high-level controllable caster exists."
+  ],
+  "actualInputAccepted": false,
+  "sourceFreezeAccepted": false,
+  "actualGoodsDiscoveryAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "classicVisualAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rootExecutionRequired": true,
+  "supersedesSourceProvenance": {
+    "path": "build/impact-skill-20261014/impact13-v30-search3-natural-return-source-provenance-v1.json",
+    "bytes": 23696,
+    "sha256": "0857be9611fef171bafa9f124decf3b80ac4b7d551ceb6e18eb02e5294afeebd"
+  },
+  "historicalSourceReviewFinding": {
+    "reviewer": "/root/resume_input",
+    "affectedModule": {
+      "path": "build/impact-skill-20261014/hd-impact-v30-search3-natural-return-v2.mjs",
+      "bytes": 14907,
+      "sha256": "18b2e534ae4ba794c7f168daf3b963b1f17515837f77cb67ae3a5018c2ee8724"
+    },
+    "affectedTests": {
+      "path": "build/impact-skill-20261014/test-hd-impact-v30-search3-natural-return-v2.mjs",
+      "bytes": 15571,
+      "sha256": "1bec5f8fd68ea7628b6edd5dd19a32b6652a1437ac95b9e15fa4387f2f9b5e75"
+    },
+    "problem": "Goods-effect enumeration did not explicitly enforce existence of rnd%150<IQ with odd rnd. actor5 IQ1 flag-flip was wrongly modelable. No actual input occurred using this model; ROOT85 rerun required.",
+    "rootReportedPrior83Run": {
+      "caseCount": 83,
+      "passed": 83,
+      "failed": 0,
+      "sessionId": null,
+      "chunkId": "53e85b",
+      "exitCode": 0,
+      "runByRoot": true,
+      "repeatedByAuthor": false,
+      "log": "build/impact-skill-20261014/impact13-v30-search3-natural-return-tests-root-v1.log"
+    },
+    "old83PassDoesNotCoverMissingOddGate": true
+  }
+}

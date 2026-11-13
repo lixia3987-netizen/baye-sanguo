@@ -1,0 +1,470 @@
+{
+  "schemaVersion": 1,
+  "sourceOnly": true,
+  "encoding": "exact-original-base64-records",
+  "rawBundle": {
+    "path": "docs/validation/m5-wood67-buy-map-resume-source-20261024-v42-raw.json.gz",
+    "bytes": 977717,
+    "sha256": "633c11fd720d2d427841ae1b27fabc7b44bd8c39416cf8c492b7962600c23bc4"
+  },
+  "rawPayload": {
+    "bytes": 2126870,
+    "sha256": "f73f25463f001305c003cae1af6e53f8ffbab769b30324f645b77a73af12c87e"
+  },
+  "fullLogGzip": {
+    "path": "docs/validation/m5-wood67-buy-map-resume-source-20261024-v42-full-test.log.gz",
+    "bytes": 168373,
+    "sha256": "768b5850df08088710bc2a55781738b7f59aaab916be2022a3e7c15776310c0f"
+  },
+  "fullLog": {
+    "path": "build/impact-skill-20261014/wood67-v42-buy-map-resume-root-full-regression-v1.stdout.log",
+    "bytes": 647195,
+    "sha256": "5f9dd48ec20f5e967d6664e079d760b7f62b71fa50ad9264930d3a6a92accd06"
+  },
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+      "bytes": 7080,
+      "sha256": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v42-paid-input-first-syntax-v1.mjs",
+      "bytes": 7081,
+      "sha256": "1572534ce9443ec575ef865a0ab77706e66f5b2c06cb0d39610eeed7614739ae",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-wood67-v42-buy-map-resume-root-full-v1.mjs",
+      "bytes": 4112,
+      "sha256": "07f5a25c726d4d5285e5014a0cf9b5bd3831e31207fd589f5db2163acebc71b8",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-actual-derived-sourcecheck-v1.mjs",
+      "bytes": 7970,
+      "sha256": "b614055e4c0a7f4897156714513c17e83bcec8d52d5d0e30c5cea6028231286d",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-actual-derived-sourcecheck-v1.stderr.log",
+      "bytes": 542,
+      "sha256": "9f4a64ca5e9651546bb0d6700e2cf6987ef7d671958dbf750d44f2feb838a2c1",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-actual-derived-sourcecheck-v1.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-actual-derived-sourcecheck-v2.json",
+      "bytes": 9878,
+      "sha256": "6be44cba995d48cfcb3d87723af1c8346fbc9bb847fa1509a6b320135ea0bf34",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-actual-derived-sourcecheck-v2.mjs",
+      "bytes": 7954,
+      "sha256": "72776b19dd1bd5fc0e1cc9731f9567a2793f2c404e2b43e3f606393d955ec41a",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-actual-derived-sourcecheck-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-actual-derived-sourcecheck-v2.stdout.log",
+      "bytes": 350,
+      "sha256": "d6d0a36bb02928dbafebfbd4bcd00c07ddc8b1bbb5c80dbae950d1c65f2bb4a3",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-before-map-exit-fix-v1/fixture.mjs",
+      "bytes": 15744,
+      "sha256": "6b2819874c531c7e0c86d7c1dbd5efdc1b96e1414073be424f1e573cd54ac0a9",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-before-map-exit-fix-v1/hd-wood-buy-continuation.mjs",
+      "bytes": 27085,
+      "sha256": "8c0d80ecc593401ca0edf3a1a63a8cfe089a4b23c2ce3f32c15cb261f4c9ed79",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-before-map-exit-fix-v1/receipt.json",
+      "bytes": 1132,
+      "sha256": "f45984872edefbc465bc4285b6f40826992f7603ffafc8dcae3ec7f998684a10",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-before-map-exit-fix-v1/test-hd-wood-buy-continuation.mjs",
+      "bytes": 18860,
+      "sha256": "ef0d12f259689748c0224f58e08a10a3a8b69623db983beb9a9350ee48f9e221",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-controlled-v1.mjs",
+      "bytes": 2922,
+      "sha256": "6cda4fe294091481f806af17d9133c7dbe7f75468b45e122b73edb97ea778ed6",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-final-v1-core.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-final-v1-core.stdout.log",
+      "bytes": 24243,
+      "sha256": "a57953ef6b9fde43c7b3656d7b5b99f3623400c57e0ebcd3c012cbae03f242dd",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-final-v1-existing-native-c.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-final-v1-existing-native-c.stdout.log",
+      "bytes": 665,
+      "sha256": "cc34dd055eceb8d363067b53c215413c6b462ef200a8d6f59cfbfbb5f7092c74",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-final-v1.receipt.json",
+      "bytes": 6594,
+      "sha256": "bceaf8d0c7ab8011353520ab38e48d73fe2200015a42d11a75b52a3e4eb59a3d",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-selected-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v41-food-map-exit-selected-v1.stdout.log",
+      "bytes": 1647,
+      "sha256": "e4e9686ec6cd79d84362b7f53d8e0aa64ec0bc88f8e854e8afa8287ba4ebb674",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-buy-map-resume-source-independent-v1.json",
+      "bytes": 1877,
+      "sha256": "f95e7f43a06a93aed60a2b78c8defa8df6d03fcb6c2575f886e07a02d85ffeee",
+      "roles": [
+        "independent-readonly-static-review-no-new-test-executions"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-buy-map-resume-source-independent-v1.mjs",
+      "bytes": 4260,
+      "sha256": "5839d33ef396921cef2930eb6771a59335ff1e5ebb6226e7ce2e0126401cda47",
+      "roles": [
+        "independent-readonly-static-review-no-new-test-executions"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-buy-map-resume-source-publish-v1.mjs",
+      "bytes": 12727,
+      "sha256": "d3ebcf0dfa70d27a261b729440273d03fbc4bb749b68e8ca0134689ed8337807",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-buy-map-resume-source-reader-template-v1.mjs",
+      "bytes": 8936,
+      "sha256": "f00f263b2745b94624c5575c8c90dbb33f755af9e731d9245605385b6ac011f8",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-paid-input-independent-controls-v1.json",
+      "bytes": 9832,
+      "sha256": "a51c66a74c5fdbf3f1f73317701a721c0876e5c81cf744319e701d3a8a50a9ee",
+      "roles": [
+        "extra-binder-five-controls-not-formal-new-cases"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-paid-input-independent-controls-v1.mjs",
+      "bytes": 8827,
+      "sha256": "4875cc684cd1bfa3c8db0809f803213a90733078fa47d0883b45333ae9295349",
+      "roles": [
+        "extra-binder-five-controls-not-formal-new-cases"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-paid-input-independent-controls-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "extra-binder-five-controls-not-formal-new-cases"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v42-paid-input-independent-controls-v1.stdout.log",
+      "bytes": 351,
+      "sha256": "2685c6fcfe6fe3037fdf95632da9ce5ff04e76e03a9f7811539a8711a3a60e7b",
+      "roles": [
+        "extra-binder-five-controls-not-formal-new-cases"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v42-buy-map-resume-root-full-regression-v1-before.json",
+      "bytes": 36532,
+      "sha256": "de88223fb738fd61a1bc6a85ce5c2fd56d8eafff361d42f569f54a647b131b94",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v42-buy-map-resume-root-full-regression-v1.json",
+      "bytes": 37518,
+      "sha256": "68f49f0ea4609cd00df96699120de52f41503958eafbb6c564d0d1db333e219f",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v42-buy-map-resume-root-full-regression-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-controlled-source-and-failure-prefix-support"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-buy-history.json.gz",
+      "bytes": 650623,
+      "sha256": "bc2878a8de39717decb77948f238a6362a6e76af400ecb196eab86599f453619",
+      "roles": [
+        "five-current-paid-inputs-only-no-actual-archive-parts"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-latest-world.json",
+      "bytes": 148035,
+      "sha256": "8b532d9c428e3d9d3e14a4db68967e88bfefe75b86019353d82ae11469a6d723",
+      "roles": [
+        "five-current-paid-inputs-only-no-actual-archive-parts"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango0.sav",
+      "bytes": 8221,
+      "sha256": "922292cb792e8fb249ef112cbb06644d89d40ee5da9a75888762ed55faf035c8",
+      "roles": [
+        "five-current-paid-inputs-only-no-actual-archive-parts"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango1.sav",
+      "bytes": 4840,
+      "sha256": "9bd6b46b97225869505370be246e334ef6c2701f3d779c6236d493e4b1371ac5",
+      "roles": [
+        "five-current-paid-inputs-only-no-actual-archive-parts"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41.json",
+      "bytes": 10647,
+      "sha256": "fb74d01825b9d5a41feedb78fb3ebe39813beae09e7dc6b5aaa6a71319f67b24",
+      "roles": [
+        "five-current-paid-inputs-only-no-actual-archive-parts"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "matching-checkout-readonly-input-dependency"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 20744,
+      "sha256": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e",
+      "roles": [
+        "unchanged-default141-registration"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-buy-continuation.mjs",
+      "bytes": 17129,
+      "sha256": "2bc14ac9235c5ad87fbcf48ea8bd4783f20484e98fa3d630d61bc47f6c59493c",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-impact-v23-world-dictionary.mjs",
+      "bytes": 12527,
+      "sha256": "8ec9d70882d4bff135bd38da5e72800e18016a158f719fed293df4d3ff306e59",
+      "roles": [
+        "matching-checkout-readonly-input-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-impact-v26-raw-buy11-oracle.mjs",
+      "bytes": 14276,
+      "sha256": "56e290989b261944b3822b56921d88c8051654d6beb0edade163a9ad8541db9f",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "matching-checkout-readonly-input-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-buy-continuation.mjs",
+      "bytes": 29260,
+      "sha256": "ab7e8019173d506b8d3844d884cefeb063b8330d8f22509001193f0220726bf3",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-buy-runtime.mjs",
+      "bytes": 19242,
+      "sha256": "5d6352318f25c56b7054fb6e32745377babb4ebf73f24e99eae57cd263436f80",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-native-route.mjs",
+      "bytes": 6169,
+      "sha256": "61f3856bda25da0b77957330287b598842163a219f0c4a78d53702a4870de586",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-preparation.mjs",
+      "bytes": 30306,
+      "sha256": "8fd0e641949d4c1ebef99507695fe0b4249aeaae6526a49972b05d658277b183",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-mobile-trade-engine.mjs",
+      "bytes": 18225,
+      "sha256": "52722555428d52f7e13baba00a8d2d1716417bdd59d031fbf02af831bb295220",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-continuation.mjs",
+      "bytes": 27329,
+      "sha256": "92189f0e101e490deb23e82d744c9d16125510ce0cc0a5b2807b57be65f1e5ab",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-runtime.mjs",
+      "bytes": 14214,
+      "sha256": "59fc8ac8146318bd9ef7ae5ad77d271c39520b5253bad15ee4d3f9aed52e08bb",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "roles": [
+        "corrected-formal-or-unchanged-pure-dependency"
+      ]
+    }
+  ],
+  "originalNamedBytes": 1585408,
+  "bounds": {
+    "maximumRecords": 128,
+    "singleFileBytes": 16777216,
+    "rawPayloadBytes": 33554432,
+    "gzipBytes": 8388608,
+    "fullLogBytes": 8388608
+  },
+  "matchingCheckoutRequired": true,
+  "portableClosedRuntimeArchive": false,
+  "oldArchivesTraversed": false,
+  "privateProfileArchived": false
+}

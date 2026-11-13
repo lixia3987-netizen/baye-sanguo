@@ -1,0 +1,912 @@
+{
+  "schemaVersion": 1,
+  "schemaFinal": true,
+  "prefix": "docs/validation/m5-quantity-cancel-owner-20261024-v47",
+  "kind": "Original PC quantity cancel presentation retirement and actual next picker Escape",
+  "runs": [
+    {
+      "role": "before",
+      "dir": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1",
+      "terminal": {
+        "session": 74459,
+        "finalChunk": "6f6742",
+        "originalExitCode": 1,
+        "closed": true
+      },
+      "immediateFiles": 49,
+      "pngs": 4,
+      "namedRawBytes": 14094664,
+      "result": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/result.json",
+        "bytes": 302666,
+        "sha256": "a0e346fc3c054182c9f990c7cad91249cfdb5d3bccfd8c45984694d063dac2a9"
+      },
+      "cleanup": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/cleanup.json",
+        "bytes": 14400,
+        "sha256": "a15876275c5798aec27a28c1ab59bfafefa6232390595778eef1e7a1ce868e70"
+      },
+      "sourceBefore": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/source-before.json",
+        "bytes": 205198,
+        "sha256": "90c5cb9ed8a87c4c563b15ff095c771dc92a52e407e27bd7de2e95d1b30ae2ff"
+      },
+      "sourceAfter": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/source-after.json",
+        "bytes": 360345,
+        "sha256": "3352550f3e93049164f80e7ccc5ee9a0cff962b976c5f2be201cce8d41cca065"
+      },
+      "servedBefore": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/served-source-before.json",
+        "bytes": 11813,
+        "sha256": "4cf0e5c94253e4f8d61048e7c821b7b59b26cd0a521b43ed21f61f8608de1371"
+      },
+      "servedAfter": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-v1/served-source-after.json",
+        "bytes": 21967,
+        "sha256": "277971e2b1494286a60fd18d1d6cccdce9c0be00c529c5c5b240e078a56242f8"
+      }
+    },
+    {
+      "role": "after",
+      "dir": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1",
+      "terminal": {
+        "session": 62456,
+        "finalChunk": "34e78b",
+        "originalExitCode": 0,
+        "closed": true
+      },
+      "immediateFiles": 49,
+      "pngs": 4,
+      "namedRawBytes": 15041644,
+      "result": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/result.json",
+        "bytes": 227702,
+        "sha256": "130b325f54f038dce987167460c11ed9fab407e5f95df18a4aabf20bb62cfdcf"
+      },
+      "cleanup": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/cleanup.json",
+        "bytes": 15515,
+        "sha256": "3a489d3106c946930db0585c425fbbbe81d87127e37901e8a4f268da361ac329"
+      },
+      "sourceBefore": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/source-before.json",
+        "bytes": 205198,
+        "sha256": "faa5ec39f0d210bc0bfa19ab9f5d0cbcaeba928cb1f346ab331e187bc8a5af8e"
+      },
+      "sourceAfter": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/source-after.json",
+        "bytes": 360345,
+        "sha256": "87af6009d6511de7c42f276d8c468d98bb21729c32a65ce553f43d243f0eb605"
+      },
+      "servedBefore": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/served-source-before.json",
+        "bytes": 11632,
+        "sha256": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b"
+      },
+      "servedAfter": {
+        "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-v1/served-source-after.json",
+        "bytes": 21649,
+        "sha256": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb"
+      }
+    }
+  ],
+  "currentMainUnchanged": true,
+  "newMainInputProduced": false,
+  "currentMainPins": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+    }
+  ],
+  "eachRunOwnSeedOnly": true,
+  "crossRunSeedEqualityClaimed": false,
+  "noCampaignMutation": true,
+  "localClosedMarkerIsNotNativeAck": true,
+  "physicalPresentationAccepted": false,
+  "stablePerformanceAccepted": false,
+  "activeWoodAidAccepted": false,
+  "cssVisualLayoutAccepted": false,
+  "globalHdComplete": false,
+  "observations": {
+    "before": {
+      "originalOk": false,
+      "originalAcceptedForObservationClosure": false,
+      "originalStatus": "observed-second-escape-swallowed",
+      "originalBoundaryAccepted": false,
+      "originalControlFailureObserved": true,
+      "sourceCount": 1126,
+      "servedCount": 73,
+      "executedCopies": 23,
+      "completeCheckpointWorlds": 4,
+      "additionalFinalWorld": 1,
+      "partialOriginalObservationIsFullWorld": false,
+      "physicalNonrepeatEscapes": 2,
+      "scenarioNativeKeys": 24,
+      "totalNativeKeysIncludingOpening": 25,
+      "trialNativeExits": 1,
+      "separateCleanupClicks": 1,
+      "firstNativeDispatchStack": {
+        "nativeQtyActive": 1,
+        "localClosedGate": true,
+        "dialogQtyOpen": true
+      },
+      "firstEscapeToDialogClosedObservationMs": 150.5,
+      "dialogClosedObservationSource": null,
+      "secondPhysicalEscapeNativeOwner": {
+        "nativeQty": {
+          "active": 0,
+          "value": 177,
+          "min": 1,
+          "max": 177,
+          "protocol": true,
+          "session": 3,
+          "inputSeq": 1,
+          "lastKey": 40,
+          "cursor": 2,
+          "step": 1,
+          "ready": 0
+        },
+        "nativeMenu": {
+          "active": 1,
+          "context": 1,
+          "kind": 3,
+          "seq": 13,
+          "itemLen": 8,
+          "count": 12,
+          "index": 0,
+          "names": [
+            "王粲",
+            "臧霸",
+            "张绣",
+            "张燕",
+            "曹彰",
+            "曹真",
+            "郝昭",
+            "典满",
+            "曹洪",
+            "夏侯德",
+            "徐晃",
+            "魏续"
+          ],
+          "packedNames": [
+            "王粲",
+            "臧霸",
+            "张绣",
+            "张燕",
+            "曹彰",
+            "曹真",
+            "郝昭",
+            "典满",
+            "曹洪",
+            "夏侯德",
+            "徐晃",
+            "魏续"
+          ],
+          "ids": [
+            50,
+            44,
+            52,
+            38,
+            10,
+            11,
+            70,
+            69,
+            17,
+            8,
+            30,
+            45
+          ],
+          "idsValid": true,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "dialogQtyOpen": true,
+        "dialog": {
+          "open": true,
+          "kind": "qty",
+          "viewEpoch": 7
+        },
+        "city": {
+          "open": true,
+          "layer": "deep"
+        }
+      },
+      "windowObserved": true,
+      "boundaryDelivered": false,
+      "swallowedObserved": true,
+      "finalMapObserved": true,
+      "cleanupTreeExited": true,
+      "physicalPresentationAccepted": false,
+      "stablePerformanceAccepted": false
+    },
+    "after": {
+      "originalOk": true,
+      "originalAcceptedForObservationClosure": true,
+      "originalStatus": "inconclusive-window-not-observed",
+      "originalBoundaryAccepted": false,
+      "originalControlFailureObserved": false,
+      "sourceCount": 1126,
+      "servedCount": 72,
+      "executedCopies": 23,
+      "completeCheckpointWorlds": 4,
+      "additionalFinalWorld": 1,
+      "partialOriginalObservationIsFullWorld": false,
+      "physicalNonrepeatEscapes": 2,
+      "scenarioNativeKeys": 24,
+      "totalNativeKeysIncludingOpening": 25,
+      "trialNativeExits": 2,
+      "separateCleanupClicks": 0,
+      "firstNativeDispatchStack": {
+        "nativeQtyActive": 1,
+        "localClosedGate": true,
+        "dialogQtyOpen": false
+      },
+      "firstEscapeToDialogClosedObservationMs": 1.5,
+      "dialogClosedObservationSource": "after-native-dispatch-stack-microtask",
+      "secondPhysicalEscapeNativeOwner": {
+        "nativeQty": {
+          "active": 0,
+          "value": 177,
+          "min": 1,
+          "max": 177,
+          "protocol": true,
+          "session": 3,
+          "inputSeq": 1,
+          "lastKey": 40,
+          "cursor": 2,
+          "step": 1,
+          "ready": 0
+        },
+        "nativeMenu": {
+          "active": 1,
+          "context": 1,
+          "kind": 3,
+          "seq": 13,
+          "itemLen": 8,
+          "count": 12,
+          "index": 0,
+          "names": [
+            "王粲",
+            "臧霸",
+            "张绣",
+            "张燕",
+            "曹彰",
+            "曹真",
+            "郝昭",
+            "典满",
+            "曹洪",
+            "夏侯德",
+            "徐晃",
+            "魏续"
+          ],
+          "packedNames": [
+            "王粲",
+            "臧霸",
+            "张绣",
+            "张燕",
+            "曹彰",
+            "曹真",
+            "郝昭",
+            "典满",
+            "曹洪",
+            "夏侯德",
+            "徐晃",
+            "魏续"
+          ],
+          "ids": [
+            50,
+            44,
+            52,
+            38,
+            10,
+            11,
+            70,
+            69,
+            17,
+            8,
+            30,
+            45
+          ],
+          "idsValid": true,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "dialogQtyOpen": false,
+        "dialog": {
+          "open": false,
+          "kind": "qty",
+          "viewEpoch": 8
+        },
+        "city": {
+          "open": true,
+          "layer": "deep"
+        }
+      },
+      "windowObserved": false,
+      "boundaryDelivered": true,
+      "swallowedObserved": false,
+      "finalMapObserved": true,
+      "cleanupTreeExited": true,
+      "physicalPresentationAccepted": false,
+      "stablePerformanceAccepted": false
+    },
+    "sourceChanges": [
+      {
+        "before": {
+          "path": "js/hd-dialog.js",
+          "bytes": 135589,
+          "sha256": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1"
+        },
+        "after": {
+          "path": "js/hd-dialog.js",
+          "bytes": 136991,
+          "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7"
+        }
+      },
+      {
+        "before": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "56eac4795219ad6e9ce7b0140dc02d6f2d8029a4ae2899e458ea3bdc2d672969"
+        },
+        "after": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8"
+        }
+      }
+    ],
+    "unchangedStartupSources": 1124,
+    "servedOnlyBefore": [
+      "assets/hd-portraits/refs/period-4/50-王粲.png"
+    ],
+    "servedOnlyAfter": [],
+    "eachRunOwnSeedOnly": true,
+    "crossRunSeedEqualityClaimed": false,
+    "identicalTotalKeysDoNotProveEventAttribution": true,
+    "localClosedMarkerIsNotNativeAck": true,
+    "oldFalseAndNewInconclusivePreserved": true,
+    "physicalPresentationAccepted": false,
+    "stablePerformanceAccepted": false,
+    "activeWoodAidAccepted": false,
+    "globalHdComplete": false
+  },
+  "regression": {
+    "previousClosedTests": 7715,
+    "tests": 7721,
+    "registeredFiles": 141,
+    "newDifferentTests": 6,
+    "oldExpectedBehaviorFailures": 2,
+    "candidateControlled": 6,
+    "formalRoutingAndInputTarget": 184,
+    "sourceOnlyControllerControls": 17,
+    "repeatedTargetsNotAddedAgain": true
+  },
+  "full": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.json",
+      "bytes": 41787,
+      "sha256": "6acecaf3df070c59f11eaecf9d5658629126dbc2edc4084f20e63f05e27ee087"
+    },
+    "before": {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1-before.json",
+      "bytes": 40840,
+      "sha256": "26cb9fc02dd1c3f9e7b8b69fc03ea939e84ccfe424ca4938007ded6fe54e9c9a"
+    },
+    "stdout": {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.stdout.log",
+      "bytes": 649799,
+      "sha256": "db5c5417fa4810576d8333c24a6982c2f2555f12f056935e5ea118a322dbbfea"
+    },
+    "stderr": {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdoutGzip": {
+      "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-full-test.log.gz",
+      "bytes": 169080,
+      "sha256": "12df518b0bf9586cf964ae76aadc6dcca96918c963148eb757697806dce71f7d"
+    },
+    "terminal": {
+      "session": 75550,
+      "initial": "e57d9d",
+      "final": "740348",
+      "exitCode": 0
+    },
+    "CC": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "duration_ms": 458128.1238
+  },
+  "archive": {
+    "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-archive.json",
+    "bytes": 86268,
+    "sha256": "d4961d5bdefdf4c18b80360dbad726541b59c18dff4ee8ab140c7af6ddc082de"
+  },
+  "reader": {
+    "path": "docs/validation/m5-quantity-cancel-owner-20261024-v47-verify.mjs",
+    "bytes": 35312,
+    "sha256": "d7a04d44982d7711bb4bae376e10028b3e77d37479627d59b40cb7bd399c3f46"
+  },
+  "readerDependency": {
+    "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+    "bytes": 32262,
+    "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca"
+  },
+  "supportPins": [
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-outer-v2.mjs",
+      "bytes": 12286,
+      "sha256": "0c130fa9c5315c70d620242bd36b3f43caa80d64d4b2fb875f33d997c6664e81"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v47-cancel-owner-reader-v2.mjs",
+      "bytes": 2104,
+      "sha256": "ddee48b487f7ddd2e61e29d22313fe12d8aab408978eefbedc045682578a9441"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-final-v2.mjs",
+      "bytes": 35312,
+      "sha256": "d7a04d44982d7711bb4bae376e10028b3e77d37479627d59b40cb7bd399c3f46"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-execution-v2.mjs",
+      "bytes": 35332,
+      "sha256": "82a0702594330bb09cfe74c87e6349f731f299198340f94bd41f362f1e323a28"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v47-cancel-owner-v2.mjs",
+      "bytes": 14836,
+      "sha256": "77a2a85c4e05e8fd297b3dd1bfa58636daa6fbb7cd72396f9cc0288481a04e0e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-first-publication-serialization-refusal-v1.json",
+      "bytes": 905,
+      "sha256": "7532c5f15840dbc3258cdac7e28ca2ec0ba31880e5d9f589aa0698893c2bfdff"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-independent-support-v1.json",
+      "bytes": 4805,
+      "sha256": "6973be0bb1bb84e3165ea0b48e3e8304562388df5c7debeae2374f284692442f"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-full-independent-v1.mjs",
+      "bytes": 7193,
+      "sha256": "4e8d7f2d073eb71c9241d2925707dfd949756765ce97e44dc4e7af50b650c9cc"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-full-independent-v1.json",
+      "bytes": 8073,
+      "sha256": "7f7b72f4a72de9247cd2d5f9b175b39a66cbe8b0a9685e1dc44ca580cc84ea43"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+      "bytes": 11547,
+      "sha256": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.json",
+      "bytes": 41787,
+      "sha256": "6acecaf3df070c59f11eaecf9d5658629126dbc2edc4084f20e63f05e27ee087"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1-before.json",
+      "bytes": 40840,
+      "sha256": "26cb9fc02dd1c3f9e7b8b69fc03ea939e84ccfe424ca4938007ded6fe54e9c9a"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.stdout.log",
+      "bytes": 649799,
+      "sha256": "db5c5417fa4810576d8333c24a6982c2f2555f12f056935e5ea118a322dbbfea"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-apply-v1.json",
+      "bytes": 1423,
+      "sha256": "944ea8836c1683126523799e9757ac59364f4e4124c33ac5fdd609dcc5a58029"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-final-source-test-review-v2.json",
+      "bytes": 4065,
+      "sha256": "f8eae2256f160aa577358a9aa11604d5dc48ab0eabc35ddf0958583c7043c4fa"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-quantity-cancel-retirement-final-v2.mjs",
+      "bytes": 6796,
+      "sha256": "80d0057560fbdf7d153bc567790a43616aac0bda8065b0d6d24c98380a24ed93"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-final-review-first-matcher-failure-v1.json",
+      "bytes": 526,
+      "sha256": "fbfdc66231bdf2ef50ce41406370fe1727bc203bb890f84e7dd44ff8cbb76e1d"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-quantity-cancel-retirement-final-v1.mjs",
+      "bytes": 6793,
+      "sha256": "ff92bc7b5e7f0b8d4674216cc6cc1d89a616285c13546a2ee25358914a84c811"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-candidate-v1.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-quantity-cancel-retirement-candidate-v1.mjs",
+      "bytes": 2413,
+      "sha256": "ca378cdc674b0f320a348334efbe0c8ff0cccab2ec27156ab36cb3b45aacbeb0"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-test-candidate-v1.mjs",
+      "bytes": 108640,
+      "sha256": "0e9ea124a9d4f772c67a0e7a9fad30fb8dc6d6c749d5f41c1824530ddde76ff0"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-test-formal-v1.mjs",
+      "bytes": 108634,
+      "sha256": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-test-additions-v1.js.txt",
+      "bytes": 7338,
+      "sha256": "6589034953fd4d92a3f80e3b325a1fa27cce0050cd62acadb0c240b8ecb85291"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-quantity-cancel-retirement-test-candidate-v1.mjs",
+      "bytes": 1053,
+      "sha256": "a829509f98b61b8e0d72bb56c27ad0d3391758152f917f45c3e8e5de5aef92a9"
+    },
+    {
+      "path": "build/impact-skill-20261014/record-quantity-cancel-retirement-controlled-v1.mjs",
+      "bytes": 3630,
+      "sha256": "e6279639b6fbd28b495c0510bec6f3709546add0bfaa672efe30488ea45caa75"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-review-v1.mjs",
+      "bytes": 6523,
+      "sha256": "edcb4b79d951b073117fb28fa5262fecbc0f44256c85caef476893ed716fc338"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-review-v1.json",
+      "bytes": 6297,
+      "sha256": "719a640c36dc83e0f84343f07aade1da308e9c5ed7f10ec6f14b8e98878da2bb"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-first-vm-alias-v1.mjs",
+      "bytes": 6475,
+      "sha256": "0aa18b7d4b474e6125567999476b1bf67242596150c4ad1a4d490ae540cddc9f"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-retirement-independent-first-vm-alias-v1.json",
+      "bytes": 271,
+      "sha256": "6195933e6701f742ae83e47930bf2cd1680a88e713b27e007a85eefaa1de6e9d"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controller-independent-first-review-v1.json",
+      "bytes": 3317,
+      "sha256": "97a1b399d5980e5cda4e70d74559c6d9d7c4af95df98f9feccc54a5bf0bde489"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v1.failure.json",
+      "bytes": 562,
+      "sha256": "92cf6dd7a00dbc251b66eb5df8d0a7de4b9f3b57fab3fec92cd0e48d448b2a1e"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v1.mjs",
+      "bytes": 9002,
+      "sha256": "b91ca55c06547dac65693c745d530aaf8208e2bf03769d1d4bf10aeb483009d3"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-controlled-v2.mjs",
+      "bytes": 9328,
+      "sha256": "b7860af9f807fe298f1eeaf23c2b07624faeeda4f3caab2a7ca349a4db20b317"
+    },
+    {
+      "path": "build/impact-skill-20261014/update-v47-plans-v1.mjs",
+      "bytes": 4406,
+      "sha256": "8e1bfca5d38c71a1da1398bb1efde85e09ea70e7b13f4d8435eedd972c462346"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-plan-update-v2.json",
+      "bytes": 438,
+      "sha256": "2c37ac65350d31e53d7fe6e10e60c0c72c215f8dddcb103252b4802341c8efa3"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-plans-independent-review-v2.json",
+      "bytes": 4387,
+      "sha256": "f5e9ac329bd45f8b95dcc5662738683cd4f661783502621f8a9df778a321e4bd"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-actual-archive-semantic-v1.mjs",
+      "bytes": 21151,
+      "sha256": "b5b3690c1811c4f9446a8e041e5cf4968c29fd33a8366ce836290ba0644ba745"
+    },
+    {
+      "path": "build/impact-skill-20261014/check-v47-actual-archive-semantic-v1.mjs",
+      "bytes": 1479,
+      "sha256": "3bc56c4664cd1d93802309ad382b921bf58c5910920253f1a14eb137572ed723"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-actual-archive-semantic-readback-v1.json",
+      "bytes": 10739,
+      "sha256": "a4d61682fe8929c7d7e3574f5e3f2e9f01cdaa1b1f316424e3db682325551b43"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-outer-v1.mjs",
+      "bytes": 12280,
+      "sha256": "a37457859d232c09f7572ada9fe4fb0c8fa5db7e041207952af0f29ec29e5d27"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v47-cancel-owner-reader-v1.mjs",
+      "bytes": 2104,
+      "sha256": "eeb697f90750e0a5a11f095b20b4942c2a4043cc90a035efaf81d4a8d387049b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-final-v1.mjs",
+      "bytes": 35306,
+      "sha256": "1482874f72a566726dba9a60d17933a1d03b2de946b250f5a6235e4087a4d7f4"
+    },
+    {
+      "path": "build/impact-skill-20261014/v47-cancel-owner-reader-execution-v1.mjs",
+      "bytes": 35326,
+      "sha256": "fdd190259c51c475ac8db2357ba837bdab176117d88fd461f6e6e1c3a32bbcce"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v47-cancel-owner-v1.mjs",
+      "bytes": 14586,
+      "sha256": "7b88bb91b732adb4ecf673bf31276ce25bb4a160a58bb76bf2582ffcb40dd3be"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/first-draft-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 28851,
+      "sha256": "235cf8aefc7f43256aca2636306a866457ad39e119b11b5d050a34cb69ea9e36"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/first-draft-run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29208,
+      "sha256": "ecd653b3883595fb7bbc793dbde95be06d4d37399c41f4aed629228b198d2241"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-window-capture-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 30487,
+      "sha256": "f6c2a4ac3134009bf808f36c7ed30d5bc0460b0bbd32733ced400e022719599d"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-window-capture-run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-typed-guard-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 31942,
+      "sha256": "ae9cd6f29414dea06f5bac8867ab3b7dc4bfa0a3c10cd699ecb11918cfd9826a"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/pre-typed-guard-run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/prepare-cancel-owner-sources-v1.mjs",
+      "bytes": 19535,
+      "sha256": "d6d63db4ee440dd57dbc2d949cec19897650d7558dc15dd12e61f8e6e709a3aa"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-closed-lock-v1.mjs",
+      "bytes": 1078,
+      "sha256": "11be971cccdd9a23237a582c6a6781a061a44e771930d1260dc04858aa2b3071"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-source-lock-v1.mjs",
+      "bytes": 5193,
+      "sha256": "2281261cb40e121feb7fa1170426cb858aa8622b6b4be8a0d3283aa6a7d3d46c"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-source-lock-v1.json",
+      "bytes": 13177,
+      "sha256": "4ebeb52d64b83ebfcfbf94cf338e0b79cd4206a480108ffcaef0c1fd289a59b2"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-independent-v1.mjs",
+      "bytes": 13010,
+      "sha256": "98df1d3c2222f376c9c7e85cb3d7c79dbef36e685a4e00c19c0687e40b5dc4c0"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-before-independent-v1/receipt.json",
+      "bytes": 25118,
+      "sha256": "3a13f9d6834756af33e8b77a782cea2b79bc0d209b4cd4b6472a0c3f4d0d179c"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-after-lock-v1.mjs",
+      "bytes": 639,
+      "sha256": "d45fb77f957f283947b774530f4ff050766e488911ecfa4e07175a1da7401b96"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-source-lock-v1.mjs",
+      "bytes": 5190,
+      "sha256": "d2951d70e143ec2d70d10c2005c9e2b759ec77feb7929bb0d79d45eadbbb9731"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-source-lock-v1.json",
+      "bytes": 13146,
+      "sha256": "33f42eb47f3ee4c68cf0e261544e309d8d747c554ca4b4f1443c64ac1ceed276"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-after-audit-v1.mjs",
+      "bytes": 5541,
+      "sha256": "c7764fa48493931aa51743b211cfb114bd205468dd5d2ae4cb3a56222a195ebd"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v1.mjs",
+      "bytes": 13127,
+      "sha256": "e3fd41253bc21fa7ef0a6f4878477203c2ab67921f1a66860095aa868b8037c0"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v1-rejection.json",
+      "bytes": 570,
+      "sha256": "ec5fb827fc17a7088423ec10d7582b8c524957bca0ee82293b227677fcab2384"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-after-audit-v2.mjs",
+      "bytes": 1580,
+      "sha256": "5e1a693e551cbaec3983d36ed18294a0d0c10658b56b4154c3a2e12340774f80"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v2.mjs",
+      "bytes": 13227,
+      "sha256": "04cd7cf89dbec2614538e57a3f4cb1a7fae488a95f2b9b7005d29cc1454a3a18"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-after-independent-v2/receipt.json",
+      "bytes": 25516,
+      "sha256": "2e27fdad008c3f7f9e2ac27592040cfeebffa59f28efac375b750d57ca950f6b"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v1.mjs",
+      "bytes": 11508,
+      "sha256": "8c3bf90b57b2ba8cb855a932e57ff435edcba570b8f9cf6346ece71162ef8068"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v1-rejection.json",
+      "bytes": 692,
+      "sha256": "7c2c9a9b1f2764a5abfca3099f43144d450a76cffc4ae352682e525674381f51"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-paired-audit-v2.mjs",
+      "bytes": 2023,
+      "sha256": "7a012aef268655ebd2495c6287e55b9aae0964f3350f3c458bfa04e3d4b11622"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v2.mjs",
+      "bytes": 11647,
+      "sha256": "c23f0b83a80217599f602b68809f643b16b8a7bb69c82bcbc486c982324de5bb"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-paired-independent-v2.json",
+      "bytes": 15145,
+      "sha256": "224e8c7e409ddc7c52eee4c051068c503b1a0d68e82cc4c17d0ad51e715ab572"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-independent-terminal-provenance-v1.json",
+      "bytes": 1588,
+      "sha256": "d3bb4471aaf486ad42fa9e28f2cfac0c3e087b316d6e44dc70f9ec23af31887b"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-cancel-owner-independent-support-v1.mjs",
+      "bytes": 3308,
+      "sha256": "89d0c9609d18ceea2762e6f9d2381aa371ba3645abca052a44404ec28c5ecc4a"
+    }
+  ],
+  "planPins": [
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 207178,
+      "sha256": "84196fc6cd723fcda95fa8ea00bf2c41edb87f650342faef2212f2cf068b4490"
+    },
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 187904,
+      "sha256": "3b0e58d6c27f65eefd75f5c660e9ab66d5b948777214fbbc9c24e9b4dd91b46f"
+    }
+  ],
+  "exactIgnoredSources": [
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+    "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+    "build/impact-skill-20261014/r12-quantity-latency-source-controls-v4.json",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/test-october-quantity-latency-source-v4.mjs",
+    "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+    "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+    "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+    "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt"
+  ],
+  "sourceBoundary": {
+    "startupEach": 1126,
+    "unchangedStartupSources": 1124,
+    "changedPublicSources": [
+      {
+        "before": {
+          "path": "js/hd-dialog.js",
+          "bytes": 135589,
+          "sha256": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1"
+        },
+        "after": {
+          "path": "js/hd-dialog.js",
+          "bytes": 136991,
+          "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7"
+        }
+      },
+      {
+        "before": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "56eac4795219ad6e9ce7b0140dc02d6f2d8029a4ae2899e458ea3bdc2d672969"
+        },
+        "after": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8"
+        }
+      }
+    ],
+    "servedEach": [
+      73,
+      72
+    ],
+    "servedOnlyBefore": [
+      "assets/hd-portraits/refs/period-4/50-王粲.png"
+    ],
+    "executedCopiesEach": 23,
+    "fullSelectedSources": 221,
+    "currentUnion": 1325,
+    "exactIgnoredMissingFallbacksAllowed": 24,
+    "matchingGitCheckoutRequired": true,
+    "portableClosedSourceArchive": false,
+    "profileArchived": false,
+    "oldArchivesTraversed": false
+  },
+  "limits": [
+    "BEFORE original controller exit1/okfalse is a real swallowed second Escape, not an archive failure. The original observation was persisted before one separately authorized physical CityBack cleanup.",
+    "AFTER original status remains inconclusive-window-not-observed and cancelOwnerBoundaryAccepted remains false. The obsolete retained-Dialog window no longer appeared; the actual second physical Escape independently dispatched native40 to the fresh picker and MAP.",
+    "Both runs total25 native keys, but BEFORE final40 belongs to cleanup and AFTER final40 belongs to the second actual Escape. Counts alone are not event attribution.",
+    "Local input-closed marker is not C ACK. Actual cancellation ACK independently binds inactive same-session next inputSeq/last40 and fresh kind3 picker seq/IDs.",
+    "Four complete stage worlds plus one wrapper-final full world each; original-observation JSON is partial metadata and is not another world snapshot.",
+    "150.5ms versus1.5ms are one-pair event/read/mutation-microtask retirement observations, not physical paint, fixed80ms timing, stable p95, or device performance.",
+    "Each run independently preserves full original October world/pair and its own seed fingerprint. No cross-run seed continuity is claimed.",
+    "Main239-10 input remains unchanged: city20Food1/Money886/strict267gap266; zero new Buy/MAKE/END/nativeSAVE and no nextEND authorization."
+  ]
+}

@@ -1,0 +1,493 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted-limited-scenarios",
+  "accepted": true,
+  "scope": "Original skill15/SPE39 MP20/state3/move1 only, only explicitly listed terminal scenarios",
+  "scenarios": [
+    {
+      "id": "installed1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r32-dingshen-runtime-final-freeze-v1.json",
+        "bytes": 5716,
+        "sha256": "93ceecaebbf3bfda9dc9e9dc7b5e15b2a800526144a4736f425a36d1a218d992"
+      },
+      "scope": "Original installed skill15/SPE39 MP20/state3/move1 only",
+      "result": {
+        "path": "build/r32-dingshen-actual-v1-installed1080/result.json",
+        "bytes": 18269836,
+        "sha256": "f192d7163cdadd79d08ee520be4a6fd68139f0c0ffa6329d780394e9d0edfc3e"
+      },
+      "execution": {
+        "path": "build/r32-dingshen-actual-v1-installed1080-execution.json",
+        "bytes": 4351,
+        "sha256": "daa7820fa09998ace49fbce93b3102a25216718c93fface9ea4ac980a10ba48d"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 15,
+        "speId": 39,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 173,
+          "slot": 19,
+          "name": "陈震",
+          "stateBefore": 0,
+          "stateAfter": 3,
+          "moveBefore": 5,
+          "moveAfter": 1,
+          "hpBefore": 55,
+          "hpAfter": 55,
+          "armsBefore": 176,
+          "armsAfter": 176
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 1,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r32-dingshen-actual-v1-installed1080-root-after-isolation-v1.json",
+          "bytes": 2621,
+          "sha256": "7957c49f0a4f6118364f021d84706ba753c96fdd2120f91b220592b4bbdadd65"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r32-dingshen-installed1080-root-historical-exit-v1.json",
+            "bytes": 3708,
+            "sha256": "4ff87808aa606c9afc7f1d2ffbc856b4069d5620aa29456c76271561e9afdfd3"
+          },
+          "union": {
+            "path": "build/r32-dingshen-installed1080-verified-historical-owned-union-v1.json",
+            "bytes": 7910,
+            "sha256": "981c57c5a559ad8208b6c22a82fdde613966dbff9d258036b730eaa799ea2c4a"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "installed720",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r32-dingshen-runtime-final-freeze-v1.json",
+        "bytes": 5716,
+        "sha256": "93ceecaebbf3bfda9dc9e9dc7b5e15b2a800526144a4736f425a36d1a218d992"
+      },
+      "scope": "Original installed skill15/SPE39 MP20/state3/move1 only",
+      "result": {
+        "path": "build/r32-dingshen-actual-v1-installed720/result.json",
+        "bytes": 18364075,
+        "sha256": "1c4e44368465f6328ee59549d33ece780760733a50375af207c518272509e08a"
+      },
+      "execution": {
+        "path": "build/r32-dingshen-actual-v1-installed720-execution.json",
+        "bytes": 4360,
+        "sha256": "e9aa49ebc2324ae9e9181a8fbfb30c5dfa35a42142b0f10ac8de25dc64fa9477"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "staged": false,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 15,
+        "speId": 39,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 45,
+          "slot": 15,
+          "name": "许褚",
+          "stateBefore": 0,
+          "stateAfter": 3,
+          "moveBefore": 4,
+          "moveAfter": 1,
+          "hpBefore": 85,
+          "hpAfter": 85,
+          "armsBefore": 700,
+          "armsAfter": 700
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 1,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r32-dingshen-actual-v1-installed720-root-after-isolation-v1.json",
+          "bytes": 2622,
+          "sha256": "ac25cb29af3f6df701ef73be5e10e309c90ed4bb84cf768506a0fce940c47516"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r32-dingshen-installed720-root-historical-exit-v1.json",
+            "bytes": 3704,
+            "sha256": "be02971301cd1e7ad257cdec80d7a309fa8226fb7f2dcfde074c45dd9acf4df2"
+          },
+          "union": {
+            "path": "build/r32-dingshen-installed720-verified-historical-owned-union-v1.json",
+            "bytes": 7905,
+            "sha256": "e47bf457ea3f30ae679448ba9fea22691145e81b4fe5ef4924060e885685cb39"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "missing1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r32-dingshen-runtime-final-freeze-v1.json",
+        "bytes": 5716,
+        "sha256": "93ceecaebbf3bfda9dc9e9dc7b5e15b2a800526144a4736f425a36d1a218d992"
+      },
+      "scope": "Original installed skill15/SPE39 MP20/state3/move1 only",
+      "result": {
+        "path": "build/r32-dingshen-actual-v1-missing1080/result.json",
+        "bytes": 18876756,
+        "sha256": "49d557f5fd736c67bdda04c075304e07cfd9ff522f7e21b8bfc2356595978ed6"
+      },
+      "execution": {
+        "path": "build/r32-dingshen-actual-v1-missing1080-execution.json",
+        "bytes": 4375,
+        "sha256": "8b3d8ba720924c529b76dc6e4a7241457fd6e072de2d8b7dfe0b780a62723d4b"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 15,
+        "speId": 39,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 45,
+          "slot": 15,
+          "name": "许褚",
+          "stateBefore": 0,
+          "stateAfter": 3,
+          "moveBefore": 4,
+          "moveAfter": 1,
+          "hpBefore": 85,
+          "hpAfter": 85,
+          "armsBefore": 700,
+          "armsAfter": 700
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 1,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r32-dingshen-actual-v1-missing1080-root-after-isolation-v1.json",
+          "bytes": 2621,
+          "sha256": "87e904b35b458938e69425b833d4b5098e4e3a7e7af5fe388236734c96dab909"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r32-dingshen-missing1080-root-historical-exit-v1.json",
+            "bytes": 3700,
+            "sha256": "2482e91acb7517b7e5889885ae9fbf93229c5b75e7f3a5f0a81f6f47b0bb26e2"
+          },
+          "union": {
+            "path": "build/r32-dingshen-missing1080-verified-historical-owned-union-v1.json",
+            "bytes": 7900,
+            "sha256": "cd898d81284e4c2072c4d6ebfced6c33bb6a71261512cb15b7df8c8e4aee570e"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "classic1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r32-dingshen-runtime-final-freeze-v1.json",
+        "bytes": 5716,
+        "sha256": "93ceecaebbf3bfda9dc9e9dc7b5e15b2a800526144a4736f425a36d1a218d992"
+      },
+      "scope": "Original installed skill15/SPE39 MP20/state3/move1 only",
+      "result": {
+        "path": "build/r32-dingshen-actual-v2-classic1080/result.json",
+        "bytes": 18406184,
+        "sha256": "1ad4c0e51b1eec1c8e24007c15d4055f4f868a5b0574af766803fc26cefb3843"
+      },
+      "execution": {
+        "path": "build/r32-dingshen-actual-v2-classic1080-execution.json",
+        "bytes": 4369,
+        "sha256": "1863e10f0944f0bb94d624e0c17c67e057d92126654d99998248017caca29942"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 15,
+        "speId": 39,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 45,
+          "slot": 15,
+          "name": "许褚",
+          "stateBefore": 0,
+          "stateAfter": 3,
+          "moveBefore": 4,
+          "moveAfter": 1,
+          "hpBefore": 85,
+          "hpAfter": 85,
+          "armsBefore": 700,
+          "armsAfter": 700
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 0,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r32-dingshen-actual-v2-classic1080-root-after-isolation-v1.json",
+          "bytes": 2621,
+          "sha256": "31eab3056736dd3eaa2a894716bbf1e7864bfe01c74ffbc3fb62ab1cd7ddb3e0"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r32-dingshen-classic1080-v2-root-historical-exit-v1.json",
+            "bytes": 4440,
+            "sha256": "119abb1e976d0f87611c3857ddb0c070bdf9d39f7f34aa94f8a0dba27faf5a30"
+          },
+          "union": {
+            "path": "build/r32-dingshen-classic1080-v2-verified-historical-owned-union-v1.json",
+            "bytes": 10080,
+            "sha256": "7ec61f0c272926fbb35014922606acf2b7e5e3662f392650e22c4f148c35a871"
+          },
+          "historicalIdentityCount": 15,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    }
+  ],
+  "failedRuns": [
+    {
+      "id": "classic1080",
+      "accepted": false,
+      "freeze": {
+        "path": "build/r32-dingshen-runtime-final-freeze-v1.json",
+        "bytes": 5716,
+        "sha256": "93ceecaebbf3bfda9dc9e9dc7b5e15b2a800526144a4736f425a36d1a218d992"
+      },
+      "scope": "Failed attempt retained unchanged",
+      "result": {
+        "path": "build/r32-dingshen-actual-v1-classic1080/result.json",
+        "bytes": 11940285,
+        "sha256": "c4b1d97ae9fe2212d5d33cf1336a92c597b3648e74f2b5f25847c5f16e0f83a2"
+      },
+      "execution": {
+        "path": "build/r32-dingshen-actual-v1-classic1080-execution.json",
+        "bytes": 4342,
+        "sha256": "9cb66fb19c2add1171ab8400983686df7c59f96b9d035dad09f6a616d8d1eafd"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "sourceCount": 1223,
+      "effect": null,
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r32-dingshen-actual-v1-classic1080-root-after-isolation-v1.json",
+          "bytes": 2622,
+          "sha256": "310701a8e32248d4ec7da16bc5c6d9b10761f9399d38cb30dcfd47baf3623510"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r32-dingshen-classic1080-v1-failed-root-historical-exit-v1.json",
+            "bytes": 3710,
+            "sha256": "f3486ba08cf2597555c4b7464a5cba18b3378d609b43ba74f4a29d0dcf3a18ce"
+          },
+          "union": {
+            "path": "build/r32-dingshen-classic1080-v1-failed-verified-historical-owned-union-v1.json",
+            "bytes": 7900,
+            "sha256": "5d4791e0f455274e02ea11b1ef8bb56a24db1ddc085fb6bfb7f39de6d667a655"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": "AssertionError [ERR_ASSERTION]: Actual caster loss retained as failure\n    at battleLiuyan (file:///F:/project/baye-sanguo/build/r32-test-hd-dingshen-runtime-candidate-v1.mjs:398:135)\n    at async marchLiuyan (file:///F:/project/baye-sanguo/build/r32-test-hd-dingshen-runtime-candidate-v1.mjs:658:626)\n    at async smokeLiuyan (file:///F:/project/baye-sanguo/build/r32-test-hd-dingshen-runtime-candidate-v1.mjs:484:231)\n    at async main (file:///F:/project/baye-sanguo/build/r32-test-hd-dingshen-runtime-candidate-v1.mjs:851:9)"
+    }
+  ],
+  "regression": {
+    "execution": {
+      "path": "build/r31-dingshen-full-source-tests-v1-execution.json",
+      "bytes": 3697,
+      "sha256": "ad1a56d103dc805946b930f8ba82e7166bc7ec137538862a535fd6f68d3d7fc4"
+    },
+    "summary": {
+      "tests": 1293,
+      "pass": 1293,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sourceCount": 475,
+    "moduleCount": 53,
+    "scope": "Reused R31 static execution; not a new runtime regression or rerun"
+  },
+  "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+  "engineSourceModified": true,
+  "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-dingshen-runtime-20261010/runtime-index.json",
+      "bytes": 279819,
+      "sha256": "9607df0c4d8cdd22bd41b0ba43953ca98426d7db102ea1e4f8fc869250f255c0"
+    },
+    "portableClosedArchive": false
+  },
+  "notClaimed": [
+    "Natural解除/recovery or duration; no state reset or immediate move recomputation claim",
+    "Old R30 skill14 actual acceptance as15 evidence",
+    "Other skills and fullHD replacement",
+    "Unlisted classic/720/missing scenarios",
+    "FPS, performance, mobile, timeout cause or timeout repair"
+  ]
+}
