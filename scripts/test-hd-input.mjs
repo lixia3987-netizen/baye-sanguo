@@ -220,6 +220,17 @@ test('classic keys keep one engine dispatch when HD overlays are closed', () => 
     assert.deepEqual(h.sent, [0x27, 0x28, 0x28, 0x24, 0x22, 0x25, 0x23, 0x26, 0x33, 0x45]);
 });
 
+test('classic keyboard input waits for native startup after WASM exports become available', () => {
+    const h = harness({ overlay: false, dialog: false });
+    h.context._bayeHdReady = () => 0;
+    h.key(13);
+    h.key(40);
+    assert.deepEqual(h.sent, []);
+    h.context._bayeHdReady = () => 1;
+    h.key(13);
+    assert.deepEqual(h.sent, [0x27]);
+});
+
 test('native input, content editing, IME and focused button activation stay native', () => {
     const h = harness();
     h.context.__city.isolateKeys();

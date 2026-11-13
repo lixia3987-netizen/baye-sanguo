@@ -102,9 +102,13 @@ function lcdFlushBuffer(buffer) {
 }
 
 function sendKey(key) {
-    if('undefined' === typeof Module || ('undefined' === typeof Module.asm && 'undefined' === typeof wasmExports)){
+    if (typeof Module === 'undefined' || (typeof Module.asm === 'undefined' && typeof wasmExports === 'undefined')) {
         return;
-	}
+    }
+    // WASM exports exist while the LIB is loading, before C initializes its input queue.
+    if (typeof _bayeSendKey !== 'function' || (typeof _bayeHdReady === 'function' && !_bayeHdReady())) {
+        return;
+    }
     _bayeSendKey(key);
 }
 

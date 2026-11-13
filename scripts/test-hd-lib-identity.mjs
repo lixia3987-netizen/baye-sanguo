@@ -54,6 +54,22 @@ test('same preferred path and a one-byte changed LIB produce different identitie
   assert.notEqual(second.sha256, dictionaryHash);
 });
 
+test('plain HTTP verifies actual LIB bytes with the original loader’s SHA-256 fallback', async () => {
+  const { api, window } = load({ dynLib: dictionary.toString('hex'), crypto: {} });
+  const originalSource = readFileSync(new URL('../js/original-game.js', import.meta.url), 'utf8');
+  vm.runInNewContext(originalSource, { window, Promise: function EnginePromise() {
+    throw new Error('engine Promise must not be constructed');
+  } });
+  const actual = await ready(api);
+  assert.equal(actual.status, 'ready');
+  assert.equal(actual.sha256, dictionaryHash);
+  const changed = Buffer.from(dictionary);
+  changed[changed.length - 1] ^= 1;
+  window.dynLib = changed.toString('hex');
+  assert.equal(api.isCurrent(actual), false);
+  assert.equal((await ready(api)).sha256, createHash('sha256').update(changed).digest('hex'));
+});
+
 test('repeated reads and subscriptions share one digest for each actual byte source', async () => {
   const { api } = load();
   let hex = '00ff', calls = 0;

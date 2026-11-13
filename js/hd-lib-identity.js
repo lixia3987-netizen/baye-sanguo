@@ -31,8 +31,11 @@
         }
         function digest(bytes) {
             if (options.digest) { return options.digest(bytes); }
-            return global.crypto && global.crypto.subtle ?
-                global.crypto.subtle.digest('SHA-256', bytes) : null;
+            if (global.crypto && global.crypto.subtle) {
+                return global.crypto.subtle.digest('SHA-256', bytes);
+            }
+            var original = global.BayeOriginalGame;
+            return original && typeof original.sha256Digest === 'function' ? original.sha256Digest(bytes) : null;
         }
         function read() {
             var hex;

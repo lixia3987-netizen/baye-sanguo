@@ -12,8 +12,7 @@
         for (var i = 0; i < bytes.length; i++) result += bytes[i].toString(16).padStart(2, '0');
         return result;
     }
-    // Web Crypto is unavailable on some LAN HTTP mobile previews. The same
-    // SHA-256 verification still applies there, using the standard algorithm.
+    // Plain HTTP on a LAN can lack Web Crypto. Use the same SHA-256 algorithm.
     function softwareSha(bytes) {
         var k = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
             0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
@@ -46,13 +45,18 @@
             var result = [a,b,c,d,e,f,g,v];
             for (var m = 0; m < 8; m++) h[m] = (h[m] + result[m]) | 0;
         }
-        return h.map(function (v) { return (v >>> 0).toString(16).padStart(8, '0'); }).join('');
+        var output = new DataView(new ArrayBuffer(32));
+        h.forEach(function (value, index) { output.setUint32(index * 4, value); });
+        return output.buffer;
     }
-    function digest(bytes) {
+    async function sha256Digest(bytes) {
         if (global.crypto && global.crypto.subtle) {
-            return global.crypto.subtle.digest('SHA-256', bytes).then(function (result) { return hex(new Uint8Array(result)); });
+            return global.crypto.subtle.digest('SHA-256', bytes);
         }
-        return Promise.resolve(softwareSha(bytes));
+        return softwareSha(bytes);
+    }
+    async function digest(bytes) {
+        return hex(new Uint8Array(await sha256Digest(bytes)));
     }
     function cache(method, value) {
         return new Promise(function (resolve) {
@@ -123,7 +127,7 @@
         await cache('set', binary);
         return selectOriginal(hex(bytes));
     }
-    global.BayeOriginalGame = Object.freeze({ path: path, title: title, sha256: expectedSha,
+    global.BayeOriginalGame = Object.freeze({ path: path, title: title, sha256: expectedSha, sha256Digest: sha256Digest,
         saveIdentity: 'v1:414390:1d36da77:1e9c0477',
         load: function (ready, failed) {
             if (!loading) loading = prepare().catch(function (error) { loading = null; throw error; });
